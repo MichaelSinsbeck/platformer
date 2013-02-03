@@ -1,5 +1,29 @@
 Map = {}
 
+function Map:LoadFromFile(mapFile)
+	-- Define the meaning of the function in the level file
+	local o = {}
+	local img = 0 -- wird noch überschrieben.
+	local function loadTiles (b) o.tile = b end
+	local function loadCollision (b) o.collision = b end
+	local function tileImage (b)
+		img = love.graphics.newImage(imageFile)
+		img:setFilter('nearest','nearest')
+		
+	end
+	love.filesystem.load("level1.lua")()
+
+-- tilesize
+-- spriteBatch
+-- quads
+-- height
+-- width
+-- tile
+-- collision
+-- self:updateSpritebatch()
+	
+end
+
 function Map:New(imageFile,tileSize)
   tileSize = tileSize or 32
   local gapSize = 0
@@ -23,8 +47,8 @@ function Map:New(imageFile,tileSize)
     end
   end
   
-  o.height = 100
-  o.width = 150
+  o.height = 20
+  o.width = 25
   o.tile = {}
   o.collision = {}
   for i = 1,o.width do
@@ -47,12 +71,14 @@ function Map:New(imageFile,tileSize)
   
   for i = 3,13 do
       o.collision[i][o.height-1] = 1
-      o.tile[i][o.height-1] = 3
+      o.tile[i][o.height-1] = 4
     for j = 4,i do
-      o.tile[i][o.height-j] = 4
+      o.tile[i][o.height-j] = 5
       o.collision[i][o.height-j] =1
     end
   end
+  
+  o.tile[15][15] = 3
   return o
 end
 

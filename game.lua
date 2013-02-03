@@ -6,11 +6,12 @@ function game.draw()
   love.graphics.push()
   Camera:apply()
   
-  myMap:updateSpritebatch()  
+  --myMap:updateSpritebatch()  
   myMap:draw()
   p:draw()
   love.graphics.pop()
   --love.graphics.print(math.floor(p.x) .. ', ' .. math.floor(p.y),10,10)
+	love.graphics.print(p.status,10,10)
 end
 
 function game.update(dt)
@@ -36,5 +37,11 @@ end
 function game.keypressed(key)
   if key == "a" then
     p:jump()
+  end
+end
+
+function game.keyreleased(key)
+  if key == "a" then
+    p:unjump()
   end
 end

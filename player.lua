@@ -7,7 +7,8 @@ Player = {
   width = 1,
   status = '',
   walkSpeed = 20,
-  jumpSpeed = -20
+  jumpSpeed = -20,
+  unjumpSpeed = 12
   }
 
 function Player:New(input)
@@ -34,6 +35,16 @@ function Player:jump()
     self.status = 'jump'
     self.vy = self.jumpSpeed
   end
+end
+
+function Player:unjump()
+	if self.status == 'fly' and self.vy < 0 then
+		if self.vy < -self.unjumpSpeed then
+			self.vy = self.vy + self.unjumpSpeed
+		else
+			self.vy = 0
+		end
+	end
 end
 
 function Player:update(dt)

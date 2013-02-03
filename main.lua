@@ -15,6 +15,7 @@ function love.load()
   
    -- Create Map
   myMap = Map:New('mytiles.png',32)
+	myMap:updateSpritebatch()    
   
   -- Creating Player
   p = Player:New()
@@ -54,5 +55,13 @@ function love.keypressed(key)
     game.keypressed(key)
   else
     menu.keypressed(key)
+  end
+end
+
+function love.keyreleased(key)  
+  if mode == 'game' then
+    game.keyreleased(key)
+  else
+    menu.keyreleased(key)
   end
 end
