@@ -47,8 +47,8 @@ function Map:New(imageFile,tileSize)
     end
   end
   
-  o.height = 20
-  o.width = 25
+  o.height = 30
+  o.width = 45
   o.tile = {}
   o.collision = {}
   for i = 1,o.width do

@@ -7,9 +7,10 @@ Workplan:
 - implement multiple levels
 - add animation
 - Add movement-features
- - wall jump
- - double jump
- - glide
+ x wall jump --> Problem: Sliding up a wall, and then wall ends. Need
+                 to set player.status to fly then.
+ x double jump
+ x glide
  - rope
  - bungee rope
 - Add enemies
