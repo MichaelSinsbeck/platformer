@@ -19,7 +19,7 @@ function love.load()
   
   -- Creating Player
   p = Player:New()
-  p:setImage('block.png')
+  p:setImage('block2.png')
   p.x = 3
   p.y = 10
   
@@ -28,6 +28,12 @@ function love.load()
   
   --love.graphics.toggleFullscreen()
   love.graphics.setBackgroundColor(150,150,255)
+  
+  print('Starte')
+  print('NumHats: ' ..love.joystick.getNumHats(1))
+  print('NumButtons: ' ..love.joystick.getNumButtons(1))
+  print('NumAxes: ' .. love.joystick.getNumAxes(1))
+  
 end
 
 function love.update(dt)
@@ -63,5 +69,21 @@ function love.keyreleased(key)
     game.keyreleased(key)
   else
     menu.keyreleased(key)
+  end
+end
+
+function love.joystickpressed(joystick, button)
+if mode == 'game' then
+    game.joystickpressed(joystick, button)
+  else
+    menu.joystickpressed(joystick, button)
+  end
+end
+
+function love.joystickreleased(joystick, button)
+if mode == 'game' then
+    game.joystickreleased(joystick, button)
+  else
+    menu.joystickreleased(joystick, button)
   end
 end
