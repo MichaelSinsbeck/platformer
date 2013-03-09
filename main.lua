@@ -14,9 +14,11 @@ function love.load()
 	camHeight = love.graphics.getHeight()
   
    -- Create Map
-  myMap = Map:New('mytiles.png',32)
-	myMap:updateSpritebatch()    
+  --myMap = Map:New('mytiles.png',32)
+	--myMap:updateSpritebatch()    
   
+  --myMap:save('testmap.dat')
+  myMap = Map:LoadFromFile('testmap.dat')
   -- Creating Player
   p = Player:New()
   p:setImage('block2.png')
@@ -29,10 +31,10 @@ function love.load()
   --love.graphics.toggleFullscreen()
   love.graphics.setBackgroundColor(150,150,255)
   
-  print('Starte')
+  --[[print('Starte')
   print('NumHats: ' ..love.joystick.getNumHats(1))
   print('NumButtons: ' ..love.joystick.getNumButtons(1))
-  print('NumAxes: ' .. love.joystick.getNumAxes(1))
+  print('NumAxes: ' .. love.joystick.getNumAxes(1))--]]
   
 end
 
