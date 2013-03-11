@@ -3,19 +3,13 @@ require 'spriteengine'
 game = {}
 
 function game.draw()
-  --love.graphics.scale(2)
-  --love.graphics.translate(math.floor(-Camera.x*myMap.tileSize),math.floor(-Camera.y*myMap.tileSize))
   love.graphics.push()
   Camera:apply()
   
   myMap:draw()
-  --p:draw()
   spriteEngine:draw()
   love.graphics.pop()
 	love.graphics.print(p.status,10,10)
-
---	love.graphics.print(p.status,10,40)
-  
 end
 
 function game.checkControls()
@@ -38,7 +32,6 @@ function game.checkControls()
 end
 
 function game.update(dt)
-  --p:update(dt)
   spriteEngine:update(dt)
   Camera:setTarget()
   Camera:update(dt)

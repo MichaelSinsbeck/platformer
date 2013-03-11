@@ -24,7 +24,7 @@ function love.load()
   -- Creating Player
   p = Player:New({x=3,y=10})
   spriteEngine:insert(p)
-  
+
   gravity = 40
 	  
   --love.graphics.toggleFullscreen()
