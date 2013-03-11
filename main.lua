@@ -1,6 +1,6 @@
 require 'camera'
-require 'player'
 require 'game'
+require 'player'
 require 'menu'
 require 'map'
 
@@ -13,29 +13,22 @@ function love.load()
   camWidth = love.graphics.getWidth()
 	camHeight = love.graphics.getHeight()
   
-   -- Create Map
+  -- Load Map
+  myMap = Map:LoadFromFile('testmap.dat')  
+  
   --myMap = Map:New('mytiles.png',32)
-	--myMap:updateSpritebatch()    
-  
+	--myMap:updateSpritebatch() -- done in load-function anyway  
   --myMap:save('testmap.dat')
-  myMap = Map:LoadFromFile('testmap.dat')
-  -- Creating Player
-  p = Player:New()
-  p:setImage('block2.png')
-  p.x = 3
-  p.y = 10
-  
-  gravity = 40
 
   
+  -- Creating Player
+  p = Player:New({x=3,y=10})
+  spriteEngine:insert(p)
+  
+  gravity = 40
+	  
   --love.graphics.toggleFullscreen()
-  love.graphics.setBackgroundColor(150,150,255)
-  
-  --[[print('Starte')
-  print('NumHats: ' ..love.joystick.getNumHats(1))
-  print('NumButtons: ' ..love.joystick.getNumButtons(1))
-  print('NumAxes: ' .. love.joystick.getNumAxes(1))--]]
-  
+  love.graphics.setBackgroundColor(150,150,255)  
 end
 
 function love.update(dt)

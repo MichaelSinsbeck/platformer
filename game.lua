@@ -1,3 +1,5 @@
+require 'spriteengine'
+
 game = {}
 
 function game.draw()
@@ -6,11 +8,10 @@ function game.draw()
   love.graphics.push()
   Camera:apply()
   
-  --myMap:updateSpritebatch()  
   myMap:draw()
-  p:draw()
+  --p:draw()
+  spriteEngine:draw()
   love.graphics.pop()
-  --love.graphics.print(math.floor(p.x) .. ', ' .. math.floor(p.y),10,10)
 	love.graphics.print(p.status,10,10)
 
 --	love.graphics.print(p.status,10,40)
@@ -37,7 +38,8 @@ function game.checkControls()
 end
 
 function game.update(dt)
-  p:update(dt)
+  --p:update(dt)
+  spriteEngine:update(dt)
   Camera:setTarget()
   Camera:update(dt)
 
