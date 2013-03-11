@@ -31,4 +31,5 @@ Workplan:
  - Clean up player-movement
  - Write generic collision test
  - Generalize controls -> Pass keypressed to spriteEngine
+ - To test: Do walls stick, if jumped to from below?
  

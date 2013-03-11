@@ -128,13 +128,17 @@ end
 
 function Player:collision()
   -- Horizontal Movement
+  
+  -- Remember about floor and ceil:
+  -- When upper bound is checked, use ceil (and maybe -1)
+  -- When lower bound is checked, use floor
   if self.vx > 0 then -- Bewegung nach rechts
     -- haben die rechten Eckpunkte die Zelle gewechselt?
-    if math.floor(self.x+self.width*0.99) ~= math.floor(self.newX+self.width*.99) then
+    if math.ceil(self.x+self.width*1) ~= math.ceil(self.newX+self.width*1) then
       -- Kollision in neuen Feldern?
       if myMap.collision[math.floor(self.newX+self.width*1)] and
       (myMap.collision[math.floor(self.newX+self.width*1)][math.floor(self.y)] or
-        myMap.collision[math.floor(self.newX+self.width*1)][math.floor(self.y+0.99*self.height)]) then
+        myMap.collision[math.floor(self.newX+self.width*1)][math.ceil(self.y+1*self.height)-1]) then
         self.newX = math.floor(self.newX+self.width)-self.width
         --self.vx = math.min(self.vx,0)
         self.status = 'rightwall'
@@ -145,7 +149,7 @@ function Player:collision()
     if math.floor(self.x) ~= math.floor(self.newX) then
       if myMap.collision[math.floor(self.newX)] and
       (myMap.collision[math.floor(self.newX)][math.floor(self.y)] or
-       myMap.collision[math.floor(self.newX)][math.floor(self.y+0.99*self.height)]) then
+       myMap.collision[math.floor(self.newX)][math.ceil(self.y+1*self.height)-1]) then
         self.newX = math.floor(self.newX+1*self.width)
         --self.vx = math.max(self.vx,0)
         self.status = 'leftwall'
@@ -163,8 +167,8 @@ function Player:collision()
       if (myMap.collision[math.floor(self.newX)] and
           myMap.collision[math.floor(self.newX)][math.floor(self.newY)])
           or
-         (myMap.collision[math.floor(self.newX+self.width*0.99)] and
-          myMap.collision[math.floor(self.newX+self.width*0.99)][math.floor(self.newY)]) then
+         (myMap.collision[math.ceil(self.newX+self.width*1)-1] and
+          myMap.collision[math.ceil(self.newX+self.width*1)-1][math.floor(self.newY)]) then
         self.newY = math.floor(self.newY+1)
         --self.vy = math.max(self.vy,0)
         verticalChange = false
@@ -172,12 +176,12 @@ function Player:collision()
     end
     
   elseif self.vy > 0 then -- falling
-    if math.floor(self.y+self.height*0.99) ~= math.floor(self.newY+self.height*1) then
+    if math.ceil(self.y+self.height*1) ~= math.ceil(self.newY+self.height*1) then
 			verticalChange = true
       if ( myMap.collision[math.floor(self.newX)] and 
         myMap.collision[math.floor(self.newX)][math.floor(self.newY+self.height*1)])  or
-        (myMap.collision[math.floor(self.newX+self.width*0.99)] and 
-        myMap.collision[math.floor(self.newX+self.width*0.99)][math.floor(self.newY+self.height*1)]) then
+        (myMap.collision[math.ceil(self.newX+self.width*1)-1] and 
+        myMap.collision[math.ceil(self.newX+self.width*1)-1][math.floor(self.newY+self.height*1)]) then
         self.newY = math.floor(self.newY+self.height*1)-self.height        
         --self.vy = math.min(self.vy,0)
         self.status = 'stand'
@@ -189,21 +193,22 @@ function Player:collision()
   -- if vertically the player changes the tile, then possibly
   -- he sticks on the wall.
   -- check: After vertical movement, is the wall still there?
-	if verticalChange and (self.status == 'leftwall' or (self.status == 'fly' and math.abs(self.newX-math.floor(self.newX))<0.01 )) then
+--if verticalChange and (self.status == 'leftwall' or (self.status == 'fly' and math.abs(self.newX-math.floor(self.newX))<0.01 )) then
+	if verticalChange and (self.status == 'leftwall' or (self.status == 'fly' and self.newX == math.floor(self.newX) )) then
 		--self.status = 'fly'
 		if myMap.collision[math.floor(self.newX)-1] and
 				(myMap.collision[math.floor(self.newX-1)][math.floor(self.y)] or
-				myMap.collision[math.floor(self.newX-1)][math.floor(self.y+0.99*self.height)]) then
+				myMap.collision[math.floor(self.newX-1)][math.ceil(self.y+1*self.height)-1]) then
 			self.status = 'leftwall'
 		else
 		  self.status = 'fly'
 		end
 	elseif verticalChange and
-			(self.status == 'rightwall' or (self.status == 'fly' and math.abs((self.newX+self.width)-math.floor(self.newX+self.width))<0.01 )) then
+			(self.status == 'rightwall' or (self.status == 'fly' and (self.newX+self.width)==math.floor(self.newX+self.width) )) then
 		self.status = 'fly'
 		if myMap.collision[math.floor(self.newX)+1] and
 				(myMap.collision[math.floor(self.newX)+1][math.floor(self.y)] or
-				myMap.collision[math.floor(self.newX)+1][math.floor(self.y+0.99*self.height)]) then
+				myMap.collision[math.floor(self.newX)+1][math.ceil(self.y+1*self.height)-1]) then
 			self.status = 'rightwall'
 	  else
 	    self.status = 'fly'
