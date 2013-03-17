@@ -5,50 +5,34 @@ game = {}
 function game.draw()
   love.graphics.push()
   Camera:apply()
-  
+
+  spriteEngine:draw()  
   myMap:draw()
-  spriteEngine:draw()
+
   love.graphics.pop()
-	love.graphics.print(p.status,10,10)
+	--love.graphics.print(p.status,10,10)
 end
 
-function game.checkControls()
+function game:checkControls()
   local joyHat = love.joystick.getHat(1,1)
-  local isLeft = love.keyboard.isDown('left') 
+  self.isLeft = love.keyboard.isDown('left') 
 		or joyHat == 'l' 
 		or joyHat == 'ld' 
 		or joyHat == 'lu'
-	local isRight = love.keyboard.isDown('right')
+	self.isRight = love.keyboard.isDown('right')
 		or joyHat == 'r'
 		or joyHat == 'rd' 
 		or joyHat == 'ru'
-	local isJump = love.keyboard.isDown('a') 
+	self.isJump = love.keyboard.isDown('a') 
 			or love.joystick.isDown(1,3)
-	local isGlide = love.keyboard.isDown('s')
+	self.isGlide = love.keyboard.isDown('s')
 			or love.joystick.isDown(1,8)
-			
-	return isLeft,isRight,isJump,isGlide
-	
 end
 
 function game.update(dt)
   spriteEngine:update(dt)
   Camera:setTarget()
   Camera:update(dt)
-
-  local camSpeed = 500
-  --[[if love.keyboard.isDown('up') then
-    camY = camY - camSpeed*dt
-  end
-  if love.keyboard.isDown('down') then
-    camY = camY + camSpeed*dt
-  end
-  if love.keyboard.isDown('left') then
-    camX = camX - camSpeed*dt
-  end
-  if love.keyboard.isDown('right') then
-    camX = camX + camSpeed*dt
-  end]]
 end
 
 function game.keypressed(key)

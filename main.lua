@@ -6,15 +6,11 @@ require 'map'
 
 function love.load()
   mode = 'game'
-  
-  -- Initialize Camera
-  camX = 0
-  camY = 0
-  camWidth = love.graphics.getWidth()
-	camHeight = love.graphics.getHeight()
-  
+   
   -- Load Map
-  myMap = Map:LoadFromFile('testmap.dat')  
+  --myMap = Map:LoadFromFile('testmap.dat')  
+  myMap = Map:LoadFromFile('ruinlevel2.dat')  
+  
   
   --myMap = Map:New('mytiles.png',32)
 	--myMap:updateSpritebatch() -- done in load-function anyway  
@@ -22,13 +18,16 @@ function love.load()
 
   
   -- Creating Player
-  p = Player:New({x=3,y=10})
+  --p = Player:New({x=3,y=10})
+  p = Player:New({x=50,y=18})
+  Camera:jumpTo(p.x,p.y)
   spriteEngine:insert(p)
 
   gravity = 40
 	  
   --love.graphics.toggleFullscreen()
-  love.graphics.setBackgroundColor(150,150,255)  
+  --love.graphics.setBackgroundColor(150,150,255)  
+  love.graphics.setBackgroundColor(30,30,60)  
 end
 
 function love.update(dt)

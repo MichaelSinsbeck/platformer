@@ -5,19 +5,26 @@ objects = {}
 }
 
 function spriteEngine:insert(newObject)
-  newObject:init()
+  if newObject.init then
+	  newObject:init()
+	end
   table.insert(self.objects,newObject)
 end
 
 function spriteEngine:update(dt)
   for i,v in pairs(self.objects) do
-    v:update(dt)
+    if v.update then
+      v:update(dt)
+    end
   end
+  self:kill()
 end
 
 function spriteEngine:draw()
   for i,v in pairs(self.objects) do
-    v:draw()
+    if v.draw then
+			v:draw()
+	  end
   end
 end
 

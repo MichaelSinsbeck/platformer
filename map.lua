@@ -19,7 +19,8 @@ function Map:LoadFromFile(mapFile)
 	-- Postprocess
 	local img = love.graphics.newImage(o.imageFile)
   img:setFilter('nearest','nearest')
-  o.spriteBatch = love.graphics.newSpriteBatch(img, (math.floor(camWidth/o.tileSize)+1) * (math.floor(camHeight/o.tileSize)+1))
+ -- o.spriteBatch = love.graphics.newSpriteBatch(img, (math.floor(camWidth/o.tileSize)+1) * (math.floor(camHeight/o.tileSize)+1))
+  o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
   -- delete all "0" value
   for i = 1,o.width do
     for j = 1,o.height do
@@ -42,7 +43,6 @@ function Map:LoadFromFile(mapFile)
         imageWidth,imageHeight)
     end
   end
-
 	o:updateSpritebatch()
 	return o	
 end

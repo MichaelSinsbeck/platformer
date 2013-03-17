@@ -44,7 +44,8 @@ function object:predictPosition(dt)
   self.newY = self.y + self.vy * dt
 end
 
-function object:collision()
+function object:collision(dt)
+-- Todo: When this is generically done, remove dt here: unnecessary
 -- Check for collision in newX,newY and correct, if necessary
 end
 
@@ -54,13 +55,16 @@ function object:step(dt)
   self.vy = (self.newY - self.y)/dt
   self.x = self.newX
   self.y = self.newY
-  love.graphics.print('apply',100,100)
 end
 
 function object:update(dt)
 -- Perform all update steps
   self:setAcceleration(dt)
-  self:predictPosition(dt)
-  self:collision()
-  self:step(dt)
+	local subdivide = math.max(math.ceil(math.abs(self.vx*dt)),math.ceil(math.abs(self.vy*dt)))
+	local dtMicro = dt/subdivide
+  for iMicroIterations = 1,subdivide do
+		self:predictPosition(dtMicro)
+		self:collision(dtMicro)
+		self:step(dtMicro)
+  end
 end

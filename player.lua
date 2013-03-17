@@ -16,6 +16,8 @@ Player = object:New({
   walljumpSpeedx = 20,
   walljumpSpeedy = -20,
   wallgravity = 30,
+  walltime = 0,
+  releasetime = .25,
   unjumpSpeed = 12,
   jumpsLeft = 0,
   maxJumps = 1, -- number of jumps, put 1 for normal and 2 for doublejump
@@ -61,7 +63,7 @@ end
 
 function Player:setAcceleration(dt)
   -- read controls
-	local isLeft,isRight,isJump,isGlide = game.checkControls()
+	game:checkControls()
 
 	local ax,fx = 0,0
 	-- Determine acceleration and friction
@@ -75,10 +77,10 @@ function Player:setAcceleration(dt)
 
 	-- Determine desired acceleration
 	local axControl = 0
-	if isLeft then
+	if game.isLeft then
 		axControl = axControl - ax
 	end
-	if isRight then
+	if game.isRight then
 		axControl = axControl + ax
 	end
 	
@@ -115,7 +117,7 @@ function Player:setAcceleration(dt)
 	end
 	
   -- Gliding
-  if self.canGlide and isGlide then
+  if self.canGlide and game.isGlide then
     if self.vy > self.glideSpeed then
       self.vy = self.vy - self.glideAcc*dt
       if self.vy < self.glideSpeed then
@@ -126,9 +128,10 @@ function Player:setAcceleration(dt)
 
 end
 
-function Player:collision()
+function Player:collision(dt)
+  local laststatus = self.status
+
   -- Horizontal Movement
-  
   -- Remember about floor and ceil:
   -- When upper bound is checked, use ceil (and maybe -1)
   -- When lower bound is checked, use floor
@@ -140,8 +143,7 @@ function Player:collision()
       (myMap.collision[math.floor(self.newX+self.width)][math.floor(self.y)] or
         myMap.collision[math.floor(self.newX+self.width)][math.ceil(self.y+self.height)-1]) then
         self.newX = math.floor(self.newX+self.width)-self.width
-        --self.vx = math.min(self.vx,0)
-        self.status = 'rightwall'
+				self.status = 'rightwall'
       end
     end
   elseif self.vx < 0 then -- Bewegung nach links
@@ -151,7 +153,6 @@ function Player:collision()
       (myMap.collision[math.floor(self.newX)][math.floor(self.y)] or
        myMap.collision[math.floor(self.newX)][math.ceil(self.y+self.height)-1]) then
         self.newX = math.floor(self.newX+1*self.width)
-        --self.vx = math.max(self.vx,0)
         self.status = 'leftwall'
       end
     end
@@ -212,112 +213,30 @@ function Player:collision()
 		end
 	end
   
-  if self.status == 'stand' or self.status == 'leftwall' or self.status == 'rightwall' then
-    self.jumpsLeft = self.maxJumps - 1
-  end
-
-     
-end
--- ************************************************************************************************
--- ************************************************************************************************
--- ************************************************************************************************
-
---[[function Player:update(dt)
-	
-	
-  -- Horizontale Bewegung und Kollisionskontrolle
-  local newX = self.x + self.vx*dt
-  
-  if self.vx > 0 then -- Bewegung nach rechts
-    -- haben die rechten Eckpunkte die Zelle gewechselt?
-    if math.floor(self.x+self.width*0.99) ~= math.floor(newX+self.width*1) then
-      -- Kollision in neuen Feldern?
-      if myMap.collision[math.floor(newX+self.width*1)] and
-      (myMap.collision[math.floor(newX+self.width*1)][math.floor(self.y)] or
-        myMap.collision[math.floor(newX+self.width*1)][math.floor(self.y+0.99*self.height)]) then
-        newX = math.floor(newX+self.width)-self.width
-        self.vx = math.min(self.vx,0)
-        self.status = 'rightwall'
-      end
-    end
-  elseif self.vx < 0 then -- Bewegung nach links
-    -- Eckpunkte wechseln Zelle?
-    if math.floor(self.x) ~= math.floor(newX) then
-      if myMap.collision[math.floor(newX)] and
-      (myMap.collision[math.floor(newX)][math.floor(self.y)] or
-       myMap.collision[math.floor(newX)][math.floor(self.y+0.99*self.height)]) then
-        newX = math.floor(newX+1*self.width)
-        self.vx = math.max(self.vx,0)
-        self.status = 'leftwall'
-      end
-    end
-  end  
-  self.x = newX
-
-
-
-  
-
-  
-  -- Flag checks if in vertical direction the player moves into a
-  -- new tile
-  local verticalChange = false
-  
-  local newY = self.y + self.vy*dt
-  if self.vy < 0 then -- rising
-    if math.floor(self.y) ~= math.floor(newY) then
-			verticalChange = true
-      if (myMap.collision[math.floor(self.x)] and
-          myMap.collision[math.floor(self.x)][math.floor(newY)])
-          or
-         (myMap.collision[math.floor(self.x+self.width*0.99)] and
-          myMap.collision[math.floor(self.x+self.width*0.99)][math.floor(newY)]) then
-        newY = math.floor(newY+1)
-        self.vy = math.max(self.vy,0)
-        verticalChange = false
-      end
-    end
-    
-  elseif self.vy > 0 then -- falling
-    if math.floor(self.y+self.height*0.99) ~= math.floor(newY+self.height*1) then
-			verticalChange = true
-      if ( myMap.collision[math.floor(self.x)] and 
-        myMap.collision[math.floor(self.x)][math.floor(newY+self.height*1)])  or
-        (myMap.collision[math.floor(self.x+self.width*0.99)] and 
-        myMap.collision[math.floor(self.x+self.width*0.99)][math.floor(newY+self.height*1)]) then
-        newY = math.floor(newY+self.height*1)-self.height        
-        self.vy = math.min(self.vy,0)
-        self.status = 'stand'
-        verticalChange = false
-      end
+  -- Extra treatment for wall stuff
+  if self.status == 'leftwall' then
+    if game.isRight then
+			if laststatus == 'fly' then self.status = 'fly' end
+			if laststatus == 'leftwall' then self.walltime = self.walltime+dt end
+	  else
+	    self.walltime = 0
     end
   end
-  self.y = newY
-
-  -- if vertically the player changes the tile, then possibly
-  -- he sticks on the wall.
-  -- check: After vertical movement, is the wall still there?
-	if verticalChange and (self.status == 'leftwall' or (self.status == 'fly' and math.abs(self.x-math.floor(self.x))<0.01 )) then
-		self.status = 'fly'
-		if myMap.collision[math.floor(self.x)-1] and
-				(myMap.collision[math.floor(self.x-1)][math.floor(self.y)] or
-				myMap.collision[math.floor(newX)][math.floor(self.y+0.99*self.height)]) then
-			self.status = 'leftwall'
-		end
-	elseif verticalChange and
-			(self.status == 'rightwall' or (self.status == 'fly' and math.abs((self.x+self.width)-math.floor(self.x+self.width))<0.01 )) then
-		self.status = 'fly'
-		if myMap.collision[math.floor(self.x)+1] and
-				(myMap.collision[math.floor(self.x)+1][math.floor(self.y)] or
-				myMap.collision[math.floor(self.x)+1][math.floor(self.y+0.99*self.height)]) then
-			self.status = 'rightwall'
-
-		end
-	end
+	if self.status == 'rightwall' then
+    if game.isLeft then
+			if laststatus == 'fly' then self.status = 'fly' end
+			if laststatus == 'rightwall' then self.walltime = self.walltime+dt end
+	  else
+	    self.walltime = 0
+    end
+  end
+  
+  if self.walltime > self.releasetime then
+    self.status = 'fly'
+    self.walltime = 0
+  end
   
   if self.status == 'stand' or self.status == 'leftwall' or self.status == 'rightwall' then
     self.jumpsLeft = self.maxJumps - 1
   end
 end
-
---return Player--]]

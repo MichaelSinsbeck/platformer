@@ -3,13 +3,27 @@ Camera = {
   y = 0,
   xTarget = 0,
   yTarget = 0,
+  xWorld = 0,
+  yWorld = 0,
   width = love.graphics.getWidth(),
 	height = love.graphics.getHeight()
   }
 
 function Camera:update(dt)
+  local tileSize = myMap.tileSize
   self.x = self.x + 0.1*(self.xTarget-self.x)
   self.y = self.y + 0.1*(self.yTarget-self.y)
+  self.xWorld = math.floor(-Camera.x*myMap.tileSize+self.width/2)
+  self.yWorld = math.floor(-Camera.y*myMap.tileSize+self.height/2)  
+  
+  if self.xWorld > -tileSize then self.xWorld = -tileSize end
+  if self.yWorld > -tileSize then self.yWorld = -tileSize end
+  if self.xWorld < self.width - myMap.width*tileSize then
+    self.xWorld = self.width - myMap.width*tileSize
+  end  
+  if self.yWorld < self.height - myMap.height*tileSize then
+    self.yWorld = self.height - myMap.height*tileSize
+  end    
 end
 
 function Camera:setTarget()
@@ -17,6 +31,11 @@ function Camera:setTarget()
   self.yTarget = p.y+0.5
 end
 
+function Camera:jumpTo(x,y)
+  self.x = x
+  self.y = y
+end
+
 function Camera:apply()
-  love.graphics.translate(math.floor(-Camera.x*myMap.tileSize+self.width/2),math.floor(-Camera.y*myMap.tileSize+self.height/2))
+  love.graphics.translate(self.xWorld,self.yWorld)
 end

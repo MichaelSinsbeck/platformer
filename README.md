@@ -14,8 +14,8 @@ Workplan:
  x wall jump
  x double jump
  x glide
- - rope
- - bungee rope
+ - rope        ->postponed
+ - bungee rope ->postponed
  
 - Add enemies
  - Spikes
@@ -26,10 +26,17 @@ Workplan:
  - Bounce-platform
  
 - Engine Stuff
- - Solve 0.99-Problem for collision
+ X Solve 0.99-Problem for collision
  X Add Sprite Engine
  - Clean up player-movement
  - Write generic collision test
- - Generalize controls -> Pass keypressed to spriteEngine
- - To test: Do walls stick, if jumped to from below?
+ X Generalize controls -> Pass keypressed to spriteEngine
+ X To test: Do walls stick, if jumped to from below?
  
+Reminder for me:
+To produce a level:
+- Draw in Tiled
+- Open in Texteditor
+- Copy to main.lua in Leveleditor
+- Run leveleditor
+- mapfile is finished in hidden folder
