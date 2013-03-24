@@ -6,7 +6,9 @@ For running first install löve2d (google it)
 Then go to this folder and run "love ."
 
 Workplan:
-- implement multiple levels
+- Level loading stuff:
+ - create zones (level editor)
+ - write loading function that runs in bg
 
 - add animation
 
@@ -16,6 +18,9 @@ Workplan:
  x glide
  - rope        ->postponed
  - bungee rope ->postponed
+ - Fix Bug: When jumping from wall, higher velocity are possible: shouldn't be
+ - disable sticky walls, if wall jump is disabled (?)
+ - gliding with "jump"-button? Reserve second button for something else?
  
 - Add enemies
  - Spikes
