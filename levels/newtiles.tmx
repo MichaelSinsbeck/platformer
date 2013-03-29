@@ -1,8 +1,3 @@
--- unsorted operations for map preparation. Will be substituted by something meaningful one day
-function love.load()
-
-data = { -- Paste data between this line
-
 {25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25},
 {25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25},
 {25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25},
@@ -33,62 +28,3 @@ data = { -- Paste data between this line
 {25,25,25,25,25,25,25,25,25,25,25,25,25,25,13,14,26,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,5,9,25,25,25},
 {25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,31,13,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,15,25,25,25},
 {25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25}
-} -- and this line
-
-tileToCollision = { -- Tilemap information, only correct for ruin map
-  1,1,1,1,1,1,
-  1,1,1,1,1,1,
-  0,1,1,1,1,1,
-  0,1,1,1,1,1,
-  0,1,1,1,1,1,
-  0,1,1,1,1,1,
-  0,1,1,1,1,1,
-  1,1,1,1,1,1
-}
-tileToCollision[0] = 0
-
-height = #data
-width = #data[1]
---print(width)
---print(height)
-
-backstring = ''
-backstring2 = ''
-
-
-for j = 1,width do
-	local newlinesymbol = '\},\r\n'
-	if j == width then newlinesymbol = '\}\r\n' end
-	for i = 1,height do
-	  local filler = ','
-	  if i == 1 then filler = '  \{' end
-		if data[i] and data[i][j] then
---      print(data[i][j])
-			backstring = backstring .. filler .. data[i][j]
-			backstring2 = backstring2 .. filler .. tileToCollision[data[i][j]]
-		else
-			backstring = backstring .. filler .. '0'
-			backstring2 = backstring2 .. filler .. '0'
-		end
-	end
-	backstring = backstring .. newlinesymbol
-	backstring2 = backstring2 .. newlinesymbol
-end
-
-writedata = ''
-writedata = writedata .. 'mapSize(' .. width .. ', ' .. height .. ', ' .. 32 .. ')\r\n'
-writedata = writedata .. 'imageFilename("tiles1.png")'.. '\r\n'
-writedata = writedata .. 'loadTiles\{\r\n' .. backstring .. '\}\r\n'
-writedata = writedata .. 'loadCollision\{\r\n' .. backstring2 .. '\}'
-
-
-love.filesystem.write('ruinstranspose.dat',writedata)
-
-love.event.quit()
-end
-
-function love.keypressed(key)
-  if key == 'escape' then
-    love.event.quit()
-  end
-end

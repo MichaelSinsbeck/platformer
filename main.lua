@@ -10,6 +10,7 @@ function love.load()
   -- Load Map
   --myMap = Map:LoadFromFile('testmap.dat')  
   myMap = Map:LoadFromFile('ruinlevel2.dat')  
+  myMap = Map:LoadFromFile('level2.dat') 
   
   
   --myMap = Map:New('mytiles.png',32)
@@ -20,6 +21,7 @@ function love.load()
   -- Creating Player
   --p = Player:New({x=3,y=10})
   p = Player:New({x=50,y=18})
+  p = Player:New({x=24,y=10})
   Camera:jumpTo(p.x,p.y)
   spriteEngine:insert(p)
 
