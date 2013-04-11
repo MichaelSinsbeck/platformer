@@ -24,6 +24,7 @@ Workplan:
  
 - Add enemies
  - Spikes
+ - Walking block
  - ?
  
 - Add interative objects
