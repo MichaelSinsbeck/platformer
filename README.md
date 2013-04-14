@@ -7,8 +7,9 @@ Then go to this folder and run "love ."
 
 Workplan:
 - Level loading stuff:
- - create zones (level editor)
- - write loading function that runs in bg
+ - create zones (level editor)             ->postponed
+ - write loading function that runs in bg  ->postponed
+ x load levels
 
 - add animation
 
@@ -42,7 +43,5 @@ Workplan:
 Reminder for me:
 To produce a level:
 - Draw in Tiled
-- Open in Texteditor
-- Copy to main.lua in Leveleditor
-- Run leveleditor
-- mapfile is finished in hidden folder
+- Run love-project in levelconverter/
+- copy all *.dat from ./local/share/love/levelconverter/ to current folder

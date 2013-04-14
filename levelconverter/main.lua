@@ -27,10 +27,24 @@ for y = 1,map.height do
     data[y][x] = 0
   end
 end
-  for x, y, tile in map("bg"):iterate() do
-    data[y][x] = tile.id
+for x, y, tile in map("bg"):iterate() do
+--  print('x = '..x..', y = '..y)
+  if tile.id == 47 then
+    if xStart then
+      print('Warning, multiple starting points')
+    end
+    xStart = x+1
+    yStart = y+1
+  else
+    data[y+1][x+1] = tile.id
+	end
 --    print( string.format("Tile at (%d,%d) has an id of %d", x, y, tile.id) )
-  end
+end
+
+if not xStart then
+  xStart = 1
+  yStart = 1
+end
 
 height = #data
 width = #data[1]
@@ -51,7 +65,7 @@ tileToCollision = { -- Tilemap information, only correct for ruin map
   0,1,1,1,1,1,
   0,1,1,1,1,1,
   0,1,1,1,1,1,
-  1,1,1,1,1,0
+  1,1,1,1,0,0
 }
 tileToCollision[0] = 0
 
@@ -81,9 +95,12 @@ end
 writedata = ''
 writedata = writedata .. 'mapSize(' .. width .. ', ' .. height .. ', ' .. map.tileWidth .. ')\r\n'
 writedata = writedata .. 'imageFilename("'..filename..'")'.. '\r\n'
+writedata = writedata .. 'start\{x='..xStart..',y='..yStart..'\}\r\n'
 writedata = writedata .. 'loadTiles\{\r\n' .. backstring .. '\}\r\n'
 writedata = writedata .. 'loadCollision\{\r\n' .. backstring2 .. '\}'
 
+xStart = nil
+yStart = nil
 -- print(writedata)
 love.filesystem.write(filetrunc..'.dat',writedata)
 end

@@ -6,8 +6,6 @@ function Map:LoadFromFile(mapFile)
 	local o = {}
 	setmetatable(o, self)
 	self.__index = self	
-  o.xStart = 10
-  o.yStart = 10
 	-- Define the meaning of the function in the level file	
 	function mapSize(width,height,tileSize)	o.width, o.height, o.tileSize = width, height, tileSize	end
 	function imageFilename(b) o.imageFile = b end

@@ -12,3 +12,9 @@ end
 
 function menu.keyreleased(key)
 end
+
+function menu.joystickpressed(joystick, button)
+end
+
+function menu.joystickreleased(joystick, button)
+end

@@ -1,4 +1,5 @@
-Campaign = { 'first.dat', 'level2.dat', 'ruinlevel2.dat'}
+--Campaign = { 'first.dat', 'level2.dat', 'ruinlevel2.dat'}
+Campaign = { 'l1.dat','l2.dat','l3.dat','l4.dat'}
 Campaign.current = 1
 
 function Campaign:reset()

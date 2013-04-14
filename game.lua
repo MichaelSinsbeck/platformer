@@ -11,12 +11,6 @@ function game:draw()
 
   love.graphics.pop()
 	love.graphics.print(timer,10,10)
-	
-  if p:wincheck() then
-    love.graphics.print('Gewonnen',10,30)
-  else
-    love.graphics.print('Noch nicht Gewonnen',10,30)
-  end	
 end
 
 function game:checkControls()
@@ -43,10 +37,11 @@ function game:update(dt)
   
   if p:wincheck() then
     Campaign:proceed()
-  --else
-    -- ausfuellen
   end
   
+  if p.y > myMap.height then
+    myMap:start(p)
+  end
 end
 
 function game.keypressed(key)

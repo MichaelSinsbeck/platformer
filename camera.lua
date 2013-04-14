@@ -18,11 +18,11 @@ function Camera:update(dt)
   
   if self.xWorld > -tileSize then self.xWorld = -tileSize end
   if self.yWorld > -tileSize then self.yWorld = -tileSize end
-  if self.xWorld < self.width - myMap.width*tileSize then
-    self.xWorld = self.width - myMap.width*tileSize
+  if self.xWorld < self.width - (myMap.width+1)*tileSize then
+    self.xWorld = self.width - (myMap.width+1)*tileSize
   end  
-  if self.yWorld < self.height - myMap.height*tileSize then
-    self.yWorld = self.height - myMap.height*tileSize
+  if self.yWorld < self.height - (myMap.height+1)*tileSize then
+    self.yWorld = self.height - (myMap.height+1)*tileSize
   end    
 end
 

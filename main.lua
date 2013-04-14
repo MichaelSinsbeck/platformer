@@ -18,7 +18,7 @@ function love.load()
   
   myMap:start(p)
   gravity = 40
- 
+  --love.graphics.toggleFullscreen()
 end
 
 function love.update(dt)
@@ -32,6 +32,7 @@ function love.update(dt)
 end
 
 function love.draw()
+  --love.graphics.scale(0.75,0.75)
   if mode == 'game' then
     game:draw()
   elseif mode == 'menu' then
