@@ -65,6 +65,13 @@ function Player:setAcceleration(dt)
   -- read controls
 	game:checkControls()
 
+  -- Acceleration down
+  if self.status == 'fly' then
+		self.vy = self.vy + gravity*dt
+	else
+		self.vy = self.vy + self.wallgravity*dt
+	end
+
 	local ax,fx = 0,0
 	-- Determine acceleration and friction
 	if self.status == 'stand' then
@@ -106,15 +113,8 @@ function Player:setAcceleration(dt)
 			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
 			self.status = 'fly'
 	end
-
-  if self.status == 'stand' then self.status = 'fly'  end
 	
-  -- Acceleration down
-  if self.status == 'stand' or self.status == 'fly' then
-		self.vy = self.vy + gravity*dt
-	else
-		self.vy = self.vy + self.wallgravity*dt
-	end
+  if self.status == 'stand' then self.status = 'fly'  end	
 	
   -- Gliding
   if self.canGlide and game.isGlide then
@@ -128,6 +128,8 @@ function Player:setAcceleration(dt)
 
 end
 
+
+
 function Player:collision(dt)
   local laststatus = self.status
 
@@ -139,7 +141,7 @@ function Player:collision(dt)
     -- haben die rechten Eckpunkte die Zelle gewechselt?
     if math.ceil(self.x+self.width) ~= math.ceil(self.newX+self.width) then
       -- Kollision in neuen Feldern?
-      if myMap.collision[math.floor(self.newX+self.width)] and
+      if myMap.collision[math.ceil(self.newX+self.width-1)] and
       (myMap.collision[math.floor(self.newX+self.width)][math.floor(self.y)] or
         myMap.collision[math.floor(self.newX+self.width)][math.ceil(self.y+self.height)-1]) then
         self.newX = math.floor(self.newX+self.width)-self.width
@@ -239,4 +241,22 @@ function Player:collision(dt)
   if self.status == 'stand' or self.status == 'leftwall' or self.status == 'rightwall' then
     self.jumpsLeft = self.maxJumps - 1
   end
+end
+
+function Player:wincheck()
+  local x1 = math.floor(self.x)
+  local x2 = math.ceil(self.x+self.width)-1
+  local y1 = math.floor(self.y)
+  local y2 = math.ceil(self.y+self.width)-1
+  local x=0
+  local y=0
+  local winning = false
+  for x =x1,x2 do
+    for y = y1,y2 do
+      if myMap.tile[x] and myMap.tile[x][y] and myMap.tile[x][y]==48 then
+        winning = true
+      end
+    end
+  end
+  return winning
 end

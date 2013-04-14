@@ -6,12 +6,14 @@ function Map:LoadFromFile(mapFile)
 	local o = {}
 	setmetatable(o, self)
 	self.__index = self	
-
+  o.xStart = 10
+  o.yStart = 10
 	-- Define the meaning of the function in the level file	
 	function mapSize(width,height,tileSize)	o.width, o.height, o.tileSize = width, height, tileSize	end
 	function imageFilename(b) o.imageFile = b end
 	function loadTiles (b) o.tile = b end
 	function loadCollision (b) o.collision = b end
+	function start (b) o.xStart = b.x o.yStart = b.y end
 
   -- Load File
 	love.filesystem.load(mapFile)()
@@ -45,6 +47,16 @@ function Map:LoadFromFile(mapFile)
   end
 	o:updateSpritebatch()
 	return o	
+end
+
+function Map:start(p)
+  p.x = self.xStart+0.5 - p.width/2
+  p.y = self.yStart+1-p.height
+  p.vx = 0
+  p.vy = 0
+  mode = 'intro'
+  timer = 0
+  Camera:jumpTo(p.x+.5*p.width,p.y+.5*p.height)
 end
 
 function Map:New(imageFile,tileSize)

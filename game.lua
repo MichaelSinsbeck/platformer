@@ -2,7 +2,7 @@ require 'spriteengine'
 
 game = {}
 
-function game.draw()
+function game:draw()
   love.graphics.push()
   Camera:apply()
 
@@ -10,7 +10,13 @@ function game.draw()
   myMap:draw()
 
   love.graphics.pop()
-	--love.graphics.print(p.status,10,10)
+	love.graphics.print(timer,10,10)
+	
+  if p:wincheck() then
+    love.graphics.print('Gewonnen',10,30)
+  else
+    love.graphics.print('Noch nicht Gewonnen',10,30)
+  end	
 end
 
 function game:checkControls()
@@ -29,10 +35,18 @@ function game:checkControls()
 			or love.joystick.isDown(1,8)
 end
 
-function game.update(dt)
+function game:update(dt)
+  timer = timer + dt
   spriteEngine:update(dt)
   Camera:setTarget()
   Camera:update(dt)
+  
+  if p:wincheck() then
+    Campaign:proceed()
+  --else
+    -- ausfuellen
+  end
+  
 end
 
 function game.keypressed(key)

@@ -3,48 +3,41 @@ require 'game'
 require 'player'
 require 'menu'
 require 'map'
+require 'intro'
+require 'campaign'
 
 function love.load()
   mode = 'game'
-   
-  -- Load Map
-  --myMap = Map:LoadFromFile('testmap.dat')  
-  myMap = Map:LoadFromFile('ruinlevel2.dat')  
-  myMap = Map:LoadFromFile('level2.dat') 
-  
-  
-  --myMap = Map:New('mytiles.png',32)
-	--myMap:updateSpritebatch() -- done in load-function anyway  
-  --myMap:save('testmap.dat')
+  timer = 0
+    
+  Campaign:reset()
 
-  
   -- Creating Player
-  --p = Player:New({x=3,y=10})
-  p = Player:New({x=50,y=18})
-  p = Player:New({x=24,y=10})
-  Camera:jumpTo(p.x,p.y)
+  p = Player:New()
   spriteEngine:insert(p)
-
+  
+  myMap:start(p)
   gravity = 40
-	  
-  --love.graphics.toggleFullscreen()
-  --love.graphics.setBackgroundColor(150,150,255)  
-  love.graphics.setBackgroundColor(30,30,60)  
+ 
 end
 
 function love.update(dt)
   if mode == 'game' then
-    game.update(dt)
-  else
-    menu.update(dt)
+    game:update(dt)
+  elseif mode == 'menu' then
+    menu:update(dt)
+  elseif mode == 'intro' then
+    intro:update(dt)
   end
 end
 
 function love.draw()
   if mode == 'game' then
-    game.draw()
-  else
-    menu.draw()
+    game:draw()
+  elseif mode == 'menu' then
+    menu:draw()
+  elseif mode == 'intro' then
+    intro:draw()
   end
 end
 
@@ -53,9 +46,13 @@ function love.keypressed(key)
     love.event.quit()
   end
   
+  if key == 'p' then
+    myMap:start(p)
+  end
+  
   if mode == 'game' then
     game.keypressed(key)
-  else
+  elseif mode == 'menu' then
     menu.keypressed(key)
   end
 end
@@ -63,7 +60,7 @@ end
 function love.keyreleased(key)  
   if mode == 'game' then
     game.keyreleased(key)
-  else
+  elseif mode == 'menu' then
     menu.keyreleased(key)
   end
 end
