@@ -26,6 +26,7 @@ Workplan:
 - Add enemies
  - Spikes
  - Walking block
+ x Runner
  - ?
  
 - Add interative objects
@@ -36,7 +37,7 @@ Workplan:
  X Solve 0.99-Problem for collision
  X Add Sprite Engine
  - Clean up player-movement
- - Write generic collision test
+ X Write generic collision test
  X Generalize controls -> Pass keypressed to spriteEngine
  X To test: Do walls stick, if jumped to from below?
  

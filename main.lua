@@ -1,6 +1,7 @@
 require 'camera'
 require 'game'
 require 'player'
+require 'runner'
 require 'menu'
 require 'map'
 require 'intro'
@@ -14,7 +15,8 @@ function love.load()
 
   -- Creating Player
   p = Player:New()
-  spriteEngine:insert(p)
+  --spriteEngine:insert(p)
+  
   
   myMap:start(p)
   gravity = 40

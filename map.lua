@@ -48,6 +48,8 @@ function Map:LoadFromFile(mapFile)
 end
 
 function Map:start(p)
+  spriteEngine:empty()
+  spriteEngine:insert(p)
   p.x = self.xStart+0.5 - p.width/2
   p.y = self.yStart+1-p.height
   p.vx = 0
@@ -55,6 +57,11 @@ function Map:start(p)
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x+.5*p.width,p.y+.5*p.height)
+
+
+  spriteEngine:insert(Runner:New({x = 35,y=7}));
+  spriteEngine:insert(Runner:New({x = 35,y=28}));
+  
 end
 
 function Map:New(imageFile,tileSize)

@@ -6,8 +6,9 @@ function game:draw()
   love.graphics.push()
   Camera:apply()
 
+	myMap:draw()
   spriteEngine:draw()  
-  myMap:draw()
+  
 
   love.graphics.pop()
 	love.graphics.print(timer,10,10)
@@ -39,8 +40,9 @@ function game:update(dt)
     Campaign:proceed()
   end
   
-  if p.y > myMap.height then
+  if p.y > myMap.height or p.dead then
     myMap:start(p)
+    p.dead = nil
   end
 end
 

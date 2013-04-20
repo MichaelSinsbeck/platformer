@@ -17,14 +17,14 @@ Player = object:New({
   walljumpSpeedy = -20,
   wallgravity = 30,
   walltime = 0,
-  releasetime = .25,
+  releasetime = .15,
   unjumpSpeed = 12,
   jumpsLeft = 0,
   maxJumps = 1, -- number of jumps, put 1 for normal and 2 for doublejump
   canGlide = true,
   glideSpeed = 3,
   glideAcc = 120, -- should be larger than gravity
-  img = love.graphics.newImage('block2.png')})
+  img = love.graphics.newImage('block3.png')})
 
 function Player:jump()
   if self.status == 'stand' then

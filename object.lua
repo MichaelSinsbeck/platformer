@@ -46,7 +46,54 @@ end
 
 function object:collision(dt)
 -- Todo: When this is generically done, remove dt here: unnecessary
--- Check for collision in newX,newY and correct, if necessary
+
+  if self.vx > 0 then -- Bewegung nach rechts
+    -- haben die rechten Eckpunkte die Zelle gewechselt?
+    if math.ceil(self.x+self.width) ~= math.ceil(self.newX+self.width) then
+      -- Kollision in neuen Feldern?
+      if myMap.collision[math.ceil(self.newX+self.width-1)] and
+      (myMap.collision[math.floor(self.newX+self.width)][math.floor(self.y)] or
+        myMap.collision[math.floor(self.newX+self.width)][math.ceil(self.y+self.height)-1]) then
+        self.newX = math.floor(self.newX+self.width)-self.width
+      end
+    end
+  elseif self.vx < 0 then -- Bewegung nach links
+    -- Eckpunkte wechseln Zelle?
+    if math.floor(self.x) ~= math.floor(self.newX) then
+      if myMap.collision[math.floor(self.newX)] and
+      (myMap.collision[math.floor(self.newX)][math.floor(self.y)] or
+       myMap.collision[math.floor(self.newX)][math.ceil(self.y+self.height)-1]) then
+        self.newX = math.floor(self.newX+1*self.width)
+      end
+    end
+  end
+  
+  -- Vertical Movement
+  if self.vy < 0 then -- rising
+    if math.floor(self.y) ~= math.floor(self.newY) then
+			verticalChange = true
+      if (myMap.collision[math.floor(self.newX)] and
+          myMap.collision[math.floor(self.newX)][math.floor(self.newY)])
+          or
+         (myMap.collision[math.ceil(self.newX+self.width)-1] and
+          myMap.collision[math.ceil(self.newX+self.width)-1][math.floor(self.newY)]) then
+        self.newY = math.floor(self.newY+1)
+      end
+    end
+    
+  elseif self.vy > 0 then -- falling
+    if math.ceil(self.y+self.height) ~= math.ceil(self.newY+self.height) then
+			verticalChange = true
+      if ( myMap.collision[math.floor(self.newX)] and 
+        myMap.collision[math.floor(self.newX)][math.floor(self.newY+self.height)])  or
+        (myMap.collision[math.ceil(self.newX+self.width)-1] and 
+        myMap.collision[math.ceil(self.newX+self.width)-1][math.floor(self.newY+self.height)]) then
+        self.newY = math.floor(self.newY+self.height)-self.height        
+      end
+    end
+  end    
+
+
 end
 
 function object:step(dt)
