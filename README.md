@@ -10,6 +10,7 @@ Workplan:
  - create zones (level editor)             ->postponed
  - write loading function that runs in bg  ->postponed
  x load levels
+ x integrated enemy placement into level file
 
 - add animation
 
@@ -27,6 +28,7 @@ Workplan:
  - Spikes
  - Walking block
  x Runner
+ x Goalie
  - ?
  
 - Add interative objects

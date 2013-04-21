@@ -1,7 +1,6 @@
 require 'camera'
 require 'game'
-require 'player'
-require 'runner'
+require 'spritefactory'
 require 'menu'
 require 'map'
 require 'intro'
@@ -12,9 +11,11 @@ function love.load()
   timer = 0
     
   Campaign:reset()
-
+  
+  initAll()
   -- Creating Player
-  p = Player:New()
+  p = spriteFactory('player')
+  --p = Player:New()
   --spriteEngine:insert(p)
   
   
