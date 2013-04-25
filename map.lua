@@ -46,6 +46,13 @@ function Map:LoadFromFile(mapFile)
         local newObject = {constructor = Spikey, x = i, y = j}
         table.insert(o.factoryList,newObject)
       end      
+      
+      -- 53 is bouncer
+      if o.tile[i][j] == 53 then
+        o.tile[i][j] = 0
+        local newObject = {constructor = Bouncer, x = i, y = j}
+        table.insert(o.factoryList,newObject)
+      end        
     end
   end
   

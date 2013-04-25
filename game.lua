@@ -50,6 +50,9 @@ function game.keypressed(key)
   if key == "a" then
     p:jump()
   end
+  if key == "q" then
+    Campaign:proceed()
+  end
 end
 
 function game.keyreleased(key)
