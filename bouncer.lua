@@ -1,6 +1,6 @@
 Bouncer = object:New({
   targetvy = -33,
-  img = love.graphics.newImage('bouncer.png')
+  img = love.graphics.newImage('images/bouncer.png')
 })
 
 function Bouncer:setAcceleration(dt)

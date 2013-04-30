@@ -24,7 +24,7 @@ Player = object:New({
   canGlide = true,
   glideSpeed = 3,
   glideAcc = 120, -- should be larger than gravity
-  img = love.graphics.newImage('block3.png')})
+  img = love.graphics.newImage('images/block3.png')})
 
 function Player:jump()
   if self.status == 'stand' then

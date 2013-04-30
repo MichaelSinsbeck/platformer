@@ -3,7 +3,7 @@ Goalie = object:New({
   acc = 50,
   xSensing = 7, --how far can he see?
   ySensing = 20,
-  img = love.graphics.newImage('goalie.png')
+  img = love.graphics.newImage('images/goalie.png')
 })
 
 function Goalie:setAcceleration(dt)

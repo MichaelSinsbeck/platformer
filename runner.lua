@@ -3,7 +3,7 @@ Runner = object:New({
   acc = 50,
   xSensing = 20, --how far can he see?
   ySensing = 7,
-  img = love.graphics.newImage('runner.png')
+  img = love.graphics.newImage('images/runner.png')
 })
 
 function Runner:setAcceleration(dt)
