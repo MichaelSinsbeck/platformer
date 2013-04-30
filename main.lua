@@ -54,6 +54,11 @@ function love.keypressed(key)
     myMap:start(p)
   end
   
+  if key == 'o' then
+    Campaign:reset()
+    myMap:start(p)
+  end
+  
   if mode == 'game' then
     game.keypressed(key)
   elseif mode == 'menu' then

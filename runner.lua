@@ -14,7 +14,7 @@ function Runner:setAcceleration(dt)
 		-- run towards player
 		if dx > 0 then
 			self.vx = self.vx - self.acc * dt
-		else
+		elseif dx < 0 then
 			self.vx = self.vx + self.acc * dt
 		end
 	else
