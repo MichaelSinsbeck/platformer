@@ -2,7 +2,7 @@ object = {
 x = 0,y = 0,
 vx = 0, vy = 0,
 newX = 0, newY = 0,
-collisionResult = ''}
+collisionResult = false}
 
 function object:New(input)
   local o = input or {}
@@ -32,6 +32,10 @@ function object:draw()
   end
 end
 
+function object:kill()
+  self.dead = true
+end
+
 function object:setAcceleration(dt)
 -- apply acceleration to object, generically, this is none
   self.vx = self.vx
@@ -47,6 +51,8 @@ end
 function object:collision(dt)
 -- Todo: When this is generically done, remove dt here: unnecessary
 
+  self.collisionResult = false
+
   if self.vx > 0 then -- Bewegung nach rechts
     -- haben die rechten Eckpunkte die Zelle gewechselt?
     if math.ceil(self.x+self.width) ~= math.ceil(self.newX+self.width) then
@@ -55,6 +61,7 @@ function object:collision(dt)
       (myMap.collision[math.floor(self.newX+self.width)][math.floor(self.y)] or
         myMap.collision[math.floor(self.newX+self.width)][math.ceil(self.y+self.height)-1]) then
         self.newX = math.floor(self.newX+self.width)-self.width
+        self.collisionResult = true
       end
     end
   elseif self.vx < 0 then -- Bewegung nach links
@@ -64,6 +71,7 @@ function object:collision(dt)
       (myMap.collision[math.floor(self.newX)][math.floor(self.y)] or
        myMap.collision[math.floor(self.newX)][math.ceil(self.y+self.height)-1]) then
         self.newX = math.floor(self.newX+1*self.width)
+        self.collisionResult = true
       end
     end
   end
@@ -78,6 +86,7 @@ function object:collision(dt)
          (myMap.collision[math.ceil(self.newX+self.width)-1] and
           myMap.collision[math.ceil(self.newX+self.width)-1][math.floor(self.newY)]) then
         self.newY = math.floor(self.newY+1)
+        self.collisionResult = true
       end
     end
     
@@ -89,11 +98,12 @@ function object:collision(dt)
         (myMap.collision[math.ceil(self.newX+self.width)-1] and 
         myMap.collision[math.ceil(self.newX+self.width)-1][math.floor(self.newY+self.height)]) then
         self.newY = math.floor(self.newY+self.height)-self.height        
+        self.collisionResult = true
       end
     end
   end    
 
-
+return collided
 end
 
 function object:step(dt)
@@ -102,6 +112,9 @@ function object:step(dt)
   self.vy = (self.newY - self.y)/dt
   self.x = self.newX
   self.y = self.newY
+end
+
+function object:postStep(dt)
 end
 
 function object:update(dt)
@@ -113,5 +126,6 @@ function object:update(dt)
 		self:predictPosition(dtMicro)
 		self:collision(dtMicro)
 		self:step(dtMicro)
+		self:postStep(dt)
   end
 end

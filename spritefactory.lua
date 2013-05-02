@@ -3,6 +3,9 @@ require 'runner'
 require 'goalie'
 require 'spikey'
 require 'bouncer'
+require 'cannon'
+require 'bullet'
+require 'missle'
 
 
 function initAll()
@@ -13,6 +16,9 @@ function initAll()
   Spikey:init()
   Player:init()
   Bouncer:init()
+  Cannon:init()
+  Bullet:init()
+  Missle:init()
 end
 
 function spriteFactory(name,opts)
@@ -22,5 +28,11 @@ function spriteFactory(name,opts)
     return Player:New(opts)
   elseif name == 'bouncer' then
     return Bouncer:New(opts)
+  elseif name == 'cannon' then
+    return Cannon:New(opts)   
+	elseif name == 'bullet' then
+    return Bullet:New(opts)
+	elseif name == 'missle' then
+    return Missle:New(opts)    
   end
 end

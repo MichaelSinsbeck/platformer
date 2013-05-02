@@ -34,9 +34,9 @@ end
 
 function spriteEngine:kill()
 -- erase 'dead' objects
-  for i = #self.objects,-1,1 do
+  for i = #self.objects,1,-1 do
     if self.objects[i].dead then
-			table.remove(self.objects,self.objects[i])
+			table.remove(self.objects,i)
     end
   end
 end
