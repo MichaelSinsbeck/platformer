@@ -5,6 +5,7 @@ require 'spikey'
 require 'bouncer'
 require 'cannon'
 require 'bullet'
+require 'launcher'
 require 'missle'
 
 
@@ -18,6 +19,7 @@ function initAll()
   Bouncer:init()
   Cannon:init()
   Bullet:init()
+  Launcher:init()
   Missle:init()
 end
 

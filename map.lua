@@ -59,7 +59,14 @@ function Map:LoadFromFile(mapFile)
         o.tile[i][j] = 0
         local newObject = {constructor = Cannon, x = i, y = j}
         table.insert(o.factoryList,newObject)
-      end     
+      end  
+      
+			-- 55 is launcher
+      if o.tile[i][j] == 55 then
+        o.tile[i][j] = 0
+        local newObject = {constructor = Launcher, x = i, y = j}
+        table.insert(o.factoryList,newObject)
+      end            
     end
   end
   
@@ -205,6 +212,23 @@ function Map:draw()
   love.graphics.draw(self.spriteBatch,0,0)
 end
 
+function pointConnection(x1,y1,x2,y2)
+-- returns a list of all tiles involved in the direct line between
+-- (x1,y1) and (x2,y2).
+
+-- Baustelle
+	local dx = math.floor(x2)-math.floor(x1)
+	local dy = math.floor(y2)-math.floor(y1)
+	local pointsList = {}
+	local nPoints = 0
+	if math.abs(dx) < math.abs(dy) then
+	  if dx == 0 then -- vertical line
+	    --for y = 
+	  end
+	else
+	end
+end
+
 function Map:save(filename)
 filename = filename or 'map.dat'
 writedata = ''
@@ -236,3 +260,5 @@ for i = 1,width do
 end
 return backstring
 end
+
+

@@ -1,13 +1,12 @@
 Launcher = object:New({
   radius2 = 20^2,
-  firerate = 1, -- in seconds
+  firerate = 1.5, -- in seconds
   angle = 0,
   ox = .75,
   oy = .5,
   timeleft = 0,
-  timedelay = 1,
   velocity = 10,
-  img = love.graphics.newImage('images/cannon.png')
+  img = love.graphics.newImage('images/launcher.png')
   
 })
 
@@ -26,7 +25,7 @@ function Launcher:setAcceleration(dt)
 			local vy = -self.velocity*math.sin(self.angle)
 			local newBullet = Missle:New({x=self.x+self.ox-Bullet.width/2,y=self.y+self.oy-Bullet.height/2,vx=vx,vy=vy})
 			spriteEngine:insert(newBullet)
-			self.timeleft = self.timedelay
+			self.timeleft = self.firerate
     end
   end
 end
