@@ -1,7 +1,7 @@
 Missle = object:New({
   vx = 1,
   vy = 1,
-  maxspeed = 30,
+  maxspeed = 30,-- 30,
   seekspeed = 50,
   angle = 0,
   ox = 0.75,

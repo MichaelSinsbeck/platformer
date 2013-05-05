@@ -25,20 +25,20 @@ Workplan:
  - gliding with "jump"-button? Reserve second button for something else?
  
 - Add enemies
- - Spikes
- - Walking block
+ x Spikes
+ x Walking block
  x Runner
  x Goalie
  - ?
  
 - Add interative objects
  - Fan
- - Bounce-platform
+ x Bounce-platform
  
 - Engine Stuff
  X Solve 0.99-Problem for collision
  X Add Sprite Engine
- - Clean up player-movement
+ x Clean up player-movement
  X Write generic collision test
  X Generalize controls -> Pass keypressed to spriteEngine
  X To test: Do walls stick, if jumped to from below?

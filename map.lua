@@ -212,24 +212,93 @@ function Map:draw()
   love.graphics.draw(self.spriteBatch,0,0)
 end
 
-function pointConnection(x1,y1,x2,y2)
--- returns a list of all tiles involved in the direct line between
--- (x1,y1) and (x2,y2).
+function lineOfSight(x1,y1,x2,y2)
+-- Determines if a straight line between two points collides with the map
+  local fx1,fy1,fx2,fy2 = math.floor(x1),math.floor(y1),math.floor(x2),math.floor(y2)
+  local dx,dy = fx1-fx2,fy1-fy2
+  if dy > 0 then sy = -1 else sy = 1 end
+  if dx > 0 then sx = -1 else sx = 1 end  
 
--- Baustelle
-	local dx = math.floor(x2)-math.floor(x1)
-	local dy = math.floor(y2)-math.floor(y1)
-	local pointsList = {}
-	local nPoints = 0
-	if math.abs(dx) < math.abs(dy) then
-	  if dx == 0 then -- vertical line
-	    --for y = 
-	  end
-	else
+
+  if fx1 == fx2 then
+    for yy = fy1,fy2,sy do
+      if myMap.collision[fx1] and myMap.collision[fx1][yy] then
+        return false,fx1,yy
+      end
+		end
+    return true
+  end
+
+	if fy1 == fy2 then
+    for xx = fx1,fx2,sx do
+      if myMap.collision[xx] and myMap.collision[xx][fy1] then
+        return false,xx,fy1
+      end
+		end
+    return true
+  end 
+
+  
+
+  if math.abs(dx) > math.abs(dy) then -- schleife über y
+    local m = (x2-x1)/(y2-y1)
+    local xx2 = math.floor(m*(fy1+math.max(0, sy))-m*y1+x1)
+    for xx = fx1,xx2,sx do
+      if myMap.collision[xx] and myMap.collision[xx][fy1] then
+        return false,xx,fy1
+      end
+    end
+    for yy = fy1+sy,fy2-sy,sy do
+      local xx1 = math.floor(m*(yy+math.max(0,-sy))-m*y1+x1)
+			local xx2 = math.floor(m*(yy+math.max(0, sy))-m*y1+x1)
+			for xx = xx1,xx2,sx do
+			  if myMap.collision[xx] and myMap.collision[xx][yy] then
+			    return false,xx,yy
+				end
+      end
+    end
+    local xx1 = math.floor(m*(fy2+math.max(0, -sy))-m*y1+x1)
+    for xx = xx1,fx2,sx do
+      if myMap.collision[xx] and myMap.collision[xx][fy2] then
+        return false,xx,fy2
+      end
+    end
+	  return true
+  else -- schleife über x
+		local m = (y2-y1)/(x2-x1)
+    local yy2 = math.floor(m*(fx1+math.max(0, sx))-m*x1+y1)
+    if myMap.collision[fx1] then
+			for yy = fy1,yy2,sy do
+			  if myMap.collision[fx1][yy] then
+			    return false,fx1,yy
+			  end
+			end
+    end
+    for xx = fx1+sx,fx2-sx,sx do
+      if myMap.collision[xx] then
+				local yy1 = math.floor(m*(xx+math.max(0,-sx))-m*x1+y1)
+				local yy2 = math.floor(m*(xx+math.max(0, sx))-m*x1+y1)
+				for yy = yy1,yy2,sy do
+				  if myMap.collision[xx][yy] then
+				    return false,xx,yy
+					end
+				end
+      end
+    end
+    local yy1 = math.floor(m*(fx2+math.max(0, -sx))-m*x1+y1)
+    if myMap.collision[fx2] then
+			for yy = yy1,fy2,sy do
+				if myMap.collision[fx2][yy] then
+				  return false,fx2,yy
+				end
+			end
+    end
+	  return true
 	end
+
 end
 
-function Map:save(filename)
+--[[function Map:save(filename)
 filename = filename or 'map.dat'
 writedata = ''
 writedata = writedata .. 'mapSize(' .. self.width .. ', ' .. self.height .. ', ' .. self.tileSize .. ')\r\n'
@@ -259,6 +328,6 @@ for i = 1,width do
 	backstring = backstring .. newlinesymbol
 end
 return backstring
-end
+end--]]
 
 

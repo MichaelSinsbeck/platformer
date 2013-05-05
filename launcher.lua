@@ -17,12 +17,13 @@ function Launcher:setAcceleration(dt)
   self.timeleft = self.timeleft - dt
   if self.timeleft < 0 then self.timeleft = 0 end
   
-  if dx*dx+dy*dy < self.radius2 then
-    self.angle = math.atan2(dy,dx)
-    
+  if lineOfSight(self.x+self.ox*self.width,self.y+self.oy*self.height,
+												p.x+p.width*0.5,p.y+p.height*0.5) then
+
+		self.angle = math.atan2(dy,dx)										    
     if self.timeleft == 0 then --shoot
-			local vx = -self.velocity*math.cos(self.angle)*0
-			local vy = -self.velocity*math.sin(self.angle)*0
+			local vx = -self.velocity*math.cos(self.angle)
+			local vy = -self.velocity*math.sin(self.angle)
 			local x = self.x+self.ox*self.width-0.5*15/20
 			local y = self.y+self.oy*self.height-0.5*8/20
 			local newBullet = Missle:New({x=x,y=y,vx=vx,vy=vy})
