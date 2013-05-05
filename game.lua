@@ -11,7 +11,7 @@ function game:draw()
   
 
   love.graphics.pop()
-	love.graphics.print(timer,10,10)
+	--love.graphics.print(timer,10,10)
 end
 
 function game:checkControls()

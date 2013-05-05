@@ -9,6 +9,7 @@ function spriteEngine:insert(newObject)
 	  newObject:init()
 	end
   table.insert(self.objects,newObject)
+  table.sort(self.objects, function(a,b) return a.z < b.z end)
 end
 
 function spriteEngine:update(dt)

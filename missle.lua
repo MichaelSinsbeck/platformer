@@ -6,6 +6,7 @@ Missle = object:New({
   rotating = true,
 --  ox = 0.75,
 --  oy = 0.5,
+  z = -1,
   img = love.graphics.newImage('images/missle.png')  
 })
 

@@ -1,6 +1,6 @@
 Launcher = object:New({
   radius2 = 20^2,
-  firerate = 1.5, -- in seconds
+  firerate = 1,--1.5, -- in seconds
   rotating = true,
   timeleft = 0,
   velocity = 10,

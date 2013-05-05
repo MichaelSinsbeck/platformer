@@ -4,6 +4,7 @@ vx = 0, vy = 0,
 newX = 0, newY = 0,
 --ox = 0, oy = 0,
 angle = 0,
+z = 0,
 collisionResult = false}
 -- ox and oy are the coordinates of the image center
 -- semiwidth and semiheight define the hitbox of the object
