@@ -27,8 +27,8 @@ function Camera:update(dt)
 end
 
 function Camera:setTarget()
-  self.xTarget = p.x+0.5*p.width
-  self.yTarget = p.y+0.5*p.height
+  self.xTarget = p.x
+  self.yTarget = p.y
 end
 
 function Camera:jumpTo(x,y)

@@ -99,19 +99,19 @@ end
 function Map:start(p)
   spriteEngine:empty()
   spriteEngine:insert(p)
-  p.x = self.xStart+0.5 - p.width/2
-  p.y = self.yStart+1-p.height
+  p.x = self.xStart+0.5
+  p.y = self.yStart+1-p.semiheight
   p.vx = 0
   p.vy = 0
   mode = 'intro'
   timer = 0
-  Camera:jumpTo(p.x+.5*p.width,p.y+.5*p.height)
+  Camera:jumpTo(p.x,p.y)
 
   --local r = ;
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor
-    local nx = self.factoryList[i].x +0.5-0.5*constructor.width
-    local ny = self.factoryList[i].y +1 - constructor.height
+    local nx = self.factoryList[i].x +0.5
+    local ny = self.factoryList[i].y +1 - constructor.semiheight
     local newObject = constructor:New({x = nx, y = ny})
     spriteEngine:insert(newObject)
   end

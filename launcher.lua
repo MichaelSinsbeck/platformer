@@ -1,9 +1,7 @@
 Launcher = object:New({
   radius2 = 20^2,
   firerate = 1.5, -- in seconds
-  angle = 0,
-  ox = .5,
-  oy = 0.5,
+  rotating = true,
   timeleft = 0,
   velocity = 10,
   img = love.graphics.newImage('images/launcher.png')
@@ -17,30 +15,15 @@ function Launcher:setAcceleration(dt)
   self.timeleft = self.timeleft - dt
   if self.timeleft < 0 then self.timeleft = 0 end
   
-  if lineOfSight(self.x+self.ox*self.width,self.y+self.oy*self.height,
-												p.x+p.width*0.5,p.y+p.height*0.5) then
+  if lineOfSight(self.x,self.y,p.x,p.y) then
 
 		self.angle = math.atan2(dy,dx)										    
     if self.timeleft == 0 then --shoot
 			local vx = -self.velocity*math.cos(self.angle)
 			local vy = -self.velocity*math.sin(self.angle)
-			local x = self.x+self.ox*self.width-0.5*15/20
-			local y = self.y+self.oy*self.height-0.5*8/20
-			local newBullet = Missle:New({x=x,y=y,vx=vx,vy=vy})
+			local newBullet = Missle:New({x=self.x,y=self.y,vx=vx,vy=vy})
 			spriteEngine:insert(newBullet)
 			self.timeleft = self.firerate
     end
-  end
-end
-
-function Launcher:draw()
-  if self.img and self.width and self.height then
-    love.graphics.draw(self.img,
-      math.floor((self.x+self.ox*self.width)*myMap.tileSize),
-      math.floor((self.y+self.oy*self.height)*myMap.tileSize),
-      self.angle,
-      1,1,
-      self.ox*self.width*myMap.tileSize,
-      self.oy*self.height*myMap.tileSize)
   end
 end

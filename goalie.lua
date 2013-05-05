@@ -36,8 +36,7 @@ function Goalie:setAcceleration(dt)
   end
     
   -- Kill player, if touching
-  if dx < p.width and -dx < self.width and
-     dy < p.height and -dy < self.height then
+	if self:touchPlayer(dx,dy) then
     p.dead = true
   end
 end

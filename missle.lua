@@ -3,9 +3,9 @@ Missle = object:New({
   vy = 1,
   maxspeed = 30,-- 30,
   seekspeed = 50,
-  angle = 0,
-  ox = 0.75,
-  oy = 0.5,
+  rotating = true,
+--  ox = 0.75,
+--  oy = 0.5,
   img = love.graphics.newImage('images/missle.png')  
 })
 
@@ -26,14 +26,12 @@ function Missle:setAcceleration(dt)
   
   self.angle = math.atan2(self.vy,self.vx)
   
-  -- Kill player, if touching
-  if dx < p.width and -dx < self.width and
-     dy < p.height and -dy < self.height then
+	if self:touchPlayer(dx,dy) then
     p.dead = true
   end
 end
 
-function Missle:draw()
+--[[function Missle:draw()
   if self.img and self.width and self.height then
     love.graphics.draw(self.img,
       math.floor((self.x)*myMap.tileSize)+self.ox*self.width*myMap.tileSize,
@@ -43,7 +41,7 @@ function Missle:draw()
       self.ox*self.width*myMap.tileSize,
       self.oy*self.height*myMap.tileSize)
   end
-end
+end--]]
 
 function Missle:postStep(dt)
   if self.collisionResult then

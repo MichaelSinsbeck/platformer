@@ -2,7 +2,11 @@ object = {
 x = 0,y = 0,
 vx = 0, vy = 0,
 newX = 0, newY = 0,
+--ox = 0, oy = 0,
+angle = 0,
 collisionResult = false}
+-- ox and oy are the coordinates of the image center
+-- semiwidth and semiheight define the hitbox of the object
 
 function object:New(input)
   local o = input or {}
@@ -13,22 +17,36 @@ end
 
 function object:init()
 -- do whatever needs to be done to initialize the object
+  -- set height and width of hitbox, if not done already
   if self.img then
-		self.width = self.img:getWidth()/myMap.tileSize
-		self.height = self.img:getHeight()/myMap.tileSize
+    self.ox = self.ox or 0.5*self.img:getWidth()
+    self.oy = self.oy or 0.5*self.img:getHeight()
+		self.semiwidth = self.semiwidth or 0.5*self.img:getWidth()/myMap.tileSize
+		self.semiheight = self.semiheight or 0.5*self.img:getHeight()/myMap.tileSize
+		if self.rotating then
+		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
+		  self.semiheight = self.semiwidth
+		end
   end
 end
 
 function object:setImage(filename)
 -- Set Image and calculate width and height
-  self.img = love.graphics.newImage(filename)
-  self.width = self.img:getWidth()/myMap.tileSize
-  self.height = self.img:getHeight()/myMap.tileSize
+  self.img        = love.graphics.newImage(filename)
+  self.ox = 0.5*self.img:getWidth()
+	self.oy = 0.5*self.img:getHeight()
+	self.semiwidth = self.semiwidth or self.ox/myMap.tileSize
+	self.semiheight = self.semiheight or self.oy/myMap.tileSize
 end
 
 function object:draw()
   if self.img then
-    love.graphics.draw(self.img,math.floor(self.x*myMap.tileSize),math.floor(self.y*myMap.tileSize))
+    --love.graphics.draw(self.img,math.floor(self.x*myMap.tileSize),math.floor(self.y*myMap.tileSize))
+    love.graphics.draw(self.img,
+				math.floor(self.x*myMap.tileSize),
+				math.floor(self.y*myMap.tileSize),
+				self.angle,1,1,
+				math.floor(self.ox),math.floor(self.oy))
   end
 end
 
@@ -37,7 +55,7 @@ function object:kill()
 end
 
 function object:setAcceleration(dt)
--- apply acceleration to object, generically, this is none
+-- apply acceleration to object, generically, this is only gravity
   self.vx = self.vx
   self.vy = self.vy + gravity * dt
 end
@@ -55,22 +73,23 @@ function object:collision(dt)
 
   if self.vx > 0 then -- Bewegung nach rechts
     -- haben die rechten Eckpunkte die Zelle gewechselt?
-    if math.ceil(self.x+self.width) ~= math.ceil(self.newX+self.width) then
+    if math.ceil(self.x+self.semiwidth) ~= math.ceil(self.newX+self.semiwidth) then
       -- Kollision in neuen Feldern?
-      if myMap.collision[math.ceil(self.newX+self.width-1)] and
-      (myMap.collision[math.floor(self.newX+self.width)][math.floor(self.y)] or
-        myMap.collision[math.floor(self.newX+self.width)][math.ceil(self.y+self.height)-1]) then
-        self.newX = math.floor(self.newX+self.width)-self.width
+      if myMap.collision[math.ceil(self.newX+self.semiwidth-1)] and
+      (myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.y-self.semiheight)] or
+        myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.ceil(self.y+self.semiheight)-1]) then
+        self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
         self.collisionResult = true
       end
     end
   elseif self.vx < 0 then -- Bewegung nach links
     -- Eckpunkte wechseln Zelle?
-    if math.floor(self.x) ~= math.floor(self.newX) then
-      if myMap.collision[math.floor(self.newX)] and
-      (myMap.collision[math.floor(self.newX)][math.floor(self.y)] or
-       myMap.collision[math.floor(self.newX)][math.ceil(self.y+self.height)-1]) then
-        self.newX = math.floor(self.newX+1*self.width)
+    if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
+      if myMap.collision[math.floor(self.newX-self.semiwidth)] and
+      (myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.y-self.semiheight)] or
+       myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.y+self.semiheight)-1]) then
+        --self.newX = math.floor(self.newX+1*self.width)
+        self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
         self.collisionResult = true
       end
     end
@@ -78,26 +97,27 @@ function object:collision(dt)
   
   -- Vertical Movement
   if self.vy < 0 then -- rising
-    if math.floor(self.y) ~= math.floor(self.newY) then
+    if math.floor(self.y-self.semiheight) ~= math.floor(self.newY-self.semiheight) then
 			verticalChange = true
-      if (myMap.collision[math.floor(self.newX)] and
-          myMap.collision[math.floor(self.newX)][math.floor(self.newY)])
+      if (myMap.collision[math.floor(self.newX-self.semiwidth)] and
+          myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.newY-self.semiheight)])
           or
-         (myMap.collision[math.ceil(self.newX+self.width)-1] and
-          myMap.collision[math.ceil(self.newX+self.width)-1][math.floor(self.newY)]) then
-        self.newY = math.floor(self.newY+1)
+         (myMap.collision[math.ceil(self.newX+self.semiwidth)-1] and
+          myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.newY-self.semiheight)]) then
+        --self.newY = math.floor(self.newY+1)
+        self.newY = math.ceil(self.newY-self.semiheight)+self.semiheight
         self.collisionResult = true
       end
     end
     
   elseif self.vy > 0 then -- falling
-    if math.ceil(self.y+self.height) ~= math.ceil(self.newY+self.height) then
+    if math.ceil(self.y+self.semiheight) ~= math.ceil(self.newY+self.semiheight) then
 			verticalChange = true
-      if ( myMap.collision[math.floor(self.newX)] and 
-        myMap.collision[math.floor(self.newX)][math.floor(self.newY+self.height)])  or
-        (myMap.collision[math.ceil(self.newX+self.width)-1] and 
-        myMap.collision[math.ceil(self.newX+self.width)-1][math.floor(self.newY+self.height)]) then
-        self.newY = math.floor(self.newY+self.height)-self.height        
+      if ( myMap.collision[math.floor(self.newX-self.semiwidth)] and 
+        myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.newY+self.semiheight)-1])  or
+        (myMap.collision[math.ceil(self.newX+self.semiwidth)-1] and 
+        myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.ceil(self.newY+self.semiheight)-1]) then
+        self.newY = math.floor(self.newY+self.semiheight)-self.semiheight        
         self.collisionResult = true
       end
     end
@@ -128,4 +148,11 @@ function object:update(dt)
 		self:step(dtMicro)
 		self:postStep(dt)
   end
+end
+
+function object:touchPlayer(dx,dy)
+  local dx = dx or self.x-p.x
+  local dy = dy or self.y-p.y
+  return math.abs(dx) < p.semiwidth+self.semiwidth and
+     math.abs(dy) < p.semiheight+self.semiheight
 end

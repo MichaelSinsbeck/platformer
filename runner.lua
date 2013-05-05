@@ -38,8 +38,7 @@ function Runner:setAcceleration(dt)
   self.vy = self.vy + gravity * dt
   
   -- Kill player, if touching
-  if dx < p.width and -dx < self.width and
-     dy < p.height and -dy < self.height then
+	if self:touchPlayer(dx,dy) then
     p.dead = true
   end
 end

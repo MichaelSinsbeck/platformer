@@ -5,12 +5,7 @@ Bullet = object:New({
 })
 
 function Bullet:setAcceleration(dt)
-  local dx = self.x-p.x
-  local dy = self.y-p.y
-
-  -- Kill player, if touching
-  if dx < p.width and -dx < self.width and
-     dy < p.height and -dy < self.height then
+	if self:touchPlayer() then
     p.dead = true
   end
 end
