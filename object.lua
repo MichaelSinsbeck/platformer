@@ -20,10 +20,12 @@ function object:init()
 -- do whatever needs to be done to initialize the object
   -- set height and width of hitbox, if not done already
   if self.img then
+    self.marginx = self.marginx or 1
+    self.marginy = self.marginy or 1
     self.ox = self.ox or 0.5*self.img:getWidth()
     self.oy = self.oy or 0.5*self.img:getHeight()
-		self.semiwidth = self.semiwidth or 0.5*self.img:getWidth()/myMap.tileSize
-		self.semiheight = self.semiheight or 0.5*self.img:getHeight()/myMap.tileSize
+		self.semiwidth = self.semiwidth or 0.5*self.img:getWidth()/myMap.tileSize*self.marginx
+		self.semiheight = self.semiheight or 0.5*self.img:getHeight()/myMap.tileSize*self.marginy
 		if self.rotating then
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth

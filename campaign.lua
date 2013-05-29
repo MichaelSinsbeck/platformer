@@ -1,4 +1,4 @@
-Campaign = {'featuretest.dat', 'l1.dat','l2.dat','l3.dat','l4.dat', 'l5.dat','l6.dat','l7.dat'}
+Campaign = {'m3.dat','l1.dat','l2.dat','l3.dat','l4.dat', 'l5.dat','l6.dat','l7.dat','featuretest.dat','m1.dat'}
 Campaign.current = 0
 
 function Campaign:reset()

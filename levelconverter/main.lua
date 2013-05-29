@@ -61,11 +61,11 @@ function convert(filetrunc)
 	tileToCollision = { -- Tilemap information, only correct for ruin map
 		1,1,1,1,1,1,
 		1,1,1,1,1,1,
-		0,1,1,1,1,1,
-		0,1,1,1,1,1,
-		0,1,1,1,1,1,
-		0,1,1,1,1,1,
-		0,1,1,1,1,1,
+		1,1,1,1,1,1,
+		1,1,1,1,1,1,
+		1,1,1,1,1,1,
+		1,1,1,1,1,1,
+		1,1,1,1,1,1,
 		1,1,1,1,0,0,
 		0,0,0,0,0,0,
 		0,0,0,0,0,0,
@@ -98,7 +98,7 @@ function convert(filetrunc)
 	end
 
 	writedata = ''
-	writedata = writedata .. 'mapSize(' .. width .. ', ' .. height .. ', ' .. map.tileWidth .. ')\r\n'
+	writedata = writedata .. 'mapSize(' .. width .. ', ' .. height .. ', ' .. map.tileWidth .. ', '.. map.tiles[1].width..')\r\n'
 	writedata = writedata .. 'imageFilename("images/'..filename..'")'.. '\r\n'
 	writedata = writedata .. 'start\{x='..xStart..',y='..yStart..'\}\r\n'
 	writedata = writedata .. 'loadTiles\{\r\n' .. backstring .. '\}\r\n'

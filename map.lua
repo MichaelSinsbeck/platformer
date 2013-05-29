@@ -7,7 +7,7 @@ function Map:LoadFromFile(mapFile)
 	setmetatable(o, self)
 	self.__index = self	
 	-- Define the meaning of the function in the level file	
-	function mapSize(width,height,tileSize)	o.width, o.height, o.tileSize = width, height, tileSize	end
+	function mapSize(width,height,tileSize,graphicSize)	o.width, o.height, o.tileSize, o.graphicSize = width, height, tileSize, graphicSize	end
 	function imageFilename(b) o.imageFile = b end
 	function loadTiles (b) o.tile = b end
 	function loadCollision (b) o.collision = b end
@@ -20,6 +20,7 @@ function Map:LoadFromFile(mapFile)
 	local img = love.graphics.newImage(o.imageFile)
   img:setFilter('nearest','nearest')
   o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
+  o.offset = (o.tileSize-o.graphicSize)/2
   
   
   o.factoryList = {}
@@ -78,17 +79,14 @@ function Map:LoadFromFile(mapFile)
     end
   end
     
-  
-
   -- Generate Quads for Spritebatch
-  gapSize = 0
   o.quads = {}
   imageWidth = img:getWidth()
   imageHeight = img:getHeight()
-  for j = 1,math.floor(imageHeight/(o.tileSize+gapSize)) do
-    for i = 1,math.floor(imageWidth/(o.tileSize+gapSize)) do
-      o.quads[i+(j-1)*math.floor(imageWidth/o.tileSize)] = 
-        love.graphics.newQuad((i-1)*(o.tileSize+gapSize),(j-1)*(o.tileSize+gapSize), o.tileSize, o.tileSize,
+  for j = 1,math.floor(imageHeight/(o.graphicSize)) do
+    for i = 1,math.floor(imageWidth/(o.graphicSize)) do
+      o.quads[i+(j-1)*math.floor(imageWidth/o.graphicSize)] = 
+        love.graphics.newQuad((i-1)*(o.graphicSize),(j-1)*(o.graphicSize), o.graphicSize, o.graphicSize,
         imageWidth,imageHeight)
     end
   end
@@ -132,7 +130,7 @@ function Map:New(imageFile,tileSize)
   o.spriteBatch = love.graphics.newSpriteBatch(img, (math.floor(camWidth/tileSize)+1) * (math.floor(camHeight/tileSize)+1))
   -- Quads erzeugen für SpriteBatch
   o.quads = {}
-  imageWidth = img:getWidth()
+  imageWidth = img:getWidth() 
   imageHeight = img:getHeight()
   for j = 1,math.floor(imageHeight/(tileSize+gapSize)) do
     for i = 1,math.floor(imageWidth/(tileSize+gapSize)) do
@@ -187,7 +185,7 @@ function Map:updateSpritebatch()
       for y in pairs(self.tile[x]) do
         if y+1 > Camera.y-Camera.height/2 and y < Camera.y+Camera.height/2 then
           if self.quads[self.tile[x][y]] then
-            self.spriteBatch:addq(self.quads[self.tile[x][y] ], x*self.tileSize, y*self.tileSize)
+            self.spriteBatch:addq(self.quads[self.tile[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
           end
         end
       end

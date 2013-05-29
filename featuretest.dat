@@ -1,4 +1,4 @@
-mapSize(42, 32, 20)
+mapSize(42, 32, 20, 20)
 imageFilename("images/tiles1_neu_kleiner.png")
 start{x=4,y=30}
 loadTiles{
