@@ -27,6 +27,12 @@
   marginx = 0.3,
   marginy = 0.6}--]]
 
+local playerAnim = Animation:New()
+playerAnim:loadImage('images/player.png',50,50)
+playerAnim:addAni('run',{2,1},{.1,.1})
+playerAnim:addAni('jump',{2},{50})
+playerAnim:addAni('stand',{1},{50})
+
 Player = object:New({
   x = 0,
   y = 0,
@@ -52,7 +58,8 @@ Player = object:New({
   canGlide = true,
   glideSpeed = 1.5,
   glideAcc = 60, -- should be larger than gravity
-  img = love.graphics.newImage('images/player.png'),
+  --img = love.graphics.newImage('images/player.png'),
+  animation = playerAnim,
   marginx = 0.3,
   marginy = 0.6})
 
@@ -128,6 +135,19 @@ function Player:setAcceleration(dt)
 	end
 	if game.isRight then
 		axControl = axControl + ax
+	end
+	
+	-- Set animation -- Vorläufig
+	if axControl > 0 then -- rechts
+	  self.animation:setAnim('run')
+	  self.animation:flip(false)
+	end
+	if axControl < 0 then -- links
+	  self.animation:setAnim('run')
+	  self.animation:flip(true)
+	end
+	if axControl == 0 then -- stehen
+	  self.animation:setAnim('stand')
 	end
 	
 -- Accelerate if player is not faster than maximum speed anyway
@@ -279,6 +299,10 @@ function Player:collision(dt)
   
   if self.status == 'stand' or self.status == 'leftwall' or self.status == 'rightwall' then
     self.jumpsLeft = self.maxJumps - 1
+  end
+  
+  if self.status == 'fly' then
+    self.animation:setAnim('jump')
   end
 end
 

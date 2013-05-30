@@ -30,6 +30,17 @@ function object:init()
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth
 		end
+  elseif self.animation then
+		self.marginx = self.marginx or 1
+    self.marginy = self.marginy or 1
+    self.ox = self.ox or 0.5*self.animation.width
+    self.oy = self.oy or 0.5*self.animation.height
+		self.semiwidth = self.semiwidth or 0.5*self.animation.width/myMap.tileSize*self.marginx
+		self.semiheight = self.semiheight or 0.5*self.animation.height/myMap.tileSize*self.marginy
+		if self.rotating then
+		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
+		  self.semiheight = self.semiwidth
+		end
   end
 end
 
@@ -43,7 +54,13 @@ function object:setImage(filename)
 end
 
 function object:draw()
-  if self.img then
+  if self.animation then
+    self.animation:draw(
+			math.floor(self.x*myMap.tileSize),
+			math.floor(self.y*myMap.tileSize),
+			self.angle,
+			math.floor(self.ox),math.floor(self.oy))
+	elseif self.img then
     --love.graphics.draw(self.img,math.floor(self.x*myMap.tileSize),math.floor(self.y*myMap.tileSize))
     love.graphics.draw(self.img,
 				math.floor(self.x*myMap.tileSize),
@@ -142,6 +159,9 @@ end
 
 function object:update(dt)
 -- Perform all update steps
+  if self.animation then
+		self.animation:update(dt)
+	end
   self:setAcceleration(dt)
 	local subdivide = math.max(math.ceil(math.abs(self.vx*dt)),math.ceil(math.abs(self.vy*dt)))
 	local dtMicro = dt/subdivide

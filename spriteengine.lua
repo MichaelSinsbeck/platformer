@@ -1,4 +1,5 @@
-require "object"
+require 'object'
+require 'animation'
 
 spriteEngine = {
 objects = {}
