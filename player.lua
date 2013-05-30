@@ -1,4 +1,5 @@
-Player = object:New({
+--[[ Archived values of player movement
+	{
   x = 0,
   y = 0,
   vx = 0,
@@ -24,9 +25,39 @@ Player = object:New({
   glideAcc = 120, -- should be larger than gravity
   img = love.graphics.newImage('images/player.png'),
   marginx = 0.3,
+  marginy = 0.6}--]]
+
+Player = object:New({
+  x = 0,
+  y = 0,
+  vx = 0,
+  vy = 0,
+  --ax = 100,
+  axStand = 35, -- acceleration, when button is pressed
+  axFly = 35,
+  fxStand = 25, -- friction, natural stopping when no button is pressed
+  fxFly = 12,
+  status = 'fly',
+  walkSpeed = 13,
+  jumpSpeed = -13,
+  walljumpSpeedx1 = 9,
+  walljumpSpeedx2 = 13,
+  walljumpSpeedy = -13,
+  wallgravity = 20,
+  walltime = 0,
+  releasetime = .15,
+  unjumpSpeed = 6,
+  jumpsLeft = 0,
+  maxJumps = 1, -- number of jumps, put 1 for normal and 2 for doublejump
+  canGlide = true,
+  glideSpeed = 1.5,
+  glideAcc = 60, -- should be larger than gravity
+  img = love.graphics.newImage('images/player.png'),
+  marginx = 0.3,
   marginy = 0.6})
 
 function Player:jump()
+	game:checkControls()
   if self.status == 'stand' then
     self.status = 'fly'
     self.vy = self.jumpSpeed
@@ -35,11 +66,19 @@ function Player:jump()
     self.jumpsLeft = self.jumpsLeft - 1
   elseif self.status == 'leftwall' then
     self.vy = self.walljumpSpeedy
-    self.vx = self.walljumpSpeedx
+			if game.isLeft then
+				self.vx = self.walljumpSpeedx1
+			else
+				self.vx = self.walljumpSpeedx2
+			end
     self.status = 'fly'
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
-    self.vx = -self.walljumpSpeedx  
+			if game.isRight then
+				self.vx = -self.walljumpSpeedx1
+			else
+				self.vx = -self.walljumpSpeedx2
+			end
     self.status = 'fly'
   end
 end

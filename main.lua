@@ -20,7 +20,7 @@ function love.load()
   
   
   myMap:start(p)
-  gravity = 40
+  gravity = 22
   --love.graphics.toggleFullscreen()
 end
 
