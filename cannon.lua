@@ -1,11 +1,12 @@
 Cannon = object:New({
   radius2 = 20^2,
-  firerate = .1, -- in seconds
+  firerate = .5, -- in seconds
   rotating = true,
   timeleft = 0,
   velocity = 15,
-  img = love.graphics.newImage('images/cannon.png')
-  
+  img = love.graphics.newImage('images/cannon.png'),
+  marginx = 0.4,
+  marginy = 0.4
 })
 
 function Cannon:setAcceleration(dt)

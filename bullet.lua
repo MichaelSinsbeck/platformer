@@ -2,7 +2,9 @@ Bullet = object:New({
   vx = 1,
   vy = 1,
   z = -1,
-  img = love.graphics.newImage('images/bullet.png')  
+  img = love.graphics.newImage('images/bullet.png')  ,
+  marginx = 0.3,
+  marginy = 0.3
 })
 
 function Bullet:setAcceleration(dt)

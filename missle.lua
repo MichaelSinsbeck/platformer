@@ -7,7 +7,9 @@ Missle = object:New({
 --  ox = 0.75,
 --  oy = 0.5,
   z = -1,
-  img = love.graphics.newImage('images/missle.png')  
+  img = love.graphics.newImage('images/missle.png'),
+  marginx = 0.6,
+  marginx = 0.6
 })
 
 function Missle:setAcceleration(dt)

@@ -34,7 +34,7 @@ function Map:LoadFromFile(mapFile)
         table.insert(o.factoryList,newObject)
       end
       
-      -- 51 is goaly
+      -- 51 is goalie
       if o.tile[i][j] == 51 then
         o.tile[i][j] = 0
         local newObject = {constructor = Goalie, x = i, y = j}
