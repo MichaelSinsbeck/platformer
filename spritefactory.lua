@@ -6,7 +6,7 @@ require 'bouncer'
 require 'cannon'
 require 'bullet'
 require 'launcher'
-require 'missle'
+require 'missile'
 
 
 function initAll()
@@ -20,7 +20,7 @@ function initAll()
   Cannon:init()
   Bullet:init()
   Launcher:init()
-  Missle:init()
+  Missile:init()
 end
 
 function spriteFactory(name,opts)

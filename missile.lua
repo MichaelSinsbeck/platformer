@@ -1,22 +1,22 @@
-Missle = object:New({
+Missile = object:New({
   vx = 1,
   vy = 1,
-  maxspeed = 30,-- 30,
-  seekspeed = 50,
+  maxspeed = 18,--30,
+  seekspeed = 80,--55,
   rotating = true,
 --  ox = 0.75,
 --  oy = 0.5,
   z = -1,
   img = love.graphics.newImage('images/missle.png'),
-  marginx = 0.6,
-  marginx = 0.6
+  marginx = 0.4,
+  marginx = 0.4
 })
 
-function Missle:setAcceleration(dt)
+function Missile:setAcceleration(dt)
   local dx = self.x-p.x
   local dy = self.y-p.y
   local distance = math.sqrt(dx*dx+dy*dy)
-
+  
   self.vx = self.vx - self.seekspeed*dx/distance*dt
   self.vy = self.vy - self.seekspeed*dy/distance*dt
   
@@ -34,7 +34,7 @@ function Missle:setAcceleration(dt)
   end
 end
 
---[[function Missle:draw()
+--[[function Missile:draw()
   if self.img and self.width and self.height then
     love.graphics.draw(self.img,
       math.floor((self.x)*myMap.tileSize)+self.ox*self.width*myMap.tileSize,
@@ -46,7 +46,7 @@ end
   end
 end--]]
 
-function Missle:postStep(dt)
+function Missile:postStep(dt)
   if self.collisionResult then
     self:kill()
   end

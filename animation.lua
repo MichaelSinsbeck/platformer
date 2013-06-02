@@ -29,12 +29,16 @@ function Animation:loadImage(filename,height,width)
   end
 end
 
+function Animation:reset()
+  self.frame = 1
+  self.timer = 0
+end
+
 function Animation:setAnim(name) -- Go to specified animation and reset, if not already there
   if self.anim[name] then
     if self.currentAnim ~= self.anim[name] then
 			self.currentAnim = self.anim[name]
-			self.frame = 1
-			self.timer = 0
+			self:reset()
 		end
 	else
 		self.currentAnim = nil

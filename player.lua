@@ -1,44 +1,18 @@
---[[ Archived values of player movement
-	{
-  x = 0,
-  y = 0,
-  vx = 0,
-  vy = 0,
-  --ax = 100,
-  axStand = 100, -- acceleration, when button is pressed
-  axFly = 100,
-  fxStand = 50, -- friction, natural stopping when no button is pressed
-  fxFly = 10,
-  status = 'fly',
-  walkSpeed = 15,
-  jumpSpeed = -20,
-  walljumpSpeedx = 20,
-  walljumpSpeedy = -20,
-  wallgravity = 30,
-  walltime = 0,
-  releasetime = .15,
-  unjumpSpeed = 12,
-  jumpsLeft = 0,
-  maxJumps = 1, -- number of jumps, put 1 for normal and 2 for doublejump
-  canGlide = true,
-  glideSpeed = 3,
-  glideAcc = 120, -- should be larger than gravity
-  img = love.graphics.newImage('images/player.png'),
-  marginx = 0.3,
-  marginy = 0.6}--]]
-
 local playerAnim = Animation:New()
 playerAnim:loadImage('images/player.png',50,50)
-playerAnim:addAni('run',{2,1},{.1,.1})
-playerAnim:addAni('jump',{2},{50})
-playerAnim:addAni('stand',{1},{50})
+playerAnim:addAni('run',{2,1,3,1},{.08,.08,.08,.08})
+playerAnim:addAni('jump',{5},{1e6})
+playerAnim:addAni('fall',{6,7},{.1,1e6})
+playerAnim:addAni('wall',{9,10,11},{0.5,0.075,1e6})
+playerAnim:addAni('sliding',{4},{1e6})
+playerAnim:addAni('gliding',{13,14,15},{.1,.1,1e6})
+playerAnim:addAni('stand',{1},{1e6})
 
 Player = object:New({
   x = 0,
   y = 0,
   vx = 0,
   vy = 0,
-  --ax = 100,
   axStand = 35, -- acceleration, when button is pressed
   axFly = 35,
   fxStand = 25, -- friction, natural stopping when no button is pressed
@@ -58,7 +32,6 @@ Player = object:New({
   canGlide = true,
   glideSpeed = 1.5,
   glideAcc = 60, -- should be larger than gravity
-  --img = love.graphics.newImage('images/player.png'),
   animation = playerAnim,
   marginx = 0.3,
   marginy = 0.6})
@@ -75,16 +48,20 @@ function Player:jump()
     self.vy = self.walljumpSpeedy
 			if game.isLeft then
 				self.vx = self.walljumpSpeedx1
+				self.animation:flip(true)
 			else
 				self.vx = self.walljumpSpeedx2
+				self.animation:flip(false)
 			end
     self.status = 'fly'
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
 			if game.isRight then
 				self.vx = -self.walljumpSpeedx1
+				self.animation:flip(false)
 			else
 				self.vx = -self.walljumpSpeedx2
+				self.animation:flip(true)
 			end
     self.status = 'fly'
   end
@@ -135,19 +112,6 @@ function Player:setAcceleration(dt)
 	end
 	if game.isRight then
 		axControl = axControl + ax
-	end
-	
-	-- Set animation -- Vorläufig
-	if axControl > 0 then -- rechts
-	  self.animation:setAnim('run')
-	  self.animation:flip(false)
-	end
-	if axControl < 0 then -- links
-	  self.animation:setAnim('run')
-	  self.animation:flip(true)
-	end
-	if axControl == 0 then -- stehen
-	  self.animation:setAnim('stand')
 	end
 	
 -- Accelerate if player is not faster than maximum speed anyway
@@ -301,8 +265,36 @@ function Player:collision(dt)
     self.jumpsLeft = self.maxJumps - 1
   end
   
+  -- Set animation
+  -- Flip character left/right, if left or right is pressed
+	local control = 0
+	if game.isLeft then control = control -1 end
+	if game.isRight then control = control +1 end  	
+	if control > 0 then self.animation:flip(false) end
+	if control < 0 then self.animation:flip(true) end
+  
   if self.status == 'fly' then
-    self.animation:setAnim('jump')
+		if self.vy < 0 then
+			self.animation:setAnim('jump')
+		elseif game.isGlide then
+			self.animation:setAnim('gliding')
+		else 
+			self.animation:setAnim('fall')
+		end
+	elseif self.status == 'stand' then
+		if control == 0 and self.vx == 0 then
+			self.animation:setAnim('stand')
+		elseif control*self.vx < 0 then
+			self.animation:setAnim('sliding')
+		else
+			self.animation:setAnim('run')
+		end
+  elseif self.status == 'rightwall' then
+		self.animation:setAnim('wall')
+    self.animation:flip(false)
+  elseif self.status == 'leftwall' then
+		self.animation:setAnim('wall')
+		self.animation:flip(true)
   end
 end
 

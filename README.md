@@ -1,8 +1,8 @@
 platformer
 ==========
 
-This is a platformer I am currently working on. It is written in love2d.
-For running first install löve2d (google it)
+This is a platformer I am currently working on. It is written in LÖVE.
+For running first install LÖVE  (www.love2d.org)
 Then go to this folder and run "love ."
 
 Workplan:
@@ -12,7 +12,12 @@ Workplan:
  x load levels
  x integrated enemy placement into level file
 
-- add animation
+- own level editor
+
+- menu
+
+x add animation system
+ - complete animations for player
 
 - Add movement-features
  x wall jump
@@ -29,7 +34,7 @@ Workplan:
  x Walking block
  x Runner
  x Goalie
- - ?
+ - cannon with fixed angle and fixed fire rate
  
 - Add interative objects
  - Fan
