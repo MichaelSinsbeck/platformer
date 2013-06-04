@@ -1,12 +1,3 @@
-local playerAnim = Animation:New()
-playerAnim:loadImage('images/player.png',50,50)
-playerAnim:addAni('run',{2,1,3,1},{.08,.08,.08,.08})
-playerAnim:addAni('jump',{5},{1e6})
-playerAnim:addAni('fall',{6,7},{.1,1e6})
-playerAnim:addAni('wall',{9,10,11},{0.5,0.075,1e6})
-playerAnim:addAni('sliding',{4},{1e6})
-playerAnim:addAni('gliding',{13,14,15},{.1,.1,1e6})
-playerAnim:addAni('stand',{1},{1e6})
 
 Player = object:New({
   x = 0,
@@ -32,7 +23,7 @@ Player = object:New({
   canGlide = true,
   glideSpeed = 1.5,
   glideAcc = 60, -- should be larger than gravity
-  animation = playerAnim,
+  animation = 'playerStand',
   marginx = 0.3,
   marginy = 0.6})
 
@@ -48,20 +39,20 @@ function Player:jump()
     self.vy = self.walljumpSpeedy
 			if game.isLeft then
 				self.vx = self.walljumpSpeedx1
-				self.animation:flip(true)
+				self:flip(true)
 			else
 				self.vx = self.walljumpSpeedx2
-				self.animation:flip(false)
+				self:flip(false)
 			end
     self.status = 'fly'
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
 			if game.isRight then
 				self.vx = -self.walljumpSpeedx1
-				self.animation:flip(false)
+				self:flip(false)
 			else
 				self.vx = -self.walljumpSpeedx2
-				self.animation:flip(true)
+				self:flip(true)
 			end
     self.status = 'fly'
   end
@@ -165,8 +156,8 @@ function Player:collision(dt)
     if math.ceil(self.x+self.semiwidth) ~= math.ceil(self.newX+self.semiwidth) then
       -- Kollision in neuen Feldern?
       if myMap.collision[math.ceil(self.newX+self.semiwidth-1)] and
-        (myMap.collision[math.ceil(self.newX+self.semiwidth-1)][math.floor(self.y-self.semiheight)] or
-         myMap.collision[math.ceil(self.newX+self.semiwidth-1)][math.ceil(self.y+self.semiheight)-1]) then
+        (myMap.collision[math.ceil(self.newX+self.semiwidth-1)][math.floor(self.y-self.semiheight)] == 1 or
+         myMap.collision[math.ceil(self.newX+self.semiwidth-1)][math.ceil(self.y+self.semiheight)-1] == 1) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
 				self.status = 'rightwall'
       end
@@ -175,8 +166,8 @@ function Player:collision(dt)
     -- Eckpunkte wechseln Zelle?
     if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
       if myMap.collision[math.floor(self.newX-self.semiwidth)] and
-        (myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.y-self.semiheight)] or
-         myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.y+self.semiheight)-1]) then
+        (myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.y-self.semiheight)] == 1 or
+         myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.y+self.semiheight)-1] == 1) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
         self.status = 'leftwall'
       end
@@ -191,10 +182,10 @@ function Player:collision(dt)
     if math.floor(self.y-self.semiheight) ~= math.floor(self.newY-self.semiheight) then
 			verticalChange = true
       if (myMap.collision[math.floor(self.newX-self.semiwidth)] and
-          myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.newY-self.semiheight)])
+          myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.newY-self.semiheight)] == 1)
           or
          (myMap.collision[math.ceil(self.newX+self.semiwidth)-1] and
-          myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.newY-self.semiheight)]) then
+          myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.newY-self.semiheight)] == 1) then
         self.newY = math.ceil(self.newY-self.semiheight)+self.semiheight
         verticalChange = false
       end
@@ -220,8 +211,8 @@ function Player:collision(dt)
 	if verticalChange and (self.status == 'leftwall' or (self.status == 'fly' and self.newX-self.semiwidth == math.floor(self.newX-self.semiwidth) )) then
 		--self.status = 'fly'
 		if myMap.collision[math.floor(self.newX-self.semiwidth)-1] and
-		  (myMap.collision[math.floor(self.newX-self.semiwidth)-1][math.floor(self.newY-self.semiheight)] or
-			 myMap.collision[math.floor(self.newX-self.semiwidth)-1][math.ceil(self.newY+self.semiheight)-1]) then
+		  (myMap.collision[math.floor(self.newX-self.semiwidth)-1][math.floor(self.newY-self.semiheight)] == 1 or
+			 myMap.collision[math.floor(self.newX-self.semiwidth)-1][math.ceil(self.newY+self.semiheight)-1] == 1) then
 			self.status = 'leftwall'
 		else
 		  self.status = 'fly'
@@ -230,8 +221,8 @@ function Player:collision(dt)
 			(self.status == 'rightwall' or (self.status == 'fly' and (self.newX+self.semiwidth)==math.floor(self.newX+self.semiwidth) )) then
 		self.status = 'fly'
 		if myMap.collision[math.floor(self.newX+self.semiwidth)] and
-			(myMap.collision[math.floor(self.newX+self.semiwidth)][math.floor(self.newY-self.semiheight)] or
-			 myMap.collision[math.floor(self.newX+self.semiwidth)][math.ceil(self.newY+1*self.semiheight)-1]) then
+			(myMap.collision[math.floor(self.newX+self.semiwidth)][math.floor(self.newY-self.semiheight)] == 1 or
+			 myMap.collision[math.floor(self.newX+self.semiwidth)][math.ceil(self.newY+1*self.semiheight)-1] == 1) then
 			self.status = 'rightwall'
 	  else
 	    self.status = 'fly'
@@ -270,31 +261,31 @@ function Player:collision(dt)
 	local control = 0
 	if game.isLeft then control = control -1 end
 	if game.isRight then control = control +1 end  	
-	if control > 0 then self.animation:flip(false) end
-	if control < 0 then self.animation:flip(true) end
+	if control > 0 then self:flip(false) end
+	if control < 0 then self:flip(true) end
   
   if self.status == 'fly' then
 		if self.vy < 0 then
-			self.animation:setAnim('jump')
+			self:setAnim('playerJump')
 		elseif game.isGlide then
-			self.animation:setAnim('gliding')
+			self:setAnim('playerGliding')
 		else 
-			self.animation:setAnim('fall')
+			self:setAnim('playerFall')
 		end
 	elseif self.status == 'stand' then
 		if control == 0 and self.vx == 0 then
-			self.animation:setAnim('stand')
+			self:setAnim('playerStand')
 		elseif control*self.vx < 0 then
-			self.animation:setAnim('sliding')
+			self:setAnim('playerSliding')
 		else
-			self.animation:setAnim('run')
+			self:setAnim('playerRun')
 		end
   elseif self.status == 'rightwall' then
-		self.animation:setAnim('wall')
-    self.animation:flip(false)
+		self:setAnim('playerWall')
+    self:flip(false)
   elseif self.status == 'leftwall' then
-		self.animation:setAnim('wall')
-		self.animation:flip(true)
+		self:setAnim('playerWall')
+		self:flip(true)
   end
 end
 

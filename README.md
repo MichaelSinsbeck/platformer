@@ -34,11 +34,14 @@ x add animation system
  x Walking block
  x Runner
  x Goalie
- - cannon with fixed angle and fixed fire rate
+ x cannon
+ x missile launcher
+ - "cannon" with fixed angle and fixed fire rate
  
 - Add interative objects
  - Fan
  x Bounce-platform
+ x one-way platform
  
 - Engine Stuff
  X Solve 0.99-Problem for collision
@@ -53,3 +56,17 @@ To produce a level:
 - Draw in Tiled
 - Run love-project in levelconverter/
 - copy all *.dat from ./local/share/love/levelconverter/ to current folder
+
+
+
+Global variables (need to clean up):
+verticalChange, tostring, gcinfo, os, imageHeight, getfenv, Spikey, pairs, 
+mapSize, love, argv, tonumber, io, Campaign, spriteEngine, initAll, 
+module, _G, imageWidth, intro, mode, coroutine, Map, Cannon, Animation, 
+Launcher, loadstring, loadCollision, Bouncer, spriteFactory, string, 
+xpcall, package, gravity, _VERSION, table, require, setmetatable, 
+next, ipairs, Camera, rawequal, collectgarbage, game, getmetatable, 
+p, lineOfSight, timer, debug, loadTiles, rawset, imageFilename, myMap, 
+print, Runner, load, newproxy, math, menu, pcall, unpack, Explosion, 
+type, Goalie, assert, select, Bullet, arg, rawget, Missile, Player, 
+object, setfenv, start, dofile, error, loadfile

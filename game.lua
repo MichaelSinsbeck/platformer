@@ -41,6 +41,9 @@ function game:update(dt)
   end
   
   if p.y > myMap.height or p.dead then
+    p:setAnim('playerStand')
+		p:resetAnimation()
+		p:update(0)
     myMap:start(p)
     p.dead = nil
   end
@@ -52,6 +55,11 @@ function game.keypressed(key)
   end
   if key == "q" then
     Campaign:proceed()
+  end
+  if key == "u" then
+		for k,v in pairs(_G) do
+			print(k)
+		end
   end
 end
 

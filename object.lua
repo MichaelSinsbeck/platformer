@@ -1,3 +1,5 @@
+require 'animationdb'
+
 object = {
 x = 0,y = 0,
 vx = 0, vy = 0,
@@ -5,7 +7,10 @@ newX = 0, newY = 0,
 --ox = 0, oy = 0,
 angle = 0,
 z = 0,
-collisionResult = false}
+collisionResult = false,
+timer = 0, -- these three are for the animation
+frame = 1,
+flipped = false}
 -- ox and oy are the coordinates of the image center
 -- semiwidth and semiheight define the hitbox of the object
 
@@ -33,10 +38,14 @@ function object:init()
   elseif self.animation then
 		self.marginx = self.marginx or 1
     self.marginy = self.marginy or 1
-    self.ox = self.ox or 0.5*self.animation.width
-    self.oy = self.oy or 0.5*self.animation.height
-		self.semiwidth = self.semiwidth or 0.5*self.animation.width/myMap.tileSize*self.marginx
-		self.semiheight = self.semiheight or 0.5*self.animation.height/myMap.tileSize*self.marginy
+    local name = AnimationDB.animation[self.animation].source
+    self.ox = self.ox or 0.5*AnimationDB.source[name].width
+    self.oy = self.oy or 0.5*AnimationDB.source[name].height
+    --self.ox = self.ox or 0.5*self.animation.data.width
+    --self.oy = self.oy or 0.5*self.animation.data.height
+        
+		self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
+		self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
 		if self.rotating then
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth
@@ -55,7 +64,7 @@ end
 
 function object:draw()
   if self.animation then
-    self.animation:draw(
+    self:drawAnimation(
 			math.floor(self.x*myMap.tileSize),
 			math.floor(self.y*myMap.tileSize),
 			self.angle,
@@ -96,8 +105,8 @@ function object:collision(dt)
     if math.ceil(self.x+self.semiwidth) ~= math.ceil(self.newX+self.semiwidth) then
       -- Kollision in neuen Feldern?
       if myMap.collision[math.ceil(self.newX+self.semiwidth-1)] and
-      (myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.y-self.semiheight)] or
-        myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.ceil(self.y+self.semiheight)-1]) then
+      (myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.y-self.semiheight)] == 1 or
+        myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.ceil(self.y+self.semiheight)-1] == 1) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
         self.collisionResult = true
       end
@@ -106,8 +115,8 @@ function object:collision(dt)
     -- Eckpunkte wechseln Zelle?
     if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
       if myMap.collision[math.floor(self.newX-self.semiwidth)] and
-      (myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.y-self.semiheight)] or
-       myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.y+self.semiheight)-1]) then
+      (myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.y-self.semiheight)] == 1 or
+       myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.y+self.semiheight)-1] == 1) then
         --self.newX = math.floor(self.newX+1*self.width)
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
         self.collisionResult = true
@@ -120,10 +129,10 @@ function object:collision(dt)
     if math.floor(self.y-self.semiheight) ~= math.floor(self.newY-self.semiheight) then
 			verticalChange = true
       if (myMap.collision[math.floor(self.newX-self.semiwidth)] and
-          myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.newY-self.semiheight)])
+          myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.newY-self.semiheight)] == 1)
           or
          (myMap.collision[math.ceil(self.newX+self.semiwidth)-1] and
-          myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.newY-self.semiheight)]) then
+          myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.newY-self.semiheight)] == 1) then
         --self.newY = math.floor(self.newY+1)
         self.newY = math.ceil(self.newY-self.semiheight)+self.semiheight
         self.collisionResult = true
@@ -160,7 +169,7 @@ end
 function object:update(dt)
 -- Perform all update steps
   if self.animation then
-		self.animation:update(dt)
+		self:updateAnimation(dt)
 	end
   self:setAcceleration(dt)
 	local subdivide = math.max(math.ceil(math.abs(self.vx*dt)),math.ceil(math.abs(self.vy*dt)))
@@ -178,4 +187,52 @@ function object:touchPlayer(dx,dy)
   local dy = dy or self.y-p.y
   return math.abs(dx) < p.semiwidth+self.semiwidth and
      math.abs(dy) < p.semiheight+self.semiheight
+end
+
+function object:updateAnimation(dt)
+	
+  self.timer = self.timer + dt
+  -- switch to next frame
+  if self.animation then
+		local animationData = AnimationDB.animation[self.animation]
+		local source = AnimationDB.source[animationData.source]
+		while self.timer > animationData.duration[self.frame] do
+			self.timer = self.timer - animationData.duration[self.frame]
+			self.frame = self.frame + 1
+			if self.frame > #animationData.frames then
+				self.frame = 1
+			end
+		end
+		self.currentQuad = source.quads[animationData.frames[self.frame]]
+		self.img = source.image
+  end
+	
+end
+
+function object:setAnim(name) -- Go to specified animation and reset, if not already there
+	if self.animation ~= name then
+	  self.animation = name
+	  self:resetAnimation()
+	end
+end
+
+function object:resetAnimation()
+	self.frame = 1
+	self.timer = 0
+end
+
+function object:drawAnimation(x,y,angle,ox,oy)
+  local sx
+  if self.flipped then
+    sx = -1
+	else
+    sx = 1
+	end
+	if self.img and self.currentQuad then
+		love.graphics.drawq(self.img, self.currentQuad,x,y,angle,sx,1,ox,oy)
+	end
+end
+
+function object:flip(flipped)
+	self.flipped = flipped
 end

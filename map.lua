@@ -67,7 +67,14 @@ function Map:LoadFromFile(mapFile)
         o.tile[i][j] = 0
         local newObject = {constructor = Launcher, x = i, y = j}
         table.insert(o.factoryList,newObject)
-      end            
+      end 
+        
+			-- 56 is Explosion
+      if o.tile[i][j] == 56 then
+        o.tile[i][j] = 0
+        local newObject = {constructor = Explosion, x = i, y = j}
+        table.insert(o.factoryList,newObject)
+      end                
     end
   end
   
@@ -216,11 +223,17 @@ function lineOfSight(x1,y1,x2,y2)
   local dx,dy = fx1-fx2,fy1-fy2
   if dy > 0 then sy = -1 else sy = 1 end
   if dx > 0 then sx = -1 else sx = 1 end  
-
+  
+  local ok
+  ok = function(number)
+		if not number then return false end
+		if number == 1 then return true end
+    if sy == 1 and number == 2 then return true end
+  end
 
   if fx1 == fx2 then
     for yy = fy1,fy2,sy do
-      if myMap.collision[fx1] and myMap.collision[fx1][yy] then
+      if myMap.collision[fx1] and ok(myMap.collision[fx1][yy]) then
         return false,fx1,yy
       end
 		end
@@ -242,7 +255,7 @@ function lineOfSight(x1,y1,x2,y2)
     local m = (x2-x1)/(y2-y1)
     local xx2 = math.floor(m*(fy1+math.max(0, sy))-m*y1+x1)
     for xx = fx1,xx2,sx do
-      if myMap.collision[xx] and myMap.collision[xx][fy1] then
+      if myMap.collision[xx] and ok(myMap.collision[xx][fy1]) then
         return false,xx,fy1
       end
     end
@@ -250,14 +263,14 @@ function lineOfSight(x1,y1,x2,y2)
       local xx1 = math.floor(m*(yy+math.max(0,-sy))-m*y1+x1)
 			local xx2 = math.floor(m*(yy+math.max(0, sy))-m*y1+x1)
 			for xx = xx1,xx2,sx do
-			  if myMap.collision[xx] and myMap.collision[xx][yy] then
+			  if myMap.collision[xx] and ok(myMap.collision[xx][yy]) then
 			    return false,xx,yy
 				end
       end
     end
     local xx1 = math.floor(m*(fy2+math.max(0, -sy))-m*y1+x1)
     for xx = xx1,fx2,sx do
-      if myMap.collision[xx] and myMap.collision[xx][fy2] then
+      if myMap.collision[xx] and ok(myMap.collision[xx][fy2]) then
         return false,xx,fy2
       end
     end
@@ -267,7 +280,7 @@ function lineOfSight(x1,y1,x2,y2)
     local yy2 = math.floor(m*(fx1+math.max(0, sx))-m*x1+y1)
     if myMap.collision[fx1] then
 			for yy = fy1,yy2,sy do
-			  if myMap.collision[fx1][yy] then
+			  if ok(myMap.collision[fx1][yy]) then
 			    return false,fx1,yy
 			  end
 			end
@@ -277,7 +290,7 @@ function lineOfSight(x1,y1,x2,y2)
 				local yy1 = math.floor(m*(xx+math.max(0,-sx))-m*x1+y1)
 				local yy2 = math.floor(m*(xx+math.max(0, sx))-m*x1+y1)
 				for yy = yy1,yy2,sy do
-				  if myMap.collision[xx][yy] then
+				  if ok(myMap.collision[xx][yy]) then
 				    return false,xx,yy
 					end
 				end
@@ -286,7 +299,7 @@ function lineOfSight(x1,y1,x2,y2)
     local yy1 = math.floor(m*(fx2+math.max(0, -sx))-m*x1+y1)
     if myMap.collision[fx2] then
 			for yy = yy1,fy2,sy do
-				if myMap.collision[fx2][yy] then
+				if ok(myMap.collision[fx2][yy]) then
 				  return false,fx2,yy
 				end
 			end

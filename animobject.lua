@@ -1,41 +1,22 @@
-Animation = {}
+Animobject = object:New()
 
-function Animation:New(input)
-  local o = input or {}
-	setmetatable(o, self)
-	self.__index = self
-	
-	o.timer = 0
-	o.frame = 1
-	return o
-end
-
-function Animation:reset()
+function Animobject:reset()
   self.frame = 1
   self.timer = 0
 end
 
-function Animation:setAnim(name) -- Go to specified animation and reset, if not already there
-	--if not self.data then return end
+function Animobject:setAnim(name) -- Go to specified animation and reset, if not already there
 	if self.currentAnim ~= name then
 	  self.currentAnim = name
 	  self:reset()
 	end
-  --[[if self.data.anim[name] then
-    if self.currentAnim ~= self.data.anim[name] then
-			self.currentAnim = self.data.anim[name]
-			self:reset()
-		end
-	else
-		self.currentAnim = nil
-	end--]]
 end
 
-function Animation:flip(flipped)
+function Animobject:flip(flipped)
   self.flipped = flipped
 end
 
-function Animation:update(dt)
+function Animobject:update(dt)
   self.timer = self.timer + dt
   -- switch to next frame
   if self.currentAnim then
