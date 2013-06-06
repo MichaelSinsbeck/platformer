@@ -15,6 +15,8 @@ end
 
 function Bullet:postStep(dt)
   if self.collisionResult then
+		local newExplo = Explosion:New({x=self.x,y=self.y})
+		spriteEngine:insert(newExplo)
     self:kill()
   end
 end

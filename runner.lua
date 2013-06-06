@@ -1,6 +1,6 @@
 Runner = object:New({
   maxSpeed = 19,
-  acc = 17,
+  acc = 25,--17,
   xSensing = 20, --how far can he see?
   ySensing = 7,
   img = love.graphics.newImage('images/runner.png'),

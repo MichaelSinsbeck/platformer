@@ -1,6 +1,6 @@
 Cannon = object:New({
   radius2 = 20^2,
-  firerate = .5, -- in seconds
+  firerate = 0.2,--.5, -- in seconds
   rotating = true,
   timeleft = 0,
   velocity = 15,
