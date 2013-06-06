@@ -2,6 +2,8 @@ menu = {}
 
 function menu:draw()
   love.graphics.print('Menu',10,10)
+  love.graphics.print('Congratulations. You finished the demo.',10,30)
+  love.graphics.print('Restart the game with "o"',10,50)
 end
 
 function menu:update(dt)

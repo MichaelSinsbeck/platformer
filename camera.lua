@@ -16,13 +16,13 @@ function Camera:update(dt)
   self.xWorld = math.floor(-Camera.x*myMap.tileSize+self.width/2)
   self.yWorld = math.floor(-Camera.y*myMap.tileSize+self.height/2)  
   
-  if self.xWorld > -2*tileSize then self.xWorld = -2*tileSize end
-  if self.yWorld > -2*tileSize then self.yWorld = -2*tileSize end
-  if self.xWorld < self.width - (myMap.width)*tileSize then
-    self.xWorld = self.width - (myMap.width)*tileSize
+  if self.xWorld > -1*tileSize then self.xWorld = -1*tileSize end
+  if self.yWorld > -1*tileSize then self.yWorld = -1*tileSize end
+  if self.xWorld < self.width - (myMap.width+1)*tileSize then
+    self.xWorld = self.width - (myMap.width+1)*tileSize
   end  
-  if self.yWorld < self.height - (myMap.height)*tileSize then
-    self.yWorld = self.height - (myMap.height)*tileSize
+  if self.yWorld < self.height - (myMap.height+1)*tileSize then
+    self.yWorld = self.height - (myMap.height+1)*tileSize
   end    
 end
 

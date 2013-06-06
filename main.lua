@@ -88,11 +88,12 @@ function love.keyreleased(key)
 end
 
 function love.joystickpressed(joystick, button)
-if mode == 'game' then
-    game.joystickpressed(joystick, button)
-  else
-    menu.joystickpressed(joystick, button)
-  end
+	if mode == 'game' then
+			game.joystickpressed(joystick, button)
+		else
+			menu.joystickpressed(joystick, button)
+	end
+	if button == 4 then Campaign:reset() myMap:start(p) end
 end
 
 function love.joystickreleased(joystick, button)

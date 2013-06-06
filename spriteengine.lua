@@ -1,6 +1,4 @@
 require 'object'
---require 'animdata'
---require 'animation'
 
 spriteEngine = {
 objects = {}
