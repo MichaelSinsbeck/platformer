@@ -2,11 +2,13 @@ intro = {
 duration=.25}
 
 function intro:draw ()
+	self.height = self.height or love.graphics.getHeight()
+	self.width = self.width or love.graphics.getWidth()
   local done = timer/self.duration;
   love.graphics.setBackgroundColor(20,120,170)        
   game.draw()
   love.graphics.setColor(0,0,0,255*(1-done))
-  love.graphics.rectangle('fill',0,0,800,600)
+  love.graphics.rectangle('fill',0,0,self.width,self.height)
   love.graphics.setColor(255,255,255)
 end
 

@@ -26,6 +26,11 @@ function Camera:update(dt)
   end    
 end
 
+function Camera:init()
+	self.width = love.graphics.getWidth()
+	self.height = love.graphics.getHeight()
+end
+
 function Camera:setTarget()
   self.xTarget = p.x
   self.yTarget = p.y
