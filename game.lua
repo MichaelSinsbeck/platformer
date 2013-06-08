@@ -40,7 +40,7 @@ function game:update(dt)
     Campaign:proceed()
   end
   
-  if p.y > myMap.height or p.dead then
+  if p.y > myMap.height+2 or p.dead then
     p:setAnim('playerStand')
 		p:resetAnimation()
 		p:update(0)
