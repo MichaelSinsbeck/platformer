@@ -1,5 +1,5 @@
 Bouncer = object:New({
-  targetvy = -22,
+  targetvy = -23,
   img = love.graphics.newImage('images/bouncer.png'),
   marginx = 0.8,
   marginy = 0.2

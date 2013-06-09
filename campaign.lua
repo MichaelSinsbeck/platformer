@@ -5,13 +5,14 @@ Campaign = {
 	'n2.dat',
 	'n3.dat',
 	'n11.dat',
-	'n4.dat',
+	--'n4.dat',
 	'n12.dat',
 	'n5.dat',
 	'n6.dat',
 	'n7.dat',
 	'n8.dat',
 	'n9.dat',
+	'n14.dat',
 	}
 
 Campaign.current = 0
