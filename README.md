@@ -19,7 +19,7 @@ Workplan:
  - remove dynamic line of sight of cannons, create a table in the first place
  - Set up clever system for collision checks between objects -> Read on spacial hashing
  - Own level editor
- - flexible resolution setting (render images in high resolution, scale down)
+ - [improve] flexible resolution setting (render images in high resolution, scale down)
 
 - Add enemies
  - Walking block

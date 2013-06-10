@@ -6,7 +6,7 @@ vx = 0, vy = 0,
 newX = 0, newY = 0,
 --ox = 0, oy = 0,
 angle = 0,
-z = 0,
+z = 0, -- for drawing order
 collisionResult = false,
 timer = 0, -- these three are for the animation
 frame = 1,
@@ -65,8 +65,8 @@ end
 function object:draw()
   if self.animation then
     self:drawAnimation(
-			math.floor(self.x*myMap.tileSize),
-			math.floor(self.y*myMap.tileSize),
+			math.floor(self.x*myMap.tileSize*Camera.scale)/Camera.scale,
+			math.floor(self.y*myMap.tileSize*Camera.scale)/Camera.scale,
 			self.angle,
 			math.floor(self.ox),math.floor(self.oy))
 	elseif self.img then

@@ -33,6 +33,14 @@ end
 function game:update(dt)
   timer = timer + dt
   spriteEngine:update(dt)
+  
+	if love.keyboard.isDown('b') then
+	  Camera.scale = Camera.scale * 1.01
+	end
+	if love.keyboard.isDown('g') then
+		Camera.scale = Camera.scale / 1.01
+	end
+  
   Camera:setTarget()
   Camera:update(dt)
   

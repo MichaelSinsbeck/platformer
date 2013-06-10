@@ -18,6 +18,7 @@ function Map:LoadFromFile(mapFile)
 	
 	-- Postprocess
 	local img = love.graphics.newImage(o.imageFile)
+  --img:setFilter('linear','linear')
   img:setFilter('nearest','nearest')
   o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
   o.offset = (o.tileSize-o.graphicSize)/2
@@ -131,7 +132,7 @@ function Map:New(imageFile,tileSize)
 	self.__index = self
   
   local img = love.graphics.newImage(imageFile)
-  img:setFilter('nearest','nearest')
+  img:setFilter('linear','linear')
   o.imageFile = imageFile
   o.tileSize = tileSize
   o.spriteBatch = love.graphics.newSpriteBatch(img, (math.floor(camWidth/tileSize)+1) * (math.floor(camHeight/tileSize)+1))

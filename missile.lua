@@ -7,7 +7,7 @@ Missile = object:New({
 --  ox = 0.75,
 --  oy = 0.5,
   z = -1,
-  img = love.graphics.newImage('images/missle.png'),
+  img = love.graphics.newImage('images/missile.png'),
   marginx = 0.4,
   marginx = 0.4
 })

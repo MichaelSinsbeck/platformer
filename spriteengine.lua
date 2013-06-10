@@ -13,7 +13,7 @@ function spriteEngine:insert(newObject)
 end
 
 function spriteEngine:update(dt)
-  for i,v in pairs(self.objects) do
+  for i,v in ipairs(self.objects) do
     if v.update then
       v:update(dt)
     end
@@ -22,7 +22,7 @@ function spriteEngine:update(dt)
 end
 
 function spriteEngine:draw()
-  for i,v in pairs(self.objects) do
+  for i,v in ipairs(self.objects) do
     if v.draw then
 			v:draw()
 	  end

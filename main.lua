@@ -8,12 +8,6 @@ require 'campaign'
 
 
 function love.load()
-	-- change screen resolution
-	local modes = love.graphics.getModes()
-	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
-	love.graphics.setMode( modes[1].width, modes[1].height, true)
-	modes = nil
-	
 	-- hide mouse
 	love.mouse.setVisible(false)
 
