@@ -6,23 +6,43 @@ For running first install LÖVE  (www.love2d.org)
 Then go to this folder and run "love ."
 
 Workplan:
+
+- Content
+ - Add bandana items (red, blue, green, yellow)
+ - Add carrying ability
+ - Add hiding ability
+ - Add movable objects, the player can stand on
+ - Draw red blocks similar to ground tiles (16 tiles)
+ 
+- Engine stuff
+ - Add menu
+ - remove dynamic line of sight of cannons, create a table in the first place
+ - Set up clever system for collision checks between objects -> Read on spacial hashing
+ - Own level editor
+ - flexible resolution setting (render images in high resolution, scale down)
+
+- Add enemies
+ - Walking block
+ - "cannon" with fixed angle and fixed fire rate
+ 
+- Interactive Objects
+ - Buttons and doors
+ - Fan (special interaction with blue bandana)
+
+- Global variables (need to clean up):
+ - initAll
+ - gravity
+ - p/myMap
+
+
+--- old stuff ---
+
+
 - Level loading stuff:
  - [postponed] create zones (level editor)
  - [postponed] write loading function that runs in bg
  - [done] load levels
  - [done] integrated enemy placement into level file
- - remove dynamic line of sight of cannons, create a table in the first place
- - Add bandana items (red, blue, green, yellow)
- - Set up clever system for collision checks between objects
-  - Read on spacial hashing
- - Add carrying ability
- - Add hiding ability
- - Add Objects, the player can stand on
- - Add buttons and doors
-
-- own level editor
-
-- menu
 
 -  [done] add animation system
  - [done] complete animations for player
@@ -64,17 +84,3 @@ To produce a level:
 - Draw in Tiled
 - Run love-project in levelconverter/
 - copy all *.dat from ./local/share/love/levelconverter/ to current folder
-
-
-
-Global variables (need to clean up):
-verticalChange, tostring, gcinfo, os, imageHeight, getfenv, Spikey, pairs, 
-mapSize, love, argv, tonumber, io, Campaign, spriteEngine, initAll, 
-module, _G, imageWidth, intro, mode, coroutine, Map, Cannon, Animation, 
-Launcher, loadstring, loadCollision, Bouncer, spriteFactory, string, 
-xpcall, package, gravity, _VERSION, table, require, setmetatable, 
-next, ipairs, Camera, rawequal, collectgarbage, game, getmetatable, 
-p, lineOfSight, timer, debug, loadTiles, rawset, imageFilename, myMap, 
-print, Runner, load, newproxy, math, menu, pcall, unpack, Explosion, 
-type, Goalie, assert, select, Bullet, arg, rawget, Missile, Player, 
-object, setfenv, start, dofile, error, loadfile

@@ -88,8 +88,8 @@ function Map:LoadFromFile(mapFile)
     
   -- Generate Quads for Spritebatch
   o.quads = {}
-  imageWidth = img:getWidth()
-  imageHeight = img:getHeight()
+  local imageWidth = img:getWidth()
+  local imageHeight = img:getHeight()
   for j = 1,math.floor(imageHeight/(o.graphicSize)) do
     for i = 1,math.floor(imageWidth/(o.graphicSize)) do
       o.quads[i+(j-1)*math.floor(imageWidth/o.graphicSize)] = 
@@ -137,8 +137,8 @@ function Map:New(imageFile,tileSize)
   o.spriteBatch = love.graphics.newSpriteBatch(img, (math.floor(camWidth/tileSize)+1) * (math.floor(camHeight/tileSize)+1))
   -- Quads erzeugen für SpriteBatch
   o.quads = {}
-  imageWidth = img:getWidth() 
-  imageHeight = img:getHeight()
+  local imageWidth = img:getWidth() 
+  local imageHeight = img:getHeight()
   for j = 1,math.floor(imageHeight/(tileSize+gapSize)) do
     for i = 1,math.floor(imageWidth/(tileSize+gapSize)) do
       o.quads[i+(j-1)*math.floor(imageWidth/tileSize)] = 

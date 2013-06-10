@@ -127,7 +127,6 @@ function object:collision(dt)
   -- Vertical Movement
   if self.vy < 0 then -- rising
     if math.floor(self.y-self.semiheight) ~= math.floor(self.newY-self.semiheight) then
-			verticalChange = true
       if (myMap.collision[math.floor(self.newX-self.semiwidth)] and
           myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.newY-self.semiheight)] == 1)
           or
@@ -141,7 +140,6 @@ function object:collision(dt)
     
   elseif self.vy > 0 then -- falling
     if math.ceil(self.y+self.semiheight) ~= math.ceil(self.newY+self.semiheight) then
-			verticalChange = true
       if ( myMap.collision[math.floor(self.newX-self.semiwidth)] and 
         myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.newY+self.semiheight)-1])  or
         (myMap.collision[math.ceil(self.newX+self.semiwidth)-1] and 
