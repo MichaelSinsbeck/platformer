@@ -40,7 +40,7 @@ function AnimationDB:addAni(name,source,frames,duration)
   self.animation[name].duration = duration
 end
 
-AnimationDB:loadImage('images/player.png','player',100,100)
+AnimationDB:loadImage('images/player_blue.png','player',50,50)
 AnimationDB:addAni('playerRun','player',{2,1,3,1},{.08,.04,.08,.04})
 AnimationDB:addAni('playerJump','player',{5},{1e6})
 AnimationDB:addAni('playerFall','player',{6,7},{.1,1e6})
@@ -49,8 +49,8 @@ AnimationDB:addAni('playerSliding','player',{4},{1e6})
 AnimationDB:addAni('playerGliding','player',{13,14,15},{.1,.1,1e6})
 AnimationDB:addAni('playerStand','player',{1},{1e6})
 
-AnimationDB:loadImage('images/launcher.png','launcher',100,100)
+AnimationDB:loadImage('images/launcher.png','launcher',50,50)
 AnimationDB:addAni('launcherLoading','launcher',{1,2,3},{.45,.45,1e6})
 
-AnimationDB:loadImage('images/explosion.png','explosion',100,100)
+AnimationDB:loadImage('images/explosion.png','explosion',50,50)
 AnimationDB:addAni('explosionExplode','explosion',{1,2,3,4,5,6,6},{.05,.05,.1,.1,.1,.1,1e6})
