@@ -72,3 +72,6 @@ AnimationDB:addAni('Spikey13','tiles',{43},{1e6})
 AnimationDB:addAni('Spikey14','tiles',{44},{1e6})
 AnimationDB:addAni('Spikey15','tiles',{45},{1e6})
 AnimationDB:addAni('Spikey16','tiles',{46},{1e6})
+
+AnimationDB:loadImage('images/bandana.png','bandana',50,50)
+AnimationDB:addAni('bandana','bandana',{1,2,3,4,5,6,7,8},{.05,.05,.05,.05,.05,.05,.05,.05})

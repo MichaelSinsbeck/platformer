@@ -284,7 +284,7 @@ function Map:Factorylist(tile,height,width)
   [53] = Bouncer,
   [54] = Cannon,
   [55] = Launcher,
-  [56] = Explosion,
+  [56] = Bandana,
   
   }
   

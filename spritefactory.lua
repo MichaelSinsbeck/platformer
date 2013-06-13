@@ -8,6 +8,7 @@ require 'bullet'
 require 'launcher'
 require 'missile'
 require 'explosion'
+require 'bandana'
 
 
 function initAll()
@@ -23,6 +24,7 @@ function initAll()
   Launcher:init()
   Missile:init()
   Explosion:init()
+  Bandana:init()
 end
 
 function spriteFactory(name,opts)
