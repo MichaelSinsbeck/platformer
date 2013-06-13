@@ -1,4 +1,5 @@
 Missile = object:New({
+	tag = 'missile',
   vx = 1,
   vy = 1,
   maxspeed = 18,--30,

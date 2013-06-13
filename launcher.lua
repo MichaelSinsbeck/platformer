@@ -1,4 +1,5 @@
 Launcher = object:New({
+	tag = 'launcher',
   radius2 = 20^2,
   firerate = 1,--1.5, -- in seconds
   rotating = true,

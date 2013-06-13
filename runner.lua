@@ -1,4 +1,5 @@
 Runner = object:New({
+	tag = 'runner',
   maxSpeed = 19,
   acc = 25,--17,
   xSensing = 20, --how far can he see?

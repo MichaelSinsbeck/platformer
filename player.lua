@@ -1,5 +1,6 @@
 
 Player = object:New({
+	tag = 'player',
   x = 0,
   y = 0,
   vx = 0,

@@ -23,61 +23,7 @@ function Map:LoadFromFile(mapFile)
   o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
   o.offset = (o.tileSize-o.graphicSize)/2
   
-  
-  o.factoryList = {}
-  -- find all entities, add objects to spriteEngine and replace by zero
-  for i=1,o.width do
-    for j = 1,o.height do
-      -- 50 is runner
-      if o.tile[i][j] == 50 then
-        o.tile[i][j] = 0
-        local newObject = {constructor = Runner, x = i, y = j}
-        table.insert(o.factoryList,newObject)
-      end
-      
-      -- 51 is goalie
-      if o.tile[i][j] == 51 then
-        o.tile[i][j] = 0
-        local newObject = {constructor = Goalie, x = i, y = j}
-        table.insert(o.factoryList,newObject)
-      end
-      
-      -- 52 is spikey
-      if o.tile[i][j] == 52 then
-        o.tile[i][j] = 0
-        local newObject = {constructor = Spikey, x = i, y = j}
-        table.insert(o.factoryList,newObject)
-      end      
-      
-      -- 53 is bouncer
-      if o.tile[i][j] == 53 then
-        o.tile[i][j] = 0
-        local newObject = {constructor = Bouncer, x = i, y = j}
-        table.insert(o.factoryList,newObject)
-      end        
-      
-			-- 54 is cannon
-      if o.tile[i][j] == 54 then
-        o.tile[i][j] = 0
-        local newObject = {constructor = Cannon, x = i, y = j}
-        table.insert(o.factoryList,newObject)
-      end  
-      
-			-- 55 is launcher
-      if o.tile[i][j] == 55 then
-        o.tile[i][j] = 0
-        local newObject = {constructor = Launcher, x = i, y = j}
-        table.insert(o.factoryList,newObject)
-      end 
-        
-			-- 56 is Explosion
-      if o.tile[i][j] == 56 then
-        o.tile[i][j] = 0
-        local newObject = {constructor = Explosion, x = i, y = j}
-        table.insert(o.factoryList,newObject)
-      end                
-    end
-  end
+  o.factoryList = Map:Factorylist(o.tile,o.height,o.width) -- see at the end of this file
   
   -- delete all "0" value
   for i = 1,o.width do
@@ -113,15 +59,14 @@ function Map:start(p)
   timer = 0
   Camera:jumpTo(p.x,p.y)
 
-  --local r = ;
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor
     local nx = self.factoryList[i].x +0.5
     local ny = self.factoryList[i].y +1 - constructor.semiheight
     local newObject = constructor:New({x = nx, y = ny})
+    newObject:updateAnimation(0)
     spriteEngine:insert(newObject)
   end
-  
 end
 
 function Map:New(imageFile,tileSize)
@@ -310,36 +255,48 @@ function lineOfSight(x1,y1,x2,y2)
 
 end
 
---[[function Map:save(filename)
-filename = filename or 'map.dat'
-writedata = ''
-writedata = writedata .. 'mapSize(' .. self.width .. ', ' .. self.height .. ', ' .. self.tileSize .. ')\r\n'
-writedata = writedata .. 'imageFilename("' .. self.imageFile .. '")\r\n'
-writedata = writedata .. 'loadTiles\{\r\n' .. arrayToString(self.tile,self.width,self.height) .. '\}\r\n'
-writedata = writedata .. 'loadCollision\{\r\n' .. arrayToString(self.collision,self.width,self.height) .. '\}'
-
-print(writedata)
-love.filesystem.write(filename,writedata)
+function Map:Factorylist(tile,height,width)
+  
+  local factoryList = {} 
+  -- find all entities, add objects to spriteEngine and replace by zero
+  
+  local objectList ={
+  [25] = Spikeys[1],
+  [26] = Spikeys[2],
+  [27] = Spikeys[3],
+  [28] = Spikeys[4],
+  [31] = Spikeys[5],
+  [32] = Spikeys[6],
+  [33] = Spikeys[7],
+  [34] = Spikeys[8],
+  [37] = Spikeys[9],
+  [38] = Spikeys[10],
+  [39] = Spikeys[11],
+  [40] = Spikeys[12],
+  [43] = Spikeys[13],
+  [44] = Spikeys[14],
+  [45] = Spikeys[15],
+  [46] = Spikeys[16],
+  
+  [50] = Runner,
+  [51] = Goalie,
+  [52] = Spikey,
+  [53] = Bouncer,
+  [54] = Cannon,
+  [55] = Launcher,
+  [56] = Explosion,
+  
+  }
+  
+  for i=1,width do
+    for j = 1,height do
+			if objectList[tile[i][j]] then
+				local constr = objectList[tile[i][j]]			
+			  tile[i][j] = 0
+			  local newObject = {constructor = constr, x = i, y = j}
+			  table.insert(factoryList,newObject)
+			end             
+    end
+  end
+return factoryList  
 end
-
-function arrayToString(array,width,height)
-backstring = ''
-
-for i = 1,width do
-	local newlinesymbol = '\},\r\n'
-	if i == width then newlinesymbol = '\}\r\n' end
-	for j = 1,height do
-	  local filler = ','
-	  if j == 1 then filler = '  \{' end
-		if array[i] and array[i][j] then
-			backstring = backstring .. filler .. array[i][j]
-		else
-			backstring = backstring .. filler .. '0'
-		end
-	end
-	backstring = backstring .. newlinesymbol
-end
-return backstring
-end--]]
-
-

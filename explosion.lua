@@ -1,4 +1,5 @@
 Explosion = object:New({
+	tag = 'explosion',
   marginx = 0.4,
   marginy = 0.4,
   animation = 'explosionExplode'

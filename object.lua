@@ -1,6 +1,7 @@
 require 'animationdb'
 
 object = {
+tag = 'object',
 x = 0,y = 0,
 vx = 0, vy = 0,
 newX = 0, newY = 0,

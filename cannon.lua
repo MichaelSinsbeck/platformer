@@ -1,4 +1,5 @@
 Cannon = object:New({
+	tag = 'cannon',
   radius2 = 20^2,
   firerate = 0.2,--.5, -- in seconds
   rotating = true,

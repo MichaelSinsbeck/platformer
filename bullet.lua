@@ -1,4 +1,5 @@
 Bullet = object:New({
+	tag = 'bullet',
   vx = 1,
   vy = 1,
   z = -1,

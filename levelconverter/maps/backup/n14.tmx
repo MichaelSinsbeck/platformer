@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="32" height="50" tilewidth="80" tileheight="80">
- <tileset firstgid="1" name="tiles6_gapped" tilewidth="100" tileheight="100">
+<map version="1.0" orientation="orthogonal" width="32" height="50" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="tiles6_gapped" tilewidth="50" tileheight="50">
   <image source="tiles6_gapped.png" width="300" height="500"/>
  </tileset>
  <layer name="bg" width="32" height="50">

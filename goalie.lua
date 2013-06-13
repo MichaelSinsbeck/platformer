@@ -1,4 +1,5 @@
 Goalie = object:New({
+	tag = 'goalie',
   maxSpeed = 20,
   acc = 50,
   xSensing = 7, --how far can he see?
