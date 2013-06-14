@@ -55,6 +55,10 @@ function Map:start(p)
   p.y = self.yStart+1-p.semiheight
   p.vx = 0
   p.vy = 0
+  p.bandana = 'white'
+  p:setAnim('whiteStand')
+  p:flip(false)
+  p:update(0)
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)
@@ -284,7 +288,10 @@ function Map:Factorylist(tile,height,width)
   [53] = Bouncer,
   [54] = Cannon,
   [55] = Launcher,
-  [56] = Bandana,
+  [56] = Bandana.white,
+  [57] = Bandana.blue,
+  [58] = Bandana.red,
+  [59] = Bandana.green,
   
   }
   

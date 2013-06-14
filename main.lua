@@ -24,9 +24,9 @@ function love.load()
   --p = Player:New()
   --spriteEngine:insert(p)
   
-  
+  gravity = 22  
   myMap:start(p)
-  gravity = 22
+
   --love.graphics.toggleFullscreen()
 end
 

@@ -26,7 +26,7 @@ function game:checkControls()
 		or joyHat == 'ru'
 	self.isJump = love.keyboard.isDown('a') 
 			or love.joystick.isDown(1,3)
-	self.isGlide = love.keyboard.isDown('s')
+	self.isAction = love.keyboard.isDown('s')
 			or love.joystick.isDown(1,8)
 end
 
@@ -49,7 +49,7 @@ function game:update(dt)
   end
   
   if p.y > myMap.height+2 or p.dead then
-    p:setAnim('playerStand')
+    p:setAnim('whiteStand')
 		p:resetAnimation()
 		p:update(0)
     myMap:start(p)

@@ -24,9 +24,12 @@ Player = object:New({
   canGlide = true,
   glideSpeed = 1.5,
   glideAcc = 60, -- should be larger than gravity
-  animation = 'playerStand',
+  animation = 'whiteStand',
   marginx = 0.3,
-  marginy = 0.6})
+  marginy = 0.6,
+  bandana = 'white',
+  poffTimer = 0,
+  })
 
 function Player:jump()
 	game:checkControls()
@@ -77,6 +80,13 @@ function Player:unjump()
 end
 
 function Player:setAcceleration(dt)
+	--[[self.poffTimer = self.poffTimer + dt
+	if self.poffTimer > 0.18 then
+		local newPoff = Poff:New({x=self.x,y=self.y+self.semiheight})
+		spriteEngine:insert(newPoff)
+		self.poffTimer = self.poffTimer - 0.18
+	end--]]
+	
   -- read controls
 	game:checkControls()
 
@@ -132,7 +142,7 @@ function Player:setAcceleration(dt)
   if self.status == 'stand' then self.status = 'fly'  end	
 	
   -- Gliding
-  if self.canGlide and game.isGlide then
+  if self.bandana == 'blue' and game.isAction then
     if self.vy > self.glideSpeed then
       self.vy = self.vy - self.glideAcc*dt
       if self.vy < self.glideSpeed then
@@ -140,10 +150,7 @@ function Player:setAcceleration(dt)
       end
     end
   end	
-
 end
-
-
 
 function Player:collision(dt)
   local laststatus = self.status
@@ -267,26 +274,29 @@ function Player:collision(dt)
   
   if self.status == 'fly' then
 		if self.vy < 0 then
-			self:setAnim('playerJump')
-		elseif game.isGlide then
-			self:setAnim('playerGliding')
+			self:setAnim(self.bandana..'Jump')
+		elseif game.isAction and self.bandana == 'blue' then
+			self:setAnim(self.bandana..'Gliding')
 		else 
-			self:setAnim('playerFall')
+			self:setAnim(self.bandana..'Fall')
 		end
 	elseif self.status == 'stand' then
 		if control == 0 and self.vx == 0 then
-			self:setAnim('playerStand')
+			self:setAnim(self.bandana..'Stand')
 		elseif control*self.vx < 0 then
-			self:setAnim('playerSliding')
+			self:setAnim(self.bandana..'Sliding')
 		else
-			self:setAnim('playerRun')
+			self:setAnim(self.bandana..'Run')
 		end
   elseif self.status == 'rightwall' then
-		self:setAnim('playerWall')
+		self:setAnim(self.bandana..'Wall')
     self:flip(false)
   elseif self.status == 'leftwall' then
-		self:setAnim('playerWall')
+		self:setAnim(self.bandana..'Wall')
 		self:flip(true)
+  end
+  if self.bandana == 'green' and game.isAction then
+    self:setAnim('greenInvisible')
   end
 end
 
