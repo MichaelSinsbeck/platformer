@@ -272,31 +272,32 @@ function Player:collision(dt)
 	if control > 0 then self:flip(false) end
 	if control < 0 then self:flip(true) end
   
-  if self.status == 'fly' then
-		if self.vy < 0 then
-			self:setAnim(self.bandana..'Jump')
-		elseif game.isAction and self.bandana == 'blue' then
-			self:setAnim(self.bandana..'Gliding')
-		else 
-			self:setAnim(self.bandana..'Fall')
-		end
-	elseif self.status == 'stand' then
-		if control == 0 and self.vx == 0 then
-			self:setAnim(self.bandana..'Stand')
-		elseif control*self.vx < 0 then
-			self:setAnim(self.bandana..'Sliding')
-		else
-			self:setAnim(self.bandana..'Run')
-		end
-  elseif self.status == 'rightwall' then
-		self:setAnim(self.bandana..'Wall')
-    self:flip(false)
-  elseif self.status == 'leftwall' then
-		self:setAnim(self.bandana..'Wall')
-		self:flip(true)
-  end
   if self.bandana == 'green' and game.isAction then
     self:setAnim('greenInvisible')
+  else  
+		if self.status == 'fly' then
+			if self.vy < 0 then
+				self:setAnim(self.bandana..'Jump')
+			elseif game.isAction and self.bandana == 'blue' then
+				self:setAnim(self.bandana..'Gliding')
+			else 
+				self:setAnim(self.bandana..'Fall')
+			end
+		elseif self.status == 'stand' then
+			if control == 0 and self.vx == 0 then
+				self:setAnim(self.bandana..'Stand')
+			elseif control*self.vx < 0 then
+				self:setAnim(self.bandana..'Sliding')
+			else
+				self:setAnim(self.bandana..'Run')
+			end
+		elseif self.status == 'rightwall' then
+			self:setAnim(self.bandana..'Wall')
+			self:flip(false)
+		elseif self.status == 'leftwall' then
+			self:setAnim(self.bandana..'Wall')
+			self:flip(true)
+		end
   end
 end
 

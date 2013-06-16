@@ -14,6 +14,8 @@ Campaign = {
 	'n8.dat',
 	'n9.dat',
 	'n14.dat',
+	'n17.dat',	
+	'n16.dat',
 	}
 
 Campaign.current = 0

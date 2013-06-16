@@ -72,7 +72,7 @@ AnimationDB:addAni('greenFall','greenPlayer',{6,7},{.1,1e6})
 AnimationDB:addAni('greenWall','greenPlayer',{9,10,11},{0.4,0.075,1e6})
 AnimationDB:addAni('greenSliding','greenPlayer',{4},{1e6})
 AnimationDB:addAni('greenStand','greenPlayer',{1},{1e6})
-AnimationDB:addAni('greenInvisible','greenPlayer',{200},{1e6})
+AnimationDB:addAni('greenInvisible','greenPlayer',{13,14,15,16,200},{0.08,0.08,0.08,0.08,1e6})
 
 AnimationDB:loadImage('images/launcher.png','launcher',50,50)
 AnimationDB:addAni('launcherLoading','launcher',{1,2,3},{.45,.45,1e6})
