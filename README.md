@@ -8,15 +8,15 @@ Then go to this folder and run "love ."
 Workplan:
 
 - Content
- - Add bandana items (red, blue, green, yellow)
+ - [done] Add bandana items (red, blue, green, yellow)
  - Add carrying ability
  - Add hiding ability
  - Add movable objects, the player can stand on
- - Draw red blocks similar to ground tiles (16 tiles)
+ - [done] Draw red blocks similar to ground tiles (16 tiles)
  
 - Engine stuff
  - Add menu
- - remove dynamic line of sight of cannons, create a table in the first place
+ - [not necessary] remove dynamic line of sight of cannons, create a table in the first place
  - Set up clever system for collision checks between objects -> Read on spacial hashing
  - Own level editor
  - [improve] flexible resolution setting (render images in high resolution, scale down)
