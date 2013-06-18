@@ -6,7 +6,6 @@ Campaign = {
 	'n3.dat',
 	'n15.dat',	
 	'n11.dat',
-	--'n4.dat',
 	'n12.dat',
 	'n5.dat',
 	'n6.dat',
@@ -15,7 +14,10 @@ Campaign = {
 	'n9.dat',
 	'n14.dat',
 	'n17.dat',	
+	'n18.dat',
 	'n16.dat',
+	'n20.dat',
+	'n19.dat',
 	}
 
 Campaign.current = 0
