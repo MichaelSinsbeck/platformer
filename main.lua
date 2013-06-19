@@ -52,6 +52,10 @@ function love.draw()
 end
 
 function love.keypressed(key)
+  if key == 't' then
+    love.graphics.newScreenshot():encode('screenshot.png')
+    print('Saved screenshot')
+  end
   if key == 'escape' then
     love.event.quit()
   end

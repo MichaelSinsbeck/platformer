@@ -7,7 +7,9 @@ Cannon = object:New({
   velocity = 15,
   img = love.graphics.newImage('images/cannon.png'),
   marginx = 0.4,
-  marginy = 0.4
+  marginy = 0.4,
+  sonImg = love.graphics.newImage('images/bullet.png'),
+  sonAngle = 0,
 })
 
 function Cannon:setAcceleration(dt)
@@ -28,4 +30,5 @@ function Cannon:setAcceleration(dt)
 			self.timeleft = self.firerate
     end
   end
+  self.sonAngle = self.sonAngle + 5*dt
 end

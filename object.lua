@@ -36,14 +36,16 @@ function object:init()
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth
 		end
+		if self.sonImg then
+		  self.sonox = self.sonox or 0.5*self.sonImg:getWidth()
+		  self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()
+		end
   elseif self.animation then
 		self.marginx = self.marginx or 1
     self.marginy = self.marginy or 1
     local name = AnimationDB.animation[self.animation].source
     self.ox = self.ox or 0.5*AnimationDB.source[name].width
     self.oy = self.oy or 0.5*AnimationDB.source[name].height
-    --self.ox = self.ox or 0.5*self.animation.data.width
-    --self.oy = self.oy or 0.5*self.animation.data.height
         
 		self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
 		self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
@@ -77,6 +79,13 @@ function object:draw()
 				math.floor(self.y*myMap.tileSize),
 				self.angle,1,1,
 				math.floor(self.ox),math.floor(self.oy))
+  end
+  if self.sonImg then
+		love.graphics.draw(self.sonImg,
+			math.floor(self.x*myMap.tileSize),
+			math.floor(self.y*myMap.tileSize),
+			self.sonAngle,1,1,
+			math.floor(self.sonox),math.floor(self.sonoy))
   end
 end
 

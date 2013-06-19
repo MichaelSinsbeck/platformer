@@ -7,7 +7,7 @@ Bandana = object:New({
 
 function Bandana:setAcceleration(dt)
 	
-	if self:touchPlayer() then  -- Kill player, if touching
+	if self:touchPlayer() then
 		p.bandana = self.color
 		self:kill()
   end

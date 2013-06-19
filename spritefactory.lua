@@ -3,8 +3,10 @@ require 'runner'
 require 'goalie'
 require 'spikey'
 require 'bouncer'
-require 'cannon'
 require 'bullet'
+require 'cannon'
+require 'deadshuriken'
+
 require 'launcher'
 require 'missile'
 require 'explosion'
@@ -27,6 +29,7 @@ function initAll()
   Explosion:init()
   Bandana:init()
   Poff:init()
+  Shuriken:init()
 end
 
 function spriteFactory(name,opts)
