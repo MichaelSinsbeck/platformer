@@ -25,8 +25,9 @@ function Launcher:setAcceleration(dt)
     if self.timeleft == 0 then --shoot
 			local vx = -self.velocity*math.cos(self.angle)
 			local vy = -self.velocity*math.sin(self.angle)
-			local newBullet = Shuriken:New({x=self.x,y=self.y,vx=vx,vy=vy})
-			spriteEngine:insert(newBullet)
+			local newAngle = math.random()*math.pi*2
+			local newShuriken = Shuriken:New({x=self.x,y=self.y,vx=vx,vy=vy,angle=newAngle})
+			spriteEngine:insert(newShuriken)
 			self.timeleft = self.firerate
     end
   end

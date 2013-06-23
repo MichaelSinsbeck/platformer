@@ -167,6 +167,53 @@ function Map:draw()
   love.graphics.draw(self.spriteBatch,0,0)
 end
 
+function Map:collisionTest(x,y,direction,tag)
+-- Given the (integer) coordinates of a cell, check if there is a
+-- collision entry in this cell and then check if collisionNumber causes
+-- a collision
+
+
+	local collisionNumber
+	-- check if entry exists at all
+	if self.collision[x] and self.collision[x][y] then
+		collisionNumber = self.collision[x][y]
+	else
+		return false
+	end
+	
+--print ('collisionTest with direction '..direction..' and tag ' .. tag .. ', CollisionNr: '..collisionNumber)	
+	
+	if tag == 'player' then -- player does not collide with spikes
+		if direction == 'down' then -- down collides with 1 and 2
+		  if collisionNumber == 1 or collisionNumber == 2 then
+				return true
+			else
+				return false
+			end
+		else -- other direction collides with 1 only
+			if collisionNumber == 1 then
+				return true
+			else
+				return false
+			end
+		end
+	else -- everything else collides with spikes
+		if direction == 'down' then -- down collides with 1, 2 and 3
+		  if collisionNumber == 1 or collisionNumber == 2 or collisionNumber == 3 then
+				return true
+			else
+				return false
+			end
+		else -- other directions collides with 1 and 3
+		  if collisionNumber == 1 or collisionNumber == 3 then
+				return true
+			else
+				return false
+			end			
+		end
+	end
+end
+
 function lineOfSight(x1,y1,x2,y2)
 -- Determines if a straight line between two points collides with the map
   local fx1,fy1,fx2,fy2 = math.floor(x1),math.floor(y1),math.floor(x2),math.floor(y2)
@@ -177,7 +224,7 @@ function lineOfSight(x1,y1,x2,y2)
   local ok
   ok = function(number)
 		if not number then return false end
-		if number == 1 then return true end
+		if number == 1 or number == 3 then return true end
     if sy == 1 and number == 2 then return true end
   end
 

@@ -114,9 +114,8 @@ function object:collision(dt)
     -- haben die rechten Eckpunkte die Zelle gewechselt?
     if math.ceil(self.x+self.semiwidth) ~= math.ceil(self.newX+self.semiwidth) then
       -- Kollision in neuen Feldern?
-      if myMap.collision[math.ceil(self.newX+self.semiwidth-1)] and
-      (myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.y-self.semiheight)] == 1 or
-        myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.ceil(self.y+self.semiheight)-1] == 1) then
+			if myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
+				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
         self.collisionResult = true
       end
@@ -124,10 +123,8 @@ function object:collision(dt)
   elseif self.vx < 0 then -- Bewegung nach links
     -- Eckpunkte wechseln Zelle?
     if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
-      if myMap.collision[math.floor(self.newX-self.semiwidth)] and
-      (myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.y-self.semiheight)] == 1 or
-       myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.y+self.semiheight)-1] == 1) then
-        --self.newX = math.floor(self.newX+1*self.width)
+			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
+				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then    
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
         self.collisionResult = true
       end
@@ -137,11 +134,8 @@ function object:collision(dt)
   -- Vertical Movement
   if self.vy < 0 then -- rising
     if math.floor(self.y-self.semiheight) ~= math.floor(self.newY-self.semiheight) then
-      if (myMap.collision[math.floor(self.newX-self.semiwidth)] and
-          myMap.collision[math.floor(self.newX-self.semiwidth)][math.floor(self.newY-self.semiheight)] == 1)
-          or
-         (myMap.collision[math.ceil(self.newX+self.semiwidth)-1] and
-          myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.floor(self.newY-self.semiheight)] == 1) then
+			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.newY-self.semiheight),'up',self.tag) or
+				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.floor(self.newY-self.semiheight),'up',self.tag) then
         --self.newY = math.floor(self.newY+1)
         self.newY = math.ceil(self.newY-self.semiheight)+self.semiheight
         self.collisionResult = true
@@ -150,10 +144,8 @@ function object:collision(dt)
     
   elseif self.vy > 0 then -- falling
     if math.ceil(self.y+self.semiheight) ~= math.ceil(self.newY+self.semiheight) then
-      if ( myMap.collision[math.floor(self.newX-self.semiwidth)] and 
-        myMap.collision[math.floor(self.newX-self.semiwidth)][math.ceil(self.newY+self.semiheight)-1])  or
-        (myMap.collision[math.ceil(self.newX+self.semiwidth)-1] and 
-        myMap.collision[math.ceil(self.newX+self.semiwidth)-1][math.ceil(self.newY+self.semiheight)-1]) then
+			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.newY+self.semiheight)-1,'down',self.tag) or
+				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.ceil(self.newY+self.semiheight)-1,'down',self.tag) then
         self.newY = math.floor(self.newY+self.semiheight)-self.semiheight        
         self.collisionResult = true
       end
