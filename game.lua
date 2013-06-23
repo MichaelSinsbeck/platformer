@@ -24,6 +24,10 @@ function game:checkControls()
 		or joyHat == 'r'
 		or joyHat == 'rd' 
 		or joyHat == 'ru'
+	self.isDown = love.keyboard.isDown('down')
+	  or joyHat == 'd'
+	  or joyHat == 'ld'
+	  or joyHat == 'rd'
 	self.isJump = love.keyboard.isDown('a') 
 			or love.joystick.isDown(1,3)
 	self.isAction = love.keyboard.isDown('s')
@@ -58,6 +62,9 @@ function game:update(dt)
 end
 
 function game.keypressed(key)
+	if key == "r" then
+		p.status = 'stand'
+	end
   if key == "a" then
     p:jump()
   end

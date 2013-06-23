@@ -5,12 +5,12 @@ require 'spikey'
 require 'bouncer'
 require 'shuriken'
 require 'cannon'
-
 require 'launcher'
 require 'missile'
 require 'explosion'
 require 'bandana'
 require 'poff'
+require 'line'
 
 
 function initAll()

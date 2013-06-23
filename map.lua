@@ -23,7 +23,8 @@ function Map:LoadFromFile(mapFile)
   o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
   o.offset = (o.tileSize-o.graphicSize)/2
   
-  o.factoryList = Map:Factorylist(o.tile,o.height,o.width) -- see at the end of this file
+  o.factoryList = Map:FactoryList(o.tile,o.height,o.width) -- see at the end of this file
+  o.lineList = Map:LineList(o.tile,o.height,o.width)
   
   -- delete all "0" value
   for i = 1,o.width do
@@ -71,6 +72,16 @@ function Map:start(p)
     newObject:updateAnimation(0)
     spriteEngine:insert(newObject)
   end
+  for i = 1,#self.lineList do
+    local newObject = Line:New({
+			x = self.lineList[i].x,
+			y = self.lineList[i].y,
+			x2 = self.lineList[i].x2,
+			y2 = self.lineList[i].y2,
+			})
+		spriteEngine:insert(newObject)
+  end
+
 end
 
 function Map:New(imageFile,tileSize)
@@ -306,7 +317,30 @@ function lineOfSight(x1,y1,x2,y2)
 
 end
 
-function Map:Factorylist(tile,height,width)
+function Map:LineList(tile,height,width)
+	local lineList = {}
+	local nodeList = {}
+	
+	for i=1,width do
+    for j = 1,height do
+			if tile[i][j] == 35 then
+				table.insert(nodeList,{x=i+0.5,y=j+0.5})
+			end             
+    end
+  end
+  -- traverse node list and add line for two nodes
+  local nLines = math.floor((#nodeList)/2)
+  for iLine = 1,nLines do
+		table.insert(lineList,{
+				x = nodeList[2*iLine-1].x,
+				y = nodeList[2*iLine-1].y,
+				x2 = nodeList[2*iLine].x,
+				y2 = nodeList[2*iLine].y})
+  end
+	return lineList
+end
+
+function Map:FactoryList(tile,height,width)
   
   local factoryList = {} 
   -- find all entities, add objects to spriteEngine and replace by zero

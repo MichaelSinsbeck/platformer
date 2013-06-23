@@ -5,8 +5,8 @@ Camera = {
   yTarget = 0,
   xWorld = 0,
   yWorld = 0,
-  width = love.graphics.getWidth(),
-	height = love.graphics.getHeight(),
+  --width = love.graphics.getWidth(),
+	--height = love.graphics.getHeight(),
 	scale = 1,
 	desiredWidth = 32,
   }

@@ -47,6 +47,7 @@ AnimationDB:addAni('whiteFall','whitePlayer',{6,7},{.1,1e6})
 AnimationDB:addAni('whiteWall','whitePlayer',{9,10,11},{0.4,0.075,1e6})
 AnimationDB:addAni('whiteSliding','whitePlayer',{4},{1e6})
 AnimationDB:addAni('whiteStand','whitePlayer',{1},{1e6})
+AnimationDB:addAni('whiteLine','whitePlayer',{8},{1e6})
 
 AnimationDB:loadImage('images/player_blue.png','bluePlayer',50,50)
 AnimationDB:addAni('blueRun','bluePlayer',{2,1,3,1},{.08,.04,.08,.04})

@@ -7,8 +7,10 @@ Player = object:New({
   vy = 0,
   axStand = 35, -- acceleration, when button is pressed
   axFly = 35,
+  axLine = 10,
   fxStand = 25, -- friction, natural stopping when no button is pressed
   fxFly = 12,
+  fxLine = 1,
   status = 'fly',
   walkSpeed = 13,
   jumpSpeed = -13,
@@ -27,6 +29,8 @@ Player = object:New({
   animation = 'whiteStand',
   marginx = 0.3,
   marginy = 0.6,
+  linePointx = 0,
+  linePointy = -0.6,
   bandana = 'white',
   poffTimer = 0,
   })
@@ -59,6 +63,15 @@ function Player:jump()
 				self:flip(true)
 			end
     self.status = 'fly'
+  elseif self.status == 'online' then
+    if game.isDown then --fall
+			self.status = 'fly'
+			self.line = nil
+    else --jump up
+			self.status = 'fly'
+			self.vy = self.jumpSpeed
+			self.line = nil
+		end
   end
 end
 
@@ -91,7 +104,7 @@ function Player:setAcceleration(dt)
 	game:checkControls()
 
   -- Acceleration down
-  if self.status == 'fly' then
+  if self.status == 'fly' or self.status == 'online' then
 		self.vy = self.vy + gravity*dt
 	else
 		self.vy = self.vy + self.wallgravity*dt
@@ -105,6 +118,9 @@ function Player:setAcceleration(dt)
 	elseif self.status == 'fly' or self.status == 'leftwall' or self.status == 'rightwall' then
 		ax = self.axFly
 		fx = self.fxFly
+	elseif self.status == 'online' then
+		ax = self.axLine
+		fx = self.fxLine
 	end
 
 	-- Determine desired acceleration
@@ -117,7 +133,7 @@ function Player:setAcceleration(dt)
 	end
 	
 -- Accelerate if player is not faster than maximum speed anyway
-	if self.status == 'stand' or self.status == 'fly' then
+	if self.status == 'stand' or self.status == 'fly' or self.status == 'online' then
 		if axControl > 0 and self.vx < self.walkSpeed then -- Acceleration to the right
 			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
 		elseif axControl < 0 and self.vx > -self.walkSpeed then -- Acceleration to the left
@@ -129,6 +145,12 @@ function Player:setAcceleration(dt)
 				self.vx = math.min(0,self.vx+fx*dt)
 			end
 		end
+	--[[elseif self.status == 'online' then
+		if axControl > 0 and self.vx < self.walkSpeed then -- Acceleration to the right
+			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
+		elseif axControl < 0 and self.vx > -self.walkSpeed then -- Acceleration to the left
+			self.vx = math.max(self.vx+axControl*dt,-self.walkSpeed)
+		end--]]
 	elseif self.status == 'leftwall'  and axControl < 0 then
 			-- Movement to the left is possible
 			self.vx = math.max(axControl*dt,-self.walkSpeed)
@@ -154,6 +176,20 @@ end
 
 function Player:collision(dt)
   local laststatus = self.status
+
+	if self.status == 'online' then
+		local dx,dy = self.newX+p.linePointx-self.line.x, self.newY+p.linePointy-self.line.y
+		local position = dx*self.line.ex+dy*self.line.ey -- scalarproduct
+		
+		if position > 0 and position < self.line.length then
+			self.newX = self.line.x+self.line.ex*position-self.linePointx
+			self.newY = self.line.y+self.line.ey*position-self.linePointy
+		else
+			self.status = 'fly'
+			self.line = nil
+		end
+	end
+
 
   -- Horizontal Movement
   -- Remember about floor and ceil:
@@ -288,6 +324,8 @@ function Player:collision(dt)
 		elseif self.status == 'leftwall' then
 			self:setAnim(self.bandana..'Wall')
 			self:flip(true)
+		elseif self.status == 'online' then
+			self:setAnim(self.bandana..'Line')
 		end
   end
 end
