@@ -108,4 +108,5 @@ AnimationDB:loadImage('images/poff.png','poff',20,20)
 AnimationDB:addAni('poff','poff',{1,2,3,4,4},{.05,.05,.1,.1,1e6})
 
 AnimationDB:loadImage('images/shuriken.png','shuriken',50,50)
-AnimationDB:addAni('shuriken','shuriken',{1,2,3,4,4},{1.7,.05,.05,.05,1e6})
+AnimationDB:addAni('shurikenDead','shuriken',{1,2,3,4,4},{1.7,.05,.05,.05,1e6})
+AnimationDB:addAni('shuriken','shuriken',{1},{1e6})

@@ -3,9 +3,8 @@ require 'runner'
 require 'goalie'
 require 'spikey'
 require 'bouncer'
-require 'bullet'
+require 'shuriken'
 require 'cannon'
-require 'deadshuriken'
 
 require 'launcher'
 require 'missile'
@@ -23,7 +22,7 @@ function initAll()
   Player:init()
   Bouncer:init()
   Cannon:init()
-  Bullet:init()
+  Shuriken:init()
   Launcher:init()
   Missile:init()
   Explosion:init()

@@ -1,15 +1,13 @@
 Cannon = object:New({
 	tag = 'cannon',
   radius2 = 20^2,
-  firerate = 0.2,--.5, -- in seconds
+  firerate = 1,--1.5, -- in seconds
   rotating = true,
   timeleft = 0,
-  velocity = 15,
+  velocity = 10,
   img = love.graphics.newImage('images/cannon.png'),
-  marginx = 0.4,
-  marginy = 0.4,
-  sonImg = love.graphics.newImage('images/bullet.png'),
-  sonAngle = 0,
+  --animation = 'cannon',
+  frame = 3
 })
 
 function Cannon:setAcceleration(dt)
@@ -20,15 +18,14 @@ function Cannon:setAcceleration(dt)
   if self.timeleft < 0 then self.timeleft = 0 end
   
   if lineOfSight(self.x,self.y,p.x,p.y) then
-  
-    self.angle = math.atan2(dy,dx)    
+		self.angle = math.atan2(dy,dx)										    
     if self.timeleft == 0 then --shoot
 			local vx = -self.velocity*math.cos(self.angle)
 			local vy = -self.velocity*math.sin(self.angle)
-			local newBullet = Bullet:New({x=self.x,y=self.y,vx=vx,vy=vy})
+			local newBullet = Missile:New({x=self.x,y=self.y,vx=vx,vy=vy})
 			spriteEngine:insert(newBullet)
 			self.timeleft = self.firerate
+			self:resetAnimation()
     end
   end
-  self.sonAngle = self.sonAngle + 5*dt
 end

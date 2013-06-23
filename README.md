@@ -20,6 +20,7 @@ Workplan:
  - Set up clever system for collision checks between objects -> Read on spacial hashing
  - Own level editor
  - [improve] flexible resolution setting (render images in high resolution, scale down)
+ - Add the line t.screen = nil to conf.lua and fix all resulting problems
 
 - Add enemies
  - Walking block

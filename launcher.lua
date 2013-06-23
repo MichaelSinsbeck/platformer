@@ -1,12 +1,15 @@
 Launcher = object:New({
-	tag = 'launcher',
+	tag = 'Shuriken Launcher',
   radius2 = 20^2,
-  firerate = 1,--1.5, -- in seconds
+  firerate = 0.2,--.5, -- in seconds
   rotating = true,
   timeleft = 0,
-  velocity = 10,
-  animation = 'launcherLoading',
-  frame = 3
+  velocity = 15,
+  img = love.graphics.newImage('images/launcher.png'),
+  marginx = 0.4,
+  marginy = 0.4,
+  sonImg = love.graphics.newImage('images/launcherSon.png'),
+  sonAngle = 0,
 })
 
 function Launcher:setAcceleration(dt)
@@ -17,14 +20,15 @@ function Launcher:setAcceleration(dt)
   if self.timeleft < 0 then self.timeleft = 0 end
   
   if lineOfSight(self.x,self.y,p.x,p.y) then
-		self.angle = math.atan2(dy,dx)										    
+  
+    self.angle = math.atan2(dy,dx)    
     if self.timeleft == 0 then --shoot
 			local vx = -self.velocity*math.cos(self.angle)
 			local vy = -self.velocity*math.sin(self.angle)
-			local newBullet = Missile:New({x=self.x,y=self.y,vx=vx,vy=vy})
+			local newBullet = Shuriken:New({x=self.x,y=self.y,vx=vx,vy=vy})
 			spriteEngine:insert(newBullet)
 			self.timeleft = self.firerate
-			self:resetAnimation()
     end
   end
+  self.sonAngle = self.sonAngle + 5*dt
 end
