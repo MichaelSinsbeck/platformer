@@ -1,5 +1,8 @@
 Campaign = {
+	'n25.dat',
+	'n24.dat',
 	'n22.dat',
+	
 	'n13.dat',
 	'n1.dat',
 	'n10.dat',
@@ -20,6 +23,7 @@ Campaign = {
 	'n20.dat',
 	'n19.dat',
 	'n21.dat',
+	'n23.dat',
 	}
 
 Campaign.current = 0

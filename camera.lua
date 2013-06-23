@@ -32,10 +32,8 @@ function Camera:init()
 	-- change screen resolution
 	local modes = love.graphics.getModes()
 	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
-	--love.graphics.setMode(modes[1].width, modes[1].height, true)
-	--love.graphics.setMode(modes[4].width, modes[4].height, false, true, 8)
+	love.graphics.setMode(modes[1].width, modes[1].height, true)
 	modes = nil
-	love.graphics.setMode(800,600,false)
 
 	self.width = love.graphics.getWidth()
 	self.height = love.graphics.getHeight()

@@ -6,7 +6,6 @@ Cannon = object:New({
   timeleft = 0,
   velocity = 10,
   img = love.graphics.newImage('images/cannon.png'),
-  --animation = 'cannon',
   frame = 3
 })
 

@@ -10,7 +10,7 @@ Player = object:New({
   axLine = 10,
   fxStand = 25, -- friction, natural stopping when no button is pressed
   fxFly = 12,
-  fxLine = 1,
+  fxLine = .1,
   status = 'fly',
   walkSpeed = 13,
   jumpSpeed = -13,
@@ -30,7 +30,7 @@ Player = object:New({
   marginx = 0.3,
   marginy = 0.6,
   linePointx = 0,
-  linePointy = -0.6,
+  linePointy = -0.55,
   bandana = 'white',
   poffTimer = 0,
   })

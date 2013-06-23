@@ -29,6 +29,7 @@ Workplan:
 - Interactive Objects
  - Buttons and doors
  - Fan (special interaction with blue bandana)
+ - [done] Line for sliding down
 
 - Global variables (need to clean up):
  - initAll

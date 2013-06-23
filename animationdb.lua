@@ -108,6 +108,9 @@ AnimationDB:addAni('greenBandana','bandana',{25,26,27,28,29,30,31,32},{.05,.05,.
 AnimationDB:loadImage('images/poff.png','poff',20,20)
 AnimationDB:addAni('poff','poff',{1,2,3,4,4},{.05,.05,.1,.1,1e6})
 
+AnimationDB:loadImage('images/particle.png','particle',20,20)
+AnimationDB:addAni('particle','particle',{1,2,3,4,4},{.3,.2,.1,.1,1e6})
+
 AnimationDB:loadImage('images/shuriken.png','shuriken',50,50)
 AnimationDB:addAni('shurikenDead','shuriken',{1,2,3,4,4},{1.7,.05,.05,.05,1e6})
 AnimationDB:addAni('shuriken','shuriken',{1},{1e6})

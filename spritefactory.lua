@@ -11,6 +11,7 @@ require 'explosion'
 require 'bandana'
 require 'poff'
 require 'line'
+require 'particle'
 
 
 function initAll()
@@ -29,6 +30,7 @@ function initAll()
   Bandana:init()
   Poff:init()
   Shuriken:init()
+  Particle:init()
 end
 
 function spriteFactory(name,opts)

@@ -108,7 +108,7 @@ end
 function object:collision(dt)
 -- Todo: When this is generically done, remove dt here: unnecessary
 
-  self.collisionResult = false
+  self.collisionResult = 0
 
   if self.vx > 0 then -- Bewegung nach rechts
     -- haben die rechten Eckpunkte die Zelle gewechselt?
@@ -117,7 +117,7 @@ function object:collision(dt)
 			if myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
-        self.collisionResult = true
+        self.collisionResult = self.collisionResult+1
       end
     end
   elseif self.vx < 0 then -- Bewegung nach links
@@ -126,7 +126,7 @@ function object:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then    
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
-        self.collisionResult = true
+        self.collisionResult = self.collisionResult+2
       end
     end
   end
@@ -138,7 +138,7 @@ function object:collision(dt)
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.floor(self.newY-self.semiheight),'up',self.tag) then
         --self.newY = math.floor(self.newY+1)
         self.newY = math.ceil(self.newY-self.semiheight)+self.semiheight
-        self.collisionResult = true
+				self.collisionResult = self.collisionResult+4
       end
     end
     
@@ -147,12 +147,10 @@ function object:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.newY+self.semiheight)-1,'down',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.ceil(self.newY+self.semiheight)-1,'down',self.tag) then
         self.newY = math.floor(self.newY+self.semiheight)-self.semiheight        
-        self.collisionResult = true
+        self.collisionResult = self.collisionResult+8
       end
     end
-  end    
-
-return collided
+  end
 end
 
 function object:step(dt)

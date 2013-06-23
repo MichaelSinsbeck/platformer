@@ -2,15 +2,15 @@ Missile = object:New({
 	tag = 'missile',
   vx = 1,
   vy = 1,
-  maxspeed = 18,--30,
+  maxspeed = 25,--18,--30,
   seekspeed = 80,--55,
   rotating = true,
---  ox = 0.75,
---  oy = 0.5,
   z = -1,
   img = love.graphics.newImage('images/missile.png'),
   marginx = 0.4,
-  marginx = 0.4
+  marginx = 0.4,
+  spreadSpeed = 10,--5,
+  particleRotSpeed = 20,
 })
 
 function Missile:setAcceleration(dt)
@@ -35,22 +35,32 @@ function Missile:setAcceleration(dt)
   end
 end
 
---[[function Missile:draw()
-  if self.img and self.width and self.height then
-    love.graphics.draw(self.img,
-      math.floor((self.x)*myMap.tileSize)+self.ox*self.width*myMap.tileSize,
-      math.floor((self.y)*myMap.tileSize)+self.oy*self.height*myMap.tileSize,
-      self.angle,
-      1,1,
-      self.ox*self.width*myMap.tileSize,
-      self.oy*self.height*myMap.tileSize)
-  end
-end--]]
-
 function Missile:postStep(dt)
-  if self.collisionResult then
-  	local newExplo = Explosion:New({x=self.x,y=self.y})
+  if self.collisionResult > 0 then
+  	local newExplo = Explosion:New({x=self.x,y=self.y,angle=2*math.pi*math.random()})
 		spriteEngine:insert(newExplo)
+		
+		if self.collisionResult % 2 == 1 then self.vx = math.min(self.vx,0) end --collision right
+		if math.floor(self.collisionResult/2)%2 == 1 then self.vx = math.max(self.vx,0) end --collision left
+		if math.floor(self.collisionResult/4)%2 == 1 then self.vy = math.max(self.vy,0) end --collision top
+		if math.floor(self.collisionResult/8)%2 == 1 then self.vy = math.min(self.vy,0) end --collision bottom
+		local baseVx,baseVy = 0.2*self.vx,0.2*self.vy
+
+		for i = 1,6 do -- spawn 5 particles
+		  local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3
+		  local cos,sin = math.cos(angle),math.sin(angle)
+			if self.collisionResult % 2 == 1 then cos = -math.abs(cos) end --collision right
+			if math.floor(self.collisionResult/2)%2 == 1 then cos = math.abs(cos) end --collision left
+			if math.floor(self.collisionResult/4)%2 == 1 then sin = math.abs(sin) end --collision top
+			if math.floor(self.collisionResult/8)%2 == 1 then sin = -math.abs(sin) end --collision bottom
+		  
+		  local vx = cos*self.spreadSpeed*magnitude+baseVx
+		  local vy = sin*self.spreadSpeed*magnitude+baseVy
+		  
+		  local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
+		  local newParticle = Particle:New({x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed})
+		  spriteEngine:insert(newParticle)
+		end
     self:kill()
   end
 end

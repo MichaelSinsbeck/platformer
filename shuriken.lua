@@ -22,7 +22,7 @@ function Shuriken:setAcceleration(dt)
 end
 
 function Shuriken:postStep(dt)
-  if self.collisionResult then
+  if self.collisionResult > 0 then
 		self:setAnim('shurikenDead')
 		self.vx = 0
 		self.vy = 0	
