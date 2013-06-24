@@ -12,6 +12,10 @@ function game:draw()
 
   love.graphics.pop()
 	--love.graphics.print(timer,10,10)
+	if recorderTimer > 1/30 then
+		recorderTimer = recorderTimer-1/30
+		table.insert(screenshots,love.graphics.newScreenshot())
+	end
 end
 
 function game:checkControls()
@@ -35,6 +39,7 @@ function game:checkControls()
 end
 
 function game:update(dt)
+	--dt = 1/60
   timer = timer + dt
   spriteEngine:update(dt)
   
@@ -59,6 +64,10 @@ function game:update(dt)
     myMap:start(p)
     p.dead = nil
   end
+  
+  if recorder then
+		recorderTimer = recorderTimer + dt
+  end
 end
 
 function game.keypressed(key)
@@ -76,6 +85,20 @@ function game.keypressed(key)
 			print(k)
 		end
   end
+  
+  if key == "m" then	-- recorder	
+		recorder = not recorder
+		print('Recorder:')
+		print(recorder)
+  end
+  if key == "n" then
+		print('Saving screenshots')
+		for k,v in pairs(screenshots) do
+			if k < 10 then k = '0'..k end
+		  local filename = 'screenshot'..k..'.png'
+		  v:encode(filename)
+		end
+	end
 end
 
 function game.keyreleased(key)

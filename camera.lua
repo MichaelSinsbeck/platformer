@@ -34,6 +34,8 @@ function Camera:init()
 	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
 	love.graphics.setMode(modes[1].width, modes[1].height, true)
 	modes = nil
+	
+	--love.graphics.setMode(640,480,false)
 
 	self.width = love.graphics.getWidth()
 	self.height = love.graphics.getHeight()

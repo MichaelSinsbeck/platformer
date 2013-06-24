@@ -13,6 +13,10 @@ function love.load()
 
 	Camera:init()
 
+	recorder = false
+	screenshots = {}
+	recorderTimer = 0
+
   mode = 'game'
   timer = 0
     
