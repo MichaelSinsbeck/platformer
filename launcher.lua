@@ -6,8 +6,8 @@ Launcher = object:New({
   timeleft = 0,
   velocity = 15,
   img = love.graphics.newImage('images/launcher.png'),
-  marginx = 0.4,
-  marginy = 0.4,
+  marginx = .8,
+  marginy = .8,
   sonImg = love.graphics.newImage('images/launcherSon.png'),
   sonAngle = 0,
 })

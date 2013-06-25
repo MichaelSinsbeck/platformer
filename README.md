@@ -27,6 +27,7 @@ Workplan:
  - "cannon" with fixed angle and fixed fire rate
  
 - Interactive Objects
+ - Bouncing platform in 3 colors (green,yellow,red)
  - Buttons and doors
  - Fan (special interaction with blue bandana)
  - [done] Line for sliding down
