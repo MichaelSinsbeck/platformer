@@ -12,6 +12,7 @@ require 'bandana'
 require 'poff'
 require 'line'
 require 'particle'
+require 'windmill'
 
 
 function initAll()
@@ -31,6 +32,7 @@ function initAll()
   Poff:init()
   Shuriken:init()
   Particle:init()
+	Windmill:init()
 end
 
 function spriteFactory(name,opts)

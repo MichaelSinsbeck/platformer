@@ -373,6 +373,7 @@ function Map:FactoryList(tile,height,width)
   [57] = Bandana.blue,
   [58] = Bandana.red,
   [59] = Bandana.green,
+  [36] = Windmill,
   
   }
   
