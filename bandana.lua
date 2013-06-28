@@ -1,7 +1,7 @@
 Bandana = object:New({
 	tag = 'bandana',
-  marginx = 1,
-  marginy = 1,
+  marginx = .8,
+  marginy = .8,
   animation = 'whiteBandana',
 })
 

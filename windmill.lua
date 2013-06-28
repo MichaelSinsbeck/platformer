@@ -14,7 +14,7 @@ Windmill = object:New({
 })
 
 function Windmill:setAcceleration(dt)
-	self.angle = self.angle + self.vRot * dt
+	self.angle = (self.angle + self.vRot * dt)%(2*math.pi)
 end
 
 function Windmill:draw()

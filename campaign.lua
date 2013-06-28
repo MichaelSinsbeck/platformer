@@ -1,8 +1,4 @@
-Campaign = {
-	'n25.dat',
-	'n24.dat',
-	'n22.dat',
-	
+Campaign = {	
 	'n13.dat',
 	'n1.dat',
 	'n10.dat',
@@ -12,6 +8,7 @@ Campaign = {
 	'n11.dat',
 	'n12.dat',
 	'n5.dat',
+	'n24.dat',	
 	'n6.dat',
 	'n7.dat',
 	'n8.dat',
@@ -24,6 +21,12 @@ Campaign = {
 	'n19.dat',
 	'n21.dat',
 	'n23.dat',
+	'n27.dat',
+	'n26.dat',
+	'n28.dat',
+	'n25.dat',
+	'n22.dat',
+	'n29.dat',
 	}
 
 Campaign.current = 0

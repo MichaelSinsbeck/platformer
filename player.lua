@@ -188,8 +188,9 @@ function Player:collision(dt)
 			self.status = 'fly'
 			self.line = nil
 		end
+	--else
+	--	self.line = nil
 	end
-
 
   -- Horizontal Movement
   -- Remember about floor and ceil:
@@ -202,7 +203,7 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
-				self.status = 'rightwall'
+				if self.status ~= 'online' then self.status = 'rightwall' end
       end
     end
   elseif self.vx < 0 then -- Bewegung nach links
@@ -211,7 +212,7 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
-        self.status = 'leftwall'
+        if self.status ~= 'online' then self.status = 'leftwall' end
       end
     end
   end

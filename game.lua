@@ -32,6 +32,10 @@ function game:checkControls()
 	  or joyHat == 'd'
 	  or joyHat == 'ld'
 	  or joyHat == 'rd'
+	self.isUp = love.keyboard.isDown('up')
+	  or joyHat == 'u'
+	  or joyHat == 'lu'
+	  or joyHat == 'ru'
 	self.isJump = love.keyboard.isDown('a') 
 			or love.joystick.isDown(1,3)
 	self.isAction = love.keyboard.isDown('s')

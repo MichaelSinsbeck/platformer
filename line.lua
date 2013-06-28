@@ -54,8 +54,13 @@ function Line:update(dt)
 	   and position < self.length 
 	   --and math.abs(distance) < math.abs(self.distanceOld)
 	   and distance*self.distanceOld < 0 then
-		p.status = 'online'
-		p.line = self
+	  if p.vy < 0 and not game.isUp then
+			p.status = 'online'
+			p.line = self
+		elseif p.vy > 0 and not game.isDown then
+			p.status = 'online'
+			p.line = self
+		end
 	end
 	self.distanceOld = distance
 end
