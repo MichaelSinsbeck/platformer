@@ -73,11 +73,12 @@ function object:draw()
 			self.angle,
 			math.floor(self.ox),math.floor(self.oy))
 	elseif self.img then
+		local sx,sy = (self.sx or 1), (self.sy or 1)
     --love.graphics.draw(self.img,math.floor(self.x*myMap.tileSize),math.floor(self.y*myMap.tileSize))
     love.graphics.draw(self.img,
 				math.floor(self.x*myMap.tileSize),
 				math.floor(self.y*myMap.tileSize),
-				self.angle,1,1,
+				self.angle,sx,sy,
 				math.floor(self.ox),math.floor(self.oy))
   end
   if self.sonImg then
