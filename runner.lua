@@ -4,7 +4,9 @@ Runner = object:New({
   acc = 25,--17,
   xSensing = 20, --how far can he see?
   ySensing = 7,
-  img = love.graphics.newImage('images/runner.png'),
+  --img = love.graphics.newImage('images/runner.png'),
+  animation = 'runnerSleep',
+  frame = 3,
   marginx = 0.7,
   marginy = 0.6,
 })
@@ -17,8 +19,12 @@ function Runner:setAcceleration(dt)
 		-- run towards player
 		if dx > 0 then
 			self.vx = self.vx - self.acc * dt
+			self:setAnim('runnerLeft')
 		elseif dx < 0 then
 			self.vx = self.vx + self.acc * dt
+			self:setAnim('runnerRight')
+		else
+		self:setAnim('runnerWait')
 		end
 	else
 	  -- stop running
@@ -29,6 +35,7 @@ function Runner:setAcceleration(dt)
 	  else
 	    self.vx = 0
 	  end
+	  self:setAnim('runnerSleep')
 	end
   
   if self.vx < -self.maxSpeed then
