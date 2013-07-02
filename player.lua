@@ -327,7 +327,11 @@ function Player:collision(dt)
 			self:flip(true)
 		elseif self.status == 'online' then
 			if control == 0 then
-				self:setAnim(self.bandana..'LineSlide')
+				if self.vx == 0 then
+					self:setAnim(self.bandana..'LineHang')
+				else
+					self:setAnim(self.bandana..'LineSlide')
+				end
 			else
 				self:setAnim(self.bandana..'LineMove')
 			end

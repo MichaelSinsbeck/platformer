@@ -49,6 +49,7 @@ AnimationDB:addAni('whiteSliding','whitePlayer',{4},{1e6})
 AnimationDB:addAni('whiteStand','whitePlayer',{1},{1e6})
 AnimationDB:addAni('whiteLineSlide','whitePlayer',{8},{1e6})
 AnimationDB:addAni('whiteLineMove','whitePlayer',{13,14,15,14},{0.08,0.04,0.08,0.04})
+AnimationDB:addAni('whiteLineHang','whitePlayer',{16},{1e6})
 
 AnimationDB:loadImage('images/player_blue.png','bluePlayer',50,50)
 AnimationDB:addAni('blueRun','bluePlayer',{2,1,3,1},{.08,.04,.08,.04})
