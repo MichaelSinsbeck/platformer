@@ -4,18 +4,25 @@ Runner = object:New({
   acc = 25,--17,
   xSensing = 20, --how far can he see?
   ySensing = 7,
+  mouthRadius = 7,
   --img = love.graphics.newImage('images/runner.png'),
   animation = 'runnerSleep',
   frame = 3,
   marginx = 0.7,
   marginy = 0.6,
+  sonImg = love.graphics.newImage('images/runnermouth.png'),
+  sonY = 0.2,
 })
 
 function Runner:setAcceleration(dt)
   local dx = self.x-p.x
   local dy = self.y-p.y
   
+
   if math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
+    self.sonSx = math.max(0,1-math.sqrt(dx*dx+dy*dy)/self.mouthRadius)
+		self.sonSy = self.sonSx
+  
 		-- run towards player
 		if dx > 0 then
 			self.vx = self.vx - self.acc * dt
@@ -28,6 +35,7 @@ function Runner:setAcceleration(dt)
 		end
 	else
 	  -- stop running
+	  self.sonSx, self.sonSy = 0,0
 	  if self.vx > self.acc * dt then
 	    self.vx = self.vx - self.acc * dt
 	  elseif self.vx < - self.acc * dt then

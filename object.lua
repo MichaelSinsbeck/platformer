@@ -11,6 +11,8 @@ z = 0, -- for drawing order
 collisionResult = false,
 timer = 0, -- these three are for the animation
 frame = 1,
+sonTimer = 0,
+sonFrame = 1,
 flipped = false}
 -- ox and oy are the coordinates of the image center
 -- semiwidth and semiheight define the hitbox of the object
@@ -81,11 +83,22 @@ function object:draw()
 				self.angle,sx,sy,
 				math.floor(self.ox),math.floor(self.oy))
   end
+  
+  --[[if self.sonAnimation then
+		love.graphics.drawq(self.sonImg, self.sonCurrentQuad,
+		math.floor(self.x*myMap.tileSize),
+				math.floor(self.y*myMap.tileSize),
+				0,1,1,
+				math.floor(self.ox),math.floor(self.oy))  
+  else--]]
   if self.sonImg then
+		local sx,sy = self.sonSx or 1, self.sonSy or 1
+		local angle = self.sonAngle or 0
+		local x,y = self.sonX or 0, self.sonY or 0
 		love.graphics.draw(self.sonImg,
-			math.floor(self.x*myMap.tileSize),
-			math.floor(self.y*myMap.tileSize),
-			self.sonAngle,1,1,
+			math.floor((self.x+x)*myMap.tileSize),
+			math.floor((self.y+y)*myMap.tileSize),
+			self.sonAngle,sx,sy,
 			math.floor(self.sonox),math.floor(self.sonoy))
   end
 end
@@ -205,6 +218,21 @@ function object:updateAnimation(dt)
 		self.currentQuad = source.quads[animationData.frames[self.frame]]
 		self.img = source.image
   end
+  
+  --[[if self.sonAnimation then
+		self.sonTimer = self.sonTimer + dt
+		local animationData = AnimationDB.animation[self.sonAnimation]
+		local source = AnimationDB.source[animationData.source]
+		while self.sonTimer > animationData.duration[self.sonFrame] do
+			self.sonTimer = self.sonTimer - animationData.duration[self.sonFrame]
+			self.sonFrame = self.sonFrame + 1
+			if self.sonFrame > #animationData.frames then
+				self.sonFrame = 1
+			end
+		end
+		self.sonCurrentQuad = source.quads[animationData.frames[self.sonFrame] ]
+		self.sonImg = source.image
+  end--]]
 	
 end
 

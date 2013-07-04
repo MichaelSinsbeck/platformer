@@ -69,7 +69,8 @@ function Map:start(p)
     local nx = self.factoryList[i].x +0.5
     local ny = self.factoryList[i].y +1 - constructor.semiheight
     local newObject = constructor:New({x = nx, y = ny})
-    newObject:updateAnimation(0)
+    --newObject:updateAnimation(0)
+    newObject:update(0)
     spriteEngine:insert(newObject)
   end
   for i = 1,#self.lineList do
