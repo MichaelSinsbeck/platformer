@@ -57,6 +57,7 @@ function Map:start(p)
   p.vx = 0
   p.vy = 0
   p.bandana = 'white'
+  p.alpha = 255
   p:setAnim('whiteStand')
   p:flip(false)
   p:update(0)

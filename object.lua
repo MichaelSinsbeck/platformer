@@ -68,6 +68,9 @@ function object:setImage(filename)
 end
 
 function object:draw()
+	if self.alpha then
+	  love.graphics.setColor(255,255,255,self.alpha)
+	end
   if self.animation then
     self:drawAnimation(
 			math.floor(self.x*myMap.tileSize*Camera.scale)/Camera.scale,
@@ -101,6 +104,9 @@ function object:draw()
 			self.sonAngle,sx,sy,
 			math.floor(self.sonox),math.floor(self.sonoy))
   end
+	if self.alpha then
+	  love.graphics.setColor(255,255,255)
+	end
 end
 
 function object:kill()
@@ -180,9 +186,6 @@ end
 
 function object:update(dt)
 -- Perform all update steps
-  if self.animation then
-		self:updateAnimation(dt)
-	end
   self:setAcceleration(dt)
 	local subdivide = math.max(math.ceil(math.abs(self.vx*dt)),math.ceil(math.abs(self.vy*dt)))
 	local dtMicro = dt/subdivide
@@ -192,6 +195,9 @@ function object:update(dt)
 		self:step(dtMicro)
 		self:postStep(dt)
   end
+  if self.animation then
+		self:updateAnimation(dt)
+	end  
 end
 
 function object:touchPlayer(dx,dy)
@@ -236,10 +242,12 @@ function object:updateAnimation(dt)
 	
 end
 
-function object:setAnim(name) -- Go to specified animation and reset, if not already there
+function object:setAnim(name,continue) -- Go to specified animation and reset, if not already there
 	if self.animation ~= name then
 	  self.animation = name
-	  self:resetAnimation()
+	  if not continue then
+	    self:resetAnimation()
+	  end
 	end
 end
 

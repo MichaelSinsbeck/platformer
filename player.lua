@@ -32,6 +32,7 @@ Player = object:New({
   linePointx = 0,
   linePointy = -0.55,
   bandana = 'white',
+  alpha = 255,
   poffTimer = 0,
   })
 
@@ -301,42 +302,47 @@ function Player:collision(dt)
 	if control < 0 then self:flip(true) end
   
   if self.bandana == 'green' and game.isAction then
-    self:setAnim('greenInvisible')
-  else  
-		if self.status == 'fly' then
-			if self.vy < 0 then
-				self:setAnim(self.bandana..'Jump')
-			elseif game.isAction and self.bandana == 'blue' then
-				self:setAnim(self.bandana..'Gliding')
-			else 
-				self:setAnim(self.bandana..'Fall')
-			end
-		elseif self.status == 'stand' then
-			if control == 0 and self.vx == 0 then
-				self:setAnim(self.bandana..'Stand')
-			elseif control*self.vx < 0 then
-				self:setAnim(self.bandana..'Sliding')
-			else
-				self:setAnim(self.bandana..'Run')
-			end
-		elseif self.status == 'rightwall' then
-			self:setAnim(self.bandana..'Wall')
-			self:flip(false)
-		elseif self.status == 'leftwall' then
-			self:setAnim(self.bandana..'Wall')
-			self:flip(true)
-		elseif self.status == 'online' then
-			if control == 0 then
-				if self.vx == 0 then
-					self:setAnim(self.bandana..'LineHang')
-				else
-					self:setAnim(self.bandana..'LineSlide')
-				end
-			else
-				self:setAnim(self.bandana..'LineMove')
-			end
+    self.alpha = math.max(self.alpha - 2500*dt,20)
+  else
+		self.alpha = math.min(self.alpha + 2500*dt,255)
+	end
+	
+	if self.status == 'fly' then
+		if self.vy < 0 then
+			self:setAnim(self.bandana..'Jump')
+		elseif game.isAction and self.bandana == 'blue' then
+			self:setAnim(self.bandana..'Gliding')
+		else 
+			self:setAnim(self.bandana..'Fall')
 		end
-  end
+	elseif self.status == 'stand' then
+		if control == 0 and self.vx == 0 then
+			self:setAnim(self.bandana..'Stand')
+		elseif control*self.vx < 0 then
+			self:setAnim(self.bandana..'Sliding')
+		elseif control == 0 then
+			self:setAnim(self.bandana..'Walk',true)
+		else
+			self:setAnim(self.bandana..'Run')
+		end
+	elseif self.status == 'rightwall' then
+		self:setAnim(self.bandana..'Wall')
+		self:flip(false)
+	elseif self.status == 'leftwall' then
+		self:setAnim(self.bandana..'Wall')
+		self:flip(true)
+	elseif self.status == 'online' then
+		if control == 0 then
+			if self.vx == 0 then
+				self:setAnim(self.bandana..'LineHang')
+			else
+				self:setAnim(self.bandana..'LineSlide')
+			end
+		else
+			self:setAnim(self.bandana..'LineMove')
+		end
+	end
+
 end
 
 function Player:wincheck()
