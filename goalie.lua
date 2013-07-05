@@ -13,7 +13,7 @@ function Goalie:setAcceleration(dt)
   local dx = self.x-p.x
   local dy = self.y-p.y
   
-  if math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
+  if p.visible and math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
 		-- run towards player
 		if dy > 0 then
 			self.vy = self.vy - self.acc * dt
@@ -21,7 +21,7 @@ function Goalie:setAcceleration(dt)
 			self.vy = self.vy + self.acc * dt
 		end
 	else
-	  -- stop running
+	  -- stop moving
 	  if self.vy > self.acc * dt then
 	    self.vy = self.vy - self.acc * dt
 	  elseif self.vy < - self.acc * dt then
@@ -37,9 +37,9 @@ function Goalie:setAcceleration(dt)
   if self.vy > self.maxSpeed then
     self.vy = self.maxSpeed
   end
-   
-  self.sx = 1 - 0.2* math.abs(self.vy)/self.maxSpeed
-  self.sy = 1/self.sx
+  
+	self.sx = 1 - 0.2* math.abs(self.vy)/self.maxSpeed
+	self.sy = 1/self.sx
   
   -- Kill player, if touching
 	if self:touchPlayer(dx,dy) then

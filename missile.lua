@@ -14,28 +14,32 @@ Missile = object:New({
 })
 
 function Missile:setAcceleration(dt)
-  local dx = self.x-p.x
-  local dy = self.y-p.y
-  local distance = math.sqrt(dx*dx+dy*dy)
-  
-  self.vx = self.vx - self.seekspeed*dx/distance*dt
-  self.vy = self.vy - self.seekspeed*dy/distance*dt
-  
-  local speed = math.sqrt(self.vx^2+self.vy^2)
-  
-  if speed > self.maxspeed then
-    self.vx = self.vx/speed*self.maxspeed
-    self.vy = self.vy/speed*self.maxspeed
-  end
-  
-  self.angle = math.atan2(self.vy,self.vx)
-  
-	if self:touchPlayer(dx,dy) then
-    p.dead = true
+	if p.visible then
+		local dx = self.x-p.x
+		local dy = self.y-p.y
+		local distance = math.sqrt(dx*dx+dy*dy)
+		
+		self.vx = self.vx - self.seekspeed*dx/distance*dt
+		self.vy = self.vy - self.seekspeed*dy/distance*dt
+		
+		local speed = math.sqrt(self.vx^2+self.vy^2)
+		
+		if speed > self.maxspeed then
+			self.vx = self.vx/speed*self.maxspeed
+			self.vy = self.vy/speed*self.maxspeed
+		end
+		
+		self.angle = math.atan2(self.vy,self.vx)
   end
 end
 
 function Missile:postStep(dt)
+	local dx = self.x-p.x
+	local dy = self.y-p.y
+	if self:touchPlayer(dx,dy) then
+    p.dead = true
+  end
+
   if self.collisionResult > 0 then
   	local newExplo = Explosion:New({x=self.x,y=self.y,angle=2*math.pi*math.random()})
 		spriteEngine:insert(newExplo)

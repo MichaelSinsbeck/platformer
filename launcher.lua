@@ -19,7 +19,7 @@ function Launcher:setAcceleration(dt)
   self.timeleft = self.timeleft - dt
   if self.timeleft < 0 then self.timeleft = 0 end
   
-  if lineOfSight(self.x,self.y,p.x,p.y) then
+  if p.visible and lineOfSight(self.x,self.y,p.x,p.y) then
   
     self.angle = math.atan2(dy,dx)    
     if self.timeleft == 0 then --shoot

@@ -34,6 +34,7 @@ Player = object:New({
   bandana = 'white',
   alpha = 255,
   poffTimer = 0,
+  visible = true,
   })
 
 function Player:jump()
@@ -103,7 +104,9 @@ function Player:setAcceleration(dt)
 	
   -- read controls
 	game:checkControls()
-
+	
+	self.visible = not (self.bandana == 'green' and game.isAction)
+		
   -- Acceleration down
   if self.status == 'fly' or self.status == 'online' then
 		self.vy = self.vy + gravity*dt

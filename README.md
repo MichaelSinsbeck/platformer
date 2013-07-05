@@ -9,16 +9,17 @@ Workplan:
 
 - Content
  - [done] Add bandana items (red, blue, green, yellow)
- - Add carrying ability
+ - [canceled]Add carrying ability
  - Add hiding ability
- - Add movable objects, the player can stand on
+ - [canceled]Add movable objects, the player can stand on
  - [done] Draw red blocks similar to ground tiles (16 tiles)
  
 - Engine stuff
  - Add menu
+ - Add world map
  - [not necessary] remove dynamic line of sight of cannons, create a table in the first place
- - Set up clever system for collision checks between objects -> Read on spacial hashing
- - Own level editor
+ - [canceled] Set up clever system for collision checks between objects -> Read on spacial hashing
+ - [canceled] Own level editor
  - [improve] flexible resolution setting (render images in high resolution, scale down)
  - Add the line t.screen = nil to conf.lua and fix all resulting problems
 
