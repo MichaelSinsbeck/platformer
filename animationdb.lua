@@ -133,3 +133,6 @@ AnimationDB:addAni('runnerRight','runner',{5},{1e6})
 AnimationDB:addAni('runnerSleep','runner',{1,2,3},{0.4,0.1,1e6})
 AnimationDB:addAni('runnerWait','runner',{1},{1e6})
 AnimationDB:addAni('runnerMouth','runner',{7,8,9},{0.1,0.1,1})
+
+AnimationDB:loadImage('images/bouncer.png','bouncer',50,50)
+AnimationDB:addAni('bouncer','bouncer',{2,1},{0.1,1e6})

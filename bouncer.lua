@@ -1,13 +1,16 @@
 Bouncer = object:New({
 	tag = 'bouncer',
   targetvy = -23,
-  img = love.graphics.newImage('images/bouncer.png'),
+  --img = love.graphics.newImage('images/bouncer.png'),
   marginx = 0.8,
-  marginy = 0.2
+  marginy = 0.2,
+  animation = 'bouncer',
+  frame = 2,
 })
 
 function Bouncer:setAcceleration(dt)
 	if self:touchPlayer() then
-     p.vy = self.targetvy
+     p.vy = math.min(self.targetvy,p.vy)
+     self:resetAnimation()
   end
 end

@@ -20,8 +20,8 @@ function Runner:setAcceleration(dt)
   
 
   if math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
-    self.sonSx = math.max(0,1-math.sqrt(dx*dx+dy*dy)/self.mouthRadius)
-		self.sonSy = self.sonSx
+    self.sonSy = math.max(0,1-math.sqrt(dx*dx+dy*dy)/self.mouthRadius)
+		self.sonSx = self.sonSy
   
 		-- run towards player
 		if dx > 0 then
