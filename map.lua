@@ -10,7 +10,7 @@ function Map:LoadFromFile(mapFile)
 	function mapSize(width,height,tileSize,graphicSize)	o.width, o.height, o.tileSize, o.graphicSize = width, height, tileSize, graphicSize	end
 	function imageFilename(b) o.imageFile = b end
 	function loadTiles (b) o.tile = b end
-	function loadCollision (b) o.collision = b end
+	function loadCollision (b) o.collisionSrc = b end
 	function start (b) o.xStart = b.x o.yStart = b.y end
 
   -- Load File
@@ -22,7 +22,6 @@ function Map:LoadFromFile(mapFile)
   img:setFilter('nearest','nearest')
   o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
   o.offset = (o.tileSize-o.graphicSize)/2
-  
   o.factoryList = Map:FactoryList(o.tile,o.height,o.width) -- see at the end of this file
   o.lineList = Map:LineList(o.tile,o.height,o.width)
   
@@ -30,7 +29,7 @@ function Map:LoadFromFile(mapFile)
   for i = 1,o.width do
     for j = 1,o.height do
       if o.tile[i][j] == 0 then o.tile[i][j] = nil end
-      if o.collision[i][j] == 0 then o.collision[i][j] = nil end
+      if o.collisionSrc[i][j] == 0 then o.collisionSrc[i][j] = nil end
     end
   end
     
@@ -58,12 +57,16 @@ function Map:start(p)
   p.vy = 0
   p.bandana = 'white'
   p.alpha = 255
+  p.status = 'fly'
   p:setAnim('whiteStand')
   p:flip(false)
   p:update(0)
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)
+  
+  -- reset collision table
+	self.collision = utility.copy(self.collisionSrc,true)
 
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor
@@ -365,6 +368,7 @@ function Map:FactoryList(tile,height,width)
   [45] = Spikeys[15],
   [46] = Spikeys[16],
   
+  [36] = Windmill,
   [50] = Runner,
   [51] = Goalie,
   [52] = Spikey,
@@ -375,7 +379,10 @@ function Map:FactoryList(tile,height,width)
   [57] = Bandana.blue,
   [58] = Bandana.red,
   [59] = Bandana.green,
-  [36] = Windmill,
+  [61] = Button,
+  [62] = Appearblock,
+  
+  
   
   }
   

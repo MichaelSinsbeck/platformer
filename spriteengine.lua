@@ -41,3 +41,11 @@ function spriteEngine:kill()
     end
   end
 end
+
+function spriteEngine:DoAll(functionName)
+  for i,v in ipairs(self.objects) do
+		if v[functionName] then
+		  v[functionName](v)
+		end
+	end
+end

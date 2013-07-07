@@ -13,6 +13,8 @@ require 'poff'
 require 'line'
 require 'particle'
 require 'windmill'
+require 'button'
+require 'appearblock'
 
 
 function initAll()
@@ -33,6 +35,8 @@ function initAll()
   Shuriken:init()
   Particle:init()
 	Windmill:init()
+	Button:init()
+	Appearblock:init()
 end
 
 function spriteFactory(name,opts)

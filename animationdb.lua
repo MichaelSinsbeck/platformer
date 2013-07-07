@@ -139,3 +139,11 @@ AnimationDB:addAni('runnerMouth','runner',{7,8,9},{0.1,0.1,1})
 
 AnimationDB:loadImage('images/bouncer.png','bouncer',50,50)
 AnimationDB:addAni('bouncer','bouncer',{2,1},{0.1,1e6})
+
+AnimationDB:loadImage('images/button.png','button',50,50)
+AnimationDB:addAni('button','button',{1},{1e6})
+AnimationDB:addAni('buttonPressed','button',{2},{1e6})
+
+AnimationDB:loadImage('images/appearblock.png','appearBlock',50,50)
+AnimationDB:addAni('appearBlockThere','appearBlock',{1},{1e6})
+AnimationDB:addAni('appearBlockNotThere','appearBlock',{2},{1e6})

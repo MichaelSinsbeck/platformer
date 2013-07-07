@@ -1,3 +1,4 @@
+require 'utility'
 require 'camera'
 require 'game'
 require 'spritefactory'
@@ -8,6 +9,7 @@ require 'campaign'
 
 
 function love.load()
+
 	-- hide mouse
 	love.mouse.setVisible(false)
 
