@@ -127,7 +127,7 @@ AnimationDB:loadImage('images/particle.png','particle',20,20)
 AnimationDB:addAni('particle','particle',{1,2,3,4,4},{.3,.2,.1,.1,1e6})
 
 AnimationDB:loadImage('images/shuriken.png','shuriken',50,50)
-AnimationDB:addAni('shurikenDead','shuriken',{2,3,4,5,5},{1.7,.05,.05,.05,1e6})
+AnimationDB:addAni('shurikenDead','shuriken',{2},{1e6})
 AnimationDB:addAni('shuriken','shuriken',{1},{1e6})
 
 AnimationDB:loadImage('images/runner.png','runner',50,50)

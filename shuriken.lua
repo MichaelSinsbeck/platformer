@@ -8,7 +8,9 @@ Shuriken = object:New({
   rotationVelocity = 20,
   animation = 'shuriken',
   marginx = 0.3,
-  marginy = 0.3
+  marginy = 0.3,
+  timer = 0,
+  lifetime = 3,
 })
 
 function Shuriken:setAcceleration(dt)
@@ -16,9 +18,13 @@ function Shuriken:setAcceleration(dt)
 	if self:touchPlayer() and self.animation == 'shuriken' then
     p.dead = true
   end
-	if self.animation == 'shurikenDead' and self.frame == 5 then
+  if self.animation == 'shurikenDead' then
+    self.timer = self.timer + dt
+    self.alpha = math.min(1, self.lifetime-self.timer)*255
+  end
+  if self.timer > self.lifetime then
     self:kill()
-	end  
+  end
 end
 
 function Shuriken:postStep(dt)
@@ -27,8 +33,5 @@ function Shuriken:postStep(dt)
 		self.vx = 0
 		self.vy = 0	
 		self.rotationVelocity = 0
-		--local deadThing = Shuriken:New({x=self.x,y=self.y,angle=self.angle})
-		--spriteEngine:insert(deadThing)
-    --self:kill()
   end
 end
