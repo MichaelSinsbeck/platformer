@@ -1,5 +1,6 @@
 utility = {}
 
+-- Source http://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value
 function utility.copy(t, deep, seen)
     seen = seen or {}
     if t == nil then return nil end
