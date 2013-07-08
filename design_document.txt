@@ -1,0 +1,14 @@
+Spielidee:
+Die zentrale Idee des Spieles ist: "Ninja sein".
+Durch verschiedene Spielmechaniken soll der Spieler das Gefühl der Überlegenheit bekommen. Dazu gehört:
+- Geschicklichkeit. Die Spielfigur ist schnell und beweglich und die Steuerung ist präzise.
+- Vorhersagbares Verhalten. Alle interaktiven Objekte Verhalten sich absolut vorhersagbar. Das muss der Spieler beobachten und die Muster verstehen. Viele Levels sollen als "Rätsel" gestaltet sein, so dass man sie nur schaffen kann, wenn man die Objekte verstanden hat.
+
+Spielziel:
+ist noch offen. Aktuell ist da einfach eine Zielfahne. Vielleicht fällt mir noch was besseres ein.
+
+Grafikidee:
+Die Grafiken sind mit Inkscape gezeichnet. Sie bestehen aus Konturen und einfarbigen Flächen. Die Konturen sind schwarz und haben eine Strichstärke von 2 pixel (bis auf Ausnahmen bei Details). Alle Linien sind leicht verwackelt, so dass es aussieht wie von Hand gemalt (siehe z.B. www.xkcd.com ). Gegner sind an den Stacheln erkennbar.
+
+Leveldesign:
+Levels sind um je ein zentrales Element aufgebaut. Alle neuen Level bekommen ein "Tutorial"-Level, in dem das Element eingeführt wird. Danach folgen ein paar Levels, in denen verschiedene Aspekte des Elements ausprobiert werden.
