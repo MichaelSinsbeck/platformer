@@ -45,6 +45,7 @@ Technisches
 • Animationssystem: Zur Zeit ist das Animationssystem eher hingepfuscht: Jedes Objekt mit Animation trägt die Variablen timer, frame und animation. Die sollen in einem table gespeichert werden. Das habe ich so noch nicht implementiert, weil bei der aktuellen objekt-vererbung die Tabellen nur als referenz vererbt werden. Hier muss ich mich einlesen, wie bei OOP tables per deep copy vererbt werden können.
 • Globals: Das aktuelle Level und der Spieler liegen in den globalen Variablen myMap und p. Vielleicht kann man die beiden Variablen noch lokal als game.map und game.player verlegen.
 • Objekte entfernen: ,wenn sie das Spielfeld verlassen. Was ist mit dem Spieler? Soll der sterben, wenn er den Rand verlässt? Wenn nein, dann bietet das eine Gelegenheit für Geheimgänge.
+• Auflösung: Das Spiel auf verschiedenen Bildschirmauflösungen gut laufen lassen. Eine Lösung finden, die gut auf verschiedenen Auflösungen aussieht (Skalieren oder Letterboxing ??)
 
 
 Grafik
