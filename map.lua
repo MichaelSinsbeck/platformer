@@ -381,6 +381,7 @@ function Map:FactoryList(tile,height,width)
   [59] = Bandana.green,
   [61] = Button,
   [62] = Appearblock,
+  [63] = Disappearblock,
   
   
   

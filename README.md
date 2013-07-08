@@ -10,8 +10,8 @@ Workplan:
 - Content
  - [done] Add bandana items (red, blue, green, yellow)
  - [canceled]Add carrying ability
- - Add hiding ability
- - [canceled]Add movable objects, the player can stand on
+ - [done] Add hiding ability
+ - [canceled] Add movable objects, the player can stand on
  - [done] Draw red blocks similar to ground tiles (16 tiles)
  
 - Engine stuff

@@ -15,9 +15,14 @@ function Button:setAcceleration(dt)
 		spriteEngine:DoAll('buttonPress')
 	end
 
-	self.timer2 = math.max(0,self.timer2 - dt)
-	if self.timer2 == 0 then
+	if self.timer2 > 0 then
+		self.timer2 = self.timer2-dt
+	end
+	
+	if self.timer2 < 0 then
+		self.timer2 = 0 
 		self.animation = 'button'
+		spriteEngine:DoAll('buttonPress')
 	end
 end
 
