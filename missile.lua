@@ -9,8 +9,10 @@ Missile = object:New({
   img = love.graphics.newImage('images/missile.png'),
   marginx = 0.4,
   marginx = 0.4,
-  spreadSpeed = 10,--5,
-  particleRotSpeed = 20,
+  spreadSpeed = 10,--5,  -- For explosion
+  particleRotSpeed = 20, -- For explosion
+  poffTimer = 0,  --for smoke
+  poffRate = 0.06,  --for smoke
 })
 
 function Missile:setAcceleration(dt)
@@ -30,6 +32,14 @@ function Missile:setAcceleration(dt)
 		end
 		
 		self.angle = math.atan2(self.vy,self.vx)
+  end
+  self.poffTimer = self.poffTimer - dt -- Create smoke particles
+  if self.poffTimer < 0 then
+		self.poffTimer = self.poffTimer + (0.75+0.5*math.random())*self.poffRate -- slightly randomize ejection rate
+		local vx,vy = -0.03*self.vx,-0.03*self.vy
+		local angle = math.random()*math.pi*2
+		local newPoff = Poff:New({x = self.x,y=self.y,angle=angle,vx = vx, vy=vy})
+		spriteEngine:insert(newPoff)
   end
 end
 

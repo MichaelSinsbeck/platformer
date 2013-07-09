@@ -120,8 +120,8 @@ AnimationDB:addAni('blueBandana','bandana',{9,10,11,12,13,14,15,16},{.05,.05,.05
 AnimationDB:addAni('redBandana','bandana',{17,18,19,20,21,22,23,24},{.05,.05,.05,.05,.05,.05,.05,.05})
 AnimationDB:addAni('greenBandana','bandana',{25,26,27,28,29,30,31,32},{.05,.05,.05,.05,.05,.05,.05,.05})
 
-AnimationDB:loadImage('images/poff.png','poff',20,20)
-AnimationDB:addAni('poff','poff',{1,2,3,4,4},{.05,.05,.1,.1,1e6})
+AnimationDB:loadImage('images/poff.png','poff',30,30)
+AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 
 AnimationDB:loadImage('images/particle.png','particle',20,20)
 AnimationDB:addAni('particle','particle',{1,2,3,4,4},{.3,.2,.1,.1,1e6})
