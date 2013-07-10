@@ -6,9 +6,12 @@ Button = object:New({
   animation = 'button',
   lifetime = 2,
   timer2 = 0,
+  sonImg = love.graphics.newImage('images/waitbar.png'),
+  sonY = -0.6,
 })
 
 function Button:setAcceleration(dt)
+	
 	if self:touchPlayer() and self.animation == 'button' then
 	  self.animation = 'buttonPressed'
 	  self.timer2 = self.lifetime
@@ -24,5 +27,6 @@ function Button:setAcceleration(dt)
 		self.animation = 'button'
 		spriteEngine:DoAll('buttonPress')
 	end
+	self.sonSx = self.timer2/self.lifetime
 end
 
