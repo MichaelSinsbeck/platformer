@@ -22,9 +22,9 @@ function spriteEngine:update(dt)
 end
 
 function spriteEngine:draw()
-  for i,v in ipairs(self.objects) do
-    if v.draw then
-			v:draw()
+  for i = #self.objects,1,-1 do
+    if self.objects[i].draw then
+			self.objects[i]:draw()
 	  end
   end
 end
