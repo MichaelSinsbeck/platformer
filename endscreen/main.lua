@@ -1,6 +1,6 @@
 function love.load()
 	img = love.graphics.newImage('foto.png')
-	nImages = 20
+	nImages = 100
 	x = {}
 	y = {}
 	angle = {}
@@ -11,8 +11,8 @@ function love.load()
 		angle[i] = (1-2*math.random()) * math.pi/6
 		sounds[i] = love.audio.newSource('pistachio1_click.wav','static')
 	end
-	x[nImages] = 0.5*(love.graphics.getWidth()-img:getWidth())
-	y[nImages] = 0.5*(love.graphics.getHeight()-img:getHeight())
+	x[nImages] = math.floor(0.5*(love.graphics.getWidth()-img:getWidth()))
+	y[nImages] = math.floor(0.5*(love.graphics.getHeight()-img:getHeight()))
 	angle[nImages] = 0
 	sounds[nImages] = love.audio.newSource('pistachio1_click.wav','static')
 	timer = 0
@@ -27,7 +27,7 @@ end
 
 function love.update(dt)
 	timer = timer + dt
-	local newLastImage = math.min(20,math.floor(math.exp(timer)))
+	local newLastImage = math.min(nImages,math.floor(math.exp(timer)))
 	if newLastImage > lastImage then
 		lastImage = newLastImage
 		love.audio.play(sounds[newLastImage])
