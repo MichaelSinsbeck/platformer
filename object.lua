@@ -38,7 +38,11 @@ function object:init()
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth
 		end
-		if self.sonImg then
+		if self.sonAnimation then
+		  local name = AnimationDB.animation[self.sonAnimation].source
+		  self.sonox = self.sonox or 0.5*AnimationDB.source[name].width
+		  self.sonoy = self.sonoy or 0.5*AnimationDB.source[name].height
+		elseif self.sonImg then
 		  self.sonox = self.sonox or 0.5*self.sonImg:getWidth()
 		  self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()
 		end
@@ -79,7 +83,6 @@ function object:draw()
 			math.floor(self.ox),math.floor(self.oy))
 	elseif self.img then
 		local sx,sy = (self.sx or 1), (self.sy or 1)
-    --love.graphics.draw(self.img,math.floor(self.x*myMap.tileSize),math.floor(self.y*myMap.tileSize))
     love.graphics.draw(self.img,
 				math.floor(self.x*myMap.tileSize),
 				math.floor(self.y*myMap.tileSize),
@@ -87,21 +90,23 @@ function object:draw()
 				math.floor(self.ox),math.floor(self.oy))
   end
   
-  --[[if self.sonAnimation then
+  if self.sonAnimation then
+		local sx,sy = self.sonSx or 1, self.sonSy or 1
+		local angle = self.sonAngle or 0
+		local x,y = self.sonX or 0, self.sonY or 0
 		love.graphics.drawq(self.sonImg, self.sonCurrentQuad,
-		math.floor(self.x*myMap.tileSize),
-				math.floor(self.y*myMap.tileSize),
-				0,1,1,
-				math.floor(self.ox),math.floor(self.oy))  
-  else--]]
-  if self.sonImg then
+		  math.floor((self.x+x)*myMap.tileSize),
+			math.floor((self.y+y)*myMap.tileSize),
+			angle,sx,sy,
+			math.floor(self.sonox),math.floor(self.sonoy))  
+  elseif self.sonImg then
 		local sx,sy = self.sonSx or 1, self.sonSy or 1
 		local angle = self.sonAngle or 0
 		local x,y = self.sonX or 0, self.sonY or 0
 		love.graphics.draw(self.sonImg,
 			math.floor((self.x+x)*myMap.tileSize),
 			math.floor((self.y+y)*myMap.tileSize),
-			self.sonAngle,sx,sy,
+			angle,sx,sy,
 			math.floor(self.sonox),math.floor(self.sonoy))
   end
 	if self.alpha then
@@ -225,7 +230,7 @@ function object:updateAnimation(dt)
 		self.img = source.image
   end
   
-  --[[if self.sonAnimation then
+  if self.sonAnimation then
 		self.sonTimer = self.sonTimer + dt
 		local animationData = AnimationDB.animation[self.sonAnimation]
 		local source = AnimationDB.source[animationData.source]
@@ -238,7 +243,7 @@ function object:updateAnimation(dt)
 		end
 		self.sonCurrentQuad = source.quads[animationData.frames[self.sonFrame] ]
 		self.sonImg = source.image
-  end--]]
+  end
 	
 end
 
