@@ -382,6 +382,7 @@ function Map:FactoryList(tile,height,width)
   [61] = Button,
   [62] = Appearblock,
   [63] = Disappearblock,
+	[64] = Imitator,
   
   
   

@@ -1,4 +1,5 @@
 require 'player'
+require 'imitator'
 require 'runner'
 require 'goalie'
 require 'spikey'
@@ -37,6 +38,7 @@ function initAll()
 	Windmill:init()
 	Button:init()
 	Appearblock:init()
+	Imitator:init()
 end
 
 function spriteFactory(name,opts)

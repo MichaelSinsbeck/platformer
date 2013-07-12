@@ -79,7 +79,7 @@ function game.keypressed(key)
 		p.status = 'stand'
 	end
   if key == "a" then
-    p:jump()
+		spriteEngine:DoAll('jump')
   end
   if key == "q" then
     Campaign:proceed()
@@ -107,7 +107,7 @@ end
 
 function game.keyreleased(key)
   if key == "a" then
-    p:unjump()
+		spriteEngine:DoAll('unjump')
   end
 end
 
