@@ -91,7 +91,7 @@ AnimationDB:addAni('greenLineHang','greenPlayer',{16},{1e6})
 
 AnimationDB:loadImage('images/imitator.png','imitator',50,50)
 AnimationDB:addAni('imitatorRun','imitator',{3,1,2,1},{.08,.04,.08,.04})
-AnimationDB:addAni('imitatorWalk','imitator',{10,9,11,9},{.08,.04,.08,.04})
+AnimationDB:addAni('imitatorWalk','imitator',{11,9,10,9},{.08,.04,.08,.04})
 AnimationDB:addAni('imitatorJump','imitator',{5},{1e6})
 AnimationDB:addAni('imitatorFall','imitator',{6,7},{.1,1e6})
 AnimationDB:addAni('imitatorStand','imitator',{9},{1e6})

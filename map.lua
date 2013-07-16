@@ -384,8 +384,6 @@ function Map:FactoryList(tile,height,width)
   [63] = Disappearblock,
 	[64] = Imitator,
   
-  
-  
   }
   
   for i=1,width do

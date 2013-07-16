@@ -5,10 +5,10 @@ Imitator = object:New({
   marginx = 0.3,
   marginy = 0.6,
   
-	axStand = 40,--35, -- acceleration, when button is pressed
-  axFly = 40,--35,
-  fxStand = 25, -- friction, natural stopping when no button is pressed
-  fxFly = 12,
+	axStand = 43, --40,--35, -- acceleration, when button is pressed
+  axFly = 43, --40,--35,
+  fxStand = 30.8,--25, -- friction, natural stopping when no button is pressed
+  fxFly = 14.8,--12,
   status = 'fly',
   walkSpeed = 16,--13,
   jumpSpeed = -13,

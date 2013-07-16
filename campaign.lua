@@ -1,17 +1,13 @@
 Campaign = {
-	'n37.dat',
-	'n16.dat',
-
-	'n34.dat',
-	'n35.dat',
-	'n36.dat',
+	--'n37.dat', -- testlevel vor imitator enemy
 
 	'n13.dat',
 	'n1.dat',
 	'n10.dat',
 	'n2.dat',
 	'n3.dat',
-	'n15.dat',	
+	'n15.dat',
+	'n38.dat',
 	'n11.dat',
 	'n12.dat',
 	'n5.dat',
@@ -39,6 +35,8 @@ Campaign = {
 	'n32.dat',
 	'n33.dat',
 	'n34.dat',
+	'n35.dat',
+	'n36.dat',
 	}
 
 Campaign.current = 0
