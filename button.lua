@@ -12,11 +12,25 @@ Button = object:New({
 
 function Button:setAcceleration(dt)
 	
-	if self:touchPlayer() and self.animation == 'button' then
+	
+	if self.animation == 'button' then
+		if self:touchPlayer() then
 	  self.animation = 'buttonPressed'
 	  self.timer2 = self.lifetime
 		spriteEngine:DoAll('buttonPress')
-	end
+		else
+			for k,v in pairs(spriteEngine.objects) do
+				local dx,dy = v.x-self.x,v.y-self.y
+				if v.tag == 'Imitator' and
+				   math.abs(dx) < self.semiheight+v.semiheight and
+				   math.abs(dy) < self.semiwidth +v.semiwidth then
+					self.animation = 'buttonPressed'
+					self.timer2 = self.lifetime
+					spriteEngine:DoAll('buttonPress')
+				end
+			end
+		end
+  end
 
 	if self.timer2 > 0 then
 		self.timer2 = self.timer2-dt
