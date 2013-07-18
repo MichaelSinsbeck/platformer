@@ -1,7 +1,7 @@
 -- main menu test
 
-menu = require("Scripts/menu")
-config = require("Scripts/config")
+menu = require("scripts/menu")
+config = require("scripts/config")
 
 function love.load()
 	love.graphics.setBackgroundColor(40,40,40)
