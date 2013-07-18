@@ -113,12 +113,12 @@ end
 
 function game.joystickpressed(joystick, button)
   if button == 3 then
-    p:jump()
+    spriteEngine:DoAll('jump')
   end
 end
 
 function game.joystickreleased(joystick, button)
   if button == 3 then
-    p:unjump()
+    spriteEngine:DoAll('unjump')
   end
 end
