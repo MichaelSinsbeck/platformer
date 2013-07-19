@@ -71,8 +71,8 @@ function menu.selectAbove()
 	-- position 10 pixel to the top of the current button
 	table.sort(buttons, function (a, b)
 		if a.y < selButton.y and b.y < selButton.y then
-			local aDist = sDist( a.x, a.y, selButton.x, selButton.y - 10 )
-			local bDist = sDist( b.x, b.y, selButton.x, selButton.y - 10 )
+			local aDist = sDist( a.x, a.y, selButton.x, selButton.y - 50 )
+			local bDist = sDist( b.x, b.y, selButton.x, selButton.y - 50 )
 			return aDist < bDist
 		end
 		if a.y < b.y then
@@ -98,8 +98,8 @@ function menu.selectBelow()
 	-- position 10 pixel below of the current button
 	table.sort(buttons, function (a, b)
 		if a.y > selButton.y and b.y > selButton.y then
-			local aDist = sDist( a.x, a.y, selButton.x, selButton.y + 10 )
-			local bDist = sDist( b.x, b.y, selButton.x, selButton.y + 10 )
+			local aDist = sDist( a.x, a.y, selButton.x, selButton.y + 50 )
+			local bDist = sDist( b.x, b.y, selButton.x, selButton.y + 50 )
 			return aDist < bDist
 		end
 		if a.y > b.y then
@@ -125,8 +125,8 @@ function menu.selectLeft()
 	-- position 10 pixel below of the current button
 	table.sort(buttons, function (a, b)
 		if a.x < selButton.x and b.x < selButton.x then
-			local aDist = sDist( a.x, a.y, selButton.x - 10, selButton.y )
-			local bDist = sDist( b.x, b.y, selButton.x - 10, selButton.y )
+			local aDist = sDist( a.x, a.y, selButton.x - 50, selButton.y )
+			local bDist = sDist( b.x, b.y, selButton.x - 50, selButton.y )
 			return aDist < bDist
 		end
 		if a.x < b.x then
@@ -153,8 +153,8 @@ nextX, nextY = selButton.x+10, selButton.y
 	-- position 10 pixel right of the current button
 	table.sort(buttons, function (a, b)
 		if a.x > selButton.x and b.x > selButton.x then
-			local aDist = sDist( a.x, a.y, selButton.x + 10, selButton.y )
-			local bDist = sDist( b.x, b.y, selButton.x + 10, selButton.y )
+			local aDist = sDist( a.x, a.y, selButton.x + 50, selButton.y )
+			local bDist = sDist( b.x, b.y, selButton.x + 50, selButton.y )
 			return aDist < bDist
 		end
 		if a.x > b.x then
