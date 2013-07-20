@@ -22,8 +22,8 @@ function menu.init()
 	menu.addButton( x, y, exitOff_IMG, exitOn_IMG, "exit", love.event.quit)
 
 	for i = 1, 20 do
-		x = math.random(love.graphics.getWidth()/2) + love.graphics.getWidth()/4
-		y = math.random(love.graphics.getHeight()/2)+ love.graphics.getHeight()/4
+		x = math.random(-5,5)*50 + love.graphics.getWidth()/2
+		y = math.random(-5,5)*50 + love.graphics.getHeight()/2
 		menu.addButton( x, y, exitOff_IMG, exitOn_IMG, "exit", love.event.quit)
 	end
 
@@ -49,8 +49,12 @@ end
 
 
 -- computes square of the distance between two points (for speed)
-function sDist(x1, y1, x2, y2)
-	return (x1-x2)^2 + (y1-y2)^2
+function sDist(x1, y1, x2, y2, preferred)
+	if preferred == "x" then
+		return (x1-x2)^2 + ((y1-y2)^2)*2
+	else
+		return ((x1-x2)^2)*2 + (y1-y2)^2
+	end
 end
 
 function selectButton(button)
@@ -71,8 +75,8 @@ function menu.selectAbove()
 	-- position 10 pixel to the top of the current button
 	table.sort(buttons, function (a, b)
 		if a.y < selButton.y and b.y < selButton.y then
-			local aDist = sDist( a.x, a.y, selButton.x, selButton.y - 50 )
-			local bDist = sDist( b.x, b.y, selButton.x, selButton.y - 50 )
+			local aDist = sDist( a.x, a.y, selButton.x, selButton.y - 50, "y" )
+			local bDist = sDist( b.x, b.y, selButton.x, selButton.y - 50, "y" )
 			return aDist < bDist
 		end
 		if a.y < b.y then
@@ -98,8 +102,8 @@ function menu.selectBelow()
 	-- position 10 pixel below of the current button
 	table.sort(buttons, function (a, b)
 		if a.y > selButton.y and b.y > selButton.y then
-			local aDist = sDist( a.x, a.y, selButton.x, selButton.y + 50 )
-			local bDist = sDist( b.x, b.y, selButton.x, selButton.y + 50 )
+			local aDist = sDist( a.x, a.y, selButton.x, selButton.y + 50, "y" )
+			local bDist = sDist( b.x, b.y, selButton.x, selButton.y + 50, "y" )
 			return aDist < bDist
 		end
 		if a.y > b.y then
@@ -125,8 +129,8 @@ function menu.selectLeft()
 	-- position 10 pixel below of the current button
 	table.sort(buttons, function (a, b)
 		if a.x < selButton.x and b.x < selButton.x then
-			local aDist = sDist( a.x, a.y, selButton.x - 50, selButton.y )
-			local bDist = sDist( b.x, b.y, selButton.x - 50, selButton.y )
+			local aDist = sDist( a.x, a.y, selButton.x - 50, selButton.y, "x" )
+			local bDist = sDist( b.x, b.y, selButton.x - 50, selButton.y, "x" )
 			return aDist < bDist
 		end
 		if a.x < b.x then
@@ -153,8 +157,8 @@ nextX, nextY = selButton.x+10, selButton.y
 	-- position 10 pixel right of the current button
 	table.sort(buttons, function (a, b)
 		if a.x > selButton.x and b.x > selButton.x then
-			local aDist = sDist( a.x, a.y, selButton.x + 50, selButton.y )
-			local bDist = sDist( b.x, b.y, selButton.x + 50, selButton.y )
+			local aDist = sDist( a.x, a.y, selButton.x + 50, selButton.y, "x" )
+			local bDist = sDist( b.x, b.y, selButton.x + 50, selButton.y, "x" )
 			return aDist < bDist
 		end
 		if a.x > b.x then
