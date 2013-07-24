@@ -1,0 +1,68 @@
+Infrastruktur
+-------------
+
+• Title screen: Zeige ein Titelbild mit dem Namen des Spiels “Bandana” und sowas wie “press start”
+• Menü: Hauptmenü (Start, Optionen, Credits, Beenden, etc.). Layout/Design ist noch offen. Vielleicht mit Titlescreen vereinen (Oben dickes Logo unten die optionen, so ähnlich wie bei alten SNES spielen).
+• World map: Für jedes Level ein Kästchen, mit linien Verbunden. Darauf läuft der Spieler rum. Siehe Karte bei Super Mario World oder Super Meat Boy.
+• Level-win: screen Wird angezeigt, wenn der Spieler das Ziel erreicht. Es gibt nicht viel Anzuzeigen (Keine Punktzahl...) daher soll das kurz sein.
+• Abspann: Zeigt die Namen der beteiligten.
+
+
+In-game Items
+-------------
+
+Gegner
+------
+
+• Kanone: mit festem Winkel und konstanter Schussrate
+• Flammenwerfer: eine Öffnung, aus der in regelmäßigen abständen eine Flamme herauskommt (feste Größe). Der Spieler muss davor stehen bleiben und warten.
+• Imitator: Ein Gegner, der die Bewegung des Spielers imitiert, aber schneller ist und höher springt (bekommt dieselben Bewegungsfunktionen wie der Spieler, außer Wall-jump). Da dieser Gegner schneller ist, kann man ihm ausweichen, indem man auf ihn zu läuft.
+
+
+Interaktive Objekte
+-------------------
+
+• Wind: Interagiert mit dem Spieler nur, wenn er den Fallschirm benutzt. Möglich in vier verschiedenen Richtungen (hoch, runter, rechts, links). Ermöglichst bei Aufwind, dass der Spieler aufsteigt, wenn der Fallschirm benutzt wird.
+• Bouncer mit anderen Richtungen: Füge noch Bouncer hinzu, die den Spieler nach rechts, links oder unten schleudern. Diagonal ist auch möglich. Denkbar sind auch verschieden starke Bouncer (statt einer festen Stärke)
+• Schalter und Blöcke: Wird der Schalter gedrückt, dann verschwinden/erscheinen Blöcke für eine kurze Zeit.
+• Schlüssel und Türen: Wird der Schlüssel eingesammelt, verschwinden alle Tür-Blöcke.
+• Brösel: Blöcke, die zeitverzögernd zerbröseln, wenn sie vom Spieler berührt werden.
+• Harte Brösel: Blöcke, die zerbröseln, wenn sie von einer Rakete getroffen werden.
+• Rotes Bandana: Wenn der Spieler den Aktionsknopf drückt, dann wird der Spieler ein kleines Stück teleportiert. Das soll die Ninjaeigenschaft darstellen, laut der Ninjas plötzlich hinter einem Gegner auftauchen können. Wird der Knopf gedrückt, verschwindet die Spieler an der aktuellen Stelle und taucht ca. 4-5 felder weiter wieder auf. Damit kann er sich prinzipiell durch Wände oder durch Gegner hindurch teleportieren.
+
+Wahrscheinlich noch mehr, die mir irgendwo im Hinterkopf herumschwirren.
+
+
+Sonstiges
+---------
+
+• Todessequenz: Wenn der Spieler stirbt, soll das Level nicht sofort neu gestartet werden, sondern ca. 1 Sekunde verzögert. Dazwischen sehen wir, wie die Leiche des Spieler noch durch das Bild fliegt (oder Ähnliches)
+
+
+Technisches
+-----------
+
+• Animationssystem: Zur Zeit ist das Animationssystem eher hingepfuscht: Jedes Objekt mit Animation trägt die Variablen timer, frame und animation. Die sollen in einem table gespeichert werden. Das habe ich so noch nicht implementiert, weil bei der aktuellen objekt-vererbung die Tabellen nur als referenz vererbt werden. Hier muss ich mich einlesen, wie bei OOP tables per deep copy vererbt werden können.
+• Globals: Das aktuelle Level und der Spieler liegen in den globalen Variablen myMap und p. Vielleicht kann man die beiden Variablen noch lokal als game.map und game.player verlegen.
+• Objekte entfernen: ,wenn sie das Spielfeld verlassen. Was ist mit dem Spieler? Soll der sterben, wenn er den Rand verlässt? Wenn nein, dann bietet das eine Gelegenheit für Geheimgänge.
+• Auflösung: Das Spiel auf verschiedenen Bildschirmauflösungen gut laufen lassen. Eine Lösung finden, die gut auf verschiedenen Auflösungen aussieht (Skalieren oder Letterboxing ??)
+
+
+Grafik
+------
+
+• Ebenen: Es soll mindestens zwei Zeichenebenen für die Levels geben: eine Ebene hinter den Objekten und eine davor. Dasselbe für die Objekte. Es soll möglich sein, dass Objekte sowohl vor, als auch hinter dem Spieler angezeigt werden.
+• Hintergrund: Zeug (Hügel, Bäume) zeichnen, die im Hintergrund gezeigt werden (vielleicht Paralax, vielleicht einfach so). Die Konturen dieser Objekte müssen in Grau sein (statt Schwarz)
+• Verschönerungsobjekte: Es soll noch gitterunabhängige Objekte ohne Spielmechanische Funktion geben, die zur Verschönerung der Levels angezeigt werden (z.B. Knochen im Untergrund, Wiese, Bäume etc...). Die Windmühle ist schonmal ein Anfang.
+• Shader: Vielleicht kann man mit Shadern noch was aus der Grafik rausholen. Ich habe da allerdings keine Erfahrung damit.
+
+
+Design
+------
+
+• Welten: Die Levels (angepeilt sind ca 60 Levels) sollen in verschiedene Welten geteilt werden. Das soll etwas Abwechslung schaffen und dem Spieler den Fortschritt deutlich machen. Zu entscheiden ist: Was für Welten werden das und wie viele? Die aktuelle Spielatmosphäre ist eher nett und freundlich. Vielleicht kann man das schrittweise von Welt zu Welt immer düsterer werden lassen. Eine Idee, die mir auch gut gefällt: Eine 8-bit-Welt. Alles (außer dem Spieler) ist pixelig.
+• Secrets: Ich will ein paar Bonuslevel einbauen. Das sollen Levels außer der Reihe sein, bei denen sich die Regeln leicht verändern. Z.B. könnte in diesen Levels die Zeit gestoppt werden, die man braucht um ans Ziel zu kommen. Oder man steuert einen der Gegner.
+
+Sound
+
+Hier fehlt noch alles: Musik, Soundeffekte

@@ -1,0 +1,33 @@
+Tutorial: Erster Kontakt mit einem Feature
+Training: Weiterer Kontakt mit dem Feature
+
+
+n24.dat - Bergsteigen (Geschick)
+n13.dat - Laufen Tutorial
+n1.dat - Springen Tutorial
+n10.dat - Walljump Tutorial
+n2.dat - Walljump Training
+n3.dat - Loch und Stacheln Tutorial
+n15.dat - Weitsprung
+n11.dat - Runner Tutorial
+n12.dat - Runner Tutorial 2
+n5.dat - Level ohne Boden (Geschick)
+n6.dat - Shuriken Tutorial
+n7.dat - Shuriken Tutorial 2
+n8.dat - Goalie Tutorial
+n9.dat - Runner Aufstieg 
+n14.dat - Bouncer Tutorial
+n17.dat - Bouncer + Stacheln
+n18.dat - Aufstieg versus Shuriken
+n16.dat - Blue Bandana Tutorial
+n20.dat - Blue Bandana, white Bandana trap
+n19.dat - Blue Bandana training
+n21.dat - Aufstieg mit viel Stacheln
+n23.dat - Aufstieg mit Goalie (mini-rätsel)
+
+n26.dat - Rakete Training
+n27.dat - Rakete Tutorial
+n28.dat - Eine Rakete, kleine Platformen
+n25.dat - Rakete, menschlicher Flipper
+
+n22.dat - Wäscheleine Tutorial

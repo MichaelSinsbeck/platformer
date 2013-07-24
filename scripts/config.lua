@@ -5,6 +5,7 @@ local config = {}
 local CONFIG_FILE = "config.txt"
 
 function config.setValue( name, value )
+	print("saving:", name, value)
 	if not name or not value == nil then
 		print(name, value)
 		error("Error: configFile.setValue got nil value or nil name.")
@@ -32,17 +33,30 @@ function config.setValue( name, value )
 		data = ""
 	end
 	
-	s, e = string.find(data, name .. " = [^\r\n]+\r\n")
-	if s then
-		data = string.gsub(data, name .. " = [^\r\n]+\r\n", name .. " = " .. value .. "\r\n")
-	else
-		data = data .. name .. " = " .. value .. "\r\n"
+
+	local newData = ""
+	local found = false
+	print("full:")
+	for line in data:gmatch("[^\r\n]+") do
+		print(line)
+		s, e = string.find(line, name .. " = [^\r\n]+")
+		if s then
+			--data = string.gsub(data, name .. " = [^\r\n]+\r\n", name .. " = " .. value .. "\r\n")
+			newData = newData .. name .. " = " .. value .. "\r\n"
+			found = true
+		else
+			newData = newData .. line .. "\r\n"
+			--data = data .. name .. " = " .. value .. "\r\n"
+		end
+	end
+	if not found then
+		newData = newData .. name .. " = " .. value .. "\r\n"
 	end
 	
 	file = love.filesystem.newFile( CONFIG_FILE )
 	if file then
 		file:open('w')
-		file:write(data)
+		file:write(newData)
 		file:close()
 		return true
 	end
@@ -66,9 +80,9 @@ function config.getValue( name )
 				return v
 			end
 		end
-	else
-		return nil
 	end
+	print("Value for '" .. name .. "' not found in config file.")
+	return nil
 end
 
-return configFile
+return config
