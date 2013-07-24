@@ -182,8 +182,8 @@ function object:step(dt)
 -- After newX and newY are correct, apply step and set velocity accordingly.
   self.vx = (self.newX - self.x)/dt
   self.vy = (self.newY - self.y)/dt
-  self.x = self.newX
-  self.y = self.newY
+  self.oldx, self.x = self.x, self.newX
+  self.oldy, self.y = self.y, self.newY
 end
 
 function object:postStep(dt)

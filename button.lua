@@ -14,7 +14,7 @@ function Button:setAcceleration(dt)
 	
 	
 	if self.animation == 'button' then
-		if self:touchPlayer() then
+		if self:touchPlayer() and p.oldy+p.semiheight < self.y-self.semiheight then
 	  self.animation = 'buttonPressed'
 	  self.timer2 = self.lifetime
 		spriteEngine:DoAll('buttonPress')
