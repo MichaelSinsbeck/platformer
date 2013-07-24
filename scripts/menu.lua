@@ -77,6 +77,8 @@ function menu:initWorldMap()
 
 	local size = worldItemOn_IMG:getWidth()/2
 
+	if DEBUG then lastLevel = Campaign[#Campaign] end
+
 	for k, v in ipairs(Campaign) do
 
 		local curButton

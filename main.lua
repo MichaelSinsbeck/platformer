@@ -15,7 +15,15 @@ require 'campaign'
 
 mode = 'menu'	-- must be global
 
-function love.load()
+DEBUG = false
+
+function love.load(args)
+
+	for k, v in pairs(arg) do
+		if v == "--debug" or v == "-d" then
+			DEBUG = true
+		end
+	end
 
 	love.mouse.setVisible(false)
 
