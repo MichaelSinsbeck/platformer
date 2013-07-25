@@ -182,8 +182,10 @@ function object:step(dt)
 -- After newX and newY are correct, apply step and set velocity accordingly.
   self.vx = (self.newX - self.x)/dt
   self.vy = (self.newY - self.y)/dt
-  self.oldx, self.x = self.x, self.newX
-  self.oldy, self.y = self.y, self.newY
+  self.x = self.newX
+  self.y = self.newY
+  --self.oldx, self.x = self.x, self.newX
+  --self.oldy, self.y = self.y, self.newY
 end
 
 function object:postStep(dt)
@@ -198,8 +200,8 @@ function object:update(dt)
 		self:predictPosition(dtMicro)
 		self:collision(dtMicro)
 		self:step(dtMicro)
-		self:postStep(dt)
   end
+	self:postStep(dt)  
   if self.animation then
 		self:updateAnimation(dt)
 	end  

@@ -1,7 +1,7 @@
 Button = object:New({
 	tag = 'button',
   --img = love.graphics.newImage('images/button.png'),
-  marginx = 0.3,
+  marginx = 0.35,
   marginy = 0.3,
   animation = 'button',
   lifetime = 2,
@@ -14,7 +14,8 @@ function Button:setAcceleration(dt)
 	
 	
 	if self.animation == 'button' then
-		if self:touchPlayer() and p.oldy+p.semiheight < self.y-self.semiheight then
+		-- if self:touchPlayer() and p.oldy+p.semiheight < self.y-self.semiheight then
+		if self:touchPlayer() then
 	  self.animation = 'buttonPressed'
 	  self.timer2 = self.lifetime
 		spriteEngine:DoAll('buttonPress')
