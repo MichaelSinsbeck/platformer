@@ -35,6 +35,7 @@ Player = object:New({
   alpha = 255,
   poffTimer = 0,
   visible = true,
+  canUnJump = false,
   })
 
 function Player:jump()
@@ -42,11 +43,14 @@ function Player:jump()
   if self.status == 'stand' then
     self.status = 'fly'
     self.vy = self.jumpSpeed
+    self.canUnJump = true
   elseif self.status == 'fly' and self.jumpsLeft > 0 then
     self.vy = self.jumpSpeed
     self.jumpsLeft = self.jumpsLeft - 1
+    self.canUnJump = true
   elseif self.status == 'leftwall' then
     self.vy = self.walljumpSpeedy
+    self.canUnJump = true
 			if game.isLeft then
 				self.vx = self.walljumpSpeedx1
 				self:flip(true)
@@ -57,6 +61,7 @@ function Player:jump()
     self.status = 'fly'
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
+    self.canUnJump = true
 			if game.isRight then
 				self.vx = -self.walljumpSpeedx1
 				self:flip(false)
@@ -73,23 +78,26 @@ function Player:jump()
 			self.status = 'fly'
 			self.vy = self.jumpSpeed
 			self.line = nil
+			self.canUnJump = true
 		end
   end
 end
 
 function Player:unjump()
-	if self.status == 'fly' and self.vy < 0 then
-		if self.vy < -self.unjumpSpeed then
-			self.vy = self.vy + self.unjumpSpeed
-		else
-			self.vy = 0
+	if self.canUnJump then
+		if self.status == 'fly' and self.vy < 0 then
+			if self.vy < -self.unjumpSpeed then
+				self.vy = self.vy + self.unjumpSpeed
+			else
+				self.vy = 0
+			end
 		end
-	end
-	if (self.status == 'leftwall' or self.status == 'rightwall') and self.vy < 0 then
-		if self.vy < -self.unjumpSpeed then
-			self.vy = self.vy + self.unjumpSpeed
-		else
-			self.vy = 0
+		if (self.status == 'leftwall' or self.status == 'rightwall') and self.vy < 0 then
+			if self.vy < -self.unjumpSpeed then
+				self.vy = self.vy + self.unjumpSpeed
+			else
+				self.vy = 0
+			end
 		end
 	end
 end
@@ -113,8 +121,10 @@ function Player:setAcceleration(dt)
 		if myMap.tile[math.floor(self.x)] and
 		   myMap.tile[math.floor(self.x)][math.floor(self.y)] == 65 then --wind
 			self.vy = self.vy - self.glideAcc*dt
+			self.canUnJump = false
 		elseif self.vy > self.glideSpeed then
 			self.vy = self.vy - self.glideAcc*dt
+			self.canUnJump = false
 			if self.vy < self.glideSpeed then
 				self.vy = self.glideSpeed
 			end
