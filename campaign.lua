@@ -1,7 +1,5 @@
 Campaign = {
-	'n34.dat', -- button
-	'n35.dat',
-	'n36.dat',
+
 	
 	'n13.dat',
 	'n1.dat',

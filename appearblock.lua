@@ -21,7 +21,7 @@ function Appearblock:buttonPress()
 end
 
 function Appearblock:invert()
-  if self.animation == 'appearBlockThere' then
+  if self.state == 'there' then
     self.animation = 'appearBlockNotThere'
     self.state = 'notThere'
     myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil

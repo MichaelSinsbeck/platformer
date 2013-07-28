@@ -201,6 +201,9 @@ function object:update(dt)
 		self:collision(dtMicro)
 		self:step(dtMicro)
   end
+  if subdivide == 0 then
+    self:collision(dt)
+  end
 	self:postStep(dt)  
   if self.animation then
 		self:updateAnimation(dt)

@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="button.svg"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/bouncer.png"
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/button.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <sodipodi:namedview
@@ -25,12 +25,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313708"
-     inkscape:cx="65.071389"
-     inkscape:cy="8.163667"
+     inkscape:zoom="3.9999998"
+     inkscape:cx="69.687749"
+     inkscape:cy="29.773506"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:showpageshadow="true"
      inkscape:window-width="1280"
      inkscape:window-height="750"
@@ -59,7 +59,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -75,7 +75,7 @@
          sodipodi:nodetypes="cccccc"
          inkscape:connector-curvature="0"
          id="path3793"
-         d="m 17.500001,1006.6122 c 0.287499,-1.9446 -0.268034,-3.9079 0.06808,-5.8572 0.0032,-1.968 -0.319378,-2.79604 -0.133987,-5.07845 4.103252,0.16519 10.459145,0.0136 14.5659,0.0607 -0.684631,2.74652 -0.272159,5.61045 -0.375,8.41575 0,1.0281 0,2.0562 0,3.0843"
+         d="m 13.057057,1006.9354 c 0.287499,-1.9446 -0.268034,-3.9079 0.06808,-5.8572 0.0032,-1.96798 -0.319378,-2.79602 -0.133987,-5.07843 4.103252,0.16519 19.156606,0.0288 23.263361,0.0759 -0.684631,2.74652 -0.272159,5.61043 -0.375,8.41573 0,1.0281 0,2.0562 0,3.0843"
          style="fill:#916f6f;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          sodipodi:nodetypes="ccccc"
@@ -86,7 +86,7 @@
     </g>
     <path
        style="fill:#916f6f;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 70.648014,1033.2005 c 0.287499,-1.9446 -3.475141,0.5644 -3.139027,-1.3849 0.0032,-1.968 -0.319378,-2.796 -0.133987,-5.0784 4.103252,0.1652 10.459145,0.014 14.5659,0.061 -0.684631,2.7465 -0.537324,3.1355 -0.640165,5.9408 0,1.0281 -1.859835,0.4061 -1.859835,1.4342"
+       d="m 66.523014,1033.138 c 0.287499,-1.9446 -3.475141,0.5644 -3.139027,-1.3849 0.0032,-1.968 -0.319378,-2.796 -0.133987,-5.0784 4.103252,0.1652 19.330745,0.203 23.4375,0.25 -0.684631,2.7465 -0.537324,3.1355 -0.640165,5.9408 0,1.0281 -1.859835,0.4061 -1.859835,1.4342"
        id="path3793-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc" />
