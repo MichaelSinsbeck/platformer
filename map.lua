@@ -49,6 +49,11 @@ function Map:LoadFromFile(mapFile)
 end
 
 function Map:start(p)
+
+  -- reset collision table
+	self.collision = utility.copy(self.collisionSrc,true)
+
+	-- empty spriteEngine and add player
   spriteEngine:empty()
   spriteEngine:insert(p)
   p.x = self.xStart+0.5
@@ -57,16 +62,13 @@ function Map:start(p)
   p.vy = 0
   p.bandana = 'white'
   p.alpha = 255
-  p.status = 'fly'
+  p.status = 'stand'
   p:setAnim('whiteStand')
   p:flip(false)
-  p:update(0)
+  p:update(1/600)
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)
-  
-  -- reset collision table
-	self.collision = utility.copy(self.collisionSrc,true)
 
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor

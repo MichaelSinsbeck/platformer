@@ -24,8 +24,8 @@ Player = object:New({
   jumpsLeft = 0,
   maxJumps = 1, -- number of jumps, put 1 for normal and 2 for doublejump
   canGlide = true,
-  glideSpeed = 1.5,
-  glideAcc = 60, -- should be larger than gravity
+  glideSpeed = 1.5,--1.5,
+  glideAcc = 44,--60, -- should be larger than gravity
   animation = 'whiteStand',
   marginx = 0.3,
   marginy = 0.6,
@@ -95,12 +95,6 @@ function Player:unjump()
 end
 
 function Player:setAcceleration(dt)
-	--[[self.poffTimer = self.poffTimer + dt
-	if self.poffTimer > 0.18 then
-		local newPoff = Poff:New({x=self.x,y=self.y+self.semiheight})
-		spriteEngine:insert(newPoff)
-		self.poffTimer = self.poffTimer - 0.18
-	end--]]
 	
   -- read controls
 	game:checkControls()
@@ -149,12 +143,6 @@ function Player:setAcceleration(dt)
 				self.vx = math.min(0,self.vx+fx*dt)
 			end
 		end
-	--[[elseif self.status == 'online' then
-		if axControl > 0 and self.vx < self.walkSpeed then -- Acceleration to the right
-			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
-		elseif axControl < 0 and self.vx > -self.walkSpeed then -- Acceleration to the left
-			self.vx = math.max(self.vx+axControl*dt,-self.walkSpeed)
-		end--]]
 	elseif self.status == 'leftwall'  and axControl < 0 then
 			-- Movement to the left is possible
 			self.vx = math.max(axControl*dt,-self.walkSpeed)
@@ -169,12 +157,15 @@ function Player:setAcceleration(dt)
 	
   -- Gliding
   if self.bandana == 'blue' and game.isAction then
-    if self.vy > self.glideSpeed then
-      self.vy = self.vy - self.glideAcc*dt
-      if self.vy < self.glideSpeed then
-        self.vy = self.glideSpeed
-      end
-    end
+		if myMap.tile[math.floor(self.x)] and
+		   myMap.tile[math.floor(self.x)][math.floor(self.y)] == 65 then --wind
+			self.vy = self.vy - self.glideAcc*dt
+		elseif self.vy > self.glideSpeed then
+			self.vy = self.vy - self.glideAcc*dt
+			if self.vy < self.glideSpeed then
+				self.vy = self.glideSpeed
+			end
+		end
   end	
 end
 
@@ -311,13 +302,26 @@ function Player:collision(dt)
 	end
 	
 	if self.status == 'fly' then
-		if self.vy < 0 then
+		if game.isAction and self.bandana == 'blue' then
+			if self.vy > -self.glideSpeed or myMap.tile[math.floor(self.x)][math.floor(self.y)] == 65 then
+				self:setAnim(self.bandana..'Gliding')
+			else 
+				self:setAnim(self.bandana..'Jump')
+			end
+		else
+			if self.vy < 0 then
+				self:setAnim(self.bandana..'Jump')
+			else
+				self:setAnim(self.bandana..'Fall')
+			end
+		end
+		--[[if self.vy < 0 then
 			self:setAnim(self.bandana..'Jump')
 		elseif game.isAction and self.bandana == 'blue' then
 			self:setAnim(self.bandana..'Gliding')
 		else 
 			self:setAnim(self.bandana..'Fall')
-		end
+		end--]]
 	elseif self.status == 'stand' then
 		if control == 0 and self.vx == 0 then
 			self:setAnim(self.bandana..'Stand')

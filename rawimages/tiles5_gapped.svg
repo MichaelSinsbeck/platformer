@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="tiles5_gapped.svg"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/tiles6_gapped.png"
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/levelconverter/maps/tiles6_gapped.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <sodipodi:namedview
@@ -25,12 +25,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.99999999"
-     inkscape:cx="324.91012"
-     inkscape:cy="253.19315"
+     inkscape:zoom="1.4142135"
+     inkscape:cx="192.58585"
+     inkscape:cy="192.17886"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true"
+     showgrid="false"
      inkscape:showpageshadow="true"
      inkscape:window-width="1280"
      inkscape:window-height="750"
@@ -3408,5 +3408,11 @@
          d="m 19.25,1014.1122 c -2.252427,-1.995 -3.268508,-5.1879 -4.221781,-7.3091 -0.523185,2.4752 -0.05611,4.6423 0.20919,6.0365 0.438346,1.5205 1.290494,2.595 2.450123,3.6473"
          style="fill:#ff0000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
+    <path
+       style="fill:#ffff00;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 216.90821,965.92553 c -1.45323,2.5167 -2.41021,5.32326 -4.18498,7.64868 -0.16729,1.33853 2.13259,0.40374 2.98695,0.49265 1.46001,-0.14093 1.29207,0.25121 2.73372,0.34244 0.10383,1.26652 -0.0175,2.02194 0.0834,3.45914 -0.11862,1.86307 0.12315,3.73847 -0.0943,5.59459 0.0599,1.87564 2.31962,1.85537 3.67928,1.67456 1.57828,-0.27907 3.10308,0.14758 4.66765,0.22267 1.23522,0.0396 3.10493,0.50331 3.78244,-0.8693 0.0685,-1.43726 -0.32359,-2.8948 -0.29678,-4.36212 -0.0835,-1.56279 -0.11346,-3.13759 0.0974,-4.69216 1.98187,-0.68153 5.58799,-0.2943 5.88227,-0.96426 0.17068,-0.84583 -1.67563,-1.76376 -2.1803,-3.062 -1.64586,-3.18997 -3.7294,-6.13107 -5.81309,-9.04111 -1.04999,-1.84807 -4.15855,-5.304 -4.15855,-5.304 0,0 -5.3614,6.12037 -7.1851,8.86022 z"
+       id="path3580"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccccccc" />
   </g>
 </svg>
