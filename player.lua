@@ -26,6 +26,7 @@ Player = object:New({
   canGlide = true,
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
+  windMaxSpeed = -23,
   animation = 'whiteStand',
   marginx = 0.3,
   marginy = 0.6,
@@ -118,9 +119,13 @@ function Player:setAcceleration(dt)
 	
   -- Gliding
   if self.status == 'fly' and self.bandana == 'blue' and game.isAction then
-		if myMap.tile[math.floor(self.x)] and
+		if self.vy > self.windMaxSpeed and
+		   myMap.tile[math.floor(self.x)] and
 		   myMap.tile[math.floor(self.x)][math.floor(self.y)] == 65 then --wind
 			self.vy = self.vy - self.glideAcc*dt
+			if self.vy < self.windMaxSpeed then
+				self.vy = self.windMaxSpeed
+			end
 			self.canUnJump = false
 		elseif self.vy > self.glideSpeed then
 			self.vy = self.vy - self.glideAcc*dt
