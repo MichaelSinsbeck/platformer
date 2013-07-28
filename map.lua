@@ -29,6 +29,7 @@ function Map:LoadFromFile(mapFile)
   for i = 1,o.width do
     for j = 1,o.height do
       if o.tile[i][j] == 0 then o.tile[i][j] = nil end
+      if o.tile[i][j] == 65 then o.tile[i][j] = nil end
       if o.collisionSrc[i][j] == 0 then o.collisionSrc[i][j] = nil end
     end
   end
@@ -385,14 +386,15 @@ function Map:FactoryList(tile,height,width)
   [62] = Appearblock,
   [63] = Disappearblock,
 	[64] = Imitator,
+	[66] = Emitter,
   
   }
   
   for i=1,width do
     for j = 1,height do
 			if objectList[tile[i][j]] then
-				local constr = objectList[tile[i][j]]			
-			  tile[i][j] = 0
+				local constr = objectList[tile[i][j]]
+					tile[i][j] = 0
 			  local newObject = {constructor = constr, x = i, y = j}
 			  table.insert(factoryList,newObject)
 			end             

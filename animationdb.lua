@@ -155,3 +155,10 @@ AnimationDB:addAni('buttonPressed','button',{2},{1e6})
 AnimationDB:loadImage('images/appearblock.png','appearBlock',50,50)
 AnimationDB:addAni('appearBlockThere','appearBlock',{1},{1e6})
 AnimationDB:addAni('appearBlockNotThere','appearBlock',{2},{1e6})
+
+
+AnimationDB:loadImage('images/winddot.png','winddot',30,10)
+AnimationDB:addAni('wind1','winddot',{1},{1e6})
+AnimationDB:addAni('wind2','winddot',{2},{1e6})
+AnimationDB:addAni('wind3','winddot',{3},{1e6})
+

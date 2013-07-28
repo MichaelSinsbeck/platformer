@@ -16,6 +16,9 @@ require 'particle'
 require 'windmill'
 require 'button'
 require 'appearblock'
+require 'emitter'
+require 'winddot'
+
 
 
 function initAll()
@@ -39,6 +42,8 @@ function initAll()
 	Button:init()
 	Appearblock:init()
 	Imitator:init()
+	Winddot:init()
+	Emitter:init()
 end
 
 function spriteFactory(name,opts)
