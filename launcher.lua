@@ -5,11 +5,12 @@ Launcher = object:New({
   rotating = true,
   timeleft = 0,
   velocity = 15,
-  img = love.graphics.newImage('images/launcher.png'),
+  animation = 'launcher',
   marginx = .8,
   marginy = .8,
-  sonImg = love.graphics.newImage('images/launcherSon.png'),
+  sonAnimation = 'launcherSon',
   sonAngle = 0,
+  angle = -0.5*math.pi,
 })
 
 function Launcher:setAcceleration(dt)

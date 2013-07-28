@@ -6,12 +6,12 @@ Missile = object:New({
   seekspeed = 80,--55,
   rotating = true,
   z = -1,
-  img = love.graphics.newImage('images/missile.png'),
+  animation = 'missile',
   marginx = 0.4,
   marginx = 0.4,
   spreadSpeed = 10,--5,  -- For explosion
   particleRotSpeed = 20, -- For explosion
-  poffTimer = 0,  --for smoke
+  poffTimer = 0.1,  --for smoke
   poffRate = 0.06,  --for smoke
 })
 

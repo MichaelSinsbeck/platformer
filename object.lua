@@ -9,7 +9,7 @@ newX = 0, newY = 0,
 angle = 0,
 z = 0, -- for drawing order
 collisionResult = false,
-timer = 0, -- these three are for the animation
+timer = 0, -- these two are for the animation
 frame = 1,
 sonTimer = 0,
 sonFrame = 1,
@@ -76,10 +76,11 @@ function object:draw()
 	  love.graphics.setColor(255,255,255,self.alpha)
 	end
   if self.animation then
+		local sx,sy = (self.sx or 1), (self.sy or 1)
     self:drawAnimation(
 			math.floor(self.x*myMap.tileSize*Camera.scale)/Camera.scale,
 			math.floor(self.y*myMap.tileSize*Camera.scale)/Camera.scale,
-			self.angle,
+			self.angle,sx,sy,
 			math.floor(self.ox),math.floor(self.oy))
 	elseif self.img then
 		local sx,sy = (self.sx or 1), (self.sy or 1)
@@ -266,15 +267,12 @@ function object:resetAnimation()
 	self.timer = 0
 end
 
-function object:drawAnimation(x,y,angle,ox,oy)
-  local sx
+function object:drawAnimation(x,y,angle,sx,sy,ox,oy)
   if self.flipped then
-    sx = -1
-	else
-    sx = 1
+    sx = -sx
 	end
 	if self.img and self.currentQuad then
-		love.graphics.drawq(self.img, self.currentQuad,x,y,angle,sx,1,ox,oy)
+		love.graphics.drawq(self.img, self.currentQuad,x,y,angle,sx,sy,ox,oy)
 	end
 end
 

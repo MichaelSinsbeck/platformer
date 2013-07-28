@@ -2,7 +2,6 @@ Winddot = object:New({
 	tag = 'winddot',
   marginx = 0,
   marginy = 1,
-	--img = love.graphics.newImage('images/winddot.png'),
 	animation = 'wind1',
 	vx = 0,
 	vy = Player.windMaxSpeed,

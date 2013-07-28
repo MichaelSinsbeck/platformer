@@ -9,11 +9,15 @@ require 'campaign'
 
 
 function love.load()
-
+	
 	-- hide mouse
 	love.mouse.setVisible(false)
 
+	-- set screen resolution
 	Camera:init()
+	
+	-- load all images
+	AnimationDB:loadAll()	
 
 	recorder = false
 	screenshots = {}

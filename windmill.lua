@@ -1,6 +1,6 @@
 Windmill = object:New({
 	tag = 'windmill',
-  img = love.graphics.newImage('images/windmillwing.png'),
+  animation = 'windmillwing',
   marginx = 0,
   marginy = 0,
 	rotating = true,

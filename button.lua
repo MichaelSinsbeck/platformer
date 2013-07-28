@@ -1,12 +1,11 @@
 Button = object:New({
 	tag = 'button',
-  --img = love.graphics.newImage('images/button.png'),
   marginx = 0.5,
   marginy = 0.3,
   animation = 'button',
   lifetime = 2,
   timer2 = 0,
-  sonImg = love.graphics.newImage('images/waitbar.png'),
+  sonAnimation = 'waitbar',
   sonY = -0.6,
 })
 

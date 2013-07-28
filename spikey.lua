@@ -1,8 +1,8 @@
 Spikey = object:New({
 	tag = 'spikey',
-  img = love.graphics.newImage('images/spikey.png'),
   marginx = 0.8,
   marginy = 0.8,
+  animation = 'Spikey1',
 })
 
 function Spikey:setAcceleration(dt)

@@ -5,8 +5,8 @@ Cannon = object:New({
   rotating = true,
   timeleft = 0,
   velocity = 10,
-  img = love.graphics.newImage('images/cannon.png'),
-  frame = 3
+  animation = 'cannon',
+  angle = -0.5*math.pi,
 })
 
 function Cannon:setAcceleration(dt)

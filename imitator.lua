@@ -1,6 +1,5 @@
 Imitator = object:New({
 	tag = 'Imitator',
-	--img = love.graphics.newImage('images/imitator.png'),
 	animation = 'imitatorStand',
   marginx = 0.3,
   marginy = 0.6,

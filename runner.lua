@@ -5,12 +5,11 @@ Runner = object:New({
   xSensing = 20, --how far can he see?
   ySensing = 7,
   mouthRadius = 7,
-  --img = love.graphics.newImage('images/runner.png'),
   animation = 'runnerSleep',
   frame = 3,
   marginx = 0.7,
   marginy = 0.6,
-  sonImg = love.graphics.newImage('images/runnermouth.png'),
+  sonAnimation = 'runnerMouth',
   sonY = 0.2,
 })
 
