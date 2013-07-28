@@ -107,6 +107,19 @@ function Player:setAcceleration(dt)
 	else
 		self.vy = self.vy + self.wallgravity*dt
 	end
+	
+  -- Gliding
+  if self.status == 'fly' and self.bandana == 'blue' and game.isAction then
+		if myMap.tile[math.floor(self.x)] and
+		   myMap.tile[math.floor(self.x)][math.floor(self.y)] == 65 then --wind
+			self.vy = self.vy - self.glideAcc*dt
+		elseif self.vy > self.glideSpeed then
+			self.vy = self.vy - self.glideAcc*dt
+			if self.vy < self.glideSpeed then
+				self.vy = self.glideSpeed
+			end
+		end
+  end		
 
 	local ax,fx = 0,0
 	-- Determine acceleration and friction
@@ -153,20 +166,7 @@ function Player:setAcceleration(dt)
 			self.status = 'fly'
 	end
 	
-  if self.status == 'stand' then self.status = 'fly'  end	
-	
-  -- Gliding
-  if self.bandana == 'blue' and game.isAction then
-		if myMap.tile[math.floor(self.x)] and
-		   myMap.tile[math.floor(self.x)][math.floor(self.y)] == 65 then --wind
-			self.vy = self.vy - self.glideAcc*dt
-		elseif self.vy > self.glideSpeed then
-			self.vy = self.vy - self.glideAcc*dt
-			if self.vy < self.glideSpeed then
-				self.vy = self.glideSpeed
-			end
-		end
-  end	
+  if self.status == 'stand' and self.vy ~=0 then self.status = 'fly'  end	
 end
 
 function Player:collision(dt)

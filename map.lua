@@ -65,7 +65,7 @@ function Map:start(p)
   p.status = 'stand'
   p:setAnim('whiteStand')
   p:flip(false)
-  p:update(1/600)
+  p:update(0)
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)
