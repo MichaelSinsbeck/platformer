@@ -36,8 +36,15 @@ end
 function spriteEngine:kill()
 -- erase 'dead' objects
   for i = #self.objects,1,-1 do
-    if self.objects[i].dead then
+		local thisObject = self.objects[i]
+    if thisObject.dead then
 			table.remove(self.objects,i)
+		elseif thisObject.tag ~= 'player' and
+		  (thisObject.x < 0 or
+		   thisObject.x > myMap.width +2 or
+		   thisObject.y < 0 or
+		   thisObject.y > myMap.height+2) then
+		  table.remove(self.objects,i)
     end
   end
 end
