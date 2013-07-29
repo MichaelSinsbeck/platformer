@@ -388,6 +388,7 @@ function Map:FactoryList(tile,height,width)
 	[64] = Imitator,
 	[66] = Emitter,
   [67] = Crumbleblock,
+  [68] = Glassblock,
   }
   
   for i=1,width do

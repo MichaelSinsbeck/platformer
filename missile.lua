@@ -13,6 +13,7 @@ Missile = object:New({
   particleRotSpeed = 20, -- For explosion
   poffTimer = 0.1,  --for smoke
   poffRate = 0.06,  --for smoke
+  explosionRadius = 2^2,
 })
 
 function Missile:setAcceleration(dt)
@@ -51,6 +52,14 @@ function Missile:postStep(dt)
   end
 
   if self.collisionResult > 0 then
+		-- send explosion event
+		local args = {}
+		args.x = self.x
+		args.y = self.y
+		args.radius2 = self.explosionRadius
+		spriteEngine:DoAll('explode',args)
+  
+		-- generate Explosion
   	local newExplo = Explosion:New({x=self.x,y=self.y,angle=2*math.pi*math.random()})
 		spriteEngine:insert(newExplo)
 		
@@ -60,7 +69,7 @@ function Missile:postStep(dt)
 		if math.floor(self.collisionResult/8)%2 == 1 then self.vy = math.min(self.vy,0) end --collision bottom
 		local baseVx,baseVy = 0.2*self.vx,0.2*self.vy
 
-		for i = 1,6 do -- spawn 5 particles
+		for i = 1,6 do -- spawn 6 particles
 		  local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3
 		  local cos,sin = math.cos(angle),math.sin(angle)
 			if self.collisionResult % 2 == 1 then cos = -math.abs(cos) end --collision right
@@ -75,6 +84,10 @@ function Missile:postStep(dt)
 		  local newParticle = Particle:New({x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed})
 		  spriteEngine:insert(newParticle)
 		end
+		
+
+		
+		-- remove missile
     self:kill()
   end
 end

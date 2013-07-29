@@ -192,6 +192,9 @@ function AnimationDB:loadAll()
 	AnimationDB:loadImage('images/crumbleblock.png','crumbleblock',50,50)
 	AnimationDB:addAni('crumbleblock','crumbleblock',{1},{1e6})
 	
+	AnimationDB:loadImage('images/glassblock.png','glassblock',50,50)
+	AnimationDB:addAni('glassblock','glassblock',{1},{1e6})
+	
 	AnimationDB:loadImage('images/bubble.png','bubble')
 	AnimationDB:addAni('bubble','bubble',{1},{1e6})
 	
@@ -200,4 +203,8 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('crumble2','crumble',{2},{1e6})
 	AnimationDB:addAni('crumble3','crumble',{3},{1e6})
 	AnimationDB:addAni('crumble4','crumble',{4},{1e6})
+	AnimationDB:addAni('glass1','crumble',{5},{1e6})
+	AnimationDB:addAni('glass2','crumble',{6},{1e6})
+	AnimationDB:addAni('glass3','crumble',{7},{1e6})
+	AnimationDB:addAni('glass4','crumble',{8},{1e6})
 end

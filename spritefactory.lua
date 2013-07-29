@@ -20,7 +20,7 @@ require 'emitter'
 require 'winddot'
 require 'bubble'
 require 'crumbleblock'
-
+require 'glassblock'
 
 
 
@@ -49,6 +49,7 @@ function initAll()
 	Emitter:init()
 	Crumbleblock:init()
 	Bubble:init()
+	Glassblock:init()
 end
 
 function spriteFactory(name,opts)

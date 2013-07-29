@@ -49,10 +49,10 @@ function spriteEngine:kill()
   end
 end
 
-function spriteEngine:DoAll(functionName)
+function spriteEngine:DoAll(functionName,args)
   for i,v in ipairs(self.objects) do
 		if v[functionName] then
-		  v[functionName](v)
+		  v[functionName](v,args)
 		end
 	end
 end

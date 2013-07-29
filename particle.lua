@@ -20,7 +20,8 @@ function Particle:setAcceleration(dt)
 	  local factor = (speed-self.acceleration*dt)/speed
 	  self.vx,self.vy = factor*self.vx, factor*self.vy
 	end
-	self.alpha = math.sqrt((self.lifetime - self.timer)/self.lifetime) * 255
+	
+	self.alpha = math.min(2*(self.lifetime - self.timer)/self.lifetime,1)*255
 	if self.timer >= self.lifetime then
     self:kill()
 	end
