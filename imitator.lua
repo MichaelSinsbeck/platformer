@@ -59,7 +59,7 @@ function Imitator:postStep(dt)
     p.dead = true
   end
 
-	if self.collisionResult >= 8 then
+	if self.collisionResult >= 8 or self.vy == 0 then
 		self.status = 'stand'
 	else
 		self.status = 'fly'
