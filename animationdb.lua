@@ -137,7 +137,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 
 	AnimationDB:loadImage('images/particle.png','particle',20,20)
-	AnimationDB:addAni('particle','particle',{1,2,3,4,4},{.3,.2,.1,.1,1e6})
+	AnimationDB:addAni('particle','particle',{1},{1e6})
 
 	AnimationDB:loadImage('images/shuriken.png','shuriken',50,50)
 	AnimationDB:addAni('shurikenDead','shuriken',{2},{1e6})
@@ -188,4 +188,16 @@ function AnimationDB:loadAll()
 
 	AnimationDB:loadImage('images/windmillwing.png','windmillwing')
 	AnimationDB:addAni('windmillwing','windmillwing',{1},{1e6})
+	
+	AnimationDB:loadImage('images/crumbleblock.png','crumbleblock',50,50)
+	AnimationDB:addAni('crumbleblock','crumbleblock',{1},{1e6})
+	
+	AnimationDB:loadImage('images/bubble.png','bubble')
+	AnimationDB:addAni('bubble','bubble',{1},{1e6})
+	
+	AnimationDB:loadImage('images/crumble.png','crumble',20,20)
+	AnimationDB:addAni('crumble1','crumble',{1},{1e6})
+	AnimationDB:addAni('crumble2','crumble',{2},{1e6})
+	AnimationDB:addAni('crumble3','crumble',{3},{1e6})
+	AnimationDB:addAni('crumble4','crumble',{4},{1e6})
 end

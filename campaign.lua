@@ -1,5 +1,5 @@
 Campaign = {
-	'n41.dat',
+	'n42.dat',
 	
 	'n13.dat',
 	'n1.dat',
@@ -40,6 +40,7 @@ Campaign = {
 	'n37.dat', -- imitator
 	'n39.dat',
 	'n40.dat',	
+	'n41.dat', -- wind
 	}
 
 Campaign.current = 0

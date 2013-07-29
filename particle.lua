@@ -7,6 +7,7 @@ Particle = object:New({
   rotating = true,
   rotSpeed = 5,
   acceleration = 5,
+  lifetime = 0.6,
 })
 
 function Particle:setAcceleration(dt)
@@ -19,7 +20,8 @@ function Particle:setAcceleration(dt)
 	  local factor = (speed-self.acceleration*dt)/speed
 	  self.vx,self.vy = factor*self.vx, factor*self.vy
 	end
-	if self.frame == 5 then
+	self.alpha = math.sqrt((self.lifetime - self.timer)/self.lifetime) * 255
+	if self.timer >= self.lifetime then
     self:kill()
 	end
 end

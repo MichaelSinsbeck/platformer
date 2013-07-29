@@ -70,7 +70,7 @@ function convert(filetrunc)
 		0,0,0,0,0,0,
 		0,0,0,0,0,0,
 		0,0,1,0,4,4,
-		0,0,0,0,0,0
+		1,0,0,0,0,0
 	}
 	tileToCollision[0] = 0
 

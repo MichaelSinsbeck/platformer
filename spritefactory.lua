@@ -18,6 +18,9 @@ require 'button'
 require 'appearblock'
 require 'emitter'
 require 'winddot'
+require 'bubble'
+require 'crumbleblock'
+
 
 
 
@@ -44,6 +47,8 @@ function initAll()
 	Imitator:init()
 	Winddot:init()
 	Emitter:init()
+	Crumbleblock:init()
+	Bubble:init()
 end
 
 function spriteFactory(name,opts)
