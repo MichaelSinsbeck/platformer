@@ -1,6 +1,4 @@
-Campaign = {
-	'n45.dat',
-		
+Campaign = {		
 	'n13.dat',
 	'n1.dat',
 	'n10.dat',
@@ -41,6 +39,11 @@ Campaign = {
 	'n39.dat',
 	'n40.dat',	
 	'n41.dat', -- wind
+	'n42.dat', -- breaking block
+	'n44.dat', -- glass tutorial
+	'n43.dat', -- glass long level			
+	'n45.dat', -- fixed cannon	
+	
 	}
 
 Campaign.current = 0
