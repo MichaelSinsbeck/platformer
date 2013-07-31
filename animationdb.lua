@@ -207,4 +207,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('glass2','crumble',{6},{1e6})
 	AnimationDB:addAni('glass3','crumble',{7},{1e6})
 	AnimationDB:addAni('glass4','crumble',{8},{1e6})
+	
+	AnimationDB:loadImage('images/fixedcannon.png','fixedcannon')
+	AnimationDB:addAni('fixedcannon','fixedcannon',{1},{1e6})
 end

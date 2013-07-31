@@ -21,6 +21,7 @@ require 'winddot'
 require 'bubble'
 require 'crumbleblock'
 require 'glassblock'
+require 'fixedcannon'
 
 
 
@@ -50,6 +51,7 @@ function initAll()
 	Crumbleblock:init()
 	Bubble:init()
 	Glassblock:init()
+	FixedCannon:init()
 end
 
 function spriteFactory(name,opts)

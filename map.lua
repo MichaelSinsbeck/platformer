@@ -389,6 +389,8 @@ function Map:FactoryList(tile,height,width)
 	[66] = Emitter,
   [67] = Crumbleblock,
   [68] = Glassblock,
+  [69] = FixedCannon1r,
+	[70] = FixedCannon2l,
   }
   
   for i=1,width do
