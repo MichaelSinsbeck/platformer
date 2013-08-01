@@ -51,12 +51,13 @@ end
 
 function Map:start(p)
 
+	game.deathtimer = 0
   -- reset collision table
 	self.collision = utility.copy(self.collisionSrc,true)
 
 	-- empty spriteEngine and add player
   spriteEngine:empty()
-  spriteEngine:insert(p)
+  spriteEngine:insert(p)  
   p.x = self.xStart+0.5
   p.y = self.yStart+1-p.semiheight
   p.vx = 0
@@ -67,6 +68,7 @@ function Map:start(p)
   p:setAnim('whiteStand')
   p:flip(false)
   p:update(0)
+  p.dead = nil
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)

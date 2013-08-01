@@ -22,6 +22,7 @@ require 'bubble'
 require 'crumbleblock'
 require 'glassblock'
 require 'fixedcannon'
+require 'butterfly'
 
 
 
@@ -52,6 +53,7 @@ function initAll()
 	Bubble:init()
 	Glassblock:init()
 	FixedCannon:init()
+	Butterfly:init()
 end
 
 function spriteFactory(name,opts)

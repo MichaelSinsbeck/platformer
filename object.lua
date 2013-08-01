@@ -38,14 +38,6 @@ function object:init()
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth
 		end
-		if self.sonAnimation then
-		  local name = AnimationDB.animation[self.sonAnimation].source
-		  self.sonox = self.sonox or 0.5*AnimationDB.source[name].width
-		  self.sonoy = self.sonoy or 0.5*AnimationDB.source[name].height
-		elseif self.sonImg then
-		  self.sonox = self.sonox or 0.5*self.sonImg:getWidth()
-		  self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()
-		end
   elseif self.animation then
 		self.marginx = self.marginx or 1
     self.marginy = self.marginy or 1
@@ -60,6 +52,14 @@ function object:init()
 		  self.semiheight = self.semiwidth
 		end
   end
+	if self.sonAnimation then
+		local name = AnimationDB.animation[self.sonAnimation].source
+		self.sonox = self.sonox or 0.5*AnimationDB.source[name].width
+		self.sonoy = self.sonoy or 0.5*AnimationDB.source[name].height
+	elseif self.sonImg then
+		self.sonox = self.sonox or 0.5*self.sonImg:getWidth()
+		self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()
+	end  
 end
 
 function object:setImage(filename)

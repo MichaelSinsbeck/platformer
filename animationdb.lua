@@ -56,6 +56,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('whiteLineSlide','whitePlayer',{8},{1e6})
 	AnimationDB:addAni('whiteLineMove','whitePlayer',{13,14,15,14},{0.08,0.04,0.08,0.04})
 	AnimationDB:addAni('whiteLineHang','whitePlayer',{16},{1e6})
+	AnimationDB:addAni('whiteDead','whitePlayer',{20},{1e6})
 
 	AnimationDB:loadImage('images/player_blue.png','bluePlayer',50,50)
 	AnimationDB:addAni('blueRun','bluePlayer',{3,1,2,1},{.08,.04,.08,.04})
@@ -210,4 +211,10 @@ function AnimationDB:loadAll()
 	
 	AnimationDB:loadImage('images/fixedcannon.png','fixedcannon')
 	AnimationDB:addAni('fixedcannon','fixedcannon',{1},{1e6})
+	
+	AnimationDB:loadImage('images/butterfly.png','butterfly',20,20)
+	AnimationDB:addAni('butterflybody','butterfly',{1},{1e6})	
+	AnimationDB:addAni('butterflywing1','butterfly',{2},{1e6})
+	AnimationDB:addAni('butterflywing2','butterfly',{3},{1e6})
+	AnimationDB:addAni('butterflywing3','butterfly',{4},{1e6})
 end

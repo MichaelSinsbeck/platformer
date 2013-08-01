@@ -1,4 +1,6 @@
-Campaign = {		
+Campaign = {	
+	'n45.dat', -- fixed cannon	
+	
 	'n13.dat',
 	'n1.dat',
 	'n10.dat',

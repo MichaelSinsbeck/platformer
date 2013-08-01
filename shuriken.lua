@@ -11,12 +11,27 @@ Shuriken = object:New({
   marginy = 0.3,
   timer = 0,
   lifetime = 3,
+	spreadSpeed  = 10,
+	particleRotSpeed = 20,
 })
 
 function Shuriken:setAcceleration(dt)
 	self.angle = self.angle + self.rotationVelocity*dt
-	if self:touchPlayer() and self.animation == 'shuriken' then
+	if self:touchPlayer() and self.animation == 'shuriken' and not p.dead then
     p.dead = true
+    
+		for i = 1,12 do -- spawn 6 particles
+		  local angle, magnitude = math.pi*2*math.random(), 0.5+math.random()*0.5
+		  local cos,sin = math.cos(angle),math.sin(angle)
+		  local vx = cos*self.spreadSpeed*magnitude+0.7*self.vx
+		  local vy = sin*self.spreadSpeed*magnitude+0.7*self.vy
+		  local timer = -math.random()
+		  local animation = 'butterflywing' .. math.random(1,3)
+		  local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
+		  local newParticle = Butterfly:New({timer = timer,x=self.x,y=self.y,vx = vx,vy = vy,animation=animation})
+		  spriteEngine:insert(newParticle)
+		end    
+    
   end
   if self.animation == 'shurikenDead' then
     self.timer = self.timer + dt

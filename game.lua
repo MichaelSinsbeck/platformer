@@ -1,6 +1,6 @@
 require 'spriteengine'
 
-game = {}
+game = {deathtimer = 0}
 
 function game:draw()
   love.graphics.push()
@@ -61,12 +61,17 @@ function game:update(dt)
     Campaign:proceed()
   end
   
-  if p.y > myMap.height+2 or p.dead then
-    p:setAnim('whiteStand')
-		p:resetAnimation()
-		p:update(0)
+  if p.dead then
+		self.deathtimer = self.deathtimer + dt
+  end
+  
+  if self.deathtimer > 5 then
     myMap:start(p)
-    p.dead = nil
+  end
+  
+	--if p.y > myMap.height+2 or p.dead then  
+  if p.y > myMap.height+2 then
+    myMap:start(p)
   end
   
   if recorder then
@@ -80,6 +85,9 @@ function game.keypressed(key)
 	end
   if key == "a" then
 		spriteEngine:DoAll('jump')
+		if p.dead then
+			myMap:start(p)
+		end
   end
   if key == "q" then
     Campaign:proceed()
