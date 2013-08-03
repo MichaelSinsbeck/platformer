@@ -217,4 +217,12 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('butterflywing1','butterfly',{2},{1e6})
 	AnimationDB:addAni('butterflywing2','butterfly',{3},{1e6})
 	AnimationDB:addAni('butterflywing3','butterfly',{4},{1e6})
+	
+	AnimationDB:loadImage('images/meat.png','meat',20,20)	
+	AnimationDB:addAni('meat1','meat',{1},{1e6})
+	AnimationDB:addAni('meat2','meat',{2},{1e6})
+	AnimationDB:addAni('meat3','meat',{3},{1e6})
+	AnimationDB:addAni('meat4','meat',{4},{1e6})
+	AnimationDB:addAni('meatWall','meat',{5},{1e6})
+	AnimationDB:addAni('meatCorner','meat',{6},{1e6})
 end

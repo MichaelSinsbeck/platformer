@@ -23,7 +23,7 @@ require 'crumbleblock'
 require 'glassblock'
 require 'fixedcannon'
 require 'butterfly'
-
+require 'meat'
 
 
 function initAll()
@@ -54,6 +54,7 @@ function initAll()
 	Glassblock:init()
 	FixedCannon:init()
 	Butterfly:init()
+	Meat:init()
 end
 
 function spriteFactory(name,opts)
