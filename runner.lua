@@ -18,7 +18,7 @@ function Runner:setAcceleration(dt)
   local dy = self.y-p.y
   
 
-  if p.visible and math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
+  if p.visible and not p.dead and math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
     self.sonSy = math.max(0,1-math.sqrt(dx*dx+dy*dy)/self.mouthRadius)
 		self.sonSx = self.sonSy
   

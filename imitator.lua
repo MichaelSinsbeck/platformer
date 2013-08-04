@@ -55,10 +55,10 @@ function Imitator:setAcceleration(dt)
 end
 
 function Imitator:postStep(dt)
-	if self:touchPlayer() then
+	if not p.dead and self:touchPlayer(dx,dy) then
     p.dead = true
-  end
-
+    Meat:spawn(p.x,p.y,self.vx,self.vy,12)
+  end  
 	if self.collisionResult >= 8 or self.vy == 0 then
 		self.status = 'stand'
 	else

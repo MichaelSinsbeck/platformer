@@ -194,6 +194,7 @@ end
 
 function object:update(dt)
 -- Perform all update steps
+	self.oldx,self.oldy = self.x,self.y
   self:setAcceleration(dt)
 	local subdivide = math.max(math.ceil(math.abs(self.vx*dt)),math.ceil(math.abs(self.vy*dt)))
 	local dtMicro = dt/subdivide
