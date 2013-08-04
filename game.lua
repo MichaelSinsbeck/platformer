@@ -69,9 +69,9 @@ function game:update(dt)
     myMap:start(p)
   end
   
-	--if p.y > myMap.height+2 or p.dead then  
-  if p.y > myMap.height+2 then
-    myMap:start(p)
+  if p.y > myMap.height+2 and not p.dead then
+    p.dead = true
+    Meat:spawn(p.x,p.y-1,0,0)
   end
   
   if recorder then
