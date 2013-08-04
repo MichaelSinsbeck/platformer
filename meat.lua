@@ -1,7 +1,7 @@
 Meat = Particle:New({
 	tag = 'Meat',
-  marginx = 0.5,
-  marginy = 0.5,
+  marginx = 0.1,
+  marginy = 0.1,
   lifetime = 5,
   spreadSpeed = 15,
   rotSpeed = 5,
@@ -43,7 +43,7 @@ function Meat:postStep(dt)
 end
 
 function Meat:spawn(x,y,vx,vy,number)
-local number = number or 10
+local number = number or 12
 for i=1,number do
 	local angle, magnitude = math.pi*2*math.random(), 0.5+math.random()*0.5
 	local cos,sin = math.cos(angle),math.sin(angle)

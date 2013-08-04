@@ -50,7 +50,7 @@ function Missile:postStep(dt)
 	if self:touchPlayer(dx,dy) and not p.dead then
 		self:detonate()
     p.dead = true
-    Meat:spawn(self.x,self.y,self.vx,self.vy,12)
+    Meat:spawn(self.x,self.y,self.vx,self.vy)
   end
 
   if self.collisionResult > 0 then

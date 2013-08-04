@@ -6,9 +6,10 @@ Spikey = object:New({
 })
 
 function Spikey:setAcceleration(dt)
-	if self:touchPlayer() then  -- Kill player, if touching
+	if not p.dead and self:touchPlayer() then
     p.dead = true
-  end
+    Meat:spawn(p.x,p.y,self.vx,self.vy,12)
+  end  
 end
 Spikeys = {
 [1] = Spikey:New({animation='Spikey1'}),
