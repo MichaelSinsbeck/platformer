@@ -50,9 +50,12 @@ for i=1,number do
 	local vx = cos*self.spreadSpeed*magnitude+0.7*vx
 	local vy = sin*self.spreadSpeed*magnitude+0.7*vy
 	local lifetime = self.lifetime * 0.8+ 0.4*math.random()
+	--local timer = -math.random()
 	local animation = 'meat' .. math.random(1,4)
+	--local animation = 'butterflywing' .. math.random(1,3)
 	local rotSpeed = self.rotSpeed * (math.random()*2-1)
 	local newParticle = self:New({x=x,y=y,vx = vx,vy = vy,animation=animation,rotSpeed = rotSpeed,lifetime = lifetime})
+	--local newParticle = Butterfly:New({x=x,y=y,vx = vx,vy = vy,lifetime = lifetime,animation=animation,timer=timer})
 	spriteEngine:insert(newParticle)
 end
 end

@@ -122,6 +122,10 @@ end
 function game.joystickpressed(joystick, button)
   if button == 3 then
     spriteEngine:DoAll('jump')
+		if p.dead then
+			myMap:start(p)
+		end  
+
   end
 end
 
