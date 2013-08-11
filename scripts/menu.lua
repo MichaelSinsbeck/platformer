@@ -350,7 +350,7 @@ function menu:draw()
 		else
 			love.graphics.draw( button.imgOff, button.x, button.y )
 		end
-		love.graphics.print(k, button.x, button.y )
+		--love.graphics.print(k, button.x, button.y )
 	end
 end
 
