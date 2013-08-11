@@ -93,3 +93,23 @@ function love.keypressed( key, unicode )
 		myMap:start(p)
 	end
 end
+
+
+function love.keyreleased(key)
+  if mode == 'game' then
+    game.keyreleased(key)
+  end
+end
+
+function love.joystickpressed(joystick, button)
+if mode == 'game' then
+game.joystickpressed(joystick, button)
+end
+if button == 9 then Campaign:reset() myMap:start(p) end
+end
+
+function love.joystickreleased(joystick, button)
+if mode == 'game' then
+    game.joystickreleased(joystick, button)
+  end
+end
