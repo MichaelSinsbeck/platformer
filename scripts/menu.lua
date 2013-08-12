@@ -4,7 +4,10 @@ local menu = {active = false}
 local buttons = {}
 local menuLines = {}
 local menuImages = {}
+local menuBackgrounds = {}
 local selButton
+
+local PADDING = 50		-- distance of buttons from edges
 
 local logo_IMG = love.graphics.newImage("images/menu/logo.png")
 
@@ -19,11 +22,16 @@ local worldItemOff_IMG = love.graphics.newImage("images/menu/worldItemOff.png")
 local worldItemOn_IMG = love.graphics.newImage("images/menu/worldItemOn.png")
 local worldItemInactive_IMG = love.graphics.newImage("images/menu/worldItemInactive.png")
 
+local background1_IMG = love.graphics.newImage("images/world/world1.png")
+local background2_IMG = love.graphics.newImage("images/world/world2.png")
+local background3_IMG = love.graphics.newImage("images/world/world3.png")
+
 local menuPlayer = require("scripts/menuPlayer")
 
 function menu.clear()
 	buttons = {}	-- clear all buttons from other menus
 	menuImages = {}
+	menuBackgrounds = {}
 	menuLines = {}
 end
 
@@ -72,6 +80,20 @@ function menu:initWorldMap()
 	
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "worldMap"
+	
+	-- add world background images:
+	local x,y
+	x = (love.graphics.getWidth() - background1_IMG:getWidth())/2
+	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
+	table.insert(menuBackgrounds, {typ="img", img=background1_IMG, x=x, y=y})
+	
+	x = love.graphics.getWidth() + (love.graphics.getWidth() - background1_IMG:getWidth())/2
+	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
+	table.insert(menuBackgrounds, {typ="img", img=background2_IMG, x=x, y=y})
+	
+	x = 2*love.graphics.getWidth() + (love.graphics.getWidth() - background1_IMG:getWidth())/2
+	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
+	table.insert(menuBackgrounds, {typ="img", img=background3_IMG, x=x, y=y})
 
 	-- find out the last level that was beaten:
 	local currentLevel = config.getValue("level")
@@ -82,28 +104,26 @@ function menu:initWorldMap()
 	local firstButton
 	local dir = "right"
 	local distBetweenButtons = 50
-	local padding = 50
-	local x, y = padding, 70
 
 	local size = worldItemOn_IMG:getWidth()/2
 	
 	local actionHover
-	
 
 	if DEBUG then lastLevel = Campaign[#Campaign] end
 
+	x, y = PADDING, 70
+	
 	for k, v in ipairs(Campaign) do
 
 		local curButton
 		-- add buttons until the current level is found:
 		if not lastLevelFound then
-			actionHover = menuPlayer:setDestination(x - 13 , y - 32)
 			curButton = menu:addButton( x, y,
 							worldItemOff_IMG,
 							worldItemOn_IMG,
 							v,
 							menu:startGame( v ),
-							actionHover )
+							scrollWorldMap )
 		else
 			table.insert(menuImages, {typ="img", img=worldItemInactive_IMG, x=x, y=y})
 		end
@@ -129,14 +149,14 @@ function menu:initWorldMap()
 		end
 		
 		if dir == "right" then
-			if x + distBetweenButtons < love.graphics.getWidth() - padding then
+			--if x + distBetweenButtons < love.graphics.getWidth() - PADDING then
 				x = x + distBetweenButtons
-			else
-				y = y + distBetweenButtons
-				dir = "left"
-			end
+			--else
+			--	y = y + distBetweenButtons
+			--	dir = "left"
+			--end
 		elseif dir == "left" then
-			if x - distBetweenButtons > padding then
+			if x - distBetweenButtons > PADDING then
 				x = x - distBetweenButtons
 			else
 				y = y + distBetweenButtons
@@ -152,6 +172,47 @@ function menu:initWorldMap()
 		selectButton(firstButton)
 	end
 
+end
+
+function scrollWorldMap()	--called when a button on world map is selected
+	
+	
+	if selButton.x > love.graphics.getWidth() - PADDING then
+		for k, v in pairs(buttons) do
+			if v.imgOff == worldItemOff_IMG then		--find all world button images
+				v.x = v.x - love.graphics.getWidth()	-- move all level buttons to the right
+			end
+		end
+		for k, v in pairs(menuBackgrounds) do	-- move all background images
+			v.x = v.x - love.graphics.getWidth()
+		end
+		for k, v in pairs(menuImages) do	-- move all background images
+			v.x = v.x - love.graphics.getWidth()
+		end
+		for k, v in pairs(menuLines) do		-- move all background lines
+			v.x1 = v.x1 - love.graphics.getWidth()
+			v.x2 = v.x2 - love.graphics.getWidth()
+		end
+	end
+	
+	while selButton.x < 0 do
+		for k, v in pairs(buttons) do
+			if v.imgOff == worldItemOff_IMG then		--find all world button images
+				v.x = v.x + love.graphics.getWidth()	-- move all level buttons to the left
+			end
+		end
+		for k, v in pairs(menuImages) do	-- move all background images
+			v.x = v.x + love.graphics.getWidth()
+		end
+		for k, v in pairs(menuLines) do		-- move all background lines
+			v.x1 = v.x1 + love.graphics.getWidth()
+			v.x2 = v.x2 + love.graphics.getWidth()
+		end
+	end
+	
+	-- Create function which will set ninja coordinates. Then call that function:
+	local func = menuPlayer:setDestination(selButton.x - 13, selButton.y - 32)
+	func()
 end
 
 
@@ -191,8 +252,10 @@ function menu:startGame( lvl )
 	end
 end
 
-
+---------------------------------------------------------
 -- adds a new button to the list of buttons and then returns the new button
+---------------------------------------------------------
+
 function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 	
 	local new = {x=x,
@@ -368,7 +431,7 @@ end
 ---------------------------------------------------------
 
 function menu:update(dt)
-	menuPlayer:update(dt)
+	menuPlayer:update(dt/2)
 end
 
 ---------------------------------------------------------
@@ -378,6 +441,11 @@ end
 function menu:draw()
 
 	-- draw background elements:
+	for k, element in pairs(menuBackgrounds) do
+		if element.x > 0 and element.x < love.graphics.getWidth() then
+			love.graphics.draw( element.img, element.x, element.y )
+		end
+	end
 	for k, element in pairs(menuLines) do
 		love.graphics.line( element.x1, element.y1, element.x2, element.y2 )
 	end
