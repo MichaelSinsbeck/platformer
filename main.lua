@@ -45,8 +45,8 @@ end
 function love.update( dt )
 	if mode == 'game' then
 		game:update(dt)
-	--elseif mode == 'menu' then
-	--	menu:update(dt)
+	elseif mode == 'menu' then
+		menu:update(dt)
 	elseif mode == 'intro' then
 		intro:update(dt)
 	end
@@ -67,10 +67,6 @@ function love.keypressed( key, unicode )
 
 	if mode == 'menu' then
 		menu:keypressed( key, unicode )
-
-		if key == 'escape' then
-			love.event.quit()
-		end
 	elseif mode == 'game' then
 		game.keypressed( key )
 		

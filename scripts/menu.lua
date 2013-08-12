@@ -19,6 +19,7 @@ local worldItemOff_IMG = love.graphics.newImage("images/menu/worldItemOff.png")
 local worldItemOn_IMG = love.graphics.newImage("images/menu/worldItemOn.png")
 local worldItemInactive_IMG = love.graphics.newImage("images/menu/worldItemInactive.png")
 
+local menuPlayer = require("scripts/menuPlayer")
 
 function menu.clear()
 	buttons = {}	-- clear all buttons from other menus
@@ -34,17 +35,24 @@ end
 function menu:init()
 
 	menu:clear()	-- remove anything that was previously on the menu
+	menu.state = "main"
 
 	love.graphics.setBackgroundColor(40,40,40)
 
 	local x,y
 	x = (love.graphics.getWidth() - startOff_IMG:getWidth())/2
 	y = love.graphics.getHeight()/2
-	local startButton = menu:addButton( x, y, startOff_IMG, startOn_IMG, "start", menu.initWorldMap )
+	
+	local actionHover = menuPlayer:setDestination(x - 35, y)
+	local startButton = menu:addButton( x, y, startOff_IMG, startOn_IMG, "start", menu.initWorldMap, actionHover )
 	y = y + 50
-	menu:addButton( x, y, settingsOff_IMG, settingsOn_IMG, "settings" )
+	
+	actionHover = menuPlayer:setDestination(x - 35, y)
+	menu:addButton( x, y, settingsOff_IMG, settingsOn_IMG, "settings", nil, actionHover )
+	
 	y = y + 50
-	menu:addButton( x, y, exitOff_IMG, exitOn_IMG, "exit", love.event.quit)
+	actionHover = menuPlayer:setDestination(x - 35, y)
+	menu:addButton( x, y, exitOff_IMG, exitOn_IMG, "exit", love.event.quit, actionHover )
 
 	
 	-- add main logo:
@@ -54,6 +62,8 @@ function menu:init()
 
 	-- start of with the start button selected:
 	selectButton(startButton)
+	
+	menuPlayer:reset()
 end
 
 
@@ -61,7 +71,7 @@ end
 function menu:initWorldMap()
 	
 	menu:clear()	-- remove anything that was previously on the menu
-	
+	menu.state = "worldMap"
 
 	-- find out the last level that was beaten:
 	local currentLevel = config.getValue("level")
@@ -76,6 +86,9 @@ function menu:initWorldMap()
 	local x, y = padding, 70
 
 	local size = worldItemOn_IMG:getWidth()/2
+	
+	local actionHover
+	
 
 	if DEBUG then lastLevel = Campaign[#Campaign] end
 
@@ -84,7 +97,13 @@ function menu:initWorldMap()
 		local curButton
 		-- add buttons until the current level is found:
 		if not lastLevelFound then
-			curButton = menu:addButton( x, y, worldItemOff_IMG, worldItemOn_IMG, v, menu:startGame( v ))
+			actionHover = menuPlayer:setDestination(x - 13 , y - 32)
+			curButton = menu:addButton( x, y,
+							worldItemOff_IMG,
+							worldItemOn_IMG,
+							v,
+							menu:startGame( v ),
+							actionHover )
 		else
 			table.insert(menuImages, {typ="img", img=worldItemInactive_IMG, x=x, y=y})
 		end
@@ -174,10 +193,18 @@ end
 
 
 -- adds a new button to the list of buttons and then returns the new button
-function menu:addButton( x,y,imgOff,imgOn,name,action )
+function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 	
-	local new = {x=x, y=y, selected=selected, imgOff=imgOff, imgOn=imgOn, name=name}
-	new.action = action
+	local new = {x=x,
+				y=y,
+				selected=selected,
+				imgOff=imgOff,
+				imgOn=imgOn,
+				name=name,
+				action=action,
+				actionHover=actionHover
+			}
+				
 	table.insert(buttons, new)
 
 	return new
@@ -326,9 +353,23 @@ function menu:keypressed( key, unicode )
 		menu:selectRight()
 	elseif key == "return" or key == " " then
 		menu:execute()
+	elseif key == "escape" then
+		if menu.state == "main" then
+			love.event.quit()
+		else
+			menu:init()
+		end
 	end
 end
 
+
+---------------------------------------------------------
+-- Animate ninja:
+---------------------------------------------------------
+
+function menu:update(dt)
+	menuPlayer:update(dt)
+end
 
 ---------------------------------------------------------
 -- Display menu on screen:
@@ -337,11 +378,11 @@ end
 function menu:draw()
 
 	-- draw background elements:
-	for k, element in pairs(menuImages) do
-		love.graphics.draw( element.img, element.x, element.y )
-	end
 	for k, element in pairs(menuLines) do
 		love.graphics.line( element.x1, element.y1, element.x2, element.y2 )
+	end
+	for k, element in pairs(menuImages) do
+		love.graphics.draw( element.img, element.x, element.y )
 	end
 
 	for k, button in pairs(buttons) do
@@ -352,6 +393,9 @@ function menu:draw()
 		end
 		--love.graphics.print(k, button.x, button.y )
 	end
+	
+	
+	menuPlayer:draw()
 end
 
 
@@ -372,6 +416,9 @@ function selectButton(button)
 	selButton = button
 	button.selected = true
 	print ("Selected button: '" .. button.name .. "'")
+	if selButton.actionHover then
+		selButton.actionHover()
+	end
 end
 
 
