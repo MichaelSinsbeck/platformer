@@ -63,4 +63,22 @@ function Campaign:proceed()
   else
     mode = 'menu'
   end
+	-- remember the level which was last played
+	config.setValue( "level", self[self.current] )
+
+	-- if this level is further down the list than the
+	-- saved "last level", then save the current level
+	-- as the "last level":
+	local lastLevel = config.getValue( "lastLevel")
+	if not lastLevel then
+		print("saving new last level:", self[self.current])
+		config.setValue( "lastLevel", self[self.current])
+	else
+		curIndex = tableFind(self, self[self.current]) 
+		lastIndex = tableFind(self, lastLevel)
+		print("curIndex, lastIndex", curIndex, lastIndex, #lastLevel, #self[self.current])
+		if curIndex and lastIndex and curIndex > lastIndex then
+			config.setValue( "lastLevel", self[self.current])
+		end
+	end
 end
