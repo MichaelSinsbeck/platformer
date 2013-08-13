@@ -1,4 +1,4 @@
-require 'object'
+require 'objects.object'
 
 spriteEngine = {
 objects = {}

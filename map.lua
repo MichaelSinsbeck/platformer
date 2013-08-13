@@ -1,7 +1,8 @@
 Map = {}
 
 function Map:LoadFromFile(mapFile)
-	mapFile = mapFile or 'level1.lua'
+	mapFile = mapFile or 'n1.dat'
+	mapFile = 'levels/' .. mapFile
 
 	local o = {}
 	setmetatable(o, self)
