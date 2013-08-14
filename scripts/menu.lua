@@ -41,6 +41,7 @@ end
 
 -- creates main menu:
 function menu:init()
+	menuPlayer:init()
 
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "main"
@@ -51,15 +52,15 @@ function menu:init()
 	x = (love.graphics.getWidth() - startOff_IMG:getWidth())/2
 	y = love.graphics.getHeight()/2
 	
-	local actionHover = menuPlayer:setDestination(x - 35, y)
+	local actionHover = menuPlayer:setDestination(x - 15, y + 25)
 	local startButton = menu:addButton( x, y, startOff_IMG, startOn_IMG, "start", menu.initWorldMap, actionHover )
 	y = y + 50
 	
-	actionHover = menuPlayer:setDestination(x - 35, y)
+	actionHover = menuPlayer:setDestination(x - 15, y + 25)
 	menu:addButton( x, y, settingsOff_IMG, settingsOn_IMG, "settings", nil, actionHover )
 	
 	y = y + 50
-	actionHover = menuPlayer:setDestination(x - 35, y)
+	actionHover = menuPlayer:setDestination(x - 15, y + 25)
 	menu:addButton( x, y, exitOff_IMG, exitOn_IMG, "exit", love.event.quit, actionHover )
 
 	
@@ -77,9 +78,12 @@ end
 
 -- creates world map menu:
 function menu:initWorldMap()
+	menuPlayer:init()
 	
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "worldMap"
+	
+	love.graphics.setBackgroundColor(40,40,40)	
 	
 	-- add world background images:
 	local x,y
@@ -211,7 +215,7 @@ function scrollWorldMap()	--called when a button on world map is selected
 	end
 	
 	-- Create function which will set ninja coordinates. Then call that function:
-	local func = menuPlayer:setDestination(selButton.x - 13, selButton.y - 32)
+	local func = menuPlayer:setDestination(selButton.x+25, selButton.y + 10)
 	func()
 end
 
@@ -357,6 +361,10 @@ function menu:selectLeft()
 		end
 	end)
 
+	-- turn around player if moving to the left
+	if selButton.x > buttons[1].x then
+		menuPlayer.scaleX = -1
+	end
 	selButton.selected = false
 	selectButton(buttons[1])
 end
@@ -385,6 +393,10 @@ function menu:selectRight()
 		end
 	end)
 
+	-- turn around player if moving to the right
+	if selButton.x < buttons[1].x then
+		menuPlayer.scaleX = 1
+	end
 	selButton.selected = false
 	selectButton(buttons[1])
 end
@@ -483,7 +495,7 @@ end
 function selectButton(button)
 	selButton = button
 	button.selected = true
-	print ("Selected button: '" .. button.name .. "'")
+	--print ("Selected button: '" .. button.name .. "'")
 	if selButton.actionHover then
 		selButton.actionHover()
 	end

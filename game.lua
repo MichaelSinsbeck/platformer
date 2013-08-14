@@ -92,7 +92,7 @@ function game.keypressed(key)
   if key == "q" then
     Campaign:proceed()
   end
-  if key == "u" then
+  if key == "u" then -- print all global variables
 		for k,v in pairs(_G) do
 			print(k)
 		end

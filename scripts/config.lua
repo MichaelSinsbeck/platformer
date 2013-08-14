@@ -5,7 +5,7 @@ local config = {}
 local CONFIG_FILE = "config.txt"
 
 function config.setValue( name, value )
-	print("saving:", name, value)
+	--print("saving:", name, value)
 	if not name or not value == nil then
 		print(name, value)
 		error("Error: configFile.setValue got nil value or nil name.")
@@ -36,9 +36,9 @@ function config.setValue( name, value )
 
 	local newData = ""
 	local found = false
-	print("full:")
+	--print("full:")
 	for line in data:gmatch("[^\r\n]+") do
-		print(line)
+		--print(line)
 		s, e = string.find(line, name .. " = [^\r\n]+")
 		if s then
 			--data = string.gsub(data, name .. " = [^\r\n]+\r\n", name .. " = " .. value .. "\r\n")

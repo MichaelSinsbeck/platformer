@@ -78,7 +78,9 @@ function love.keypressed( key, unicode )
 		
 		if key == 'escape' then
 			mode = 'menu'
-			menu:init()
+			--menu:init()
+			menu.initWorldMap()
+			
 		end
 	end
 

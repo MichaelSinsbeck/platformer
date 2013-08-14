@@ -5,12 +5,13 @@ local menuPlayer = {
 	frame = 1,
 	x = 0,
 	y = 0,
-	scale = 1
+	scaleX = 1,
+	scaleY = 1,
 }
 	
 function menuPlayer:draw()
 	if menuPlayer.currentQuad and menuPlayer.img then
-		love.graphics.drawq(menuPlayer.img, menuPlayer.currentQuad,menuPlayer.x,menuPlayer.y, 0, menuPlayer.scale, menuPlayer.scale)
+		love.graphics.drawq(self.img, self.currentQuad,self.x,self.y, 0, self.scaleX, self.scaleY,self.ox,self.oy)
 	end
 end
 
@@ -29,6 +30,15 @@ function menuPlayer:update(dt)
 	menuPlayer.currentQuad = source.quads[animationData.frames[self.frame]]
 	menuPlayer.img = source.image
 end
+
+-- set width and height of player
+function menuPlayer:init()
+	local name = AnimationDB.animation[self.animation].source
+	self.ox = self.ox or 0.5*AnimationDB.source[name].width
+	self.oy = self.oy or 0.5*AnimationDB.source[name].height
+	self.scaleX = 1
+end
+
 
 function menuPlayer:reset()
 	menuPlayer.frame = 1
