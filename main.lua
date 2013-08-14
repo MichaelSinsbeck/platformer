@@ -44,7 +44,7 @@ function love.load(args)
 	Campaign:reset()
 
 	mode = 'menu'
-	menu.init()
+	menu:init()
 
 end
 

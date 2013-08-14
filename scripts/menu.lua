@@ -1,6 +1,6 @@
 -- menu for Bandana
 
-local menu = {active = false}
+local menu = {active = false, cameraSpeed = 1000}
 local buttons = {}
 local menuLines = {}
 local menuImages = {}
@@ -42,6 +42,10 @@ end
 -- creates main menu:
 function menu:init()
 	menuPlayer:init()
+	self.xCamera = 0
+	self.yCamera = 0
+	self.xTarget = 0
+	self.yTarget = 0
 
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "main"
@@ -181,7 +185,7 @@ end
 function scrollWorldMap()	--called when a button on world map is selected
 	
 	
-	if selButton.x > love.graphics.getWidth() - PADDING then
+	--[[if selButton.x > love.graphics.getWidth() - PADDING then
 		for k, v in pairs(buttons) do
 			if v.imgOff == worldItemOff_IMG then		--find all world button images
 				v.x = v.x - love.graphics.getWidth()	-- move all level buttons to the right
@@ -213,7 +217,7 @@ function scrollWorldMap()	--called when a button on world map is selected
 			v.x2 = v.x2 + love.graphics.getWidth()
 		end
 	end
-	
+	--]]
 	-- Create function which will set ninja coordinates. Then call that function:
 	local func = menuPlayer:setDestination(selButton.x+25, selButton.y + 10)
 	func()
@@ -441,11 +445,20 @@ end
 
 
 ---------------------------------------------------------
--- Animate ninja:
+-- Animate ninja and buttons:
 ---------------------------------------------------------
 
 function menu:update(dt)
 	menuPlayer:update(dt/2)
+	
+	if menuPlayer.x - self.xTarget > love.graphics.getWidth() - PADDING then
+		self.xTarget = menuPlayer.x + PADDING - love.graphics.getWidth()
+	end
+	if menuPlayer.x - self.xTarget < PADDING then
+		self.xTarget = menuPlayer.x - PADDING
+	end
+	
+	self.xCamera = self.xCamera + 0.1 * (self.xTarget- self.xCamera)
 	
 	for k, button in pairs(buttons) do
 		if button.name == "settings" and button.selected then
@@ -458,7 +471,6 @@ function menu:update(dt)
 			button.xScale = 1/button.yScale
 		elseif button.name == "exit" and button.selected then
 			button.timer = button.timer + dt
-			--button.angle = 0.15*math.cos(15*button.timer)
 			button.yShift = 5-10*math.abs(math.sin(5*button.timer))
 			button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
 			button.yScale = 1/button.xScale			
@@ -472,6 +484,9 @@ end
 
 function menu:draw()
 
+	--menuCamera:apply()
+  love.graphics.translate(-math.floor(self.xCamera),-math.floor(self.yCamera))
+  
 	-- draw background elements:
 	for k, element in pairs(menuBackgrounds) do
 		if element.x > 0 and element.x < love.graphics.getWidth() then
