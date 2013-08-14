@@ -271,7 +271,8 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 				action=action,
 				actionHover=actionHover
 			}
-				
+	new.ox = imgOff:getWidth()*0.5
+	new.oy = imgOff:getHeight()*0.5
 	table.insert(buttons, new)
 
 	return new
@@ -444,6 +445,15 @@ end
 
 function menu:update(dt)
 	menuPlayer:update(dt/2)
+	
+	for k, button in pairs(buttons) do
+		if button.name == "settings" and button.selected then
+			if not button.alpha then
+				button.alpha = 0
+			end
+			button.alpha = button.alpha + 5*dt
+		end
+	end
 end
 
 ---------------------------------------------------------
@@ -462,14 +472,15 @@ function menu:draw()
 		love.graphics.line( element.x1, element.y1, element.x2, element.y2 )
 	end
 	for k, element in pairs(menuImages) do
-		love.graphics.draw( element.img, element.x, element.y )
+		love.graphics.draw( element.img, element.x, element.y, alpha )
 	end
 
 	for k, button in pairs(buttons) do
+		local alpha = button.alpha or 0
 		if button.selected then
-			love.graphics.draw( button.imgOn, button.x, button.y )
+			love.graphics.draw( button.imgOn, button.x+button.ox, button.y+button.oy, alpha, 1, 1, button.ox, button.oy)
 		else
-			love.graphics.draw( button.imgOff, button.x, button.y )
+			love.graphics.draw( button.imgOff, button.x+button.ox, button.y+button.oy, alpha, 1, 1, button.ox, button.oy )
 		end
 		--love.graphics.print(k, button.x, button.y )
 	end
