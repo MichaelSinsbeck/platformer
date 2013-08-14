@@ -451,29 +451,38 @@ end
 function menu:update(dt)
 	menuPlayer:update(dt/2)
 	
-	if menuPlayer.x - self.xTarget > love.graphics.getWidth() - PADDING then
+	-- smooth movement, always on player
+	--[[if menuPlayer.x - self.xTarget > love.graphics.getWidth() - PADDING then
 		self.xTarget = menuPlayer.x + PADDING - love.graphics.getWidth()
 	end
 	if menuPlayer.x - self.xTarget < PADDING then
 		self.xTarget = menuPlayer.x - PADDING
-	end
+	end--]] 
 	
-	self.xCamera = self.xCamera + 0.1 * (self.xTarget- self.xCamera)
+	self.xCamera = self.xCamera + 0.05 * (self.xTarget- self.xCamera)
 	
+
 	for k, button in pairs(buttons) do
-		if button.name == "settings" and button.selected then
-			button.timer = button.timer + dt
-			button.angle = button.timer * 5
-		elseif button.name == "start" and button.selected then
-			button.timer = button.timer + dt
-			button.xShift = 5-10*math.abs(math.sin(5*button.timer))
-			button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
-			button.xScale = 1/button.yScale
-		elseif button.name == "exit" and button.selected then
-			button.timer = button.timer + dt
-			button.yShift = 5-10*math.abs(math.sin(5*button.timer))
-			button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
-			button.yScale = 1/button.xScale			
+		if button.selected then
+			-- Smooth movement of map - blockwise - 
+			if menu.state == "worldMap" then 
+				self.xTarget = math.floor(button.x/400)*400-200
+			end
+			
+			if button.name == "settings" then
+				button.timer = button.timer + dt
+				button.angle = button.timer * 5
+			elseif button.name == "start" then
+				button.timer = button.timer + dt
+				button.xShift = 5-10*math.abs(math.sin(5*button.timer))
+				button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
+				button.xScale = 1/button.yScale
+			elseif button.name == "exit" then
+				button.timer = button.timer + dt
+				button.yShift = 5-10*math.abs(math.sin(5*button.timer))
+				button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
+				button.yScale = 1/button.xScale			
+			end
 		end
 	end
 end
