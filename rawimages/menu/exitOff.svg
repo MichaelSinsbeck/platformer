@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:export-ydpi="90"
    inkscape:export-xdpi="90"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/shuriken.png"
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/menu/exitOff.png"
    sodipodi:docname="exitOff.svg"
    inkscape:version="0.48.2 r9819"
    version="1.1"
@@ -60,7 +60,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -80,5 +80,11 @@
        d="m 17.125,1028.8622 c -0.82206,0.043 -1.719662,-0.1856 -2.411508,0.4076 -1.609527,0.6643 -1.163432,2.9117 0.369518,3.3286 1.661316,0.781 1.631914,-1.5699 2.940108,-1.8379 0.831402,-0.028 2.55935,-0.3803 1.610102,-1.5111 -0.74424,-0.3654 -1.693698,-0.045 -2.50822,-0.3872 z"
        id="path3824"
        inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="ssscscs"
+       inkscape:connector-curvature="0"
+       id="path3785"
+       d="m 9.9972217,1029.987 c -1.0971169,-10.0248 7.8916083,-21.8474 18.3513063,-17.6419 9.496436,3.8182 10.700949,15.0065 10.838727,23.8376 0.05126,3.2856 0.141548,3.2975 -0.199648,6.1605 -5.169833,0.79 -16.908638,-0.2678 -19.533779,0.1626 -3.280995,0.5378 -6.615692,0.8125 -9.341941,0.1662 -0.1591099,-2.6576 0.3215,-8.6996 -0.1146653,-12.685 z"
+       style="opacity:0.01000001;fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
   </g>
 </svg>

@@ -269,7 +269,8 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 				imgOn=imgOn,
 				name=name,
 				action=action,
-				actionHover=actionHover
+				actionHover=actionHover,
+				timer = 0
 			}
 	new.ox = imgOff:getWidth()*0.5
 	new.oy = imgOff:getHeight()*0.5
@@ -448,10 +449,16 @@ function menu:update(dt)
 	
 	for k, button in pairs(buttons) do
 		if button.name == "settings" and button.selected then
-			if not button.alpha then
-				button.alpha = 0
-			end
-			button.alpha = button.alpha + 5*dt
+			button.timer = button.timer + dt
+			button.alpha = button.timer * 5
+		elseif button.name == "start" and button.selected then
+			button.timer = button.timer + dt
+			--button.scale = 1+0.1*math.cos(10*button.timer)
+			--button.alpha = 0.1*math.cos(10*button.timer)
+			button.xShift = 5*math.cos(15*button.timer)
+		elseif button.name == "exit" and button.selected then
+			button.timer = button.timer + dt
+			button.alpha = 0.15*math.cos(15*button.timer)
 		end
 	end
 end
@@ -477,10 +484,11 @@ function menu:draw()
 
 	for k, button in pairs(buttons) do
 		local alpha = button.alpha or 0
+		local xShift = button.xShift or 0
 		if button.selected then
-			love.graphics.draw( button.imgOn, button.x+button.ox, button.y+button.oy, alpha, 1, 1, button.ox, button.oy)
+			love.graphics.draw( button.imgOn, button.x+button.ox+xShift, button.y+button.oy, alpha, 1, 1, button.ox, button.oy)
 		else
-			love.graphics.draw( button.imgOff, button.x+button.ox, button.y+button.oy, alpha, 1, 1, button.ox, button.oy )
+			love.graphics.draw( button.imgOff, button.x+button.ox+xShift, button.y+button.oy, alpha, 1, 1, button.ox, button.oy )
 		end
 		--love.graphics.print(k, button.x, button.y )
 	end
