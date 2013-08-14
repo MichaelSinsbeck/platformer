@@ -450,15 +450,18 @@ function menu:update(dt)
 	for k, button in pairs(buttons) do
 		if button.name == "settings" and button.selected then
 			button.timer = button.timer + dt
-			button.alpha = button.timer * 5
+			button.angle = button.timer * 5
 		elseif button.name == "start" and button.selected then
 			button.timer = button.timer + dt
-			--button.scale = 1+0.1*math.cos(10*button.timer)
-			--button.alpha = 0.1*math.cos(10*button.timer)
-			button.xShift = 5*math.cos(15*button.timer)
+			button.xShift = 5-10*math.abs(math.sin(5*button.timer))
+			button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
+			button.xScale = 1/button.yScale
 		elseif button.name == "exit" and button.selected then
 			button.timer = button.timer + dt
-			button.alpha = 0.15*math.cos(15*button.timer)
+			--button.angle = 0.15*math.cos(15*button.timer)
+			button.yShift = 5-10*math.abs(math.sin(5*button.timer))
+			button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
+			button.yScale = 1/button.xScale			
 		end
 	end
 end
@@ -483,12 +486,15 @@ function menu:draw()
 	end
 
 	for k, button in pairs(buttons) do
-		local alpha = button.alpha or 0
+		local angle = button.angle or 0
 		local xShift = button.xShift or 0
+		local yShift = button.yShift or 0
+		local xScale = button.xScale or 1
+		local yScale = button.yScale or 1
 		if button.selected then
-			love.graphics.draw( button.imgOn, button.x+button.ox+xShift, button.y+button.oy, alpha, 1, 1, button.ox, button.oy)
+			love.graphics.draw( button.imgOn, button.x+button.ox+xShift, button.y+button.oy+yShift, angle, xScale, yScale, button.ox, button.oy)
 		else
-			love.graphics.draw( button.imgOff, button.x+button.ox+xShift, button.y+button.oy, alpha, 1, 1, button.ox, button.oy )
+			love.graphics.draw( button.imgOff, button.x+button.ox+xShift, button.y+button.oy+yShift, angle, xScale, yScale, button.ox, button.oy )
 		end
 		--love.graphics.print(k, button.x, button.y )
 	end

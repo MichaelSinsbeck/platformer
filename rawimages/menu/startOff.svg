@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:export-ydpi="90"
    inkscape:export-xdpi="90"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/menu/startOff.png"
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/menu/startOn.png"
    sodipodi:docname="startOff.svg"
    inkscape:version="0.48.2 r9819"
    version="1.1"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="18.574406"
-     inkscape:cy="25.308814"
+     inkscape:zoom="7.9999999"
+     inkscape:cx="25.164776"
+     inkscape:cy="27.758646"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -69,10 +69,16 @@
      inkscape:groupmode="layer"
      inkscape:label="Ebene 1">
     <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="path3788"
+       d="m 14.032738,1040.6567 c 9.479207,-1.9093 18.383925,-5.3929 25.184525,-13.2829 -7.292008,-7.8426 -14.712761,-11.0405 -24.87946,-13.3061 -2.125,11.5 -1.430259,20.811 -0.305065,26.589 z"
+       style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;opacity:0.01000000000000000" />
+    <path
        style="fill:#008000;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 11.637322,1039.9338 c 6.564267,-0.6788 12.763341,-3.5493 17.960382,-6.1239 3.758095,-1.8617 7.381592,-4.7547 7.224143,-7.159 -0.140984,-2.1529 -5.688862,-6.274 -10.633668,-8.9381 -4.092123,-2.2047 -14.245792,-4.3679 -14.245792,-4.3679 0,0 -0.305259,21.311 -0.305065,26.5889 z"
+       d="m 14.032738,1040.6567 c 9.479207,-1.9093 18.383925,-5.3929 25.184525,-13.2829 -7.292008,-7.8426 -14.712761,-11.0405 -24.87946,-13.3061 -2.125,11.5 -1.430259,20.811 -0.305065,26.589 z"
        id="path3148"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cssscc" />
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>
