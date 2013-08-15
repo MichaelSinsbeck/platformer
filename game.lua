@@ -80,6 +80,10 @@ function game:update(dt)
 end
 
 function game.keypressed(key)
+	if key == 'escape' then
+		mode = 'menu'
+		menu.initWorldMap()
+	end
 	if key == "r" then
 		p.status = 'stand'
 	end

@@ -75,13 +75,6 @@ function love.keypressed( key, unicode )
 		menu:keypressed( key, unicode )
 	elseif mode == 'game' then
 		game.keypressed( key )
-		
-		if key == 'escape' then
-			mode = 'menu'
-			--menu:init()
-			menu.initWorldMap()
-			
-		end
 	end
 
 	-- always works, independently of game state:

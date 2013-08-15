@@ -111,7 +111,7 @@ function menu.initWorldMap()
 	local prevX, prevY
 	local firstButton
 	local dir = "right"
-	local distBetweenButtons = 50
+	local distBetweenButtons = 60
 
 	local size = worldItemOn_IMG:getWidth()/2
 	
@@ -119,7 +119,7 @@ function menu.initWorldMap()
 
 	if DEBUG then lastLevel = Campaign[#Campaign] end
 
-	x, y = PADDING, 70
+	x, y = 0, 300
 	
 	for k, v in ipairs(Campaign) do
 
@@ -137,16 +137,18 @@ function menu.initWorldMap()
 		end
 
 		if prevX and prevY then
-			table.insert(menuLines, {typ="line", x1=prevX+size, y1=prevY+size, x2=x+size, y2=y+size})
+			if lastLevelFound then
+				table.insert(menuLines, {typ="line", x1=prevX+size, y1=prevY+size, x2=x+size, y2=y+size})
+			else
+				table.insert(menuLines, {typ="line", x1=prevX+size, y1=prevY+size, x2=x+size, y2=y+size, active = true})
+			end
 		end
 		prevX, prevY = x,y
 
 		if not currentLevel or v == currentLevel then
 			if curButton then
 				currentLevelFound = true
-				selectButton( curButton )
-				menu.xTarget = math.floor(curButton.x/400)*400-200
-				menu.xCamera = menu.xTarget				
+				selectButton( curButton )		
 			end
 		end
 
@@ -181,7 +183,10 @@ function menu.initWorldMap()
 		-- start off with the first level selected:
 		selectButton(firstButton)
 	end
-
+	
+	-- set camera position
+	menu.xTarget = math.floor((selButton.x)/600)*600-105
+	menu.xCamera = menu.xTarget		
 end
 
 function scrollWorldMap()	--called when a button on world map is selected
@@ -469,7 +474,7 @@ function menu:update(dt)
 		if button.selected then
 			-- Smooth movement of map - blockwise - 
 			if menu.state == "worldMap" then 
-				self.xTarget = math.floor(button.x/400)*400-200
+				self.xTarget = math.floor((button.x)/600)*600-105
 			end
 			
 			if button.name == "settings" then
@@ -505,9 +510,16 @@ function menu:draw()
 			love.graphics.draw( element.img, element.x, element.y )
 		end
 	end
+	love.graphics.setLineWidth(2)
 	for k, element in pairs(menuLines) do
+		if element.active then
+			love.graphics.setColor(0,0,0)
+		else
+			love.graphics.setColor(64,64,64)
+		end
 		love.graphics.line( element.x1, element.y1, element.x2, element.y2 )
 	end
+	love.graphics.setColor(255,255,255)
 	for k, element in pairs(menuImages) do
 		love.graphics.draw( element.img, element.x, element.y, alpha )
 	end

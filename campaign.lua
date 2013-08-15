@@ -62,6 +62,7 @@ function Campaign:proceed()
     myMap:start(p)
   else
     mode = 'menu'
+		menu.initWorldMap()    
   end
 	-- remember the level which was last played
 	config.setValue( "level", self[self.current] )
