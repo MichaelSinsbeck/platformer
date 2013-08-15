@@ -81,7 +81,7 @@ end
 
 
 -- creates world map menu:
-function menu:initWorldMap()
+function menu.initWorldMap()
 	menuPlayer:init()
 	
 	menu:clear()	-- remove anything that was previously on the menu
@@ -145,6 +145,8 @@ function menu:initWorldMap()
 			if curButton then
 				currentLevelFound = true
 				selectButton( curButton )
+				menu.xTarget = math.floor(curButton.x/400)*400-200
+				menu.xCamera = menu.xTarget				
 			end
 		end
 
@@ -438,6 +440,7 @@ function menu:keypressed( key, unicode )
 		if menu.state == "main" then
 			love.event.quit()
 		else
+			config.setValue( "level", selButton.name )			
 			menu:init()
 		end
 	end
