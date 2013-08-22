@@ -98,7 +98,7 @@ function menu.initWorldMap()
 	local x,y
 	--x = (love.graphics.getWidth() - background1_IMG:getWidth())/2
 	x = -5
-	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
+	y = (love.graphics.getHeight() - 300)/2
 	
 	table.insert(menuBackgrounds, {typ="img", img=background1_IMG, x=x, y=y})
 	
@@ -558,7 +558,7 @@ function menu:draw()
 		local displayText = menu.text
 		if menu.state == "worldMap" then
 			love.graphics.setColor(0,0,0)
-			y = love.graphics.getHeight()*0.5+170
+			y = love.graphics.getHeight()*0.5+220
 			if menu.text and Campaign.names[menu.text] then
 				displayText = Campaign.names[menu.text]
 			end
