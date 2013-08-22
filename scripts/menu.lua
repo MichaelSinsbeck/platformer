@@ -6,6 +6,7 @@ local menuLines = {}
 local menuImages = {}
 local menuBackgrounds = {}
 local selButton
+local worldNames = {'the village', 'the forest', 'the wall', 'on paper', 'the junkyard'}
 
 local PADDING = 50		-- distance of buttons from edges
 
@@ -480,6 +481,7 @@ function menu:update(dt)
 			-- Smooth movement of map - blockwise - 
 			if menu.state == "worldMap" then 
 				self.xTarget = math.floor((button.x)/600)*600+300-love.graphics.getWidth()/2
+				self.worldNumber = math.floor(button.x/600)+1
 			end
 			
 			if button.name == "settings" then
@@ -545,7 +547,14 @@ function menu:draw()
 	
 	love.graphics.pop()
 --	love.graphics.print(menu.text,400,100)
-	love.graphics.printf(menu.text, 0, love.graphics.getHeight()-50, love.graphics.getWidth(), 'center')	
+	love.graphics.setFont(fontSmall)
+	love.graphics.printf(menu.text, 0, love.graphics.getHeight()*0.5+250, love.graphics.getWidth(), 'center')	
+	if menu.state == "worldMap" then
+		love.graphics.setFont(fontLarge)
+		love.graphics.setColor(0,0,0)
+		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-250, love.graphics.getWidth(), 'center')			
+		love.graphics.setColor(255,255,255)
+	end
 end
 
 

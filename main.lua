@@ -35,9 +35,11 @@ function love.load(args)
 	AnimationDB:loadAll()	
 	
 	-- load and set font
-	font = love.graphics.newImageFont("images/font/font_white.png",
+	fontSmall = love.graphics.newImageFont("images/font/font_white.png",
     " abcdefghijklmnopqrstuvwxyz0123456789.,")
-	love.graphics.setFont(font)
+	fontLarge = love.graphics.newImageFont("images/font/font2_white.png",
+    " abcdefghijklmnopqrstuvwxyz0123456789.,")    
+	love.graphics.setFont(fontSmall)
 
 	recorder = false
 	screenshots = {}
