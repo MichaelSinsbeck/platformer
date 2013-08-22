@@ -51,6 +51,7 @@ function menu:init()
 	menu.state = "main"
 
 	love.graphics.setBackgroundColor(40,40,40)
+	
 
 	local x,y
 	x = (love.graphics.getWidth() - startOff_IMG:getWidth())/2
@@ -87,15 +88,19 @@ function menu.initWorldMap()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "worldMap"
 	
-	love.graphics.setBackgroundColor(40,40,40)	
+	--love.graphics.setBackgroundColor(40,40,40)	
+	love.graphics.setBackgroundColor(80,150,205)
 	
 	-- add world background images:
 	local x,y
-	x = (love.graphics.getWidth() - background1_IMG:getWidth())/2
+	--x = (love.graphics.getWidth() - background1_IMG:getWidth())/2
+	x = -5
 	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
+	
 	table.insert(menuBackgrounds, {typ="img", img=background1_IMG, x=x, y=y})
 	
-	x = love.graphics.getWidth() + (love.graphics.getWidth() - background1_IMG:getWidth())/2
+	--x = love.graphics.getWidth() + (love.graphics.getWidth() - background1_IMG:getWidth())/2
+	x = x + (background1_IMG:getWidth() + background2_IMG:getWidth())/2
 	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
 	table.insert(menuBackgrounds, {typ="img", img=background2_IMG, x=x, y=y})
 	
@@ -185,7 +190,7 @@ function menu.initWorldMap()
 	end
 	
 	-- set camera position
-	menu.xTarget = math.floor((selButton.x)/600)*600-105
+	menu.xTarget = math.floor((selButton.x)/600)*600+300-love.graphics.getWidth()/2
 	menu.xCamera = menu.xTarget		
 end
 
@@ -474,7 +479,7 @@ function menu:update(dt)
 		if button.selected then
 			-- Smooth movement of map - blockwise - 
 			if menu.state == "worldMap" then 
-				self.xTarget = math.floor((button.x)/600)*600-105
+				self.xTarget = math.floor((button.x)/600)*600+300-love.graphics.getWidth()/2
 			end
 			
 			if button.name == "settings" then
@@ -506,9 +511,7 @@ function menu:draw()
   
 	-- draw background elements:
 	for k, element in pairs(menuBackgrounds) do
-		if element.x > 0 and element.x < love.graphics.getWidth() then
-			love.graphics.draw( element.img, element.x, element.y )
-		end
+		love.graphics.draw( element.img, element.x, element.y )
 	end
 	love.graphics.setLineWidth(2)
 	for k, element in pairs(menuLines) do
