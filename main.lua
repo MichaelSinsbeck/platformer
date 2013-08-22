@@ -26,7 +26,6 @@ function love.load(args)
 	end
 
 	-- hide mouse
-
 	love.mouse.setVisible(false)
 
 	-- set screen resolution
@@ -34,6 +33,11 @@ function love.load(args)
 	
 	-- load all images
 	AnimationDB:loadAll()	
+	
+	-- load and set font
+	font = love.graphics.newImageFont("images/font/font_white.png",
+    " abcdefghijklmnopqrstuvwxyz0123456789.,")
+	love.graphics.setFont(font)
 
 	recorder = false
 	screenshots = {}

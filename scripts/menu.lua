@@ -1,6 +1,6 @@
 -- menu for Bandana
 
-local menu = {active = false, cameraSpeed = 1000}
+local menu = {active = false, cameraSpeed = 1000, text = ''}
 local buttons = {}
 local menuLines = {}
 local menuImages = {}
@@ -119,7 +119,7 @@ function menu.initWorldMap()
 
 	if DEBUG then lastLevel = Campaign[#Campaign] end
 
-	x, y = 0, 300
+	x, y = 0, love.graphics.getHeight()/2
 	
 	for k, v in ipairs(Campaign) do
 
@@ -501,7 +501,7 @@ end
 
 function menu:draw()
 
-	--menuCamera:apply()
+	love.graphics.push()
   love.graphics.translate(-math.floor(self.xCamera),-math.floor(self.yCamera))
   
 	-- draw background elements:
@@ -538,8 +538,11 @@ function menu:draw()
 		--love.graphics.print(k, button.x, button.y )
 	end
 	
-	
 	menuPlayer:draw()
+	
+	love.graphics.pop()
+--	love.graphics.print(menu.text,400,100)
+	love.graphics.printf(menu.text, 0, love.graphics.getHeight()-50, love.graphics.getWidth(), 'center')	
 end
 
 
@@ -560,6 +563,7 @@ function selectButton(button)
 	selButton = button
 	button.selected = true
 	--print ("Selected button: '" .. button.name .. "'")
+	menu.text = button.name
 	if selButton.actionHover then
 		selButton.actionHover()
 	end
