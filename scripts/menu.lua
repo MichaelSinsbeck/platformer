@@ -6,7 +6,7 @@ local menuLines = {}
 local menuImages = {}
 local menuBackgrounds = {}
 local selButton
-local worldNames = {'the village', 'the forest', 'the wall', 'on paper', 'the junkyard'}
+local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the junkyard'}
 
 local PADDING = 50		-- distance of buttons from edges
 
@@ -26,6 +26,8 @@ local worldItemInactive_IMG = love.graphics.newImage("images/menu/worldItemInact
 local background1_IMG = love.graphics.newImage("images/world/world1.png")
 local background2_IMG = love.graphics.newImage("images/world/world2.png")
 local background3_IMG = love.graphics.newImage("images/world/world3.png")
+local background4_IMG = love.graphics.newImage("images/world/world4.png")
+local background5_IMG = love.graphics.newImage("images/world/world5.png")
 
 local menuPlayer = require("scripts/menuPlayer")
 
@@ -100,14 +102,17 @@ function menu.initWorldMap()
 	
 	table.insert(menuBackgrounds, {typ="img", img=background1_IMG, x=x, y=y})
 	
-	--x = love.graphics.getWidth() + (love.graphics.getWidth() - background1_IMG:getWidth())/2
 	x = x + (background1_IMG:getWidth() + background2_IMG:getWidth())/2
-	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
 	table.insert(menuBackgrounds, {typ="img", img=background2_IMG, x=x, y=y})
 	
-	x = 2*love.graphics.getWidth() + (love.graphics.getWidth() - background1_IMG:getWidth())/2
-	y = (love.graphics.getHeight() - background1_IMG:getHeight())/2
+	x = x + (background2_IMG:getWidth() + background3_IMG:getWidth())/2
 	table.insert(menuBackgrounds, {typ="img", img=background3_IMG, x=x, y=y})
+	
+	x = x + (background3_IMG:getWidth() + background4_IMG:getWidth())/2
+	table.insert(menuBackgrounds, {typ="img", img=background4_IMG, x=x, y=y})
+	
+	x = x + (background4_IMG:getWidth() + background5_IMG:getWidth())/2
+	table.insert(menuBackgrounds, {typ="img", img=background5_IMG, x=x, y=y})	
 
 	-- find out the last level that was beaten:
 	local currentLevel = config.getValue("level")
@@ -548,11 +553,18 @@ function menu:draw()
 	love.graphics.pop()
 --	love.graphics.print(menu.text,400,100)
 	love.graphics.setFont(fontSmall)
-	love.graphics.printf(menu.text, 0, love.graphics.getHeight()*0.5+250, love.graphics.getWidth(), 'center')	
+	local y = love.graphics.getHeight()-50
+	if menu.state == "worldMap" then
+		love.graphics.setColor(0,0,0)
+		y = love.graphics.getHeight()*0.5+170
+	end
+	love.graphics.printf(menu.text, 0, y, love.graphics.getWidth(), 'center')	
+	love.graphics.setColor(255,255,255)
+	
 	if menu.state == "worldMap" then
 		love.graphics.setFont(fontLarge)
 		love.graphics.setColor(0,0,0)
-		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-250, love.graphics.getWidth(), 'center')			
+		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-200, love.graphics.getWidth(), 'center')			
 		love.graphics.setColor(255,255,255)
 	end
 end
