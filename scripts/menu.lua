@@ -552,14 +552,19 @@ function menu:draw()
 	
 	love.graphics.pop()
 --	love.graphics.print(menu.text,400,100)
-	love.graphics.setFont(fontSmall)
-	local y = love.graphics.getHeight()-50
-	if menu.state == "worldMap" then
-		love.graphics.setColor(0,0,0)
-		y = love.graphics.getHeight()*0.5+170
-	end
-	love.graphics.printf(menu.text, 0, y, love.graphics.getWidth(), 'center')	
-	love.graphics.setColor(255,255,255)
+
+		love.graphics.setFont(fontSmall)
+		local y = love.graphics.getHeight()-50
+		local displayText = menu.text
+		if menu.state == "worldMap" then
+			love.graphics.setColor(0,0,0)
+			y = love.graphics.getHeight()*0.5+170
+			if menu.text and Campaign.names[menu.text] then
+				displayText = Campaign.names[menu.text]
+			end
+		end
+		love.graphics.printf(displayText, 0, y, love.graphics.getWidth(), 'center')	
+		love.graphics.setColor(255,255,255)	
 	
 	if menu.state == "worldMap" then
 		love.graphics.setFont(fontLarge)

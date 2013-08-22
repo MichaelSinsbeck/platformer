@@ -83,3 +83,49 @@ function Campaign:proceed()
 		end
 	end
 end
+Campaign.names = {}
+Campaign.names['n13.dat'] = 'learn to walk'
+Campaign.names['n1.dat'] = 'jump'
+Campaign.names['n10.dat'] = 'the chimney'
+Campaign.names['n2.dat'] = 'le parcours'
+Campaign.names['n3.dat'] = 'by the way, you can die'
+Campaign.names['n15.dat'] = 'leap of faith 1'
+Campaign.names['n38.dat'] = 'jumping advanced'
+Campaign.names['n11.dat'] = 'all you can eat'
+Campaign.names['n12.dat'] = 'tight'
+Campaign.names['n5.dat'] = 'where is the ground?'
+Campaign.names['n24.dat']	 = 'free climbing'
+Campaign.names['n6.dat'] = 'the launcher'
+Campaign.names['n7.dat'] = 'zig zag'
+Campaign.names['n8.dat'] = 'vertical'
+Campaign.names['n9.dat'] = 'ascension'
+Campaign.names['n14.dat'] = 'up, up, around'
+Campaign.names['n17.dat'] = 'get over it'
+Campaign.names['n18.dat'] = 'no pain, no gain'
+Campaign.names['n16.dat'] = 'leap of faith 11'
+Campaign.names['n20.dat'] = 'its a trap'
+Campaign.names['n19.dat'] = 'bowel'
+Campaign.names['n21.dat'] = 'uprising'
+Campaign.names['n23.dat'] = 'vertical 11'
+Campaign.names['n27.dat'] = 'following'
+Campaign.names['n26.dat'] = 'the one'
+Campaign.names['n28.dat'] = 'stairway'
+Campaign.names['n25.dat'] = 'calm'
+Campaign.names['n22.dat'] = 'weeeee'
+Campaign.names['n29.dat'] = 'the crown'
+Campaign.names['n31.dat'] = 'leap of faith 111'
+Campaign.names['n30.dat'] = 'half pipe'
+Campaign.names['n32.dat'] = 'dont hesitate'
+Campaign.names['n33.dat'] = 'where am i?'
+Campaign.names['n34.dat'] = 'push the button'-- button
+Campaign.names['n35.dat'] = 'timed'
+Campaign.names['n36.dat'] = 'back and forth'
+Campaign.names['n37.dat'] = 'i wanna be like you' -- imitator
+Campaign.names['n39.dat'] = 'who is faster?'
+Campaign.names['n40.dat']	 = 'meditation'
+Campaign.names['n41.dat'] = 'upwind' -- wind
+Campaign.names['n42.dat']  = 'only once'-- breaking block
+Campaign.names['n44.dat'] = 'the elephant' -- glass tutorial
+Campaign.names['n43.dat'] = 'dig' -- glass long level			
+Campaign.names['n45.dat'] = 'station' -- fixed cannon	
+
