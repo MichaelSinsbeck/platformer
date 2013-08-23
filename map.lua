@@ -18,7 +18,7 @@ function Map:LoadFromFile(mapFile)
 	love.filesystem.load(mapFile)()
 	
 	-- Postprocess
-	local img = love.graphics.newImage(o.imageFile)
+	local img = love.graphics.newImage('images/40'..o.imageFile)
   --img:setFilter('linear','linear')
   img:setFilter('nearest','nearest')
   o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)

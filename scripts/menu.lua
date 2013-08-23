@@ -10,24 +10,24 @@ local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the
 
 local PADDING = 50		-- distance of buttons from edges
 
-local logo_IMG = love.graphics.newImage("images/menu/logo.png")
+local logo_IMG = love.graphics.newImage("images/menu/40logo.png")
 
-local startOff_IMG = love.graphics.newImage("images/menu/startOff.png")
-local startOn_IMG = love.graphics.newImage("images/menu/startOn.png")
-local settingsOff_IMG = love.graphics.newImage("images/menu/settingsOff.png")
-local settingsOn_IMG = love.graphics.newImage("images/menu/settingsOn.png")
-local exitOff_IMG = love.graphics.newImage("images/menu/exitOff.png")
-local exitOn_IMG = love.graphics.newImage("images/menu/exitOn.png")
+local startOff_IMG = love.graphics.newImage("images/menu/40startOff.png")
+local startOn_IMG = love.graphics.newImage("images/menu/40startOn.png")
+local settingsOff_IMG = love.graphics.newImage("images/menu/40settingsOff.png")
+local settingsOn_IMG = love.graphics.newImage("images/menu/40settingsOn.png")
+local exitOff_IMG = love.graphics.newImage("images/menu/40exitOff.png")
+local exitOn_IMG = love.graphics.newImage("images/menu/40exitOn.png")
 
-local worldItemOff_IMG = love.graphics.newImage("images/menu/worldItemOff.png")
-local worldItemOn_IMG = love.graphics.newImage("images/menu/worldItemOn.png")
-local worldItemInactive_IMG = love.graphics.newImage("images/menu/worldItemInactive.png")
+local worldItemOff_IMG = love.graphics.newImage("images/menu/40worldItemOff.png")
+local worldItemOn_IMG = love.graphics.newImage("images/menu/40worldItemOn.png")
+local worldItemInactive_IMG = love.graphics.newImage("images/menu/40worldItemInactive.png")
 
-local background1_IMG = love.graphics.newImage("images/world/world1.png")
-local background2_IMG = love.graphics.newImage("images/world/world2.png")
-local background3_IMG = love.graphics.newImage("images/world/world3.png")
-local background4_IMG = love.graphics.newImage("images/world/world4.png")
-local background5_IMG = love.graphics.newImage("images/world/world5.png")
+local background1_IMG = love.graphics.newImage("images/world/40world1.png")
+local background2_IMG = love.graphics.newImage("images/world/40world2.png")
+local background3_IMG = love.graphics.newImage("images/world/40world3.png")
+local background4_IMG = love.graphics.newImage("images/world/40world4.png")
+local background5_IMG = love.graphics.newImage("images/world/40world5.png")
 
 local menuPlayer = require("scripts/menuPlayer")
 

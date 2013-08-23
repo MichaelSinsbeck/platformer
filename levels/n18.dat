@@ -1,5 +1,5 @@
 mapSize(32, 20, 40, 50)
-imageFilename("images/tiles6_gapped.png")
+imageFilename("tiles6_gapped.png")
 start{x=22,y=19}
 loadTiles{
   {14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14},

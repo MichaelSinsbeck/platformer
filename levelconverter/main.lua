@@ -99,7 +99,7 @@ function convert(filetrunc)
 
 	writedata = ''
 	writedata = writedata .. 'mapSize(' .. width .. ', ' .. height .. ', ' .. map.tileWidth .. ', '.. map.tiles[1].width..')\r\n'
-	writedata = writedata .. 'imageFilename("images/'..filename..'")'.. '\r\n'
+	writedata = writedata .. 'imageFilename("'..filename..'")'.. '\r\n'
 	writedata = writedata .. 'start\{x='..xStart..',y='..yStart..'\}\r\n'
 	writedata = writedata .. 'loadTiles\{\r\n' .. backstring .. '\}\r\n'
 	writedata = writedata .. 'loadCollision\{\r\n' .. backstring2 .. '\}'
