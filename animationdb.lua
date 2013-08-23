@@ -158,7 +158,8 @@ function AnimationDB:loadAll()
 
 	AnimationDB:loadImage('images/button.png','button',50,50)
 	AnimationDB:addAni('button','button',{1},{1e6})
-	AnimationDB:addAni('buttonPressed','button',{2},{1e6})
+	AnimationDB:addAni('buttonPressed','button',{3},{1e6})
+	AnimationDB:addAni('buttonReleased','button',{2},{1e6})
 
 	AnimationDB:loadImage('images/waitbar.png','waitbar')
 	AnimationDB:addAni('waitbar','waitbar',{1},{1e6})
