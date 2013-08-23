@@ -9,7 +9,7 @@ Button = object:New({
   sonY = -0.6,
 })
 
-function Button:setAcceleration(dt)
+function Button:postStep(dt)
 	
 	
 	if self.animation == 'button' then
@@ -30,7 +30,10 @@ function Button:setAcceleration(dt)
 				end
 			end
 		end
+	elseif self:touchPlayer() then
+		self.timer2 = self.lifetime
   end
+
 
 	if self.timer2 > 0 then
 		self.timer2 = self.timer2-dt
