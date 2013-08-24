@@ -33,6 +33,7 @@ function Camera:init()
 	local modes = love.graphics.getModes()
 	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
 	--love.graphics.setMode(modes[1].width, modes[1].height, true)
+	love.graphics.setMode(800, 600, false)
 
 	-- check screen resolution and set Camera scale accordingly.
 	-- Camera.scale can have the values 4,5,6,7,8
@@ -47,11 +48,21 @@ function Camera:init()
 			nTiles = nNewTiles
 		end
 	end
-
+	
+	self.scale = 7
+	
 	self.width = love.graphics.getWidth()
 	self.height = love.graphics.getHeight()
 	self.zoom = 1
 
+end
+
+-- sets the new scale and reloads all images
+function Camera:setScale(scale)
+	self.scale = scale
+	menu.init()
+	AnimationDB:loadAll()	
+	myMap:loadImage()
 end
 
 function Camera:setTarget()

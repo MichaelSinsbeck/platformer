@@ -11,7 +11,7 @@ local menuPlayer = {
 	
 function menuPlayer:draw()
 	if menuPlayer.currentQuad and menuPlayer.img then
-		love.graphics.drawq(self.img, self.currentQuad,self.x,self.y, 0, self.scaleX, self.scaleY,self.ox,self.oy)
+		love.graphics.drawq(self.img, self.currentQuad,self.x,self.y, 0, self.scaleX, self.scaleY,self.ox*Camera.scale,self.oy*Camera.scale)
 	end
 end
 
@@ -34,8 +34,8 @@ end
 -- set width and height of player
 function menuPlayer:init()
 	local name = AnimationDB.animation[self.animation].source
-	self.ox = self.ox or 0.5*AnimationDB.source[name].width
-	self.oy = self.oy or 0.5*AnimationDB.source[name].height
+	self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
+	self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
 	self.scaleX = 1
 end
 

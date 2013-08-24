@@ -18,13 +18,6 @@ function Map:LoadFromFile(mapFile)
 	love.filesystem.load(mapFile)()
 	
 	-- Postprocess
-	o.tileSize = Camera.scale*8
-	o.graphicSize = Camera.scale*10
-	local img = love.graphics.newImage('images/'.. Camera.scale*8 ..o.imageFile)
-  img:setFilter('linear','linear')
-  --img:setFilter('nearest','nearest')
-  o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
-  o.offset = (o.tileSize-o.graphicSize)/2
   o.factoryList = Map:FactoryList(o.tile,o.height,o.width) -- see at the end of this file
   o.lineList = Map:LineList(o.tile,o.height,o.width)
   
@@ -36,20 +29,21 @@ function Map:LoadFromFile(mapFile)
       if o.collisionSrc[i][j] == 0 then o.collisionSrc[i][j] = nil end
     end
   end
-    
-  -- Generate Quads for Spritebatch
-  o.quads = {}
-  local imageWidth = img:getWidth()
-  local imageHeight = img:getHeight()
-  for j = 1,math.floor(imageHeight/(o.graphicSize)) do
-    for i = 1,math.floor(imageWidth/(o.graphicSize)) do
-      o.quads[i+(j-1)*math.floor(imageWidth/o.graphicSize)] = 
-        love.graphics.newQuad((i-1)*(o.graphicSize),(j-1)*(o.graphicSize), o.graphicSize, o.graphicSize,
-        imageWidth,imageHeight)
-    end
-  end
-	o:updateSpritebatch()
+
+	o:loadImage()    
+
 	return o	
+end
+
+function Map:loadImage()
+	self.tileSize = Camera.scale*8
+	self.graphicSize = Camera.scale*10
+	local img = love.graphics.newImage('images/'.. Camera.scale*8 ..self.imageFile)
+  img:setFilter('linear','linear')
+  self.spriteBatch = love.graphics.newSpriteBatch(img, self.width*self.height)
+  self.offset = (self.tileSize-self.graphicSize)/2  
+	self:generateQuads(img)
+	self:updateSpritebatch()
 end
 
 function Map:start(p)
@@ -154,6 +148,21 @@ function Map:New(imageFile,tileSize)
   
   o.tile[15][15] = 3
   return o
+end
+
+function Map:generateQuads(img)
+  self.quads = {}
+	self.tileSize = Camera.scale*8
+	self.graphicSize = Camera.scale*10  
+  local imageWidth = img:getWidth()
+  local imageHeight = img:getHeight()
+  for j = 1,math.floor(imageHeight/(self.graphicSize)) do
+    for i = 1,math.floor(imageWidth/(self.graphicSize)) do
+      self.quads[i+(j-1)*math.floor(imageWidth/self.graphicSize)] = 
+        love.graphics.newQuad((i-1)*(self.graphicSize),(j-1)*(self.graphicSize), self.graphicSize, self.graphicSize,
+        imageWidth,imageHeight)
+    end
+  end
 end
 
 function Map:updateSpritebatch()

@@ -7,7 +7,7 @@ Line = object:New({
 })
 
 function Line:draw()
-	love.graphics.setLineWidth(2)
+	love.graphics.setLineWidth(Camera.scale*0.4)
 	local r, g, b, a = love.graphics.getColor()	
 	love.graphics.setColor(0,0,0)
 	love.graphics.line(

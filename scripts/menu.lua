@@ -1,6 +1,6 @@
 -- menu for Bandana
 
-local menu = {active = false, cameraSpeed = 1000, text = ''}
+local menu = {active = false, text = ''}
 local buttons = {}
 local menuLines = {}
 local menuImages = {}
@@ -10,26 +10,40 @@ local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the
 
 local PADDING = 50		-- distance of buttons from edges
 
-local logo_IMG = love.graphics.newImage("images/menu/40logo.png")
-
-local startOff_IMG = love.graphics.newImage("images/menu/40startOff.png")
-local startOn_IMG = love.graphics.newImage("images/menu/40startOn.png")
-local settingsOff_IMG = love.graphics.newImage("images/menu/40settingsOff.png")
-local settingsOn_IMG = love.graphics.newImage("images/menu/40settingsOn.png")
-local exitOff_IMG = love.graphics.newImage("images/menu/40exitOff.png")
-local exitOn_IMG = love.graphics.newImage("images/menu/40exitOn.png")
-
-local worldItemOff_IMG = love.graphics.newImage("images/menu/40worldItemOff.png")
-local worldItemOn_IMG = love.graphics.newImage("images/menu/40worldItemOn.png")
-local worldItemInactive_IMG = love.graphics.newImage("images/menu/40worldItemInactive.png")
-
-local background1_IMG = love.graphics.newImage("images/world/40world1.png")
-local background2_IMG = love.graphics.newImage("images/world/40world2.png")
-local background3_IMG = love.graphics.newImage("images/world/40world3.png")
-local background4_IMG = love.graphics.newImage("images/world/40world4.png")
-local background5_IMG = love.graphics.newImage("images/world/40world5.png")
+local startOff_IMG, startOn_IMG
+local settingsOff_IMG, settingsOn_IMG
+local exitOff_IMG, exitOn_IMG
+local worldItemOff_IMG, worldItemOn_IMG, worldItemInactive_IMG
+local background1_IMG
+local background2_IMG
+local background3_IMG
+local background4_IMG
+local background5_IMG
 
 local menuPlayer = require("scripts/menuPlayer")
+
+-- This function loads the images in the right scaling
+function menu:init()
+	local prefix = Camera.scale * 8
+	logo_IMG = love.graphics.newImage("images/menu/"..prefix.."logo.png")
+
+	startOff_IMG = love.graphics.newImage("images/menu/"..prefix.."startOff.png")
+	startOn_IMG = love.graphics.newImage("images/menu/"..prefix.."startOn.png")
+	settingsOff_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOff.png")
+	settingsOn_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOn.png")
+	exitOff_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOff.png")
+	exitOn_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOn.png")
+
+	worldItemOff_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOff.png")
+	worldItemOn_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOn.png")
+	worldItemInactive_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemInactive.png")
+
+	background1_IMG = love.graphics.newImage("images/world/"..prefix.."world1.png")
+	background2_IMG = love.graphics.newImage("images/world/"..prefix.."world2.png")
+	background3_IMG = love.graphics.newImage("images/world/"..prefix.."world3.png")
+	background4_IMG = love.graphics.newImage("images/world/"..prefix.."world4.png")
+	background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")	
+end
 
 function menu.clear()
 	buttons = {}	-- clear all buttons from other menus
@@ -43,7 +57,7 @@ end
 ---------------------------------------------------------
 
 -- creates main menu:
-function menu:init()
+function menu:initMain()
 	menuPlayer:init()
 	self.xCamera = 0
 	self.yCamera = 0
@@ -60,21 +74,21 @@ function menu:init()
 	x = (love.graphics.getWidth() - startOff_IMG:getWidth())/2
 	y = love.graphics.getHeight()/2
 	
-	local actionHover = menuPlayer:setDestination(x - 15, y + 25)
+	local actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
 	local startButton = menu:addButton( x, y, startOff_IMG, startOn_IMG, "start", menu.initWorldMap, actionHover )
-	y = y + 50
+	y = y + Camera.scale*10
 	
-	actionHover = menuPlayer:setDestination(x - 15, y + 25)
+	actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
 	menu:addButton( x, y, settingsOff_IMG, settingsOn_IMG, "settings", nil, actionHover )
 	
-	y = y + 50
-	actionHover = menuPlayer:setDestination(x - 15, y + 25)
+	y = y + Camera.scale*10
+	actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
 	menu:addButton( x, y, exitOff_IMG, exitOn_IMG, "exit", love.event.quit, actionHover )
 
 	
 	-- add main logo:
 	x = love.graphics.getWidth()/2 - logo_IMG:getWidth()/2	-- center
-	y = love.graphics.getHeight()/2 - 50 - logo_IMG:getHeight()
+	y = love.graphics.getHeight()/2 - Camera.scale*10 - logo_IMG:getHeight()
 	table.insert(menuImages, {typ="img", img=logo_IMG, x=x, y=y})
 
 	-- start of with the start button selected:
@@ -97,8 +111,8 @@ function menu.initWorldMap()
 	-- add world background images:
 	local x,y
 	--x = (love.graphics.getWidth() - background1_IMG:getWidth())/2
-	x = -5
-	y = (love.graphics.getHeight() - 300)/2
+	x = -Camera.scale
+	y = (love.graphics.getHeight() - Camera.scale*60)/2
 	
 	table.insert(menuBackgrounds, {typ="img", img=background1_IMG, x=x, y=y})
 	
@@ -122,7 +136,7 @@ function menu.initWorldMap()
 	local prevX, prevY
 	local firstButton
 	local dir = "right"
-	local distBetweenButtons = 60
+	local distBetweenButtons = Camera.scale*12
 
 	local size = worldItemOn_IMG:getWidth()/2
 	
@@ -196,48 +210,14 @@ function menu.initWorldMap()
 	end
 	
 	-- set camera position
-	menu.xTarget = math.floor((selButton.x)/600)*600+300-love.graphics.getWidth()/2
+	menu.xTarget = math.floor((selButton.x)/(Camera.scale*120))*Camera.scale*120+Camera.scale*59-love.graphics.getWidth()/2
 	menu.xCamera = menu.xTarget		
 end
 
 function scrollWorldMap()	--called when a button on world map is selected
-	
-	
-	--[[if selButton.x > love.graphics.getWidth() - PADDING then
-		for k, v in pairs(buttons) do
-			if v.imgOff == worldItemOff_IMG then		--find all world button images
-				v.x = v.x - love.graphics.getWidth()	-- move all level buttons to the right
-			end
-		end
-		for k, v in pairs(menuBackgrounds) do	-- move all background images
-			v.x = v.x - love.graphics.getWidth()
-		end
-		for k, v in pairs(menuImages) do	-- move all background images
-			v.x = v.x - love.graphics.getWidth()
-		end
-		for k, v in pairs(menuLines) do		-- move all background lines
-			v.x1 = v.x1 - love.graphics.getWidth()
-			v.x2 = v.x2 - love.graphics.getWidth()
-		end
-	end
-	
-	while selButton.x < 0 do
-		for k, v in pairs(buttons) do
-			if v.imgOff == worldItemOff_IMG then		--find all world button images
-				v.x = v.x + love.graphics.getWidth()	-- move all level buttons to the left
-			end
-		end
-		for k, v in pairs(menuImages) do	-- move all background images
-			v.x = v.x + love.graphics.getWidth()
-		end
-		for k, v in pairs(menuLines) do		-- move all background lines
-			v.x1 = v.x1 + love.graphics.getWidth()
-			v.x2 = v.x2 + love.graphics.getWidth()
-		end
-	end
-	--]]
+
 	-- Create function which will set ninja coordinates. Then call that function:
-	local func = menuPlayer:setDestination(selButton.x+25, selButton.y + 10)
+	local func = menuPlayer:setDestination(selButton.x+Camera.scale*5, selButton.y + Camera.scale*2)
 	func()
 end
 
@@ -457,7 +437,7 @@ function menu:keypressed( key, unicode )
 			love.event.quit()
 		else
 			config.setValue( "level", selButton.name )			
-			menu:init()
+			menu:initMain()
 		end
 	end
 end
@@ -485,8 +465,8 @@ function menu:update(dt)
 		if button.selected then
 			-- Smooth movement of map - blockwise - 
 			if menu.state == "worldMap" then 
-				self.xTarget = math.floor((button.x)/600)*600+300-love.graphics.getWidth()/2
-				self.worldNumber = math.floor(button.x/600)+1
+				self.xTarget = math.floor((button.x)/(Camera.scale*120))*Camera.scale*120+Camera.scale*59-love.graphics.getWidth()/2
+				self.worldNumber = math.floor(button.x/(Camera.scale*120))+1
 			end
 			
 			if button.name == "settings" then
@@ -520,7 +500,7 @@ function menu:draw()
 	for k, element in pairs(menuBackgrounds) do
 		love.graphics.draw( element.img, element.x, element.y )
 	end
-	love.graphics.setLineWidth(2)
+	love.graphics.setLineWidth(Camera.scale*0.4)
 	for k, element in pairs(menuLines) do
 		if element.active then
 			love.graphics.setColor(0,0,0)
@@ -551,14 +531,13 @@ function menu:draw()
 	menuPlayer:draw()
 	
 	love.graphics.pop()
---	love.graphics.print(menu.text,400,100)
 
 		love.graphics.setFont(fontSmall)
-		local y = love.graphics.getHeight()-50
+		local y = love.graphics.getHeight()-Camera.scale*10
 		local displayText = menu.text
 		if menu.state == "worldMap" then
 			love.graphics.setColor(0,0,0)
-			y = love.graphics.getHeight()*0.5+220
+			y = love.graphics.getHeight()*0.5+Camera.scale*44
 			if menu.text and Campaign.names[menu.text] then
 				displayText = Campaign.names[menu.text]
 			end
@@ -569,7 +548,7 @@ function menu:draw()
 	if menu.state == "worldMap" then
 		love.graphics.setFont(fontLarge)
 		love.graphics.setColor(0,0,0)
-		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-200, love.graphics.getWidth(), 'center')			
+		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-Camera.scale*40, love.graphics.getWidth(), 'center')			
 		love.graphics.setColor(255,255,255)
 	end
 end

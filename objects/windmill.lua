@@ -15,6 +15,8 @@ Windmill = object:New({
 
 function Windmill:setAcceleration(dt)
 	self.angle = (self.angle + self.vRot * dt)%(2*math.pi)
+	self.ox = Camera.scale/5*12
+	self.oy = Camera.scale/5*98
 end
 
 function Windmill:draw()

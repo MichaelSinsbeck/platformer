@@ -30,8 +30,8 @@ function object:init()
   if self.img then
     self.marginx = self.marginx or 1
     self.marginy = self.marginy or 1
-    self.ox = self.ox or 0.5*self.img:getWidth()
-    self.oy = self.oy or 0.5*self.img:getHeight()
+    self.ox = self.ox or 0.5*self.img:getWidth()/Camera.scale
+    self.oy = self.oy or 0.5*self.img:getHeight()/Camera.scale
 		self.semiwidth = self.semiwidth or 0.5*self.img:getWidth()/myMap.tileSize*self.marginx
 		self.semiheight = self.semiheight or 0.5*self.img:getHeight()/myMap.tileSize*self.marginy
 		if self.rotating then
@@ -42,8 +42,8 @@ function object:init()
 		self.marginx = self.marginx or 1
     self.marginy = self.marginy or 1
     local name = AnimationDB.animation[self.animation].source
-    self.ox = self.ox or 0.5*AnimationDB.source[name].width
-    self.oy = self.oy or 0.5*AnimationDB.source[name].height
+    self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
+    self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
         
 		self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
 		self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
@@ -54,11 +54,11 @@ function object:init()
   end
 	if self.sonAnimation then
 		local name = AnimationDB.animation[self.sonAnimation].source
-		self.sonox = self.sonox or 0.5*AnimationDB.source[name].width
-		self.sonoy = self.sonoy or 0.5*AnimationDB.source[name].height
+		self.sonox = self.sonox or 0.5*AnimationDB.source[name].width/Camera.scale
+		self.sonoy = self.sonoy or 0.5*AnimationDB.source[name].height/Camera.scale
 	elseif self.sonImg then
-		self.sonox = self.sonox or 0.5*self.sonImg:getWidth()
-		self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()
+		self.sonox = self.sonox or 0.5*self.sonImg:getWidth()/Camera.scale
+		self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()/Camera.scale
 	end  
 end
 
@@ -78,17 +78,17 @@ function object:draw()
   if self.animation then
 		local sx,sy = (self.sx or 1), (self.sy or 1)
     self:drawAnimation(
-			math.floor(self.x*myMap.tileSize*Camera.scale)/Camera.scale,
-			math.floor(self.y*myMap.tileSize*Camera.scale)/Camera.scale,
+			math.floor(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
+			math.floor(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom,
 			self.angle,sx,sy,
-			math.floor(self.ox),math.floor(self.oy))
+			math.floor(self.ox*Camera.scale),math.floor(self.oy*Camera.scale))
 	elseif self.img then
 		local sx,sy = (self.sx or 1), (self.sy or 1)
     love.graphics.draw(self.img,
 				math.floor(self.x*myMap.tileSize),
 				math.floor(self.y*myMap.tileSize),
 				self.angle,sx,sy,
-				math.floor(self.ox),math.floor(self.oy))
+				math.floor(self.ox*Camera.scale),math.floor(self.oy*Camera.scale))
   end
   
   if self.sonAnimation then
@@ -99,7 +99,7 @@ function object:draw()
 		  math.floor((self.x+x)*myMap.tileSize),
 			math.floor((self.y+y)*myMap.tileSize),
 			angle,sx,sy,
-			math.floor(self.sonox),math.floor(self.sonoy))  
+			math.floor(self.sonox*Camera.scale),math.floor(self.sonoy*Camera.scale))  
   elseif self.sonImg then
 		local sx,sy = self.sonSx or 1, self.sonSy or 1
 		local angle = self.sonAngle or 0
@@ -108,7 +108,7 @@ function object:draw()
 			math.floor((self.x+x)*myMap.tileSize),
 			math.floor((self.y+y)*myMap.tileSize),
 			angle,sx,sy,
-			math.floor(self.sonox),math.floor(self.sonoy))
+			math.floor(self.sonox*Camera.scale),math.floor(self.sonoy*Camera.scale))
   end
 	if self.alpha then
 	  love.graphics.setColor(255,255,255)

@@ -30,6 +30,7 @@ function love.load(args)
 	-- set screen resolution
 	Camera:init()
 	
+	menu:init()
 	-- load all images
 	AnimationDB:loadAll()	
 	
@@ -49,7 +50,7 @@ function love.load(args)
 	Campaign:reset()
 
 	mode = 'menu'
-	menu:init()
+	menu:initMain()
 
 end
 
@@ -74,7 +75,15 @@ function love.draw()
 end
 
 function love.keypressed( key, unicode )
-
+	if key == 'x' then
+		local newScale = math.min(Camera.scale + 1,8)
+		Camera:setScale(newScale)
+	end
+	
+	if key == 'y' then
+		local newScale = math.max(Camera.scale - 1,4)
+		Camera:setScale(newScale)
+	end	
 
 	if mode == 'menu' then
 		menu:keypressed( key, unicode )
