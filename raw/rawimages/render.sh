@@ -2,15 +2,20 @@
 
 for scale in 4 5 6 7 8; do
 	prefix=$(expr $scale \* 8)
-	echo $prefix
+	echo Prefix $prefix
 	resolution=$(expr $scale \* 18)
-	echo $resolution
+	echo Resolution $resolution
 done
 
 for scale in 4 5 6 7 8; do
 	prefix=$(expr $scale \* 8)
 	resolution=$(expr $scale \* 18)
 	resolutionCredits=$(expr $scale \* 32)
+
+	echo -----------------------------------------------------
+	echo Saving images: prefix=$prefix, resolution=$resolution
+	echo -----------------------------------------------------
+	
 	for infile in *.svg; do
 		outfile=../../images/${prefix}${infile%.*}.png
 		inkscape -f $infile -C -d $resolution -e $outfile

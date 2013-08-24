@@ -57,8 +57,12 @@ function love.load(args)
 		oldScale = math.floor(oldScale)
 		if oldScale >= 4 and oldScale <= 8 then
 			Camera:setScale(oldScale)
+			local xWin, yWin = oldScale*18*0.56*32, oldScale*18*0.56*20
+			love.graphics.setMode( xWin, yWin )
+			print("resolution, winX, winY", oldScale*18, xWin, yWin)
 		end
 	end
+	
 
 end
 
@@ -85,15 +89,25 @@ end
 function love.keypressed( key, unicode )
 	if key == 'x' then
 		local newScale = math.min(Camera.scale + 1,8)
-		Camera:setScale(newScale)
-		config.setValue("scale", newScale)
+		if Camera.scale ~= newScale then
+			Camera:setScale(newScale)
+			config.setValue("scale", newScale)
+			local xWin, yWin = newScale*18*0.56*32, newScale*18*0.56*20
+			love.graphics.setMode( xWin, yWin )
+			print("resolution, winX, winY", newScale*18, xWin, yWin)
+		end
 	end
 	
 	if key == 'y' then
 		local newScale = math.max(Camera.scale - 1,4)
-		Camera:setScale(newScale)
-		config.setValue("scale", newScale)
-	end	
+		if Camera.scale ~= newScale then
+			Camera:setScale(newScale)
+			config.setValue("scale", newScale)
+			local xWin, yWin = newScale*18*0.56*32, newScale*18*0.56*20
+			love.graphics.setMode( xWin, yWin )
+			print("resolution, winX, winY", newScale*18, xWin, yWin)
+		end
+	end
 
 	if mode == 'menu' then
 		menu:keypressed( key, unicode )
