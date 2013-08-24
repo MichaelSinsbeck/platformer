@@ -18,9 +18,11 @@ function Map:LoadFromFile(mapFile)
 	love.filesystem.load(mapFile)()
 	
 	-- Postprocess
-	local img = love.graphics.newImage('images/40'..o.imageFile)
-  --img:setFilter('linear','linear')
-  img:setFilter('nearest','nearest')
+	o.tileSize = Camera.scale*8
+	o.graphicSize = Camera.scale*10
+	local img = love.graphics.newImage('images/'.. Camera.scale*8 ..o.imageFile)
+  img:setFilter('linear','linear')
+  --img:setFilter('nearest','nearest')
   o.spriteBatch = love.graphics.newSpriteBatch(img, o.width*o.height)
   o.offset = (o.tileSize-o.graphicSize)/2
   o.factoryList = Map:FactoryList(o.tile,o.height,o.width) -- see at the end of this file

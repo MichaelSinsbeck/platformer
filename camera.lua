@@ -15,16 +15,16 @@ function Camera:update(dt)
   local tileSize = myMap.tileSize
   self.x = self.x + 0.1*(self.xTarget-self.x)
   self.y = self.y + 0.1*(self.yTarget-self.y)
-  self.xWorld = math.floor(-Camera.x*myMap.tileSize*self.scale+self.width/2)/self.scale
-  self.yWorld = math.floor(-Camera.y*myMap.tileSize*self.scale+self.height/2)/self.scale
+  self.xWorld = math.floor(-Camera.x*myMap.tileSize*self.zoom+self.width/2)/self.zoom
+  self.yWorld = math.floor(-Camera.y*myMap.tileSize*self.zoom+self.height/2)/self.zoom
   
   if self.xWorld > -1*tileSize then self.xWorld = -1*tileSize end
   if self.yWorld > -1*tileSize then self.yWorld = -1*tileSize end
-  if self.xWorld < self.width/self.scale - (myMap.width+1)*tileSize then
-    self.xWorld = self.width/self.scale - (myMap.width+1)*tileSize
+  if self.xWorld < self.width/self.zoom - (myMap.width+1)*tileSize then
+    self.xWorld = self.width/self.zoom - (myMap.width+1)*tileSize
   end  
-  if self.yWorld < self.height/self.scale - (myMap.height+1)*tileSize then
-    self.yWorld = self.height/self.scale - (myMap.height+1)*tileSize
+  if self.yWorld < self.height/self.zoom - (myMap.height+1)*tileSize then
+    self.yWorld = self.height/self.zoom - (myMap.height+1)*tileSize
   end    
 end
 
@@ -32,15 +32,25 @@ function Camera:init()
 	-- change screen resolution
 	local modes = love.graphics.getModes()
 	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
-	love.graphics.setMode(modes[1].width, modes[1].height, true)
-	modes = nil
-	
-	--love.graphics.setMode(1024,768,false)
+	--love.graphics.setMode(modes[1].width, modes[1].height, true)
+
+	-- check screen resolution and set Camera scale accordingly.
+	-- Camera.scale can have the values 4,5,6,7,8
+	self.scale = 4
+	local target = 640
+	local nTiles = modes[1].width/32 * modes[1].height/32
+	for scale = 5,8 do
+		local nNewTiles = modes[1].width*modes[1].height/(scale*scale*8*8)
+		if math.abs(nNewTiles - 640) < math.abs(nTiles - 640) then
+		-- accept new value
+			self.scale = scale
+			nTiles = nNewTiles
+		end
+	end
 
 	self.width = love.graphics.getWidth()
 	self.height = love.graphics.getHeight()
-	--self.scale = self.width/(self.desiredWidth*40)
-	self.scale = 1
+	self.zoom = 1
 
 end
 
@@ -55,6 +65,6 @@ function Camera:jumpTo(x,y)
 end
 
 function Camera:apply()
-	love.graphics.scale(self.scale,self.scale)
+	love.graphics.scale(self.zoom,self.zoom)
   love.graphics.translate(self.xWorld,self.yWorld)
 end
