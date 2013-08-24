@@ -14,6 +14,7 @@ local startOff_IMG, startOn_IMG
 local settingsOff_IMG, settingsOn_IMG
 local exitOff_IMG, exitOn_IMG
 local worldItemOff_IMG, worldItemOn_IMG, worldItemInactive_IMG
+local creditsOff_IMG, creditsOn_IMG 
 local background1_IMG
 local background2_IMG
 local background3_IMG
@@ -33,6 +34,8 @@ function menu:init()
 	settingsOn_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOn.png")
 	exitOff_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOff.png")
 	exitOn_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOn.png")
+	creditsOff_IMG = love.graphics.newImage("images/menu/40creditsOff.png")
+	creditsOn_IMG = love.graphics.newImage("images/menu/40creditsOn.png")
 
 	worldItemOff_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOff.png")
 	worldItemOn_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOn.png")
@@ -80,6 +83,11 @@ function menu:initMain()
 	
 	actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
 	menu:addButton( x, y, settingsOff_IMG, settingsOn_IMG, "settings", nil, actionHover )
+	
+	y = y + Camera.scale*10
+	actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
+
+	menu:addButton( x, y, creditsOff_IMG, creditsOn_IMG, "credits", nil, actionHover )
 	
 	y = y + Camera.scale*10
 	actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
@@ -477,6 +485,12 @@ function menu:update(dt)
 				button.xShift = 5-10*math.abs(math.sin(5*button.timer))
 				button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
 				button.xScale = 1/button.yScale
+			elseif button.name == "credits" then
+				button.timer = button.timer + dt
+				--button.xScale = 1-0.1*math.abs(math.cos(6*button.timer))
+				button.yScale = button.xScale
+				button.angle = math.sin(- button.timer * 6)
+				button.yShift = 5-10*math.abs(math.sin(6*button.timer))
 			elseif button.name == "exit" then
 				button.timer = button.timer + dt
 				button.yShift = 5-10*math.abs(math.sin(5*button.timer))
