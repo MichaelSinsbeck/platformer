@@ -39,14 +39,18 @@ function settings:setWindowSize( scale )
 		config.setValue("scale", scale)
 		love.graphics.setMode( xWin, yWin, settings.fullScreen )
 		settings.xWin, settings.yWin = xWin, yWin
+		return true
 	else
 		print("\t-> Failed!")
+		return false
 	end
 end
 
 function settings:toggleFullScreen()
 	settings.fullScreen = (settings.fullScreen == false)
-	settings:setWindowSize()
+	if settings:setWindowSize() then
+		config.setValue("fullscreen", settings.fullScreen)
+	end
 end
 
 
