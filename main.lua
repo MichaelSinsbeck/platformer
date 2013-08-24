@@ -2,6 +2,7 @@
 
 menu = require("scripts/menu")
 config = require("scripts/config")
+settings = require("scripts/settings")
 require("scripts/misc")
 
 require 'scripts/utility'
@@ -52,17 +53,7 @@ function love.load(args)
 	mode = 'menu'
 	menu:initMain()
 
-	local oldScale = tonumber(config.getValue("scale"))
-	if oldScale then
-		oldScale = math.floor(oldScale)
-		if oldScale >= 4 and oldScale <= 8 then
-			Camera:setScale(oldScale)
-			local xWin, yWin = oldScale*18*0.56*32, oldScale*18*0.56*20
-			love.graphics.setMode( xWin, yWin )
-			print("resolution, winX, winY", oldScale*18, xWin, yWin)
-		end
-	end
-	
+	settings:initWindowSize()
 
 end
 
@@ -90,23 +81,19 @@ function love.keypressed( key, unicode )
 	if key == 'x' then
 		local newScale = math.min(Camera.scale + 1,8)
 		if Camera.scale ~= newScale then
-			Camera:setScale(newScale)
-			config.setValue("scale", newScale)
-			local xWin, yWin = newScale*18*0.56*32, newScale*18*0.56*20
-			love.graphics.setMode( xWin, yWin )
-			print("resolution, winX, winY", newScale*18, xWin, yWin)
+			settings:setWindowSize( newScale )
 		end
 	end
 	
 	if key == 'y' then
 		local newScale = math.max(Camera.scale - 1,4)
 		if Camera.scale ~= newScale then
-			Camera:setScale(newScale)
-			config.setValue("scale", newScale)
-			local xWin, yWin = newScale*18*0.56*32, newScale*18*0.56*20
-			love.graphics.setMode( xWin, yWin )
-			print("resolution, winX, winY", newScale*18, xWin, yWin)
+			settings:setWindowSize( newScale )
 		end
+	end
+	
+	if key == 'f' then
+		settings:toggleFullScreen()
 	end
 
 	if mode == 'menu' then
