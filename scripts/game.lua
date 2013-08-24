@@ -1,4 +1,4 @@
-require 'spriteengine'
+require 'scripts/spriteengine'
 
 game = {deathtimer = 0}
 

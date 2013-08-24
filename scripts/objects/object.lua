@@ -1,4 +1,4 @@
-require 'animationdb'
+require 'scripts/animationdb'
 
 object = {
 tag = 'object',

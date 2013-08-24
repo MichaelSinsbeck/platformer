@@ -4,13 +4,13 @@ menu = require("scripts/menu")
 config = require("scripts/config")
 require("scripts/misc")
 
-require 'utility'
-require 'camera'
-require 'game'
-require 'spritefactory'
-require 'map'
-require 'intro'
-require 'campaign'
+require 'scripts/utility'
+require 'scripts/camera'
+require 'scripts/game'
+require 'scripts/spritefactory'
+require 'scripts/map'
+require 'scripts/intro'
+require 'scripts/campaign'
 
 mode = 'menu'	-- must be global
 
