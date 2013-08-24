@@ -443,24 +443,27 @@ function menu:execute()
 end
 
 function menu:keypressed( key, unicode )
-	if key == "up" or key == "w" then
-		menu:selectAbove()
-	elseif key == "down" or key == "s" then
-		menu:selectBelow()
-	elseif key == "left" or key == "a" then
-		menu:selectLeft()
-	elseif key == "right" or key == "d" then
-		menu:selectRight()
-	elseif key == "return" or key == " " then
-		menu:execute()
-	elseif key == "escape" then
-		if menu.state == "main" then
-			love.event.quit()
-		else
-			if menu.state == "worldMap" then
-				config.setValue( "level", selButton.name )
+	if menu.state == "credits" then
+		menu:initMain()
+	else
+		if key == "up" or key == "w" then
+			menu:selectAbove()
+		elseif key == "down" or key == "s" then
+			menu:selectBelow()
+		elseif key == "left" or key == "a" then
+			menu:selectLeft()
+		elseif key == "right" or key == "d" then
+			menu:selectRight()
+		elseif key == "return" or key == " " then
+			menu:execute()
+		elseif key == "escape" then
+			if menu.state == "main" then
+				love.event.quit()
+			else
+				if menu.state == "worldMap" then
+					config.setValue( "level", selButton.name )
+				end
 			end
-			menu:initMain()
 		end
 	end
 end
