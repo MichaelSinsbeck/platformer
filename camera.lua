@@ -49,8 +49,6 @@ function Camera:init()
 		end
 	end
 	
-	self.scale = 7
-	
 	self.width = love.graphics.getWidth()
 	self.height = love.graphics.getHeight()
 	self.zoom = 1
@@ -59,8 +57,9 @@ end
 
 -- sets the new scale and reloads all images
 function Camera:setScale(scale)
+-- scale has to have one of the values 4,5,6,7 or 8
 	self.scale = scale
-	menu.init()
+	menu:init()
 	AnimationDB:loadAll()	
 	myMap:loadImage()
 end

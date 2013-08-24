@@ -11,7 +11,7 @@ local menuPlayer = {
 	
 function menuPlayer:draw()
 	if menuPlayer.currentQuad and menuPlayer.img then
-		love.graphics.drawq(self.img, self.currentQuad,self.x,self.y, 0, self.scaleX, self.scaleY,self.ox*Camera.scale,self.oy*Camera.scale)
+		love.graphics.drawq(self.img, self.currentQuad,self.x*Camera.scale,self.y*Camera.scale, 0, self.scaleX, self.scaleY,self.ox*Camera.scale,self.oy*Camera.scale)
 	end
 end
 
