@@ -526,7 +526,7 @@ end
 function menu:draw()
 
 	love.graphics.push()
-  love.graphics.translate(
+	love.graphics.translate(
 		-math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
 		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
 
@@ -572,7 +572,9 @@ function menu:draw()
 		end
 		--love.graphics.print(k, button.x, button.y )
 	end
-	menuPlayer:draw()	
+	if menu.state ~= "credits" then
+		menuPlayer:draw()
+	end
 	love.graphics.pop()
 
 	if menu.state == "worldMap" then
