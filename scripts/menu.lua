@@ -506,9 +506,10 @@ function menu:update(dt)
 				button.xScale = 1/button.yScale
 			elseif button.name == "credits" then
 				button.timer = button.timer + dt
-				--button.xShift = 5-10*math.abs(math.sin(5*button.timer))
-				button.yScale = 1+0.1*math.abs(math.cos(5*button.timer))
-				button.xScale = button.yScale
+				--button.xScale = 1-0.1*math.abs(math.cos(6*button.timer))
+				button.yScale = button.xScale
+				button.angle = math.sin(- button.timer * 6)
+				button.yShift = 5-10*math.abs(math.sin(6*button.timer))
 			elseif button.name == "exit" then
 				button.timer = button.timer + dt
 				button.yShift = 5-10*math.abs(math.sin(5*button.timer))
