@@ -604,7 +604,6 @@ function menu:draw()
 	end
 	--love.graphics.printf(displayText, 0, y, love.graphics.getWidth(), 'center')	
 	love.graphics.setColor(255,255,255)	
-	
 
 end
 

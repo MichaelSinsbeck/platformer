@@ -33,7 +33,7 @@ function credits:draw()
 	love.graphics.rectangle("fill", 0, love.graphics.getHeight()/2 - creditEntries[1].img:getHeight()/2 , love.graphics.getWidth(), creditEntries[1].img:getHeight())
 	love.graphics.setColor(255,255,255)
 	
-	y = love.graphics.getHeight()/2	- 75
+	y = love.graphics.getHeight()/2	- 11*Camera.scale
 	if creditsNum <= #creditEntries then
 		if ct < 1 then
 			x = love.graphics.getWidth()/2 - math.max(12*ct*ct - 22*ct + 10, 0)/5*love.graphics.getWidth()
