@@ -35,8 +35,8 @@ function menu:init()
 	self.images.settingsOn_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOn.png")
 	self.images.exitOff_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOff.png")
 	self.images.exitOn_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOn.png")
-	self.images.creditsOff_IMG = love.graphics.newImage("images/menu/40creditsOff.png")
-	self.images.creditsOn_IMG = love.graphics.newImage("images/menu/40creditsOn.png")
+	self.images.creditsOff_IMG = love.graphics.newImage("images/menu/"..prefix.."creditsOff.png")
+	self.images.creditsOn_IMG = love.graphics.newImage("images/menu/"..prefix.."creditsOn.png")
 
 	self.images.worldItemOff_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOff.png")
 	self.images.worldItemOn_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOn.png")
@@ -463,6 +463,7 @@ function menu:keypressed( key, unicode )
 				if menu.state == "worldMap" then
 					config.setValue( "level", selButton.name )
 				end
+				menu:initMain()
 			end
 		end
 	end
