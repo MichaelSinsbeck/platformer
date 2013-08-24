@@ -22,6 +22,7 @@ local background4_IMG
 local background5_IMG
 
 local menuPlayer = require("scripts/menuPlayer")
+local credits = require("scripts/credits")
 
 -- This function loads the images in the right scaling
 function menu:init()
@@ -87,7 +88,7 @@ function menu:initMain()
 	y = y + Camera.scale*10
 	actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
 
-	menu:addButton( x, y, creditsOff_IMG, creditsOn_IMG, "credits", nil, actionHover )
+	menu:addButton( x, y, creditsOff_IMG, creditsOn_IMG, "credits", menu.startCredits, actionHover )
 	
 	y = y + Camera.scale*10
 	actionHover = menuPlayer:setDestination(x - Camera.scale*3, y + Camera.scale*5)
@@ -264,6 +265,18 @@ function menu:startGame( lvl )
 		
 		config.setValue( "level", lvl )
 	end
+end
+
+---------------------------------------------------------
+-- Starts displaying the credits:
+---------------------------------------------------------
+
+function menu:startCredits()
+
+	menu:clear()	-- remove anything that was previously on the menu
+	menu.state = "credits"
+	credits:init()
+	
 end
 
 ---------------------------------------------------------
@@ -444,7 +457,9 @@ function menu:keypressed( key, unicode )
 		if menu.state == "main" then
 			love.event.quit()
 		else
-			config.setValue( "level", selButton.name )			
+			if menu.state == "worldMap" then
+				config.setValue( "level", selButton.name )
+			end
 			menu:initMain()
 		end
 	end
@@ -468,6 +483,9 @@ function menu:update(dt)
 	
 	self.xCamera = self.xCamera + 0.05 * (self.xTarget- self.xCamera)
 	
+	if menu.state == "credits" then
+		credits:update(dt)
+	end
 
 	for k, button in pairs(buttons) do
 		if button.selected then
@@ -508,7 +526,7 @@ end
 function menu:draw()
 
 	love.graphics.push()
-  love.graphics.translate(-math.floor(self.xCamera),-math.floor(self.yCamera))
+	love.graphics.translate(-math.floor(self.xCamera),-math.floor(self.yCamera))
   
 	-- draw background elements:
 	for k, element in pairs(menuBackgrounds) do
@@ -542,10 +560,23 @@ function menu:draw()
 		--love.graphics.print(k, button.x, button.y )
 	end
 	
-	menuPlayer:draw()
+	
 	
 	love.graphics.pop()
 
+	
+	if menu.state == "worldMap" then
+		love.graphics.setFont(fontLarge)
+		love.graphics.setColor(0,0,0)
+		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-Camera.scale*40, love.graphics.getWidth(), 'center')			
+		love.graphics.setColor(255,255,255)
+	end
+	
+	if menu.state == "credits" then
+		credits:draw()
+	else
+	
+	
 		love.graphics.setFont(fontSmall)
 		local y = love.graphics.getHeight()-Camera.scale*10
 		local displayText = menu.text
@@ -559,11 +590,7 @@ function menu:draw()
 		love.graphics.printf(displayText, 0, y, love.graphics.getWidth(), 'center')	
 		love.graphics.setColor(255,255,255)	
 	
-	if menu.state == "worldMap" then
-		love.graphics.setFont(fontLarge)
-		love.graphics.setColor(0,0,0)
-		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-Camera.scale*40, love.graphics.getWidth(), 'center')			
-		love.graphics.setColor(255,255,255)
+		menuPlayer:draw()
 	end
 end
 
