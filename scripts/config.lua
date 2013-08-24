@@ -65,7 +65,7 @@ end
 function config.getValue( name )
 	if not love.filesystem.isFile(CONFIG_FILE) then
 		print("Could not find config file.")
-		return
+		return nil
 	end
 	local ok, file = pcall(love.filesystem.newFile, CONFIG_FILE )
 	local data
