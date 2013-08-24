@@ -52,6 +52,14 @@ function love.load(args)
 	mode = 'menu'
 	menu:initMain()
 
+	local oldScale = tonumber(config.getValue("scale"))
+	if oldScale then
+		oldScale = math.floor(oldScale)
+		if oldScale >= 4 and oldScale <= 8 then
+			Camera:setScale(oldScale)
+		end
+	end
+
 end
 
 function love.update( dt )
@@ -78,11 +86,13 @@ function love.keypressed( key, unicode )
 	if key == 'x' then
 		local newScale = math.min(Camera.scale + 1,8)
 		Camera:setScale(newScale)
+		config.setValue("scale", newScale)
 	end
 	
 	if key == 'y' then
 		local newScale = math.max(Camera.scale - 1,4)
 		Camera:setScale(newScale)
+		config.setValue("scale", newScale)
 	end	
 
 	if mode == 'menu' then
