@@ -31,8 +31,8 @@ function love.load(args)
 	-- set screen resolution
 	Camera:init()
 	
-	menu:init()
 	-- load all images
+	menu:init()
 	AnimationDB:loadAll()	
 	
 	-- load and set font
@@ -52,9 +52,6 @@ function love.load(args)
 
 	mode = 'menu'
 	menu:initMain()
-
-	settings:initWindowSize()
-
 end
 
 function love.update( dt )

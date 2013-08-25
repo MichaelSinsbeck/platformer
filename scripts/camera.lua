@@ -29,28 +29,8 @@ function Camera:update(dt)
 end
 
 function Camera:init()
-	-- change screen resolution
-	local modes = love.graphics.getModes()
-	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
-	--love.graphics.setMode(modes[1].width, modes[1].height, true)
-	love.graphics.setMode(800, 600, false)
 
-	-- check screen resolution and set Camera scale accordingly.
-	-- Camera.scale can have the values 4,5,6,7,8
-	self.scale = 4
-	local target = 640
-	local nTiles = modes[1].width/32 * modes[1].height/32
-	for scale = 5,8 do
-		local nNewTiles = modes[1].width*modes[1].height/(scale*scale*8*8)
-		if math.abs(nNewTiles - 640) < math.abs(nTiles - 640) then
-		-- accept new value
-			self.scale = scale
-			nTiles = nNewTiles
-		end
-	end
-	
-	self.width = love.graphics.getWidth()
-	self.height = love.graphics.getHeight()
+	settings:initWindowSize()
 	self.zoom = 1
 
 end
@@ -59,9 +39,13 @@ end
 function Camera:setScale(scale)
 -- scale has to have one of the values 4,5,6,7 or 8
 	self.scale = scale
+	self.width = love.graphics.getWidth()
+	self.height = love.graphics.getHeight()	
 	menu:init()
-	AnimationDB:loadAll()	
-	myMap:loadImage()
+	AnimationDB:loadAll()
+	if myMap then -- reload Map-image, if map exists
+		myMap:loadImage()
+	end
 end
 
 function Camera:setTarget()

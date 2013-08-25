@@ -1,13 +1,10 @@
 
 local settings = {}
 
-settings.xWin = 0
-settings.yWin = 0
-settings.scale = 4
-settings.fullScreen = false
+--settings.fullscreen = false
 
-function settings:checkMode( w, h )
-	if settings.fullScreen then
+--[[function settings:checkMode( w, h )
+	if settings.fullscreen then
 		for k, v in pairs(love.graphics.getModes()) do
 			if v.width >= w and v.height >= h then
 				return true
@@ -15,65 +12,81 @@ function settings:checkMode( w, h )
 		end
 	else
 		for k, v in pairs(love.graphics.getModes()) do
-			if v.width > w and v.height > h then
+			if v.width >= w and v.height >= h then
 				return true
 			end
 		end
 	end
 	return false
-end
+end--]]
 
-function settings:setWindowSize( scale )
-	
-	scale = scale or settings.scale
-	
-	-- size of box size is 0.56
-	-- window size should be as close as possible to 32x20
-	-- scale*18 gives the resolution, where scale is 4,5,6,7 or 8
-	local xWin, yWin = scale*18*0.56*32, scale*18*0.56*20
-	print("Attempt to rescale: resolution, winX, winY", scale*18, xWin, yWin)
-	if settings:checkMode( xWin, yWin ) then
-		print("\t-> Success!")
-		Camera:setScale( scale )
-		settings.scale = scale
-		config.setValue("scale", scale)
-		love.graphics.setMode( xWin, yWin, settings.fullScreen )
-		settings.xWin, settings.yWin = xWin, yWin
-		return true
-	else
-		print("\t-> Failed!")
-		return false
+function settings:setWindowSize()
+	local success
+	local scale
+	if self.fullscreen then
+		scale = self:fullscreenScale()
+		success = love.graphics.setMode(self.xScreen,self.yScreen, true)
+		Camera:setScale(scale)
+		if success then
+			return true
+		end
 	end
+	
+	scale = self:windowScale()
+	success = love.graphics.setMode(
+		math.min(self.xScreen,scale*8*32),
+		math.min(self.yScreen,scale*8*20)
+		,false)
+	Camera:setScale(scale)
 end
 
 function settings:toggleFullScreen()
-	settings.fullScreen = (settings.fullScreen == false)
-	if settings:setWindowSize() then
-		config.setValue("fullscreen", settings.fullScreen)
-	end
+	self.fullscreen = not self.fullscreen
+	self:setWindowSize()
+	config.setValue("fullscreen",self.fullscreen)
 end
 
 
 -- reads previous configuration and sets it:
 function settings:initWindowSize()
+	
+	-- find screen size
+	local modes = love.graphics.getModes()
+	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
+	self.xScreen = modes[1].width
+	self.yScreen = modes[1].height
 
-	local prevScale = tonumber(config.getValue("scale"))	-- default scale is 4
-	local fullScreen = config.getValue("fullscreen")
-	
-	-- make sure prevScale has a valid value:
-	if not prevScale then prevScale = 4 end
-	prevScale = math.floor(prevScale)
-	if prevScale < 4 or prevScale > 8 then
-		prevScale = 4
+	-- only property is "fullscreen"
+	self.fullscreen = config.getValue("fullscreen")
+	if not self.fullscreen or self.fullscreen == "false" then
+		self.fullscreen = false
 	end
-	
-	-- make sure fullScreen has a boolean value (default: false)
-	if fullScreen == "true" then fullScreen = true
-	else fullScreen = false
+
+	settings:setWindowSize()
+end
+
+-- find largest scale-factor that still fits into the screen
+function settings:windowScale()
+	local scale = math.min(math.floor((self.xScreen-1)/(8*32)),	math.floor((self.yScreen-1)/(8*20)),8)
+	scale = math.max(scale,4)
+	return scale
+end
+
+-- find a scale such that the number of tiles in the images is as close
+-- as possible to 32*20.
+function settings:fullscreenScale()
+	local suggestedScale = 4
+	local target = 640
+	local nTiles = self.xScreen/32 * self.yScreen/32
+	for scale = 5,8 do
+		local nNewTiles = self.xScreen*self.yScreen/(scale*scale*8*8)
+		if math.abs(nNewTiles - target) < math.abs(nTiles - target) then
+		-- accept new value
+			suggestedScale = scale
+			nTiles = nNewTiles
+		end
 	end
-	
-	settings.fullScreen = fullScreen
-	settings:setWindowSize( prevScale )
+	return suggestedScale
 end
 
 return settings

@@ -2,8 +2,8 @@ intro = {
 duration=.25}
 
 function intro:draw ()
-	self.height = self.height or love.graphics.getHeight()
-	self.width = self.width or love.graphics.getWidth()
+	self.height = love.graphics.getHeight()
+	self.width = love.graphics.getWidth()
   local done = timer/self.duration;
   --love.graphics.setBackgroundColor(20,120,170)        
   love.graphics.setBackgroundColor(80,150,205)  
