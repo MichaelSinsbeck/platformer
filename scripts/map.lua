@@ -197,6 +197,9 @@ function Map:updateSpritebatch()
 end
 
 function Map:draw()
+	love.graphics.setColor(80,150,205)     
+	love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
+	love.graphics.setColor(255,255,255)
   love.graphics.draw(self.spriteBatch,0,0)
 end
 

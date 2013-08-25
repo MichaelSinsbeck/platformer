@@ -31,15 +31,15 @@ function love.load(args)
 	-- set screen resolution
 	Camera:init()
 	
-	menu:init()
 	-- load all images
+	menu:init()
 	AnimationDB:loadAll()	
 	
 	-- load and set font
-	fontSmall = love.graphics.newImageFont("images/font/40font_white.png",
-    " abcdefghijklmnopqrstuvwxyz0123456789.,?+")
-	fontLarge = love.graphics.newImageFont("images/font/40font2_white.png",
-    " abcdefghijklmnopqrstuvwxyz0123456789.,?+")    
+	fontSmall = love.graphics.newImageFont("images/font/40fontSmall.png",
+    " abcdefghijklmnopqrstuvwxyz0123456789.,?+&")
+	fontLarge = love.graphics.newImageFont("images/font/40fontLarge.png",
+    " abcdefghijklmnopqrstuvwxyz0123456789.,?+&")    
 	love.graphics.setFont(fontSmall)
 
 	recorder = false
@@ -52,9 +52,6 @@ function love.load(args)
 
 	mode = 'menu'
 	menu:initMain()
-
-	settings:initWindowSize()
-
 end
 
 function love.update( dt )
@@ -78,19 +75,6 @@ function love.draw()
 end
 
 function love.keypressed( key, unicode )
-	if key == 'x' then
-		local newScale = math.min(Camera.scale + 1,8)
-		if Camera.scale ~= newScale then
-			settings:setWindowSize( newScale )
-		end
-	end
-	
-	if key == 'y' then
-		local newScale = math.max(Camera.scale - 1,4)
-		if Camera.scale ~= newScale then
-			settings:setWindowSize( newScale )
-		end
-	end
 	
 	if key == 'f' then
 		settings:toggleFullScreen()
