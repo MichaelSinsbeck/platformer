@@ -72,9 +72,10 @@ function credits:init( prefix )
 	creditsProgramming_IMG = love.graphics.newImage("images/credits/"..prefix.."creditsProgramming.png")
 	creditsMusic_IMG = love.graphics.newImage("images/credits/"..prefix.."creditsMusic.png")
 	
-	creditEntries[1] = {title = "idea + design", person = "micha", img = creditsDesign_IMG}
+	creditEntries[1] = {title = "idea & design", person = "micha", img = creditsDesign_IMG}
 	creditEntries[2] = {title = "graphics", person = "micha", img = creditsGraphics_IMG}
 	creditEntries[3] = {title = "programming", person = "micha\ngermanunkol", img = creditsProgramming_IMG}
+	
 	creditEntries[4] = {title = "music & sound", person = "none", img = creditsMusic_IMG}
 	
 	creditsNum = 1

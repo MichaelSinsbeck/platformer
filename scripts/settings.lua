@@ -3,7 +3,7 @@ local settings = {}
 
 --settings.fullscreen = false
 
---[[function settings:checkMode( w, h )
+function settings:checkMode( w, h )
 	if settings.fullscreen then
 		for k, v in pairs(love.graphics.getModes()) do
 			if v.width >= w and v.height >= h then
@@ -18,7 +18,7 @@ local settings = {}
 		end
 	end
 	return false
-end--]]
+end
 
 function settings:setWindowSize()
 	local success
