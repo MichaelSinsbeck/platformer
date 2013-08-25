@@ -40,8 +40,12 @@ function settings:setWindowSize()
 	Camera:setScale(scale)
 end
 
-function settings:toggleFullScreen()
-	self.fullscreen = not self.fullscreen
+function settings:toggleFullScreen(switch)
+	if switch == nil then
+		self.fullscreen = not self.fullscreen
+	else
+		self.fullscreen = switch
+	end
 	self:setWindowSize()
 	config.setValue("fullscreen",self.fullscreen)
 end
