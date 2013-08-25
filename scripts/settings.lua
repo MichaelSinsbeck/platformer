@@ -7,7 +7,8 @@ settings.scale = 4
 settings.fullScreen = false
 
 function settings:checkMode( w, h )
-	if settings.fullScreen then
+	return true
+	--[[if settings.fullScreen then
 		for k, v in pairs(love.graphics.getModes()) do
 			if v.width >= w and v.height >= h then
 				return true
@@ -20,7 +21,7 @@ function settings:checkMode( w, h )
 			end
 		end
 	end
-	return false
+	return false]]--
 end
 
 function settings:setWindowSize( scale )
