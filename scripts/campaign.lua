@@ -1,5 +1,6 @@
 Campaign = {	
 	--'n45.dat', -- fixed cannon	
+	'n46.dat',
 	
 	'n13.dat',
 	'n1.dat',
@@ -128,4 +129,5 @@ Campaign.names['n42.dat']  = 'only once'-- breaking block
 Campaign.names['n44.dat'] = 'the elephant' -- glass tutorial
 Campaign.names['n43.dat'] = 'dig' -- glass long level			
 Campaign.names['n45.dat'] = 'station' -- fixed cannon	
+Campaign.names['n46.dat'] = 'testlevel for small size' -- small level
 

@@ -9,8 +9,8 @@ function game:draw()
 	myMap:draw()
   spriteEngine:draw()  
   
-
-  love.graphics.pop()
+	Camera:free()
+  --love.graphics.pop()
 	--love.graphics.print(timer,10,10)
 	if recorderTimer > 1/30 then
 		recorderTimer = recorderTimer-1/30
