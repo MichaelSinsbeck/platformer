@@ -224,7 +224,9 @@ function menu.initWorldMap()
 end
 
 function scrollWorldMap()	--called when a button on world map is selected
-
+	menu.xTarget = math.floor((selButton.x)/120)*120+59 -- set Camera position
+	Campaign.worldNumber = math.floor(selButton.x/120)+1 -- calculate worldNumber
+	
 	-- Create function which will set ninja coordinates. Then call that function:
 	local func = menuPlayer:setDestination(selButton.x+5, selButton.y + 2)
 	func()
@@ -488,8 +490,8 @@ function menu:update(dt)
 		if button.selected then
 			-- Smooth movement of map - blockwise - 
 			if menu.state == "worldMap" then 
-				self.xTarget = math.floor((button.x)/120)*120+59
-				self.worldNumber = math.floor(button.x/120)+1
+--				self.xTarget = math.floor((button.x)/120)*120+59
+--				Campaign.worldNumber = math.floor(button.x/120)+1
 			end
 			
 			if button.name == "settings" then
@@ -577,7 +579,7 @@ function menu:draw()
 	if menu.state == "worldMap" then
 		love.graphics.setFont(fontLarge)
 		love.graphics.setColor(0,0,0)
-		love.graphics.printf(worldNames[menu.worldNumber], 0, love.graphics.getHeight()*0.5-Camera.scale*40, love.graphics.getWidth(), 'center')			
+		love.graphics.printf(worldNames[Campaign.worldNumber], 0, love.graphics.getHeight()*0.5-Camera.scale*40, love.graphics.getWidth(), 'center')			
 		love.graphics.setColor(255,255,255)
 	end
 	

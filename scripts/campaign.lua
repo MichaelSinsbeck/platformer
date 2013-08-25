@@ -50,14 +50,16 @@ Campaign = {
 	}
 
 Campaign.current = 0
+Campaign.worldNumber = 0
 
 function Campaign:reset()
-  self.current = 1
+  Campaign:setLevel(1)
   myMap = Map:LoadFromFile(self[self.current])  
 end
 
 function Campaign:proceed()
-  self.current = self.current + 1
+	self:setLevel(self.current+1)
+  
   if self[self.current] then
     myMap = Map:LoadFromFile(self[self.current])
     myMap:start(p)
@@ -84,6 +86,12 @@ function Campaign:proceed()
 		end
 	end
 end
+
+function Campaign:setLevel(lvlnum)
+	self.current = lvlnum
+	self.worldNumber = math.floor(self.current/10)+1
+end
+
 Campaign.names = {}
 Campaign.names['n13.dat'] = 'learn to walk'
 Campaign.names['n1.dat'] = 'jump'
