@@ -484,8 +484,8 @@ function menu:update(dt)
 	if menuPlayer.x - self.xTarget < PADDING then
 		self.xTarget = menuPlayer.x - PADDING
 	end--]] 
-	
-	self.xCamera = self.xCamera + 0.05 * (self.xTarget- self.xCamera)
+	local factor = math.min(1, 3*dt)
+	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
 	
 	if menu.state == "credits" then
 		credits:update(dt)

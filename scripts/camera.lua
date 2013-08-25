@@ -14,8 +14,9 @@ Camera = {
 
 function Camera:update(dt)
   local tileSize = myMap.tileSize
-  self.x = self.x + 0.1*(self.xTarget-self.x)
-  self.y = self.y + 0.1*(self.yTarget-self.y)
+  local factor = math.min(1, 6*dt)
+  self.x = self.x + factor*(self.xTarget-self.x)
+  self.y = self.y + factor*(self.yTarget-self.y)
   self.xWorld = math.floor(-Camera.x*myMap.tileSize*self.zoom+self.width/2)/self.zoom
   self.yWorld = math.floor(-Camera.y*myMap.tileSize*self.zoom+self.height/2)/self.zoom
   
