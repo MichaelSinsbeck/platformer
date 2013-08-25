@@ -75,19 +75,6 @@ function love.draw()
 end
 
 function love.keypressed( key, unicode )
-	if key == 'x' then
-		local newScale = math.min(Camera.scale + 1,8)
-		if Camera.scale ~= newScale then
-			settings:setWindowSize( newScale )
-		end
-	end
-	
-	if key == 'y' then
-		local newScale = math.max(Camera.scale - 1,4)
-		if Camera.scale ~= newScale then
-			settings:setWindowSize( newScale )
-		end
-	end
 	
 	if key == 'f' then
 		settings:toggleFullScreen()
