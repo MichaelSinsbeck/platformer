@@ -89,7 +89,7 @@ end
 
 function Campaign:setLevel(lvlnum)
 	self.current = lvlnum
-	self.worldNumber = math.floor(self.current/10)+1
+	self.worldNumber = math.floor((self.current-1)/10)+1
 end
 
 Campaign.names = {}
