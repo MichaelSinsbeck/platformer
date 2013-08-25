@@ -36,10 +36,10 @@ function love.load(args)
 	AnimationDB:loadAll()	
 	
 	-- load and set font
-	fontSmall = love.graphics.newImageFont("images/font/40font_white.png",
-    " abcdefghijklmnopqrstuvwxyz0123456789.,?+")
-	fontLarge = love.graphics.newImageFont("images/font/40font2_white.png",
-    " abcdefghijklmnopqrstuvwxyz0123456789.,?+")    
+	fontSmall = love.graphics.newImageFont("images/font/40fontSmall.png",
+    " abcdefghijklmnopqrstuvwxyz0123456789.,?+&")
+	fontLarge = love.graphics.newImageFont("images/font/40fontLarge.png",
+    " abcdefghijklmnopqrstuvwxyz0123456789.,?+&")    
 	love.graphics.setFont(fontSmall)
 
 	recorder = false
