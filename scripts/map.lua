@@ -8,9 +8,10 @@ function Map:LoadFromFile(mapFile)
 	setmetatable(o, self)
 	self.__index = self	
 	-- Define the meaning of the function in the level file	
-	function mapSize(width,height,tileSize,graphicSize)	o.width, o.height, o.tileSize, o.graphicSize = width, height, tileSize, graphicSize	end
-	function imageFilename(b) o.imageFile = b end
-	function loadTiles (b) o.tile = b end
+	function mapSize(width,height)	o.width, o.height= width, height	end
+	function loadFG (b) o.tileFG = b end
+	function loadBG (b) o.tileBG = b end
+	function loadOBJ (b) o.tileOBJ = b end
 	function loadCollision (b) o.collisionSrc = b end
 	function start (b) o.xStart = b.x o.yStart = b.y end
 
@@ -18,14 +19,15 @@ function Map:LoadFromFile(mapFile)
 	love.filesystem.load(mapFile)()
 	
 	-- Postprocess
-  o.factoryList = Map:FactoryList(o.tile,o.height,o.width) -- see at the end of this file
-  o.lineList = Map:LineList(o.tile,o.height,o.width)
+  o.factoryList = Map:FactoryList(o.tileOBJ,o.height,o.width) -- see at the end of this file
+  o.lineList = Map:LineList(o.tileOBJ,o.height,o.width)
   
   -- delete all "0" value
   for i = 1,o.width do
     for j = 1,o.height do
-      if o.tile[i][j] == 0 then o.tile[i][j] = nil end
-      if o.tile[i][j] == 65 then o.tile[i][j] = nil end
+      if o.tileFG[i][j] == 0 then o.tileFG[i][j] = nil end
+			if o.tileBG[i][j] == 0 then o.tileBG[i][j] = nil end
+			if o.tileOBJ[i][j] == 0 then o.tileOBJ[i][j] = nil end
       if o.collisionSrc[i][j] == 0 then o.collisionSrc[i][j] = nil end
     end
   end
@@ -38,9 +40,11 @@ end
 function Map:loadImage()
 	self.tileSize = Camera.scale*8
 	self.graphicSize = Camera.scale*10
-	local img = love.graphics.newImage('images/'.. Camera.scale*8 ..self.imageFile)
+	--local img = love.graphics.newImage('images/'.. Camera.scale*8 ..self.imageFile)
+	local img = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. Campaign.worldNumber ..'.png')	
   img:setFilter('linear','linear')
-  self.spriteBatch = love.graphics.newSpriteBatch(img, self.width*self.height)
+  self.spriteBatchFG = love.graphics.newSpriteBatch(img, self.width*self.height)
+	self.spriteBatchBG = love.graphics.newSpriteBatch(img, self.width*self.height)
   self.offset = (self.tileSize-self.graphicSize)/2  
 	self:generateQuads(img)
 	self:updateSpritebatch()
@@ -167,40 +171,36 @@ end
 
 function Map:updateSpritebatch()
   -- Update Spritebatch
-  self.spriteBatch:clear()
+  self.spriteBatchFG:clear()
+  self.spriteBatchBG:clear()
   
-  -- Erste Möglichkeit: Schleife über alle nicht-leeren self.tile-Einträge
-  for x in pairs(self.tile) do
-    if x+1 > Camera.x-Camera.width/2 and x < Camera.x+Camera.width/2 then
-      for y in pairs(self.tile[x]) do
-        if y+1 > Camera.y-Camera.height/2 and y < Camera.y+Camera.height/2 then
-          if self.quads[self.tile[x][y]] then
-            self.spriteBatch:addq(self.quads[self.tile[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
-          end
-        end
-      end
-    end
+  for x in pairs(self.tileBG) do
+		for y in pairs(self.tileBG[x]) do
+			if self.quads[self.tileBG[x][y]] then
+				self.spriteBatchBG:addq(self.quads[self.tileBG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
+			end
+		end
   end
   
-  -- Zweite Möglichkeit: Schleife über alle x und y, die im Sichtbereich sind.
-  --[[for x=math.floor(Camera.x-Camera.width/2),math.floor(Camera.x+Camera.width/2) do
-    if self.tile[x] then
-      for y = math.floor(Camera.y-Camera.height/2),math.floor(Camera.y+Camera.height/2) do
-        if self.tile[x][y] and self.quads[self.tile[x][y] ] then
-          self.spriteBatch:addq(self.quads[self.tile[x][y] ], x*self.tileSize, y*self.tileSize)        
-        end
-      end
-    end
-  end]]
-  
-  
+  for x in pairs(self.tileFG) do
+		for y in pairs(self.tileFG[x]) do
+			if self.quads[self.tileFG[x][y]] then
+				self.spriteBatchFG:addq(self.quads[self.tileFG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
+			end
+		end
+  end  
 end
 
-function Map:draw()
+function Map:drawBG()
+	-- draw background color
 	love.graphics.setColor(80,150,205)     
 	love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
 	love.graphics.setColor(255,255,255)
-  love.graphics.draw(self.spriteBatch,0,0)
+  love.graphics.draw(self.spriteBatchBG,0,0)
+end
+
+function Map:drawFG()
+	love.graphics.draw(self.spriteBatchFG,0,0)
 end
 
 function Map:collisionTest(x,y,direction,tag)
@@ -348,7 +348,7 @@ function Map:LineList(tile,height,width)
 	
 	for i=1,width do
     for j = 1,height do
-			if tile[i][j] == 35 then
+			if tile[i][j] == 8 then
 				table.insert(nodeList,{x=i+0.5,y=j+0.5})
 			end             
     end
@@ -371,44 +371,59 @@ function Map:FactoryList(tile,height,width)
   -- find all entities, add objects to spriteEngine and replace by zero
   
   local objectList ={
-  [25] = Spikeys[1],
-  [26] = Spikeys[2],
-  [27] = Spikeys[3],
-  [28] = Spikeys[4],
-  [31] = Spikeys[5],
-  [32] = Spikeys[6],
-  [33] = Spikeys[7],
-  [34] = Spikeys[8],
-  [37] = Spikeys[9],
-  [38] = Spikeys[10],
-  [39] = Spikeys[11],
-  [40] = Spikeys[12],
-  [43] = Spikeys[13],
-  [44] = Spikeys[14],
-  [45] = Spikeys[15],
-  [46] = Spikeys[16],
+  [ 2] = Exit,
+  [ 3] = Bandana.white,
+  [ 4] = Bandana.blue,
+  [ 5] = Bandana.red,
+  [ 6] = Bandana.green,    
+  [ 7] = Bouncer,
+  [ 9] = Runner,
+  [10] = Goalie, 
   
-  [36] = Windmill,
-  [50] = Runner,
-  [51] = Goalie,
-  [52] = Spikey,
-  [53] = Bouncer,
-  [54] = Launcher,
-  [55] = Cannon,
-  [56] = Bandana.white,
-  [57] = Bandana.blue,
-  [58] = Bandana.red,
-  [59] = Bandana.green,
-  [61] = Button,
-  [62] = Appearblock,
-  [63] = Disappearblock,
-	[64] = Imitator,
-	[66] = Emitter,
-  [67] = Crumbleblock,
-  [68] = Glassblock,
-  [69] = FixedCannon1r,
-	[70] = FixedCannon2l,
-  }
+	[11] = Imitator,
+	[12] = Launcher,
+  [13] = Cannon,
+  [16] = Emitter,
+  [17] = Button,
+  [18] = Appearblock,
+	[19] = Disappearblock,
+	[20] = Crumbleblock,
+	[21] = Glassblock,
+	[25] = Windmill,
+  [33] = Spikeys[1],
+  [34] = Spikeys[2],
+  [35] = Spikeys[3],
+  [36] = Spikeys[4],
+  [41] = Spikeys[5],
+  [42] = Spikeys[6],
+  [43] = Spikeys[7],
+  [44] = Spikeys[8],
+  [49] = Spikeys[9],
+  [50] = Spikeys[10],
+  [51] = Spikeys[11],
+  [52] = Spikeys[12],
+  [57] = Spikeys[13],
+  [58] = Spikeys[14],
+  [59] = Spikeys[15],
+  [60] = Spikeys[16],
+
+	[37] = FixedCannon1r,
+	[38] = FixedCannon2r,
+	[39] = FixedCannon3r,
+	[40] = FixedCannon4r,
+	[45] = FixedCannon1d,
+	[46] = FixedCannon2d,
+	[47] = FixedCannon3d,
+	[48] = FixedCannon4d,
+	[53] = FixedCannon1l,
+	[54] = FixedCannon2l,
+	[55] = FixedCannon3l,
+	[56] = FixedCannon4l,
+	[61] = FixedCannon1u,
+	[62] = FixedCannon2u,
+	[63] = FixedCannon3u,
+	[64] = FixedCannon4u,
+}
   
   for i=1,width do
     for j = 1,height do

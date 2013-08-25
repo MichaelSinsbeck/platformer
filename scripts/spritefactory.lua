@@ -24,6 +24,7 @@ require 'scripts/objects.glassblock'
 require 'scripts/objects.fixedcannon'
 require 'scripts/objects.butterfly'
 require 'scripts/objects.meat'
+require 'scripts/objects.exit'
 
 
 function initAll()
@@ -55,6 +56,7 @@ function initAll()
 	FixedCannon:init()
 	Butterfly:init()
 	Meat:init()
+	Exit:init()
 end
 
 function spriteFactory(name,opts)

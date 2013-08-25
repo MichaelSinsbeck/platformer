@@ -6,12 +6,12 @@ function game:draw()
   love.graphics.push()
   Camera:apply()
 
-	myMap:draw()
+	myMap:drawBG()
   spriteEngine:draw()  
+  myMap:drawFG()
   
 	Camera:free()
-  --love.graphics.pop()
-	--love.graphics.print(timer,10,10)
+
 	if recorderTimer > 1/30 then
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())

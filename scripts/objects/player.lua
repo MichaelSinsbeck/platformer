@@ -377,9 +377,9 @@ function Player:wincheck()
   local winning = false
   for x =x1,x2 do
     for y = y1,y2 do
-      if myMap.tile[x] and myMap.tile[x][y] and myMap.tile[x][y]==48 then
-        winning = true
-      end
+      --if myMap.tile[x] and myMap.tile[x][y] and myMap.tile[x][y]==48 then
+      --  winning = true
+      --end
     end
   end
   return winning

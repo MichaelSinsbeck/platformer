@@ -4,7 +4,7 @@ Meat = Particle:New({
   marginy = 0.1,
   lifetime = 5,
   spreadSpeed = 15,
-  rotSpeed = 5,
+  rotSpeed = 1,
 })
 
 function Meat:setAcceleration(dt)

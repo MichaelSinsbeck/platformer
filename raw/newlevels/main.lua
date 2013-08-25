@@ -124,7 +124,7 @@ function convert(filetrunc)
 -- start writing
 
 	writedata = '<?xml version="1.0" encoding="UTF-8"?>\n'
-	writedata = writedata .. '<map version="1.0" orientation="orthogonal" width="45" height="30" tilewidth="40" tileheight="40">\n'
+	writedata = writedata .. '<map version="1.0" orientation="orthogonal" width="'.. width ..'" height="'.. height ..'" tilewidth="40" tileheight="40">\n'
 	writedata = writedata .. ' <tileset firstgid="1" name="world1" tilewidth="50" tileheight="50">\n'
 	writedata = writedata .. '  <image source="world1.png" width="400" height="400"/>\n'
 	writedata = writedata .. ' </tileset>\n'

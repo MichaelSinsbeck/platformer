@@ -227,4 +227,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('meat4','meat',{4},{1e6})
 	AnimationDB:addAni('meatWall','meat',{5},{1e6})
 	AnimationDB:addAni('meatCorner','meat',{6},{1e6})
+	
+	AnimationDB:loadImage('exit.png','exit',tileSize,tileSize)	
+	AnimationDB:addAni('exit','exit',{1},{1e6})
 end

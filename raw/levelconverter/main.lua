@@ -19,46 +19,59 @@ end
 function convert(filetrunc)
 	print('Converting '..filetrunc..'.tmx')
 	map = loader.load(filetrunc .. '.tmx')
-
-	data = {}
+	-- initialize arrays for data
+	bg  = {}
+	fg  = {}
+	obj = {}
+	col = {}
 	for y = 1,map.height do
-		data[y] = {}
+		bg[y] = {}
+		fg[y] = {}
+		obj[y] = {}
+		col[y] = {}
 			for x = 1,map.width do
-		  data[y][x] = 0
+		  bg[y][x] = 0
+		  fg[y][x] = 0
+		 	obj[y][x] = 0
+			col[y][x] = 0
 		end
 	end
+
+	-- fill arrays
 	for x, y, tile in map("bg"):iterate() do
-	--  print('x = '..x..', y = '..y)
-		if tile.id == 47 then
+		bg[y+1][x+1] = tile.id
+	end
+
+	for x, y, tile in map("fg"):iterate() do
+	  fg[y+1][x+1] = tile.id
+	end
+
+	for x, y, tile in map("objects"):iterate() do
+		if tile.id == 65 then
 		  if xStart then
 		    print('Warning, multiple starting points')
 		  end
 		  xStart = x+1
 		  yStart = y+1
 		else
-		  data[y+1][x+1] = tile.id
+			if tile.id ~= 0 then
+			  obj[y+1][x+1] = tile.id-64
+			end
 		end
-	--    print( string.format("Tile at (%d,%d) has an id of %d", x, y, tile.id) )
 	end
 
+	-- Fallback for start position
 	if not xStart then
 		xStart = 1
 		yStart = 1
 	end
 
-	height = #data
-	width = #data[1]
-	--print(width)
-	--print(height)
-
-	filename = ''
-	for i,v in pairs(map.tilesets) do
-		filename = i .. '.png'
-    break
-	end
+	height = map.height
+	width = map.width
 
 
-	tileToCollision = {
+-- fill collision array
+	fgToCollision = {
 		1,1,1,1,0,2,2,2,
 		1,1,1,1,0,2,2,0,
 		1,1,1,1,0,0,0,0,
@@ -68,12 +81,34 @@ function convert(filetrunc)
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
 	}
+	fgToCollision[0] = 0
 
-	tileToCollision[0] = 0
+	objToCollision = {
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,4,4,
+		0,0,1,1,1,0,0,0,
+		0,0,0,0,0,0,0,0,
+		3,3,3,3,1,1,1,1,
+		3,3,3,3,1,1,1,1,
+		3,3,3,3,1,1,1,1,
+		3,3,3,3,1,1,1,1,
+	}
+	objToCollision[0] = 0
 
-	backstring = ''
+	for y = 1,map.height do
+			for x = 1,map.width do
+			local entry = math.max(
+				fgToCollision[bg[y][x]],
+				fgToCollision[fg[y][x]],
+				objToCollision[obj[y][x]])
+			col[y][x] = entry
+		end
+	end
+
+	backstring1 = ''
 	backstring2 = ''
-
+	backstring3 = ''
+	backstring4 = ''
 
 	for j = 1,width do
 		local newlinesymbol = '\},\r\n'
@@ -81,25 +116,42 @@ function convert(filetrunc)
 		for i = 1,height do
 			local filler = ','
 			if i == 1 then filler = '  \{' end
-			if data[i] and data[i][j] then
-	--      print(data[i][j])
-				backstring = backstring .. filler .. data[i][j]
-				backstring2 = backstring2 .. filler .. tileToCollision[data[i][j]]
+			if bg[i] and bg[i][j] then
+				backstring1 = backstring1 .. filler .. bg[i][j]
 			else
-				backstring = backstring .. filler .. '0'
+				backstring1 = backstring1 .. filler .. '0'
+			end
+			if fg[i] and fg[i][j] then
+				backstring2 = backstring2 .. filler .. fg[i][j]
+			else
 				backstring2 = backstring2 .. filler .. '0'
 			end
+			if obj[i] and obj[i][j] then
+				backstring3 = backstring3 .. filler .. obj[i][j]
+			else
+				backstring3 = backstring3 .. filler .. '0'
+			end
+			if col[i] and col[i][j] then
+				backstring4 = backstring4 .. filler .. col[i][j]
+			else
+				backstring4 = backstring4 .. filler .. '0'
+			end
 		end
-		backstring = backstring .. newlinesymbol
+		backstring1 = backstring1 .. newlinesymbol
 		backstring2 = backstring2 .. newlinesymbol
+		backstring3 = backstring3 .. newlinesymbol
+		backstring4 = backstring4 .. newlinesymbol
 	end
 
+	-- collision-backstring4-füllen
+
 	writedata = ''
-	writedata = writedata .. 'mapSize(' .. width .. ', ' .. height .. ', ' .. map.tileWidth .. ', '.. map.tiles[1].width..')\r\n'
-	writedata = writedata .. 'imageFilename("'..filename..'")'.. '\r\n'
+	writedata = writedata .. 'mapSize(' .. width .. ', ' .. height .. ')\r\n'
 	writedata = writedata .. 'start\{x='..xStart..',y='..yStart..'\}\r\n'
-	writedata = writedata .. 'loadTiles\{\r\n' .. backstring .. '\}\r\n'
-	writedata = writedata .. 'loadCollision\{\r\n' .. backstring2 .. '\}'
+	writedata = writedata .. 'loadBG\{\r\n' .. backstring1 .. '\}\r\n'
+	writedata = writedata .. 'loadFG\{\r\n' .. backstring2 .. '\}\r\n'
+	writedata = writedata .. 'loadOBJ\{\r\n' .. backstring3 .. '\}\r\n'
+	writedata = writedata .. 'loadCollision\{\r\n' .. backstring4 .. '\}\r\n'
 
 	xStart = nil
 	yStart = nil

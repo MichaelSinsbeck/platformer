@@ -1,7 +1,7 @@
 FixedCannon = object:New({
 	tag = 'Fixed Cannon',
 
-  firerate = 1.5, -- in seconds
+  firerate = 1.2, -- in seconds
   velocity = 15,
   animation = 'shuriken',
   marginx = .8,
@@ -24,11 +24,22 @@ function FixedCannon:setAcceleration(dt)
 end
 
 -- Create Cannon object for 4 directions in with two different delays
-FixedCannon1r = FixedCannon:New({timer = 0   ,sonAngle = 0})
-FixedCannon2r = FixedCannon:New({timer = 0.75,sonAngle = 0})
-FixedCannon1u = FixedCannon:New({timer = 0   ,sonAngle = -0.5*math.pi})
-FixedCannon2u = FixedCannon:New({timer = 0.75,sonAngle = -0.5*math.pi})
-FixedCannon1l = FixedCannon:New({timer = 0   ,sonAngle = math.pi})
-FixedCannon2l = FixedCannon:New({timer = 0.75,sonAngle = math.pi})
-FixedCannon1d = FixedCannon:New({timer = 0   ,sonAngle = 0.5*math.pi})
-FixedCannon2d = FixedCannon:New({timer = 0.75,sonAngle = 0.5*math.pi})
+FixedCannon1r = FixedCannon:New({timer = 1.2})
+FixedCannon2r = FixedCannon:New({timer = 0.9})
+FixedCannon3r = FixedCannon:New({timer = 0.6})
+FixedCannon4r = FixedCannon:New({timer = 0.3})
+
+FixedCannon1u = FixedCannon1r:New({sonAngle = -0.5*math.pi})
+FixedCannon2u = FixedCannon2r:New({sonAngle = -0.5*math.pi})
+FixedCannon3u = FixedCannon3r:New({sonAngle = -0.5*math.pi})
+FixedCannon4u = FixedCannon4r:New({sonAngle = -0.5*math.pi})
+
+FixedCannon1l = FixedCannon1r:New({sonAngle = math.pi})
+FixedCannon2l = FixedCannon2r:New({sonAngle = math.pi})
+FixedCannon3l = FixedCannon3r:New({sonAngle = math.pi})
+FixedCannon4l = FixedCannon4r:New({sonAngle = math.pi})
+
+FixedCannon1d = FixedCannon1r:New({sonAngle = 0.5*math.pi})
+FixedCannon2d = FixedCannon2r:New({sonAngle = 0.5*math.pi})
+FixedCannon3d = FixedCannon3r:New({sonAngle = 0.5*math.pi})
+FixedCannon4d = FixedCannon4r:New({sonAngle = 0.5*math.pi})

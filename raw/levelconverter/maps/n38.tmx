@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="45" height="30" tilewidth="40" tileheight="40">
+<map version="1.0" orientation="orthogonal" width="42" height="20" tilewidth="40" tileheight="40">
  <tileset firstgid="1" name="world1" tilewidth="50" tileheight="50">
   <image source="world1.png" width="400" height="400"/>
  </tileset>

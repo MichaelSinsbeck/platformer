@@ -35,11 +35,18 @@ for scale in 4 5 6 7 8; do
 	done
 	cd ..
 
-
 	cd credits
 	for infile in *.svg; do
 		outfile=../../../images/credits/${prefix}${infile%.*}.png
 		inkscape -f $infile -C -d $resolutionCredits -e $outfile
 	done
 	cd ..
+
+	cd tilesets
+	for infile in *.svg; do
+		outfile=../../../images/tilesets/${prefix}${infile%.*}.png
+		inkscape -f $infile -C -d $resolution -e $outfile
+	done
+	cd ..
+
 done
