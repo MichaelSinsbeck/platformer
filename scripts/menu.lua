@@ -477,13 +477,6 @@ end
 function menu:update(dt)
 	menuPlayer:update(dt/2)
 	
-	-- smooth movement, always on player
-	--[[if menuPlayer.x - self.xTarget > love.graphics.getWidth() - PADDING then
-		self.xTarget = menuPlayer.x + PADDING - love.graphics.getWidth()
-	end
-	if menuPlayer.x - self.xTarget < PADDING then
-		self.xTarget = menuPlayer.x - PADDING
-	end--]] 
 	local factor = math.min(1, 3*dt)
 	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
 	
@@ -601,9 +594,10 @@ function menu:draw()
 				displayText = Campaign.names[menu.text]
 			end
 		end
+		love.graphics.printf(displayText, 0, y, love.graphics.getWidth(), 'center')	
+		love.graphics.setColor(255,255,255)	
 	end
-	--love.graphics.printf(displayText, 0, y, love.graphics.getWidth(), 'center')	
-	love.graphics.setColor(255,255,255)	
+	
 
 end
 
