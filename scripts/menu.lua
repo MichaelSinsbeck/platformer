@@ -334,8 +334,14 @@ function menu:selectAbove()
 		end
 	end)
 
-	selButton.selected = false
-	selectButton(buttons[1])
+	-- make sure the button is indeed in the right direction, then select it:
+	for k = 1, #buttons do
+		if buttons[k].y < selButton.y then
+			selButton.selected = false
+			selectButton(buttons[k])
+			return
+		end
+	end
 end
 
 
@@ -361,8 +367,14 @@ function menu:selectBelow()
 		end
 	end)
 
-	selButton.selected = false
-	selectButton(buttons[1])
+	-- make sure the button is indeed in the right direction, then select it:
+	for k = 1, #buttons do
+		if buttons[k].y > selButton.y then
+			selButton.selected = false
+			selectButton(buttons[k])
+			return
+		end
+	end
 end
 
 
@@ -388,12 +400,18 @@ function menu:selectLeft()
 		end
 	end)
 
-	-- turn around player if moving to the left
-	if selButton.x > buttons[1].x then
-		menuPlayer.scaleX = -1
+	-- make sure the button is indeed in the right direction, then select it:
+	for k = 1, #buttons do
+		if buttons[k].x < selButton.x then
+			-- turn around player if moving to the left
+			if selButton.x > buttons[k].x then
+				menuPlayer.scaleX = -1
+			end
+			selButton.selected = false
+			selectButton(buttons[k])
+			return
+		end
 	end
-	selButton.selected = false
-	selectButton(buttons[1])
 end
 
 
@@ -420,12 +438,18 @@ function menu:selectRight()
 		end
 	end)
 
-	-- turn around player if moving to the right
-	if selButton.x < buttons[1].x then
-		menuPlayer.scaleX = 1
+	-- make sure the button is indeed in the right direction, then select it:
+	for k = 1, #buttons do
+		if buttons[k].x > selButton.x then
+			-- turn around player if moving to the right
+			if selButton.x < buttons[k].x then
+				menuPlayer.scaleX = 1
+			end
+			selButton.selected = false
+			selectButton(buttons[k])
+			return
+		end
 	end
-	selButton.selected = false
-	selectButton(buttons[1])
 end
 
 
