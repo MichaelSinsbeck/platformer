@@ -42,10 +42,10 @@ function Map:loadImage()
 	self.graphicSize = Camera.scale*10
 	--local img = love.graphics.newImage('images/'.. Camera.scale*8 ..self.imageFile)
 	local img = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. Campaign.worldNumber ..'.png')	
-  img:setFilter('linear','linear')
+  img:setFilter('nearest','nearest')
   self.spriteBatchFG = love.graphics.newSpriteBatch(img, self.width*self.height)
 	self.spriteBatchBG = love.graphics.newSpriteBatch(img, self.width*self.height)
-  self.offset = (self.tileSize-self.graphicSize)/2  
+  self.offset = (self.tileSize-self.graphicSize)/2
 	self:generateQuads(img)
 	self:updateSpritebatch()
 end
