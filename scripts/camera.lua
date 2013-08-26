@@ -21,7 +21,7 @@ function Camera:update(dt)
   self.yWorld = math.floor(-Camera.y*myMap.tileSize*self.zoom+self.height/2)/self.zoom
   
   -- check if screen is larger than level
-  if self.height/self.zoom <= myMap.width*tileSize then
+  if self.width/self.zoom <= myMap.width*tileSize then
 		if self.xWorld > -1*tileSize then self.xWorld = -1*tileSize end  
 		if self.xWorld < self.width/self.zoom - (myMap.width+1)*tileSize then
 			self.xWorld = self.width/self.zoom - (myMap.width+1)*tileSize
@@ -30,7 +30,7 @@ function Camera:update(dt)
 		self.xWorld = (self.width/self.zoom - (myMap.width+2)*tileSize)/2
   end
   
-	if self.width/self.zoom <= myMap.width*tileSize then
+	if self.height/self.zoom <= myMap.width*tileSize then
 		if self.yWorld > -1*tileSize then self.yWorld = -1*tileSize end
 		if self.yWorld < self.height/self.zoom - (myMap.height+1)*tileSize then
 			self.yWorld = self.height/self.zoom - (myMap.height+1)*tileSize
