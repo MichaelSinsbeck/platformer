@@ -50,7 +50,8 @@ function game:update(dt)
   Camera:setTarget()
   Camera:update(dt)
   
-  if p:wincheck() then
+  if game.won then
+		game.won = nil
     Campaign:proceed()
   end
   

@@ -10,6 +10,6 @@ end
 
 function Exit:postStep(dt)
 	if self:touchPlayer() then
-		Campaign:proceed()
+		game.won = true
 	end
 end
