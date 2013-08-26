@@ -230,4 +230,7 @@ function AnimationDB:loadAll()
 	
 	AnimationDB:loadImage('exit.png','exit',tileSize,tileSize)	
 	AnimationDB:addAni('exit','exit',{1},{1e6})
+	
+	AnimationDB:loadImage('bungee.png','bungee',0.4*tileSize,0.4*tileSize)	
+	AnimationDB:addAni('bungee','bungee',{1},{1e6})
 end

@@ -87,6 +87,9 @@ function game.keypressed(key)
 			myMap:start(p)
 		end
   end
+  if key == "s" and p.bandana == "red" then
+		Bungee:throw()
+  end
   if key == "q" then
     Campaign:proceed()
   end
@@ -115,6 +118,9 @@ function game.keyreleased(key)
   if key == "a" then
 		spriteEngine:DoAll('unjump')
   end
+  if key == "s" then
+		spriteEngine:DoAll('disconnect')
+  end
 end
 
 function game.joystickpressed(joystick, button)
@@ -123,7 +129,9 @@ function game.joystickpressed(joystick, button)
 		if p.dead then
 			myMap:start(p)
 		end  
-
+  end
+	if button == "8" and p.bandana == "red" then
+		Bungee:throw()
   end
 end
 
@@ -131,4 +139,7 @@ function game.joystickreleased(joystick, button)
   if button == 3 then
     spriteEngine:DoAll('unjump')
   end
+	if button == "8" then
+		spriteEngine:DoAll('disconnect')
+  end  
 end

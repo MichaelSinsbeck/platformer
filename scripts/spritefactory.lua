@@ -25,6 +25,7 @@ require 'scripts/objects.fixedcannon'
 require 'scripts/objects.butterfly'
 require 'scripts/objects.meat'
 require 'scripts/objects.exit'
+require 'scripts/objects.bungee'
 
 
 function initAll()
@@ -57,6 +58,7 @@ function initAll()
 	Butterfly:init()
 	Meat:init()
 	Exit:init()
+	Bungee:init()
 end
 
 function spriteFactory(name,opts)

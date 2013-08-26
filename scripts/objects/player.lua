@@ -149,6 +149,10 @@ function Player:setAcceleration(dt)
 		fx = self.fxLine
 	end
 
+	if self.hooked then
+		fx = 0
+	end--]]
+
 	-- Determine desired acceleration
 	local axControl = 0
 	if game.isLeft then
@@ -182,10 +186,28 @@ function Player:setAcceleration(dt)
 	end
 	
   if self.status == 'stand' and self.vy ~=0 then self.status = 'fly'  end	
+  
+ --[[ if self.hooked then
+		local dist = math.sqrt((self.x-self.anchor.x)^2 + (self.y-self.anchor.y)^2 )
+		if dist > self.bungeeRadius then
+		local force = (dist-self.bungeeRadius)*10
+		self.vx = self.vx + (self.anchor.x-self.x)/dist*force*dt
+		self.vy = self.vy + (self.anchor.y-self.y)/dist*force*dt
+		end
+  end--]]
 end
 
 function Player:collision(dt)
   local laststatus = self.status
+
+	if self.hooked then
+		local dx,dy = self.newX-self.anchor.x, self.newY-self.anchor.y
+		local dist = math.sqrt(dx^2 + dy^2)
+		if dist > self.bungeeRadius then
+			self.newX = self.anchor.x + dx*(self.bungeeRadius/dist)
+			self.newY = self.anchor.y + dy*(self.bungeeRadius/dist)
+		end
+	end
 
 	if self.status == 'online' then
 		local dx,dy = self.newX+p.linePointx-self.line.x, self.newY+p.linePointy-self.line.y
@@ -383,4 +405,16 @@ function Player:wincheck()
     end
   end
   return winning
+end
+
+function Player:hook(anchor)
+	self.hooked = true
+	self.anchor = anchor
+	self.bungeeRadius = math.sqrt((self.x-anchor.x)^2+(self.y-anchor.y)^2)
+	--self.bungeeRadius = 0
+end
+
+function Player:disconnect()
+	self.hooked = nil
+	self.anchor = nil
 end
