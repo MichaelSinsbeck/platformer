@@ -83,6 +83,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('redLineSlide','redPlayer',{8},{1e6})
 	AnimationDB:addAni('redLineMove','redPlayer',{13,14,15,14},{0.08,0.04,0.08,0.04})
 	AnimationDB:addAni('redLineHang','redPlayer',{16},{1e6})
+	AnimationDB:addAni('redHooked','redPlayer',{12},{1e6})
 
 	AnimationDB:loadImage('player_green.png','greenPlayer',tileSize,tileSize)
 	AnimationDB:addAni('greenRun','greenPlayer',{3,1,2,1},{.08,.04,.08,.04})

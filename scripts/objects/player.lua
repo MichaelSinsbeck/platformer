@@ -111,7 +111,7 @@ function Player:setAcceleration(dt)
 	self.visible = not (self.bandana == 'green' and game.isAction)
 		
   -- Acceleration down
-  if self.status == 'fly' or self.status == 'online' then
+  if self.status == 'fly' or self.status == 'online' or self.status == 'hooked' then
 		self.vy = self.vy + gravity*dt
 	else
 		self.vy = self.vy + self.wallgravity*dt
@@ -144,14 +144,12 @@ function Player:setAcceleration(dt)
 	elseif self.status == 'fly' or self.status == 'leftwall' or self.status == 'rightwall' then
 		ax = self.axFly
 		fx = self.fxFly
+	elseif self.status == 'hooked' then
+		ax = self.axFly
 	elseif self.status == 'online' then
 		ax = self.axLine
 		fx = self.fxLine
 	end
-
-	if self.hooked then
-		fx = 0
-	end--]]
 
 	-- Determine desired acceleration
 	local axControl = 0
@@ -163,7 +161,7 @@ function Player:setAcceleration(dt)
 	end
 	
 -- Accelerate if player is not faster than maximum speed anyway
-	if self.status == 'stand' or self.status == 'fly' or self.status == 'online' then
+	if self.status == 'stand' or self.status == 'fly' or self.status == 'online' or self.status == 'hooked' then
 		if axControl > 0 and self.vx < self.walkSpeed then -- Acceleration to the right
 			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
 		elseif axControl < 0 and self.vx > -self.walkSpeed then -- Acceleration to the left
@@ -200,14 +198,21 @@ end
 function Player:collision(dt)
   local laststatus = self.status
 
-	if self.hooked then
+	if self.status == "hooked" then
 		local dx,dy = self.newX-self.anchor.x, self.newY-self.anchor.y
 		local dist = math.sqrt(dx^2 + dy^2)
 		if dist > self.bungeeRadius then
 			self.newX = self.anchor.x + dx*(self.bungeeRadius/dist)
 			self.newY = self.anchor.y + dy*(self.bungeeRadius/dist)
 		end
+		self.angle = math.atan2(-dx,dy)
+	else
+		self.angle = 0
 	end
+	
+	-- velocity is only needed for determining sign, so /dt is omitted
+	self.vx = self.newX - self.x
+	self.vy = self.newY - self.y
 
 	if self.status == 'online' then
 		local dx,dy = self.newX+p.linePointx-self.line.x, self.newY+p.linePointy-self.line.y
@@ -220,10 +225,7 @@ function Player:collision(dt)
 			self.status = 'fly'
 			self.line = nil
 		end
-	--else
-	--	self.line = nil
 	end
-
   -- Horizontal Movement
   -- Remember about floor and ceil:
   -- When upper bound is checked, use ceil (and maybe -1)
@@ -235,7 +237,7 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
-				if self.status ~= 'online' then self.status = 'rightwall' end
+				if self.status ~= 'online' and self.status ~= 'hooked' then self.status = 'rightwall' end
       end
     end
   elseif self.vx < 0 then -- Bewegung nach links
@@ -244,7 +246,7 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
-        if self.status ~= 'online' then self.status = 'leftwall' end
+        if self.status ~= 'online' and self.status ~= 'hooked' then self.status = 'leftwall' end
       end
     end
   end
@@ -269,7 +271,9 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.newY+self.semiheight)-1,'down',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.ceil(self.newY+self.semiheight)-1,'down',self.tag) then
         self.newY = math.floor(self.newY+self.semiheight)-self.semiheight        
-        self.status = 'stand'
+        if self.status ~= 'hooked' then 
+					self.status = 'stand'
+				end
         verticalChange = false
       end
     end
@@ -328,9 +332,11 @@ function Player:collision(dt)
   -- Flip character left/right, if left or right is pressed
 	local control = 0
 	if game.isLeft then control = control -1 end
-	if game.isRight then control = control +1 end  	
-	if control > 0 then self:flip(false) end
-	if control < 0 then self:flip(true) end
+	if game.isRight then control = control +1 end
+	if self.status 	~= 'hooked' then
+		if control > 0 then self:flip(false) end
+		if control < 0 then self:flip(true) end
+	end
   
   if self.bandana == 'green' and game.isAction then
     self.alpha = math.max(self.alpha - 2500*dt,20)
@@ -352,13 +358,6 @@ function Player:collision(dt)
 				self:setAnim(self.bandana..'Fall')
 			end
 		end
-		--[[if self.vy < 0 then
-			self:setAnim(self.bandana..'Jump')
-		elseif game.isAction and self.bandana == 'blue' then
-			self:setAnim(self.bandana..'Gliding')
-		else 
-			self:setAnim(self.bandana..'Fall')
-		end--]]
 	elseif self.status == 'stand' then
 		if control == 0 and self.vx == 0 then
 			self:setAnim(self.bandana..'Stand')
@@ -385,6 +384,8 @@ function Player:collision(dt)
 		else
 			self:setAnim(self.bandana..'LineMove')
 		end
+	elseif self.status == 'hooked' then
+		self:setAnim(self.bandana..'Hooked')
 	end
 
 end
@@ -408,13 +409,12 @@ function Player:wincheck()
 end
 
 function Player:hook(anchor)
-	self.hooked = true
+	self.status = "hooked"
 	self.anchor = anchor
 	self.bungeeRadius = math.sqrt((self.x-anchor.x)^2+(self.y-anchor.y)^2)
-	--self.bungeeRadius = 0
 end
 
 function Player:disconnect()
-	self.hooked = nil
+	self.status = 'fly'
 	self.anchor = nil
 end

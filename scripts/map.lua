@@ -61,6 +61,8 @@ function Map:start(p)
   spriteEngine:insert(p)  
   p.x = self.xStart+0.5
   p.y = self.yStart+1-p.semiheight
+  p.newX = p.x
+  p.newY = p.y
   p.vx = 0
   p.vy = 0
   p.bandana = 'white'

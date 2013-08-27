@@ -1,8 +1,9 @@
 Bungee = object:New({	
 	tag = 'Bungee',
 	animation = 'bungee',
-	marginx = 0.2,
-  marginy = 0.2,
+	marginx = 0.1,
+  marginy = 0.1,
+  speed = 30,
 })
 
 function Bungee:setAcceleration(dt)
@@ -32,12 +33,12 @@ end
 
 function Bungee:throw()
 	game:checkControls()
-	local rvx,rvy = p.vx, math.min(p.vy-20,-20)
+	local rvx,rvy = p.vx, math.min(p.vy-self.speed,-self.speed)
 	if game.isLeft then
-		rvx = rvx - 20
+		rvx = rvx - self.speed
 	end
 	if game.isRight then
-		rvx = rvx + 20
+		rvx = rvx + self.speed
 	end
 	if rvx ~= 0 then
 		rvx,rvy = rvx/math.sqrt(2),rvy/math.sqrt(2)
