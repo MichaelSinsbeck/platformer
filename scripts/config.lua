@@ -4,15 +4,18 @@ local config = {}
 
 local CONFIG_FILE = "config.txt"
 
-function config.setValue( name, value )
+function config.setValue( name, value, filename )
 	--print("saving:", name, value)
+	
+	filename = filename or CONFIG_FILE	-- default to configfile
+	
 	if not name or not value == nil then
 		print(name, value)
 		error("Error: configFile.setValue got nil value or nil name.")
 	end
 	
-	if not love.filesystem.isFile(CONFIG_FILE) then
-		local file = love.filesystem.newFile( CONFIG_FILE )
+	if not love.filesystem.isFile( filename ) then
+		local file = love.filesystem.newFile( filename )
 		file:open('w')	--create the file
 		file:close()
 	end
@@ -21,7 +24,7 @@ function config.setValue( name, value )
 		value = tostring(value)
 	end
 	
-	local file = love.filesystem.newFile( CONFIG_FILE )
+	local file = love.filesystem.newFile( filename )
 	local data
 	if file then
 		file:open('r')
@@ -53,7 +56,7 @@ function config.setValue( name, value )
 		newData = newData .. name .. " = " .. value .. "\r\n"
 	end
 	
-	file = love.filesystem.newFile( CONFIG_FILE )
+	file = love.filesystem.newFile( filename )
 	if file then
 		file:open('w')
 		file:write(newData)
@@ -62,12 +65,15 @@ function config.setValue( name, value )
 	end
 end
 
-function config.getValue( name )
-	if not love.filesystem.isFile(CONFIG_FILE) then
+function config.getValue( name, filename )
+	
+	filename = filename or CONFIG_FILE	-- default to configfile
+
+	if not love.filesystem.isFile(filename) then
 		print("Could not find config file.")
 		return nil
 	end
-	local ok, file = pcall(love.filesystem.newFile, CONFIG_FILE )
+	local ok, file = pcall(love.filesystem.newFile, filename )
 	local data
 	if ok and file then
 		file:open('r')

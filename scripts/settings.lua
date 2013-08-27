@@ -97,13 +97,11 @@ function settings.init()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "settings"
 
-	local x,y
-	x = -25
-	y = 0
+	local x,y = -25, 0
 	
-	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", nil, nil )
+	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", keys.initKeyboard, nil )
 	x = x + 25
-	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", nil, nil )
+	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", keys.initGamepad, nil )
 
 	selectButton(startButton)
 end

@@ -34,7 +34,8 @@ function love.load(args)
 	
 	-- load all images
 	menu:init()
-	AnimationDB:loadAll()	
+	AnimationDB:loadAll()
+	keys.load()
 	
 	-- load and set font
 	fontSmall = love.graphics.newImageFont("images/font/40fontSmall.png",
@@ -77,27 +78,32 @@ end
 
 function love.keypressed( key, unicode )
 	
-	if key == keys.FULLSCREEN then
-		settings:toggleFullScreen()
-	end
+	if keys.currentlyAssigning then
+		keys.assign( key )
+	else
+	
+		if key == keys.FULLSCREEN then
+			settings:toggleFullScreen()
+		end
 
-	if mode == 'menu' then
-		menu:keypressed( key, unicode )
-	elseif mode == 'game' then
-		game.keypressed( key )
-	end
+		if mode == 'menu' then
+			menu:keypressed( key, unicode )
+		elseif mode == 'game' then
+			game.keypressed( key )
+		end
 
-	-- always works, independently of game state:
-	if key == keys.SCREENSHOT then
-		love.graphics.newScreenshot():encode('screenshot.png')
-		print('Saved screenshot')
-	end
-	if key == keys.RESTARTMAP then
-		myMap:start(p)
-	end
-	if key == keys.RESTARTGAME then
-		Campaign:reset()
-		myMap:start(p)
+		-- always works, independently of game state:
+		if key == keys.SCREENSHOT then
+			love.graphics.newScreenshot():encode('screenshot.png')
+			print('Saved screenshot')
+		end
+		if key == keys.RESTARTMAP then
+			myMap:start(p)
+		end
+		if key == keys.RESTARTGAME then
+			Campaign:reset()
+			myMap:start(p)
+		end
 	end
 end
 

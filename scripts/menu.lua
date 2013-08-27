@@ -5,6 +5,7 @@ local buttons = {}
 local menuLines = {}
 local menuImages = {}
 local menuBackgrounds = {}
+local menuTexts = {}
 local selButton
 local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the junkyard'}
 
@@ -59,6 +60,7 @@ function menu.clear()
 	menuImages = {}
 	menuBackgrounds = {}
 	menuLines = {}
+	menuTexts = {}
 end
 
 ---------------------------------------------------------
@@ -308,6 +310,13 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 	return new
 end
 
+function menu:addText( x, y, index, str )
+	menuTexts[index] = {txt = str, x=x, y=y}
+end
+
+function menu:changeText( index, str )
+	menuTexts[index].txt = str
+end
 
 ---------------------------------------------------------
 -- Selects next button towards the right, left, above and below
@@ -473,7 +482,7 @@ function menu:execute()
 end
 
 function menu:keypressed( key, unicode )
-	if menu.state == "credits" then
+	if menu.state == "credits" then	--any key in credits screen returns to main screen.
 		menu:initMain()
 	else
 		if key == "up" or key == "w" then
@@ -492,8 +501,12 @@ function menu:keypressed( key, unicode )
 			else
 				if menu.state == "worldMap" then
 					config.setValue( "level", selButton.name )
+					menu:initMain()
+				elseif menu.state == "settings" then
+					menu:initMain()
+				elseif menu.state == "keyboard" or menu.state == "gamepad" then
+					keys:exitSubMenu()
 				end
-				menu:initMain()
 			end
 		end
 	end
@@ -607,6 +620,14 @@ function menu:draw()
 		end
 		--love.graphics.print(k, button.x, button.y )
 	end
+	
+	love.graphics.setFont(fontSmall)
+	for k, text in pairs(menuTexts) do
+		love.graphics.print( text.txt, 
+			(text.x)*Camera.scale, 
+			(text.y)*Camera.scale)
+	end
+	
 	if menu.state == "main" or menu.state == "worldMap" then
 		menuPlayer:draw()
 	end
