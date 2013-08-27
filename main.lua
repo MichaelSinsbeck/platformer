@@ -5,6 +5,7 @@ config = require("scripts/config")
 settings = require("scripts/settings")
 keys = require("scripts/keys")
 require("scripts/misc")
+shaders = require("scripts/shaders")
 
 require 'scripts/utility'
 require 'scripts/camera'
@@ -32,10 +33,13 @@ function love.load(args)
 	-- set screen resolution
 	Camera:init()
 	
-	-- load all images
 	menu:init()
+	-- load all images
 	AnimationDB:loadAll()
+	
 	keys.load()
+	
+	shaders.load()
 	
 	-- load and set font
 	fontSmall = love.graphics.newImageFont("images/font/40fontSmall.png",

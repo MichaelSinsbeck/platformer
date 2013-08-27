@@ -159,7 +159,9 @@ function menu.initWorldMap()
 
 	if DEBUG then lastLevel = Campaign[#Campaign] end
 
-	x, y = 0, 0
+	local x, y = 0, 0
+	
+	menu.furthestX = 0		-- will save x value of farthest button
 	
 	for k, v in ipairs(Campaign) do
 
@@ -172,6 +174,10 @@ function menu.initWorldMap()
 							v,
 							menu:startGame( v ),
 							scrollWorldMap )
+			if x > menu.furthestX then
+				print("furthes:", x)
+				menu.furthestX = x
+			end
 		else
 			table.insert(menuImages, {typ="img", img='worldItemInactive_IMG', x=x, y=y})
 		end
@@ -578,11 +584,19 @@ function menu:draw()
 		-math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
 		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
 
-  
 	-- draw background elements:
 	for k, element in pairs(menuBackgrounds) do
+		if menu.state == "worldMap" then
+			if element.x > menu.furthestX then
+				love.graphics.setPixelEffect( shaders.grayScale )
+				print(element.x)
+			end
+		end
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale )
 	end
+	
+	love.graphics.setPixelEffect( )
+	
 	love.graphics.setLineWidth(Camera.scale*0.4)
 	for k, element in pairs(menuLines) do
 		if element.active then
@@ -634,10 +648,12 @@ function menu:draw()
 	love.graphics.pop()
 
 	if menu.state == "worldMap" then
+	
 		love.graphics.setFont(fontLarge)
 		love.graphics.setColor(0,0,0)
 		love.graphics.printf(worldNames[Campaign.worldNumber], 0, love.graphics.getHeight()*0.5-Camera.scale*40, love.graphics.getWidth(), 'center')			
 		love.graphics.setColor(255,255,255)
+		
 	end
 	
 	if menu.state == "credits" then
