@@ -46,7 +46,12 @@ function menu:init()
 	self.images.background2_IMG = love.graphics.newImage("images/world/"..prefix.."world2.png")
 	self.images.background3_IMG = love.graphics.newImage("images/world/"..prefix.."world3.png")
 	self.images.background4_IMG = love.graphics.newImage("images/world/"..prefix.."world4.png")
-	self.images.background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")	
+	self.images.background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")
+	
+	self.images.keyboardOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyboardOff.png")
+	self.images.keyboardOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyboardOn.png")
+	self.images.gamepadOff_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOff.png")
+	self.images.gamepadOn_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOn.png")
 end
 
 function menu.clear()
@@ -72,7 +77,6 @@ function menu:initMain()
 	menu.state = "main"
 
 	love.graphics.setBackgroundColor(40,40,40)
-	
 
 	local x,y
 	x = -5
@@ -83,7 +87,7 @@ function menu:initMain()
 	y = y + 10
 	
 	actionHover = menuPlayer:setDestination(x - 3, y + 5)
-	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", nil, actionHover )
+	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", settings.init, actionHover )
 	
 	y = y + 10
 	actionHover = menuPlayer:setDestination(x - 3, y + 5)
@@ -595,7 +599,7 @@ function menu:draw()
 		end
 		--love.graphics.print(k, button.x, button.y )
 	end
-	if menu.state ~= "credits" then
+	if menu.state == "main" or menu.state == "worldMap" then
 		menuPlayer:draw()
 	end
 	love.graphics.pop()

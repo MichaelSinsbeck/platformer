@@ -93,4 +93,19 @@ function settings:fullscreenScale()
 	return suggestedScale
 end
 
+function settings.init()
+	menu:clear()	-- remove anything that was previously on the menu
+	menu.state = "settings"
+
+	local x,y
+	x = -5
+	y = 0
+	
+	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", nil, nil )
+	x = x + 10
+	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", nil, nil )
+
+	selectButton(startButton)
+end
+
 return settings
