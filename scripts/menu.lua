@@ -175,7 +175,6 @@ function menu.initWorldMap()
 							menu:startGame( v ),
 							scrollWorldMap )
 			if x > menu.furthestX then
-				print("furthes:", x)
 				menu.furthestX = x
 			end
 		else
@@ -589,7 +588,6 @@ function menu:draw()
 		if menu.state == "worldMap" then
 			if element.x > menu.furthestX then
 				love.graphics.setPixelEffect( shaders.grayScale )
-				print(element.x)
 			end
 		end
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale )
