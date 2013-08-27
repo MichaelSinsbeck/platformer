@@ -3,13 +3,13 @@ require 'scripts/spriteengine'
 game = {deathtimer = 0}
 
 function game:draw()
-  love.graphics.push()
-  Camera:apply()
+	love.graphics.push()
+	Camera:apply()
 
 	myMap:drawBG()
-  spriteEngine:draw()  
-  myMap:drawFG()
-  
+	spriteEngine:draw()  
+	myMap:drawFG()
+
 	Camera:free()
 
 	if recorderTimer > 1/30 then
@@ -20,25 +20,25 @@ end
 
 function game:checkControls()
   local joyHat = love.joystick.getHat(1,1)
-  self.isLeft = love.keyboard.isDown('left') 
+  self.isLeft = love.keyboard.isDown( keys.LEFT) 
 		or joyHat == 'l' 
 		or joyHat == 'ld' 
 		or joyHat == 'lu'
-	self.isRight = love.keyboard.isDown('right')
+	self.isRight = love.keyboard.isDown( keys.RIGHT )
 		or joyHat == 'r'
 		or joyHat == 'rd' 
 		or joyHat == 'ru'
-	self.isDown = love.keyboard.isDown('down')
+	self.isDown = love.keyboard.isDown( keys.DOWN )
 	  or joyHat == 'd'
 	  or joyHat == 'ld'
 	  or joyHat == 'rd'
-	self.isUp = love.keyboard.isDown('up')
+	self.isUp = love.keyboard.isDown( keys.UP )
 	  or joyHat == 'u'
 	  or joyHat == 'lu'
 	  or joyHat == 'ru'
-	self.isJump = love.keyboard.isDown('a') 
+	self.isJump = love.keyboard.isDown( keys.JUMP ) 
 			or love.joystick.isDown(1,3)
-	self.isAction = love.keyboard.isDown('s')
+	self.isAction = love.keyboard.isDown( keys.ACTION )
 			or love.joystick.isDown(1,8)
 end
 
@@ -81,16 +81,16 @@ function game.keypressed(key)
 	if key == "r" then
 		p.status = 'stand'
 	end
-  if key == "a" then
+  if key == keys.JUMP then
 		spriteEngine:DoAll('jump')
 		if p.dead then
 			myMap:start(p)
 		end
   end
-  if key == "s" and p.bandana == "red" then
+  if key == keys.ACTION and p.bandana == "red" then
 		Bungee:throw()
   end
-  if key == "q" then
+  if key == keys.NEXTMAP then
     Campaign:proceed()
   end
   if key == "u" then -- print all global variables
@@ -115,10 +115,10 @@ function game.keypressed(key)
 end
 
 function game.keyreleased(key)
-  if key == "a" then
+  if key == keys.JUMP then
 		spriteEngine:DoAll('unjump')
   end
-  if key == "s" then
+  if key == keys.ACTION then
 		spriteEngine:DoAll('disconnect')
   end
 end

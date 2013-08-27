@@ -3,6 +3,7 @@
 menu = require("scripts/menu")
 config = require("scripts/config")
 settings = require("scripts/settings")
+keys = require("scripts/keys")
 require("scripts/misc")
 
 require 'scripts/utility'
@@ -76,7 +77,7 @@ end
 
 function love.keypressed( key, unicode )
 	
-	if key == 'f' then
+	if key == keys.FULLSCREEN then
 		settings:toggleFullScreen()
 	end
 
@@ -87,14 +88,14 @@ function love.keypressed( key, unicode )
 	end
 
 	-- always works, independently of game state:
-	if key == 't' then
+	if key == keys.SCREENSHOT then
 		love.graphics.newScreenshot():encode('screenshot.png')
 		print('Saved screenshot')
 	end
-	if key == 'p' then
+	if key == keys.RESTARTMAP then
 		myMap:start(p)
 	end
-	if key == 'o' then
+	if key == keys.RESTARTGAME then
 		Campaign:reset()
 		myMap:start(p)
 	end
