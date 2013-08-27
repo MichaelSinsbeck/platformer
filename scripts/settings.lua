@@ -98,11 +98,11 @@ function settings.init()
 	menu.state = "settings"
 
 	local x,y
-	x = -5
+	x = -25
 	y = 0
 	
 	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", nil, nil )
-	x = x + 10
+	x = x + 25
 	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", nil, nil )
 
 	selectButton(startButton)

@@ -540,7 +540,15 @@ function menu:update(dt)
 				button.timer = button.timer + dt
 				button.yShift = 1-2*math.abs(math.sin(5*button.timer))
 				button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
-				button.yScale = 1/button.xScale			
+				button.yScale = 1/button.xScale
+			elseif button.name == "keyboard" then
+				button.timer = button.timer + dt
+				button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
+				button.yScale = 1-0.05*math.abs(math.cos(5*button.timer))
+			elseif button.name == "gamepad" then
+				button.timer = button.timer + dt
+				button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
+				button.yScale = 1-0.05*math.abs(math.cos(5*button.timer))
 			end
 		end
 	end
