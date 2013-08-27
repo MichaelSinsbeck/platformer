@@ -106,7 +106,7 @@ function keys.initKeyboard()
 	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "jump", keys.startAssign( "JUMP" ), nil )
 	menu:addText( x+11, y+3, "JUMP", keys.JUMP)
 	y = y + 7
-	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "bandana", keys.startAssign( "ACTION" ), nil )
+	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "use bandana", keys.startAssign( "ACTION" ), nil )
 	menu:addText( x+11, y+3, "ACTION", keys.ACTION)
 	
 	y = y + 14
