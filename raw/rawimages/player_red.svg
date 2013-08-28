@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="player_red.svg"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/32player_red.png"
-   inkscape:export-xdpi="72"
-   inkscape:export-ydpi="72">
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/64player_red.png"
+   inkscape:export-xdpi="144"
+   inkscape:export-ydpi="144">
   <sodipodi:namedview
      id="base"
      pagecolor="#000000"
@@ -26,11 +26,11 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.656854"
-     inkscape:cx="218.49346"
-     inkscape:cy="141.27431"
+     inkscape:cx="190.20919"
+     inkscape:cy="127.13217"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true"
+     showgrid="false"
      inkscape:showpageshadow="true"
      inkscape:window-width="1280"
      inkscape:window-height="750"
@@ -1323,9 +1323,9 @@
     </g>
     <g
        id="g3240"
-       transform="translate(-5.1265288,6.3639463)"
-       inkscape:transform-center-x="5.0527393"
-       inkscape:transform-center-y="5.2963902">
+       transform="matrix(0.93927337,-0.34316984,0.34316984,0.93927337,-307.55433,116.12718)"
+       inkscape:transform-center-y="-1.3957719"
+       inkscape:transform-center-x="0.40501223">
       <path
          inkscape:connector-curvature="0"
          id="path4336-7-3-7-0"

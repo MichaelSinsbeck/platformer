@@ -58,7 +58,10 @@ function Map:start(p)
 
 	-- empty spriteEngine and add player
   spriteEngine:empty()
-  spriteEngine:insert(p)  
+  spriteEngine:insert(p)
+  if p.originalSemiwidth and p.originalSemiheight then
+		p:resize(p.originalSemiwidth, p.originalSemiheight)
+	end
   p.x = self.xStart+0.5
   p.y = self.yStart+1-p.semiheight
   p.newX = p.x

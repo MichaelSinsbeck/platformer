@@ -3,7 +3,9 @@ Bungee = object:New({
 	animation = 'bungee',
 	marginx = 0.1,
   marginy = 0.1,
-  speed = 30,
+  speed = 50,
+  maxLength = 10,
+  minLength = 0.5,
 })
 
 function Bungee:setAcceleration(dt)
@@ -24,10 +26,16 @@ function Bungee:draw()
 end
 
 function Bungee:postStep(dt)
+	local dx,dy = self.x-p.x, self.y-p.y
+	local length = math.sqrt(dx*dx+dy*dy)
+	if length > self.maxLength then
+		self:kill()
+		return
+	end
   if self.collisionResult > 0 then
 		self.vx = 0
 		self.vy = 0	
-		p:hook(self)
+		p:connect(self)
   end
 end
 

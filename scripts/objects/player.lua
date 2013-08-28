@@ -185,14 +185,15 @@ function Player:setAcceleration(dt)
 	
   if self.status == 'stand' and self.vy ~=0 then self.status = 'fly'  end	
   
- --[[ if self.hooked then
-		local dist = math.sqrt((self.x-self.anchor.x)^2 + (self.y-self.anchor.y)^2 )
-		if dist > self.bungeeRadius then
-		local force = (dist-self.bungeeRadius)*10
-		self.vx = self.vx + (self.anchor.x-self.x)/dist*force*dt
-		self.vy = self.vy + (self.anchor.y-self.y)/dist*force*dt
+  -- change rope length, if hooked
+	if self.status == 'hooked' then
+		if game.isDown then
+			self.bungeeRadius = math.min(self.bungeeRadius + 5*dt, self.anchor.maxLength)
 		end
-  end--]]
+		if game.isUp then
+			self.bungeeRadius = math.max(self.bungeeRadius - 5*dt, self.anchor.minLength)
+		end
+	end
 end
 
 function Player:collision(dt)
@@ -386,6 +387,9 @@ function Player:collision(dt)
 		end
 	elseif self.status == 'hooked' then
 		self:setAnim(self.bandana..'Hooked')
+		if game.isUp then
+			self.bungeeRadius = math.max(self.bungeeRadius, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
+		end
 	end
 
 end
@@ -408,13 +412,20 @@ function Player:wincheck()
   return winning
 end
 
-function Player:hook(anchor)
+function Player:connect(anchor)
 	self.status = "hooked"
 	self.anchor = anchor
 	self.bungeeRadius = math.sqrt((self.x-anchor.x)^2+(self.y-anchor.y)^2)
+	self.originalSemiheight = self.semiheight
+	self.originalSemiwidth = self.semiwidth
+	-- this makes the player "round"
+	self:resize(0.15,0.15)
 end
 
 function Player:disconnect()
-	self.status = 'fly'
-	self.anchor = nil
+	if self.status == 'hooked' then
+		self.status = 'fly'
+		self.anchor = nil
+		self:resize(self.originalSemiwidth, self.originalSemiheight)
+	end
 end

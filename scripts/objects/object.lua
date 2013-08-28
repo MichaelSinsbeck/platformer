@@ -149,8 +149,8 @@ function object:collision(dt)
   elseif self.vx < 0 then -- Bewegung nach links
     -- Eckpunkte wechseln Zelle?
     if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
-			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
-				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then    
+			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'left',self.tag) or
+				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'left',self.tag) then    
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
         self.collisionResult = self.collisionResult+2
       end
@@ -279,4 +279,43 @@ end
 
 function object:flip(flipped)
 	self.flipped = flipped
+end
+
+-- change size of an object, avoiding collision problems
+-- only works correctly if new size-parameters are <=0.5
+function object:resize(newSemiwidth, newSemiheight)
+-- width first
+	if math.floor(self.x-newSemiwidth) < math.floor(self.x-self.semiwidth) then
+		-- left edge changes tile
+		if myMap:collisionTest(math.floor(self.x-newSemiwidth),math.floor(self.y-self.semiheight),'left',self.tag) or
+			 myMap:collisionTest(math.floor(self.x-newSemiwidth),math.ceil(self.y+self.semiheight)-1,'left',self.tag) then
+			-- would cause collision on the left
+			self.x = math.floor(self.x-newSemiwidth) + 1 + newSemiwidth
+		end
+	elseif math.ceil(self.x+newSemiwidth) > math.ceil(self.x+self.semiwidth) then
+		-- right edge changes tile
+		if myMap:collisionTest(math.ceil(self.x+newSemiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
+			 myMap:collisionTest(math.ceil(self.x+newSemiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
+			-- would cause collision on the right
+			self.x = math.ceil(self.x+newSemiwidth) - 1 - newSemiwidth
+		end
+	end
+	self.semiwidth = newSemiwidth
+-- height second
+	if math.floor(self.y-newSemiheight) < math.floor(self.y-self.semiheight) then
+		-- top edge changes tile
+		if myMap:collisionTest(math.floor(self.x-self.semiwidth),math.floor(self.y-newSemiheight),'up',self.tag) or
+			 myMap:collisionTest(math.ceil(self.x+self.semiwidth)-1,math.floor(self.y-newSemiheight),'up',self.tag) then
+			-- would cause collision on the top
+			self.y = math.floor(self.y-newSemiheight) +1 + newSemiheight
+		end
+	elseif math.ceil(self.y+newSemiheight) > math.ceil(self.y+self.semiheight) then
+		-- bottom edge changes tile
+		if myMap:collisionTest(math.floor(self.x-self.semiwidth),math.ceil(self.y+newSemiheight)-1,'down',self.tag) or
+			 myMap:collisionTest(math.ceil(self.x+self.semiwidth)-1,math.ceil(self.y+newSemiheight)-1,'down',self.tag) then
+			-- would cause collision on the bottom
+			self.y = math.ceil(self.y+newSemiheight) - 1 - newSemiheight
+		end
+	end
+	self.semiheight = newSemiheight
 end
