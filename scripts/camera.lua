@@ -30,7 +30,7 @@ function Camera:update(dt)
 		self.xWorld = (self.width/self.zoom - (myMap.width+2)*tileSize)/2
   end
   
-	if self.height/self.zoom <= myMap.width*tileSize then
+	if self.height/self.zoom <= myMap.height*tileSize then
 		if self.yWorld > -1*tileSize then self.yWorld = -1*tileSize end
 		if self.yWorld < self.height/self.zoom - (myMap.height+1)*tileSize then
 			self.yWorld = self.height/self.zoom - (myMap.height+1)*tileSize
