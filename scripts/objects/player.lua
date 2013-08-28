@@ -188,10 +188,10 @@ function Player:setAcceleration(dt)
   -- change rope length, if hooked
 	if self.status == 'hooked' then
 		if game.isDown then
-			self.bungeeRadius = math.min(self.bungeeRadius + 5*dt, self.anchor.maxLength)
+			self.anchor.length = math.min(self.anchor.length + 5*dt, self.anchor.maxLength)
 		end
 		if game.isUp then
-			self.bungeeRadius = math.max(self.bungeeRadius - 5*dt, self.anchor.minLength)
+			self.anchor.length = math.max(self.anchor.length - 5*dt, self.anchor.minLength)
 		end
 	end
 end
@@ -202,9 +202,9 @@ function Player:collision(dt)
 	if self.status == "hooked" then
 		local dx,dy = self.newX-self.anchor.x, self.newY-self.anchor.y
 		local dist = math.sqrt(dx^2 + dy^2)
-		if dist > self.bungeeRadius then
-			self.newX = self.anchor.x + dx*(self.bungeeRadius/dist)
-			self.newY = self.anchor.y + dy*(self.bungeeRadius/dist)
+		if dist > self.anchor.length then
+			self.newX = self.anchor.x + dx*(self.anchor.length/dist)
+			self.newY = self.anchor.y + dy*(self.anchor.length/dist)
 		end
 		self.angle = math.atan2(-dx,dy)
 	else
@@ -388,7 +388,7 @@ function Player:collision(dt)
 	elseif self.status == 'hooked' then
 		self:setAnim(self.bandana..'Hooked')
 		if game.isUp then
-			self.bungeeRadius = math.max(self.bungeeRadius, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
+			self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
 		end
 	end
 
@@ -415,7 +415,7 @@ end
 function Player:connect(anchor)
 	self.status = "hooked"
 	self.anchor = anchor
-	self.bungeeRadius = math.sqrt((self.x-anchor.x)^2+(self.y-anchor.y)^2)
+	anchor.length = math.sqrt((self.x-anchor.x)^2+(self.y-anchor.y)^2)
 	self.originalSemiheight = self.semiheight
 	self.originalSemiwidth = self.semiwidth
 	-- this makes the player "round"
