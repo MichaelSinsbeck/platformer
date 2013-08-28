@@ -7,7 +7,7 @@ Bungee = object:New({
   maxLength = 10,
   minLength = 0.5,
   status = 'fly',
-  nNodes = 10,
+  nNodes = 20,
 })
 
 function Bungee:setAcceleration(dt)
@@ -55,8 +55,8 @@ function Bungee:postStep(dt)
 		self.nodesVy = {}
 		self.nodes = {}
 		for i = 0,self.nNodes do
-			self.nodesX[i] = p.x + (self.x-p.x)*i/10
-			self.nodesY[i] = p.y + (self.y-p.y)*i/10
+			self.nodesX[i] = p.x + (self.x-p.x)*i/self.nNodes
+			self.nodesY[i] = p.y + (self.y-p.y)*i/self.nNodes
 			self.nodesVx[i] = 0
 			self.nodesVy[i] = 0
 			self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
@@ -65,7 +65,6 @@ function Bungee:postStep(dt)
   end
  
 	if self.nodesX and self.nodesY then
-
 		-- advance according to velocity
 		local factor = 1-math.min(dt,1)
 		for i=1,self.nNodes-1 do
@@ -79,14 +78,14 @@ function Bungee:postStep(dt)
 			self.nodesNewY[i] = self.nodesY[i] + self.nodesVy[i] * dt
 		end
 		
-		-- line is curly		
+		-- run iteration for line-wobble
 		local nx = self.nodesNewX
 		local ny = self.nodesNewY		
-		local segmentLength = self.length/10
+		local segmentLength = self.length/self.nNodes
 		local dx,dy = 0,0
 		local dist = 0
 		nx[0] ,ny[0]  = p.x,p.y
-		nx[10],ny[10] = self.x,self.y
+		nx[self.nNodes],ny[self.nNodes] = self.x,self.y
 		for iteration = 1,10 do
 			-- forth
 			for i = 1,self.nNodes-1 do
