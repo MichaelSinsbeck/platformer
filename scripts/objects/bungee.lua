@@ -100,8 +100,10 @@ function Bungee:postStep(dt)
 			for i = self.nNodes-1,1,-1 do
 				dx,dy = nx[i] - nx[i+1], ny[i] - ny[i+1]
 				dist = math.sqrt(dx*dx+dy*dy)
-				nx[i] = nx[i+1] + dx/dist*segmentLength
-				ny[i] = ny[i+1] + dy/dist*segmentLength
+				if dist > segmentLength then
+					nx[i] = nx[i+1] + dx/dist*segmentLength
+					ny[i] = ny[i+1] + dy/dist*segmentLength
+				end
 			end			
 		end
 
