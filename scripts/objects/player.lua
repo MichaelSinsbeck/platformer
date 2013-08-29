@@ -425,6 +425,7 @@ end
 function Player:disconnect()
 	if self.status == 'hooked' then
 		self.status = 'fly'
+		self.canUnJump = false
 		self.anchor = nil
 		self:resize(self.originalSemiwidth, self.originalSemiheight)
 	end
