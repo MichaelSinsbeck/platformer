@@ -18,13 +18,11 @@ function Door:activate(args)
 		self.status = 'active'
 		self.timer = args.t
 		myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
-		--self.alpha = math.min(255*(self.openTime-self.timer)/self.openTime,255)
 	end
 end
 
 function Door:postStep(dt)
 	if self.status == 'active' then
-		--self.alpha = math.min(255*(self.openTime-self.timer)/self.openTime,255)
 		self.sx = math.min((self.openTime-self.timer)/self.openTime,1)
 		self.sy = math.min((self.openTime-self.timer)/self.openTime,1)
 		if self.timer > self.openTime then
