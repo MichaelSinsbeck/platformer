@@ -28,6 +28,7 @@ require 'scripts/objects.exit'
 require 'scripts/objects.bungee'
 require 'scripts/objects.door'
 require 'scripts/objects.keyhole'
+require 'scripts/objects.key'
 
 
 function initAll()
@@ -63,6 +64,7 @@ function initAll()
 	Bungee:init()
 	Door:init()
 	Keyhole:init()
+	Key:init()
 end
 
 function spriteFactory(name,opts)

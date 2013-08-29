@@ -37,6 +37,7 @@ Player = object:New({
   poffTimer = 0,
   visible = true,
   canUnJump = false,
+  nKeys = 0,
   })
 
 function Player:jump()

@@ -396,6 +396,7 @@ function Map:FactoryList(tile,height,width)
 	[21] = Glassblock,
 	[22] = Keyhole,
 	[23] = Door,
+	[24] = Key,
 	[25] = Windmill,
   [33] = Spikeys[1],
   [34] = Spikeys[2],
