@@ -68,12 +68,12 @@ end
 ---------------------------------------------------------
 
 -- creates main menu:
-function menu:initMain()
+function menu.initMain()
 	menuPlayer:init()
-	self.xCamera = 0
-	self.yCamera = 0
-	self.xTarget = 0
-	self.yTarget = 0
+	menu.xCamera = 0
+	menu.yCamera = 0
+	menu.xTarget = 0
+	menu.yTarget = 0
 
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "main"
@@ -85,21 +85,21 @@ function menu:initMain()
 	y = 0
 	
 	local actionHover = menuPlayer:setDestination(x - 3, y + 5)
-	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.initWorldMap, actionHover )
+	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
 	actionHover = menuPlayer:setDestination(x - 3, y + 5)
-	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", settings.init, actionHover )
+	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", menu.startTransition(settings.init), actionHover )
 	
 	y = y + 10
 	actionHover = menuPlayer:setDestination(x - 3, y + 5)
 
-	menu:addButton( x, y, 'creditsOff_IMG', 'creditsOn_IMG', "credits", menu.startCredits, actionHover )
+	menu:addButton( x, y, 'creditsOff_IMG', 'creditsOn_IMG', "credits", menu.startTransition(menu.startCredits), actionHover )
 
 	
 	y = y + 10
 	actionHover = menuPlayer:setDestination(x - 3, y + 5)
-	menu:addButton( x, y, 'exitOff_IMG', 'exitOn_IMG', "exit", love.event.quit, actionHover )
+	menu:addButton( x, y, 'exitOff_IMG', 'exitOn_IMG', "exit", menu.startTransition(love.event.quit), actionHover )
 
 	
 	-- add main logo:
@@ -488,7 +488,7 @@ end
 
 function menu:keypressed( key, unicode )
 	if menu.state == "credits" then	--any key in credits screen returns to main screen.
-		menu:initMain()
+		menu.startTransition(menu.initMain)()
 	else
 		if key == "up" or key == "w" then
 			menu:selectAbove()
@@ -502,13 +502,13 @@ function menu:keypressed( key, unicode )
 			menu:execute()
 		elseif key == "escape" then
 			if menu.state == "main" then
-				love.event.quit()
+				menu.startTransition(love.event.quit)()
 			else
 				if menu.state == "worldMap" then
 					config.setValue( "level", selButton.name )
-					menu:initMain()
+					menu.startTransition(menu.initMain)()
 				elseif menu.state == "settings" then
-					menu:initMain()
+					menu.startTransition(menu.initMain)()
 				elseif menu.state == "keyboard" or menu.state == "gamepad" then
 					keys:exitSubMenu()
 				end
@@ -585,15 +585,15 @@ function menu:draw()
 
 	-- draw background elements:
 	for k, element in pairs(menuBackgrounds) do
-		if menu.state == "worldMap" then
+		--[[if menu.state == "worldMap" then
 			if element.x > menu.furthestX then
 				love.graphics.setPixelEffect( shaders.grayScale )
 			end
-		end
+		end]]--
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale )
+		--love.graphics.setPixelEffect( )
 	end
 	
-	love.graphics.setPixelEffect( )
 	
 	love.graphics.setLineWidth(Camera.scale*0.4)
 	for k, element in pairs(menuLines) do
@@ -674,7 +674,19 @@ function menu:draw()
 
 end
 
+---------------------------------------------------------
+-- Starts full screen menu transition:
+---------------------------------------------------------
 
+function menu.startTransition( event )
+	return function()
+		if not menu.transitionActive then
+			menu.transitionActive = true
+			menu.transitionPercentage = 0
+			menu.transitionEvent = event	-- will be called when transitionPercentage is 50%
+		end
+	end
+end
 
 ---------------------------------------------------------
 -- Misc functions:
