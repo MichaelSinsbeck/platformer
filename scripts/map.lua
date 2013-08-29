@@ -41,12 +41,14 @@ function Map:loadImage()
 	self.tileSize = Camera.scale*8
 	self.graphicSize = Camera.scale*10
 	--local img = love.graphics.newImage('images/'.. Camera.scale*8 ..self.imageFile)
-	local img = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. Campaign.worldNumber ..'.png')	
-  img:setFilter('nearest','nearest')
-  self.spriteBatchFG = love.graphics.newSpriteBatch(img, self.width*self.height)
-	self.spriteBatchBG = love.graphics.newSpriteBatch(img, self.width*self.height)
+	local imgFG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'foreground'.. Campaign.worldNumber ..'.png')	
+  imgFG:setFilter('nearest','nearest')	
+	local imgBG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. Campaign.worldNumber ..'.png')	
+  imgBG:setFilter('nearest','nearest')
+  self.spriteBatchFG = love.graphics.newSpriteBatch(imgFG, self.width*self.height)
+	self.spriteBatchBG = love.graphics.newSpriteBatch(imgBG, self.width*self.height)
   self.offset = (self.tileSize-self.graphicSize)/2
-	self:generateQuads(img)
+	self:generateQuads(imgFG) -- assuming that both images have the same size
 	self:updateSpritebatch()
 end
 
@@ -398,22 +400,7 @@ function Map:FactoryList(tile,height,width)
 	[23] = Door,
 	[24] = Key,
 	[25] = Windmill,
-  [33] = Spikeys[1],
-  [34] = Spikeys[2],
-  [35] = Spikeys[3],
-  [36] = Spikeys[4],
-  [41] = Spikeys[5],
-  [42] = Spikeys[6],
-  [43] = Spikeys[7],
-  [44] = Spikeys[8],
-  [49] = Spikeys[9],
-  [50] = Spikeys[10],
-  [51] = Spikeys[11],
-  [52] = Spikeys[12],
-  [57] = Spikeys[13],
-  [58] = Spikeys[14],
-  [59] = Spikeys[15],
-  [60] = Spikeys[16],
+  [33] = Spikey,
 
 	[37] = FixedCannon1r,
 	[38] = FixedCannon2r,

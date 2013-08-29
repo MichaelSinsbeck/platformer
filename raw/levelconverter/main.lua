@@ -71,7 +71,7 @@ function convert(filetrunc)
 
 
 -- fill collision array
-	fgToCollision = {
+	bgToCollision = {
 		1,1,1,1,0,2,2,2,
 		1,1,1,1,0,2,2,0,
 		1,1,1,1,0,0,0,0,
@@ -81,7 +81,7 @@ function convert(filetrunc)
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
 	}
-	fgToCollision[0] = 0
+	bgToCollision[0] = 0
 
 	objToCollision = {
 		0,0,0,0,0,0,0,0,
@@ -95,13 +95,30 @@ function convert(filetrunc)
 	}
 	objToCollision[0] = 0
 
+	fgToCollision = {
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		3,3,3,3,0,0,0,0,
+		3,3,3,3,0,0,0,0,
+		3,3,3,3,0,0,0,0,
+		3,3,3,3,0,0,0,0,
+
+	}
+	fgToCollision[0] = 0
+
 	for y = 1,map.height do
 			for x = 1,map.width do
 			local entry = math.max(
-				fgToCollision[bg[y][x]],
-				fgToCollision[fg[y][x]],
+				bgToCollision[bg[y][x]],
+				bgToCollision[fg[y][x]],
 				objToCollision[obj[y][x]])
 			col[y][x] = entry
+			if fgToCollision[obj[y][x]] == 3 then -- if there is a spikey
+				fg[y][x] = obj[y][x]
+				obj[y][x] = 33
+			end
 		end
 	end
 
