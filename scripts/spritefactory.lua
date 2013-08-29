@@ -26,6 +26,8 @@ require 'scripts/objects.butterfly'
 require 'scripts/objects.meat'
 require 'scripts/objects.exit'
 require 'scripts/objects.bungee'
+require 'scripts/objects.door'
+require 'scripts/objects.keyhole'
 
 
 function initAll()
@@ -59,6 +61,8 @@ function initAll()
 	Meat:init()
 	Exit:init()
 	Bungee:init()
+	Door:init()
+	Keyhole:init()
 end
 
 function spriteFactory(name,opts)

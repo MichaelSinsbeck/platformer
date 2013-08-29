@@ -211,6 +211,10 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('glass2','crumble',{6},{1e6})
 	AnimationDB:addAni('glass3','crumble',{7},{1e6})
 	AnimationDB:addAni('glass4','crumble',{8},{1e6})
+	AnimationDB:addAni('door1','crumble',{9},{1e6})
+	AnimationDB:addAni('door2','crumble',{10},{1e6})
+	AnimationDB:addAni('door3','crumble',{11},{1e6})
+	AnimationDB:addAni('door4','crumble',{12},{1e6})
 	
 	AnimationDB:loadImage('fixedcannon.png','fixedcannon')
 	AnimationDB:addAni('fixedcannon','fixedcannon',{1},{1e6})
@@ -234,4 +238,9 @@ function AnimationDB:loadAll()
 	
 	AnimationDB:loadImage('bungee.png','bungee',0.4*tileSize,0.4*tileSize)	
 	AnimationDB:addAni('bungee','bungee',{1},{1e6})
+
+	AnimationDB:loadImage('door.png','door',tileSize,tileSize)	
+	AnimationDB:addAni('keyhole','door',{1},{1e6})	
+	AnimationDB:addAni('door','door',{2},{1e6})	
+	AnimationDB:addAni('key','door',{3},{1e6})			
 end

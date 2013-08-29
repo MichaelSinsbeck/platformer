@@ -394,6 +394,8 @@ function Map:FactoryList(tile,height,width)
 	[19] = Disappearblock,
 	[20] = Crumbleblock,
 	[21] = Glassblock,
+	[22] = Keyhole,
+	[23] = Door,
 	[25] = Windmill,
   [33] = Spikeys[1],
   [34] = Spikeys[2],
