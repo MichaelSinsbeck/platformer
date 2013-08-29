@@ -56,6 +56,7 @@ function menu:init()
 end
 
 function menu.clear()
+	mode = 'menu'
 	buttons = {}	-- clear all buttons from other menus
 	menuImages = {}
 	menuBackgrounds = {}
@@ -172,7 +173,7 @@ function menu.initWorldMap()
 							'worldItemOff_IMG',
 							'worldItemOn_IMG',
 							v,
-							menu:startGame( v ),
+							menu.startTransition(menu.startGame( v )),
 							scrollWorldMap )
 			if x > menu.furthestX then
 				menu.furthestX = x
@@ -249,7 +250,7 @@ end
 -- which will start the given level:
 ---------------------------------------------------------
 
-function menu:startGame( lvl )
+function menu.startGame( lvl )
 
 	local lvlNum = 1
 
