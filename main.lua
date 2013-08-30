@@ -16,7 +16,7 @@ require 'scripts/intro'
 require 'scripts/campaign'
 
 mode = 'menu'	-- must be global
-
+fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
 DEBUG = false
 
 function love.load(args)
@@ -30,7 +30,7 @@ function love.load(args)
 	-- hide mouse
 	love.mouse.setVisible(false)
 
-	-- set screen resolution
+	-- set screen resolution (and fullscreen)
 	Camera:init()
 	
 	menu:init()
@@ -57,7 +57,7 @@ function love.load(args)
 	Campaign:reset()
 
 	mode = 'menu'
-	menu:initMain()
+	menu.initMain()
 end
 
 function love.update( dt )
@@ -68,9 +68,30 @@ function love.update( dt )
 	elseif mode == 'intro' then
 		intro:update(dt)
 	end
+	
+	if menu.transitionActive then
+		menu.transitionPercentage = menu.transitionPercentage + dt*100	-- 1 second
+		shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
+		if menu.transitionPercentage >= 50 and menu.transitionEvent then
+			menu.transitionEvent()
+			menu.transitionEvent = nil		
+		end
+		if menu.transitionPercentage >= 100 then
+			menu.transitionActive = false		
+		end
+	end
 end
 
 function love.draw()
+
+	if menu.transitionActive then
+		love.graphics.setCanvas(fullscreenCanvas)
+		fullscreenCanvas:clear()
+		love.graphics.setColor(love.graphics.getBackgroundColor())
+		love.graphics.rectangle('fill', 0, 0, fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
+		love.graphics.setColor(255,255,255,255)
+	end
+
 	if mode == 'game' then
 		game:draw()
 	elseif mode == 'menu' then
@@ -78,9 +99,18 @@ function love.draw()
 	elseif mode == 'intro' then
 		intro:draw()
 	end
+	
+	if menu.transitionActive then
+		love.graphics.setCanvas()
+		love.graphics.setPixelEffect( shaders.fadeToBlack )
+		love.graphics.draw(fullscreenCanvas, 0, 0)
+		love.graphics.setPixelEffect()
+	end
 end
 
 function love.keypressed( key, unicode )
+	
+	if menu.transitionActive then return end
 	
 	if keys.currentlyAssigning then
 		keys.assign( key )

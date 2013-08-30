@@ -16,7 +16,7 @@ function credits:update( dt )
 	ct = ct + dt
 	if creditsNum > #creditEntries then
 		if ct > 1 then
-			menu:initMain()
+			menu.startTransition(menu.initMain)()
 		end
 	else
 		if ct > 5 then

@@ -9,6 +9,7 @@ end
 
 function shaders.load()
 	shaders.grayScale = love.graphics.newPixelEffect( textFromFile ("grayscale.glsl") )
+	shaders.fadeToBlack = love.graphics.newPixelEffect( textFromFile ("fadeToBlack.glsl") )
 end
 
 return shaders
