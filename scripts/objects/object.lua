@@ -100,15 +100,6 @@ function object:draw()
 			math.floor((self.y+y)*myMap.tileSize),
 			angle,sx,sy,
 			math.floor(self.sonox*Camera.scale),math.floor(self.sonoy*Camera.scale))  
-  elseif self.sonImg then
-		local sx,sy = self.sonSx or 1, self.sonSy or 1
-		local angle = self.sonAngle or 0
-		local x,y = self.sonX or 0, self.sonY or 0
-		love.graphics.draw(self.sonImg,
-			math.floor((self.x+x)*myMap.tileSize),
-			math.floor((self.y+y)*myMap.tileSize),
-			angle,sx,sy,
-			math.floor(self.sonox*Camera.scale),math.floor(self.sonoy*Camera.scale))
   end
 	if self.alpha then
 	  love.graphics.setColor(255,255,255)

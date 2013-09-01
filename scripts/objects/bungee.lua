@@ -128,18 +128,9 @@ end
 
 function Bungee:throw()
 	game:checkControls()
-	local rvx,rvy = p.vx, math.min(p.vy-self.speed,-self.speed)
-	if game.isLeft then
-		rvx = rvx - self.speed
-	end
-	if game.isRight then
-		rvx = rvx + self.speed
-	end
-	if rvx ~= 0 then
-		rvx,rvy = rvx/math.sqrt(2),rvy/math.sqrt(2)
-	end
-	local angle = math.atan2(rvy,rvx)
-	local newBungee = self:New({x=p.x,y=p.y,vx=rvx,vy=rvy,angle=angle})
+	local vx = self.speed * math.cos(p.sonAngle)
+	local vy = self.speed * math.sin(p.sonAngle)
+	local newBungee = self:New({x=p.x,y=p.y,vx=vx,vy=vy,angle=p.sonAngle})
 	spriteEngine:insert(newBungee)	
 end
 

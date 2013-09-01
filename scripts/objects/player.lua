@@ -38,6 +38,7 @@ Player = object:New({
   visible = true,
   canUnJump = false,
   nKeys = 0,
+  sonAnimation = 'targetline'
   })
 
 function Player:jump()
@@ -392,6 +393,30 @@ function Player:collision(dt)
 		end
 	end
 
+end
+
+function Player:postStep()
+	-- insert targetline if necessary
+	if self.bandana == 'red' and self.status ~= 'hooked' then
+		self.sonAnimation = 'targetline'
+		self.sonox = - 5
+		local dx,dy = 0,0
+		if game.isLeft then dx = dx - 1 end
+		if game.isRight then dx = dx + 1 end
+		if game.isUp then dy = dy - 1 end
+		if game.isDown then dy = dy +1 end
+		if dx*dx+dy*dy > 0 then
+			self.sonAngle = math.atan2(dy,dx)
+		else
+			if self.flipped then
+				self.sonAngle = 5*math.pi/4
+			else
+				self.sonAngle = -math.pi/4
+			end
+		end
+	else
+		self.sonAnimation = false
+	end
 end
 
 function Player:wincheck()
