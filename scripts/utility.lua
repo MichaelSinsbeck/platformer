@@ -18,3 +18,7 @@ function utility.copy(t, deep, seen)
     seen[t] = nt
     return nt
 end
+
+function utility.pyth(dx,dy)
+	return math.sqrt(dx^2+dy^2)
+end
