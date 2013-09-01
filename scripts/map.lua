@@ -85,8 +85,18 @@ function Map:start(p)
     local constructor = self.factoryList[i].constructor
     local nx = self.factoryList[i].x +0.5
     local ny = self.factoryList[i].y +1 - constructor.semiheight
+    if constructor.layout == "top" then
+			ny = self.factoryList[i].y + constructor.semiheight
+    elseif constructor.layout == "left" then
+			nx = self.factoryList[i].x + constructor.semiwidth
+			ny = self.factoryList[i].y + 0.5
+    elseif constructor.layout == "right" then
+			nx = self.factoryList[i].x + 1 - constructor.semiwidth
+			ny = self.factoryList[i].y + 0.5
+    elseif constructor.layout == "center" then
+			ny = self.factoryList[i].y + 0.5
+    end
     local newObject = constructor:New({x = nx, y = ny})
-    --newObject:updateAnimation(0)
     newObject:update(0)
     spriteEngine:insert(newObject)
   end
@@ -102,7 +112,7 @@ function Map:start(p)
 
 end
 
-function Map:New(imageFile,tileSize)
+--[[function Map:New(imageFile,tileSize)
   tileSize = tileSize or 32
   local gapSize = 0
   local o ={}
@@ -159,7 +169,7 @@ function Map:New(imageFile,tileSize)
   
   o.tile[15][15] = 3
   return o
-end
+end --]]
 
 function Map:generateQuads(img)
   self.quads = {}
@@ -400,6 +410,10 @@ function Map:FactoryList(tile,height,width)
 	[23] = Door,
 	[24] = Key,
 	[25] = Windmill,
+	[26] = BouncerLeft,
+	[27] = BouncerTop,
+	[28] = BouncerRight,
+
   [33] = Spikey,
 
 	[37] = FixedCannon1r,

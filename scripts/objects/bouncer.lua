@@ -8,9 +8,54 @@ Bouncer = object:New({
 })
 
 function Bouncer:setAcceleration(dt)
+end
+
+function Bouncer:postStep(dt)
 	if self:touchPlayer() then
      p.vy = math.min(self.targetvy,p.vy)
      p.canUnJump = false
+     self:resetAnimation()
+  end
+end
+
+BouncerTop = Bouncer:New({
+	targetvy = 23,
+	angle = math.pi,
+	layout = 'top',
+})
+
+function BouncerTop:postStep(dt)
+	if self:touchPlayer() then
+     p.vy = math.max(self.targetvy,p.vy)
+     p.canUnJump = false
+     self:resetAnimation()
+  end
+end
+
+BouncerLeft = Bouncer:New({
+  marginx = 0.2,
+  marginy = 0.8,
+	targetvx = 23,
+	angle = 0.5*math.pi,
+	layout = 'left',
+})
+
+function BouncerLeft:postStep(dt)
+	if self:touchPlayer() then
+     p.vx = math.max(self.targetvx,p.vx)
+     self:resetAnimation()
+  end
+end
+
+BouncerRight = BouncerLeft:New({
+	targetvx = -23,
+	angle = -0.5*math.pi,
+	layout = 'right',
+})
+
+function BouncerRight:postStep(dt)
+	if self:touchPlayer() then
+     p.vx = math.min(self.targetvx,p.vx)
      self:resetAnimation()
   end
 end
