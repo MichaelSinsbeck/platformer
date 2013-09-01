@@ -8,6 +8,7 @@ Bungee = object:New({
   minLength = 0.5,
   status = 'fly',
   nNodes = 20,
+  friction = 5,
 })
 
 function Bungee:setAcceleration(dt)
@@ -66,11 +67,15 @@ function Bungee:postStep(dt)
  
 	if self.nodesX and self.nodesY then
 		-- advance according to velocity
-		local factor = 1-math.min(dt,1)
+		--local factor = 1-math.min(dt,1)
 		for i=1,self.nNodes-1 do
 			--gravity
 			self.nodesVy[i] = self.nodesVy[i] + gravity * dt
 			--damping
+			local velocity = utility.pyth(self.nodesVy[i],self.nodesVx[i])
+			local factor = math.max((velocity - self.friction * dt)/velocity,0)
+			
+			
 			self.nodesVy[i] = self.nodesVy[i]*factor
 			self.nodesVx[i] = self.nodesVx[i]*factor
 			--apply velocity

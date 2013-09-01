@@ -10,13 +10,13 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="50"
+   width="60"
    height="10"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="targetline.svg"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/64bungee.png"
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/64targetline.png"
    inkscape:export-xdpi="144"
    inkscape:export-ydpi="144">
   <sodipodi:namedview
@@ -73,8 +73,8 @@
        id="linearGradient4282"
        x1="-1"
        y1="10"
-       x2="51"
-       y2="10"
+       x2="63.374371"
+       y2="10.088388"
        gradientUnits="userSpaceOnUse"
        gradientTransform="translate(0,1037.3622)" />
   </defs>
@@ -97,7 +97,7 @@
      transform="translate(0,-1042.3622)">
     <path
        style="fill:none;stroke:url(#linearGradient4282);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 2,1047.3622 46,0"
+       d="m 2,1047.3622 56,0"
        id="path4274"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
