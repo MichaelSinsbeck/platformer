@@ -43,7 +43,7 @@ BouncerLeft = Bouncer:New({
 function BouncerLeft:postStep(dt)
 	if self:touchPlayer() then
 		p.vx = math.max(self.targetvx,p.vx)
-		if not p.status == 'hooked' then
+    if p.status ~= 'hooked' then
 			p.status = 'fly'
 		end
 		self:resetAnimation()
@@ -59,7 +59,7 @@ BouncerRight = BouncerLeft:New({
 function BouncerRight:postStep(dt)
 	if self:touchPlayer() then
 		p.vx = math.min(self.targetvx,p.vx)
-    if not p.status == 'hooked' then
+    if p.status ~= 'hooked' then
 			p.status = 'fly'
 		end
 		self:resetAnimation()

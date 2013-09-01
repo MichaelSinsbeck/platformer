@@ -105,7 +105,6 @@ function Player:unjump()
 end
 
 function Player:setAcceleration(dt)
-	
   -- read controls
 	game:checkControls()
 	
