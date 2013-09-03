@@ -264,6 +264,7 @@ function menu.startGame( lvl )
 
 	return function ()
 		initAll()
+		
 		-- Creating Player
 		p = spriteFactory('player')
 		--p = Player:New()

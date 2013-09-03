@@ -19,7 +19,7 @@ function Crumbleblock:postStep(dt)
 		self.state = 'wait'
 	elseif self.state == 'wait' then
 		self.crumbleTime = self.crumbleTime - dt
-		self.alpha = 120+125*self.crumbleTime
+		self.vis[1].alpha = 120+125*self.crumbleTime
 		if self.crumbleTime < 0 then
 			myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
 			self:kill()

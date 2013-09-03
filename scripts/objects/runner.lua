@@ -6,11 +6,11 @@ Runner = object:New({
   ySensing = 7,
   mouthRadius = 7,
   animation = 'runnerSleep',
-  frame = 3,
+  animationData = {frame = 3,},
   marginx = 0.7,
   marginy = 0.6,
   sonAnimation = 'runnerMouth',
-  sonY = 0.2,
+  sonAnimationData = {relY = 0.2,},
 })
 
 function Runner:setAcceleration(dt)
@@ -19,8 +19,8 @@ function Runner:setAcceleration(dt)
   
 
   if p.visible and not p.dead and math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
-    self.sonSy = math.max(0,1-math.sqrt(dx*dx+dy*dy)/self.mouthRadius)
-		self.sonSx = self.sonSy
+    self.vis[2].sy = math.max(0,1-math.sqrt(dx*dx+dy*dy)/self.mouthRadius)
+		self.vis[2].sx = self.vis[2].sy
   
 		-- run towards player
 		if dx > 0 then
@@ -34,7 +34,7 @@ function Runner:setAcceleration(dt)
 		end
 	else
 	  -- stop running
-	  self.sonSx, self.sonSy = 0,0
+	  self.vis[2].sx, self.vis[2].sy = 0,0
 	  if self.vx > self.acc * dt then
 	    self.vx = self.vx - self.acc * dt
 	  elseif self.vx < - self.acc * dt then

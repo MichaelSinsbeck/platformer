@@ -54,7 +54,8 @@ for i=1,number do
 	local animation = 'meat' .. math.random(1,4)
 	--local animation = 'butterflywing' .. math.random(1,3)
 	local rotSpeed = self.rotSpeed * (math.random()*2-1)
-	local newParticle = self:New({x=x,y=y,vx = vx,vy = vy,animation=animation,rotSpeed = rotSpeed,lifetime = lifetime})
+	--local newParticle = self:New({x=x,y=y,vx = vx,vy = vy,animation=animation,rotSpeed = rotSpeed,lifetime = lifetime})
+	local newParticle = self:New({x=x,y=y,vx = vx,vy = vy,vis=Visualizer:New(animation),rotSpeed = rotSpeed,lifetime = lifetime})
 	--local newParticle = Butterfly:New({x=x,y=y,vx = vx,vy = vy,lifetime = lifetime,animation=animation,timer=timer})
 	spriteEngine:insert(newParticle)
 end

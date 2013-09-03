@@ -58,6 +58,7 @@ function love.load(args)
 
 	mode = 'menu'
 	menu.initMain()
+	--vis = Visualizer:New('whiteStand',{alpha = 100})
 end
 
 function love.update( dt )
@@ -70,7 +71,7 @@ function love.update( dt )
 	end
 	
 	if menu.transitionActive then
-		menu.transitionPercentage = menu.transitionPercentage + dt*100	-- 1 second
+		menu.transitionPercentage = menu.transitionPercentage + dt*1000	-- 1 second
 		shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
 		if menu.transitionPercentage >= 50 and menu.transitionEvent then
 			menu.transitionEvent()
@@ -80,6 +81,8 @@ function love.update( dt )
 			menu.transitionActive = false		
 		end
 	end
+	
+	--vis:update(dt)
 end
 
 function love.draw()
@@ -106,6 +109,8 @@ function love.draw()
 		love.graphics.draw(fullscreenCanvas, 0, 0)
 		love.graphics.setPixelEffect()
 	end
+	
+	--vis:draw(100,100)
 end
 
 function love.keypressed( key, unicode )

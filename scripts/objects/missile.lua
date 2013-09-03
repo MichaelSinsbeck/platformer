@@ -32,7 +32,7 @@ function Missile:setAcceleration(dt)
 			self.vy = self.vy/speed*self.maxspeed
 		end
 		
-		self.angle = math.atan2(self.vy,self.vx)
+		self.vis[1].angle = math.atan2(self.vy,self.vx)
   end
   self.poffTimer = self.poffTimer - dt -- Create smoke particles
   if self.poffTimer < 0 then

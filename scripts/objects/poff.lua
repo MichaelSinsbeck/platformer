@@ -7,7 +7,7 @@ Poff = object:New({
 
 function Poff:setAcceleration(dt)
 	self.vy = self.vy - 3*dt
-	if self.frame == 6 then
+	if self.vis[1].frame == 6 then
     self:kill()
 	end
 end

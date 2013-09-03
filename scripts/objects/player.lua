@@ -396,6 +396,11 @@ function Player:collision(dt)
 end
 
 function Player:postStep()
+	if self.flipped then
+		self.vis[1].sx = -1
+	else
+		self.vis[1].sx = 1
+	end
 	-- insert targetline if necessary
 	if self.bandana == 'red' and self.status ~= 'hooked' then
 		self.sonAnimation = 'targetline'

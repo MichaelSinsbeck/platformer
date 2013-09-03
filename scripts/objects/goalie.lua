@@ -38,8 +38,8 @@ function Goalie:setAcceleration(dt)
     self.vy = self.maxSpeed
   end
   
-	self.sx = 1 - 0.2* math.abs(self.vy)/self.maxSpeed
-	self.sy = 1/self.sx
+	self.vis[1].sx = 1 - 0.2* math.abs(self.vy)/self.maxSpeed
+	self.vis[1].sy = 1/self.vis[1].sx
   
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then

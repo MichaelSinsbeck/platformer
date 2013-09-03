@@ -7,15 +7,16 @@ FixedCannon = object:New({
   marginx = .8,
   marginy = .8,
   sonAnimation = 'fixedcannon',
-  sonAngle = 0,
   angle = -0.5*math.pi,
 })
 
 function FixedCannon:setAcceleration(dt)
-	self.angle = self.angle + 5*dt
+	--if self.vis then
+	--	self.vis[1].angle = self.vis[1].angle + 5*dt
+  --end
   
-  if self.timer > self.firerate then
-		self.timer = self.timer - self.firerate
+  if self.vis[2].timer > self.firerate then
+		self.vis[2].timer = self.vis[2].timer - self.firerate
 		local vx,vy = math.cos(self.sonAngle) * self.velocity, math.sin(self.sonAngle) * self.velocity
 		local newAngle = 6.28 * math.random()
 		local newShuriken = Shuriken:New({x=self.x,y=self.y,vx=vx,vy=vy,angle=newAngle})

@@ -9,7 +9,6 @@ Launcher = object:New({
   marginx = .8,
   marginy = .8,
   sonAnimation = 'launcherSon',
-  sonAngle = 0,
   angle = -0.5*math.pi,
 })
 
@@ -22,15 +21,15 @@ function Launcher:setAcceleration(dt)
   
   if p.visible and not p.dead and lineOfSight(self.x,self.y,p.x,p.y) then
   
-    self.angle = math.atan2(dy,dx)    
+    self.vis[1].angle = math.atan2(dy,dx)    
     if self.timeleft == 0 then --shoot
-			local vx = -self.velocity*math.cos(self.angle)
-			local vy = -self.velocity*math.sin(self.angle)
+			local vx = -self.velocity*math.cos(self.vis[1].angle)
+			local vy = -self.velocity*math.sin(self.vis[1].angle)
 			local newAngle = math.random()*math.pi*2
 			local newShuriken = Shuriken:New({x=self.x,y=self.y,vx=vx,vy=vy,angle=newAngle})
 			spriteEngine:insert(newShuriken)
 			self.timeleft = self.firerate
     end
   end
-  self.sonAngle = self.sonAngle + 5*dt
+  self.vis[2].angle = self.vis[2].angle + 5*dt
 end
