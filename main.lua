@@ -18,12 +18,18 @@ require 'scripts/campaign'
 mode = 'menu'	-- must be global
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
 DEBUG = false
+USE_SHADERS = true
+
 
 function love.load(args)
 
 	for k, v in pairs(arg) do
 		if v == "--debug" or v == "-d" then
 			DEBUG = true
+		end
+		if v == "--no-shaders" or v == "-n" then
+			USE_SHADERS = false
+			print("Manually disabled shaders.")
 		end
 	end
 
@@ -39,7 +45,9 @@ function love.load(args)
 	
 	keys.load()
 	
-	shaders.load()
+	if USE_SHADERS then
+		shaders.load()
+	end
 	
 	-- load and set font
 	fontSmall = love.graphics.newImageFont("images/font/40fontSmall.png",
@@ -71,7 +79,9 @@ function love.update( dt )
 	
 	if menu.transitionActive then
 		menu.transitionPercentage = menu.transitionPercentage + dt*100	-- 1 second
-		shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
+		if USE_SHADERS then
+			shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
+		end
 		if menu.transitionPercentage >= 50 and menu.transitionEvent then
 			menu.transitionEvent()
 			menu.transitionEvent = nil		
@@ -84,7 +94,7 @@ end
 
 function love.draw()
 
-	if menu.transitionActive then
+	if USE_SHADERS and menu.transitionActive then
 		love.graphics.setCanvas(fullscreenCanvas)
 		fullscreenCanvas:clear()
 		love.graphics.setColor(love.graphics.getBackgroundColor())
@@ -100,7 +110,7 @@ function love.draw()
 		intro:draw()
 	end
 	
-	if menu.transitionActive then
+	if USE_SHADERS and menu.transitionActive then
 		love.graphics.setCanvas()
 		love.graphics.setPixelEffect( shaders.fadeToBlack )
 		love.graphics.draw(fullscreenCanvas, 0, 0)
