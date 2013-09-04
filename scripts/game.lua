@@ -7,7 +7,8 @@ function game:draw()
 	Camera:apply()
 
 	myMap:drawBG()
-	spriteEngine:draw()  
+	spriteEngine:draw() 
+	love.graphics.setColor(255,255,255) 
 	myMap:drawFG()
 
 	Camera:free()

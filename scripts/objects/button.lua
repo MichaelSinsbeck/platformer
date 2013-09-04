@@ -2,11 +2,12 @@ Button = object:New({
 	tag = 'button',
   marginx = 0.5,
   marginy = 0.3,
-  animation = 'button',
   lifetime = 2,
   timer2 = 0,
-  sonAnimation = 'waitbar',
-  sonAnimationData = {relY = -0.6,},
+  vis = {
+		Visualizer:New('button'),
+		Visualizer:New('waitbar',{relY = -0.6})
+  },
 })
 
 function Button:postStep(dt)

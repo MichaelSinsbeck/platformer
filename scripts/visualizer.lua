@@ -1,17 +1,4 @@
 Visualizer = {
-	--[[angle = 0,
-	timer = 0,
-	frame = 0,
-	flipped = false
-	ox = 0,
-	oy = 0,
-	alpha = 255,
-	sx = 1,
-	sy = 1,
-	relx = 0,
-	rely = 0,--]]
---	currentQuad
---	img
 }
 
 function Visualizer:New(name,input)
@@ -56,7 +43,8 @@ function Visualizer:draw(x,y)
 	love.graphics.setColor(255,255,255,self.alpha)
 	if self.img and self.currentQuad then
 		love.graphics.drawq(self.img, self.currentQuad,
-			x+self.relX*Camera.scale*8,y+self.relY*Camera.scale*8,
+			math.floor(x+self.relX*Camera.scale*8),
+			math.floor(y+self.relY*Camera.scale*8),
 			self.angle,
 			self.sx,self.sy,
 			self.ox*Camera.scale,self.oy*Camera.scale)

@@ -18,10 +18,10 @@ function Cannon:setAcceleration(dt)
   if self.timeleft < 0 then self.timeleft = 0 end
   
   if p.visible and not p.dead and lineOfSight(self.x,self.y,p.x,p.y) then
-		self.angle = math.atan2(dy,dx)										    
+		self.vis[1].angle = math.atan2(dy,dx)										    
     if self.timeleft == 0 then --shoot
-			local vx = -self.velocity*math.cos(self.angle)
-			local vy = -self.velocity*math.sin(self.angle)
+			local vx = -self.velocity*math.cos(self.vis[1].angle)
+			local vy = -self.velocity*math.sin(self.vis[1].angle)
 			local newBullet = Missile:New({x=self.x,y=self.y,vx=vx,vy=vy})
 			spriteEngine:insert(newBullet)
 			self.timeleft = self.firerate

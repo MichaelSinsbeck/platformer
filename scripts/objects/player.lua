@@ -344,9 +344,9 @@ function Player:collision(dt)
 	end
   
   if self.bandana == 'green' and game.isAction then
-    self.alpha = math.max(self.alpha - 2500*dt,20)
+    self.vis[1].alpha = math.max(self.vis[1].alpha - 2500*dt,20)
   else
-		self.alpha = math.min(self.alpha + 2500*dt,255)
+		self.vis[1].alpha = math.min(self.vis[1].alpha + 2500*dt,255)
 	end
 	
 	if self.status == 'fly' then

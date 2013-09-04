@@ -59,8 +59,8 @@ function object:init()
 	self.semiheight = self.semiheight or 0.5
 	self.marginx = self.marginx or 1
 	self.marginy = self.marginy or 1	
-	
-	if self.img then
+
+	--[[if self.img then
     self.marginx = self.marginx or 1
     self.marginy = self.marginy or 1
     self.ox = self.ox or 0.5*self.img:getWidth()/Camera.scale
@@ -84,7 +84,7 @@ function object:init()
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth
 		end
-  end
+  end--]]
 
 --	self.vis = {}  
 	--[[if #self.vis == 0 then
@@ -119,8 +119,8 @@ function object:draw()
 	if self.vis then
 		for i = 1,#self.vis do
 			self.vis[i]:draw(			
-				math.floor(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
-				math.floor(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
+				(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
+				(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
 		end
 	end
 	--love.graphics.line(self.x,self.y,self.x+10,self.y+10)

@@ -3,7 +3,7 @@ Appearblock = object:New({
   marginx = 0.8,
   marginy = 0.8,
   state = 'notThere',
-  animation = 'appearBlockNotThere',
+  vis = {Visualizer:New('appearBlockNotThere')},
 })
 
 function Appearblock:setAcceleration(dt)
@@ -39,5 +39,5 @@ end
 Disappearblock = Appearblock:New({
 	tag = 'Disappearblock',
 	state = 'there',
-	animation = 'appearBlockThere',
+  vis = {Visualizer:New('appearBlockThere')},	
 })

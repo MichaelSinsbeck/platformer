@@ -1,6 +1,6 @@
 Windmill = object:New({
 	tag = 'windmill',
-  animation = 'windmillwing',
+  --animation = 'windmillwing',
   marginx = 0,
   marginy = 0,
 	rotating = true,
@@ -11,6 +11,7 @@ Windmill = object:New({
 	oy = 98,
 	semiheight = 0.5,
 	semiwidth = 0.5,
+	vis = {Visualizer:New('windmillwing')},
 })
 
 function Windmill:setAcceleration(dt)
@@ -22,7 +23,7 @@ end
 function Windmill:draw()
 	for i=1,self.nWings do
 		local thisAngle = self.angle + i/self.nWings*2*math.pi
-		love.graphics.draw(self.img,
+		love.graphics.draw(self.vis[1].img,
 		self.x*myMap.tileSize,
 		self.y*myMap.tileSize,
 		thisAngle,1,1,

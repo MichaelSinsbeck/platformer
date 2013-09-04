@@ -4,9 +4,10 @@ Crumbleblock = object:New({
   marginy = 0.8,
   state = 'sleep',
   crumbleTime = 1,
-  animation = 'crumbleblock',
+  --animation = 'crumbleblock',
   spreadSpeed = 8,  -- For explosion
-  particleRotSpeed = 5, -- For explosion  
+  particleRotSpeed = 5, -- For explosion
+  vis = {Visualizer:New('crumbleblock')},
 })
 
 function Crumbleblock:setAcceleration(dt)
@@ -32,7 +33,7 @@ function Crumbleblock:postStep(dt)
 				
 				local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
 				local animation = 'crumble' .. math.random(1,4)
-				local newParticle = Particle:New({x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed,animation = animation})
+				local newParticle = Particle:New({x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed,vis = {Visualizer:New(animation)} })
 				spriteEngine:insert(newParticle)
 			end
 		end

@@ -2,14 +2,16 @@ Key = object:New({
 	tag = 'key',
   marginx = .8,
   marginy = .8,
-  animation = 'starBandana',
-  sonAnimation = 'key',
+  vis = {
+		Visualizer:New('starBandana'),
+		Visualizer:New('key'),
+  },
 })
 
 function Key:setAcceleration(dt)
-	self.angle = self.angle + 2*dt
-	self.sonSx = 0.9+0.1*math.sin(10*self.timer)
-	self.sonSy = 0.9+0.1*math.sin(10*self.timer)
+	self.vis[1].angle = self.vis[1].angle + 2*dt
+	self.vis[2].sx = 0.9+0.1*math.sin(10*self.vis[2].timer)
+	self.vis[2].sy = 0.9+0.1*math.sin(10*self.vis[2].timer)
 	if self:touchPlayer() then
 		p.nKeys = p.nKeys + 1
 		self:kill()

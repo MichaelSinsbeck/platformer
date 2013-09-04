@@ -1,6 +1,6 @@
 Imitator = object:New({
 	tag = 'Imitator',
-	animation = 'imitatorStand',
+	--animation = 'imitatorStand',
   marginx = 0.3,
   marginy = 0.6,
   
@@ -12,6 +12,7 @@ Imitator = object:New({
   walkSpeed = 18,--13,
   jumpSpeed = -13,
   unjumpSpeed = 6,
+  vis = {Visualizer:New('imitatorStand'),},
 })
 
 function Imitator:setAcceleration(dt)
