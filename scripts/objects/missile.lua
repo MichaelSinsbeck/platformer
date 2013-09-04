@@ -6,7 +6,7 @@ Missile = object:New({
   seekspeed = 80,--55,
   rotating = true,
   z = -1,
-  animation = 'missile',
+  --animation = 'missile',
   marginx = 0.4,
   marginx = 0.4,
   spreadSpeed = 10,--5,  -- For explosion
@@ -14,6 +14,7 @@ Missile = object:New({
   poffTimer = 0.1,  --for smoke
   poffRate = 0.06,  --for smoke
   explosionRadius = 2^2,
+  vis = {Visualizer:New('missile')},
 })
 
 function Missile:setAcceleration(dt)

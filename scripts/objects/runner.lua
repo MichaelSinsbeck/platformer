@@ -5,12 +5,16 @@ Runner = object:New({
   xSensing = 20, --how far can he see?
   ySensing = 7,
   mouthRadius = 7,
-  animation = 'runnerSleep',
-  animationData = {frame = 3,},
+  vis = {
+		Visualizer:New('runnerSleep',{frame = 3}),
+		Visualizer:New('runnerMouth',{relY = 0.2}),
+  },
+  --animation = 'runnerSleep',
+  --animationData = {frame = 3,},
   marginx = 0.7,
   marginy = 0.6,
-  sonAnimation = 'runnerMouth',
-  sonAnimationData = {relY = 0.2,},
+  --sonAnimation = 'runnerMouth',
+  --sonAnimationData = {relY = 0.2,},
 })
 
 function Runner:setAcceleration(dt)

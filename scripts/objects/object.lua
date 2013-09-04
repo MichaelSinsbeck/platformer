@@ -15,17 +15,20 @@ frame = 1,
 sonTimer = 0,
 sonFrame = 1,
 flipped = false,
-vis = {},
+--vis = {},
 }
 -- ox and oy are the coordinates of the image center
 -- semiwidth and semiheight define the hitbox of the object
 
 function object:New(input)
+	local input = input or {}
   local o = input or {}
-  
-  o.vis = {}
-  for i = 1,#self.vis do
-		o.vis[i]= self.vis[i]:copy()
+
+  if not input.vis and self.vis then
+    o.vis = {}
+		for i = 1,#self.vis do
+			o.vis[i]= self.vis[i]:copy()
+		end
 	end
 	
 	setmetatable(o, self)
@@ -39,11 +42,23 @@ function object:init()
   self.marginx = self.marginx or 1
   self.marginy = self.marginy or 1
   
-	--[[local name = AnimationDB.animation[self.animation].source
-	self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
-	self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
-	self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
-	self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy	--]]
+  if self.vis then
+		if self.vis[1] then
+			local name = AnimationDB.animation[self.vis[1].animation].source
+			self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
+			self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
+		end
+		
+		for i = 1,#self.vis do
+			local name = AnimationDB.animation[self.vis[i].animation].source
+			self.vis[i].ox = self.vis[i].ox or 0.5*AnimationDB.source[name].width/Camera.scale
+			self.vis[i].oy = self.vis[i].oy or 0.5*AnimationDB.source[name].height/Camera.scale		
+		end
+	end
+	self.semiwidth = self.semiwidth or 0.5
+	self.semiheight = self.semiheight or 0.5
+	self.marginx = self.marginx or 1
+	self.marginy = self.marginy or 1	
 	
 	if self.img then
     self.marginx = self.marginx or 1
@@ -72,7 +87,7 @@ function object:init()
   end
 
 --	self.vis = {}  
-	if #self.vis == 0 then
+	--[[if #self.vis == 0 then
 		if self.animation then
 			self.vis = {}
 			self.vis[#self.vis+1] = Visualizer:New(self.animation,self.animationData)
@@ -80,7 +95,7 @@ function object:init()
 		if self.sonAnimation then
 			self.vis[#self.vis+1] = Visualizer:New(self.sonAnimation,self.sonAnimationData)
 		end
-  end
+  end--]]
 	--[[if self.sonAnimation then
 		local name = AnimationDB.animation[self.sonAnimation].source
 		self.sonox = self.sonox or 0.5*AnimationDB.source[name].width/Camera.scale
@@ -101,10 +116,12 @@ function object:setImage(filename)
 end
 
 function object:draw()
-	for i = 1,#self.vis do
-		self.vis[i]:draw(			
-			math.floor(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
-			math.floor(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
+	if self.vis then
+		for i = 1,#self.vis do
+			self.vis[i]:draw(			
+				math.floor(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
+				math.floor(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
+		end
 	end
 	--love.graphics.line(self.x,self.y,self.x+10,self.y+10)
 	--[[if self.alpha then
@@ -234,10 +251,11 @@ function object:update(dt)
   end
 	self:postStep(dt)
 	
-	for i = 1,#self.vis do
-		self.vis[i]:update(dt)
-	end	
-
+	if self.vis then
+		for i = 1,#self.vis do
+			self.vis[i]:update(dt)
+		end	
+	end
   --[[if self.animation then
 		self:updateAnimation(dt)
 	end  --]]
@@ -287,7 +305,7 @@ end
 
 function object:setAnim(name,continue,vis) -- Go to specified animation and reset, if not already there
 	local vis = vis or 1
-	if self.vis[vis].animation ~= name then
+	if self.vis and self.vis[vis].animation ~= name then
 	  self.vis[vis].animation = name
 	  if not continue then
 	    self:resetAnimation(vis)

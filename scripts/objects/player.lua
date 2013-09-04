@@ -27,7 +27,7 @@ Player = object:New({
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
   windMaxSpeed = -20,
-  animation = 'whiteStand',
+  --animation = 'whiteStand',
   marginx = 0.3,
   marginy = 0.6,
   linePointx = 0,
@@ -38,7 +38,10 @@ Player = object:New({
   visible = true,
   canUnJump = false,
   nKeys = 0,
-  sonAnimation = 'targetline'
+  vis = {
+		Visualizer:New('whiteStand')
+  },
+  --sonAnimation = 'targetline'
   })
 
 function Player:jump()

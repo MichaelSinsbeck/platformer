@@ -2,8 +2,9 @@ Explosion = object:New({
 	tag = 'explosion',
   marginx = 0.4,
   marginy = 0.4,
-  animation = 'explosionExplode',
-  rotating = true,
+  vis = {Visualizer:New('explosionExplode'),},
+  --animation = 'explosionExplode',
+  --rotating = true,
 })
 
 function Explosion:setAcceleration(dt)

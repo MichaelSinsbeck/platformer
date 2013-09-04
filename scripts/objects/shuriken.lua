@@ -6,12 +6,13 @@ Shuriken = object:New({
   angle = 0,
   rotating = true,  
   rotationVelocity = 20,
-  animation = 'shuriken',
+  --animation = 'shuriken',
   marginx = 0.3,
   marginy = 0.3,
   lifetime = 1.5,
 	spreadSpeed  = 20,
 	particleRotSpeed = 5,
+	vis = {Visualizer:New('shuriken')},
 })
 
 function Shuriken:setAcceleration(dt)

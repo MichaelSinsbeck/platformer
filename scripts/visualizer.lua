@@ -25,7 +25,7 @@ function Visualizer:New(name,input)
   o.alpha = o.alpha or 255
 	setmetatable(o, self)
 	self.__index = self
-	o:init()
+	--o:init()
 	return o
 end
 
@@ -43,7 +43,7 @@ function Visualizer:copy()
   o.angle = self.angle or 0
   o.alpha = self.alpha or 255
   o.relX, o.relY = self.relX or 0, self.relY or 0
-  o:init()
+  --o:init()
   return o
 end
 

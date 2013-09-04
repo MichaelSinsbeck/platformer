@@ -5,8 +5,9 @@ Cannon = object:New({
   rotating = true,
   timeleft = 0,
   velocity = 10,
-  animation = 'cannon',
-  angle = -0.5*math.pi,
+  vis = {Visualizer:New('cannon',{angle = -0.5*math.pi}),},
+  --animation = 'cannon',
+  --angle = -0.5*math.pi,
 })
 
 function Cannon:setAcceleration(dt)

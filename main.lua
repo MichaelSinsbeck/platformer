@@ -58,7 +58,7 @@ function love.load(args)
 
 	mode = 'menu'
 	menu.initMain()
-	--vis = Visualizer:New('whiteStand',{alpha = 100})
+
 end
 
 function love.update( dt )

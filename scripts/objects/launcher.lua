@@ -5,11 +5,15 @@ Launcher = object:New({
   rotating = true,
   timeleft = 0,
   velocity = 15,
-  animation = 'launcher',
+  --animation = 'launcher',
   marginx = .8,
   marginy = .8,
-  sonAnimation = 'launcherSon',
-  angle = -0.5*math.pi,
+  vis = {
+		Visualizer:New('launcher',{angle = -0.5*math.pi}),
+		Visualizer:New('launcherSon'),
+  },
+  --sonAnimation = 'launcherSon',
+  --angle = -0.5*math.pi,
 })
 
 function Launcher:setAcceleration(dt)

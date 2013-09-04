@@ -4,9 +4,11 @@ Goalie = object:New({
   acc = 50,
   xSensing = 7, --how far can he see?
   ySensing = 20,
-  animation = 'goalie',
 	marginx = 0.4,
-  marginy = 0.65
+  marginy = 0.65,
+  vis = {
+		Visualizer:New('goalie'),
+  },
 })
 
 function Goalie:setAcceleration(dt)

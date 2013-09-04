@@ -2,7 +2,7 @@ Exit = object:New({
 	tag = 'exit',
   marginx = 0.8,
   marginy = 0.8,
-  animation = 'exit',
+  vis = {Visualizer:New( 'exit'),},
 })
 
 function Exit:setAcceleration(dt)
