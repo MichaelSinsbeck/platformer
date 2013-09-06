@@ -10,6 +10,7 @@ function Visualizer:New(name,input)
   o.relX, o.relY = o.relX or 0, o.relY or 0
   o.angle = o.angle or 0
   o.alpha = o.alpha or 255
+	if o.active == nil then o.active = true end
 	setmetatable(o, self)
 	self.__index = self
 	--o:init()
@@ -30,6 +31,7 @@ function Visualizer:copy()
   o.angle = self.angle or 0
   o.alpha = self.alpha or 255
   o.relX, o.relY = self.relX or 0, self.relY or 0
+  o.active = self.active
   --o:init()
   return o
 end
@@ -40,19 +42,20 @@ function Visualizer:reset()
 end
 
 function Visualizer:draw(x,y)
-	love.graphics.setColor(255,255,255,self.alpha)
-	if self.img and self.currentQuad then
-		love.graphics.drawq(self.img, self.currentQuad,
-			math.floor(x+self.relX*Camera.scale*8),
-			math.floor(y+self.relY*Camera.scale*8),
-			self.angle,
-			self.sx,self.sy,
-			self.ox*Camera.scale,self.oy*Camera.scale)
+	if self.active then
+		love.graphics.setColor(255,255,255,self.alpha)
+		if self.img and self.currentQuad then
+			love.graphics.drawq(self.img, self.currentQuad,
+				math.floor(x+self.relX*Camera.scale*8),
+				math.floor(y+self.relY*Camera.scale*8),
+				self.angle,
+				self.sx,self.sy,
+				self.ox*Camera.scale,self.oy*Camera.scale)
+		end
 	end
 end
 
 function Visualizer:update(dt)
-
   self.timer = self.timer + dt
   -- switch to next frame
   if self.animation then
