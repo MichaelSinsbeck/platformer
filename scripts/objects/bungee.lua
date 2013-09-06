@@ -35,7 +35,7 @@ end
 
 function Bungee:postStep(dt)
 	if self.status == 'fly' then
-		self.vis[1].angle = math.atan2(self.vy,self.vx)
+		--self.vis[1].angle = math.atan2(self.vy,self.vx)
 		local dx,dy = self.x-p.x, self.y-p.y
 		local length = math.sqrt(dx*dx+dy*dy)
 		if length > self.maxLength then
@@ -88,30 +88,54 @@ function Bungee:postStep(dt)
 		-- run iteration for line-wobble
 		local nx = self.nodesNewX
 		local ny = self.nodesNewY		
-		local segmentLength = self.length/self.nNodes
+		local segmentLength = 0.95*self.length/self.nNodes --dirty hack for line visualization
 		local dx,dy = 0,0
 		local dist = 0
 		nx[0] ,ny[0]  = p.x,p.y
 		nx[self.nNodes],ny[self.nNodes] = self.x,self.y
-		for iteration = 1,10 do
+		for iteration = 1,25 do
 			-- forth
-			for i = 1,self.nNodes-1 do
+			for i = 1,self.nNodes do
 				dx,dy = nx[i] - nx[i-1], ny[i] - ny[i-1]
+				mx,my = (nx[i] + nx[i-1])/2,(ny[i] + ny[i-1])/2
 				dist = math.sqrt(dx*dx+dy*dy)
-				if dist > segmentLength then
-				nx[i] = nx[i-1] + dx/dist*segmentLength
-				ny[i] = ny[i-1] + dy/dist*segmentLength
-				end
+				local factor = segmentLength/dist
+				if factor < 1 or factor > 2 then
+					if i == 1 then
+						nx[i] = nx[i-1] + dx*factor
+						ny[i] = ny[i-1] + dy*factor
+					elseif i == self.nNodes then
+						nx[i-1] = nx[i] - dx*factor
+						ny[i-1] = ny[i] - dy*factor
+					else
+						nx[i] = mx + 0.5*dx*factor
+						ny[i] = my + 0.5*dy*factor
+						nx[i-1] = mx - 0.5*dx*factor
+						ny[i-1] = my - 0.5*dy*factor
+					end
+				end			
 			end
-			-- back
-			for i = self.nNodes-1,1,-1 do
-				dx,dy = nx[i] - nx[i+1], ny[i] - ny[i+1]
+			
+			for i = self.nNodes,1,-1 do
+				dx,dy = nx[i] - nx[i-1], ny[i] - ny[i-1]
+				mx,my = (nx[i] + nx[i-1])/2,(ny[i] + ny[i-1])/2
 				dist = math.sqrt(dx*dx+dy*dy)
-				if dist > segmentLength then
-					nx[i] = nx[i+1] + dx/dist*segmentLength
-					ny[i] = ny[i+1] + dy/dist*segmentLength
-				end
-			end			
+				local factor = segmentLength/dist
+				if factor < 1 or factor > 2 then
+					if i == 1 then
+						nx[i] = nx[i-1] + dx*factor
+						ny[i] = ny[i-1] + dy*factor
+					elseif i == self.nNodes then
+						nx[i-1] = nx[i] - dx*factor
+						ny[i-1] = ny[i] - dy*factor
+					else
+						nx[i] = mx + 0.5*dx*factor
+						ny[i] = my + 0.5*dy*factor
+						nx[i-1] = mx - 0.5*dx*factor
+						ny[i-1] = my - 0.5*dy*factor
+					end
+				end			
+			end
 		end
 
 
@@ -137,7 +161,7 @@ function Bungee:throw()
 	game:checkControls()
 	local vx = self.speed * math.cos(p.vis[2].angle)
 	local vy = self.speed * math.sin(p.vis[2].angle)
-	local newBungee = self:New({x=p.x,y=p.y,vx=vx,vy=vy,angle=p.vis[2].angle})
+	local newBungee = self:New({x=p.x,y=p.y,vx=vx,vy=vy,vis = {Visualizer:New('bungee',{angle=p.vis[2].angle})} })
 	spriteEngine:insert(newBungee)	
 end
 
