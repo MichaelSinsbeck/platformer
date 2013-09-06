@@ -2,11 +2,12 @@ Button = object:New({
 	tag = 'button',
   marginx = 0.5,
   marginy = 0.3,
-  animation = 'button',
   lifetime = 2,
   timer2 = 0,
-  sonAnimation = 'waitbar',
-  sonY = -0.6,
+  vis = {
+		Visualizer:New('button'),
+		Visualizer:New('waitbar',{relY = -0.6})
+  },
 })
 
 function Button:postStep(dt)
@@ -44,13 +45,13 @@ function Button:postStep(dt)
 	end
 
 	if touched then
-		self.animation = 'buttonPressed'	
+		self:setAnim('buttonPressed')
 	elseif self.timer2 > 0 then
-		self.animation = 'buttonReleased'	
+		self:setAnim('buttonReleased')
 	else
-		self.animation = 'button'	
+		self:setAnim('button')
 	end
 
-	self.sonSx = self.timer2/self.lifetime
+	self.vis[2].sx = self.timer2/self.lifetime
 end
 

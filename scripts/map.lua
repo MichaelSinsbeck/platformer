@@ -73,7 +73,7 @@ function Map:start(p)
   p.bandana = 'white'
   p.alpha = 255
   p.status = 'stand'
-  p:setAnim('whiteStand')
+  p:setAnim(1,'whiteStand')
   p:flip(false)
   p:update(0)
   p.dead = nil

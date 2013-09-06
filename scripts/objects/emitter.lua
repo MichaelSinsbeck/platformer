@@ -16,7 +16,7 @@ function Emitter:postStep(dt)
 			local newX = self.x + math.random() - 0.5
 			local newY = self.y + 0.5
 			local newAni = 'wind' .. math.random(1,3)
-			local newDot = Winddot:New({x=newX,y=newY,animation=newAni})
+			local newDot = Winddot:New({x=newX,y=newY,vis = {Visualizer:New(newAni)}})
 			spriteEngine:insert(newDot)		
 	end
 end

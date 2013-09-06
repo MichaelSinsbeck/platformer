@@ -27,7 +27,7 @@ Player = object:New({
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
   windMaxSpeed = -20,
-  animation = 'whiteStand',
+  --animation = 'whiteStand',
   marginx = 0.3,
   marginy = 0.6,
   linePointx = 0,
@@ -38,7 +38,11 @@ Player = object:New({
   visible = true,
   canUnJump = false,
   nKeys = 0,
-  sonAnimation = 'targetline'
+  hookAngle = -math.pi/4,
+  vis = {
+		Visualizer:New('whiteStand'),
+		Visualizer:New('targetline',{active = false})
+  },
   })
 
 function Player:jump()
@@ -341,9 +345,9 @@ function Player:collision(dt)
 	end
   
   if self.bandana == 'green' and game.isAction then
-    self.alpha = math.max(self.alpha - 2500*dt,20)
+    self.vis[1].alpha = math.max(self.vis[1].alpha - 2500*dt,20)
   else
-		self.alpha = math.min(self.alpha + 2500*dt,255)
+		self.vis[1].alpha = math.min(self.vis[1].alpha + 2500*dt,255)
 	end
 	
 	if self.status == 'fly' then
@@ -395,27 +399,43 @@ function Player:collision(dt)
 
 end
 
-function Player:postStep()
+function Player:postStep(dt)
+	if self.flipped then
+		self.vis[1].sx = -1
+	else
+		self.vis[1].sx = 1
+	end
 	-- insert targetline if necessary
 	if self.bandana == 'red' and self.status ~= 'hooked' then
-		self.sonAnimation = 'targetline'
-		self.sonox = - 5
-		local dx,dy = 0,0
+		self.vis[2].active = true
+		self.vis[2].ox = - 5
+		if game.isUp then 
+			self.hookAngle	= math.max(self.hookAngle - 3*dt, -0.5*math.pi)
+		end
+		if game.isDown then
+			self.hookAngle	= math.min(self.hookAngle + 3*dt, 0.5*math.pi)
+		end
+		if self.flipped then
+			self.vis[2].angle = math.pi - self.hookAngle
+		else
+			self.vis[2].angle = self.hookAngle
+		end
+		--[[local dx,dy = 0,0
 		if game.isLeft then dx = dx - 1 end
 		if game.isRight then dx = dx + 1 end
 		if game.isUp then dy = dy - 1 end
 		if game.isDown then dy = dy +1 end
 		if dx*dx+dy*dy > 0 then
-			self.sonAngle = math.atan2(dy,dx)
+			self.vis[2].angle = math.atan2(dy,dx)
 		else
 			if self.flipped then
-				self.sonAngle = 5*math.pi/4
+				self.vis[2].angle = 5*math.pi/4
 			else
-				self.sonAngle = -math.pi/4
+				self.vis[2].angle = -math.pi/4
 			end
-		end
+		end--]]
 	else
-		self.sonAnimation = false
+		self.vis[2].active = false
 	end
 end
 

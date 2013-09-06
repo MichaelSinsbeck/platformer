@@ -1,6 +1,6 @@
 Bungee = object:New({	
 	tag = 'Bungee',
-	animation = 'bungee',
+	--animation = 'bungee',
 	marginx = 0.1,
   marginy = 0.1,
   speed = 50,
@@ -9,6 +9,7 @@ Bungee = object:New({
   status = 'fly',
   nNodes = 20,
   friction = 5,
+  vis = {Visualizer:New('bungee')},
 })
 
 function Bungee:setAcceleration(dt)
@@ -34,6 +35,7 @@ end
 
 function Bungee:postStep(dt)
 	if self.status == 'fly' then
+		self.vis[1].angle = math.atan2(self.vy,self.vx)
 		local dx,dy = self.x-p.x, self.y-p.y
 		local length = math.sqrt(dx*dx+dy*dy)
 		if length > self.maxLength then
@@ -133,9 +135,9 @@ end
 
 function Bungee:throw()
 	game:checkControls()
-	local vx = self.speed * math.cos(p.sonAngle)
-	local vy = self.speed * math.sin(p.sonAngle)
-	local newBungee = self:New({x=p.x,y=p.y,vx=vx,vy=vy,angle=p.sonAngle})
+	local vx = self.speed * math.cos(p.vis[2].angle)
+	local vy = self.speed * math.sin(p.vis[2].angle)
+	local newBungee = self:New({x=p.x,y=p.y,vx=vx,vy=vy,angle=p.vis[2].angle})
 	spriteEngine:insert(newBungee)	
 end
 

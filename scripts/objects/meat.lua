@@ -5,40 +5,41 @@ Meat = Particle:New({
   lifetime = 5,
   spreadSpeed = 15,
   rotSpeed = 1,
+  vis = {Visualizer:New('meat1')},
 })
 
 function Meat:setAcceleration(dt)
-	if self.animation == 'meatWall' then
+	if self.vis[1].animation == 'meatWall' then
 		self.vy = 0
 		self.vx = 0
 		return
 	end
 	self.vy = self.vy + gravity * dt
-	self.angle = self.angle + self.rotSpeed
+	self.vis[1].angle = self.vis[1].angle + self.rotSpeed
 
-	self.alpha = math.min(2*(self.lifetime - self.timer)/self.lifetime,1)*255
-	if self.timer >= self.lifetime then
+	self.vis[1].alpha = math.min(2*(self.lifetime - self.vis[1].timer)/self.lifetime,1)*255
+	if self.vis[1].timer >= self.lifetime then
     self:kill()
 	end
 end
 
 function Meat:postStep(dt)
 	if self.collisionResult == 1 then
-		self.animation = 'meatWall'
+		self:setAnim('meatWall')
 		self.rotSpeed = 0
-		self.angle = -math.pi/2
+		self.vis[1].angle = -math.pi/2
 	elseif self.collisionResult == 2 then
-		self.animation = 'meatWall'
+		self:setAnim('meatWall')
 		self.rotSpeed = 0
-		self.angle = math.pi/2
+		self.vis[1].angle = math.pi/2
 	elseif self.collisionResult == 4 then
-		self.animation = 'meatWall'
+		self:setAnim('meatWall')
 		self.rotSpeed = 0
-		self.angle = math.pi
+		self.vis[1].angle = math.pi
 	elseif self.collisionResult == 8 then
-		self.animation = 'meatWall'
+		self:setAnim('meatWall')
 		self.rotSpeed = 0
-		self.angle = 0
+		self.vis[1].angle = 0
 	end
 end
 
@@ -50,12 +51,9 @@ for i=1,number do
 	local vx = cos*self.spreadSpeed*magnitude+0.7*vx
 	local vy = sin*self.spreadSpeed*magnitude+0.7*vy
 	local lifetime = self.lifetime * 0.8+ 0.4*math.random()
-	--local timer = -math.random()
 	local animation = 'meat' .. math.random(1,4)
-	--local animation = 'butterflywing' .. math.random(1,3)
 	local rotSpeed = self.rotSpeed * (math.random()*2-1)
-	local newParticle = self:New({x=x,y=y,vx = vx,vy = vy,animation=animation,rotSpeed = rotSpeed,lifetime = lifetime})
-	--local newParticle = Butterfly:New({x=x,y=y,vx = vx,vy = vy,lifetime = lifetime,animation=animation,timer=timer})
-	spriteEngine:insert(newParticle)
+	local newPiece = Meat:New({x=x,y=y,vx = vx,vy = vy,vis={Visualizer:New(animation)},rotSpeed = rotSpeed,lifetime = lifetime})
+	spriteEngine:insert(newPiece)
 end
 end

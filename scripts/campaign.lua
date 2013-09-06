@@ -1,7 +1,4 @@
-Campaign = {	
-	--'n45.dat', -- fixed cannon	
-	'n46.dat',
-	
+Campaign = {		
 	'n13.dat',
 	'n1.dat',
 	'n10.dat',
@@ -46,7 +43,7 @@ Campaign = {
 	'n44.dat', -- glass tutorial
 	'n43.dat', -- glass long level			
 	'n45.dat', -- fixed cannon	
-	
+	'n46.dat',	
 	}
 
 Campaign.current = 0

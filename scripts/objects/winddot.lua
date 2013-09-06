@@ -2,9 +2,10 @@ Winddot = object:New({
 	tag = 'winddot',
   marginx = 0,
   marginy = 1,
-	animation = 'wind1',
+	--animation = 'wind1',
 	vx = 0,
 	vy = Player.windMaxSpeed,
+	vis = {Visualizer:New('wind1')},
 })
 
 function Winddot:setAcceleration(dt)

@@ -3,8 +3,9 @@ Bouncer = object:New({
   targetvy = -23,
   marginx = 0.8,
   marginy = 0.2,
-  animation = 'bouncer',
-  frame = 2,
+  vis = {
+		Visualizer:New('bouncer',{frame = 2}),
+  },  
 })
 
 function Bouncer:setAcceleration(dt)
@@ -20,7 +21,10 @@ end
 
 BouncerTop = Bouncer:New({
 	targetvy = 23,
-	angle = math.pi,
+  vis = {
+		Visualizer:New('bouncer',{frame = 2,angle = math.pi,}),
+  },  	
+	--animationData = {frame = 2,angle = math.pi,},
 	layout = 'top',
 })
 
@@ -36,7 +40,10 @@ BouncerLeft = Bouncer:New({
   marginx = 0.2,
   marginy = 0.8,
 	targetvx = 23,
-	angle = 0.5*math.pi,
+  vis = {
+		Visualizer:New('bouncer',{frame = 2,angle = 0.5*math.pi,}),
+  }, 	
+	--animationData = {frame = 2,angle = 0.5*math.pi,},
 	layout = 'left',
 })
 
@@ -52,7 +59,10 @@ end
 
 BouncerRight = BouncerLeft:New({
 	targetvx = -23,
-	angle = -0.5*math.pi,
+  vis = {
+		Visualizer:New('bouncer',{frame = 2,angle = -0.5*math.pi,}),
+  }, 	
+	--animationData = {frame = 2,angle = -0.5*math.pi,},
 	layout = 'right',
 })
 

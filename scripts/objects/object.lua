@@ -1,4 +1,5 @@
 require 'scripts/animationdb'
+require 'scripts/visualizer'
 
 object = {
 tag = 'object',
@@ -13,21 +14,53 @@ timer = 0, -- these two are for the animation
 frame = 1,
 sonTimer = 0,
 sonFrame = 1,
-flipped = false}
+flipped = false,
+--vis = {},
+}
 -- ox and oy are the coordinates of the image center
 -- semiwidth and semiheight define the hitbox of the object
 
 function object:New(input)
+	local input = input or {}
   local o = input or {}
+
+  if not input.vis and self.vis then
+    o.vis = {}
+		for i = 1,#self.vis do
+			o.vis[i]= self.vis[i]:copy()
+		end
+	end
+	
 	setmetatable(o, self)
 	self.__index = self
 	return o
 end
 
 function object:init()
--- do whatever needs to be done to initialize the object
+	-- do whatever needs to be done to initialize the object
   -- set height and width of hitbox, if not done already
-  if self.img then
+  self.marginx = self.marginx or 1
+  self.marginy = self.marginy or 1
+  
+  if self.vis then
+		if self.vis[1] then
+			local name = AnimationDB.animation[self.vis[1].animation].source
+			self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
+			self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
+		end
+		
+		for i = 1,#self.vis do
+			local name = AnimationDB.animation[self.vis[i].animation].source
+			self.vis[i].ox = self.vis[i].ox or 0.5*AnimationDB.source[name].width/Camera.scale
+			self.vis[i].oy = self.vis[i].oy or 0.5*AnimationDB.source[name].height/Camera.scale		
+		end
+	end
+	self.semiwidth = self.semiwidth or 0.5
+	self.semiheight = self.semiheight or 0.5
+	self.marginx = self.marginx or 1
+	self.marginy = self.marginy or 1	
+
+	--[[if self.img then
     self.marginx = self.marginx or 1
     self.marginy = self.marginy or 1
     self.ox = self.ox or 0.5*self.img:getWidth()/Camera.scale
@@ -51,15 +84,26 @@ function object:init()
 		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
 		  self.semiheight = self.semiwidth
 		end
-  end
-	if self.sonAnimation then
+  end--]]
+
+--	self.vis = {}  
+	--[[if #self.vis == 0 then
+		if self.animation then
+			self.vis = {}
+			self.vis[#self.vis+1] = Visualizer:New(self.animation,self.animationData)
+		end
+		if self.sonAnimation then
+			self.vis[#self.vis+1] = Visualizer:New(self.sonAnimation,self.sonAnimationData)
+		end
+  end--]]
+	--[[if self.sonAnimation then
 		local name = AnimationDB.animation[self.sonAnimation].source
 		self.sonox = self.sonox or 0.5*AnimationDB.source[name].width/Camera.scale
 		self.sonoy = self.sonoy or 0.5*AnimationDB.source[name].height/Camera.scale
 	elseif self.sonImg then
 		self.sonox = self.sonox or 0.5*self.sonImg:getWidth()/Camera.scale
 		self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()/Camera.scale
-	end  
+	end --]] 
 end
 
 function object:setImage(filename)
@@ -72,7 +116,15 @@ function object:setImage(filename)
 end
 
 function object:draw()
-	if self.alpha then
+	if self.vis then
+		for i = 1,#self.vis do
+			self.vis[i]:draw(			
+				(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
+				(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
+		end
+	end
+	--love.graphics.line(self.x,self.y,self.x+10,self.y+10)
+	--[[if self.alpha then
 	  love.graphics.setColor(255,255,255,self.alpha)
 	end
   if self.animation then
@@ -103,7 +155,7 @@ function object:draw()
   end
 	if self.alpha then
 	  love.graphics.setColor(255,255,255)
-	end
+	end--]]
 end
 
 function object:kill()
@@ -197,10 +249,16 @@ function object:update(dt)
   if subdivide == 0 then
     self:collision(dt)
   end
-	self:postStep(dt)  
-  if self.animation then
+	self:postStep(dt)
+	
+	if self.vis then
+		for i = 1,#self.vis do
+			self.vis[i]:update(dt)
+		end	
+	end
+  --[[if self.animation then
 		self:updateAnimation(dt)
-	end  
+	end  --]]
 end
 
 function object:touchPlayer(dx,dy)
@@ -245,18 +303,32 @@ function object:updateAnimation(dt)
 	
 end
 
-function object:setAnim(name,continue) -- Go to specified animation and reset, if not already there
-	if self.animation ~= name then
+function object:setAnim(name,continue,vis) -- Go to specified animation and reset, if not already there
+	local vis = vis or 1
+	if self.vis and self.vis[vis].animation ~= name then
+	  self.vis[vis].animation = name
+	  if not continue then
+	    self:resetAnimation(vis)
+	  end
+	end
+	--[[if self.animation ~= name then
 	  self.animation = name
 	  if not continue then
 	    self:resetAnimation()
 	  end
-	end
+	end--]]
 end
 
-function object:resetAnimation()
-	self.frame = 1
-	self.timer = 0
+function object:resetAnimation(vis)
+	if vis then
+		self.vis[vis]:reset()
+		return
+	end
+	for i = 1,#self.vis do
+		self.vis[i]:reset()
+	end
+	--self.frame = 1
+	--self.timer = 0
 end
 
 function object:drawAnimation(x,y,angle,sx,sy,ox,oy)

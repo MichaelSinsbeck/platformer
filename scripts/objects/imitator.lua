@@ -1,6 +1,6 @@
 Imitator = object:New({
 	tag = 'Imitator',
-	animation = 'imitatorStand',
+	--animation = 'imitatorStand',
   marginx = 0.3,
   marginy = 0.6,
   
@@ -12,6 +12,7 @@ Imitator = object:New({
   walkSpeed = 18,--13,
   jumpSpeed = -13,
   unjumpSpeed = 6,
+  vis = {Visualizer:New('imitatorStand'),},
 })
 
 function Imitator:setAcceleration(dt)
@@ -70,6 +71,7 @@ function Imitator:postStep(dt)
 	if game.isRight then control = control +1 end  	
 	if control > 0 then self:flip(false) end
 	if control < 0 then self:flip(true) end
+	if self.flipped then self.vis[1].sx = -1 else self.vis[1].sx = 1 end
 	
 	if self.status == 'fly' then
 		if self.vy < 0 then
@@ -88,7 +90,6 @@ function Imitator:postStep(dt)
 			self:setAnim('imitatorRun')
 		end
 	end
-	
 	
 end
 
