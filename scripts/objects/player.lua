@@ -38,6 +38,7 @@ Player = object:New({
   visible = true,
   canUnJump = false,
   nKeys = 0,
+  hookAngle = -math.pi/4,
   vis = {
 		Visualizer:New('whiteStand'),
 		Visualizer:New('targetline',{active = false})
@@ -398,7 +399,7 @@ function Player:collision(dt)
 
 end
 
-function Player:postStep()
+function Player:postStep(dt)
 	if self.flipped then
 		self.vis[1].sx = -1
 	else
@@ -408,7 +409,18 @@ function Player:postStep()
 	if self.bandana == 'red' and self.status ~= 'hooked' then
 		self.vis[2].active = true
 		self.vis[2].ox = - 5
-		local dx,dy = 0,0
+		if game.isUp then 
+			self.hookAngle	= math.max(self.hookAngle - 3*dt, -0.5*math.pi)
+		end
+		if game.isDown then
+			self.hookAngle	= math.min(self.hookAngle + 3*dt, 0.5*math.pi)
+		end
+		if self.flipped then
+			self.vis[2].angle = math.pi - self.hookAngle
+		else
+			self.vis[2].angle = self.hookAngle
+		end
+		--[[local dx,dy = 0,0
 		if game.isLeft then dx = dx - 1 end
 		if game.isRight then dx = dx + 1 end
 		if game.isUp then dy = dy - 1 end
@@ -421,7 +433,7 @@ function Player:postStep()
 			else
 				self.vis[2].angle = -math.pi/4
 			end
-		end
+		end--]]
 	else
 		self.vis[2].active = false
 	end

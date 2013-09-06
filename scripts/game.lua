@@ -130,7 +130,7 @@ function game.joystickpressed(joystick, button)
 			myMap:start(p)
 		end  
   end
-	if button == "8" and p.bandana == "red" then
+	if button == 8 and p.bandana == "red" then
 		Bungee:throw()
   end
 end
@@ -139,7 +139,7 @@ function game.joystickreleased(joystick, button)
   if button == 3 then
     spriteEngine:DoAll('unjump')
   end
-	if button == "8" then
+	if button == 8 then
 		spriteEngine:DoAll('disconnect')
   end  
 end
