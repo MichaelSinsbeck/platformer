@@ -420,41 +420,9 @@ function Player:postStep(dt)
 		else
 			self.vis[2].angle = self.hookAngle
 		end
-		--[[local dx,dy = 0,0
-		if game.isLeft then dx = dx - 1 end
-		if game.isRight then dx = dx + 1 end
-		if game.isUp then dy = dy - 1 end
-		if game.isDown then dy = dy +1 end
-		if dx*dx+dy*dy > 0 then
-			self.vis[2].angle = math.atan2(dy,dx)
-		else
-			if self.flipped then
-				self.vis[2].angle = 5*math.pi/4
-			else
-				self.vis[2].angle = -math.pi/4
-			end
-		end--]]
 	else
 		self.vis[2].active = false
 	end
-end
-
-function Player:wincheck()
-  local x1 = math.floor(self.x-self.semiwidth)
-  local x2 = math.ceil(self.x+self.semiwidth)-1
-  local y1 = math.floor(self.y-self.semiheight)
-  local y2 = math.ceil(self.y+self.semiheight)-1
-  local x=0
-  local y=0
-  local winning = false
-  for x =x1,x2 do
-    for y = y1,y2 do
-      --if myMap.tile[x] and myMap.tile[x][y] and myMap.tile[x][y]==48 then
-      --  winning = true
-      --end
-    end
-  end
-  return winning
 end
 
 function Player:connect(anchor)

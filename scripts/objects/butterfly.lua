@@ -1,9 +1,10 @@
+-- Butterfly is not yet prepared for visualization-system
+
 Butterfly = object:New({
 	tag = 'Butterfly',
   marginx = 0.4,
   marginy = 0.4,
   animation = 'butterflywing1',
-  --sonAnimation = 'butterflybody',
   sonAngle = 0,
   angle = 0,
   rotating = true,

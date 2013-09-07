@@ -15,13 +15,6 @@ function Line:draw()
 		math.floor(self.y*myMap.tileSize),
 		math.floor(self.x2*myMap.tileSize),
 		math.floor(self.y2*myMap.tileSize))
-	--if self.sonx and self.sony then
-	--  love.graphics.circle('fill',
-	--		math.floor(self.sonx*myMap.tileSize),
-	--		math.floor(self.sony*myMap.tileSize),
-	--		self.radius,10)
-	--end	
-	
 	love.graphics.setColor(r,g,b,a)
 end
 
@@ -52,7 +45,6 @@ function Line:update(dt)
 	
 	if position > 0 
 	   and position < self.length 
-	   --and math.abs(distance) < math.abs(self.distanceOld)
 	   and distance*self.distanceOld < 0 then
 	  if p.vy < 0 and not game.isUp then
 			p.status = 'online'

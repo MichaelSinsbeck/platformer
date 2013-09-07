@@ -6,16 +6,9 @@ tag = 'object',
 x = 0,y = 0,
 vx = 0, vy = 0,
 newX = 0, newY = 0,
---ox = 0, oy = 0,
-angle = 0,
-z = 0, -- for drawing order
 collisionResult = false,
-timer = 0, -- these two are for the animation
-frame = 1,
-sonTimer = 0,
-sonFrame = 1,
 flipped = false,
---vis = {},
+vis = {},
 }
 -- ox and oy are the coordinates of the image center
 -- semiwidth and semiheight define the hitbox of the object
@@ -24,6 +17,7 @@ function object:New(input)
 	local input = input or {}
   local o = input or {}
 
+	-- copy vis table if not a new one is provided
   if not input.vis and self.vis then
     o.vis = {}
 		for i = 1,#self.vis do
@@ -57,62 +51,6 @@ function object:init()
 	end
 	self.semiwidth = self.semiwidth or 0.5
 	self.semiheight = self.semiheight or 0.5
-	self.marginx = self.marginx or 1
-	self.marginy = self.marginy or 1	
-
-	--[[if self.img then
-    self.marginx = self.marginx or 1
-    self.marginy = self.marginy or 1
-    self.ox = self.ox or 0.5*self.img:getWidth()/Camera.scale
-    self.oy = self.oy or 0.5*self.img:getHeight()/Camera.scale
-		self.semiwidth = self.semiwidth or 0.5*self.img:getWidth()/myMap.tileSize*self.marginx
-		self.semiheight = self.semiheight or 0.5*self.img:getHeight()/myMap.tileSize*self.marginy
-		if self.rotating then
-		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
-		  self.semiheight = self.semiwidth
-		end
-  elseif self.animation then
-		self.marginx = self.marginx or 1
-    self.marginy = self.marginy or 1
-    local name = AnimationDB.animation[self.animation].source
-    self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
-    self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
-        
-		self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
-		self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
-		if self.rotating then
-		  self.semiwidth = math.min(self.semiwidth,self.semiheight)
-		  self.semiheight = self.semiwidth
-		end
-  end--]]
-
---	self.vis = {}  
-	--[[if #self.vis == 0 then
-		if self.animation then
-			self.vis = {}
-			self.vis[#self.vis+1] = Visualizer:New(self.animation,self.animationData)
-		end
-		if self.sonAnimation then
-			self.vis[#self.vis+1] = Visualizer:New(self.sonAnimation,self.sonAnimationData)
-		end
-  end--]]
-	--[[if self.sonAnimation then
-		local name = AnimationDB.animation[self.sonAnimation].source
-		self.sonox = self.sonox or 0.5*AnimationDB.source[name].width/Camera.scale
-		self.sonoy = self.sonoy or 0.5*AnimationDB.source[name].height/Camera.scale
-	elseif self.sonImg then
-		self.sonox = self.sonox or 0.5*self.sonImg:getWidth()/Camera.scale
-		self.sonoy = self.sonoy or 0.5*self.sonImg:getHeight()/Camera.scale
-	end --]] 
-end
-
-function object:setImage(filename)
--- Set Image and calculate width and height
-  self.img        = love.graphics.newImage(filename)
-  self.ox = 0.5*self.img:getWidth()
-	self.oy = 0.5*self.img:getHeight()
-	self.semiwidth = self.semiwidth or self.ox/myMap.tileSize
-	self.semiheight = self.semiheight or self.oy/myMap.tileSize
 end
 
 function object:draw()
@@ -123,39 +61,6 @@ function object:draw()
 				(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
 		end
 	end
-	--love.graphics.line(self.x,self.y,self.x+10,self.y+10)
-	--[[if self.alpha then
-	  love.graphics.setColor(255,255,255,self.alpha)
-	end
-  if self.animation then
-		local sx,sy = (self.sx or 1), (self.sy or 1)
-    self:drawAnimation(
-			math.floor(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
-			math.floor(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom,
-			self.angle,sx,sy,
-			math.floor(self.ox*Camera.scale),math.floor(self.oy*Camera.scale))
-	elseif self.img then
-		local sx,sy = (self.sx or 1), (self.sy or 1)
-    love.graphics.draw(self.img,
-				math.floor(self.x*myMap.tileSize),
-				math.floor(self.y*myMap.tileSize),
-				self.angle,sx,sy,
-				math.floor(self.ox*Camera.scale),math.floor(self.oy*Camera.scale))
-  end
-  
-  if self.sonAnimation then
-		local sx,sy = self.sonSx or 1, self.sonSy or 1
-		local angle = self.sonAngle or 0
-		local x,y = self.sonX or 0, self.sonY or 0
-		love.graphics.drawq(self.sonImg, self.sonCurrentQuad,
-		  math.floor((self.x+x)*myMap.tileSize),
-			math.floor((self.y+y)*myMap.tileSize),
-			angle,sx,sy,
-			math.floor(self.sonox*Camera.scale),math.floor(self.sonoy*Camera.scale))  
-  end
-	if self.alpha then
-	  love.graphics.setColor(255,255,255)
-	end--]]
 end
 
 function object:kill()
@@ -174,9 +79,7 @@ function object:predictPosition(dt)
   self.newY = self.y + self.vy * dt
 end
 
-function object:collision(dt)
--- Todo: When this is generically done, remove dt here: unnecessary
-
+function object:collision()
   self.collisionResult = 0
 
   if self.vx > 0 then -- Bewegung nach rechts
@@ -205,7 +108,6 @@ function object:collision(dt)
     if math.floor(self.y-self.semiheight) ~= math.floor(self.newY-self.semiheight) then
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.newY-self.semiheight),'up',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.floor(self.newY-self.semiheight),'up',self.tag) then
-        --self.newY = math.floor(self.newY+1)
         self.newY = math.ceil(self.newY-self.semiheight)+self.semiheight
 				self.collisionResult = self.collisionResult+4
       end
@@ -228,8 +130,6 @@ function object:step(dt)
   self.vy = (self.newY - self.y)/dt
   self.x = self.newX
   self.y = self.newY
-  --self.oldx, self.x = self.x, self.newX
-  --self.oldy, self.y = self.y, self.newY
 end
 
 function object:postStep(dt)
@@ -256,9 +156,6 @@ function object:update(dt)
 			self.vis[i]:update(dt)
 		end	
 	end
-  --[[if self.animation then
-		self:updateAnimation(dt)
-	end  --]]
 end
 
 function object:touchPlayer(dx,dy)
@@ -266,41 +163,6 @@ function object:touchPlayer(dx,dy)
   local dy = dy or self.y-p.y
   return math.abs(dx) < p.semiwidth+self.semiwidth and
      math.abs(dy) < p.semiheight+self.semiheight
-end
-
-function object:updateAnimation(dt)
-	
-  self.timer = self.timer + dt
-  -- switch to next frame
-  if self.animation then
-		local animationData = AnimationDB.animation[self.animation]
-		local source = AnimationDB.source[animationData.source]
-		while self.timer > animationData.duration[self.frame] do
-			self.timer = self.timer - animationData.duration[self.frame]
-			self.frame = self.frame + 1
-			if self.frame > #animationData.frames then
-				self.frame = 1
-			end
-		end
-		self.currentQuad = source.quads[animationData.frames[self.frame]]
-		self.img = source.image
-  end
-  
-  if self.sonAnimation then
-		self.sonTimer = self.sonTimer + dt
-		local animationData = AnimationDB.animation[self.sonAnimation]
-		local source = AnimationDB.source[animationData.source]
-		while self.sonTimer > animationData.duration[self.sonFrame] do
-			self.sonTimer = self.sonTimer - animationData.duration[self.sonFrame]
-			self.sonFrame = self.sonFrame + 1
-			if self.sonFrame > #animationData.frames then
-				self.sonFrame = 1
-			end
-		end
-		self.sonCurrentQuad = source.quads[animationData.frames[self.sonFrame] ]
-		self.sonImg = source.image
-  end
-	
 end
 
 function object:setAnim(name,continue,vis) -- Go to specified animation and reset, if not already there
@@ -311,12 +173,6 @@ function object:setAnim(name,continue,vis) -- Go to specified animation and rese
 	    self:resetAnimation(vis)
 	  end
 	end
-	--[[if self.animation ~= name then
-	  self.animation = name
-	  if not continue then
-	    self:resetAnimation()
-	  end
-	end--]]
 end
 
 function object:resetAnimation(vis)
@@ -326,17 +182,6 @@ function object:resetAnimation(vis)
 	end
 	for i = 1,#self.vis do
 		self.vis[i]:reset()
-	end
-	--self.frame = 1
-	--self.timer = 0
-end
-
-function object:drawAnimation(x,y,angle,sx,sy,ox,oy)
-  if self.flipped then
-    sx = -sx
-	end
-	if self.img and self.currentQuad then
-		love.graphics.drawq(self.img, self.currentQuad,x,y,angle,sx,sy,ox,oy)
 	end
 end
 
