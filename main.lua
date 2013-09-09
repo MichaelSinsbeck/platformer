@@ -124,7 +124,7 @@ function love.draw()
 	end
 	
 	if menu.transitionActive and menu.transitionPercentage < 50 then	
-		local sx = (menu.transitionPercentage/12)^3
+		local sx = (menu.transitionPercentage/15)^3
 		
 		love.graphics.draw(springtime,640,400,0,sx,sx,120,130)
 	end
