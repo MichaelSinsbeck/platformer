@@ -20,6 +20,9 @@ fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize(
 DEBUG = false
 USE_SHADERS = true
 
+-- temporary
+springtime = love.graphics.newImage('images/transition/springtime.png')
+
 
 function love.load(args)
 
@@ -79,7 +82,7 @@ function love.update( dt )
 	end
 	
 	if menu.transitionActive then
-		menu.transitionPercentage = menu.transitionPercentage + dt*1000	-- 1 second
+		menu.transitionPercentage = menu.transitionPercentage + dt*100	-- 1 second
 		if USE_SHADERS then
 			shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
 		end
@@ -120,6 +123,10 @@ function love.draw()
 		love.graphics.setPixelEffect()
 	end
 	
+	if menu.transitionActive and menu.transitionPercentage < 50 then	
+		local sx = (menu.transitionPercentage/12)^2
+		love.graphics.draw(springtime,640,400,0,sx,sx,120,120)
+	end
 	--vis:draw(100,100)
 end
 
