@@ -245,5 +245,8 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('key','door',{3},{1e6})			
 	
 	AnimationDB:loadImage('targetline.png','targetline')
-	AnimationDB:addAni('targetline','targetline',{1},{1e6})	
+	AnimationDB:addAni('targetline','targetline',{1},{1e6})
+	
+	AnimationDB:loadImage('bumper.png','bumper')
+	AnimationDB:addAni('bumper','bumper',{1},{1e6})	
 end

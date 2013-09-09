@@ -29,6 +29,7 @@ require 'scripts/objects.bungee'
 require 'scripts/objects.door'
 require 'scripts/objects.keyhole'
 require 'scripts/objects.key'
+require 'scripts/objects.bumper'
 
 
 function initAll()
@@ -66,6 +67,7 @@ function initAll()
 	Door:init()
 	Keyhole:init()
 	Key:init()
+	Bumper:init()
 end
 
 function spriteFactory(name,opts)

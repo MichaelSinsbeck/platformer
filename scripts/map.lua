@@ -413,6 +413,7 @@ function Map:FactoryList(tile,height,width)
 	[26] = BouncerLeft,
 	[27] = BouncerTop,
 	[28] = BouncerRight,
+	[29] = Bumper,
 
   [33] = Spikey,
 
