@@ -3,6 +3,7 @@ Bumper = object:New({
   targetv = 23,
   marginx = 0.8,
   marginy = 0.8,
+  layout = 'center',
   vis = {
 		Visualizer:New('bumper'),
   },  
@@ -22,7 +23,7 @@ function Bumper:postStep(dt)
 		p.vx = math.cos(angle) * self.targetv
 		p.vy = math.sin(angle) * self.targetv
 		p.canUnJump = false
-		self.vis[1].sx = 0.9
-		self.vis[1].sy = 0.9
+		self.vis[1].sx = .8
+		self.vis[1].sy = .8
 	end
 end
