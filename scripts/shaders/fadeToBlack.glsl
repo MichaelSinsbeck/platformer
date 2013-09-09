@@ -6,7 +6,8 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 	col = texture2D(texture, texture_coords);
 	if (percentage < 50)
 	{
-		bright = 2-percentage/12.5;
+		bright = 1;
+		//2-percentage/12.5;
 	} else {
 		bright = (percentage-75)/25;
 	}
