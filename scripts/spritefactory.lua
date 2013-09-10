@@ -30,6 +30,7 @@ require 'scripts/objects.door'
 require 'scripts/objects.keyhole'
 require 'scripts/objects.key'
 require 'scripts/objects.bumper'
+require 'scripts/objects.clubber'
 
 
 function initAll()
@@ -68,6 +69,7 @@ function initAll()
 	Keyhole:init()
 	Key:init()
 	Bumper:init()
+	Clubber:init()
 end
 
 function spriteFactory(name,opts)

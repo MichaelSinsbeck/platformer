@@ -414,6 +414,7 @@ function Map:FactoryList(tile,height,width)
 	[27] = BouncerTop,
 	[28] = BouncerRight,
 	[29] = Bumper,
+	[30] = Clubber,
 
   [33] = Spikey,
 

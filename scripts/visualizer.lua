@@ -32,6 +32,7 @@ function Visualizer:copy()
   o.alpha = self.alpha or 255
   o.relX, o.relY = self.relX or 0, self.relY or 0
   o.active = self.active
+  o.ox, o.oy = self.ox, self.oy
   --o:init()
   return o
 end

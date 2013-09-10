@@ -249,4 +249,8 @@ function AnimationDB:loadAll()
 	
 	AnimationDB:loadImage('bumper.png','bumper')
 	AnimationDB:addAni('bumper','bumper',{1},{1e6})	
+	
+	AnimationDB:loadImage('clubber.png','clubber',tileSize,tileSize)
+	AnimationDB:addAni('clubber','clubber',{1},{1e6})	
+	AnimationDB:addAni('club','clubber',{2},{1e6})	
 end
