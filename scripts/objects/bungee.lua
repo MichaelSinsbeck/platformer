@@ -27,7 +27,14 @@ function Bungee:draw()
 		math.floor(p.x*myMap.tileSize),
 		math.floor(p.y*myMap.tileSize))
 	else
-		love.graphics.line(self.nodes)
+		--love.graphics.line(self.nodes)
+		for i=1,self.nNodes do
+			love.graphics.line(
+				self.nodesX[i-1]*myMap.tileSize,
+				self.nodesY[i-1]*myMap.tileSize,
+				self.nodesX[i]*myMap.tileSize,
+				self.nodesY[i]*myMap.tileSize)
+		end
 	end
 	
 	love.graphics.setColor(r,g,b,a)
@@ -100,7 +107,7 @@ function Bungee:postStep(dt)
 				mx,my = (nx[i] + nx[i-1])/2,(ny[i] + ny[i-1])/2
 				dist = math.sqrt(dx*dx+dy*dy)
 				local factor = segmentLength/dist
-				if factor < 1 or factor > 2 then
+				if factor < 1 then --or factor > 2 then
 					if i == 1 then
 						nx[i] = nx[i-1] + dx*factor
 						ny[i] = ny[i-1] + dy*factor
@@ -121,7 +128,7 @@ function Bungee:postStep(dt)
 				mx,my = (nx[i] + nx[i-1])/2,(ny[i] + ny[i-1])/2
 				dist = math.sqrt(dx*dx+dy*dy)
 				local factor = segmentLength/dist
-				if factor < 1 or factor > 2 then
+				if factor < 1 then --or factor > 2 then
 					if i == 1 then
 						nx[i] = nx[i-1] + dx*factor
 						ny[i] = ny[i-1] + dy*factor
@@ -155,6 +162,11 @@ function Bungee:postStep(dt)
 			self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
 		end
   end
+end
+
+function Bungee:relativeLength()
+	local dx,dy = p.x-self.x, p.y-self.y
+	return utility.pyth(dx,dy)/self.length
 end
 
 function Bungee:throw()

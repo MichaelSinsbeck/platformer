@@ -23,8 +23,7 @@ BouncerTop = Bouncer:New({
 	targetvy = 23,
   vis = {
 		Visualizer:New('bouncer',{frame = 2,angle = math.pi,}),
-  },  	
-	--animationData = {frame = 2,angle = math.pi,},
+  },
 	layout = 'top',
 })
 
@@ -42,17 +41,14 @@ BouncerLeft = Bouncer:New({
 	targetvx = 23,
   vis = {
 		Visualizer:New('bouncer',{frame = 2,angle = 0.5*math.pi,}),
-  }, 	
-	--animationData = {frame = 2,angle = 0.5*math.pi,},
+  },
 	layout = 'left',
 })
 
 function BouncerLeft:postStep(dt)
 	if self:touchPlayer() then
 		p.vx = math.max(self.targetvx,p.vx)
-    if p.status ~= 'hooked' then
-			p.status = 'fly'
-		end
+		p.status = 'fly'
 		self:resetAnimation()
   end
 end
@@ -69,9 +65,7 @@ BouncerRight = BouncerLeft:New({
 function BouncerRight:postStep(dt)
 	if self:touchPlayer() then
 		p.vx = math.min(self.targetvx,p.vx)
-    if p.status ~= 'hooked' then
-			p.status = 'fly'
-		end
+		p.status = 'fly'
 		self:resetAnimation()
   end
 end

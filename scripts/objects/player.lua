@@ -116,7 +116,7 @@ function Player:setAcceleration(dt)
 	self.visible = not (self.bandana == 'green' and game.isAction)
 		
   -- Acceleration down
-  if self.status == 'fly' or self.status == 'online' or self.status == 'hooked' then
+  if self.status == 'fly' or self.status == 'online' or self.anchor then
 		self.vy = self.vy + gravity*dt
 	else
 		self.vy = self.vy + self.wallgravity*dt
@@ -146,11 +146,11 @@ function Player:setAcceleration(dt)
 	if self.status == 'stand' then
 	  ax = self.axStand
 	  fx = self.fxStand
+	elseif self.anchor then
+		ax = self.axFly	  
 	elseif self.status == 'fly' or self.status == 'leftwall' or self.status == 'rightwall' then
 		ax = self.axFly
 		fx = self.fxFly
-	elseif self.status == 'hooked' then
-		ax = self.axFly
 	elseif self.status == 'online' then
 		ax = self.axLine
 		fx = self.fxLine
@@ -166,7 +166,7 @@ function Player:setAcceleration(dt)
 	end
 	
 -- Accelerate if player is not faster than maximum speed anyway
-	if self.status == 'stand' or self.status == 'fly' or self.status == 'online' or self.status == 'hooked' then
+	if self.status == 'stand' or self.status == 'fly' or self.status == 'online' then
 		if axControl > 0 and self.vx < self.walkSpeed then -- Acceleration to the right
 			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
 		elseif axControl < 0 and self.vx > -self.walkSpeed then -- Acceleration to the left
@@ -191,7 +191,7 @@ function Player:setAcceleration(dt)
   if self.status == 'stand' and self.vy ~=0 then self.status = 'fly'  end	
   
   -- change rope length, if hooked
-	if self.status == 'hooked' then
+	if self.anchor then
 		if game.isDown then
 			self.anchor.length = math.min(self.anchor.length + 5*dt, self.anchor.maxLength)
 		end
@@ -204,7 +204,7 @@ end
 function Player:collision(dt)
   local laststatus = self.status
 
-	if self.status == "hooked" then
+	if self.anchor then
 		local dx,dy = self.newX-self.anchor.x, self.newY-self.anchor.y
 		local dist = math.sqrt(dx^2 + dy^2)
 		if dist > self.anchor.length then
@@ -243,7 +243,7 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
-				if self.status ~= 'online' and self.status ~= 'hooked' then self.status = 'rightwall' end
+				if self.status ~= 'online' then self.status = 'rightwall' end
       end
     end
   elseif self.vx < 0 then -- Bewegung nach links
@@ -252,7 +252,7 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
-        if self.status ~= 'online' and self.status ~= 'hooked' then self.status = 'leftwall' end
+        if self.status ~= 'online' then self.status = 'leftwall' end
       end
     end
   end
@@ -277,10 +277,8 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.newY+self.semiheight)-1,'down',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.ceil(self.newY+self.semiheight)-1,'down',self.tag) then
         self.newY = math.floor(self.newY+self.semiheight)-self.semiheight        
-        if self.status ~= 'hooked' then 
-					self.status = 'stand'
-				end
         verticalChange = false
+        self.status = 'stand'
       end
     end
   end  
@@ -339,10 +337,11 @@ function Player:collision(dt)
 	local control = 0
 	if game.isLeft then control = control -1 end
 	if game.isRight then control = control +1 end
-	if self.status 	~= 'hooked' then
+	if not (self.anchor and self.anchor:relativeLength() > 0.95) then
 		if control > 0 then self:flip(false) end
 		if control < 0 then self:flip(true) end
 	end
+
   
   if self.bandana == 'green' and game.isAction then
     self.vis[1].alpha = math.max(self.vis[1].alpha - 2500*dt,20)
@@ -350,8 +349,13 @@ function Player:collision(dt)
 		self.vis[1].alpha = math.min(self.vis[1].alpha + 2500*dt,255)
 	end
 	
+	self.vis[1].angle = 0		
 	if self.status == 'fly' then
-		if game.isAction and self.bandana == 'blue' then
+		if self.anchor and self.anchor:relativeLength() > 0.95 then
+			self:setAnim('redHooked')
+			local dx,dy = self.x-self.anchor.x,self.y-self.anchor.y
+			self.vis[1].angle = math.atan2(-dx,dy)
+		elseif game.isAction and self.bandana == 'blue' then
 			if self.vy > -self.glideSpeed or myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then
 				self:setAnim(self.bandana..'Gliding')
 			else 
@@ -392,9 +396,11 @@ function Player:collision(dt)
 		end
 	elseif self.status == 'hooked' then
 		self:setAnim(self.bandana..'Hooked')
-		if game.isUp then
-			self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
-		end
+	end
+	
+	-- correct rope length if shortening did not work (avoid unwanted snapping effects)
+	if self.anchor and game.isUp then
+		self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
 	end
 
 end
@@ -406,7 +412,7 @@ function Player:postStep(dt)
 		self.vis[1].sx = 1
 	end
 	-- insert targetline if necessary
-	if self.bandana == 'red' and self.status ~= 'hooked' then
+	if self.bandana == 'red' and not self.anchor then
 		self.vis[2].active = true
 		self.vis[2].ox = - 5
 		if game.isUp then 
@@ -426,17 +432,16 @@ function Player:postStep(dt)
 end
 
 function Player:connect(anchor)
-	self.status = "hooked"
 	self.anchor = anchor
 	anchor.length = math.sqrt((self.x-anchor.x)^2+(self.y-anchor.y)^2)
 	self.originalSemiheight = self.semiheight
 	self.originalSemiwidth = self.semiwidth
 	-- this makes the player "round"
-	self:resize(0.15,0.15)
+	--self:resize(0.15,0.15)
 end
 
 function Player:disconnect()
-	if self.status == 'hooked' then
+	if self.anchor then
 		self.status = 'fly'
 		self.canUnJump = false
 		self.anchor = nil
