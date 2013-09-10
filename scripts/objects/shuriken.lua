@@ -6,7 +6,6 @@ Shuriken = object:New({
   angle = 0,
   rotating = true,  
   rotationVelocity = 20,
-  --animation = 'shuriken',
   marginx = 0.3,
   marginy = 0.3,
   lifetime = 1.5,
@@ -23,9 +22,9 @@ function Shuriken:setAcceleration(dt)
   end
   if self.vis[1].animation == 'shurikenDead' then
     self.vis[1].alpha = math.min(1, self.lifetime-self.vis[1].timer)*255
-  end
-  if self.vis[1].timer > self.lifetime then
-    self:kill()
+		if self.vis[1].timer > self.lifetime then
+			self:kill()
+		end
   end
 end
 
