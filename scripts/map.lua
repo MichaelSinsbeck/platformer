@@ -32,7 +32,7 @@ function Map:LoadFromFile(mapFile)
     end
   end
 
-	o:loadImage()    
+	o:loadImage()
 
 	return o	
 end
@@ -80,6 +80,7 @@ function Map:start(p)
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)
+  
 
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor
