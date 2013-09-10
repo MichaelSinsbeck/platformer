@@ -1,5 +1,6 @@
 -- main menu test
 
+
 menu = require("scripts/menu")
 config = require("scripts/config")
 settings = require("scripts/settings")
@@ -26,6 +27,7 @@ springtime = love.graphics.newImage('images/transition/springtime.png')
 
 function love.load(args)
 
+
 	for k, v in pairs(arg) do
 		if v == "--debug" or v == "-d" then
 			DEBUG = true
@@ -33,6 +35,10 @@ function love.load(args)
 		if v == "--no-shaders" or v == "-n" then
 			USE_SHADERS = false
 			print("Manually disabled shaders.")
+		end
+		if v == "--shadows" or v == "-s" then
+			USE_SHADOWS = true
+			print("Enabled shadows")
 		end
 	end
 
@@ -70,6 +76,7 @@ function love.load(args)
 	mode = 'menu'
 	menu.initMain()
 
+	shadows = require("scripts/monocle")
 end
 
 function love.update( dt )

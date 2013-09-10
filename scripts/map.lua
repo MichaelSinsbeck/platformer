@@ -1,3 +1,5 @@
+
+
 Map = {}
 
 function Map:LoadFromFile(mapFile)
@@ -52,6 +54,32 @@ function Map:loadImage()
 	self:updateSpritebatch()
 end
 
+function Map:convertForShadows( h, w )
+
+	local map = {}
+	for i = 1,math.ceil(h) do
+		map[i] = {}
+		for j = 1,math.ceil(w) do
+			map[i][j] = {}
+			if (self.collisionSrc[j] and self.collisionSrc[j][i])
+				or i==1 or i==h or j==1 or j==w then
+				map[i][j].solid = true
+			else
+				map[i][j].solid = false
+			end 
+		end
+	end
+
+	return map
+end
+
+function Map:initShadows( x, y )
+	print(x, y)
+  self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
+  tablePrintBooleans(self.shadowMap)		-- debug
+  shadows:draw(x, y, self.shadowMap, self.tileSize, DEBUG, draw_monocle)
+end
+
 function Map:start(p)
 
 	game.deathtimer = 0
@@ -81,6 +109,9 @@ function Map:start(p)
   timer = 0
   Camera:jumpTo(p.x,p.y)
   
+  if USE_SHADOWS then
+	self:initShadows(p.x, p.y)
+  end
 
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor

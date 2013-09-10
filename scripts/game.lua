@@ -7,9 +7,16 @@ function game:draw()
 	Camera:apply()
 
 	myMap:drawBG()
-	spriteEngine:draw() 
-	love.graphics.setColor(255,255,255) 
+	spriteEngine:draw()
 	myMap:drawFG()
+	
+	if USE_SHADOWS then
+		love.graphics.setBlendMode('multiplicative')
+		love.graphics.draw(shadows.canvas)
+	end
+	love.graphics.setBlendMode('alpha')
+	
+	love.graphics.setColor(255,255,255) 
 
 	Camera:free()
 
