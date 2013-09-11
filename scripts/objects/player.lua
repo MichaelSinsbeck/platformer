@@ -337,7 +337,8 @@ function Player:collision(dt)
 	local control = 0
 	if game.isLeft then control = control -1 end
 	if game.isRight then control = control +1 end
-	if not (self.anchor and self.anchor:relativeLength() > 0.95) then
+	
+	if not (self.status == 'fly' and self.anchor and self.anchor:relativeLength() < 1) then
 		if control > 0 then self:flip(false) end
 		if control < 0 then self:flip(true) end
 	end
@@ -349,53 +350,59 @@ function Player:collision(dt)
 		self.vis[1].alpha = math.min(self.vis[1].alpha + 2500*dt,255)
 	end
 	
-	self.vis[1].angle = 0		
+	self.vis[1].angle = 0
+	local prefix = self.bandana
+	if self.anchor then prefix = 'blank' end
+	
 	if self.status == 'fly' then
-		if self.anchor and self.anchor:relativeLength() > 0.95 then
-			self:setAnim('redHooked')
+		if self.anchor and self.anchor:relativeLength() < 1 then
 			local dx,dy = self.x-self.anchor.x,self.y-self.anchor.y
+			if self.vis[1].animation ~= 'redHooked' then
+				self:setAnim('redHooked')
+				self:flip(dx>0)
+			end
 			self.vis[1].angle = math.atan2(-dx,dy)
 		elseif game.isAction and self.bandana == 'blue' then
 			if self.vy > -self.glideSpeed or myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then
-				self:setAnim(self.bandana..'Gliding')
+				self:setAnim(prefix..'Gliding')
 			else 
-				self:setAnim(self.bandana..'Jump')
+				self:setAnim(prefix..'Jump')
 			end
 		else
 			if self.vy < 0 then
-				self:setAnim(self.bandana..'Jump')
+				self:setAnim(prefix..'Jump')
 			else
-				self:setAnim(self.bandana..'Fall')
+				self:setAnim(prefix..'Fall')
 			end
 		end
 	elseif self.status == 'stand' then
 		if control == 0 and self.vx == 0 then
-			self:setAnim(self.bandana..'Stand')
+			self:setAnim(prefix..'Stand')
 		elseif control*self.vx < 0 then
-			self:setAnim(self.bandana..'Sliding')
+			self:setAnim(prefix..'Sliding')
 		elseif control == 0 then
-			self:setAnim(self.bandana..'Walk',true)
+			self:setAnim(prefix..'Walk',true)
 		else
-			self:setAnim(self.bandana..'Run')
+			self:setAnim(prefix..'Run')
 		end
 	elseif self.status == 'rightwall' then
-		self:setAnim(self.bandana..'Wall')
+		self:setAnim(prefix..'Wall')
 		self:flip(false)
 	elseif self.status == 'leftwall' then
-		self:setAnim(self.bandana..'Wall')
+		self:setAnim(prefix..'Wall')
 		self:flip(true)
 	elseif self.status == 'online' then
 		if control == 0 then
 			if self.vx == 0 then
-				self:setAnim(self.bandana..'LineHang')
+				self:setAnim(prefix..'LineHang')
 			else
-				self:setAnim(self.bandana..'LineSlide')
+				self:setAnim(prefix..'LineSlide')
 			end
 		else
-			self:setAnim(self.bandana..'LineMove')
+			self:setAnim(prefix..'LineMove')
 		end
 	elseif self.status == 'hooked' then
-		self:setAnim(self.bandana..'Hooked')
+		self:setAnim(prefix..'Hooked')
 	end
 	
 	-- correct rope length if shortening did not work (avoid unwanted snapping effects)

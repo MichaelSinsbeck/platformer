@@ -166,7 +166,7 @@ end
 
 function Bungee:relativeLength()
 	local dx,dy = p.x-self.x, p.y-self.y
-	return utility.pyth(dx,dy)/self.length
+	return self.length-utility.pyth(dx,dy)
 end
 
 function Bungee:throw()
