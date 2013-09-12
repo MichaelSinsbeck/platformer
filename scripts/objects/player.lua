@@ -166,7 +166,11 @@ function Player:setAcceleration(dt)
 	end
 	
 -- Accelerate if player is not faster than maximum speed anyway
-	if self.status == 'stand' or self.status == 'fly' or self.status == 'online' then
+	if self.status == 'fly' and self.anchor and self.anchor.y < self.y and self.anchor:relativeLength() < .3 then
+		-- player is 'hanging' on red bandana, so only accelerate tangential
+		self.vx = self.vx + .5*axControl*math.cos(self.vis[1].angle)*dt
+		self.vy = self.vy + .5*axControl*math.sin(self.vis[1].angle)*dt
+	elseif self.status == 'stand' or self.status == 'fly' or self.status == 'online' then
 		if axControl > 0 and self.vx < self.walkSpeed then -- Acceleration to the right
 			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
 		elseif axControl < 0 and self.vx > -self.walkSpeed then -- Acceleration to the left
@@ -338,7 +342,7 @@ function Player:collision(dt)
 	if game.isLeft then control = control -1 end
 	if game.isRight then control = control +1 end
 	
-	if not (self.status == 'fly' and self.anchor and self.anchor:relativeLength() < 1) then
+	if not (self.status == 'fly' and self.anchor and self.anchor.y < self.y and self.anchor:relativeLength() < .3) then
 		if control > 0 then self:flip(false) end
 		if control < 0 then self:flip(true) end
 	end
@@ -355,7 +359,7 @@ function Player:collision(dt)
 	if self.anchor then prefix = 'blank' end
 	
 	if self.status == 'fly' then
-		if self.anchor and self.anchor:relativeLength() < 1 then
+		if self.anchor and self.anchor:relativeLength() < .3 and self.anchor.y < self.y then
 			local dx,dy = self.x-self.anchor.x,self.y-self.anchor.y
 			if self.vis[1].animation ~= 'redHooked' then
 				self:setAnim('redHooked')

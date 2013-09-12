@@ -1,6 +1,5 @@
 Bungee = object:New({	
 	tag = 'Bungee',
-	--animation = 'bungee',
 	marginx = 0.1,
   marginy = 0.1,
   speed = 50,
