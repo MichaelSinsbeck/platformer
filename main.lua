@@ -15,6 +15,7 @@ require 'scripts/spritefactory'
 require 'scripts/map'
 require 'scripts/intro'
 require 'scripts/campaign'
+require 'scripts/levelEnd'
 
 mode = 'menu'	-- must be global
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
@@ -121,6 +122,8 @@ function love.draw()
 		menu:draw()
 	elseif mode == 'intro' then
 		intro:draw()
+	elseif mode == 'levelEnd' then
+		levelEnd:draw()
 	end
 	
 	if USE_SHADERS and menu.transitionActive then
@@ -154,6 +157,8 @@ function love.keypressed( key, unicode )
 			menu:keypressed( key, unicode )
 		elseif mode == 'game' then
 			game.keypressed( key )
+		elseif mode == 'levelEnd' then
+			levelEnd:keypressed( key, unicode )
 		end
 
 		-- always works, independently of game state:
