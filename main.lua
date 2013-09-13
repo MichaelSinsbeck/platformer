@@ -23,7 +23,7 @@ DEBUG = false
 USE_SHADERS = true
 
 -- temporary
-springtime = love.graphics.newImage('images/transition/springtime.png')
+springtime = love.graphics.newImage('images/transition/silhouette.png')
 
 
 function love.load(args)

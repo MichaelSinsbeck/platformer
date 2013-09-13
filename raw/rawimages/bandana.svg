@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="bandana.svg"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/bandana.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/32bandana.png"
+   inkscape:export-xdpi="72"
+   inkscape:export-ydpi="72">
   <sodipodi:namedview
      id="base"
      pagecolor="#000000"
@@ -59,7 +59,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
