@@ -10,11 +10,16 @@ function Appearblock:setAcceleration(dt)
 end
 
 function Appearblock:postStep(dt)
+	self.vis[1].sx = math.min(self. vis[1].sx+dt,1)
+	self.vis[1].sy = self.vis[1].sx	
+	
 	if self.state == 'there'
 			and self.vis[1]
 			and self.vis[1].animation == 'appearBlockNotThere'
 	    and not self:touchPlayer() then
 		self:setAnim('appearBlockThere')
+		self.vis[1].sx = 0.77
+		self.vis[1].sy = self.vis[1].sx
 	end
 end
 
@@ -32,6 +37,8 @@ function Appearblock:invert()
 		myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
 		if not self:touchPlayer() then
 		  self:setAnim('appearBlockThere')
+			self.vis[1].sx = 0.77
+			self.vis[1].sy = self.vis[1].sx
 		end
   end
 end

@@ -149,7 +149,7 @@ function object:update(dt)
   if subdivide == 0 then
     self:collision(dt)
   end
-	self:postStep(dt)
+  self:postStep(dt)	
 	
 	if self.vis then
 		for i = 1,#self.vis do
