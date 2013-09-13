@@ -1,7 +1,7 @@
 Exit = object:New({
 	tag = 'exit',
-  marginx = 0.8,
-  marginy = 0.8,
+  marginx = 0.6,
+  marginy = 0.6,
   vis = {Visualizer:New( 'exit'),},
 })
 
