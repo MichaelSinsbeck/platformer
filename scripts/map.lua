@@ -2,6 +2,8 @@
 
 Map = {}
 
+local tileSize = 48		-- fallback
+
 function Map:LoadFromFile(mapFile)
 	mapFile = mapFile or 'n1.dat'
 	mapFile = 'levels/' .. mapFile
@@ -41,6 +43,7 @@ end
 
 function Map:loadImage()
 	self.tileSize = Camera.scale*8
+	tileSize = self.tileSize
 	self.graphicSize = Camera.scale*10
 	--local img = love.graphics.newImage('images/'.. Camera.scale*8 ..self.imageFile)
 	local imgFG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'foreground'.. Campaign.worldNumber ..'.png')	
@@ -77,7 +80,8 @@ function Map:initShadows( x, y )
 	print(x, y)
   self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
   tablePrintBooleans(self.shadowMap)		-- debug
-  shadows:draw(x, y, self.shadowMap, self.tileSize, DEBUG, draw_monocle)
+  print("tile size:", self.tileSize or tileSize)
+  shadows:draw(x, y, self.shadowMap, self.tileSize or tileSize, false, draw_monocle)
 end
 
 function Map:start(p)
@@ -206,6 +210,7 @@ end --]]
 function Map:generateQuads(img)
   self.quads = {}
 	self.tileSize = Camera.scale*8
+	tileSize = self.tileSize
 	self.graphicSize = Camera.scale*10  
   local imageWidth = img:getWidth()
   local imageHeight = img:getHeight()

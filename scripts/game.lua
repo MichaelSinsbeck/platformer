@@ -58,20 +58,21 @@ function game:update(dt)
   Camera:update(dt)
   
   if game.won then
-		game.won = nil
-    Campaign:proceed()
+	game.won = nil
+	levelEnd:display()
   end
   
   if p.dead then
 		self.deathtimer = self.deathtimer + dt
   end
   
-  if self.deathtimer > 5 then
+  if self.deathtimer > 5 or (DEBUG and self.deathtimer > .5) then
     myMap:start(p)
   end
   
   if p.y > myMap.height+2 and not p.dead then
     p.dead = true
+    levelEnd:addDeath("fall")
     Meat:spawn(p.x,p.y-1,0,0)
   end
   

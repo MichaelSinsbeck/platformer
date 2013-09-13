@@ -59,6 +59,7 @@ function Campaign:proceed()
   
   if self[self.current] then
     myMap = Map:LoadFromFile(self[self.current])
+  	levelEnd:reset()		-- resets the counters of all deaths
     myMap:start(p)
   else
     mode = 'menu'

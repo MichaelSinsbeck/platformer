@@ -7,6 +7,7 @@ Spikey = object:New({
 function Spikey:setAcceleration(dt)
 	if not p.dead and self:touchPlayer() then
     p.dead = true
+    levelEnd:addDeath("spikey")
     Meat:spawn(p.oldx,p.oldy,self.vx,self.vy,12)
   end  
 end
