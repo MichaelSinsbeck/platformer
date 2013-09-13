@@ -66,7 +66,7 @@ function game:update(dt)
 		self.deathtimer = self.deathtimer + dt
   end
   
-  if self.deathtimer > 5 then --or (DEBUG and self.deathtimer > .5) then
+  if self.deathtimer > 5 or (DEBUG and self.deathtimer > .5) then
     myMap:start(p)
   end
   
