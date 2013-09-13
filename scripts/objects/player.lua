@@ -444,7 +444,7 @@ end
 
 function Player:connect(anchor)
 	self.anchor = anchor
-	anchor.length = math.sqrt((self.x-anchor.x)^2+(self.y-anchor.y)^2)
+	anchor.length = utility.pyth(self.x-anchor.x,self.y-anchor.y)+0.1
 	self.originalSemiheight = self.semiheight
 	self.originalSemiwidth = self.semiwidth
 	-- this makes the player "round"

@@ -3,7 +3,6 @@ require 'scripts/spriteengine'
 game = {deathtimer = 0}
 
 function game:draw()
-	love.graphics.push()
 	Camera:apply()
 
 	myMap:drawBG()
