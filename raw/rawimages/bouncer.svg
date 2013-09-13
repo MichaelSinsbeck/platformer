@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="bouncer.svg"
-   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/bouncer.png"
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/40bouncer.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.9999999"
-     inkscape:cx="-5.0649639"
-     inkscape:cy="11.741555"
+     inkscape:zoom="5.656854"
+     inkscape:cx="24.867211"
+     inkscape:cy="8.0321019"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -77,12 +77,12 @@
          inkscape:connector-curvature="0"
          id="path3092"
          d="M 6.1250001,30 43.625,30 c 0,0 -1.5,-10.125 -7.125,-10 L 14.25,20 C 7.375,20.125 6.1250001,30 6.1250001,30 z"
-         style="fill:#008080;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#2a2aff;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          inkscape:connector-curvature="0"
          id="path3862"
          d="m 24.625,1024.9866 4.5,4.75 -8.5,0 z"
-         style="fill:#00ffff;stroke:none" />
+         style="fill:#00002b;stroke:none" />
     </g>
     <path
        style="fill:#ffff40;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
@@ -91,7 +91,7 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <path
-       style="fill:#00ffff;stroke:none"
+       style="fill:#00002b;stroke:none"
        d="m 74.75,1024.9872 4.5,4.75 -8.5,0 z"
        id="path3862-7"
        inkscape:connector-curvature="0" />

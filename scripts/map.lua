@@ -242,7 +242,8 @@ end
 
 function Map:drawBG()
 	-- draw background color
-	love.graphics.setColor(80,150,205)     
+	--love.graphics.setColor(80,150,205) -- blue (world 1)
+	love.graphics.setColor(244,238,215)
 	love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
 	love.graphics.setColor(255,255,255)
   love.graphics.draw(self.spriteBatchBG,0,0)
