@@ -250,6 +250,7 @@ function Map:drawBG()
 end
 
 function Map:drawFG()
+	love.graphics.setColor(255,255,255)
 	love.graphics.draw(self.spriteBatchFG,0,0)
 end
 
