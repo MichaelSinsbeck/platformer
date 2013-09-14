@@ -138,6 +138,10 @@ function love.draw()
 		
 		love.graphics.draw(springtime,640,400,0,sx,sx,120,130)
 	end
+	
+	if DEBUG then
+		love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
+	end
 	--vis:draw(100,100)
 end
 
