@@ -1,5 +1,4 @@
 
-
 Map = {}
 
 local tileSize = 48		-- fallback
@@ -78,14 +77,19 @@ function Map:convertForShadows( h, w )
 	return map
 end
 
-function Map:initShadows( x, y )
-	print(x, y)
-	tablePrint(self.collisionSrc)
-	tablePrint(self.collision)
+function Map:initShadows()
+	shadows:reset()
   self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
-  tablePrintBooleans(self.shadowMap)		-- debug
-  print("tile size:", self.tileSize or tileSize)
+end
+
+function Map:addShadow( x, y )
   shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle)
+  print("new light:", x, y)
+end
+
+-- switch on (and off) light at position x, y:
+function Map:setShadowActive( x, y, bool)
+	shadows:setActive( x, y, bool )
 end
 
 function Map:start(p)
@@ -117,10 +121,6 @@ function Map:start(p)
   timer = 0
   Camera:jumpTo(p.x,p.y)
   
-  if USE_SHADOWS then
-	self:initShadows(p.x, p.y)
-  end
-
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor
     local nx = self.factoryList[i].x +0.5
@@ -148,6 +148,20 @@ function Map:start(p)
 			y2 = self.lineList[i].y2,
 			})
 		spriteEngine:insert(newObject)
+  end
+  
+  if USE_SHADOWS then
+	self:initShadows()
+		
+	-- go through all lights in the map and add shadows for them:
+	local list = {}
+	spriteEngine:DoAll('collectLights',list)
+	for k, v in pairs(list) do
+		self:addShadow(v.x, v.y)
+	end
+	if #list == 0 then
+		self:addShadow(p.x, p.y)
+	end
   end
 
 end

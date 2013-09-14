@@ -10,10 +10,9 @@ function game:draw()
 	love.graphics.setColor(255,255,255)
 	
 	if USE_SHADOWS then
-		love.graphics.setBlendMode('multiplicative')
-		love.graphics.draw(shadows.canvas, -shadows.tileSize, -shadows.tileSize)
+		shadows:renderActive()
 	end
-	love.graphics.setBlendMode('alpha')
+	
 	myMap:drawWalls()
 	myMap:drawFG()
 	
