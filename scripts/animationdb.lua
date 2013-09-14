@@ -265,5 +265,13 @@ function AnimationDB:loadAll()
 	
 	AnimationDB:loadImage('clubber.png','clubber',tileSize,tileSize)
 	AnimationDB:addAni('clubber','clubber',{1},{1e6})	
-	AnimationDB:addAni('club','clubber',{2},{1e6})	
+	AnimationDB:addAni('club','clubber',{2},{1e6})
+	
+	AnimationDB:loadImage('light.png','light',tileSize,tileSize)
+	AnimationDB:addAni('candle','light',{1},{1e6})
+	AnimationDB:addAni('candlelight','light',{2,3,4,3},{.2,.2,.2,.2})
+	AnimationDB:addAni('torch','light',{6},{1e6})		
+	AnimationDB:addAni('flame','light',{7,8,7,9},{.2,.2,.2,.2})
+	AnimationDB:addAni('lamp','light',{5},{1e6})
+	AnimationDB:addAni('lamplight','light',{10},{1e6})
 end
