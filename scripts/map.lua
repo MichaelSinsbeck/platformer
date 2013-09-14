@@ -255,7 +255,10 @@ function Map:drawBG()
 	love.graphics.setColor(244,238,215)
 	love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
 	love.graphics.setColor(255,255,255)
-  love.graphics.draw(self.spriteBatchBG,0,0)
+end
+
+function Map:drawWalls()
+	love.graphics.draw(self.spriteBatchBG,0,0)
 end
 
 function Map:drawFG()

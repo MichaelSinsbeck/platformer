@@ -14,6 +14,7 @@ function game:draw()
 		love.graphics.draw(shadows.canvas, -shadows.tileSize, -shadows.tileSize)
 	end
 	love.graphics.setBlendMode('alpha')
+	myMap:drawWalls()
 	
 	love.graphics.setColor(255,255,255) 
 
