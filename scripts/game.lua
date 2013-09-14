@@ -7,6 +7,7 @@ function game:draw()
 
 	myMap:drawBG()
 	spriteEngine:draw()
+	love.graphics.setColor(255,255,255)
 	
 	if USE_SHADOWS then
 		love.graphics.setBlendMode('multiplicative')
