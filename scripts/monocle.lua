@@ -8,6 +8,18 @@ local Monocle = {
 	edges = index(),
 }
 
+function Monocle:updateGrid( newGrid, tileSize )
+	local bkupList = self.lightList
+	self.lightList = {}
+	local col
+	for k, light in pairs(bkupList) do
+		col = { r=light.r, g=light.g, b=light.b, a=light.a }
+		self:draw(light.x+1, light.y+1, newGrid, tileSize, false, false, col)
+		if not light.active then
+			self:setActive( light.x, light.y, false )
+		end
+	end
+end
 
 function Monocle:draw(x, y, grid, tileSize, debug, draw_mode, color)
 	local newLight = {}
@@ -27,8 +39,6 @@ function Monocle:draw(x, y, grid, tileSize, debug, draw_mode, color)
 	local id = #self.lightList + 1
 	self.lightList[id] = newLight
 	
-	print("canvas size", #grid[1]*tileSize, #grid*tileSize)
-	print(x, self.round(x,2), self.round(x,3))
 	if self.round(x,2) == self.round(x,3) then
 		x = x + 0.001
 	end
@@ -52,6 +62,7 @@ function Monocle:draw(x, y, grid, tileSize, debug, draw_mode, color)
 	if self.debug then
 		self:draw_debug()
 	end
+	print("Added light @", x, y)
 end
 
 function Monocle:reset()

@@ -23,6 +23,7 @@ function Crumbleblock:postStep(dt)
 		self.vis[1].alpha = 120+125*self.crumbleTime
 		if self.crumbleTime < 0 then
 			myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
+			myMap:queueShadowUpdate()
 			self:kill()
 			for i = 1,6 do -- spawn 6 particles
 				local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3

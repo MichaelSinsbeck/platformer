@@ -32,9 +32,11 @@ function Appearblock:invert()
     self:setAnim('appearBlockNotThere')
     self.state = 'notThere'
     myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
+	myMap:queueShadowUpdate()
   else
 		self.state = 'there'
 		myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
+		myMap:queueShadowUpdate()
 		if not self:touchPlayer() then
 		  self:setAnim('appearBlockThere')
 			self.vis[1].sx = 0.77

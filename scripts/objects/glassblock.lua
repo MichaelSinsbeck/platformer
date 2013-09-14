@@ -30,5 +30,6 @@ function Glassblock:explode(args)
 				spriteEngine:insert(newParticle)
 			end
 		self:kill()
+		myMap:queueShadowUpdate()
 	end
 end

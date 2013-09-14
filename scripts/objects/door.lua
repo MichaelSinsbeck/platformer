@@ -34,4 +34,5 @@ end
 function Door:die()
 	myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
 	self:kill()
+	myMap:queueShadowUpdate()
 end

@@ -81,6 +81,13 @@ function love.load(args)
 end
 
 function love.update( dt )
+
+	if shadows.needsShadowUpdate then
+		if myMap then
+			myMap:updateShadows()
+		end
+	end
+
 	if mode == 'game' then
 		game:update(dt)
 	elseif mode == 'menu' then

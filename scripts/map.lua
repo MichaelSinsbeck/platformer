@@ -77,18 +77,29 @@ function Map:convertForShadows( h, w )
 	return map
 end
 
-function Map:initShadows()
-	shadows:reset()
-  self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
+function Map:updateShadows()
+	self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
+	shadows:updateGrid( self.shadowMap, self.tileSize or tileSize )
+	shadows.needsShadowUpdate = false
 end
 
-function Map:addShadow( x, y )
+function Map:queueShadowUpdate()
+	shadows.needsShadowUpdate = true
+end
+
+function Map:initShadows()
+	shadows:reset()
+	self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
+	tablePrintBooleans(self.shadowMap)
+end
+
+function Map:addLight( x, y )
 	local col
  
 	if Campaign.worldNumber == 1 then
 		col = {r=80,g=150,b=205,a=50}
 	elseif Campaign.worldNumber == 2 then
-		col = {r=200,g=200,b=100,a=20}
+		col = {r=200,g=200,b=200,a=80}
 	elseif Campaign.worldNumber == 3 then
 		col = {r=80,g=150,b=205,a=20}
 	elseif Campaign.worldNumber == 4 then
@@ -99,8 +110,8 @@ function Map:addShadow( x, y )
 		love.graphics.setColor(80,150,205) -- blue (world 1)
 	end
 	
-	 shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle, col)
-  print("new light @", x, y)
+	shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle, col)
+	print("new light @", x, y)
 end
 
 -- switch on (and off) light at position x, y:
@@ -170,15 +181,45 @@ function Map:start(p)
   
   if USE_SHADOWS then
 	self:initShadows()
+	
+	
+	print("Map")
+	for j = 1, self.height do
+		local str = ""
+		for i = 1, self.width do
+			if self.collision[i] and self.collision[i][j] then
+				str = str .. self.collision[i][j] .. " "
+			else
+				str = str .. "  "
+			end
+		end
+		print(str)
+	end
 		
 	-- go through all lights in the map and add shadows for them:
 	local list = {}
 	spriteEngine:DoAll('collectLights',list)
 	for k, v in pairs(list) do
-		self:addShadow(v.x, v.y)
+		self:addLight(v.x, v.y)
 	end
+	local addedLight = false
 	if #list == 0 then
-		self:addShadow(p.x, p.y)
+		print("dimensions:", self.height, self.width)
+		for l = 2,math.max(self.height, self.width) do
+			for i = 1,math.min(l, self.height) do
+				print(i, self.collision[i])
+				for j = 1,math.min(l, self.width) do
+					if not self.collision[i] or self.collision[i][j] ~= 1 then
+						print("adding:",j, i)
+						self:addLight(i,j)		-- add light in top left corner
+						addedLight = true
+						break
+					end
+				end
+				if addedLight then break end
+			end
+			if addedLight then break end
+		end
 	end
   end
 
