@@ -6,24 +6,34 @@ local _lg = love.graphics
 
 local Monocle = {
 	edges = index(),
-	--canvas = _lg.newCanvas()
 }
 
 
-function Monocle:draw(x, y, grid, tileSize, debug, draw_mode)
+function Monocle:draw(x, y, grid, tileSize, debug, draw_mode, color)
 	local newLight = {}
 	newLight.canvas = love.graphics.newCanvas(#grid[1]*tileSize, #grid*tileSize)
 	newLight.x, newLight.y = x-1, y-1
 	newLight.active = true
+	if color then
+		newLight.r = color.r or 255
+		newLight.g = color.g or 255
+		newLight.b = color.b or 255
+		newLight.a = color.a or 20
+	else
+		newLight.r, newLight.g, newLight.b = 255,255,255
+		newLight.a = 20
+	end
 	
-	self.lightList[#self.lightList + 1] = newLight
+	local id = #self.lightList + 1
+	self.lightList[id] = newLight
 	
 	print("canvas size", #grid[1]*tileSize, #grid*tileSize)
-	if self.round(x,8) == self.round(x) then
-		x = x + 0.00000001
+	print(x, self.round(x,2), self.round(x,3))
+	if self.round(x,2) == self.round(x,3) then
+		x = x + 0.001
 	end
-	if self.round(y,8) == self.round(y) then
-		y = y + 0.00000001
+	if self.round(y,2) == self.round(y,2) then
+		y = y + 0.001
 	end
 	self.x = x
 	self.y = y
@@ -37,7 +47,7 @@ function Monocle:draw(x, y, grid, tileSize, debug, draw_mode)
 	self:add_projections()
 	self.tileSize= tileSize
 	if self.draw_mode then
-		self:draw_triangles( newLight.canvas )
+		self:draw_triangles( id )
 	end
 	if self.debug then
 		self:draw_debug()
@@ -49,7 +59,7 @@ function Monocle:reset()
 end
 
 function Monocle:renderActive()
-	love.graphics.setBlendMode('multiplicative')
+	love.graphics.setBlendMode('additive')
 	for k, l in pairs(self.lightList) do
 		if l.active then
 			love.graphics.draw(l.canvas, -shadows.tileSize, -shadows.tileSize)
@@ -59,12 +69,9 @@ function Monocle:renderActive()
 end
 
 function Monocle:setActive( x, y, bool )
-	print(x, y, bool)
 	for k, light in pairs( self.lightList ) do
-		print("\t", light.x, light.y)
 		if light.x == x and light.y == y then
 			light.active = bool
-			print("found")
 			break
 		end
 	end
@@ -250,12 +257,15 @@ function Monocle:add_projection_edge(e, x1,y1, isNext)
 
 end
 
-function Monocle:draw_triangles( canvas )
+function Monocle:draw_triangles( id )
+	local canvas = self.lightList[id].canvas
+	local r,g,b = self.lightList[id].r, self.lightList[id].g, self.lightList[id].b
+	local alpha = self.lightList[id].a
 	_lg.setCanvas( canvas )
-	_lg.setColor(240,240,240)
+	_lg.setColor(0,0,0)
 	_lg.rectangle('fill', 0, 0, canvas:getWidth(),canvas:getHeight())
 	_lg.setBlendMode('alpha')
-	_lg.setColor(255,255,255, 255)
+	_lg.setColor( r,g,b, alpha )
 
 	--Increase this for large maps
 	local TOLERANCE = 500
@@ -274,7 +284,6 @@ function Monocle:draw_triangles( canvas )
 		end
 		count = count + 1
 	until current_edge == start[1] or count > TOLERANCE
-
 	_lg.setCanvas()
 end
 

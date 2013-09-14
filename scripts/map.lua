@@ -83,8 +83,24 @@ function Map:initShadows()
 end
 
 function Map:addShadow( x, y )
-  shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle)
-  print("new light:", x, y)
+	local col
+ 
+	if Campaign.worldNumber == 1 then
+		col = {r=80,g=150,b=205,a=50}
+	elseif Campaign.worldNumber == 2 then
+		col = {r=200,g=200,b=100,a=20}
+	elseif Campaign.worldNumber == 3 then
+		col = {r=80,g=150,b=205,a=20}
+	elseif Campaign.worldNumber == 4 then
+		col = {r=205,g=205,b=205,a=60}
+	elseif Campaign.worldNumber == 5 then
+		col = {r=150,g=150,b=150,a=40}
+	else
+		love.graphics.setColor(80,150,205) -- blue (world 1)
+	end
+	
+	 shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle, col)
+  print("new light @", x, y)
 end
 
 -- switch on (and off) light at position x, y:
@@ -268,7 +284,23 @@ end
 function Map:drawBG()
 	-- draw background color
 	--love.graphics.setColor(80,150,205) -- blue (world 1)
-	love.graphics.setColor(244,238,215)
+	--love.graphics.setColor(244,238,215)
+	
+	-- use relatively dark colors for testing shadows:
+	if Campaign.worldNumber == 1 then
+		love.graphics.setColor(80,150,205) -- blue (world 1)
+	elseif Campaign.worldNumber == 2 then
+		love.graphics.setColor(100,110,70)
+	elseif Campaign.worldNumber == 3 then
+		love.graphics.setColor(80,60,50)
+	elseif Campaign.worldNumber == 4 then
+		love.graphics.setColor(130,120,115)
+	elseif Campaign.worldNumber == 5 then
+		love.graphics.setColor(50,50,50)
+	else
+		love.graphics.setColor(80,150,205) -- blue (world 1)
+	end
+	
 	love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
 	love.graphics.setColor(255,255,255)
 end
