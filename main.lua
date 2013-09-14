@@ -90,7 +90,7 @@ function love.update( dt )
 	end
 	
 	if menu.transitionActive then
-		menu.transitionPercentage = menu.transitionPercentage + dt*100	-- 1 second
+		menu.transitionPercentage = menu.transitionPercentage + dt*1000	-- 1 second
 		if USE_SHADERS then
 			shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
 		end

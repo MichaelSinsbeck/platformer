@@ -480,6 +480,10 @@ function Map:FactoryList(tile,height,width)
 	[62] = FixedCannon2u,
 	[63] = FixedCannon3u,
 	[64] = FixedCannon4u,
+	
+	[65] = Light,
+	[66] = Torch,
+	[67] = Lamp,
 }
   
   for i=1,width do
