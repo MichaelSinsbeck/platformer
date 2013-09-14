@@ -6,12 +6,18 @@ local _lg = love.graphics
 
 local Monocle = {
 	edges = index(),
-	canvas = _lg.newCanvas()
+	--canvas = _lg.newCanvas()
 }
 
-function Monocle:draw(x, y, grid, tileSize, debug, draw_mode)
 
-	self.canvas = love.graphics.newCanvas(#grid[1]*tileSize, #grid*tileSize)
+function Monocle:draw(x, y, grid, tileSize, debug, draw_mode)
+	local newLight = {}
+	newLight.canvas = love.graphics.newCanvas(#grid[1]*tileSize, #grid*tileSize)
+	newLight.x, newLight.y = x-1, y-1
+	newLight.active = true
+	
+	self.lightList[#self.lightList + 1] = newLight
+	
 	print("canvas size", #grid[1]*tileSize, #grid*tileSize)
 	if self.round(x,8) == self.round(x) then
 		x = x + 0.00000001
@@ -31,10 +37,36 @@ function Monocle:draw(x, y, grid, tileSize, debug, draw_mode)
 	self:add_projections()
 	self.tileSize= tileSize
 	if self.draw_mode then
-		self:draw_triangles()
+		self:draw_triangles( newLight.canvas )
 	end
 	if self.debug then
 		self:draw_debug()
+	end
+end
+
+function Monocle:reset()
+	self.lightList = {}
+end
+
+function Monocle:renderActive()
+	love.graphics.setBlendMode('multiplicative')
+	for k, l in pairs(self.lightList) do
+		if l.active then
+			love.graphics.draw(l.canvas, -shadows.tileSize, -shadows.tileSize)
+		end
+	end
+	love.graphics.setBlendMode('alpha')
+end
+
+function Monocle:setActive( x, y, bool )
+	print(x, y, bool)
+	for k, light in pairs( self.lightList ) do
+		print("\t", light.x, light.y)
+		if light.x == x and light.y == y then
+			light.active = bool
+			print("found")
+			break
+		end
 	end
 end
 
@@ -218,12 +250,12 @@ function Monocle:add_projection_edge(e, x1,y1, isNext)
 
 end
 
-function Monocle:draw_triangles()
-	_lg.setCanvas(self.canvas)
-	_lg.setColor(128,128,128)
-	_lg.rectangle('fill', 0, 0, self.canvas:getWidth(), self.canvas:getHeight())
+function Monocle:draw_triangles( canvas )
+	_lg.setCanvas( canvas )
+	_lg.setColor(240,240,240)
+	_lg.rectangle('fill', 0, 0, canvas:getWidth(),canvas:getHeight())
 	_lg.setBlendMode('alpha')
-	_lg.setColor(255,255,255)
+	_lg.setColor(255,255,255, 255)
 
 	--Increase this for large maps
 	local TOLERANCE = 500

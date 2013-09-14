@@ -9,10 +9,9 @@ function game:draw()
 	spriteEngine:draw()
 	
 	if USE_SHADOWS then
-		love.graphics.setBlendMode('multiplicative')
-		love.graphics.draw(shadows.canvas, -shadows.tileSize, -shadows.tileSize)
+		shadows:renderActive()
 	end
-	love.graphics.setBlendMode('alpha')
+	
 	myMap:drawWalls()
 	myMap:drawFG()
 	
