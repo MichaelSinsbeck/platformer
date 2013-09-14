@@ -60,15 +60,17 @@ end
 function Map:convertForShadows( h, w )
 
 	local map = {}
-	for i = 1,math.ceil(h) do
-		map[i] = {}
-		for j = 1,math.ceil(w) do
-			map[i][j] = {}
-			if (self.collisionSrc[j] and self.collisionSrc[j][i])
-				or i==1 or i==h or j==1 or j==w then
-				map[i][j].solid = true
+	h = math.ceil(h)
+	w = math.ceil(w)
+	for i = 0,h+1 do
+		map[i+1] = {}
+		for j = 0,w+1 do
+			map[i+1][j+1] = {}
+			if (self.collision[j] and self.collision[j][i] == 1)
+				or i==0 or i==h+1 or j==0 or j==w+1 then
+				map[i+1][j+1].solid = true
 			else
-				map[i][j].solid = false
+				map[i+1][j+1].solid = false
 			end 
 		end
 	end
@@ -78,10 +80,12 @@ end
 
 function Map:initShadows( x, y )
 	print(x, y)
+	tablePrint(self.collisionSrc)
+	tablePrint(self.collision)
   self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
   tablePrintBooleans(self.shadowMap)		-- debug
   print("tile size:", self.tileSize or tileSize)
-  shadows:draw(x, y, self.shadowMap, self.tileSize or tileSize, false, draw_monocle)
+  shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle)
 end
 
 function Map:start(p)
@@ -251,7 +255,10 @@ function Map:drawBG()
 	love.graphics.setColor(244,238,215)
 	love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
 	love.graphics.setColor(255,255,255)
-  love.graphics.draw(self.spriteBatchBG,0,0)
+end
+
+function Map:drawWalls()
+	love.graphics.draw(self.spriteBatchBG,0,0)
 end
 
 function Map:drawFG()

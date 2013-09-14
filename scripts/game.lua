@@ -7,13 +7,14 @@ function game:draw()
 
 	myMap:drawBG()
 	spriteEngine:draw()
-	myMap:drawFG()
 	
 	if USE_SHADOWS then
 		love.graphics.setBlendMode('multiplicative')
-		love.graphics.draw(shadows.canvas)
+		love.graphics.draw(shadows.canvas, -shadows.tileSize, -shadows.tileSize)
 	end
 	love.graphics.setBlendMode('alpha')
+	myMap:drawWalls()
+	myMap:drawFG()
 	
 	love.graphics.setColor(255,255,255) 
 
