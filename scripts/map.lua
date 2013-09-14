@@ -157,7 +157,10 @@ function Map:start(p)
 	local list = {}
 	spriteEngine:DoAll('collectLights',list)
 	for k, v in pairs(list) do
-		self:addShadow(v.x, v.y, k)
+		self:addShadow(v.x, v.y)
+	end
+	if #list == 0 then
+		self:addShadow(p.x, p.y)
 	end
   end
 
