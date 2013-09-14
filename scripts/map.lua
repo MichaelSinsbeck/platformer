@@ -89,7 +89,9 @@ end
 
 -- switch on (and off) light at position x, y:
 function Map:setShadowActive( x, y, bool)
-	shadows:setActive( x, y, bool )
+	if USE_SHADOWS then
+		shadows:setActive( x, y, bool )
+	end
 end
 
 function Map:start(p)
