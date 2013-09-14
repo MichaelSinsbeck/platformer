@@ -29,6 +29,7 @@ function Monocle:draw(x, y, grid, tileSize, debug, draw_mode)
 	self:get_forward_edges()
 	self:link_edges()
 	self:add_projections()
+	self.tileSize= tileSize
 	if self.draw_mode then
 		self:draw_triangles()
 	end
