@@ -73,6 +73,11 @@ function Map:convertForShadows( h, w )
 			end 
 		end
 	end
+	for k,v in pairs(self.factoryList) do
+		if v.constructor.tag == 'glassblock' then
+			map[v.y+1][v.x+1].solid = false
+		end
+	end
 
 	return map
 end
