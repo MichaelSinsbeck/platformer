@@ -6,6 +6,7 @@ function game:draw()
 	Camera:apply()
 
 	myMap:drawBG()
+	myMap:drawWalls()
 	spriteEngine:draw()
 	love.graphics.setColor(255,255,255)
 	
@@ -13,7 +14,7 @@ function game:draw()
 		shadows:renderActive()
 	end
 	
-	myMap:drawWalls()
+
 	myMap:drawFG()
 	
 	love.graphics.setColor(255,255,255) 
@@ -83,13 +84,6 @@ function game:update(dt)
 end
 
 function game.keypressed(key)
-	if key == 'b' then
-		local list = {}
-		spriteEngine:DoAll('collectLights',list)
-		for k,v in ipairs(list) do
-			print('k = ' .. k .. ', coordinates: ('.. v.x .. ', ' .. v.y.. ')')
-		end
-	end
 
 	if key == 'escape' then
 		menu.startTransition(menu.initWorldMap)()
