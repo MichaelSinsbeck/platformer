@@ -34,7 +34,7 @@ function Map:LoadFromFile(mapFile)
       if o.collisionSrc[i][j] == 0 then o.collisionSrc[i][j] = nil end
     end
   end
-
+  
 	o:loadImage()
 
 	return o	
@@ -340,7 +340,7 @@ function Map:drawBG()
 	elseif Campaign.worldNumber == 3 then
 		love.graphics.setColor(80,60,50)
 	elseif Campaign.worldNumber == 4 then
-		love.graphics.setColor(130,120,115)
+		love.graphics.setColor(244,238,215)
 	elseif Campaign.worldNumber == 5 then
 		love.graphics.setColor(50,50,50)
 	else
@@ -584,7 +584,6 @@ function Map:FactoryList(tile,height,width)
     for j = 1,height do
 			if objectList[tile[i][j]] then
 				local constr = objectList[tile[i][j]]
-					tile[i][j] = 0
 			  local newObject = {constructor = constr, x = i, y = j}
 			  table.insert(factoryList,newObject)
 			end             
