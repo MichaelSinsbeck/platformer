@@ -96,8 +96,8 @@ end
 
 function keys.moveMenuPlayer( x, y, newAnimation )
 	return function()
-		menuPlayer.x = x*Camera.scale
-		menuPlayer.y = y*Camera.scale
+		menuPlayer.x = x
+		menuPlayer.y = y
 		print("pos:", menuPlayer.x, menuPlayer.y)
 		menuPlayer.vis:setAni( newAnimation )
 		local sel = menu:getSelected()
