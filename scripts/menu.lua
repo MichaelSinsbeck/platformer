@@ -22,7 +22,7 @@ local background3_IMG
 local background4_IMG
 local background5_IMG
 
-local menuPlayer = require("scripts/menuPlayer")
+local menuPlayer = {}
 local credits = require("scripts/credits")
 
 -- This function loads the images in the right scaling
@@ -53,6 +53,12 @@ function menu:init()
 	self.images.keyboardOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyboardOn.png")
 	self.images.gamepadOff_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOff.png")
 	self.images.gamepadOn_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOn.png")
+	
+	
+	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
+	menuPlayer.x = 0
+	menuPlayer.y = 0
+	menuPlayer.vis:init()
 end
 
 function menu.clear()
@@ -70,7 +76,6 @@ end
 
 -- creates main menu:
 function menu.initMain()
-	menuPlayer:init()
 	menu.xCamera = 0
 	menu.yCamera = 0
 	menu.xTarget = 0
@@ -85,21 +90,19 @@ function menu.initMain()
 	x = -5
 	y = 0
 	
-	local actionHover = menuPlayer:setDestination(x - 3, y + 5)
+	local actionHover = menu.setPlayerPosition( x - 3, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
-	actionHover = menuPlayer:setDestination(x - 3, y + 5)
+	actionHover = menu.setPlayerPosition( x - 3, y + 5 )
 	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", menu.startTransition(settings.init), actionHover )
-	
 	y = y + 10
-	actionHover = menuPlayer:setDestination(x - 3, y + 5)
-
+	
+	actionHover = menu.setPlayerPosition( x - 3, y + 5 )
 	menu:addButton( x, y, 'creditsOff_IMG', 'creditsOn_IMG', "credits", menu.startTransition(menu.startCredits), actionHover )
-
-	
 	y = y + 10
-	actionHover = menuPlayer:setDestination(x - 3, y + 5)
+	
+	actionHover = menu.setPlayerPosition( x - 3, y + 5 )
 	menu:addButton( x, y, 'exitOff_IMG', 'exitOn_IMG', "exit", menu.startTransition(love.event.quit), actionHover )
 
 	
@@ -111,13 +114,18 @@ function menu.initMain()
 	-- start of with the start button selected:
 	selectButton(startButton)
 	
-	menuPlayer:reset()
+	--menuPlayer.vis:setAni("whiteWalk")
 end
 
+function menu.setPlayerPosition( x, y )
+	return function()
+		menuPlayer.x = x*Camera.scale
+		menuPlayer.y = y*Camera.scale
+	end
+end
 
 -- creates world map menu:
 function menu.initWorldMap()
-	menuPlayer:init()
 	
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "worldMap"
@@ -240,7 +248,8 @@ function scrollWorldMap()	--called when a button on world map is selected
 	Campaign.worldNumber = math.floor(selButton.x/120)+1 -- calculate worldNumber
 	
 	-- Create function which will set ninja coordinates. Then call that function:
-	local func = menuPlayer:setDestination(selButton.x+5, selButton.y + 2)
+	local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
+	--menuPlayer.vis:setAni("whiteWalk")
 	func()
 end
 
@@ -426,7 +435,7 @@ function menu:selectLeft()
 		if buttons[k].x < selButton.x then
 			-- turn around player if moving to the left
 			if selButton.x > buttons[k].x then
-				menuPlayer.scaleX = -1
+				menuPlayer.vis.sx = -1
 			end
 			selButton.selected = false
 			selectButton(buttons[k])
@@ -464,7 +473,7 @@ function menu:selectRight()
 		if buttons[k].x > selButton.x then
 			-- turn around player if moving to the right
 			if selButton.x < buttons[k].x then
-				menuPlayer.scaleX = 1
+				menuPlayer.vis.sx = 1
 			end
 			selButton.selected = false
 			selectButton(buttons[k])
@@ -526,7 +535,7 @@ end
 ---------------------------------------------------------
 
 function menu:update(dt)
-	menuPlayer:update(dt/2)
+	menuPlayer.vis:update(dt)
 	
 	local factor = math.min(1, 3*dt)
 	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
@@ -644,7 +653,8 @@ function menu:draw()
 	end
 	
 	if menu.state == "main" or menu.state == "worldMap" then
-		menuPlayer:draw()
+		--menuPlayer:draw()
+		menuPlayer.vis:draw(menuPlayer.x, menuPlayer.y)
 	end
 	love.graphics.pop()
 
@@ -696,6 +706,7 @@ end
 ---------------------------------------------------------
 
 -- computes square of the distance between two points (for speed)
+-- weighs one direction (x or y) more than the other
 function sDist(x1, y1, x2, y2, preferred)
 	if preferred == "x" then
 		return (x1-x2)^2 + ((y1-y2)^2)*2
@@ -710,7 +721,7 @@ function selectButton(button)
 	--print ("Selected button: '" .. button.name .. "'")
 	menu.text = button.name
 	if selButton.actionHover then
-		selButton.actionHover()
+		selButton.actionHover( selButton )
 	end
 end
 

@@ -86,7 +86,6 @@ function game:update(dt)
 end
 
 function game.keypressed(key)
-
 	if key == 'escape' then
 		menu.startTransition(menu.initWorldMap)()
 	end

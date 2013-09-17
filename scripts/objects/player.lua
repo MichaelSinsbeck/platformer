@@ -47,6 +47,7 @@ Player = object:New({
 
 function Player:jump()
 	game:checkControls()
+	print(game.isDown, game.isUp)
   if self.status == 'stand' then
     self.status = 'fly'
     self.vy = self.jumpSpeed

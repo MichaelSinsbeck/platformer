@@ -49,11 +49,12 @@ function love.load(args)
 	-- set screen resolution (and fullscreen)
 	Camera:init()
 	
-	menu:init()
 	-- load all images
 	AnimationDB:loadAll()
 	
 	keys.load()
+	
+	menu:init()	-- must be called after AnimationDB:loadAll()
 	
 	if USE_SHADERS then
 		shaders.load()
