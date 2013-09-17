@@ -676,7 +676,7 @@ function menu:draw()
 			end
 		else
 			if button.animated then
-				--button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
+				button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
 			else
 				love.graphics.draw( self.images[button.imgOff], 
 					(button.x+button.ox+xShift)*Camera.scale, 
