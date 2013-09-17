@@ -44,8 +44,24 @@ function AnimationDB:addAni(name,source,frames,duration)
   self.animation[name].duration = duration
 end
 
+function AnimationDB:loadBackgrounds()
+	local tileSize = Camera.scale*8
+	self.backgroundQuad = love.graphics.newQuad(0,0,Camera.width,Camera.height,4*tileSize,4*tileSize)
+
+	self.background = {}	
+	for iWorld = 1,5 do
+		local imagefilename = 'images/tilesets/'.. Camera.scale*8 .. 'background'.. iWorld ..'.png'
+		self.background[iWorld] = love.graphics.newImage(imagefilename)	
+		self.background[iWorld]:setWrap('repeat', 'repeat')
+	end
+	
+	 
+end
+
 function AnimationDB:loadAll()
 	local tileSize = Camera.scale*10
+	AnimationDB:loadBackgrounds()
+	
 	AnimationDB:loadImage('player_white.png','whitePlayer',tileSize,tileSize)
 	AnimationDB:addAni('whiteRun','whitePlayer',{3,1,2,1},{.08,.04,.08,.04})
 	AnimationDB:addAni('whiteWalk','whitePlayer',{18,17,19,17},{.08,.04,.08,.04})
