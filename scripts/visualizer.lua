@@ -78,7 +78,7 @@ function Visualizer:update(dt)
   end
 end
 
-function Visualizer:setAni()
+function Visualizer:setAni(name)
 	if self.animation ~= name then
 	  self.animation = name
 	  if not continue then

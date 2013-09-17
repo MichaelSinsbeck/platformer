@@ -114,7 +114,7 @@ function menu.initMain()
 	-- start of with the start button selected:
 	selectButton(startButton)
 	
-	--menuPlayer.vis:setAni("whiteWalk")
+	menuPlayer.vis:setAni("whiteWalk")
 end
 
 function menu.setPlayerPosition( x, y )
@@ -535,7 +535,7 @@ end
 ---------------------------------------------------------
 
 function menu:update(dt)
-	menuPlayer.vis:update(dt)
+	menuPlayer.vis:update(dt/2)
 	
 	local factor = math.min(1, 3*dt)
 	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
