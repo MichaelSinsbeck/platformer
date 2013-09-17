@@ -87,6 +87,50 @@ function keys.initKeyboard()
 	
 	keys.changed = false -- don't save configuration unless new key has been assigned
 	
+	local x,y = -25, -45
+	
+	local startButton = menu:addButtonAnimated( x+5, y+5, 'whiteWalk', 'whiteWalk', "left", keys.startAssign( "LEFT" ), nil, -.9, .9 )
+	menu:addText( x+11, y+3, "LEFT", keys.LEFT)
+	
+	y = y + 10
+	menu:addButtonAnimated( x+5, y+5, 'whiteWalk', 'whiteWalk', "right", keys.startAssign( "RIGHT" ), nil, .9, .9 )
+	menu:addText( x+11, y+3, "RIGHT", keys.RIGHT)
+	y = y + 10
+	menu:addButtonAnimated( x+5, y+5, 'moveUpWhite', 'moveUpWhite', "up", keys.startAssign( "UP" ), nil, .9, .9 )
+	menu:addText( x+11, y+3, "UP", keys.UP)
+	y = y + 10
+	menu:addButtonAnimated( x+5, y+5, 'moveDownWhite', 'moveDownWhite', "down", keys.startAssign( "DOWN" ), nil, .9, .9 )
+	menu:addText( x+11, y+3, "DOWN", keys.DOWN)
+	
+	y = y + 17
+	menu:addButtonAnimated( x+5, y+5, 'jumpFallWhite', 'jumpFallWhite', "jump", keys.startAssign( "JUMP" ), nil, .9, .9 )
+	menu:addText( x+11, y+3, "JUMP", keys.JUMP)
+	y = y + 10
+	menu:addButtonAnimated( x+5, y+5, 'bandanaColor', 'bandanaColor', "use bandana", keys.startAssign( "ACTION" ), nil,.9,.9 )
+	menu:addText( x+11, y+3, "ACTION", keys.ACTION)
+	
+	y = y + 17
+	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "screenshot", keys.startAssign( "SCREENSHOT" ), nil )
+	menu:addText( x+11, y+3, "SCREENSHOT", keys.SCREENSHOT)
+	y = y + 10
+	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "fullscreen", keys.startAssign( "FULLSCREEN" ), nil )
+	menu:addText( x+11, y+3, "FULLSCREEN", keys.FULLSCREEN)
+	y = y + 10
+	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "restart map", keys.startAssign( "RESTARTMAP" ), nil )
+	menu:addText( x+11, y+3, "RESTARTMAP", keys.RESTARTMAP)
+	
+	
+	-- start of with the first button selected:
+	selectButton(startButton)
+end
+
+--[[
+function keys.initKeyboard()
+	menu.state = "keyboard"
+	menu:clear()
+	
+	keys.changed = false -- don't save configuration unless new key has been assigned
+	
 	local x,y = -25, -35
 	
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "left", keys.startAssign( "LEFT" ), nil )
@@ -123,6 +167,7 @@ function keys.initKeyboard()
 	-- start of with the first button selected:
 	selectButton(startButton)
 end
+]]--
 
 
 function keys.initGamepad()

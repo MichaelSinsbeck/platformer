@@ -296,8 +296,12 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('lamplight','light',{10},{1e6})
 	
 	
-	AnimationDB:loadImage('playerLook.png','playerLook',tileSize,tileSize, "menu")
-	AnimationDB:addAni('lookWhite','playerLook',{1},{1e6})
+	AnimationDB:loadImage('menuPlayer.png','menuPlayer',tileSize,tileSize, "menu")
+	AnimationDB:addAni('lookWhite','menuPlayer',{1},{1e6})
+	AnimationDB:addAni('moveUpWhite','menuPlayer',{6,7,8,9,10,6},{.01,.03,.02,.01,.5,.5})
+	AnimationDB:addAni('moveDownWhite','menuPlayer',{11,12,13,14,15,11},{.01,.03,.02,.01,.5,.5})
+	AnimationDB:addAni('bandanaColor','menuPlayer',{16,17,18,19,20},{.5,.5,.5,.5,.5})
+	AnimationDB:addAni('jumpFallWhite','whitePlayer',{17,5,6,5,17},{.05,.05,.5,.05,.5})
 	
 	--AnimationDB:loadImage('startAnimated.png','startButton',tileSize,tileSize, "menu")
 	--AnimationDB:addAni('startOn','startButton',{1,2,3,4,3,2},{.5,.1,.05,.05,.05,.1})

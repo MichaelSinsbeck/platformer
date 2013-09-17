@@ -328,7 +328,7 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 
 	return new
 end
-function menu:addButtonAnimated( x,y,imgOff,imgOn,name,action,actionHover )
+function menu:addButtonAnimated( x,y,imgOff,imgOn,name,action,actionHover, scaleX, scaleY )
 	
 	local new = {x=x,
 				y=y,
@@ -344,6 +344,15 @@ function menu:addButtonAnimated( x,y,imgOff,imgOn,name,action,actionHover )
 	new.ox = Camera.scale*8*0.5
 	new.oy = Camera.scale*8*0.5
 	new.vis:init()
+	new.vis:update(0)
+	
+	if scaleX then
+		new.vis.sx = scaleX
+	end
+	if scaleY then
+		new.vis.sy = scaleY
+	end
+	
 	table.insert(buttons, new)
 
 	return new
@@ -667,7 +676,7 @@ function menu:draw()
 			end
 		else
 			if button.animated then
-				button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
+				--button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
 			else
 				love.graphics.draw( self.images[button.imgOff], 
 					(button.x+button.ox+xShift)*Camera.scale, 
