@@ -56,8 +56,8 @@ function menu:init()
 	
 	
 	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
-	menuPlayer.x = 0
-	menuPlayer.y = 0
+	--menuPlayer.x = 0
+	--menuPlayer.y = 0
 	menuPlayer.vis:init()
 end
 
@@ -121,8 +121,8 @@ end
 
 function menu.setPlayerPosition( x, y )
 	return function()
-		menuPlayer.x = x*Camera.scale
-		menuPlayer.y = y*Camera.scale
+		menuPlayer.x = x
+		menuPlayer.y = y
 	end
 end
 
@@ -691,7 +691,7 @@ function menu:draw()
 	
 	if menu.state == "main" or menu.state == "worldMap" or menu.state == "settings" then
 		--menuPlayer:draw()
-		menuPlayer.vis:draw(menuPlayer.x, menuPlayer.y)
+		menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
 	end
 	
 	love.graphics.setFont(fontSmall)
