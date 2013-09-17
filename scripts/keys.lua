@@ -95,7 +95,18 @@ function getImageForKey( str, font )
 end
 
 function keys.moveMenuPlayer( x, y, newAnimation )
-
+	return function()
+		menuPlayer.x = x*Camera.scale
+		menuPlayer.y = y*Camera.scale
+		print("pos:", menuPlayer.x, menuPlayer.y)
+		menuPlayer.vis:setAni( newAnimation )
+		local sel = menu:getSelected()
+		if sel and sel.name == "key_LEFT" then
+			menuPlayer.vis.sx = -1
+		else
+			menuPlayer.vis.sx = 1
+		end
+	end
 end
 
 ---------------------------------------------------------
@@ -162,70 +173,87 @@ function keys.initKeyboard()
 	
 	local x,y = 0, -35
 	local imgOff, imgOn
+	local hoverEvent
+	local ninjaDistX = 3
+	local ninjaDistY = -4
 	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
 	imgOff, imgOn = getImageForKey( keys.LEFT, fontSmall )
 	local startButton = menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_LEFT",
-					keys.startAssign( "LEFT" ), nil,
+					keys.startAssign( "LEFT" ), hoverEvent,
 					keys.LEFT, fontSmall )
 	--menu:addText( x+11, y+3, "LEFT", keys.LEFT)
 	y = y + 7
 	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
 	imgOff, imgOn = getImageForKey( keys.RIGHT, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_RIGHT",
-					keys.startAssign( "RIGHT" ), nil,
+					keys.startAssign( "RIGHT" ), hoverEvent,
 					keys.RIGHT, fontSmall )
 	--menu:addText( x+11, y+3, "RIGHT", keys.RIGHT)
 	y = y + 7
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveUpWhite" )
 	imgOff, imgOn = getImageForKey( keys.UP, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_UP", 
-					keys.startAssign( "UP" ), nil,
+					keys.startAssign( "UP" ), hoverEvent,
 					keys.UP, fontSmall )
 	--menu:addText( x+11, y+3, "UP", keys.UP)
 	y = y + 7
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveDownWhite" )
 	imgOff, imgOn = getImageForKey( keys.DOWN, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_DOWN", 
-					keys.startAssign( "DOWN" ), nil,
+					keys.startAssign( "DOWN" ), hoverEvent,
 					keys.DOWN, fontSmall )
 	--menu:addText( x+11, y+3, "DOWN", keys.DOWN)
-	
 	y = y + 14
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
 	imgOff, imgOn = getImageForKey( keys.JUMP, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_JUMP",
-					keys.startAssign( "JUMP" ), nil,
+					keys.startAssign( "JUMP" ), hoverEvent,
 					keys.JUMP, fontSmall )
 	--menu:addText( x+11, y+3, "JUMP", keys.JUMP)
 	y = y + 7
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "bandanaColor" )
 	imgOff, imgOn = getImageForKey( keys.ACTION, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_ACTION",
-					keys.startAssign( "ACTION" ), nil,
+					keys.startAssign( "ACTION" ), hoverEvent,
 					keys.ACTION, fontSmall )
 	--menu:addText( x+11, y+3, "ACTION", keys.ACTION)
-	
 	y = y + 14
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
 	imgOff, imgOn = getImageForKey( keys.SCREENSHOT, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_SCREENSHOT",
-					keys.startAssign( "SCREENSHOT" ), nil,
+					keys.startAssign( "SCREENSHOT" ), hoverEvent,
 					keys.SCREENSHOT, fontSmall )
 	--menu:addText( x+11, y+3, "SCREENSHOT", keys.SCREENSHOT)
 	y = y + 7
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
 	imgOff, imgOn = getImageForKey( keys.FULLSCREEN, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_FULLSCREEN",
-					keys.startAssign( "FULLSCREEN" ), nil,
+					keys.startAssign( "FULLSCREEN" ), hoverEvent,
 					keys.FULLSCREEN, fontSmall )
 	--menu:addText( x+11, y+3, "FULLSCREEN", keys.FULLSCREEN)
 	y = y + 7
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
 	imgOff, imgOn = getImageForKey( keys.RESTARTMAP, fontSmall )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_RESTARTMAP",
-					keys.startAssign( "RESTARTMAP" ), nil,
+					keys.startAssign( "RESTARTMAP" ), hoverEvent,
 					keys.RESTARTMAP, fontSmall )
 	--menu:addText( x+11, y+3, "RESTARTMAP", keys.RESTARTMAP)
 	

@@ -128,6 +128,7 @@ function menu.setPlayerPosition( x, y )
 	return function()
 		menuPlayer.x = x*Camera.scale
 		menuPlayer.y = y*Camera.scale
+		print("menu pos", menuPlayer.x, menuPlayer.y)
 	end
 end
 
@@ -764,7 +765,8 @@ function menu:draw()
 		--love.graphics.print(k, button.x, button.y )
 	end
 	
-	if menu.state == "main" or menu.state == "worldMap" or menu.state == "settings" then
+	if menu.state == "main" or menu.state == "worldMap" or
+		menu.state == "settings" or menu.state == "keyboard" then
 		--menuPlayer:draw()
 		menuPlayer.vis:draw(menuPlayer.x, menuPlayer.y)
 	end
@@ -858,5 +860,8 @@ function selectButton(button)
 	end
 end
 
+function menu:getSelected()
+	return selButton
+end
 
 return menu
