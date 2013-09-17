@@ -55,6 +55,11 @@ function menu:init()
 	self.images.gamepadOn_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOn.png")
 	
 	
+	self.images.keyOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyOn.png")
+	self.images.keyOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyOff.png")
+	self.images.keyLargeOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyLargeOn.png")
+	self.images.keyLargeOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyLargeOff.png")	
+	
 	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
 	menuPlayer.x = 0
 	menuPlayer.y = 0
@@ -357,6 +362,35 @@ function menu:addButtonAnimated( x,y,imgOff,imgOn,name,action,actionHover, scale
 
 	return new
 end
+-- add a button that displays a label (for key assignment)
+function menu:addButtonLabeled( x,y,imgOff,imgOn,name,action,actionHover,label,font )
+	
+	if label == " " then
+		label = "space"
+	end
+	
+	local new = {x=x,
+				y=y,
+				selected=selected,
+				imgOff=imgOff,
+				imgOn=imgOn,
+				name=name,
+				action=action,
+				actionHover=actionHover,
+				timer = 0,
+				font=font,
+				label=label
+			}
+	--new.ox = self.images[imgOff]:getWidth()*0.5/Camera.scale
+	--new.oy = self.images[imgOff]:getHeight()*0.5/Camera.scale
+	new.ox = 0
+	new.oy = 0
+	
+	new.labelX = (self.images[imgOff]:getWidth() - font:getWidth(label))*0.5/Camera.scale
+	table.insert(buttons, new)
+
+	return new
+end
 
 function menu:addText( x, y, index, str )
 	menuTexts[index] = {txt = str, x=x, y=y}
@@ -364,6 +398,36 @@ end
 
 function menu:changeText( index, str )
 	menuTexts[index].txt = str
+end
+
+function menu:changeButtonImage( name, imageOff, imageOn )
+	for k, b in pairs(buttons) do
+		print("\t", b.name)
+		if b.name == name then
+			b.imgOff = imageOff or b.imgOff
+			b.imgOn = imageOn or b.imgOn
+			b.labelX = (self.images[b.imgOff]:getWidth()
+						- b.font:getWidth(b.label))*0.5/Camera.scale
+			break
+		end
+	end
+end
+
+function menu:changeButtonLabel( name, label )
+	if label == "" then
+		label = "-"
+	end
+	if label == " " then
+		label = "space"
+	end
+	for k, b in pairs(buttons) do
+		if b.name == name then
+			b.label = label
+			b.labelX = (self.images[b.imgOff]:getWidth()
+						- b.font:getWidth(b.label))*0.5/Camera.scale
+			break
+		end
+	end
 end
 
 ---------------------------------------------------------
@@ -665,7 +729,8 @@ function menu:draw()
 		local yScale = button.yScale or 1
 		if button.selected then
 			if button.animated then
-				button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
+				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
+								(button.y+button.oy+yShift)*Camera.scale)
 			else
 				love.graphics.draw( self.images[button.imgOn], 
 					(button.x+button.ox+xShift)*Camera.scale, 
@@ -676,7 +741,8 @@ function menu:draw()
 			end
 		else
 			if button.animated then
-				button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
+				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
+								(button.y+button.oy+yShift)*Camera.scale)
 			else
 				love.graphics.draw( self.images[button.imgOff], 
 					(button.x+button.ox+xShift)*Camera.scale, 
@@ -686,6 +752,15 @@ function menu:draw()
 					button.oy*Camera.scale)
 			end
 		end
+		love.graphics.setColor(0,0,0,255)
+		if button.label then
+			love.graphics.setFont( button.font )
+			love.graphics.print( button.label,
+						(button.x+button.ox+xShift + button.labelX)*Camera.scale ,
+						(button.y+button.oy+yShift + 3)*Camera.scale )
+						
+		end
+		love.graphics.setColor(255,255,255,255)
 		--love.graphics.print(k, button.x, button.y )
 	end
 	
@@ -729,6 +804,9 @@ function menu:draw()
 		love.graphics.setColor(255,255,255)	
 	end
 	
+	if keys.currentlyAssigning then
+	love.graphics.print(keys.currentlyAssigning, 10, 10)
+	end
 
 end
 

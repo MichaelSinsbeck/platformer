@@ -158,6 +158,7 @@ function love.keypressed( key, unicode )
 	if menu.transitionActive then return end
 	
 	if keys.currentlyAssigning then
+		print("new", key)
 		keys.assign( key )
 	else
 	
