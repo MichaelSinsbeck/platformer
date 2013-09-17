@@ -22,7 +22,7 @@ local background3_IMG
 local background4_IMG
 local background5_IMG
 
-local menuPlayer = {}
+menuPlayer = {}
 local credits = require("scripts/credits")
 
 -- This function loads the images in the right scaling
@@ -92,6 +92,7 @@ function menu.initMain()
 	
 	local actionHover = menu.setPlayerPosition( x - 3, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap), actionHover )
+	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 3, y + 5 )
@@ -115,6 +116,7 @@ function menu.initMain()
 	selectButton(startButton)
 	
 	menuPlayer.vis:setAni("whiteWalk")
+	menuPlayer.vis.sx = 1
 end
 
 function menu.setPlayerPosition( x, y )
@@ -240,7 +242,7 @@ function menu.initWorldMap()
 	
 	-- set camera position
 	menu.xTarget = math.floor((selButton.x)/120)*120+59
-	menu.xCamera = menu.xTarget		
+	menu.xCamera = menu.xTarget
 end
 
 function scrollWorldMap()	--called when a button on world map is selected
@@ -322,6 +324,26 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 			}
 	new.ox = self.images[imgOff]:getWidth()*0.5/Camera.scale
 	new.oy = self.images[imgOff]:getHeight()*0.5/Camera.scale
+	table.insert(buttons, new)
+
+	return new
+end
+function menu:addButtonAnimated( x,y,imgOff,imgOn,name,action,actionHover )
+	
+	local new = {x=x,
+				y=y,
+				selected=selected,
+				vis=Visualizer:New(imgOff),
+				animationOff = imgOff,
+				animationOn = imgOn,
+				name=name,
+				action=action,
+				actionHover=actionHover,
+				animated = true
+			}
+	new.ox = Camera.scale*8*0.5
+	new.oy = Camera.scale*8*0.5
+	new.vis:init()
 	table.insert(buttons, new)
 
 	return new
@@ -552,33 +574,37 @@ function menu:update(dt)
 --				Campaign.worldNumber = math.floor(button.x/120)+1
 			end
 			
-			if button.name == "settings" then
-				button.timer = button.timer + dt
-				button.angle = button.timer * 5
-			elseif button.name == "start" then
-				button.timer = button.timer + dt
-				button.xShift = 1-2*math.abs(math.sin(5*button.timer))
-				button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
-				button.xScale = 1/button.yScale
-			elseif button.name == "credits" then
-				button.timer = button.timer + dt
-				--button.xScale = 1-0.1*math.abs(math.cos(6*button.timer))
-				button.yScale = button.xScale
-				button.angle = 0.2*math.sin(- button.timer * 6)
-				button.yShift = 1-2*math.abs(math.sin(6*button.timer))
-			elseif button.name == "exit" then
-				button.timer = button.timer + dt
-				button.yShift = 1-2*math.abs(math.sin(5*button.timer))
-				button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
-				button.yScale = 1/button.xScale
-			elseif button.name == "keyboard" then
-				button.timer = button.timer + dt
-				button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
-				button.yScale = 1-0.05*math.abs(math.cos(5*button.timer))
-			elseif button.name == "gamepad" then
-				button.timer = button.timer + dt
-				button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
-				button.yScale = 1-0.05*math.abs(math.cos(5*button.timer))
+			if button.animated then
+				button.vis:update(dt)
+			else
+				if button.name == "settings" then
+					button.timer = button.timer + dt
+					button.angle = button.timer * 5
+				elseif button.name == "start" then
+					button.timer = button.timer + dt
+					button.xShift = 1-2*math.abs(math.sin(5*button.timer))
+					button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
+					button.xScale = 1/button.yScale
+				elseif button.name == "credits" then
+					button.timer = button.timer + dt
+					--button.xScale = 1-0.1*math.abs(math.cos(6*button.timer))
+					button.yScale = button.xScale
+					button.angle = 0.2*math.sin(- button.timer * 6)
+					button.yShift = 1-2*math.abs(math.sin(6*button.timer))
+				elseif button.name == "exit" then
+					button.timer = button.timer + dt
+					button.yShift = 1-2*math.abs(math.sin(5*button.timer))
+					button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
+					button.yScale = 1/button.xScale
+				elseif button.name == "keyboard" then
+					button.timer = button.timer + dt
+					button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
+					button.yScale = 1-0.05*math.abs(math.cos(5*button.timer))
+				elseif button.name == "gamepad" then
+					button.timer = button.timer + dt
+					button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
+					button.yScale = 1-0.05*math.abs(math.cos(5*button.timer))
+				end
 			end
 		end
 	end
@@ -620,7 +646,8 @@ function menu:draw()
 	for k, element in pairs(menuImages) do
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale, alpha )
 	end
-
+	
+	
 	for k, button in pairs(buttons) do
 		local angle = button.angle or 0
 		local xShift = button.xShift or 0
@@ -628,21 +655,34 @@ function menu:draw()
 		local xScale = button.xScale or 1
 		local yScale = button.yScale or 1
 		if button.selected then
-			love.graphics.draw( self.images[button.imgOn], 
-				(button.x+button.ox+xShift)*Camera.scale, 
-				(button.y+button.oy+yShift)*Camera.scale, 
-				angle, xScale, yScale, 
-				button.ox*Camera.scale, 
-				button.oy*Camera.scale)
+			if button.animated then
+				button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
+			else
+				love.graphics.draw( self.images[button.imgOn], 
+					(button.x+button.ox+xShift)*Camera.scale, 
+					(button.y+button.oy+yShift)*Camera.scale, 
+					angle, xScale, yScale, 
+					button.ox*Camera.scale, 
+					button.oy*Camera.scale)
+			end
 		else
-			love.graphics.draw( self.images[button.imgOff], 
-				(button.x+button.ox+xShift)*Camera.scale, 
-				(button.y+button.oy+yShift)*Camera.scale, 
-				angle, xScale, yScale, 
-				button.ox*Camera.scale, 
-				button.oy*Camera.scale)
+			if button.animated then
+				button.vis:draw(button.x*Camera.scale, button.y*Camera.scale)
+			else
+				love.graphics.draw( self.images[button.imgOff], 
+					(button.x+button.ox+xShift)*Camera.scale, 
+					(button.y+button.oy+yShift)*Camera.scale, 
+					angle, xScale, yScale, 
+					button.ox*Camera.scale, 
+					button.oy*Camera.scale)
+			end
 		end
 		--love.graphics.print(k, button.x, button.y )
+	end
+	
+	if menu.state == "main" or menu.state == "worldMap" or menu.state == "settings" then
+		--menuPlayer:draw()
+		menuPlayer.vis:draw(menuPlayer.x, menuPlayer.y)
 	end
 	
 	love.graphics.setFont(fontSmall)
@@ -652,10 +692,6 @@ function menu:draw()
 			(text.y)*Camera.scale)
 	end
 	
-	if menu.state == "main" or menu.state == "worldMap" then
-		--menuPlayer:draw()
-		menuPlayer.vis:draw(menuPlayer.x, menuPlayer.y)
-	end
 	love.graphics.pop()
 
 	if menu.state == "worldMap" then
@@ -716,12 +752,22 @@ function sDist(x1, y1, x2, y2, preferred)
 end
 
 function selectButton(button)
+	if selButton then
+		-- switch to the "off" animation of the button:
+		if selButton.animated then
+			selButton.vis:setAni( selButton.animationOff )
+		end
+	end
+
 	selButton = button
 	button.selected = true
 	--print ("Selected button: '" .. button.name .. "'")
 	menu.text = button.name
 	if selButton.actionHover then
 		selButton.actionHover( selButton )
+	end
+	if selButton.animated then
+		selButton.vis:setAni( selButton.animationOn )
 	end
 end
 

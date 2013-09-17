@@ -5,9 +5,13 @@ source = {},
 animation = {}
 }
 
-function AnimationDB:loadImage(imagefilename,name,height,width)
+function AnimationDB:loadImage(imagefilename,name,height,width, subfolder)
 	-- Load image and prepare quads (height and width are optional)
-	imagefilename = 'images/'.. Camera.scale*8 .. imagefilename
+	if subfolder then
+		imagefilename = 'images/'.. subfolder .. "/" .. Camera.scale*8 .. imagefilename
+	else
+		imagefilename = 'images/'.. Camera.scale*8 .. imagefilename
+	end
 	local image = love.graphics.newImage(imagefilename)
 	local height = height or image:getHeight()
 	local width = width or image:getWidth()
@@ -290,4 +294,12 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('flame','light',{7,8,7,9},{.2,.2,.2,.2})
 	AnimationDB:addAni('lamp','light',{5},{1e6})
 	AnimationDB:addAni('lamplight','light',{10},{1e6})
+	
+	
+	AnimationDB:loadImage('playerLook.png','playerLook',tileSize,tileSize, "menu")
+	AnimationDB:addAni('lookWhite','playerLook',{1},{1e6})
+	
+	--AnimationDB:loadImage('startAnimated.png','startButton',tileSize,tileSize, "menu")
+	--AnimationDB:addAni('startOn','startButton',{1,2,3,4,3,2},{.5,.1,.05,.05,.05,.1})
+	--AnimationDB:addAni('startOff','startButton',{1,2,3,4,3,2},{.5,.2,.1,.1,.1,.2})
 end

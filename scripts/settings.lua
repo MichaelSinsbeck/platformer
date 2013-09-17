@@ -98,9 +98,15 @@ function settings.init()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "settings"
 
+	menuPlayer.vis:setAni("lookWhite")
+	
 	local x,y = -25, 0
 	
-	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", keys.initKeyboard, nil )
+	menu.setPlayerPosition( -2, 15 )()
+	menuPlayer.vis.sx = -1
+	
+	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", keys.initKeyboard, nil)
+	
 	x = x + 25
 	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", keys.initGamepad, nil )
 
