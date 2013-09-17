@@ -34,7 +34,7 @@ function Map:LoadFromFile(mapFile)
       if o.collisionSrc[i][j] == 0 then o.collisionSrc[i][j] = nil end
     end
   end
-
+  
 	o:loadImage()
 
 	return o	
@@ -67,6 +67,7 @@ function Map:convertForShadows( h, w )
 			map[i+1][j+1] = {}
 			if (self.collision[j] and self.collision[j][i] == 1)
 				or i==0 or i==h+1 or j==0 or j==w+1 then
+				
 				map[i+1][j+1].solid = true
 			else
 				map[i+1][j+1].solid = false
@@ -128,6 +129,8 @@ end
 
 function Map:start(p)
 
+	
+
 	game.deathtimer = 0
   -- reset collision table
 	self.collision = utility.copy(self.collisionSrc,true)
@@ -154,6 +157,8 @@ function Map:start(p)
   mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)
+  
+	
   
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor
@@ -227,6 +232,8 @@ function Map:start(p)
 		end
 	end
   end
+  
+
 
 end
 

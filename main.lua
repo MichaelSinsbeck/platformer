@@ -82,7 +82,7 @@ end
 
 function love.update( dt )
 
-	if shadows.needsShadowUpdate then
+	if USE_SHADOWS and shadows.needsShadowUpdate then
 		if myMap then
 			myMap:updateShadows()
 		end
