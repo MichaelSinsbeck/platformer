@@ -140,7 +140,6 @@ function getImageForKey( str, font )
 end
 
 function getImageForPad( str )
-	print("looking for", str, type(str))
 	if str == "1" then
 		return "gamepadA_IMG"
 	elseif str == "2" then
@@ -170,7 +169,6 @@ function keys.moveMenuPlayer( x, y, newAnimation )
 	return function()
 		menuPlayer.x = x
 		menuPlayer.y = y
-		print("pos:", menuPlayer.x, menuPlayer.y)
 		menuPlayer.vis:setAni( newAnimation )
 		local sel = menu:getSelected()
 		if sel and sel.name == "key_LEFT" then

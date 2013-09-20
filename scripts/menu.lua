@@ -419,7 +419,6 @@ end
 
 function menu:changeButtonImage( name, imageOff, imageOn )
 	for k, b in pairs(buttons) do
-		print("\t", b.name)
 		if b.name == name then
 			b.imgOff = imageOff or b.imgOff
 			b.imgOn = imageOn or b.imgOn
@@ -749,7 +748,6 @@ function menu:draw()
 				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
 								(button.y+button.oy+yShift)*Camera.scale)
 			else
-				print(button.imgOn)
 				love.graphics.draw( self.images[button.imgOn], 
 					(button.x+button.ox+xShift)*Camera.scale, 
 					(button.y+button.oy+yShift)*Camera.scale, 
