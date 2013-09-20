@@ -1,13 +1,19 @@
 loader = require("AdvTiledLoader/Loader")
 
-function love.load()
-
+function love.load(args)
 	loader.path = "maps/"
-	local files = love.filesystem.enumerate(loader.path)
-	for k, file in ipairs(files) do
-		if string.sub(file,-4,-1) == '.tmx' then
-		  local trunc = string.sub(file,1,-5)
-		  convert(trunc)
+
+	if #args > 1 then
+		for i = 2,#args do
+			convert(args[i])
+		end
+	else
+		local files = love.filesystem.enumerate(loader.path)
+		for k, file in ipairs(files) do
+			if string.sub(file,-4,-1) == '.tmx' then
+				local trunc = string.sub(file,1,-5)
+				convert(trunc)
+			end
 		end
 	end
 
@@ -21,16 +27,19 @@ function convert(filetrunc)
 	map = loader.load(filetrunc .. '.tmx')
 	-- initialize arrays for data
 	bg  = {}
+	wall = {}
 	fg  = {}
 	obj = {}
 	col = {}
 	for y = 1,map.height do
 		bg[y] = {}
+		wall[y] = {}
 		fg[y] = {}
 		obj[y] = {}
 		col[y] = {}
 			for x = 1,map.width do
 		  bg[y][x] = 0
+			wall[y][x] = 0
 		  fg[y][x] = 0
 		 	obj[y][x] = 0
 			col[y][x] = 0
@@ -39,7 +48,13 @@ function convert(filetrunc)
 
 	-- fill arrays
 	for x, y, tile in map("bg"):iterate() do
-		bg[y+1][x+1] = tile.id
+		if tile.id ~= 0 then
+			bg[y+1][x+1] = tile.id - 144
+		end
+	end
+
+	for x, y, tile in map("walls"):iterate() do
+		wall[y+1][x+1] = tile.id
 	end
 
 	for x, y, tile in map("fg"):iterate() do
@@ -71,7 +86,7 @@ function convert(filetrunc)
 
 
 -- fill collision array
-	bgToCollision = {
+	wallToCollision = {
 		1,1,1,1,0,2,2,2,
 		1,1,1,1,0,2,2,0,
 		1,1,1,1,0,0,0,0,
@@ -81,7 +96,7 @@ function convert(filetrunc)
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
 	}
-	bgToCollision[0] = 0
+	wallToCollision[0] = 0
 
 	objToCollision = {
 		0,0,0,0,0,0,0,0,
@@ -112,8 +127,8 @@ function convert(filetrunc)
 	for y = 1,map.height do
 			for x = 1,map.width do
 			local entry = math.max(
-				bgToCollision[bg[y][x]],
-				bgToCollision[fg[y][x]],
+				wallToCollision[wall[y][x]],
+				wallToCollision[fg[y][x]],
 				objToCollision[obj[y][x]])
 			col[y][x] = entry
 			if fgToCollision[obj[y][x]] == 3 then -- if there is a spikey
@@ -127,6 +142,7 @@ function convert(filetrunc)
 	backstring2 = ''
 	backstring3 = ''
 	backstring4 = ''
+	backstring5 = ''
 
 	for j = 1,width do
 		local newlinesymbol = '\},\r\n'
@@ -149,16 +165,22 @@ function convert(filetrunc)
 			else
 				backstring3 = backstring3 .. filler .. '0'
 			end
-			if col[i] and col[i][j] then
-				backstring4 = backstring4 .. filler .. col[i][j]
+			if wall[i] and wall[i][j] then
+				backstring4 = backstring4 .. filler .. wall[i][j]
 			else
 				backstring4 = backstring4 .. filler .. '0'
+			end
+			if col[i] and col[i][j] then
+				backstring5 = backstring5 .. filler .. col[i][j]
+			else
+				backstring5 = backstring5 .. filler .. '0'
 			end
 		end
 		backstring1 = backstring1 .. newlinesymbol
 		backstring2 = backstring2 .. newlinesymbol
 		backstring3 = backstring3 .. newlinesymbol
 		backstring4 = backstring4 .. newlinesymbol
+		backstring5 = backstring5 .. newlinesymbol
 	end
 
 	-- collision-backstring4-füllen
@@ -169,7 +191,8 @@ function convert(filetrunc)
 	writedata = writedata .. 'loadBG\{\r\n' .. backstring1 .. '\}\r\n'
 	writedata = writedata .. 'loadFG\{\r\n' .. backstring2 .. '\}\r\n'
 	writedata = writedata .. 'loadOBJ\{\r\n' .. backstring3 .. '\}\r\n'
-	writedata = writedata .. 'loadCollision\{\r\n' .. backstring4 .. '\}\r\n'
+	writedata = writedata .. 'loadWall\{\r\n' .. backstring4 .. '\}\r\n'
+	writedata = writedata .. 'loadCollision\{\r\n' .. backstring5 .. '\}\r\n'
 
 	xStart = nil
 	yStart = nil

@@ -41,7 +41,7 @@ function convert(filetrunc)
 	end
 
 	for x, y, tile in map("bg"):iterate() do
-		bg[y+1][x+1] = tile.id
+		walls[y+1][x+1] = tile.id
 	end
 
 	for x, y, tile in map("objects"):iterate() do
@@ -85,6 +85,7 @@ function convert(filetrunc)
 		backstring1 = backstring1 .. newlinesymbol
 		backstring2 = backstring2 .. newlinesymbol
 		backstring3 = backstring3 .. newlinesymbol
+		backstring4 = backstring4 .. newlinesymbol
 	end
 
 -- start writing
@@ -125,15 +126,15 @@ function convert(filetrunc)
 	writedata = writedata .. ' <layer name="fg" width="'..width..'" height="'..height..'">\n'
 	writedata = writedata .. '  <data encoding="csv">\n'
 
-	wirtedata = writedata .. backstring4
-
+	writedata = writedata .. backstring4
+	
 	writedata = writedata .. '</data>\n'
 	writedata = writedata .. ' </layer>\n'
 	writedata = writedata .. '</map>\n'
 
 
-
-
+--print('Backstring4:')
+--print(backstring4)
 --print(writedata)
 
 
