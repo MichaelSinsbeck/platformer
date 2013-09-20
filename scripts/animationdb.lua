@@ -54,7 +54,7 @@ function AnimationDB:loadBackgrounds()
 
 	self.background = {}	
 	for iWorld = 1,5 do
-		local imagefilename = 'images/tilesets/'.. Camera.scale*8 .. 'background'.. iWorld ..'.png'
+		local imagefilename = 'images/tilesets/'.. Camera.scale*8 .. 'parallax'.. iWorld ..'.png'
 		self.background[iWorld] = love.graphics.newImage(imagefilename)	
 		self.background[iWorld]:setWrap('repeat', 'repeat')
 	end
@@ -143,24 +143,6 @@ function AnimationDB:loadAll()
 
 	AnimationDB:loadImage('explosion.png','explosion',tileSize,tileSize)
 	AnimationDB:addAni('explosionExplode','explosion',{1,2,3,4,5,6,6},{.05,.05,.1,.1,.1,.1,1e6})
-
-	AnimationDB:loadImage('tiles6_gapped.png','tiles',tileSize,tileSize)
-	AnimationDB:addAni('Spikey1','tiles',{25},{1e6})
-	AnimationDB:addAni('Spikey2','tiles',{26},{1e6})
-	AnimationDB:addAni('Spikey3','tiles',{27},{1e6})
-	AnimationDB:addAni('Spikey4','tiles',{28},{1e6})
-	AnimationDB:addAni('Spikey5','tiles',{31},{1e6})
-	AnimationDB:addAni('Spikey6','tiles',{32},{1e6})
-	AnimationDB:addAni('Spikey7','tiles',{33},{1e6})
-	AnimationDB:addAni('Spikey8','tiles',{34},{1e6})
-	AnimationDB:addAni('Spikey9','tiles',{37},{1e6})
-	AnimationDB:addAni('Spikey10','tiles',{38},{1e6})
-	AnimationDB:addAni('Spikey11','tiles',{39},{1e6})
-	AnimationDB:addAni('Spikey12','tiles',{40},{1e6})
-	AnimationDB:addAni('Spikey13','tiles',{43},{1e6})
-	AnimationDB:addAni('Spikey14','tiles',{44},{1e6})
-	AnimationDB:addAni('Spikey15','tiles',{45},{1e6})
-	AnimationDB:addAni('Spikey16','tiles',{46},{1e6})
 
 	AnimationDB:loadImage('bandana.png','bandana',tileSize,tileSize)
 	AnimationDB:addAni('starBandana','bandana',{1},{1e6})
