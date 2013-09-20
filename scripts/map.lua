@@ -15,6 +15,7 @@ function Map:LoadFromFile(mapFile)
 	function loadFG (b) o.tileFG = b end
 	function loadBG (b) o.tileBG = b end
 	function loadOBJ (b) o.tileOBJ = b end
+	function loadWall (b) o.tileWall = b end
 	function loadCollision (b) o.collisionSrc = b end
 	function start (b) o.xStart = b.x o.yStart = b.y end
 
@@ -29,7 +30,8 @@ function Map:LoadFromFile(mapFile)
   for i = 1,o.width do
     for j = 1,o.height do
       if o.tileFG[i][j] == 0 then o.tileFG[i][j] = nil end
-			if o.tileBG[i][j] == 0 then o.tileBG[i][j] = nil end
+      if o.tileBG[i][j] == 0 then o.tileBG[i][j] = nil end
+			if o.tileWall[i][j] == 0 then o.tileWall[i][j] = nil end
 			if o.tileOBJ[i][j] == 0 then o.tileOBJ[i][j] = nil end
       if o.collisionSrc[i][j] == 0 then o.collisionSrc[i][j] = nil end
     end
@@ -44,13 +46,17 @@ function Map:loadImage()
 	self.tileSize = Camera.scale*8
 	tileSize = self.tileSize
 	self.graphicSize = Camera.scale*10
-	--local img = love.graphics.newImage('images/'.. Camera.scale*8 ..self.imageFile)
-	local imgFG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'foreground'.. Campaign.worldNumber ..'.png')	
-  imgFG:setFilter('nearest','nearest')	
-	local imgBG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. Campaign.worldNumber ..'.png')	
-  imgBG:setFilter('nearest','nearest')
+	
+	local imgFG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'foreground'.. Campaign.worldNumber ..'.png')
+  local imgBG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'background'.. Campaign.worldNumber ..'.png')
+	local imgWall = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. Campaign.worldNumber ..'.png')	
+	imgFG:setFilter('nearest','nearest')
+	imgBG:setFilter('nearest','nearest')
+  imgWall:setFilter('nearest','nearest')
+  
   self.spriteBatchFG = love.graphics.newSpriteBatch(imgFG, self.width*self.height)
-	self.spriteBatchBG = love.graphics.newSpriteBatch(imgBG, self.width*self.height)
+  self.spriteBatchBG = love.graphics.newSpriteBatch(imgBG, self.width*self.height)
+	self.spriteBatchWall = love.graphics.newSpriteBatch(imgWall, self.width*self.height)
   self.offset = (self.tileSize-self.graphicSize)/2
 	self:generateQuads(imgFG) -- assuming that both images have the same size
 	self:updateSpritebatch()
@@ -193,108 +199,47 @@ function Map:start(p)
 	self:initShadows()
 	
 	
-	print("Map")
-	for j = 1, self.height do
-		local str = ""
-		for i = 1, self.width do
-			if self.collision[i] and self.collision[i][j] then
-				str = str .. self.collision[i][j] .. " "
-			else
-				str = str .. "  "
+		print("Map")
+		for j = 1, self.height do
+			local str = ""
+			for i = 1, self.width do
+				if self.collision[i] and self.collision[i][j] then
+					str = str .. self.collision[i][j] .. " "
+				else
+					str = str .. "  "
+				end
 			end
+			print(str)
 		end
-		print(str)
-	end
-		
-	-- go through all lights in the map and add shadows for them:
-	local list = {}
-	spriteEngine:DoAll('collectLights',list)
-	for k, v in pairs(list) do
-		self:addLight(v.x, v.y)
-	end
-	local addedLight = false
-	if #list == 0 then
-		print("dimensions:", self.height, self.width)
-		for l = 2,math.max(self.height, self.width) do
-			for i = 1,math.min(l, self.height) do
-				print(i, self.collision[i])
-				for j = 1,math.min(l, self.width) do
-					if not self.collision[i] or self.collision[i][j] ~= 1 then
-						print("adding:",j, i)
-						self:addLight(i,j)		-- add light in top left corner
-						addedLight = true
-						break
+			
+		-- go through all lights in the map and add shadows for them:
+		local list = {}
+		spriteEngine:DoAll('collectLights',list)
+		for k, v in pairs(list) do
+			self:addLight(v.x, v.y)
+		end
+		local addedLight = false
+		if #list == 0 then
+			print("dimensions:", self.height, self.width)
+			for l = 2,math.max(self.height, self.width) do
+				for i = 1,math.min(l, self.height) do
+					print(i, self.collision[i])
+					for j = 1,math.min(l, self.width) do
+						if not self.collision[i] or self.collision[i][j] ~= 1 then
+							print("adding:",j, i)
+							self:addLight(i,j)		-- add light in top left corner
+							addedLight = true
+							break
+						end
 					end
+					if addedLight then break end
 				end
 				if addedLight then break end
 			end
-			if addedLight then break end
 		end
-	end
-  end
-  
-
+  end --end if USE_SHADOWS
 
 end
-
---[[function Map:New(imageFile,tileSize)
-  tileSize = tileSize or 32
-  local gapSize = 0
-  local o ={}
-	setmetatable(o, self)
-	self.__index = self
-  
-  local img = love.graphics.newImage(imageFile)
-  img:setFilter('linear','linear')
-  o.imageFile = imageFile
-  o.tileSize = tileSize
-  o.spriteBatch = love.graphics.newSpriteBatch(img, (math.floor(camWidth/tileSize)+1) * (math.floor(camHeight/tileSize)+1))
-  -- Quads erzeugen für SpriteBatch
-  o.quads = {}
-  local imageWidth = img:getWidth() 
-  local imageHeight = img:getHeight()
-  for j = 1,math.floor(imageHeight/(tileSize+gapSize)) do
-    for i = 1,math.floor(imageWidth/(tileSize+gapSize)) do
-      o.quads[i+(j-1)*math.floor(imageWidth/tileSize)] = 
-        love.graphics.newQuad((i-1)*(tileSize+gapSize),(j-1)*(tileSize+gapSize), tileSize, tileSize,
-        imageWidth,imageHeight)
-    end
-  end
-  
-  o.height = 30
-  o.width = 45
-  o.tile = {}
-  o.collision = {}
-  for i = 1,o.width do
-    o.tile[i]={}
-    o.collision[i] = {}
-  end
-  for i = 1,o.width do
-    o.tile[i][1] = 2
-    o.tile[i][o.height] = 1
-    o.collision[i][1] = 1
-    o.collision[i][o.height] = 1    
-  end
-  for i = 1,o.height do
-    o.tile[1][i] = 2
-    o.tile[o.width][i] = 2
-    
-    o.collision[1][i] = 1
-    o.collision[o.width][i] = 1
-  end
-  
-  for i = 3,13 do
-      o.collision[i][o.height-1] = 1
-      o.tile[i][o.height-1] = 4
-    for j = 4,i do
-      o.tile[i][o.height-j] = 5
-      o.collision[i][o.height-j] =1
-    end
-  end
-  
-  o.tile[15][15] = 3
-  return o
-end --]]
 
 function Map:generateQuads(img)
   self.quads = {}
@@ -316,11 +261,12 @@ function Map:updateSpritebatch()
   -- Update Spritebatch
   self.spriteBatchFG:clear()
   self.spriteBatchBG:clear()
+  self.spriteBatchWall:clear()
   
-  for x in pairs(self.tileBG) do
-		for y in pairs(self.tileBG[x]) do
-			if self.quads[self.tileBG[x][y]] then
-				self.spriteBatchBG:addq(self.quads[self.tileBG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
+  for x in pairs(self.tileWall) do
+		for y in pairs(self.tileWall[x]) do
+			if self.quads[self.tileWall[x][y]] then
+				self.spriteBatchWall:addq(self.quads[self.tileWall[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
 			end
 		end
   end
@@ -329,6 +275,14 @@ function Map:updateSpritebatch()
 		for y in pairs(self.tileFG[x]) do
 			if self.quads[self.tileFG[x][y]] then
 				self.spriteBatchFG:addq(self.quads[self.tileFG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
+			end
+		end
+  end
+  
+	for x in pairs(self.tileBG) do
+		for y in pairs(self.tileBG[x]) do
+			if self.quads[self.tileBG[x][y]] then
+				self.spriteBatchBG:addq(self.quads[self.tileBG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
 			end
 		end
   end  
@@ -354,12 +308,13 @@ function Map:drawBG()
 		love.graphics.setColor(80,150,205) -- blue (world 1)
 	end
 	
-	--love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
+	love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
 	love.graphics.setColor(255,255,255)
+	love.graphics.draw(self.spriteBatchBG,0,0)
 end
 
 function Map:drawWalls()
-	love.graphics.draw(self.spriteBatchBG,0,0)
+	love.graphics.draw(self.spriteBatchWall,0,0)	
 end
 
 function Map:drawFG()
