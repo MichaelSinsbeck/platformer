@@ -197,6 +197,7 @@ function love.keyreleased(key)
 end
 
 function love.joystickpressed(joystick, button)
+	print(joystick, button)
 	if mode == 'game' then
 		game.joystickpressed(joystick, button)
 	end
@@ -204,6 +205,7 @@ function love.joystickpressed(joystick, button)
 end
 
 function love.joystickreleased(joystick, button)
+	print("rel", joystick, button)
 	if mode == 'game' then
 		game.joystickreleased(joystick, button)
 	end
