@@ -135,7 +135,7 @@ function game.keyreleased(key)
 end
 
 function game.joystickpressed(joystick, button)
-  if button == 3 then
+  if button == keys.PAD_JUMP then
     spriteEngine:DoAll('jump')
 		if p.dead then
 			myMap:start(p)

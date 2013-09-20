@@ -6,6 +6,7 @@ keys.currentlyAssigning = false		--holds the string of the key which is currentl
 -- Defaults
 ---------------------------------------------------------
 function keys.setDefaults()
+	-- keyboard defaults:
 	keys.SCREENSHOT = 't'
 	keys.FULLSCREEN = 'f'
 	keys.RESTARTMAP = 'p'
@@ -19,6 +20,21 @@ function keys.setDefaults()
 
 	keys.JUMP = 'a'
 	keys.ACTION = 's'
+	
+	-- gamepad defaults:
+	keys.PAD_SCREENSHOT = '6'
+	keys.PAD_FULLSCREEN = ''
+	keys.PAD_RESTARTMAP = ''
+	keys.PAD_RESTARTGAME = ''
+	keys.PAD_NEXTMAP = ''
+
+	keys.PAD_LEFT = 'left'
+	keys.PAD_RIGHT = 'right'
+	keys.PAD_UP = 'up'
+	keys.PAD_DOWN = 'down'
+
+	keys.PAD_JUMP = '1'
+	keys.PAD_ACTION = '2'	
 end
 keys.setDefaults()
 
@@ -29,6 +45,8 @@ keys.setDefaults()
 
 function keys.load()
 	local key
+	
+	-- Load keyboard setup:
 	key = config.getValue( "SCREENSHOT", "keyboard.txt")
 	if key then keys.SCREENSHOT = key end
 	key = config.getValue( "FULLSCREEN", "keyboard.txt")
@@ -53,6 +71,33 @@ function keys.load()
 	if key then keys.JUMP = key end
 	key = config.getValue( "ACTION", "keyboard.txt")
 	if key then keys.ACTION = key end
+	
+	-- Load gamepad setup:
+	key = config.getValue( "SCREENSHOT", "gamepad.txt")
+	if key then keys.PAD_SCREENSHOT = key end
+	key = config.getValue( "FULLSCREEN", "gamepad.txt")
+	if key then keys.PAD_FULLSCREEN = key end
+	key = config.getValue( "RESTARTMAP", "gamepad.txt")
+	if key then keys.PAD_RESTARTMAP = key end
+	key = config.getValue( "RESTARTGAME", "gamepad.txt")
+	if key then keys.PAD_RESTARTGAME = key end
+	key = config.getValue( "NEXTMAP", "gamepad.txt")
+	if key then keys.PAD_NEXTMAP = key end
+	
+	key = config.getValue( "LEFT", "gamepad.txt")
+	if key then keys.PAD_LEFT = key end
+	key = config.getValue( "RIGHT", "gamepad.txt")
+	if key then keys.PAD_RIGHT = key end
+	key = config.getValue( "UP", "gamepad.txt")
+	if key then keys.PAD_UP = key end
+	key = config.getValue( "DOWN", "gamepad.txt")
+	if key then keys.PAD_DOWN = key end
+	
+	key = config.getValue( "JUMP", "gamepad.txt")
+	if key then keys.PAD_JUMP = key end
+	key = config.getValue( "ACTION", "gamepad.txt")
+	if key then keys.PAD_ACTION = key end
+	
 end
 
 
@@ -92,6 +137,33 @@ function getImageForKey( str, font )
 		return "keyLargeOff_IMG", "keyLargeOn_IMG"
 	end
 	return "keyOff_IMG", "keyOn_IMG"
+end
+
+function getImageForPad( str )
+	print("looking for", str, type(str))
+	if str == "1" then
+		return "gamepadA_IMG"
+	elseif str == "2" then
+		return "gamepadB_IMG"
+	elseif str == "3" then
+		return "gamepadX_IMG"
+	elseif str == "4" then
+		return "gamepadY_IMG"
+	elseif str == "5" then
+		return "gamepadLB_IMG"
+	elseif str == "6" then
+		return "gamepadRB_IMG"
+	elseif str == "up" then
+		return "gamepadUp_IMG"
+	elseif str == "down" then
+		return "gamepadDown_IMG"
+	elseif str == "left" then
+		return "gamepadLeft_IMG"
+	elseif str == "right" then
+		return "gamepadRight_IMG"
+	else
+		return "gamepadUp_IMG"
+	end
 end
 
 function keys.moveMenuPlayer( x, y, newAnimation )
@@ -268,7 +340,89 @@ function keys.initGamepad()
 	menu:clear()
 	
 	keys.changed = false -- don't save configuration unless new key has been assigned
-	-- TODO: Add gamepad buttons here...
+	
+	local x,y = -30, -35
+	local imgOff, imgOn
+	local hoverEvent
+	local ninjaDistX = 3
+	local ninjaDistY = -4
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
+	imgOn = getImageForPad( keys.PAD_LEFT )
+	local startButton = menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_LEFT",
+					keys.startAssign( "PAD_LEFT" ), hoverEvent )
+	--menu:addText( x+11, y+3, "LEFT", keys.LEFT)
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
+	imgOn = getImageForPad( keys.PAD_RIGHT )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_RIGHT",
+					keys.startAssign( "PAD_RIGHT" ), hoverEvent )
+	--menu:addText( x+11, y+3, "RIGHT", keys.RIGHT)
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveUpWhite" )
+	imgOn = getImageForPad( keys.PAD_UP )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_UP", 
+					keys.startAssign( "PAD_UP" ), hoverEvent )
+	--menu:addText( x+11, y+3, "UP", keys.UP)
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveDownWhite" )
+	imgOn = getImageForPad( keys.PAD_DOWN )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_DOWN", 
+					keys.startAssign( "PAD_DOWN" ), hoverEvent )
+	--menu:addText( x+11, y+3, "DOWN", keys.DOWN)
+	
+	y = -35
+	x = 30
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
+	imgOn = getImageForPad( keys.PAD_JUMP )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_JUMP",
+					keys.startAssign( "PAD_JUMP" ), hoverEvent )
+	--menu:addText( x+11, y+3, "JUMP", keys.JUMP)
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "bandanaColor" )
+	imgOn = getImageForPad( keys.PAD_ACTION )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_ACTION",
+					keys.startAssign( "PAD_ACTION" ), hoverEvent )
+	--menu:addText( x+11, y+3, "ACTION", keys.ACTION)
+	y = y + 14
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOn = getImageForPad( keys.PAD_SCREENSHOT )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_SCREENSHOT",
+					keys.startAssign( "PAD_SCREENSHOT" ), hoverEvent )
+	--menu:addText( x+11, y+3, "SCREENSHOT", keys.SCREENSHOT)
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOn = getImageForPad( keys.PAD_FULLSCREEN )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_FULLSCREEN",
+					keys.startAssign( "PAD_FULLSCREEN" ), hoverEvent )
+	--menu:addText( x+11, y+3, "FULLSCREEN", keys.FULLSCREEN)
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOn = getImageForPad( keys.PAD_RESTARTMAP, fontSmall )
+	menu:addButton( x, y,
+					imgOn, imgOn, "key_PAD_RESTARTMAP",
+					keys.startAssign( "PAD_RESTARTMAP" ), hoverEvent )
+	--menu:addText( x+11, y+3, "RESTARTMAP", keys.RESTARTMAP)
+	
+	
+	-- start of with the first button selected:
+	selectButton(startButton)
 	
 end
 

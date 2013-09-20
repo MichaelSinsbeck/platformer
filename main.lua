@@ -111,6 +111,7 @@ function love.update( dt )
 		end
 	end
 	
+	print(love.joystick.getHat(1,1), love.joystick.getHat(1,2), love.joystick.getHat(1,3))
 	--vis:update(dt)
 end
 

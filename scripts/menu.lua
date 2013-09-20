@@ -54,11 +54,27 @@ function menu:init()
 	self.images.gamepadOff_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOff.png")
 	self.images.gamepadOn_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOn.png")
 	
-	
+	-- key images for keyboard:
 	self.images.keyOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyOn.png")
 	self.images.keyOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyOff.png")
 	self.images.keyLargeOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyLargeOn.png")
-	self.images.keyLargeOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyLargeOff.png")	
+	self.images.keyLargeOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyLargeOff.png")
+	
+	-- button images for gamepad:
+	self.images.gamepadA_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadA.png")
+	self.images.gamepadB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadB.png")
+	self.images.gamepadX_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadX.png")
+	self.images.gamepadY_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadY.png")
+	
+	self.images.gamepadUp_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadUp.png")
+	self.images.gamepadDown_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadDown.png")
+	self.images.gamepadRight_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRight.png")
+	self.images.gamepadLeft_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLeft.png")
+	
+	self.images.gamepadLB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLB.png")
+	self.images.gamepadRB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRB.png")
+	self.images.gamepadLT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLT.png")
+	self.images.gamepadRT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRT.png")
 	
 	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
 	--menuPlayer.x = 0
@@ -733,6 +749,7 @@ function menu:draw()
 				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
 								(button.y+button.oy+yShift)*Camera.scale)
 			else
+				print(button.imgOn)
 				love.graphics.draw( self.images[button.imgOn], 
 					(button.x+button.ox+xShift)*Camera.scale, 
 					(button.y+button.oy+yShift)*Camera.scale, 
@@ -766,7 +783,8 @@ function menu:draw()
 	end
 	
 	if menu.state == "main" or menu.state == "worldMap" or
-		menu.state == "settings" or menu.state == "keyboard" then
+		menu.state == "settings" or menu.state == "keyboard" 
+		or menu.state == "gamepad" then
 		--menuPlayer:draw()
 		menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
 	end
