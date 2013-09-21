@@ -50,13 +50,16 @@ end
 
 function AnimationDB:loadBackgrounds()
 	local tileSize = Camera.scale*8
-	self.backgroundQuad = love.graphics.newQuad(0,0,Camera.width,Camera.height,4*tileSize,4*tileSize)
+	local imageHeight = 15*tileSize
+	local imageWidth = 10*tileSize
+	local offSetY = 0.5*(Camera.height-imageHeight)
+	self.backgroundQuad = love.graphics.newQuad(0,-offSetY,Camera.width,Camera.height,imageWidth,imageHeight)
 
 	self.background = {}	
 	for iWorld = 1,5 do
 		local imagefilename = 'images/tilesets/'.. Camera.scale*8 .. 'parallax'.. iWorld ..'.png'
 		self.background[iWorld] = love.graphics.newImage(imagefilename)	
-		self.background[iWorld]:setWrap('repeat', 'repeat')
+		self.background[iWorld]:setWrap('repeat', 'clamp')
 	end
 	
 	 
