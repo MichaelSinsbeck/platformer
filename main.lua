@@ -110,6 +110,8 @@ function love.update( dt )
 			menu.transitionActive = false		
 		end
 	end
+
+	keys.catchGamepadEvents()
 	
 	--print(love.joystick.getHat(1,1), love.joystick.getHat(1,2), love.joystick.getHat(1,3))
 	--vis:update(dt)
@@ -159,8 +161,11 @@ function love.keypressed( key, unicode )
 	if menu.transitionActive then return end
 	
 	if keys.currentlyAssigning then
-		print("new", key)
-		keys.assign( key )
+		if menu.state == 'keyboard' then
+			print("new", key)
+			keys.assign( key )
+		end
+		return
 	else
 	
 		if key == keys.FULLSCREEN then
@@ -198,15 +203,20 @@ function love.keyreleased(key)
 end
 
 function love.joystickpressed(joystick, button)
-	print(joystick, button)
+	if keys.currentlyAssigning then	
+		if menu.state == 'gamepad' then
+			keys.assign( tostring(button) )
+		end
+		return	
+	end
+
 	if mode == 'game' then
 		game.joystickpressed(joystick, button)
 	end
-	if button == 9 then Campaign:reset() myMap:start(p) end
+	--if button == 9 then Campaign:reset() myMap:start(p) end
 end
 
 function love.joystickreleased(joystick, button)
-	print("rel", joystick, button)
 	if mode == 'game' then
 		game.joystickreleased(joystick, button)
 	end
