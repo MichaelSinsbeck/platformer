@@ -27,3 +27,13 @@ for scale in 4 5 6 7 8; do
 	cd ..
 
 done
+
+# Also render images to leveleditor
+cd tilesets
+for infile in *.svg; do
+	if [[ $1 == '' || $infile == $1 ]]; then
+		outfile=../../levelconverter/maps/${infile%.*}.png
+		inkscape -f $infile -C -d 90 --export-background=#000000 --export-background-opacity=0 -e $outfile
+	fi
+done
+cd ..
