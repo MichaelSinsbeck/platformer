@@ -76,6 +76,8 @@ function menu:init()
 	self.images.gamepadLT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLT.png")
 	self.images.gamepadRT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRT.png")
 	
+	self.images.keyNone_IMG = love.graphics.newImage("images/menu/"..prefix.."keyNone.png")
+	
 	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
 	--menuPlayer.x = 0
 	--menuPlayer.y = 0
@@ -422,8 +424,10 @@ function menu:changeButtonImage( name, imageOff, imageOn )
 		if b.name == name then
 			b.imgOff = imageOff or b.imgOff
 			b.imgOn = imageOn or b.imgOn
-			b.labelX = (self.images[b.imgOff]:getWidth()
+			if b.label then
+				b.labelX = (self.images[b.imgOff]:getWidth()
 						- b.font:getWidth(b.label))*0.5/Camera.scale
+			end
 			break
 		end
 	end
@@ -613,13 +617,13 @@ function menu:keypressed( key, unicode )
 	if menu.state == "credits" then	--any key in credits screen returns to main screen.
 		menu.startTransition(menu.initMain)()
 	else
-		if key == "up" or key == "w" then
+		if key == "up" or key == "w" or key == "u" then
 			menu:selectAbove()
-		elseif key == "down" or key == "s" then
+		elseif key == "down" or key == "s" or key == "d" then
 			menu:selectBelow()
-		elseif key == "left" or key == "a" then
+		elseif key == "left" or key == "a" or key == "l" then
 			menu:selectLeft()
-		elseif key == "right" or key == "d" then
+		elseif key == "right" or key == "d" or key == "r" then
 			menu:selectRight()
 		elseif key == "return" or key == " " then
 			menu:execute()

@@ -32,25 +32,19 @@ end
 function game:checkControls()
   local joyHat = love.joystick.getHat(1,1)
   self.isLeft = love.keyboard.isDown( keys.LEFT) 
-		or joyHat == 'l' 
-		or joyHat == 'ld' 
-		or joyHat == 'lu'
+		or keys.getGamepadIsDown( "LEFT" )
 	self.isRight = love.keyboard.isDown( keys.RIGHT )
-		or joyHat == 'r'
-		or joyHat == 'rd' 
-		or joyHat == 'ru'
+		or keys.getGamepadIsDown( "RIGHT" )
 	self.isDown = love.keyboard.isDown( keys.DOWN )
-	  or joyHat == 'd'
-	  or joyHat == 'ld'
-	  or joyHat == 'rd'
+		or keys.getGamepadIsDown( "DOWN" )
 	self.isUp = love.keyboard.isDown( keys.UP )
-	  or joyHat == 'u'
-	  or joyHat == 'lu'
-	  or joyHat == 'ru'
+		or keys.getGamepadIsDown( "UP" )
 	self.isJump = love.keyboard.isDown( keys.JUMP ) 
-			or love.joystick.isDown(1,3)
+		or keys.getGamepadIsDown( "JUMP" )
 	self.isAction = love.keyboard.isDown( keys.ACTION )
-			or love.joystick.isDown(1,8)
+		or keys.getGamepadIsDown( "ACTION" )
+	--print(keys.PAD_JUMP, tonumber(keys.PAD_JUMP), love.joystick.isDown(1, tonumber(keys.PAD_JUMP)))
+	--print(self.isJump)
 end
 
 function game:update(dt)
@@ -135,13 +129,19 @@ function game.keyreleased(key)
 end
 
 function game.joystickpressed(joystick, button)
-  if button == keys.PAD_JUMP then
+
+
+	if button == 7 or button == 8 then
+		menu.startTransition(menu.initWorldMap)()
+	end
+
+  if button == tonumber(keys.PAD.JUMP) then
     spriteEngine:DoAll('jump')
 		if p.dead then
 			myMap:start(p)
 		end  
   end
-	if button == 8 and p.bandana == "red" then
+	if button == tonumber(keys.PAD.ACTION) and p.bandana == "red" then
 		Bungee:throw()
   end
 end
