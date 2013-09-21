@@ -3,7 +3,7 @@ require 'scripts/spriteengine'
 game = {deathtimer = 0}
 
 function game:draw()
-	--love.graphics.drawq(AnimationDB.background[Campaign.worldNumber],AnimationDB.backgroundQuad,0,0)
+	love.graphics.drawq(AnimationDB.background[Campaign.worldNumber],AnimationDB.backgroundQuad,0,0)
 
 	Camera:apply()
 
