@@ -111,7 +111,13 @@ function love.update( dt )
 	--vis:update(dt)
 end
 
+local a = 0
+
 function love.draw()
+
+	--shaders.grayScale:send( "amount", 0.5+0.5*math.sin(love.timer.getTime()) )
+	--love.graphics.setPixelEffect( shaders.grayScale )
+	
 
 	if USE_SHADERS and menu.transitionActive then
 		love.graphics.setCanvas(fullscreenCanvas)
@@ -147,6 +153,8 @@ function love.draw()
 	if DEBUG then
 		love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
 	end
+	
+	--love.graphics.setPixelEffect()
 	--vis:draw(100,100)
 end
 
