@@ -59,6 +59,7 @@ function Camera:setScale(scale)
 	self.width = love.graphics.getWidth()
 	self.height = love.graphics.getHeight()	
 	AnimationDB:loadAll()
+	loadFont()
 	menu:init()	-- after AnimationDB:loadAll() !
 	if myMap then -- reload Map-image, if map exists
 		myMap:loadImage()

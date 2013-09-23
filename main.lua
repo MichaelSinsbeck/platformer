@@ -16,6 +16,7 @@ require 'scripts/map'
 require 'scripts/intro'
 require 'scripts/campaign'
 require 'scripts/levelEnd'
+require 'scripts/font'
 
 mode = 'menu'	-- must be global
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
@@ -59,13 +60,6 @@ function love.load(args)
 	if USE_SHADERS then
 		shaders.load()
 	end
-	
-	-- load and set font
-	fontSmall = love.graphics.newImageFont("images/font/40fontSmall.png",
-    " abcdefghijklmnopqrstuvwxyz0123456789.,?+&ABCD")
-	fontLarge = love.graphics.newImageFont("images/font/40fontLarge.png",
-    " abcdefghijklmnopqrstuvwxyz0123456789.,?+&ABCD")    
-	love.graphics.setFont(fontSmall)
 
 	recorder = false
 	screenshots = {}
