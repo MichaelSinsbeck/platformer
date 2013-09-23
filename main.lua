@@ -7,6 +7,7 @@ settings = require("scripts/settings")
 keys = require("scripts/keys")
 require("scripts/misc")
 shaders = require("scripts/shaders")
+loading = require("scripts/loading")
 
 require 'scripts/utility'
 require 'scripts/camera'
@@ -47,66 +48,45 @@ function love.load(args)
 	-- hide mouse
 	love.mouse.setVisible(false)
 
-	-- set screen resolution (and fullscreen)
-	Camera:init()
 	
-	-- load all images
-	AnimationDB:loadAll()
-	
-	keys.load()
-	
-	menu:init()	-- must be called after AnimationDB:loadAll()
-	
-	if USE_SHADERS then
-		shaders.load()
-	end
-
-	recorder = false
-	screenshots = {}
-	recorderTimer = 0
-
-	timer = 0
-
-	Campaign:reset()
-
-	mode = 'menu'
-	menu.initMain()
-
-	shadows = require("scripts/monocle")
+	mode = 'loading'
 end
 
 function love.update( dt )
 
-	if USE_SHADOWS and shadows.needsShadowUpdate then
-		if myMap then
-			myMap:updateShadows()
+	if mode == 'loading' then
+		loading.update( dt )
+	else
+		if USE_SHADOWS and shadows.needsShadowUpdate then
+			if myMap then
+				myMap:updateShadows()
+			end
 		end
-	end
 
-	if mode == 'game' then
-		game:update(dt)
-	elseif mode == 'menu' then
-		menu:update(dt)
-	elseif mode == 'intro' then
-		intro:update(dt)
-	end
+		if mode == 'game' then
+			game:update(dt)
+		elseif mode == 'menu' then
+			menu:update(dt)
+		elseif mode == 'intro' then
+			intro:update(dt)
+		end
 	
-	if menu.transitionActive then
-		menu.transitionPercentage = menu.transitionPercentage + dt*1000	-- 1 second
-		if USE_SHADERS then
-			shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
+		if menu.transitionActive then
+			menu.transitionPercentage = menu.transitionPercentage + dt*1000	-- 1 second
+			if USE_SHADERS then
+				shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
+			end
+			if menu.transitionPercentage >= 50 and menu.transitionEvent then
+				menu.transitionEvent()
+				menu.transitionEvent = nil		
+			end
+			if menu.transitionPercentage >= 100 then
+				menu.transitionActive = false		
+			end
 		end
-		if menu.transitionPercentage >= 50 and menu.transitionEvent then
-			menu.transitionEvent()
-			menu.transitionEvent = nil		
-		end
-		if menu.transitionPercentage >= 100 then
-			menu.transitionActive = false		
-		end
-	end
 
-	keys.catchGamepadEvents()
-	
+		keys.catchGamepadEvents()
+	end
 	--print(love.joystick.getHat(1,1), love.joystick.getHat(1,2), love.joystick.getHat(1,3))
 	--vis:update(dt)
 end
@@ -117,41 +97,43 @@ function love.draw()
 
 	--shaders.grayScale:send( "amount", 0.5+0.5*math.sin(love.timer.getTime()) )
 	--love.graphics.setPixelEffect( shaders.grayScale )
-	
+	if mode == 'loading' then
+		loading.draw()
+	else
+		if USE_SHADERS and menu.transitionActive then
+			love.graphics.setCanvas(fullscreenCanvas)
+			fullscreenCanvas:clear()
+			love.graphics.setColor(love.graphics.getBackgroundColor())
+			love.graphics.rectangle('fill', 0, 0, fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
+			love.graphics.setColor(255,255,255,255)
+		end
 
-	if USE_SHADERS and menu.transitionActive then
-		love.graphics.setCanvas(fullscreenCanvas)
-		fullscreenCanvas:clear()
-		love.graphics.setColor(love.graphics.getBackgroundColor())
-		love.graphics.rectangle('fill', 0, 0, fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
-		love.graphics.setColor(255,255,255,255)
-	end
-
-	if mode == 'game' then
-		game:draw()
-	elseif mode == 'menu' then
-		menu:draw()
-	elseif mode == 'intro' then
-		intro:draw()
-	elseif mode == 'levelEnd' then
-		levelEnd:draw()
-	end
+		if mode == 'game' then
+			game:draw()
+		elseif mode == 'menu' then
+			menu:draw()
+		elseif mode == 'intro' then
+			intro:draw()
+		elseif mode == 'levelEnd' then
+			levelEnd:draw()
+		end
 	
-	if USE_SHADERS and menu.transitionActive then
-		love.graphics.setCanvas()
-		love.graphics.setPixelEffect( shaders.fadeToBlack )
-		love.graphics.draw(fullscreenCanvas, 0, 0)
-		love.graphics.setPixelEffect()
-	end
+		if USE_SHADERS and menu.transitionActive then
+			love.graphics.setCanvas()
+			love.graphics.setPixelEffect( shaders.fadeToBlack )
+			love.graphics.draw(fullscreenCanvas, 0, 0)
+			love.graphics.setPixelEffect()
+		end
 	
-	if menu.transitionActive and menu.transitionPercentage < 50 then	
-		local sx = (menu.transitionPercentage/15)^3
+		if menu.transitionActive and menu.transitionPercentage < 50 then	
+			local sx = (menu.transitionPercentage/15)^3
 		
-		love.graphics.draw(springtime,640,400,0,sx,sx,120,130)
-	end
+			love.graphics.draw(springtime,640,400,0,sx,sx,120,130)
+		end
 	
-	if DEBUG then
-		love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
+		if DEBUG then
+			love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
+		end
 	end
 	
 	--love.graphics.setPixelEffect()
