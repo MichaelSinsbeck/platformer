@@ -79,15 +79,10 @@ function Player:jump()
 			end
     self.status = 'fly'
   elseif self.status == 'online' then
-    if game.isDown then --fall
-			self.status = 'fly'
-			self.line = nil
-    else --jump up
-			self.status = 'fly'
-			self.vy = self.jumpSpeed
-			self.line = nil
-			self.canUnJump = true
-		end
+		self.status = 'fly'
+		self.vy = self.jumpSpeed
+		self.line = nil
+		self.canUnJump = true
   end
 end
 
@@ -115,6 +110,12 @@ function Player:setAcceleration(dt)
 	game:checkControls()
 	
 	self.visible = not (self.bandana == 'green' and game.isAction)
+	
+	-- drop down from line
+	if self.status == 'online' and game.isDown then
+		self.status = 'fly'
+		self.line = nil
+	end
 		
   -- Acceleration down
   if self.status == 'fly' or self.status == 'online' or self.anchor then
