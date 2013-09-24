@@ -382,10 +382,14 @@ function Player:collision(dt)
 			end
 		end
 	elseif self.status == 'stand' then
-		if control == 0 and self.vx == 0 then
+		if control == 0 and math.abs(self.vx) < .1 then
 			self:setAnim(prefix..'Stand')
 		elseif control*self.vx < 0 then
-			self:setAnim(prefix..'Sliding')
+			if self.anchor and self.anchor:relativeLength() < .1 then
+				self:setAnim(prefix..'Run')
+			else
+				self:setAnim(prefix..'Sliding')
+			end
 		elseif control == 0 then
 			self:setAnim(prefix..'Walk',true)
 		else
