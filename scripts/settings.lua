@@ -26,15 +26,14 @@ function settings:setWindowSize()
 	if self.fullscreen then
 		scale = self:fullscreenScale()
 		success = love.graphics.setMode(self.xScreen,self.yScreen, true)
-		Camera:setScale(scale)
 	else
 		scale = self:windowScale()
 		success = love.graphics.setMode(
 			math.min(self.xScreen,scale*8*32),
 			math.min(self.yScreen,scale*8*20)
 			,false)
-		Camera:setScale(scale)
 	end
+	Camera:setScale(scale)
 	
 	fullscreenCanvas = love.graphics.newCanvas(self.xScreen,self.yScreen)
 	
@@ -48,6 +47,7 @@ function settings:toggleFullScreen(switch)
 		self.fullscreen = switch
 	end
 	self:setWindowSize()
+	Camera:applyScale()
 	config.setValue("fullscreen",self.fullscreen)
 end
 

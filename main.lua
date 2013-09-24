@@ -2,7 +2,9 @@
 
 
 loading = require("scripts/loading")
-
+config = require("scripts/config")
+settings = require("scripts/settings")
+require 'scripts/camera'
 
 mode = 'menu'	-- must be global
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
@@ -14,7 +16,7 @@ springtime = love.graphics.newImage('images/transition/silhouette.png')
 
 
 function love.load(args)
-
+	Camera:init()
 
 	for k, v in pairs(arg) do
 		if v == "--debug" or v == "-d" then

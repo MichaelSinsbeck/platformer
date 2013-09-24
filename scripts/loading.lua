@@ -17,14 +17,12 @@ function loading.update()
 		-- loads all scripts and puts the necessary values into the global
 		-- environment:
 		
-		config = require("scripts/config")
-		settings = require("scripts/settings")
+
 		keys = require("scripts/keys")
 		require("scripts/misc")
 		shaders = require("scripts/shaders")
 
 		require 'scripts/utility'
-		require 'scripts/camera'
 		require 'scripts/game'
 		require 'scripts/spritefactory'
 		require 'scripts/map'
@@ -36,7 +34,8 @@ function loading.update()
 		loading.msg = "camera"
 	elseif loading.step == 1 then
 		-- set screen resolution (and fullscreen)
-		Camera:init()
+		--Camera:init()
+		Camera:applyScale()
 		loading.msg = "animation"
 	elseif loading.step == 2 then
 		-- load all images
