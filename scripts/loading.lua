@@ -1,5 +1,5 @@
 
-require 'scripts/font'
+
 
 local loading = {
 	step = -1,
@@ -12,12 +12,12 @@ local loading = {
 function loading.update()
 
 	if loading.step == 0 then
+		require 'scripts/font'
 		menu = require("scripts/menu")
 		
 		-- loads all scripts and puts the necessary values into the global
 		-- environment:
 		
-
 		keys = require("scripts/keys")
 		require("scripts/misc")
 		shaders = require("scripts/shaders")
@@ -30,29 +30,22 @@ function loading.update()
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
 		
-		
 		loading.msg = "camera"
 	elseif loading.step == 1 then
-		-- set screen resolution (and fullscreen)
-		--Camera:init()
 		Camera:applyScale()
-		loading.msg = "animation"
-	elseif loading.step == 2 then
-		-- load all images
-		AnimationDB:loadAll()
 		loading.msg = "keyboard setup"
-	elseif loading.step == 3 then
+	elseif loading.step == 2 then
 		keys.load()
 		loading.msg = "menu"
-	elseif loading.step == 4 then
+	elseif loading.step == 3 then
 		menu:init()	-- must be called after AnimationDB:loadAll()
 		loading.msg = "shaders"
-	elseif loading.step == 5 then	
+	elseif loading.step == 4 then	
 		if USE_SHADERS then
 			shaders.load()
 		end
 		loading.msg = "campaign"
-	elseif loading.step == 6 then
+	elseif loading.step == 5 then
 		recorder = false
 		screenshots = {}
 		recorderTimer = 0
@@ -60,13 +53,13 @@ function loading.update()
 		timer = 0
 
 		Campaign:reset()
+		
+		loading.msg = "shadows"
+	elseif loading.step == 6 then
+		shadows = require("scripts/monocle")
 		loading.msg = "main menu"
 	elseif loading.step == 7 then
-		mode = 'menu'
 		menu.initMain()
-		loading.msg = "shadows"
-	elseif loading.step == 8 then
-		shadows = require("scripts/monocle")
 	end
 	loading.step = loading.step + 1
 end
@@ -75,7 +68,7 @@ function loading.draw()
 	--os.execute("sleep .5")
 	love.graphics.setColor(255,255,255,255)
 	local str = "loading: " .. loading.msg
-	print(loading.msg)
+	print(str)
 	love.graphics.print(str, 20, 20)
 end
 

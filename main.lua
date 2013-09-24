@@ -39,7 +39,6 @@ function love.load(args)
 end
 
 function love.update( dt )
-
 	if mode == 'loading' then
 		loading.update( dt )
 	else
