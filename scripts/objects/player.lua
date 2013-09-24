@@ -213,9 +213,15 @@ function Player:collision(dt)
 	if self.anchor then
 		local dx,dy = self.newX-self.anchor.x, self.newY-self.anchor.y
 		local dist = math.sqrt(dx^2 + dy^2)
-		if dist > self.anchor.length then
+		local factor = self.anchor.length/dist
+		if factor < 1 then
 			self.newX = self.anchor.x + dx*(self.anchor.length/dist)
 			self.newY = self.anchor.y + dy*(self.anchor.length/dist)
+			
+			if (self.status == 'leftwall' and dx*(factor-1) > 0) or
+				 (self.status == 'rightwall' and dx*(factor-1) < 0) then
+				self.status = 'fly'
+			end
 		end
 		self.angle = math.atan2(-dx,dy)
 	else
