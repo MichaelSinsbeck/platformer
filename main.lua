@@ -1,23 +1,8 @@
 -- main menu test
 
 
-menu = require("scripts/menu")
-config = require("scripts/config")
-settings = require("scripts/settings")
-keys = require("scripts/keys")
-require("scripts/misc")
-shaders = require("scripts/shaders")
 loading = require("scripts/loading")
 
-require 'scripts/utility'
-require 'scripts/camera'
-require 'scripts/game'
-require 'scripts/spritefactory'
-require 'scripts/map'
-require 'scripts/intro'
-require 'scripts/campaign'
-require 'scripts/levelEnd'
-require 'scripts/font'
 
 mode = 'menu'	-- must be global
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
@@ -47,7 +32,6 @@ function love.load(args)
 
 	-- hide mouse
 	love.mouse.setVisible(false)
-
 	
 	mode = 'loading'
 end
