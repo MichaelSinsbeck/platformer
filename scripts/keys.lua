@@ -206,6 +206,10 @@ function getImageForPad( str )
 		return "gamepadLeft_IMG","gamepadLeft_IMG"
 	elseif str == "r" then
 		return "gamepadRight_IMG","gamepadRight_IMG"
+	elseif str == "8" then
+		return "gamepadStart_IMG","gamepadStart_IMG"
+	elseif str == "7" then
+		return "gamepadBack_IMG","gamepadBack_IMG"
 	else
 		return "keyNone_IMG","keyNone_IMG"
 	end

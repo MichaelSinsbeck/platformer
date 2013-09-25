@@ -165,6 +165,7 @@ function love.keyreleased(key)
 end
 
 function love.joystickpressed(joystick, button)
+	print(joystick, button)
 	if keys.currentlyAssigning then	
 		if menu.state == 'gamepad' then
 			keys.assign( tostring(button) )
