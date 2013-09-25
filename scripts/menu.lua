@@ -144,7 +144,6 @@ end
 
 function menu.setPlayerPosition( x, y )
 	return function()
-		print("menu pos", menuPlayer.x, menuPlayer.y)
 		menuPlayer.x = x
 		menuPlayer.y = y
 	end
