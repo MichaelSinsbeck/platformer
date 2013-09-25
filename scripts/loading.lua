@@ -12,7 +12,6 @@ local loading = {
 function loading.update()
 
 	if loading.step == 0 then
-		require 'scripts/font'
 		menu = require("scripts/menu")
 		
 		-- loads all scripts and puts the necessary values into the global
@@ -70,6 +69,18 @@ function loading.draw()
 	local str = "loading: " .. loading.msg
 	print(str)
 	love.graphics.print(str, 20, 20)
+end
+
+function loading.preload()
+-- This function does everything that is necessary before the loading 
+-- screen can be shown: Set graphical mode and load font.
+	Camera:init()	
+	loadFont()	
+
+	-- hide mouse
+	love.mouse.setVisible(false)
+	
+	mode = 'loading'	
 end
 
 return loading
