@@ -135,9 +135,8 @@ end
 
 function Map:start(p)
 
-	
-
 	game.deathtimer = 0
+	deathEffect:reset()
   -- reset collision table
 	self.collision = utility.copy(self.collisionSrc,true)
 
