@@ -7,7 +7,7 @@ keys.currentlyAssigning = false		--holds the string of the key which is currentl
 ---------------------------------------------------------
 function keys.setDefaults()
 	-- keyboard defaults:
-	keys.SCREENSHOT = 't'
+	keys.SCREENSHOT = 'f2'
 	keys.FULLSCREEN = 'f'
 	keys.RESTARTMAP = 'p'
 	keys.RESTARTGAME = 'o'
@@ -138,7 +138,7 @@ function keys.assign( key )
 			local imgOff, imgOn = getImageForKey( keys[keys.currentlyAssigning], fontSmall )
 			print("new", imgOff, imgOn)
 			menu:changeButtonImage( "key_" .. keys.currentlyAssigning, imgOff, imgOn )
-			menu:changeButtonLabel( "key_" .. keys.currentlyAssigning, keys[keys.currentlyAssigning] )
+			menu:changeButtonLabel( "key_" .. keys.currentlyAssigning, nameForKey(key) )
 			keys.currentlyAssigning = false
 		elseif menu.state == "gamepad" then
 			if keys.PAD[keys.currentlyAssigning] ~= key then
@@ -153,12 +153,32 @@ function keys.assign( key )
 	end
 end
 
+function nameForKey( key )
+	if key == " " then
+		return "space"
+	elseif key == "up" then
+		return "A"
+	elseif key == "down" then
+		return "B"
+	elseif key == "left" then
+		return "C"
+	elseif key == "right" then
+		return "D"
+	else
+		return key
+	end
+end
+
 function getImageForKey( str, font )
 	if str == "" then
 		return "keyNone_IMG", "keyNone_IMG"
 	end
 	
 	if str == " " then str = "space" end
+	if str == "up" then str = "A" end
+	if str == "down" then str = "B" end
+	if str == "left" then str = "C" end
+	if str == "right" then str = "D" end
 	if #str > 1 then --font:getWidth(str) > menu.images.keyOn_IMG:getWidth()/2 then
 		return "keyLargeOff_IMG", "keyLargeOn_IMG"
 	end
@@ -358,7 +378,7 @@ function keys.initKeyboard()
 	local startButton = menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_LEFT",
 					keys.startAssign( "LEFT" ), hoverEvent,
-					keys.LEFT, fontSmall )
+					nameForKey(keys.LEFT), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("left")/Camera.scale, y+3, "LEFT", "left")
 	y = y + 10
 	
@@ -367,7 +387,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_RIGHT",
 					keys.startAssign( "RIGHT" ), hoverEvent,
-					keys.RIGHT, fontSmall )
+					nameForKey(keys.RIGHT), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("right")/Camera.scale, y+3, "RIGHT", "right")
 	y = y + 10
 	
@@ -376,7 +396,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_UP", 
 					keys.startAssign( "UP" ), hoverEvent,
-					keys.UP, fontSmall )
+					nameForKey(keys.UP), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("up")/Camera.scale, y+3, "UP", "up")
 	y = y + 10
 	
@@ -385,7 +405,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_DOWN", 
 					keys.startAssign( "DOWN" ), hoverEvent,
-					keys.DOWN, fontSmall )
+					nameForKey(keys.DOWN), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
 	y = -35
@@ -396,7 +416,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_JUMP",
 					keys.startAssign( "JUMP" ), hoverEvent,
-					keys.JUMP, fontSmall )
+					nameForKey(keys.JUMP), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("jump")/Camera.scale, y+3, "JUMP", "jump")
 	y = y + 10
 	
@@ -405,7 +425,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_ACTION",
 					keys.startAssign( "ACTION" ), hoverEvent,
-					keys.ACTION, fontSmall )
+					nameForKey(keys.ACTION), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("action")/Camera.scale, y+3,	"ACTION", "action")
 
 	local x,y = 0, 20
@@ -415,7 +435,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_SCREENSHOT",
 					keys.startAssign( "SCREENSHOT" ), hoverEvent,
-					keys.SCREENSHOT, fontSmall )
+					nameForKey(keys.SCREENSHOT), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("screenshot")/Camera.scale, y+3,
 					"SCREENSHOT", "screenshot")
 	y = y + 10
@@ -425,7 +445,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_FULLSCREEN",
 					keys.startAssign( "FULLSCREEN" ), hoverEvent,
-					keys.FULLSCREEN, fontSmall )
+					nameForKey(keys.FULLSCREEN), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("fullscreen")/Camera.scale, y+3,
 					"FULLSCREEN", "fullscreen")
 	y = y + 10
@@ -435,7 +455,7 @@ function keys.initKeyboard()
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_RESTARTMAP",
 					keys.startAssign( "RESTARTMAP" ), hoverEvent,
-					keys.RESTARTMAP, fontSmall )
+					nameForKey(keys.RESTARTMAP), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("restart map")/Camera.scale, y+3,
 					"RESTARTMAP", "restart map")
 	

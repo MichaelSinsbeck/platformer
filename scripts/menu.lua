@@ -433,12 +433,6 @@ function menu:changeButtonImage( name, imageOff, imageOn )
 end
 
 function menu:changeButtonLabel( name, label )
-	if label == "" then
-		label = "-"
-	end
-	if label == " " then
-		label = "space"
-	end
 	for k, b in pairs(buttons) do
 		if b.name == name then
 			b.label = label
