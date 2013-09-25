@@ -67,8 +67,15 @@ function loading.draw()
 	--os.execute("sleep .5")
 	love.graphics.setColor(255,255,255,255)
 	local str = "loading: " .. loading.msg
-	print(str)
-	love.graphics.print(str, 20, 20)
+	--print(str)
+	
+	love.graphics.setColor(150,150,150)
+	love.graphics.setFont(fontSmall)
+	love.graphics.print(str, Camera.scale*5, love.graphics.getHeight()-Camera.scale*8)
+	
+	love.graphics.setColor(44,90,160)
+	love.graphics.setFont(fontLarge)
+	love.graphics.printf('loading', 0, 0.5*love.graphics.getHeight(), love.graphics.getWidth(), 'center')
 end
 
 function loading.preload()
