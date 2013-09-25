@@ -73,8 +73,8 @@ function menu:init()
 	
 	self.images.gamepadLB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLB.png")
 	self.images.gamepadRB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRB.png")
-	self.images.gamepadLT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLT.png")
-	self.images.gamepadRT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRT.png")
+	--self.images.gamepadLT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLT.png")
+	--self.images.gamepadRT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRT.png")
 	
 	self.images.gamepadStart_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadStart.png")
 	self.images.gamepadBack_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadBack.png")
