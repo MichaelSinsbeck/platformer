@@ -77,8 +77,6 @@ local a = 0
 
 function love.draw()
 
-	--shaders.grayScale:send( "amount", 0.5+0.5*math.sin(love.timer.getTime()) )
-	--love.graphics.setPixelEffect( shaders.grayScale )
 	if mode == 'loading' then
 		loading.draw()
 	else
@@ -118,7 +116,6 @@ function love.draw()
 		end
 	end
 	
-	--love.graphics.setPixelEffect()
 	--vis:draw(100,100)
 end
 

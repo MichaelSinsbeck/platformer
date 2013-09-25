@@ -3,6 +3,9 @@ require 'scripts/spriteengine'
 game = {deathtimer = 0}
 
 function game:draw()
+
+	deathEffect:draw()
+
 	love.graphics.drawq(AnimationDB.background[Campaign.worldNumber],AnimationDB.backgroundQuad,0,0)
 
 	Camera:apply()
@@ -21,12 +24,15 @@ function game:draw()
 	
 	love.graphics.setColor(255,255,255) 
 
+	
 	Camera:free()
+	deathEffect:stop()
 
 	if recorderTimer > 1/30 then
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())
 	end
+	
 end
 
 function game:checkControls()
@@ -60,13 +66,17 @@ function game:update(dt)
 	levelEnd:display()
   end
   
-  if p.dead then
+	if p.dead then
 		self.deathtimer = self.deathtimer + dt
-  end
-  
-  if self.deathtimer > 5 or (DEBUG and self.deathtimer > .5) then
-    myMap:start(p)
-  end
+	end
+	if self.deathtimer > 0 then
+		deathEffect:update( self.deathtimer )
+		if self.deathtimer > deathEffect.fullTime or (DEBUG and self.deathtimer > .5) then
+			self.deathtimer = 0
+			deathEffect:reset()
+			myMap:start(p)
+		end
+	end
   
   if p.y > myMap.height+2 and not p.dead then
     p.dead = true
