@@ -7,6 +7,10 @@ Line = object:New({
 })
 
 function Line:draw()
+	-- store and cancel the current shader:
+	local effect = love.graphics.getPixelEffect()
+	love.graphics.setPixelEffect()
+	
 	love.graphics.setLineWidth(Camera.scale*0.4)
 	local r, g, b, a = love.graphics.getColor()	
 	love.graphics.setColor(0,0,0)
@@ -16,6 +20,9 @@ function Line:draw()
 		math.floor(self.x2*myMap.tileSize),
 		math.floor(self.y2*myMap.tileSize))
 	love.graphics.setColor(r,g,b,a)
+	
+	-- restore pixel effect:
+	love.graphics.setPixelEffect(efft)
 end
 
 function Line:init()
