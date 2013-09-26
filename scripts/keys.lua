@@ -371,7 +371,7 @@ function keys.initKeyboard()
 	
 	keys.changed = false -- don't save configuration unless new key has been assigned
 	
-	local x,y = -30, -35
+	local x,y = -25, -35
 	local imgOff, imgOn
 	local hoverEvent
 	local ninjaDistX = 3
@@ -413,7 +413,7 @@ function keys.initKeyboard()
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
 	y = -35
-	x = 30
+	x = 37
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
 	imgOff, imgOn = getImageForKey( keys.JUMP, fontSmall )
@@ -430,9 +430,9 @@ function keys.initKeyboard()
 					imgOff, imgOn, "key_ACTION",
 					keys.startAssign( "ACTION" ), hoverEvent,
 					nameForKey(keys.ACTION), fontSmall )
-	menu:addText( x-8 - fontSmall:getWidth("action")/Camera.scale, y+3,	"ACTION", "action")
+	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3,	"ACTION", "use bandana")
 
-	local x,y = 0, 20
+	local x,y = 3, 20
 
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
 	imgOff, imgOn = getImageForKey( keys.SCREENSHOT, fontSmall )
@@ -463,7 +463,8 @@ function keys.initKeyboard()
 	menu:addText( x-8 - fontSmall:getWidth("restart map")/Camera.scale, y+3,
 					"RESTARTMAP", "restart map")
 	
-	
+	menu:addBox(-55,-40,110,50)
+	menu:addBox(-55, 15,110,40)
 	-- start of with the first button selected:
 	selectButton(startButton)
 end
@@ -475,7 +476,7 @@ function keys.initGamepad()
 	
 	keys.changed = false -- don't save configuration unless new key has been assigned
 	
-	local x,y = -30, -35
+	local x,y = -25, -35
 	local imgOff, imgOn
 	local hoverEvent
 	local ninjaDistX = 3
@@ -512,8 +513,8 @@ function keys.initGamepad()
 					keys.startAssign( "DOWN" ), hoverEvent )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
-	y = -35
-	x = 30
+	y = -25
+	x = 37
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
 	imgOff,imgOn = getImageForPad( keys.PAD.JUMP )
@@ -557,6 +558,8 @@ function keys.initGamepad()
 	]]--
 	
 	-- start of with the first button selected:
+	menu:addBox(-55,-40,110,50)
+	
 	selectButton(startButton)
 	
 end

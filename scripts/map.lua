@@ -321,6 +321,10 @@ function Map:drawFG()
 	love.graphics.draw(self.spriteBatchFG,0,0)
 end
 
+function Map:drawParallax()
+	love.graphics.drawq(AnimationDB.background[Campaign.worldNumber],AnimationDB.backgroundQuad,0,0)
+end
+
 function Map:collisionTest(x,y,direction,tag)
 -- Given the (integer) coordinates of a cell, check if there is a
 -- collision entry in this cell and then check if collisionNumber causes

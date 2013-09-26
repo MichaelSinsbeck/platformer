@@ -6,7 +6,7 @@ function game:draw()
 
 	deathEffect:draw()
 
-	love.graphics.drawq(AnimationDB.background[Campaign.worldNumber],AnimationDB.backgroundQuad,0,0)
+	myMap:drawParallax()
 
 	Camera:apply()
 

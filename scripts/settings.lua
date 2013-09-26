@@ -100,15 +100,17 @@ function settings.init()
 
 	menuPlayer.vis:setAni("lookWhite")
 	
-	local x,y = -25, 0
+	local x,y = -22, 0
 	
-	menu.setPlayerPosition( -2, 15 )()
+	menu.setPlayerPosition( 0, 15 )()
 	menuPlayer.vis.sx = -1
 	
 	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", keys.initKeyboard, nil)
 	
 	x = x + 25
 	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", keys.initGamepad, nil )
+
+	menu:addBox(-25,-4,50,30)
 
 	selectButton(startButton)
 end

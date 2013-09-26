@@ -6,6 +6,7 @@ local menuLines = {}
 local menuImages = {}
 local menuBackgrounds = {}
 local menuTexts = {}
+local menuBoxes = {}
 local selButton
 local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the junkyard'}
 
@@ -94,6 +95,7 @@ function menu.clear()
 	menuBackgrounds = {}
 	menuLines = {}
 	menuTexts = {}
+	menuBoxes = {}
 end
 
 ---------------------------------------------------------
@@ -113,23 +115,23 @@ function menu.initMain()
 	love.graphics.setBackgroundColor(40,40,40)
 
 	local x,y
-	x = -5
+	x = -2
 	y = 0
 	
-	local actionHover = menu.setPlayerPosition( x - 3, y + 5 )
+	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
-	actionHover = menu.setPlayerPosition( x - 3, y + 5 )
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", menu.startTransition(settings.init), actionHover )
 	y = y + 10
 	
-	actionHover = menu.setPlayerPosition( x - 3, y + 5 )
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'creditsOff_IMG', 'creditsOn_IMG', "credits", menu.startTransition(menu.startCredits), actionHover )
 	y = y + 10
 	
-	actionHover = menu.setPlayerPosition( x - 3, y + 5 )
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'exitOff_IMG', 'exitOn_IMG', "exit", menu.startTransition(love.event.quit), actionHover )
 
 	
@@ -137,6 +139,8 @@ function menu.initMain()
 	x = - 85
 	y = - 78
 	table.insert(menuImages, {typ="img", img='logo_IMG', x=x, y=y})
+	
+	menu:addBox(-20,-4,40,50)
 
 	-- start of with the start button selected:
 	selectButton(startButton)
@@ -446,6 +450,51 @@ function menu:changeButtonLabel( name, label )
 	end
 end
 
+function menu:addBox(left,top,width,height)
+	local new = {}
+	new.points = {}
+	new.left = left
+	new.top = top
+	new.width = width
+	new.height = height
+	local index = 1
+	local stepsize = 0
+	table.insert(new.points, left)
+	table.insert(new.points, top)
+	for i = 1,math.floor(.2*width) do
+		stepsize = width/math.floor(.2*width)
+		table.insert(new.points, left + i*stepsize)
+		table.insert(new.points, top)
+	end
+	
+	for i = 1,math.floor(.2*height) do
+		stepsize = height/math.floor(.2*height)
+		table.insert(new.points, left+width)
+		table.insert(new.points, top + i*stepsize)
+	end
+	
+	for i = 1,math.floor(.2*width) do
+		stepsize = width/math.floor(.2*width)
+		table.insert(new.points, left + width - i*stepsize)
+		table.insert(new.points, top + height)
+	end
+		
+	for i = 1,math.floor(.2*height) do
+		stepsize = height/math.floor(.2*height)
+		table.insert(new.points, left)
+		table.insert(new.points, top + height - i*stepsize)
+	end
+	
+	for i = 1,#new.points-2 do
+		new.points[i] = new.points[i] + 0.4*math.random() - 0.4*math.random()
+	end
+	new.points[#new.points-1] = new.points[1]
+	new.points[#new.points] = new.points[2]
+	print(#new)
+
+	table.insert(menuBoxes, new)
+end
+
 ---------------------------------------------------------
 -- Selects next button towards the right, left, above and below
 -- from the currently selected button, depending on distance:
@@ -704,6 +753,9 @@ end
 ---------------------------------------------------------
 
 function menu:draw()
+	if menu.state ~= "worldMap" then
+		myMap:drawParallax()
+	end
 
 	love.graphics.push()
 	love.graphics.translate(
@@ -719,6 +771,25 @@ function menu:draw()
 		end]]--
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale )
 		--love.graphics.setPixelEffect( )
+	end
+	
+	-- draw boxes:
+	for k,element in pairs(menuBoxes) do
+		-- scale box coordinates according to scale
+		local scaled = {}
+		for i = 1,#element.points do
+			scaled[i] = element.points[i] * Camera.scale
+		end
+		-- draw
+		love.graphics.setColor(0,0,0,128)
+		love.graphics.setLineWidth(Camera.scale*0.5)
+		love.graphics.rectangle('fill',
+			element.left*Camera.scale,
+			element.top*Camera.scale,
+			element.width*Camera.scale,
+			element.height*Camera.scale)
+		love.graphics.setColor(0,0,0)
+		love.graphics.line(scaled)
 	end
 	
 	
