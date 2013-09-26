@@ -754,7 +754,7 @@ end
 
 function menu:draw()
 	if menu.state ~= "worldMap" then
-		myMap:drawParallax()
+		myMap:drawParallax(1)
 	end
 
 	love.graphics.push()

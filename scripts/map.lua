@@ -321,8 +321,9 @@ function Map:drawFG()
 	love.graphics.draw(self.spriteBatchFG,0,0)
 end
 
-function Map:drawParallax()
-	love.graphics.drawq(AnimationDB.background[Campaign.worldNumber],AnimationDB.backgroundQuad,0,0)
+function Map:drawParallax(world)
+	local world = world or Campaign.worldNumber
+	love.graphics.drawq(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
 end
 
 function Map:collisionTest(x,y,direction,tag)
