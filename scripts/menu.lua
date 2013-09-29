@@ -781,7 +781,8 @@ function menu:draw()
 			scaled[i] = element.points[i] * Camera.scale
 		end
 		-- draw
-		love.graphics.setColor(0,0,0,128)
+		--love.graphics.setColor(33,103,120)
+		love.graphics.setColor(33,120,68)
 		love.graphics.setLineWidth(Camera.scale*0.5)
 		love.graphics.rectangle('fill',
 			element.left*Camera.scale,
