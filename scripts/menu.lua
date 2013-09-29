@@ -490,7 +490,6 @@ function menu:addBox(left,top,width,height)
 	end
 	new.points[#new.points-1] = new.points[1]
 	new.points[#new.points] = new.points[2]
-	print(#new)
 
 	table.insert(menuBoxes, new)
 end

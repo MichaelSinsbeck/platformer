@@ -163,8 +163,6 @@ function Map:start(p)
   timer = 0
   Camera:jumpTo(p.x,p.y)
   
-	
-  
   for i = 1,#self.factoryList do
     local constructor = self.factoryList[i].constructor
     local nx = self.factoryList[i].x +0.5
@@ -196,7 +194,6 @@ function Map:start(p)
   
   if USE_SHADOWS then
 	self:initShadows()
-	
 	
 		print("Map")
 		for j = 1, self.height do

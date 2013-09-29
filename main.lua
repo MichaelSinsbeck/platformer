@@ -76,7 +76,7 @@ end
 local a = 0
 
 function love.draw()
-
+	love.graphics.setPixelEffect()
 	if mode == 'loading' then
 		loading.draw()
 	else

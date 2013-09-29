@@ -3,7 +3,6 @@ require 'scripts/spriteengine'
 game = {deathtimer = 0}
 
 function game:draw()
-
 	deathEffect:draw()
 
 	myMap:drawParallax()
@@ -20,7 +19,7 @@ function game:draw()
 
 	myMap:drawFG()
 	
-	love.graphics.setColor(255,255,255) 
+	--love.graphics.setColor(255,255,255) 
 
 	
 	Camera:free()
