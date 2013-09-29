@@ -116,6 +116,7 @@ function menu.initMain()
 
 	local x,y
 	x = -2
+	--x = -52
 	y = 0
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -753,7 +754,7 @@ end
 
 function menu:draw()
 	if menu.state ~= "worldMap" then
-		myMap:drawParallax(1)
+		--myMap:drawParallax(1)
 	end
 
 	love.graphics.push()
@@ -780,8 +781,7 @@ function menu:draw()
 			scaled[i] = element.points[i] * Camera.scale
 		end
 		-- draw
-		--love.graphics.setColor(33,103,120)
-		love.graphics.setColor(33,120,68)
+		love.graphics.setColor(44,90,160)
 		love.graphics.setLineWidth(Camera.scale*0.5)
 		love.graphics.rectangle('fill',
 			element.left*Camera.scale,

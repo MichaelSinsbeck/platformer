@@ -35,8 +35,7 @@ function levelEnd:draw()
 			scaled[i] = element.points[i] * Camera.scale
 		end
 		-- draw
-		--love.graphics.setColor(33,103,120)
-		love.graphics.setColor(33,120,68)
+		love.graphics.setColor(44,90,160)
 		love.graphics.setLineWidth(Camera.scale*0.5)
 		love.graphics.rectangle('fill',
 			element.left*Camera.scale,
@@ -51,7 +50,7 @@ function levelEnd:draw()
 	local font = love.graphics.getFont()
 	local i = 0
 	for k, v in pairs(deathList) do
-		love.graphics.setColor(80,150,205)
+		love.graphics.setColor(110,168,213)
 		love.graphics.print(k, - font:getWidth(k) - 5, - font:getHeight()*(4 -i))
 		love.graphics.setColor(255,255,255)
 		love.graphics.print(v, 5, - font:getHeight()*(4-i))

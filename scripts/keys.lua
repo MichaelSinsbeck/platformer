@@ -412,7 +412,7 @@ function keys.initKeyboard()
 					nameForKey(keys.DOWN), fontSmall )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
-	y = -35
+	y = -25
 	x = 37
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )

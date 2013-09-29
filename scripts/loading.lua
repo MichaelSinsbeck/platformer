@@ -60,6 +60,9 @@ function loading.update()
 		loading.msg = "main menu"
 	elseif loading.step == 7 then
 		menu.initMain()
+		-- temporary
+		springtime = love.graphics.newImage('images/transition/silhouette.png')
+		bg_test = love.graphics.newImage('images/menu/bg_main.png')		
 	end
 	loading.step = loading.step + 1
 end

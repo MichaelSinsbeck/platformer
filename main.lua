@@ -12,10 +12,6 @@ fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize(
 DEBUG = false
 USE_SHADERS = true
 
--- temporary
-springtime = love.graphics.newImage('images/transition/silhouette.png')
-
-
 function love.load(args)
 	-- prepare loading screen
 	loading.preload()
