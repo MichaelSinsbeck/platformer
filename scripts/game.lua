@@ -9,18 +9,20 @@ function game:draw()
 	Camera:apply()
 
 	myMap:drawBG()
-	myMap:drawWalls()
 	spriteEngine:draw()
 	
 	if USE_SHADOWS then
-		shadows:renderActive()
+		love.graphics.push()
+		love.graphics.translate( -myMap.tileSize, -myMap.tileSize )
+		shadows:draw()
+		love.graphics.pop()
 	end
 	
+	myMap:drawWalls()
 
 	myMap:drawFG()
 	
 	--love.graphics.setColor(255,255,255) 
-
 	
 	Camera:free()
 	deathEffect:stop()
@@ -103,7 +105,7 @@ function game.keypressed(key)
 		Bungee:throw()
   end
   if key == keys.NEXTMAP then
-    Campaign:proceed()
+		Campaign:proceed()
   end
   if key == "u" then -- print all global variables
 		for k,v in pairs(_G) do

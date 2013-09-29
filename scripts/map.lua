@@ -91,7 +91,9 @@ end
 
 function Map:updateShadows()
 	self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
-	shadows:updateGrid( self.shadowMap, self.tileSize or tileSize )
+	--shadows:updateGrid( self.shadowMap, self.tileSize or tileSize )
+	shadows:setGrid( self.shadowMap, self.tileSize or tileSize )
+	shadows:update()
 	shadows.needsShadowUpdate = false
 end
 
@@ -101,8 +103,33 @@ end
 
 function Map:initShadows()
 	shadows:reset()
+	--tablePrintBooleans(self.shadowMap)
+
+	USE_SHADERS = false
+	if Campaign.worldNumber == 1 then
+		shadows:init( USE_SHADERS, 0,0,0,100 )
+	elseif Campaign.worldNumber == 2 then
+		shadows:init( USE_SHADERS, 0,0,0,100 )
+		col = {r=200,g=200,b=200,a=80}
+	elseif Campaign.worldNumber == 3 then
+		shadows:init( USE_SHADERS, 0,0,0,100 )
+		col = {r=80,g=150,b=205,a=20}
+	elseif Campaign.worldNumber == 4 then
+		shadows:init( USE_SHADERS, 0,0,0,100 )
+		col = {r=205,g=205,b=205,a=60}
+	elseif Campaign.worldNumber == 5 then
+		shadows:init( USE_SHADERS, 0,0,0,100 )
+		col = {r=150,g=150,b=150,a=40}
+	else
+		love.graphics.setColor(80,150,205) -- blue (world 1)
+	end
+	
 	self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
-	tablePrintBooleans(self.shadowMap)
+	shadows:setGrid( self.shadowMap, self.tileSize or tileSize )
+	
+	-- Activate blur. Will only render if USE_SHADERS is true
+	-- (i.e. the shadows use canvases.)
+	shadows:setBlur( 0 )
 end
 
 function Map:addLight( x, y )
@@ -122,16 +149,22 @@ function Map:addLight( x, y )
 		love.graphics.setColor(80,150,205) -- blue (world 1)
 	end
 	
-	shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle, col)
+	--shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle, col)
+	
+	shadows:addLight( x+1, y+1, 255, 255, 255, 50 )
 	print("new light @", x, y)
+	shadows.needsShadowUpdate = true
 end
 
+-- obsolete! no longer switching lights on and off:
+--[[
 -- switch on (and off) light at position x, y:
 function Map:setShadowActive( x, y, bool)
 	if USE_SHADOWS then
 		shadows:setActive( x, y, bool )
 	end
 end
+]]--
 
 function Map:start(p)
 
@@ -192,9 +225,9 @@ function Map:start(p)
 		spriteEngine:insert(newObject)
   end
   
-  if USE_SHADOWS then
-	self:initShadows()
-	
+	if USE_SHADOWS then
+		self:initShadows()
+
 		print("Map")
 		for j = 1, self.height do
 			local str = ""
@@ -202,27 +235,28 @@ function Map:start(p)
 				if self.collision[i] and self.collision[i][j] then
 					str = str .. self.collision[i][j] .. " "
 				else
-					str = str .. "  "
+					str = str .. "- "
 				end
 			end
 			print(str)
 		end
-			
 		-- go through all lights in the map and add shadows for them:
 		local list = {}
 		spriteEngine:DoAll('collectLights',list)
 		for k, v in pairs(list) do
+			print("list")
 			self:addLight(v.x, v.y)
 		end
+
+		-- add a light in the top left corner if no light was found:
 		local addedLight = false
 		if #list == 0 then
-			print("dimensions:", self.height, self.width)
 			for l = 2,math.max(self.height, self.width) do
 				for i = 1,math.min(l, self.height) do
 					print(i, self.collision[i])
 					for j = 1,math.min(l, self.width) do
 						if not self.collision[i] or self.collision[i][j] ~= 1 then
-							print("adding:",j, i)
+							print("notList")
 							self:addLight(i,j)		-- add light in top left corner
 							addedLight = true
 							break
@@ -233,7 +267,7 @@ function Map:start(p)
 				if addedLight then break end
 			end
 		end
-  end --end if USE_SHADOWS
+	end --end if USE_SHADOWS
 
 end
 
