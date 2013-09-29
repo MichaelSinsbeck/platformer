@@ -11,6 +11,8 @@ local creditsProgramming_IMG
 local creditsMusic_IMG
 local creditsNum = 1
 local ct = 0
+local coordinatesTop
+local coordinatesBottom
 
 function credits:update( dt )
 	ct = ct + dt
@@ -29,10 +31,15 @@ end
 function credits:draw()
 	local x,y,scale
 	
-	love.graphics.setColor(80,150,205)  
+	love.graphics.setColor(44,90,160)
 	love.graphics.rectangle("fill", 0, love.graphics.getHeight()/2 - creditEntries[1].img:getHeight()/2 , love.graphics.getWidth(), creditEntries[1].img:getHeight())
-	love.graphics.setColor(255,255,255)
-	
+
+	-- Draw two lines
+	love.graphics.setColor(0,0,0)
+	love.graphics.line(coordinatesTop)
+	love.graphics.line(coordinatesBottom)
+
+	love.graphics.setColor(255,255,255)	
 	y = love.graphics.getHeight()/2	- 11*Camera.scale
 	if creditsNum <= #creditEntries then
 		if ct < 1 then
@@ -67,6 +74,7 @@ end
 
 function credits:init( prefix )
 	local prefix = Camera.scale * 8
+		
 	creditsDesign_IMG = love.graphics.newImage("images/credits/"..prefix.."creditsDesign.png")
 	creditsGraphics_IMG = love.graphics.newImage("images/credits/"..prefix.."creditsGraphics.png")
 	creditsProgramming_IMG = love.graphics.newImage("images/credits/"..prefix.."creditsProgramming.png")
@@ -80,6 +88,22 @@ function credits:init( prefix )
 	
 	creditsNum = 1
 	ct = 0
+	
+	local imax = math.floor(love.graphics.getWidth()/20)
+	local dx = love.graphics.getWidth()/imax
+	local top = love.graphics.getHeight()/2 - creditEntries[1].img:getHeight()/2
+	local bottom = love.graphics.getHeight()/2 + creditEntries[1].img:getHeight()/2		
+	
+	coordinatesTop = {}
+	coordinatesBottom = {}
+	for i = 0,imax do
+		table.insert(coordinatesTop, i*dx)
+		table.insert(coordinatesTop, top + math.random()-math.random())
+		table.insert(coordinatesBottom, i*dx)
+		table.insert(coordinatesBottom, bottom + math.random()-math.random())
+	end
+	
+	
 end
 
 
