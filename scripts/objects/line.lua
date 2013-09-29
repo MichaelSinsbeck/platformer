@@ -22,7 +22,7 @@ function Line:draw()
 	love.graphics.setColor(r,g,b,a)
 	
 	-- restore pixel effect:
-	love.graphics.setPixelEffect(efft)
+	love.graphics.setPixelEffect(effect)
 end
 
 function Line:init()
