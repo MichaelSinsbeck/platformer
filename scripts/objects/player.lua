@@ -470,3 +470,14 @@ function Player:disconnect()
 		self:resize(self.originalSemiwidth, self.originalSemiheight)
 	end
 end
+
+--[[function Player:draw()
+	object.draw(self)
+	if self.bandana == 'red' then
+		local angle = p.vis[2].angle
+		local hit,xx,yy = myMap:raycast(self.x,self.y,math.cos(angle),math.sin(angle))
+		if not hit then
+			love.graphics.circle('fill',xx*myMap.tileSize,yy*myMap.tileSize,5,5)
+		end
+	end
+end--]]

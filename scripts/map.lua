@@ -387,7 +387,9 @@ function lineOfSight(x1,y1,x2,y2)
   if fx1 == fx2 then
     for yy = fy1,fy2,sy do
       if myMap.collision[fx1] and ok(myMap.collision[fx1][yy]) then
-        return false,fx1,yy
+				local yReturn = yy + 0.5 - 0.5*sy
+				local xReturn = x1 + (yReturn-y1)/(y2-y1)*(x2-x1)
+        return false,xReturn,yReturn
       end
 		end
     return true
@@ -396,7 +398,9 @@ function lineOfSight(x1,y1,x2,y2)
 	if fy1 == fy2 then
     for xx = fx1,fx2,sx do
       if myMap.collision[xx] and myMap.collision[xx][fy1] then
-        return false,xx,fy1
+				local xReturn = xx + 0.5 - 0.5*sx
+				local yReturn = y1 + (xReturn-x1)/(x2-x1)*(y2-y1)
+        return false,xReturn,yReturn
       end
 		end
     return true
@@ -409,7 +413,9 @@ function lineOfSight(x1,y1,x2,y2)
     local xx2 = math.floor(m*(fy1+math.max(0, sy))-m*y1+x1)
     for xx = fx1,xx2,sx do
       if myMap.collision[xx] and ok(myMap.collision[xx][fy1]) then
-        return false,xx,fy1
+				local xReturn = xx + 0.5 - 0.5*sx
+				local yReturn = y1 + (xReturn-x1)/m
+        return false,xReturn,yReturn
       end
     end
     for yy = fy1+sy,fy2-sy,sy do
@@ -417,14 +423,30 @@ function lineOfSight(x1,y1,x2,y2)
 			local xx2 = math.floor(m*(yy+math.max(0, sy))-m*y1+x1)
 			for xx = xx1,xx2,sx do
 			  if myMap.collision[xx] and ok(myMap.collision[xx][yy]) then
-			    return false,xx,yy
+					if xx == xx1 then -- collision from above or below
+						local yReturn = yy + 0.5 - 0.5*sy
+						local xReturn = x1 + (yReturn-y1)*m
+						return false,xReturn,yReturn						
+					else -- collision from left or right
+						local xReturn = xx + 0.5 - 0.5*sx
+						local yReturn = y1 + (xReturn-x1)/m
+						return false,xReturn,yReturn
+					end
 				end
       end
     end
     local xx1 = math.floor(m*(fy2+math.max(0, -sy))-m*y1+x1)
     for xx = xx1,fx2,sx do
       if myMap.collision[xx] and ok(myMap.collision[xx][fy2]) then
-        return false,xx,fy2
+				if xx == xx1 then -- collision from above or below
+					local yReturn = fy2 + 0.5 - 0.5*sy
+					local xReturn = x1 + (yReturn-y1)*m
+					return false,xReturn,yReturn						
+				else -- collision from left or right
+					local xReturn = xx + 0.5 - 0.5*sx
+					local yReturn = y1 + (xReturn-x1)/m
+					return false,xReturn,yReturn
+				end
       end
     end
 	  return true
@@ -434,7 +456,9 @@ function lineOfSight(x1,y1,x2,y2)
     if myMap.collision[fx1] then
 			for yy = fy1,yy2,sy do
 			  if ok(myMap.collision[fx1][yy]) then
-			    return false,fx1,yy
+					local yReturn = yy + 0.5 - 0.5*sy
+					local xReturn = x1 + (yReturn-y1)/m
+					return false,xReturn,yReturn
 			  end
 			end
     end
@@ -444,7 +468,15 @@ function lineOfSight(x1,y1,x2,y2)
 				local yy2 = math.floor(m*(xx+math.max(0, sx))-m*x1+y1)
 				for yy = yy1,yy2,sy do
 				  if ok(myMap.collision[xx][yy]) then
-				    return false,xx,yy
+						if yy == yy1 then -- collision from above or below
+							local xReturn = xx + 0.5 - 0.5*sx
+							local yReturn = y1 + (xReturn-x1)*m
+							return false,xReturn,yReturn						
+						else -- collision from left or right
+							local yReturn = yy + 0.5 - 0.5*sy
+							local xReturn = x1 + (yReturn-y1)/m
+							return false,xReturn,yReturn
+						end				  
 					end
 				end
       end
@@ -453,13 +485,35 @@ function lineOfSight(x1,y1,x2,y2)
     if myMap.collision[fx2] then
 			for yy = yy1,fy2,sy do
 				if ok(myMap.collision[fx2][yy]) then
-				  return false,fx2,yy
+					if yy == yy1 then -- collision from above or below
+						local xReturn = xx + 0.5 - 0.5*sx
+						local yReturn = y1 + (xReturn-x1)*m
+						return false,xReturn,yReturn						
+					else -- collision from left or right
+						local yReturn = yy + 0.5 - 0.5*sy
+						local xReturn = x1 + (yReturn-y1)/m
+						return false,xReturn,yReturn
+					end	
 				end
 			end
     end
 	  return true
 	end
+end
 
+function Map:raycast(x,y,vx,vy,dist)
+	if vx == 0 and vy == 0 then
+		return true,x,y
+	end
+	local dist = dist or 15
+	local length = utility.pyth(vx,vy)
+	vx,vy = vx/length,vy/length
+	
+	local xTarget = x + dist * vx
+	local yTarget = y + dist * vy
+	
+	return lineOfSight(x,y,xTarget,yTarget)
+	
 end
 
 function Map:LineList(tile,height,width)

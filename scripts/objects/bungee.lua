@@ -9,6 +9,8 @@ Bungee = object:New({
   nNodes = 20,
   friction = 5,
   vis = {Visualizer:New('bungee')},
+  tx = 0,
+  ty = 0,
 })
 
 function Bungee:setAcceleration(dt)
@@ -41,7 +43,36 @@ end
 
 function Bungee:postStep(dt)
 	if self.status == 'fly' then
-		--self.vis[1].angle = math.atan2(self.vy,self.vx)
+		-- move towards target
+		local vx,vy = self.tx-self.x,self.ty-self.y
+		local rest = utility.pyth(vx,vy)
+		if rest < self.speed*dt then	-- Collision
+			self.x, self.y = self.tx,self.ty
+			self.vx, self.vy = 0,0
+			p:connect(self)
+			self.status = 'fix'
+			self.nodesX = {}
+			self.nodesY = {}
+			self.nodesNewX = {}
+			self.nodesNewY = {}		
+			self.nodesVx = {}
+			self.nodesVy = {}
+			self.nodes = {}
+			for i = 0,self.nNodes do
+				self.nodesX[i] = p.x + (self.x-p.x)*i/self.nNodes
+				self.nodesY[i] = p.y + (self.y-p.y)*i/self.nNodes
+				self.nodesVx[i] = 0
+				self.nodesVy[i] = 0
+				self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
+				self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
+			end			
+		else -- move forward
+			vx,vy = vx/rest,vy/rest
+			self.x = self.x + self.speed * vx * dt
+			self.y = self.y + self.speed * vy * dt
+		end
+	
+		-- check for maximum length
 		local dx,dy = self.x-p.x, self.y-p.y
 		local length = math.sqrt(dx*dx+dy*dy)
 		if length > self.maxLength then
@@ -49,29 +80,6 @@ function Bungee:postStep(dt)
 			return
 		end
 	end
-	
-	-- if hook is flying in colliding, then build connection
-  if self.collisionResult > 0 then
-		self.vx = 0
-		self.vy = 0	
-		p:connect(self)
-		self.status = 'fix'
-		self.nodesX = {}
-		self.nodesY = {}
-		self.nodesNewX = {}
-		self.nodesNewY = {}		
-		self.nodesVx = {}
-		self.nodesVy = {}
-		self.nodes = {}
-		for i = 0,self.nNodes do
-			self.nodesX[i] = p.x + (self.x-p.x)*i/self.nNodes
-			self.nodesY[i] = p.y + (self.y-p.y)*i/self.nNodes
-			self.nodesVx[i] = 0
-			self.nodesVy[i] = 0
-			self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
-			self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
-		end
-  end
  
 	if self.nodesX and self.nodesY then
 		-- advance according to velocity
@@ -170,9 +178,15 @@ end
 
 function Bungee:throw()
 	game:checkControls()
-	local vx = self.speed * math.cos(p.vis[2].angle)
-	local vy = self.speed * math.sin(p.vis[2].angle)
-	local newBungee = self:New({x=p.x,y=p.y,vx=vx,vy=vy,vis = {Visualizer:New('bungee',{angle=p.vis[2].angle})} })
+	--local vx = self.speed * math.cos(p.vis[2].angle)
+	--local vy = self.speed * math.sin(p.vis[2].angle)
+	-- determine target
+	local air, tx, ty = myMap:raycast(p.x,p.y,math.cos(p.vis[2].angle),math.sin(p.vis[2].angle))
+	if air then
+		tx = p.x + 15*math.cos(p.vis[2].angle)
+		ty = p.y + 15*math.sin(p.vis[2].angle)
+	end
+	local newBungee = self:New({x=p.x, y=p.y, tx=tx, ty=ty, vis = {Visualizer:New('bungee',{angle=p.vis[2].angle})} })
 	spriteEngine:insert(newBungee)	
 end
 
