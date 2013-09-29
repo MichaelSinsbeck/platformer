@@ -105,7 +105,7 @@ function Map:initShadows()
 	shadows:reset()
 	--tablePrintBooleans(self.shadowMap)
 
-	USE_SHADERS = false
+	--USE_SHADERS = false
 	if Campaign.worldNumber == 1 then
 		shadows:init( USE_SHADERS, 0,0,0,100 )
 	elseif Campaign.worldNumber == 2 then
@@ -520,7 +520,7 @@ function lineOfSight(x1,y1,x2,y2)
 			for yy = yy1,fy2,sy do
 				if ok(myMap.collision[fx2][yy]) then
 					if yy == yy1 then -- collision from above or below
-						local xReturn = xx + 0.5 - 0.5*sx
+						local xReturn = fx2 + 0.5 - 0.5*sx
 						local yReturn = y1 + (xReturn-x1)*m
 						return false,xReturn,yReturn						
 					else -- collision from left or right
