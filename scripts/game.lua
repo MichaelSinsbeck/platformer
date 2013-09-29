@@ -7,13 +7,11 @@ function game:draw()
 	deathEffect:draw()
 
 	myMap:drawParallax()
-
 	Camera:apply()
 
 	myMap:drawBG()
 	myMap:drawWalls()
 	spriteEngine:draw()
-	love.graphics.setColor(255,255,255)
 	
 	if USE_SHADOWS then
 		shadows:renderActive()
