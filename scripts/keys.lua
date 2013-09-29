@@ -110,7 +110,7 @@ function keys.startAssign( keyToAssign )
 		if menu.state == "keyboard" then
 			keys.currentlyAssigning = keyToAssign
 			--menu:changeText( keyToAssign, "")
-			local imgOff, imgOn = getImageForKey( "", fontSmall )
+			local imgOff, imgOn = getImageForKey( "", 'fontSmall' )
 			menu:changeButtonImage( "key_" .. keyToAssign, imgOff, imgOn )
 			menu:changeButtonLabel( "key_" .. keyToAssign, "" )
 		elseif menu.state == "gamepad" then
@@ -135,7 +135,7 @@ function keys.assign( key )
 			end
 			--menu:changeText( keys.currentlyAssigning, keys[keys.currentlyAssigning])
 		
-			local imgOff, imgOn = getImageForKey( keys[keys.currentlyAssigning], fontSmall )
+			local imgOff, imgOn = getImageForKey( keys[keys.currentlyAssigning], 'fontSmall' )
 			print("new", imgOff, imgOn)
 			menu:changeButtonImage( "key_" .. keys.currentlyAssigning, imgOff, imgOn )
 			menu:changeButtonLabel( "key_" .. keys.currentlyAssigning, nameForKey(key) )
@@ -378,88 +378,88 @@ function keys.initKeyboard()
 	local ninjaDistY = -4
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
-	imgOff, imgOn = getImageForKey( keys.LEFT, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.LEFT, 'fontSmall' )
 	local startButton = menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_LEFT",
 					keys.startAssign( "LEFT" ), hoverEvent,
-					nameForKey(keys.LEFT), fontSmall )
+					nameForKey(keys.LEFT), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("left")/Camera.scale, y+3, "LEFT", "left")
 	y = y + 10
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
-	imgOff, imgOn = getImageForKey( keys.RIGHT, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.RIGHT, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_RIGHT",
 					keys.startAssign( "RIGHT" ), hoverEvent,
-					nameForKey(keys.RIGHT), fontSmall )
+					nameForKey(keys.RIGHT), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("right")/Camera.scale, y+3, "RIGHT", "right")
 	y = y + 10
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveUpWhite" )
-	imgOff, imgOn = getImageForKey( keys.UP, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.UP, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_UP", 
 					keys.startAssign( "UP" ), hoverEvent,
-					nameForKey(keys.UP), fontSmall )
+					nameForKey(keys.UP), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("up")/Camera.scale, y+3, "UP", "up")
 	y = y + 10
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveDownWhite" )
-	imgOff, imgOn = getImageForKey( keys.DOWN, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.DOWN, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_DOWN", 
 					keys.startAssign( "DOWN" ), hoverEvent,
-					nameForKey(keys.DOWN), fontSmall )
+					nameForKey(keys.DOWN), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
 	y = -25
 	x = 37
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
-	imgOff, imgOn = getImageForKey( keys.JUMP, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.JUMP, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_JUMP",
 					keys.startAssign( "JUMP" ), hoverEvent,
-					nameForKey(keys.JUMP), fontSmall )
+					nameForKey(keys.JUMP), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("jump")/Camera.scale, y+3, "JUMP", "jump")
 	y = y + 10
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "bandanaColor" )
-	imgOff, imgOn = getImageForKey( keys.ACTION, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.ACTION, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_ACTION",
 					keys.startAssign( "ACTION" ), hoverEvent,
-					nameForKey(keys.ACTION), fontSmall )
+					nameForKey(keys.ACTION), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3,	"ACTION", "use bandana")
 
 	local x,y = 3, 20
 
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForKey( keys.SCREENSHOT, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.SCREENSHOT, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_SCREENSHOT",
 					keys.startAssign( "SCREENSHOT" ), hoverEvent,
-					nameForKey(keys.SCREENSHOT), fontSmall )
+					nameForKey(keys.SCREENSHOT), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("screenshot")/Camera.scale, y+3,
 					"SCREENSHOT", "screenshot")
 	y = y + 10
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForKey( keys.FULLSCREEN, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.FULLSCREEN, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_FULLSCREEN",
 					keys.startAssign( "FULLSCREEN" ), hoverEvent,
-					nameForKey(keys.FULLSCREEN), fontSmall )
+					nameForKey(keys.FULLSCREEN), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("fullscreen")/Camera.scale, y+3,
 					"FULLSCREEN", "fullscreen")
 	y = y + 10
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForKey( keys.RESTARTMAP, fontSmall )
+	imgOff, imgOn = getImageForKey( keys.RESTARTMAP, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_RESTARTMAP",
 					keys.startAssign( "RESTARTMAP" ), hoverEvent,
-					nameForKey(keys.RESTARTMAP), fontSmall )
+					nameForKey(keys.RESTARTMAP), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("restart map")/Camera.scale, y+3,
 					"RESTARTMAP", "restart map")
 	
@@ -550,7 +550,7 @@ function keys.initGamepad()
 	y = y + 10
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff,imgOn = getImageForPad( keys.PAD.RESTARTMAP, fontSmall )
+	imgOff,imgOn = getImageForPad( keys.PAD.RESTARTMAP, 'fontSmall' )
 	menu:addButton( x, y,
 					imgOff, imgOn, "key_PAD_RESTARTMAP",
 					keys.startAssign( "RESTARTMAP" ), hoverEvent )

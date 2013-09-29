@@ -412,7 +412,7 @@ function menu:addButtonLabeled( x,y,imgOff,imgOn,name,action,actionHover,label,f
 	new.ox = 0
 	new.oy = 0
 	
-	new.labelX = (self.images[imgOff]:getWidth() - font:getWidth(label))*0.5/Camera.scale
+	new.labelX = (self.images[imgOff]:getWidth() - _G[font]:getWidth(label))*0.5/Camera.scale
 	table.insert(buttons, new)
 
 	return new
@@ -841,7 +841,7 @@ function menu:draw()
 		end
 		love.graphics.setColor(0,0,0,255)
 		if button.label then
-			love.graphics.setFont( button.font )
+			love.graphics.setFont( _G[button.font] )
 			love.graphics.print( button.label,
 						(button.x+button.ox+xShift + button.labelX)*Camera.scale ,
 						(button.y+button.oy+yShift + 3)*Camera.scale )
