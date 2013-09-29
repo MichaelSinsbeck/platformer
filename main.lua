@@ -35,11 +35,6 @@ function love.update( dt )
 	if mode == 'loading' then
 		loading.update( dt )
 	else
-		if USE_SHADOWS and shadows.needsShadowUpdate then
-			if myMap then
-				myMap:updateShadows()
-			end
-		end
 
 		if mode == 'game' then
 			game:update(dt)
@@ -64,6 +59,15 @@ function love.update( dt )
 		end
 
 		keys.catchGamepadEvents()
+		
+		
+		if USE_SHADOWS and shadows.needsShadowUpdate then
+	print("updating1")
+			if myMap then
+				myMap:updateShadows()
+			end
+		end
+		
 	end
 	--print(love.joystick.getHat(1,1), love.joystick.getHat(1,2), love.joystick.getHat(1,3))
 	--vis:update(dt)

@@ -17,8 +17,8 @@ function Light:postStep(dt)
 	if self:touchPlayer() then
 		if self.on then
 			self:switch(false)
-			print("TURNED OFF")
-			myMap:setShadowActive( self.x, self.y, false )
+			--print("TURNED OFF")
+			--myMap:setShadowActive( self.x, self.y, false )
 		end
 	end
 end
