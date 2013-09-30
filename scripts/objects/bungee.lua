@@ -16,6 +16,16 @@ Bungee = object:New({
 function Bungee:setAcceleration(dt)
 end
 
+function Bungee:collision()
+	local dist = utility.pyth(self.newX-self.x,self.newY-self.y)
+	local air, tx, ty = myMap:raycast(self.x,self.y, self.vx, self.vy, dist)
+	if not air then
+		self.newX = tx
+		self.newY = ty
+		self.collisionResult = true
+	end
+end
+
 function Bungee:draw()
 	object.draw(self)
 	love.graphics.setLineWidth(Camera.scale*0.4)
@@ -43,11 +53,8 @@ end
 
 function Bungee:postStep(dt)
 	if self.status == 'fly' then
-		-- move towards target
-		local vx,vy = self.tx-self.x,self.ty-self.y
-		local rest = utility.pyth(vx,vy)
-		if rest < self.speed*dt then	-- Collision
-			self.x, self.y = self.tx,self.ty
+
+		if self.collisionResult then	-- Collision
 			self.vx, self.vy = 0,0
 			p:connect(self)
 			self.status = 'fix'
@@ -66,10 +73,6 @@ function Bungee:postStep(dt)
 				self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
 				self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
 			end			
-		else -- move forward
-			vx,vy = vx/rest,vy/rest
-			self.x = self.x + self.speed * vx * dt
-			self.y = self.y + self.speed * vy * dt
 		end
 	
 		-- check for maximum length
@@ -178,15 +181,15 @@ end
 
 function Bungee:throw()
 	game:checkControls()
-	--local vx = self.speed * math.cos(p.vis[2].angle)
-	--local vy = self.speed * math.sin(p.vis[2].angle)
+	local vx = self.speed * math.cos(p.vis[2].angle)
+	local vy = self.speed * math.sin(p.vis[2].angle)
 	-- determine target
-	local air, tx, ty = myMap:raycast(p.x,p.y,math.cos(p.vis[2].angle),math.sin(p.vis[2].angle))
-	if air then
-		tx = p.x + 15*math.cos(p.vis[2].angle)
-		ty = p.y + 15*math.sin(p.vis[2].angle)
-	end
-	local newBungee = self:New({x=p.x, y=p.y, tx=tx, ty=ty, vis = {Visualizer:New('bungee',{angle=p.vis[2].angle})} })
+	--local air, tx, ty = myMap:raycast(p.x,p.y,math.cos(p.vis[2].angle),math.sin(p.vis[2].angle))
+	--if air then
+	--	tx = p.x + 15*math.cos(p.vis[2].angle)
+	--	ty = p.y + 15*math.sin(p.vis[2].angle)
+	--end
+	local newBungee = self:New({x=p.x, y=p.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=p.vis[2].angle})} })
 	spriteEngine:insert(newBungee)	
 end
 

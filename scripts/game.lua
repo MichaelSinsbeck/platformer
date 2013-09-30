@@ -9,6 +9,7 @@ function game:draw()
 	Camera:apply()
 
 	myMap:drawBG()
+	myMap:drawWalls()
 	spriteEngine:draw()
 	
 	if USE_SHADOWS then
@@ -18,7 +19,7 @@ function game:draw()
 		love.graphics.pop()
 	end
 	
-	myMap:drawWalls()
+
 
 	myMap:drawFG()
 	
