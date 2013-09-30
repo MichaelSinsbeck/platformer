@@ -179,8 +179,8 @@ function Monocle:draw()
 		-- Otherwise, draw triangles:
 		if self.useCanvas then
 			prevMode = _lg.getBlendMode()
-			 _lg.setBlendMode('premultiplied')
-			--_lg.setBlendMode('additive')
+			-- _lg.setBlendMode('premultiplied')
+			_lg.setBlendMode('additive')
 			_lg.draw( self.canvas )
 			_lg.setBlendMode(prevMode)
 		else
