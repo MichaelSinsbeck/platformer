@@ -11,6 +11,7 @@ mode = 'menu'	-- must be global
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
 DEBUG = false
 USE_SHADERS = true
+USE_SHADOWS = true
 
 function love.load(args)
 	-- prepare loading screen
@@ -24,8 +25,8 @@ function love.load(args)
 			USE_SHADERS = false
 			print("Manually disabled shaders.")
 		end
-		if v == "--shadows" or v == "-s" then
-			USE_SHADOWS = true
+		if v == "--no-shadows" or v == "-s" then
+			USE_SHADOWS = false
 			print("Enabled shadows")
 		end
 	end
