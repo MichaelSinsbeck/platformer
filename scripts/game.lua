@@ -11,9 +11,7 @@ function game:draw()
 	Camera:apply()
 
 	myMap:drawBG()
-	myMap:drawWalls()
-	spriteEngine:draw()
-	
+
 	if USE_SHADOWS then
 		love.graphics.push()
 		love.graphics.translate( -myMap.tileSize, -myMap.tileSize )
@@ -21,10 +19,12 @@ function game:draw()
 		love.graphics.pop()
 	end
 	
-
-
-	myMap:drawFG()
+	myMap:drawWalls()	
+	spriteEngine:draw()
 	
+	myMap:drawFG()
+
+		
 	--love.graphics.setColor(255,255,255) 
 	
 	Camera:free()
