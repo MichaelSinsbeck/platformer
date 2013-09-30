@@ -105,7 +105,7 @@ function Map:initShadows()
 	shadows:reset()
 	--tablePrintBooleans(self.shadowMap)
 
-	USE_SHADERS = false
+	--USE_SHADERS = false
 	if Campaign.worldNumber == 1 then
 		shadows:init( USE_SHADERS, 0,0,0,100 )
 	elseif Campaign.worldNumber == 2 then

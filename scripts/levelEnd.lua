@@ -23,7 +23,7 @@ function levelEnd:draw()
 	love.graphics.setPixelEffect( shaders.grayScale )
 	game:draw()
 	love.graphics.setPixelEffect()
-	
+	love.graphics.push()
 	love.graphics.translate(love.graphics.getWidth()/2,love.graphics.getHeight()/2)
 	-- for now, just show a simple list:
 	
@@ -56,6 +56,7 @@ function levelEnd:draw()
 		love.graphics.print(v, 5, - font:getHeight()*(4-i))
 		i = i+1
 	end
+	love.graphics.pop()	
 end
 
 function levelEnd:display( )	-- called when level is won:

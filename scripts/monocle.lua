@@ -93,10 +93,10 @@ local prevMode
 function Monocle:update( debug )
 	print("updating")
 	if self.useCanvas then
-		self.canvas:clear()
+		self.canvas:clear(0,0,0,200)
 		_lg.setCanvas(self.canvas)
 		_lg.setColor(self.shadow.r, self.shadow.g, self.shadow.b, self.shadow.a)
-		_lg.rectangle('fill', 0, 0, _lg.getWidth(), _lg.getHeight())
+		-- _lg.rectangle('fill', 0, 0, _lg.getWidth(), _lg.getHeight())
 		_lg.setCanvas()
 	--[[if self.useCanvas then
 		_lg.setCanvas(self.canvas)	
@@ -179,7 +179,8 @@ function Monocle:draw()
 		-- Otherwise, draw triangles:
 		if self.useCanvas then
 			prevMode = _lg.getBlendMode()
-			_lg.setBlendMode('premultiplied')
+			-- _lg.setBlendMode('premultiplied')
+			_lg.setBlendMode('additive')
 			_lg.draw( self.canvas )
 			_lg.setBlendMode(prevMode)
 		else
