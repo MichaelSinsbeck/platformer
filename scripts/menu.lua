@@ -432,8 +432,9 @@ function menu:changeButtonImage( name, imageOff, imageOn )
 			b.imgOff = imageOff or b.imgOff
 			b.imgOn = imageOn or b.imgOn
 			if b.label then
+				print(self.images[b.imgOff], b.font)
 				b.labelX = (self.images[b.imgOff]:getWidth()
-						- b.font:getWidth(b.label))*0.5/Camera.scale
+						- _G[b.font]:getWidth(b.label))*0.5/Camera.scale
 			end
 			break
 		end
@@ -445,7 +446,7 @@ function menu:changeButtonLabel( name, label )
 		if b.name == name then
 			b.label = label
 			b.labelX = (self.images[b.imgOff]:getWidth()
-						- b.font:getWidth(b.label))*0.5/Camera.scale
+						- _G[b.font]:getWidth(b.label))*0.5/Camera.scale
 			break
 		end
 	end
