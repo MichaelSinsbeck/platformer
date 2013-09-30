@@ -93,9 +93,9 @@ local prevMode
 function Monocle:update( debug )
 	print("updating")
 	if self.useCanvas then
-		self.canvas:clear(0,0,0,200)
-		_lg.setCanvas(self.canvas)
-		_lg.setColor(self.shadow.r, self.shadow.g, self.shadow.b, self.shadow.a)
+		self.canvas:clear(self.shadow.r, self.shadow.g,self.shadow.b,self.shadow.a)
+		--_lg.setCanvas(self.canvas)
+		--_lg.setColor(self.shadow.r, self.shadow.g, self.shadow.b, self.shadow.a)
 		-- _lg.rectangle('fill', 0, 0, _lg.getWidth(), _lg.getHeight())
 		_lg.setCanvas()
 	--[[if self.useCanvas then
