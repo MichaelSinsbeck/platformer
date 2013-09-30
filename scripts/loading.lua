@@ -28,7 +28,6 @@ function loading.update()
 		require 'scripts/intro'
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
-		deathEffect = require("scripts/deathEffect")
 		
 		loading.msg = "camera"
 	elseif loading.step == 1 then

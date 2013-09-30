@@ -1,9 +1,11 @@
 require 'scripts/spriteengine'
 
-game = {deathtimer = 0}
+game = {
+	deathtimer = 0,
+	fullDeathtimer = 2, -- time until death effect is over
+}
 
 function game:draw()
-	deathEffect:draw()
 
 	myMap:drawParallax()
 	Camera:apply()
@@ -26,13 +28,11 @@ function game:draw()
 	--love.graphics.setColor(255,255,255) 
 	
 	Camera:free()
-	deathEffect:stop()
 
 	if recorderTimer > 1/30 then
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())
 	end
-	
 end
 
 function game:checkControls()
@@ -68,12 +68,12 @@ function game:update(dt)
   
 	if p.dead then
 		self.deathtimer = self.deathtimer + dt
+		shaders:setDeathEffect(	self.deathtimer/self.fullDeathtimer )
 	end
 	if self.deathtimer > 0 then
-		deathEffect:update( self.deathtimer )
-		if self.deathtimer > deathEffect.fullTime or (DEBUG and self.deathtimer > .5) then
+		if self.deathtimer > self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
 			self.deathtimer = 0
-			deathEffect:reset()
+			shaders:resetDeathEffect()
 			myMap:start(p)
 		end
 	end
@@ -139,8 +139,6 @@ function game.keyreleased(key)
 end
 
 function game.joystickpressed(joystick, button)
-
-
 	if button == 7 or button == 8 then
 		menu.startTransition(menu.initWorldMap)()
 	end

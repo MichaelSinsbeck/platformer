@@ -88,10 +88,9 @@ function Monocle:reset()
 	self.lights = {}
 end
 
-local prevMode
+local prevMode, prevEffect
 
 function Monocle:update( debug )
-	print("updating")
 	if self.useCanvas then
 		self.canvas:clear(self.shadow.r, self.shadow.g,self.shadow.b,self.shadow.a)
 		--_lg.setCanvas(self.canvas)
@@ -137,34 +136,33 @@ function Monocle:update( debug )
 	
 	if self.useCanvas then
 		if self.blur then
-			--self.canvas:getImageData():encode("before.png")
+			
+			-- store any effects the user has set up before:
+			prevMode = _lg.getBlendMode()
+			prevEffect = love.graphics.getPixelEffect()
+			
 			self.gaussCanvas:clear()
 			_lg.setCanvas(self.gaussCanvas)
 		
-			--_lg.setColor(self.shadow.r, self.shadow.g, self.shadow.b, self.shadow.a)
-			--_lg.rectangle('fill', 0, 0, _lg.getWidth(), _lg.getHeight())
 			_lg.setPixelEffect( self.gaussianH )
 			_lg.setColor(255,255,255,255)
 			
-			prevMode = _lg.getBlendMode()
 			_lg.setBlendMode('premultiplied')
 			
 			_lg.draw(self.canvas)
 			_lg.setPixelEffect()
-			--self.gaussCanvas:getImageData():encode("gaussianH.png")
 			self.canvas:clear()
 	
 			_lg.setCanvas(self.canvas)
-			--_lg.setColor(self.shadow.r, self.shadow.g, self.shadow.b, self.shadow.a)
-			--_lg.rectangle('fill', 0, 0, _lg.getWidth(), _lg.getHeight())
 			_lg.setPixelEffect( self.gaussianV )
 			_lg.setColor(255,255,255,255)
 			_lg.draw(self.gaussCanvas)
 			_lg.setPixelEffect()
 			_lg.setCanvas()
-			--self.canvas:getImageData():encode("after.png")
-			--love.event.quit()
-	_lg.setBlendMode(prevMode)
+
+			-- restore any other shaders the user used before:
+			_lg.setBlendMode( prevMode )
+			_lg.setPixelEffect( prevEffect )
 		end
 	end
 end

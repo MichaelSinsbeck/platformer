@@ -45,29 +45,12 @@ function love.update( dt )
 		end
 	
 		if menu.transitionActive then
-			menu.transitionPercentage = menu.transitionPercentage + dt*1000	-- 1 second
-			if USE_SHADERS then
-				shaders.fadeToBlack:send("percentage", menu.transitionPercentage)
-			end
-			if menu.transitionPercentage >= 50 and menu.transitionEvent then
-				menu.transitionEvent()
-				menu.transitionEvent = nil		
-			end
-			if menu.transitionPercentage >= 100 then
-				menu.transitionActive = false		
-			end
+			menu:transition( dt )
 		end
 
 		keys.catchGamepadEvents()
 		
-		
-		if USE_SHADOWS and shadows.needsShadowUpdate then
-	print("updating1")
-			if myMap then
-				myMap:updateShadows()
-			end
-		end
-		
+		shaders:update( dt )
 	end
 	--print(love.joystick.getHat(1,1), love.joystick.getHat(1,2), love.joystick.getHat(1,3))
 	--vis:update(dt)
@@ -77,17 +60,13 @@ local a = 0
 
 function love.draw()
 	love.graphics.setPixelEffect()
+	
 	if mode == 'loading' then
 		loading.draw()
 	else
-		if USE_SHADERS and menu.transitionActive then
-			love.graphics.setCanvas(fullscreenCanvas)
-			fullscreenCanvas:clear()
-			love.graphics.setColor(love.graphics.getBackgroundColor())
-			love.graphics.rectangle('fill', 0, 0, fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
-			love.graphics.setColor(255,255,255,255)
-		end
-
+	
+		shaders.draw()
+	
 		if mode == 'game' then
 			game:draw()
 		elseif mode == 'menu' then
@@ -98,19 +77,14 @@ function love.draw()
 			levelEnd:draw()
 		end
 	
-		if USE_SHADERS and menu.transitionActive then
-			love.graphics.setCanvas()
-			love.graphics.setPixelEffect( shaders.fadeToBlack )
-			love.graphics.draw(fullscreenCanvas, 0, 0)
-			love.graphics.setPixelEffect()
-		end
-	
 		if menu.transitionActive and menu.transitionPercentage < 50 then	
 			local sx = (menu.transitionPercentage/15)^3
 		
-			love.graphics.draw(springtime,640,400,0,sx,sx,120,130)
+			--love.graphics.draw(springtime,640,400,0,sx,sx,120,130)
 		end
 	
+		shaders:stop()
+		
 		if DEBUG then
 			love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
 		end

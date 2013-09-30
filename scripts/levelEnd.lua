@@ -19,8 +19,9 @@ function levelEnd:addDeath( deathType )
 end
 
 function levelEnd:draw()
-	shaders.grayScale:send( "amount", .8 )
-	love.graphics.setPixelEffect( shaders.grayScale )
+	shaders:setDeathEffect( .8 )
+	--shaders.grayScale:send( "amount", .8 )
+	--love.graphics.setPixelEffect( shaders.grayScale )
 	game:draw()
 	love.graphics.setPixelEffect()
 	love.graphics.push()

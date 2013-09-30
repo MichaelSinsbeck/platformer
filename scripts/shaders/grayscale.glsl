@@ -11,7 +11,5 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 	col.g = (gray-col.g)*amount + col.g;
 	col.b = (gray-col.b)*amount + col.b;
 	
-	
-	
 	return col;
 }

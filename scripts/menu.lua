@@ -913,6 +913,20 @@ function menu.startTransition( event )
 	end
 end
 
+-- Handle transition every frame until done:
+function menu:transition( dt )
+	menu.transitionPercentage = menu.transitionPercentage + dt*100	-- 1 second
+	if menu.transitionPercentage >= 50 and menu.transitionEvent then
+		menu.transitionEvent()
+		menu.transitionEvent = nil
+		shaders:resetDeathEffect()
+	end
+	if menu.transitionPercentage >= 100 then
+		menu.transitionActive = false
+		menu.transitionPercentage = 0
+	end
+end
+
 ---------------------------------------------------------
 -- Misc functions:
 ---------------------------------------------------------
