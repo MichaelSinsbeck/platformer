@@ -79,12 +79,12 @@ function shaders:draw()
 		renderedToCanvas = false
 		if menu.transitionActive or deathEffect.active then
 			renderedToCanvas = true
-			fullscreenCanvas:clear()
+			fullscreenCanvas:clear(love.graphics.getBackgroundColor())
 			love.graphics.setCanvas(fullscreenCanvas)
-			love.graphics.setColor(love.graphics.getBackgroundColor())
-			love.graphics.rectangle('fill', 0, 0,
-					fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
-			love.graphics.setColor(255,255,255,255)
+			--love.graphics.setColor(l)
+			--love.graphics.rectangle('fill', 0, 0,
+			--		fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
+			--love.graphics.setColor(255,255,255,255)
 		end
 	end
 end

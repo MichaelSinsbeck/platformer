@@ -230,7 +230,7 @@ function Map:start(p)
 	if USE_SHADOWS then
 		self:initShadows()
 
-		print("Map")
+		--[[print("Map")
 		for j = 1, self.height do
 			local str = ""
 			for i = 1, self.width do
@@ -241,12 +241,11 @@ function Map:start(p)
 				end
 			end
 			print(str)
-		end
+		end]]--
 		-- go through all lights in the map and add shadows for them:
 		local list = {}
 		spriteEngine:DoAll('collectLights',list)
 		for k, v in pairs(list) do
-			print("list")
 			self:addLight(v.x, v.y)
 		end
 
@@ -258,7 +257,6 @@ function Map:start(p)
 					print(i, self.collision[i])
 					for j = 1,math.min(l, self.width) do
 						if not self.collision[i] or self.collision[i][j] ~= 1 then
-							print("notList")
 							self:addLight(i,j)		-- add light in top left corner
 							addedLight = true
 							break

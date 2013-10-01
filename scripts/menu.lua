@@ -895,7 +895,7 @@ function menu:draw()
 	end
 	
 	if keys.currentlyAssigning then
-	love.graphics.print(keys.currentlyAssigning, 10, 10)
+		love.graphics.print(keys.currentlyAssigning, 10, 10)
 	end
 
 end
@@ -916,7 +916,7 @@ end
 
 -- Handle transition every frame until done:
 function menu:transition( dt )
-	menu.transitionPercentage = menu.transitionPercentage + dt*100	-- 1 second
+	menu.transitionPercentage = menu.transitionPercentage + dt*100
 	if menu.transitionPercentage >= 50 and menu.transitionEvent then
 		menu.transitionEvent()
 		menu.transitionEvent = nil
