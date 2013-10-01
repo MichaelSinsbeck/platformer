@@ -183,12 +183,6 @@ function Bungee:throw()
 	game:checkControls()
 	local vx = self.speed * math.cos(p.vis[2].angle)
 	local vy = self.speed * math.sin(p.vis[2].angle)
-	-- determine target
-	--local air, tx, ty = myMap:raycast(p.x,p.y,math.cos(p.vis[2].angle),math.sin(p.vis[2].angle))
-	--if air then
-	--	tx = p.x + 15*math.cos(p.vis[2].angle)
-	--	ty = p.y + 15*math.sin(p.vis[2].angle)
-	--end
 	local newBungee = self:New({x=p.x, y=p.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=p.vis[2].angle})} })
 	spriteEngine:insert(newBungee)	
 end

@@ -43,6 +43,9 @@ Campaign = {
 	'n44.dat', -- glass tutorial
 	'n43.dat', -- glass long level			
 	'n45.dat', -- fixed cannon	
+	'n49.dat', -- hook intro
+	'n47.dat', -- leap of faith, hook
+	'n48.dat', -- more hook
 	'n46.dat',	
 	}
 
@@ -96,7 +99,7 @@ Campaign.names['n1.dat'] = 'jump'
 Campaign.names['n10.dat'] = 'the chimney'
 Campaign.names['n2.dat'] = 'le parcours'
 Campaign.names['n3.dat'] = 'by the way, you can die'
-Campaign.names['n15.dat'] = 'leap of faith 1'
+Campaign.names['n15.dat'] = 'leap of faith i'
 Campaign.names['n38.dat'] = 'jumping advanced'
 Campaign.names['n11.dat'] = 'all you can eat'
 Campaign.names['n12.dat'] = 'tight'
@@ -109,18 +112,18 @@ Campaign.names['n9.dat'] = 'ascension'
 Campaign.names['n14.dat'] = 'up, up, around'
 Campaign.names['n17.dat'] = 'get over it'
 Campaign.names['n18.dat'] = 'no pain, no gain'
-Campaign.names['n16.dat'] = 'leap of faith 11'
+Campaign.names['n16.dat'] = 'leap of faith ii'
 Campaign.names['n20.dat'] = 'its a trap'
 Campaign.names['n19.dat'] = 'bowel'
 Campaign.names['n21.dat'] = 'uprising'
-Campaign.names['n23.dat'] = 'vertical 11'
+Campaign.names['n23.dat'] = 'vertical ii'
 Campaign.names['n27.dat'] = 'following'
 Campaign.names['n26.dat'] = 'the one'
 Campaign.names['n28.dat'] = 'stairway'
 Campaign.names['n25.dat'] = 'calm'
 Campaign.names['n22.dat'] = 'weeeee'
 Campaign.names['n29.dat'] = 'the crown'
-Campaign.names['n31.dat'] = 'leap of faith 111'
+Campaign.names['n31.dat'] = 'leap of faith iii'
 Campaign.names['n30.dat'] = 'half pipe'
 Campaign.names['n32.dat'] = 'dont hesitate'
 Campaign.names['n33.dat'] = 'where am i?'
@@ -135,5 +138,8 @@ Campaign.names['n42.dat']  = 'only once'-- breaking block
 Campaign.names['n44.dat'] = 'the elephant' -- glass tutorial
 Campaign.names['n43.dat'] = 'dig' -- glass long level			
 Campaign.names['n45.dat'] = 'station' -- fixed cannon	
-Campaign.names['n46.dat'] = 'testlevel for small size' -- small level
+Campaign.names['n46.dat'] = 'testlevel' -- small level
+Campaign.names['n47.dat'] = 'leap of faith iv' -- hook intro
+Campaign.names['n48.dat'] = 'floorless' -- more hook
+Campaign.names['n49.dat'] = 'hooks law' -- hook intro
 

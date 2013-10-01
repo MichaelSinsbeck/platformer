@@ -190,6 +190,8 @@ function Map:start(p)
   p.status = 'stand'
   p:setAnim(1,'whiteStand')
   p:flip(false)
+  p.anchor = nil
+  p.hookAngle = nil
   p:update(0)
   p.dead = nil
   mode = 'intro'
