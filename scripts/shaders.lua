@@ -2,6 +2,7 @@ local shaders = {}
 local deathEffect = {
 	fullTime = 2,
 	percentage = 0,
+	renderedToCanvas = false,
 }
 
 function textFromFile( file )
@@ -69,9 +70,15 @@ function shaders:update( dt )
 	end
 end
 
+function shaders:resetMenuTransition()
+	
+end
+
 function shaders:draw()
 	if USE_SHADERS then
+		renderedToCanvas = false
 		if menu.transitionActive or deathEffect.active then
+			renderedToCanvas = true
 			fullscreenCanvas:clear()
 			love.graphics.setCanvas(fullscreenCanvas)
 			love.graphics.setColor(love.graphics.getBackgroundColor())
@@ -84,7 +91,7 @@ end
 
 function shaders:stop()
 	if USE_SHADERS then
-		if menu.transitionActive or deathEffect.active then
+		if renderedToCanvas then
 			love.graphics.setCanvas()
 			shaders.fullscreen:send( "percentage", menu.transitionPercentage )
 			shaders.fullscreen:send( "grayAmount", deathEffect.percentage )

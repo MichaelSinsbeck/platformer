@@ -129,7 +129,7 @@ function Map:initShadows()
 	
 	-- Activate blur. Will only render if USE_SHADERS is true
 	-- (i.e. the shadows use canvases.)
-	shadows:setBlur( 3 )
+	shadows:setBlur( 2 )
 end
 
 function Map:addLight( x, y )
