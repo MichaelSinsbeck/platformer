@@ -70,10 +70,6 @@ function shaders:update( dt )
 	end
 end
 
-function shaders:resetMenuTransition()
-	
-end
-
 function shaders:draw()
 	if USE_SHADERS then
 		renderedToCanvas = false

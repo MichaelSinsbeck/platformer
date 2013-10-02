@@ -194,7 +194,7 @@ function Map:start(p)
   p.hookAngle = nil
   p:update(0)
   p.dead = nil
-  mode = 'intro'
+  --mode = 'intro'
   timer = 0
   Camera:jumpTo(p.x,p.y)
   

@@ -70,18 +70,20 @@ function game:update(dt)
 		self.deathtimer = self.deathtimer + dt
 		shaders:setDeathEffect(	self.deathtimer/self.fullDeathtimer )
 	end
+	--[[
 	if self.deathtimer > 0 then
-		if self.deathtimer > self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
+		if self.deathtimer >= self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
 			self.deathtimer = 0
-			shaders:resetDeathEffect()
-			myMap:start(p)
+		
+			menu.startTransition( function() myMap:start(p) end )()		-- fades to black and back.
+		
 		end
-	end
+	end]]--
   
   if p.y > myMap.height+2 and not p.dead then
-    p.dead = true
-    levelEnd:addDeath("fall")
-    Meat:spawn(p.x,p.y-1,0,0)
+	p.dead = true
+	levelEnd:addDeath("fall")
+	Meat:spawn(p.x,p.y-1,0,0)
   end
   
   if recorder then
@@ -99,7 +101,7 @@ function game.keypressed(key)
   if key == keys.JUMP then
 		spriteEngine:DoAll('jump')
 		if p.dead then
-			myMap:start(p)
+			menu.startTransition( function() myMap:start(p) end )()
 		end
   end
   if key == keys.ACTION and p.bandana == "red" then
@@ -146,7 +148,7 @@ function game.joystickpressed(joystick, button)
   if button == tonumber(keys.PAD.JUMP) then
     spriteEngine:DoAll('jump')
 		if p.dead then
-			myMap:start(p)
+			menu.startTransition( function() myMap:start(p) end )()
 		end  
   end
   
