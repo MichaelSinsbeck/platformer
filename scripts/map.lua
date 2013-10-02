@@ -170,6 +170,8 @@ function Map:start(p)
 
 	game.deathtimer = 0
 	shaders:resetDeathEffect()
+	game.restartingLevel = false
+	
   -- reset collision table
 	self.collision = utility.copy(self.collisionSrc,true)
 

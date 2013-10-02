@@ -2,7 +2,7 @@ require 'scripts/spriteengine'
 
 game = {
 	deathtimer = 0,
-	fullDeathtimer = 2, -- time until death effect is over
+	fullDeathtimer = 5, -- time until death effect is over
 }
 
 function game:draw()
@@ -68,17 +68,16 @@ function game:update(dt)
   
 	if p.dead then
 		self.deathtimer = self.deathtimer + dt
-		shaders:setDeathEffect(	self.deathtimer/self.fullDeathtimer )
+		-- finish fade-to-black in less time than full death sequence:
+		shaders:setDeathEffect(	self.deathtimer/(self.fullDeathtimer*0.3) )
 	end
-	--[[
-	if self.deathtimer > 0 then
-		if self.deathtimer >= self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
-			self.deathtimer = 0
-		
-			menu.startTransition( function() myMap:start(p) end )()		-- fades to black and back.
-		
+	
+	if self.deathtimer >= self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
+		if not self.restartingLevel then
+			menu.startTransition( function() myMap:start(p) end )()		-- fades to black and restarts map.
+			self.restartingLevel = true
 		end
-	end]]--
+	end
   
   if p.y > myMap.height+2 and not p.dead then
 	p.dead = true
