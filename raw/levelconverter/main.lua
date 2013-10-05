@@ -86,6 +86,18 @@ function convert(filetrunc)
 
 
 -- fill collision array
+	bgToCollision = {
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,1,0,0,0,
+		1,0,0,0,0,0,0,0,
+		1,1,1,1,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+	}
+	bgToCollision[0] = 0
+
 	wallToCollision = {
 		1,1,1,1,0,2,2,2,
 		1,1,1,1,0,2,2,0,
@@ -129,7 +141,8 @@ function convert(filetrunc)
 			local entry = math.max(
 				wallToCollision[wall[y][x]],
 				wallToCollision[fg[y][x]],
-				objToCollision[obj[y][x]])
+				objToCollision[obj[y][x]],
+				bgToCollision[bg[y][x]])
 			col[y][x] = entry
 			if fgToCollision[obj[y][x]] == 3 then -- if there is a spikey
 				fg[y][x] = obj[y][x]

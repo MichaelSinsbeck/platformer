@@ -10,7 +10,7 @@ local menuBoxes = {}
 local selButton
 local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the junkyard'}
 
-local PADDING = 50		-- distance of buttons from edges
+--local PADDING = 50		-- distance of buttons from edges
 
 local startOff_IMG, startOn_IMG
 local settingsOff_IMG, settingsOn_IMG
@@ -168,21 +168,21 @@ function menu.initWorldMap()
 	
 	-- add world background images:
 	local x,y
-	x = -1
+	x = -5
 	y = -30
 	
 	table.insert(menuBackgrounds, {typ="img", img='background1_IMG', x=x, y=y})
 	
-	x = x + 120
+	x = x + 165
 	table.insert(menuBackgrounds, {typ="img", img='background2_IMG', x=x, y=y})
 	
-	x = x + 120
+	x = x + 165
 	table.insert(menuBackgrounds, {typ="img", img='background3_IMG', x=x, y=y})
 	
-	x = x + 120
+	x = x + 165
 	table.insert(menuBackgrounds, {typ="img", img='background4_IMG', x=x, y=y})
 	
-	x = x + 120
+	x = x + 165
 	table.insert(menuBackgrounds, {typ="img", img='background5_IMG', x=x, y=y})	
 
 	-- find out the last level that was beaten:
@@ -192,8 +192,10 @@ function menu.initWorldMap()
 	local lastLevelFound = false
 	local prevX, prevY
 	local firstButton
-	local dir = "right"
-	local distBetweenButtons = 12
+	--local dir = "right"
+	local distBetweenButtons = 10
+	local distBetweenWorlds = 15
+	local levelsPerWorld = 15
 
 	local size = 5
 	
@@ -247,20 +249,9 @@ function menu.initWorldMap()
 			firstButton = curButton
 		end
 		
-		if dir == "right" then
-			--if x + distBetweenButtons < love.graphics.getWidth() - PADDING then
-				x = x + distBetweenButtons
-			--else
-			--	y = y + distBetweenButtons
-			--	dir = "left"
-			--end
-		elseif dir == "left" then
-			if x - distBetweenButtons > PADDING then
-				x = x - distBetweenButtons
-			else
-				y = y + distBetweenButtons
-				dir = "right"
-			end
+		x = x + distBetweenButtons
+		if k/levelsPerWorld == math.floor(k/levelsPerWorld) then
+			x = x + distBetweenWorlds
 		end
 
 	end
@@ -272,13 +263,13 @@ function menu.initWorldMap()
 	end
 	
 	-- set camera position
-	menu.xTarget = math.floor((selButton.x)/120)*120+59
+	menu.xTarget = math.floor((selButton.x)/165)*165+75
 	menu.xCamera = menu.xTarget
 end
 
 function scrollWorldMap()	--called when a button on world map is selected
-	menu.xTarget = math.floor((selButton.x)/120)*120+59 -- set Camera position
-	Campaign.worldNumber = math.floor(selButton.x/120)+1 -- calculate worldNumber
+	menu.xTarget = math.floor((selButton.x)/165)*165+75 -- set Camera position
+	Campaign.worldNumber = math.floor(selButton.x/165)+1 -- calculate worldNumber
 	
 	-- Create function which will set ninja coordinates. Then call that function:
 	local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )

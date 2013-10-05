@@ -71,7 +71,7 @@ function Map:convertForShadows( h, w )
 		map[i+1] = {}
 		for j = 0,w+1 do
 			map[i+1][j+1] = {}
-			if (self.collision[j] and self.collision[j][i] == 1)
+			if (self.collision[j] and (self.collision[j][i] == 1 or self.collision[j][i] == 3)) 
 				or i==0 or i==h+1 or j==0 or j==w+1 then
 				
 				map[i+1][j+1].solid = true

@@ -72,8 +72,7 @@ function levelEnd:keypressed( key, unicode )
 		menu.startTransition(menu.initWorldMap)()
 	else	
 	    Campaign:proceed()
-	    mode = 'game'
-    end
+	end
 end
 
 function levelEnd:addBox(left,top,width,height)

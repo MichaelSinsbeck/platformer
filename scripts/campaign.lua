@@ -58,15 +58,26 @@ function Campaign:reset()
 end
 
 function Campaign:proceed()
-	self:setLevel(self.current+1)
-  
-  if self[self.current] then
-    myMap = Map:LoadFromFile(self[self.current])
-  	levelEnd:reset()		-- resets the counters of all deaths
-    myMap:start(p)
+	local worldChange = self:setLevel(self.current+1)
+	
+	if worldChange then
+		menu.initWorldMap()
+		mode = 'menu'
+	elseif self[self.current] then
+    --myMap = Map:LoadFromFile(self[self.current])
+  	--levelEnd:reset()		-- resets the counters of all deaths
+		menu.startTransition( 
+			function () 
+				myMap = Map:LoadFromFile(self[self.current])
+				levelEnd:reset()	
+				myMap:start(p) 
+				mode = 'game' 
+			end)()  
+    --myMap:start(p)
+    --mode = 'game'
   else
-    mode = 'menu'
-		menu.initWorldMap()    
+		self:setLevel(self.current-1)  
+		menu.startTransition(menu.initWorldMap)()       
   end
 	-- remember the level which was last played
 	config.setValue( "level", self[self.current] )
@@ -90,7 +101,13 @@ end
 
 function Campaign:setLevel(lvlnum)
 	self.current = lvlnum
-	self.worldNumber = math.floor((self.current-1)/10)+1
+	local newWorld =  math.floor((self.current-1)/15)+1
+	if newWorld == self.worldNumber then
+		return false
+	else
+		self.worldNumber = newWorld
+		return true
+	end
 end
 
 Campaign.names = {}
