@@ -25,7 +25,6 @@ function loading.update()
 		require 'scripts/game'
 		require 'scripts/spritefactory'
 		require 'scripts/map'
-		require 'scripts/intro'
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
 		

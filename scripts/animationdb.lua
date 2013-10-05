@@ -153,6 +153,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('greenBandana','bandana',{3},{1e6})
 	AnimationDB:addAni('blueBandana','bandana',{4},{1e6})
 	AnimationDB:addAni('redBandana','bandana',{5},{1e6})
+	AnimationDB:addAni('chickenleg','bandana',{6},{1e6})
 
 	AnimationDB:loadImage('poff.png','poff',tileSize*.6,tileSize*.6)
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})

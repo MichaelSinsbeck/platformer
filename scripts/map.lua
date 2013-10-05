@@ -593,6 +593,7 @@ function Map:FactoryList(tile,height,width)
 	[11] = Imitator,
 	[12] = Launcher,
   [13] = Cannon,
+  [14] = Bonus,
   [16] = Emitter,
   [17] = Button,
   [18] = Appearblock,

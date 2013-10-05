@@ -32,6 +32,7 @@ require 'scripts/objects.key'
 require 'scripts/objects.bumper'
 require 'scripts/objects.clubber'
 require 'scripts/objects.light'
+require 'scripts/objects.bonus'
 
 
 function initAll()
@@ -72,6 +73,7 @@ function initAll()
 	Bumper:init()
 	Clubber:init()
 	Light:init()
+	Bonus:init()
 end
 
 function spriteFactory(name,opts)
