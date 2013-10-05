@@ -2,8 +2,9 @@ local shaders = {}
 local deathEffect = {
 	fullTime = 2,
 	percentage = 0,
-	renderedToCanvas = false,
 }
+
+local renderedToCanvas = false
 
 function textFromFile( file )
 	local t = love.filesystem.read("scripts/shaders/" .. file)

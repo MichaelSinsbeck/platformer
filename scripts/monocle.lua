@@ -84,6 +84,10 @@ function Monocle:removeLight( light )	-- find light in list and remove:
 	end
 end
 
+function Monocle:getNumLights()
+	return #self.lights
+end
+
 function Monocle:reset()
 	self.lights = {}
 end
@@ -91,6 +95,11 @@ end
 local prevMode, prevEffect
 
 function Monocle:update( debug )
+
+	if #self.lights == 0 then
+		return
+	end
+
 	if self.useCanvas then
 		self.canvas:clear(self.shadow.r, self.shadow.g,self.shadow.b,self.shadow.a)
 		--_lg.setCanvas(self.canvas)

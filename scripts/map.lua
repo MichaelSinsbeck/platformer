@@ -115,7 +115,7 @@ function Map:initShadows()
 		shadows:init( USE_SHADERS, 0,0,0,200 )
 		col = {r=80,g=150,b=205,a=20}
 	elseif Campaign.worldNumber == 4 then
-		shadows:init( USE_SHADERS, 0,0,0,200 )
+		shadows:init( USE_SHADERS, 0,0,0,250 )
 		col = {r=205,g=205,b=205,a=60}
 	elseif Campaign.worldNumber == 5 then
 		shadows:init( USE_SHADERS, 0,0,0,200 )
@@ -152,6 +152,7 @@ function Map:addLight( x, y )
 	--shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle, col)
 	
 	shadows:addLight( x+1, y+1, 255, 255, 255, 50 )
+	--shadows:addLight( x+1, y+1, col.r, col.g, col.b, col.a )
 	print("new light @", x, y)
 	shadows.needsShadowUpdate = true
 end
@@ -253,7 +254,7 @@ function Map:start(p)
 
 		-- add a light in the top left corner if no light was found:
 		local addedLight = false
-		if #list == 0 then
+		--[[if #list == 0 then
 			for l = 2,math.max(self.height, self.width) do
 				for i = 1,math.min(l, self.height) do
 					print(i, self.collision[i])
@@ -269,6 +270,7 @@ function Map:start(p)
 				if addedLight then break end
 			end
 		end
+		]]--
 	end --end if USE_SHADOWS
 
 end
