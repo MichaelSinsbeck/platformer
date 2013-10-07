@@ -7,6 +7,7 @@ local menuImages = {}
 local menuBackgrounds = {}
 local menuTexts = {}
 local menuBoxes = {}
+local menuLogs = {}
 local selButton
 local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the junkyard'}
 
@@ -22,6 +23,11 @@ local background2_IMG
 local background3_IMG
 local background4_IMG
 local background5_IMG
+local dWorld = 170
+local nLogs = 8
+local distBetweenButtons = 10
+local levelsPerWorld = 15
+local distBetweenWorlds = dWorld-levelsPerWorld*distBetweenButtons
 
 menuPlayer = {}
 local credits = require("scripts/credits")
@@ -96,6 +102,7 @@ function menu.clear()
 	menuLines = {}
 	menuTexts = {}
 	menuBoxes = {}
+	menuLogs = {}	
 end
 
 ---------------------------------------------------------
@@ -173,16 +180,16 @@ function menu.initWorldMap()
 	
 	table.insert(menuBackgrounds, {typ="img", img='background1_IMG', x=x, y=y})
 	
-	x = x + 165
+	x = x + dWorld
 	table.insert(menuBackgrounds, {typ="img", img='background2_IMG', x=x, y=y})
 	
-	x = x + 165
+	x = x + dWorld
 	table.insert(menuBackgrounds, {typ="img", img='background3_IMG', x=x, y=y})
 	
-	x = x + 165
+	x = x + dWorld
 	table.insert(menuBackgrounds, {typ="img", img='background4_IMG', x=x, y=y})
 	
-	x = x + 165
+	x = x + dWorld
 	table.insert(menuBackgrounds, {typ="img", img='background5_IMG', x=x, y=y})	
 
 	-- find out the last level that was beaten:
@@ -193,9 +200,7 @@ function menu.initWorldMap()
 	local prevX, prevY
 	local firstButton
 	--local dir = "right"
-	local distBetweenButtons = 10
-	local distBetweenWorlds = 15
-	local levelsPerWorld = 15
+
 
 	local size = 5
 	
@@ -250,7 +255,22 @@ function menu.initWorldMap()
 		end
 		
 		x = x + distBetweenButtons
+		
+		-- after last level of each world
 		if k/levelsPerWorld == math.floor(k/levelsPerWorld) then
+			wx = x + 3
+			for i = 1,nLogs do
+				local thisVis = Visualizer:New('log')
+				thisVis:init()
+				if lastLevelFound then
+					thisVis.sx = 0
+					thisVis.sy = 0
+				end
+				local wy = y + 5 - math.sin(math.pi * (i-1)/(nLogs-1))				
+				table.insert(menuLogs, {vis = thisVis, x = wx, y = wy})
+				wx = wx + 2.1
+			end
+			
 			x = x + distBetweenWorlds
 		end
 
@@ -263,18 +283,39 @@ function menu.initWorldMap()
 	end
 	
 	-- set camera position
-	menu.xTarget = math.floor((selButton.x)/165)*165+75
+	menu.xTarget = math.floor((selButton.x)/dWorld)*dWorld+75
 	menu.xCamera = menu.xTarget
 end
 
 function scrollWorldMap()	--called when a button on world map is selected
-	menu.xTarget = math.floor((selButton.x)/165)*165+75 -- set Camera position
-	Campaign.worldNumber = math.floor(selButton.x/165)+1 -- calculate worldNumber
+	menu.xTarget = math.floor((selButton.x)/dWorld)*dWorld+75 -- set Camera position
+	Campaign.worldNumber = math.floor(selButton.x/dWorld)+1 -- calculate worldNumber
 	
 	-- Create function which will set ninja coordinates. Then call that function:
 	local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
 	--menuPlayer.vis:setAni("whiteWalk")
 	func()
+end
+
+-- remove one menu-image and add one button, called when new world is reached
+function menu.AddOneWorldMap()
+	table.remove(menuImages, 1)
+	
+	local v = Campaign[Campaign.current]
+	local x = (Campaign.current-1) * distBetweenButtons + Campaign.worldNumber * distBetweenWorlds
+	local y = 0
+	
+	menu:addButton( x, y,
+		'worldItemOff_IMG',
+		'worldItemOn_IMG',
+		v,
+		menu.startTransition(menu.startGame( v )),
+		scrollWorldMap )
+	if x > menu.furthestX then
+		menu.furthestX = x
+	end
+
+	menuLines[Campaign.current-1].active = true
 end
 
 
@@ -485,6 +526,30 @@ function menu:addBox(left,top,width,height)
 	new.points[#new.points] = new.points[2]
 
 	table.insert(menuBoxes, new)
+end
+
+-- changes scales of Logs, if existant
+function menu:easeLogs(t)
+	for k,log in ipairs(menuLogs) do
+		if k > (Campaign.worldNumber-1) * nLogs and k <= Campaign.worldNumber * nLogs then
+			local i = k - Campaign.worldNumber * nLogs -1
+			local tEase = t-(i-1)/(nLogs-1)-1
+			log.vis.sx = self.easing(tEase)
+			log.vis.sy = log.vis.sx
+		end
+		
+	end
+end
+
+-- simple easing function with "overshoot"
+function menu.easing(t)
+	if t <= 0 then
+		return 0
+	elseif t >= 1 then
+		return 1
+	else
+		return 1-(1-3*t)*((1-t)^2)
+	end
 end
 
 ---------------------------------------------------------
@@ -763,6 +828,11 @@ function menu:draw()
 		end]]--
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale )
 		--love.graphics.setPixelEffect( )
+	end
+	
+	-- draw logs (bridges)
+	for k,log in ipairs(menuLogs) do
+		log.vis:draw(log.x*Camera.scale,log.y*Camera.scale)
 	end
 	
 	-- draw boxes:

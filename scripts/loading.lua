@@ -27,6 +27,7 @@ function loading.update()
 		require 'scripts/map'
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
+		require 'scripts/bridge'
 		
 		loading.msg = "camera"
 	elseif loading.step == 1 then
@@ -59,8 +60,8 @@ function loading.update()
 	elseif loading.step == 7 then
 		menu.initMain()
 		-- temporary
-		springtime = love.graphics.newImage('images/transition/silhouette.png')
-		bg_test = love.graphics.newImage('images/menu/bg_main.png')		
+		--springtime = love.graphics.newImage('images/transition/silhouette.png')
+		--bg_test = love.graphics.newImage('images/menu/bg_main.png')		
 	end
 	loading.step = loading.step + 1
 end

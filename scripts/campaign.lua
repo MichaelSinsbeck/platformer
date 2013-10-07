@@ -61,23 +61,17 @@ function Campaign:proceed()
 	local worldChange = self:setLevel(self.current+1)
 	
 	if worldChange then
-		menu.initWorldMap()
-		mode = 'menu'
+		-- go to animation for world transition
+		bridge:start()
 	elseif self[self.current] then
-    --myMap = Map:LoadFromFile(self[self.current])
-  	--levelEnd:reset()		-- resets the counters of all deaths
-		menu.startTransition( 
-			function () 
-				myMap = Map:LoadFromFile(self[self.current])
-				levelEnd:reset()	
-				myMap:start(p) 
-				mode = 'game' 
-			end)()  
-    --myMap:start(p)
-    --mode = 'game'
+		-- go to next level
+		myMap = Map:LoadFromFile(self[self.current])
+		levelEnd:reset()	
+		myMap:start(p) 
+		mode = 'game' 
   else
 		self:setLevel(self.current-1)  
-		menu.startTransition(menu.initWorldMap)()       
+		menu.initWorldMap()      
   end
 	-- remember the level which was last played
 	config.setValue( "level", self[self.current] )

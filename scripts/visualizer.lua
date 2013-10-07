@@ -21,6 +21,7 @@ function Visualizer:init()
 	local name = AnimationDB.animation[self.animation].source
 	self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
 	self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
+	self:update(0)
 end
 
 function Visualizer:copy()

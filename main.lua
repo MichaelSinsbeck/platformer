@@ -41,8 +41,8 @@ function love.update( dt )
 			game:update(dt)
 		elseif mode == 'menu' then
 			menu:update(dt)
-		elseif mode == 'intro' then
-			intro:update(dt)
+		elseif mode == 'bridge' then
+			bridge:update(dt)
 		end
 	
 		if menu.transitionActive then
@@ -72,8 +72,8 @@ function love.draw()
 			game:draw()
 		elseif mode == 'menu' then
 			menu:draw()
-		elseif mode == 'intro' then
-			intro:draw()
+		elseif mode == 'bridge' then
+			bridge:draw()
 		elseif mode == 'levelEnd' then
 			levelEnd:draw()
 		end
@@ -81,7 +81,6 @@ function love.draw()
 		if menu.transitionActive and menu.transitionPercentage < 50 then	
 			local sx = (menu.transitionPercentage/15)^3
 		
-			--love.graphics.draw(springtime,640,400,0,sx,sx,120,130)
 		end
 	
 		shaders:stop()
@@ -95,6 +94,9 @@ function love.draw()
 end
 
 function love.keypressed( key, unicode )
+	if key == 'z' then
+		print(Campaign.current)
+	end
 	if menu.transitionActive then return end
 	
 	if keys.currentlyAssigning then
