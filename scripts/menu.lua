@@ -248,6 +248,7 @@ function menu.initWorldMap()
 
 		if not lastLevel or v == lastLevel then
 			lastLevelFound = true
+			Campaign.last = math.max(Campaign.last,k)
 		end
 
 		if not firstButton then

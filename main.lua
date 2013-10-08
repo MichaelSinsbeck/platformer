@@ -95,7 +95,8 @@ end
 
 function love.keypressed( key, unicode )
 	if key == 'z' then
-		print(Campaign.current)
+		print('Curr:' .. Campaign.current)
+		print('Last:' .. Campaign.last)
 	end
 	if menu.transitionActive then return end
 	

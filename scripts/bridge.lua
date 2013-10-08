@@ -18,11 +18,15 @@ end
 
 function bridge:update(dt)
 	self.time = self.time + dt
+	
+	-- scroll world map
 	local factor = math.min(1, 3*dt)
 	menu.xCamera = menu.xCamera + factor * (menu.xTarget- menu.xCamera)
+	
+	-- bridge building animation
 	menu:easeLogs(self.time-1)
 	
-	if self.time > 3 then
+	if self.time > 3 then -- when finished, go to menu
 		menu.AddOneWorldMap()
 		mode = 'menu'
 	end

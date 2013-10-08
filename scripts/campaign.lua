@@ -51,6 +51,7 @@ Campaign = {
 
 Campaign.current = 0
 Campaign.worldNumber = 0
+Campaign.last = 0
 
 function Campaign:reset()
   Campaign:setLevel(1)
@@ -58,9 +59,10 @@ function Campaign:reset()
 end
 
 function Campaign:proceed()
+	local nextIsNew = (self.current+1 > self.last)
 	local worldChange = self:setLevel(self.current+1)
 	
-	if worldChange then
+	if worldChange and nextIsNew then
 		-- go to animation for world transition
 		bridge:start()
 	elseif self[self.current] then
@@ -95,6 +97,7 @@ end
 
 function Campaign:setLevel(lvlnum)
 	self.current = lvlnum
+	self.last = math.max(self.last, self.current)
 	local newWorld =  math.floor((self.current-1)/15)+1
 	if newWorld == self.worldNumber then
 		return false
