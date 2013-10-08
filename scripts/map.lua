@@ -90,11 +90,13 @@ function Map:convertForShadows( h, w )
 end
 
 function Map:updateShadows()
-	self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
-	--shadows:updateGrid( self.shadowMap, self.tileSize or tileSize )
-	shadows:setGrid( self.shadowMap, self.tileSize or tileSize )
-	shadows:update()
-	shadows.needsShadowUpdate = false
+	if shadows:getNumLights() > 0 then
+		self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
+		--shadows:updateGrid( self.shadowMap, self.tileSize or tileSize )
+		shadows:setGrid( self.shadowMap, self.tileSize or tileSize )
+		shadows:update()
+		shadows.needsShadowUpdate = false
+	end
 end
 
 function Map:queueShadowUpdate()
