@@ -69,7 +69,10 @@ end
 
 function levelEnd:keypressed( key, unicode )
 	if key == 'escape' then
+		Campaign:setLevel(Campaign.current+1)
+		Campaign:saveState()
 		menu.startTransition(menu.initWorldMap)()
+		
 	else	
 	  menu.startTransition(function () Campaign:proceed() end)()
 	end

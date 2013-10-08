@@ -75,9 +75,14 @@ function Campaign:proceed()
 		self:setLevel(self.current-1)  
 		menu.initWorldMap()      
   end
+	self:saveState()
+end
+
+function Campaign:saveState()
 	-- remember the level which was last played
 	config.setValue( "level", self[self.current] )
-
+	--config.setValue( "lastLevel", self[self.last] )
+	
 	-- if this level is further down the list than the
 	-- saved "last level", then save the current level
 	-- as the "last level":
@@ -86,13 +91,14 @@ function Campaign:proceed()
 		--print("saving new last level:", self[self.current])
 		config.setValue( "lastLevel", self[self.current])
 	else
-		curIndex = tableFind(self, self[self.current]) 
-		lastIndex = tableFind(self, lastLevel)
+		local curIndex = tableFind(self, self[self.current]) 
+		local lastIndex = tableFind(self, lastLevel)
 		--print("curIndex, lastIndex", curIndex, lastIndex, #lastLevel, #self[self.current])
 		if curIndex and lastIndex and curIndex > lastIndex then
 			config.setValue( "lastLevel", self[self.current])
 		end
-	end
+	end--]]
+
 end
 
 function Campaign:setLevel(lvlnum)
