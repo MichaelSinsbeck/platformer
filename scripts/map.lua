@@ -233,46 +233,50 @@ function Map:start(p)
   end
   
 	if USE_SHADOWS then
-		self:initShadows()
-
-		--[[print("Map")
-		for j = 1, self.height do
-			local str = ""
-			for i = 1, self.width do
-				if self.collision[i] and self.collision[i][j] then
-					str = str .. self.collision[i][j] .. " "
-				else
-					str = str .. "- "
-				end
-			end
-			print(str)
-		end]]--
-		-- go through all lights in the map and add shadows for them:
 		local list = {}
 		spriteEngine:DoAll('collectLights',list)
-		for k, v in pairs(list) do
-			self:addLight(v.x, v.y)
-		end
+		if #list > 0 then
+			self:initShadows()
 
-		-- add a light in the top left corner if no light was found:
-		local addedLight = false
-		--[[if #list == 0 then
-			for l = 2,math.max(self.height, self.width) do
-				for i = 1,math.min(l, self.height) do
-					print(i, self.collision[i])
-					for j = 1,math.min(l, self.width) do
-						if not self.collision[i] or self.collision[i][j] ~= 1 then
-							self:addLight(i,j)		-- add light in top left corner
-							addedLight = true
-							break
+			for k, v in pairs(list) do
+				self:addLight(v.x, v.y)
+			end		
+
+			--[[print("Map")
+			for j = 1, self.height do
+				local str = ""
+				for i = 1, self.width do
+					if self.collision[i] and self.collision[i][j] then
+						str = str .. self.collision[i][j] .. " "
+					else
+						str = str .. "- "
+					end
+				end
+				print(str)
+			end]]--
+			-- go through all lights in the map and add shadows for them:
+
+
+			-- add a light in the top left corner if no light was found:
+			--local addedLight = false
+			--[[if #list == 0 then
+				for l = 2,math.max(self.height, self.width) do
+					for i = 1,math.min(l, self.height) do
+						print(i, self.collision[i])
+						for j = 1,math.min(l, self.width) do
+							if not self.collision[i] or self.collision[i][j] ~= 1 then
+								self:addLight(i,j)		-- add light in top left corner
+								addedLight = true
+								break
+							end
 						end
+						if addedLight then break end
 					end
 					if addedLight then break end
 				end
-				if addedLight then break end
 			end
+			]]--
 		end
-		]]--
 	end --end if USE_SHADOWS
 
 end
