@@ -235,8 +235,9 @@ function Map:start(p)
 	if USE_SHADOWS then
 		local list = {}
 		spriteEngine:DoAll('collectLights',list)
+		self:initShadows()
+		
 		if #list > 0 then
-			self:initShadows()
 
 			for k, v in pairs(list) do
 				self:addLight(v.x, v.y)
