@@ -43,6 +43,7 @@ Campaign = {
 	'n44.dat', -- glass tutorial
 	'n43.dat', -- glass long level			
 	'n45.dat', -- fixed cannon	
+	'n50.dat', -- welcome castle
 	'n49.dat', -- hook intro
 	'n47.dat', -- leap of faith, hook
 	'n48.dat', -- more hook
@@ -162,4 +163,5 @@ Campaign.names['n46.dat'] = 'testlevel' -- small level
 Campaign.names['n47.dat'] = 'leap of faith iv' -- hook intro
 Campaign.names['n48.dat'] = 'floorless' -- more hook
 Campaign.names['n49.dat'] = 'hooks law' -- hook intro
+Campaign.names['n50.dat'] = 'welcome castle' -- hook intro
 
