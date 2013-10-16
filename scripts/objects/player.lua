@@ -169,8 +169,10 @@ function Player:setAcceleration(dt)
 -- Accelerate if player is not faster than maximum speed anyway
 	if self.status == 'fly' and self.anchor and self.anchor.y < self.y and self.anchor:relativeLength() < .3 then
 		-- player is 'hanging' on red bandana, so only accelerate tangential
-		self.vx = self.vx + .5*axControl*math.cos(self.vis[1].angle)*dt
-		self.vy = self.vy + .5*axControl*math.sin(self.vis[1].angle)*dt
+		local cosine = math.cos(self.vis[1].angle)
+		local sine = math.sin(self.vis[1].angle)
+		self.vx = self.vx + .5*axControl*cosine*dt*cosine
+		self.vy = self.vy + .5*axControl*sine  *dt*cosine
 	elseif self.status == 'stand' or self.status == 'fly' or self.status == 'online' then
 		if axControl > 0 and self.vx < self.walkSpeed then -- Acceleration to the right
 			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
@@ -456,10 +458,6 @@ end
 function Player:connect(anchor)
 	self.anchor = anchor
 	anchor.length = utility.pyth(self.x-anchor.x,self.y-anchor.y)+0.1
-	self.originalSemiheight = self.semiheight
-	self.originalSemiwidth = self.semiwidth
-	-- this makes the player "round"
-	--self:resize(0.15,0.15)
 end
 
 function Player:disconnect()
@@ -467,17 +465,5 @@ function Player:disconnect()
 		self.status = 'fly'
 		self.canUnJump = false
 		self.anchor = nil
-		self:resize(self.originalSemiwidth, self.originalSemiheight)
 	end
 end
-
---[[function Player:draw()
-	object.draw(self)
-	if self.bandana == 'red' then
-		local angle = p.vis[2].angle
-		local hit,xx,yy = myMap:raycast(self.x,self.y,math.cos(angle),math.sin(angle))
-		if not hit then
-			love.graphics.circle('fill',xx*myMap.tileSize,yy*myMap.tileSize,5,5)
-		end
-	end
-end--]]
