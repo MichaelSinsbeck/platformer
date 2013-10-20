@@ -58,7 +58,7 @@ function Map:loadImage()
   self.spriteBatchBG = love.graphics.newSpriteBatch(imgBG, self.width*self.height)
 	self.spriteBatchWall = love.graphics.newSpriteBatch(imgWall, self.width*self.height)
   self.offset = (self.tileSize-self.graphicSize)/2
-	self:generateQuads(imgFG) -- assuming that both images have the same size
+	self:generateQuads(imgFG,imgBG) -- assuming that both images have the same size
 	self:updateSpritebatch()
 end
 
@@ -282,20 +282,35 @@ function Map:start(p)
 
 end
 
-function Map:generateQuads(img)
+function Map:generateQuads(img,imgSmall)
   self.quads = {}
+  self.quadsSmall = {}
 	self.tileSize = Camera.scale*8
 	tileSize = self.tileSize
 	self.graphicSize = Camera.scale*10  
+	
+	-- generate quads
   local imageWidth = img:getWidth()
   local imageHeight = img:getHeight()
   for j = 1,math.floor(imageHeight/(self.graphicSize)) do
     for i = 1,math.floor(imageWidth/(self.graphicSize)) do
       self.quads[i+(j-1)*math.floor(imageWidth/self.graphicSize)] = 
         love.graphics.newQuad((i-1)*(self.graphicSize),(j-1)*(self.graphicSize), self.graphicSize, self.graphicSize,
-        imageWidth,imageHeight)
+        imageWidth,imageHeight)      
     end
   end
+  
+  -- generate quadsSmall (without overlap)
+  imageWidth = imgSmall:getWidth()
+  imageHeight = imgSmall:getHeight()
+  for j = 1,math.floor(imageHeight/(self.tileSize)) do
+    for i = 1,math.floor(imageWidth/(self.tileSize)) do
+      self.quadsSmall[i+(j-1)*math.floor(imageWidth/self.tileSize)] = 
+        love.graphics.newQuad((i-1)*(self.tileSize),(j-1)*(self.tileSize), self.tileSize, self.tileSize,
+        imageWidth,imageHeight)        
+    end
+  end
+
 end
 
 function Map:updateSpritebatch()
@@ -323,7 +338,7 @@ function Map:updateSpritebatch()
 	for x in pairs(self.tileBG) do
 		for y in pairs(self.tileBG[x]) do
 			if self.quads[self.tileBG[x][y]] then
-				self.spriteBatchBG:addq(self.quads[self.tileBG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
+				self.spriteBatchBG:addq(self.quadsSmall[self.tileBG[x][y] ], x*self.tileSize, y*self.tileSize)
 			end
 		end
   end  

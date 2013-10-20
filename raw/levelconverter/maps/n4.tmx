@@ -6,8 +6,8 @@
  <tileset firstgid="65" name="objectpalette" tilewidth="50" tileheight="50">
   <image source="objectpalette.png" width="400" height="400"/>
  </tileset>
- <tileset firstgid="145" name="background" tilewidth="50" tileheight="50">
-  <image source="background1.png" width="400" height="400"/>
+ <tileset firstgid="145" name="background" tilewidth="40" tileheight="40">
+  <image source="background1.png" width="320" height="600"/>
  </tileset>
  <layer name="bg" width="36" height="30">
   <data encoding="csv">  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
