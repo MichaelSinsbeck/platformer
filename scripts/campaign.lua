@@ -1,8 +1,8 @@
-Campaign = {		
-	'n13.dat',
-	'n1.dat',
-	'n10.dat',
-	'n2.dat',
+Campaign = {
+	'l01.dat', --'n13.dat',
+	'l02.dat', --'n1.dat',
+	'l03.dat', --'n10.dat',
+	'l04.dat', -- 'n2.dat',
 	'n3.dat',
 	'n15.dat',
 	'n38.dat',
@@ -164,4 +164,6 @@ Campaign.names['n47.dat'] = 'leap of faith iv' -- hook intro
 Campaign.names['n48.dat'] = 'floorless' -- more hook
 Campaign.names['n49.dat'] = 'hooks law' -- hook intro
 Campaign.names['n50.dat'] = 'welcome castle' -- hook intro
+
+Campaign.names['l01.dat'] = 'welcome'
 
