@@ -305,7 +305,6 @@ function Map:generateQuads(img,imgSmall)
   imageHeight = imgSmall:getHeight()
   for j = 1,math.floor(imageHeight/(self.tileSize)) do
     for i = 1,math.floor(imageWidth/(self.tileSize)) do
-			print(i+(j-1)*math.floor(imageWidth/self.tileSize))
       self.quadsSmall[i+(j-1)*math.floor(imageWidth/self.tileSize)] = 
         love.graphics.newQuad((i-1)*(self.tileSize),(j-1)*(self.tileSize), self.tileSize, self.tileSize,
         imageWidth,imageHeight)        
