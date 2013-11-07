@@ -240,7 +240,6 @@ function getImageForPad( str )
 end
 
 function getAnimationForPad( str )
-	print(str, "pad")
 	if str == "1" then
 		return "gamepadA"
 	elseif str == "2" then
@@ -331,7 +330,10 @@ function keys.catchGamepadEvents()
 	if mode == 'game' then
 		for k, v in pairs( keys.PAD ) do
 			if v == joyHat then
-				keys.gamepadPressed[k] = true
+				if not keys.gamepadPressed[k] then
+					keys.gamepadPressed[k] = true
+					game.joystickpressed(1, v)
+				end
 			end
 			if tonumber(v) then	-- if the button is a number button, check if that one's pressed
 				if love.joystick.isDown( 1, tonumber(v) ) then

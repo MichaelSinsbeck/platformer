@@ -143,8 +143,9 @@ function game.joystickpressed(joystick, button)
 	if button == 7 or button == 8 then
 		menu.startTransition(menu.initWorldMap)()
 	end
-
-  if button == tonumber(keys.PAD.JUMP) then
+	print(keys.PAD.JUMP, button)
+  if tonumber(button) == tonumber(keys.PAD.JUMP) then
+  	print("\t\tfound")
     spriteEngine:DoAll('jump')
 		if p.dead then
 			menu.startTransition( function() myMap:start(p) end )()
