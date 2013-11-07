@@ -13,7 +13,7 @@ function Visualizer:New(name,input,text)
   o.text = o.text or text
   if o.text then
 	o.ox = -0.5*fontSmall:getWidth(o.text)
-	o.oy = -0.5*fontSmall:getHeight(o.text)
+	o.oy = -0.5*fontSmall:getHeight()
   end
 	if o.active == nil then o.active = true end
 	setmetatable(o, self)
@@ -65,8 +65,8 @@ function Visualizer:draw(x,y)
 		elseif self.text then
 			love.graphics.setColor(0,0,0, self.alpha)
 			love.graphics.setFont(fontSmall)
-			print(x, y, self.ox, self.oy)
-			love.graphics.print(self.text, x+self.ox, y+self.ox)
+			print(x, y, self.ox, self.oy,  x+self.ox, y+self.oy)
+			love.graphics.print(self.text, x+self.ox, y+self.oy)
 		end
 	end
 end
