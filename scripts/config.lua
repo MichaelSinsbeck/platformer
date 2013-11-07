@@ -1,11 +1,32 @@
--- config file handling, can save and load config data
+-- Config file handling, can save and load config data
+-- By Germanunkol
+
+-- Uses the format:
+-- name1 = value1
+-- name2 = value2
+-- ...
+-- Avoid using spaces and "=" signs in the names.
+-- name must be a string or number, value must be string or number. Example:
+--[[
+level = l11.dat
+lastLevel = n46.dat
+fullscreen = false
+
+Usage:
+config = require("config.lua")
+
+config.setValue( "lie", "cake", "configFile.txt" )
+print(config.getValue( "lie", "configFile.txt" ))	-- should print "cake".
+
+]]--
 
 local config = {}
 
-local CONFIG_FILE = "config.txt"
+local CONFIG_FILE = "config.txt"	-- default file name if none is given.
 
+-- Saves a name, value pair in the file "filename".
+-- If an entry with the same name exists, it's overwritten.
 function config.setValue( name, value, filename )
-	--print("saving:", name, value)
 	
 	filename = filename or CONFIG_FILE	-- default to configfile
 	
@@ -65,6 +86,8 @@ function config.setValue( name, value, filename )
 	end
 end
 
+-- Load and return the value corresponding to the name from filename.
+-- If file can't be found or name is 
 function config.getValue( name, filename )
 	
 	filename = filename or CONFIG_FILE	-- default to configfile

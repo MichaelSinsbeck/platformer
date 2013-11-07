@@ -656,6 +656,11 @@ function Map:FactoryList(tile,height,width)
 	[65] = Light,
 	[66] = Torch,
 	[67] = Lamp,
+	
+	[68] = InputJump,
+	[69] = InputAction,
+	[70] = InputLeft,
+	[71] = InputRight,
 }
   
   for i=1,width do

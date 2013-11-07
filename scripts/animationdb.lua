@@ -291,4 +291,10 @@ function AnimationDB:loadAll()
 
 	AnimationDB:loadImage('log.png','log')
 	AnimationDB:addAni('log','log',{1},{1e6})
+	
+	-- keyboard and gamepad keys for in-level display: (tutorial)
+	AnimationDB:loadImage('keyOn.png','keyboardSmall',tileSize,tileSize, "menu")
+	AnimationDB:addAni('keyboardSmall','keyboardSmall',{1},{1e6})
+	AnimationDB:loadImage('keyLargeOn.png','keyboardLarge',tileSize,tileSize*2, "menu")
+	AnimationDB:addAni('keyboardLarge','keyboardLarge',{1},{1e6})
 end

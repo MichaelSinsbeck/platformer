@@ -1,7 +1,7 @@
 Visualizer = {
 }
 
-function Visualizer:New(name,input)
+function Visualizer:New(name,input,text)
   local o = input or {}
   o.animation = name or ''
   o.timer = o.timer or 0
@@ -10,6 +10,11 @@ function Visualizer:New(name,input)
   o.relX, o.relY = o.relX or 0, o.relY or 0
   o.angle = o.angle or 0
   o.alpha = o.alpha or 255
+  o.text = o.text or text
+  if o.text then
+	o.ox = -0.5*fontSmall:getWidth(o.text)
+	o.oy = -0.5*fontSmall:getHeight(o.text)
+  end
 	if o.active == nil then o.active = true end
 	setmetatable(o, self)
 	self.__index = self
@@ -18,9 +23,11 @@ function Visualizer:New(name,input)
 end
 
 function Visualizer:init()
-	local name = AnimationDB.animation[self.animation].source
-	self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
-	self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
+	if self.animation and AnimationDB.animation[self.animation] then
+		local name = AnimationDB.animation[self.animation].source
+		self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
+		self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
+	end
 	self:update(0)
 end
 
@@ -34,6 +41,7 @@ function Visualizer:copy()
   o.relX, o.relY = self.relX or 0, self.relY or 0
   o.active = self.active
   o.ox, o.oy = self.ox, self.oy
+  o.text = self.text
   --o:init()
   return o
 end
@@ -45,14 +53,20 @@ end
 
 function Visualizer:draw(x,y)
 	if self.active then
-		love.graphics.setColor(255,255,255,self.alpha)
+		--print(self.img, self.currentQuad, self.text)
 		if self.img and self.currentQuad then
+			love.graphics.setColor(255,255,255,self.alpha)
 			love.graphics.drawq(self.img, self.currentQuad,
 				math.floor(x+self.relX*Camera.scale*8),
 				math.floor(y+self.relY*Camera.scale*8),
 				self.angle,
 				self.sx,self.sy,
 				self.ox*Camera.scale,self.oy*Camera.scale)
+		elseif self.text then
+			love.graphics.setColor(0,0,0, self.alpha)
+			love.graphics.setFont(fontSmall)
+			print(x, y, self.ox, self.oy)
+			love.graphics.print(self.text, x+self.ox, y+self.ox)
 		end
 	end
 end

@@ -33,6 +33,7 @@ require 'scripts/objects.bumper'
 require 'scripts/objects.clubber'
 require 'scripts/objects.light'
 require 'scripts/objects.bonus'
+require 'scripts/objects.input'
 
 
 function initAll()
@@ -74,6 +75,11 @@ function initAll()
 	Clubber:init()
 	Light:init()
 	Bonus:init()
+	InputJump:init()	-- keyboard and gamepad keys displayed in level
+	InputAction:init()
+	InputLeft:init()
+	InputRight:init()
+	updateInputDisplays()
 end
 
 function spriteFactory(name,opts)

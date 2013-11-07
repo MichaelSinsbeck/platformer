@@ -44,9 +44,11 @@ function object:init()
 		end
 		
 		for i = 1,#self.vis do
-			local name = AnimationDB.animation[self.vis[i].animation].source
-			self.vis[i].ox = self.vis[i].ox or 0.5*AnimationDB.source[name].width/Camera.scale
-			self.vis[i].oy = self.vis[i].oy or 0.5*AnimationDB.source[name].height/Camera.scale		
+			if self.vis[i].animation and AnimationDB.animation[self.vis[i].animation] then
+				local name = AnimationDB.animation[self.vis[i].animation].source
+				self.vis[i].ox = self.vis[i].ox or 0.5*AnimationDB.source[name].width/Camera.scale
+				self.vis[i].oy = self.vis[i].oy or 0.5*AnimationDB.source[name].height/Camera.scale		
+			end
 		end
 	end
 	self.semiwidth = self.semiwidth or 0.5
@@ -54,8 +56,15 @@ function object:init()
 end
 
 function object:draw()
+	if self.tag == 'inputJump' then
+	print("1")
+	end
 	if self.vis then
 		for i = 1,#self.vis do
+		
+	if self.tag == 'inputJump' then
+	print("\t", i, self.x, self.y)
+	end
 			self.vis[i]:draw(			
 				(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
 				(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
