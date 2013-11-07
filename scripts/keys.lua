@@ -197,6 +197,18 @@ function getImageForKey( str, font )
 	return "keyOff_IMG", "keyOn_IMG"
 end
 
+function getAnimationForKey( str )
+	if str == " " then str = "space" end
+	if str == "up" then str = "A" end
+	if str == "down" then str = "B" end
+	if str == "left" then str = "C" end
+	if str == "right" then str = "D" end
+	if #str > 1 then --font:getWidth(str) > menu.images.keyOn_IMG:getWidth()/2 then
+		return "keyboardLarge"
+	end
+	return "keyboardSmall"
+end
+
 function getImageForPad( str )
 	if str == "1" then
 		return "gamepadA_IMG","gamepadA_IMG"
@@ -224,6 +236,35 @@ function getImageForPad( str )
 		return "gamepadBack_IMG","gamepadBack_IMG"
 	else
 		return "keyNone_IMG","keyNone_IMG"
+	end
+end
+
+function getAnimationForPad( str )
+	print(str, "pad")
+	if str == "1" then
+		return "gamepadA"
+	elseif str == "2" then
+		return "gamepadB"
+	elseif str == "3" then
+		return "gamepadX"
+	elseif str == "4" then
+		return "gamepadY"
+	elseif str == "5" then
+		return "gamepadLB"
+	elseif str == "6" then
+		return "gamepadRB"
+	elseif str == "u" then
+		return "gamepadUp"
+	elseif str == "d" then
+		return "gamepadDown"
+	elseif str == "l" then
+		return "gamepadLeft"
+	elseif str == "r" then
+		return "gamepadRight"
+	elseif str == "8" then
+		return "gamepadStart"
+	else
+		return "gamepadBack"
 	end
 end
 

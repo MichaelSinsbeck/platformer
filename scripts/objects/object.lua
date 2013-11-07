@@ -57,13 +57,11 @@ end
 
 function object:draw()
 	if self.tag == 'inputJump' then
-	print("1")
 	end
 	if self.vis then
 		for i = 1,#self.vis do
 		
 	if self.tag == 'inputJump' then
-	print("\t", i, self.x, self.y)
 	end
 			self.vis[i]:draw(			
 				(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,

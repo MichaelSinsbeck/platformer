@@ -65,7 +65,6 @@ function Visualizer:draw(x,y)
 		elseif self.text then
 			love.graphics.setColor(0,0,0, self.alpha)
 			love.graphics.setFont(fontSmall)
-			print(x, y, self.ox, self.oy,  x+self.ox, y+self.oy)
 			love.graphics.print(self.text, x+self.ox, y+self.oy)
 		end
 	end

@@ -56,40 +56,31 @@ function InputRight:setAcceleration(dt)
 end
 
 function updateInputDisplays()
-	if love.joystick.getNumJoysticks() > 0 then
-	else
-		local imgName = getImageForKey( keys.JUMP )
-		if imgName == "keyLargeOff_IMG" then
-			InputJump.vis[1] = Visualizer:New('keyboardLarge')
-		else
-			InputJump.vis[1] = Visualizer:New('keyboardSmall')
-		end
+	if love.joystick.getNumJoysticks() == 0 then
+		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.JUMP ) )
 		InputJump.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.JUMP) )
 		
-		imgName = getImageForKey( keys.ACTION )
-		if imgName == "keyLargeOff_IMG" then
-			InputAction.vis[1] = Visualizer:New('keyboardLarge')
-		else
-			InputAction.vis[1] = Visualizer:New('keyboardSmall')
-		end
+		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.ACTION ) )
 		InputAction.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.ACTION) )
 		
-		imgName = getImageForKey( keys.LEFT )
-		if imgName == "keyLargeOff_IMG" then
-			InputLeft.vis[1] = Visualizer:New('keyboardLarge')
-		else
-			InputLeft.vis[1] = Visualizer:New('keyboardSmall')
-		end
+		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.LEFT ) )
 		InputLeft.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.LEFT) )
 		
-		imgName = getImageForKey( keys.RIGHT )
-		if imgName == "keyLargeOff_IMG" then
-			InputRight.vis[1] = Visualizer:New('keyboardLarge')
-		else
-			InputRight.vis[1] = Visualizer:New('keyboardSmall')
-		end
+		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.RIGHT ) )
 		InputRight.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.RIGHT) )
+	else
+
+		InputJump.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.JUMP ) )
+		InputJump.vis[2] = nil
 		
+		InputAction.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.ACTION ) )
+		InputAction.vis[2] = nil
+		
+		InputLeft.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.LEFT ) )
+		InputLeft.vis[2] = nil
+		
+		InputRight.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.RIGHT ) )
+		InputRight.vis[2] = nil
 	end
 end
 --[[
