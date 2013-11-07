@@ -1,7 +1,19 @@
 local keys = {}
 keys.currentlyAssigning = false		--holds the string of the key which is currently being changed.
 
-
+local keyTypes = {
+	"SCREENSHOT",
+	"FULLSCREEN",
+	"RESTARTMAP",
+	"RESTARTGAME",
+	"NEXTMAP",
+	"LEFT",
+	"RIGHT",
+	"UP",
+	"DOWN",
+	"JUMP",
+	"ACTION",
+}
 ---------------------------------------------------------
 -- Defaults
 ---------------------------------------------------------
@@ -24,10 +36,10 @@ function keys.setDefaults()
 	-- gamepad defaults:
 	keys.PAD = {}
 	keys.PAD.SCREENSHOT = '6'
-	keys.PAD.FULLSCREEN = ''
-	keys.PAD.RESTARTMAP = ''
-	keys.PAD.RESTARTGAME = ''
-	keys.PAD.NEXTMAP = ''
+	keys.PAD.FULLSCREEN = 'none'
+	keys.PAD.RESTARTMAP = 'none2'
+	keys.PAD.RESTARTGAME = 'none3'
+	keys.PAD.NEXTMAP = 'none4'
 
 	keys.PAD.LEFT = 'l'
 	keys.PAD.RIGHT = 'r'
@@ -564,6 +576,30 @@ function keys.initGamepad()
 	
 end
 
+-- check for double assignments or empty keys.
+function keys:checkInvalid()
+	if menu.state == "keyboard" then
+		for k = 1, #keyTypes-1 do
+			for k2 = k+1, #keyTypes do
+				if keys[keyTypes[k]] == keys[keyTypes[k2]] then
+					menu.text = string.lower("Keys for " .. keyTypes[k] .. " and " .. keyTypes[k2] .. " are the same. Please change one of them.")
+					return true
+				end
+			end
+		end
+	else
+		for k = 1, #keyTypes-1 do
+			for k2 = k+1, #keyTypes do
+				if keys.PAD[keyTypes[k]] == keys.PAD[keyTypes[k2]] then
+					menu.text = string.lower("Keys for " .. keyTypes[k] .. " and " .. keyTypes[k2] .. " are the same. Please change one of them.")
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
 function keys:exitSubMenu()
 	if not keys.currentlyAssigning then
 		if keys.changed then
@@ -581,9 +617,25 @@ function keys:exitSubMenu()
 			
 				config.setValue( "JUMP", keys.JUMP, "keyboard.txt")
 				config.setValue( "ACTION", keys.ACTION, "keyboard.txt")
+			else
+				config.setValue( "SCREENSHOT", keys.PAD.SCREENSHOT, "gamepad.txt")
+				config.setValue( "FULLSCREEN", keys.PAD.FULLSCREEN, "gamepad.txt")
+				config.setValue( "RESTARTMAP", keys.PAD.RESTARTMAP, "gamepad.txt")
+				config.setValue( "RESTARTGAME", keys.PAD.RESTARTGAME, "gamepad.txt")
+				config.setValue( "NEXTMAP", keys.PAD.NEXTMAP, "gamepad.txt")
+			
+				config.setValue( "LEFT", keys.PAD.LEFT, "gamepad.txt")
+				config.setValue( "RIGHT", keys.PAD.RIGHT, "gamepad.txt")
+				config.setValue( "UP", keys.PAD.UP, "gamepad.txt")
+				config.setValue( "DOWN", keys.PAD.DOWN, "gamepad.txt")
+			
+				config.setValue( "JUMP", keys.PAD.JUMP, "gamepad.txt")
+				config.setValue( "ACTION", keys.PAD.ACTION, "gamepad.txt")
 			end
 		end
-		settings.init()
+		if not keys:checkInvalid() then
+			settings.init()		-- exit the submenu and return to parent menu
+		end
 	end
 end
 
