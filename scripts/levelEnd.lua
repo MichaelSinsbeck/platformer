@@ -12,6 +12,7 @@ function levelEnd:reset()
 	deathList["missile"] = 0
 	deathList["spikey"] = 0
 	deathList["runner"] = 0
+	deathList["walker"] = 0
 end
 
 function levelEnd:addDeath( deathType )

@@ -34,6 +34,7 @@ require 'scripts/objects.clubber'
 require 'scripts/objects.light'
 require 'scripts/objects.bonus'
 require 'scripts/objects.input'
+require 'scripts/objects.walker'
 
 
 function initAll()
@@ -80,6 +81,7 @@ function initAll()
 	InputLeft:init()
 	InputRight:init()
 	updateInputDisplays()
+	Walker:init()
 end
 
 function spriteFactory(name,opts)
