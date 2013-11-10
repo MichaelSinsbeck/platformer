@@ -662,8 +662,10 @@ function Map:FactoryList(tile,height,width)
 	[69] = InputAction,
 	[70] = InputLeft,
 	[71] = InputRight,
-	[73] = WalkerVert,
-	[74] = WalkerHorz,
+	[73] = WalkerDown,
+	[74] = WalkerRight,
+	[75] = WalkerUp,
+	[76] = WalkerLeft,
 }
   
   for i=1,width do

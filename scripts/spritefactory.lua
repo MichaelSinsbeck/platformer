@@ -84,8 +84,10 @@ function initAll()
 	InputRight:init()
 	updateInputDisplays()
 	Walker:init()
-	WalkerHorz:init()
-	WalkerVert:init()
+	WalkerRight:init()
+	WalkerLeft:init()
+	WalkerDown:init()
+	WalkerUp:init()
 end
 
 function spriteFactory(name,opts)

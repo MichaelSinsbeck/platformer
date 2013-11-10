@@ -1,22 +1,21 @@
 Campaign = {
-	'l01.dat', --'n13.dat',
-	'l02.dat', --'n1.dat',
-	'l03.dat', --'n10.dat',
-	'l04.dat', -- 'n2.dat',	
-	'l05.dat', -- 'n3.dat',
-	'l06.dat', -- 'n38.dat',
-	--'n15.dat',
-	'l13.dat',
-	'l14.dat',
+	'l01.dat', -- world 1
+	'l02.dat',
+	'l03.dat',
+	'l04.dat',	
+	'l05.dat',
+	'l06.dat', 
+	'l07.dat',
 	'l08.dat',
 	'l09.dat',
-	'l07.dat',	
-	'l12.dat',	
 	'l10.dat',
-	'l11.dat',
+	'l11.dat',	
+	'l12.dat',	
+	'l13.dat',
+	'l14.dat',
 	'l15.dat',
 
-	
+	-- world 2
 	'n11.dat',
 	'n12.dat',
 	'n5.dat',
@@ -177,4 +176,18 @@ Campaign.names['n49.dat'] = 'hooks law' -- hook intro
 Campaign.names['n50.dat'] = 'welcome castle' -- hook intro
 
 Campaign.names['l01.dat'] = 'welcome'
+Campaign.names['l02.dat'] = 'windmill'
+Campaign.names['l03.dat'] = 'the chimney'
+Campaign.names['l04.dat'] = 'le parcours'
+Campaign.names['l05.dat'] = 'deadly'
+Campaign.names['l06.dat'] = 'advanced jumping'
+Campaign.names['l07.dat'] = 'it moves'
+Campaign.names['l08.dat'] = 'crunch'
+Campaign.names['l09.dat'] = 'leap of faith'
+Campaign.names['l10.dat'] = 'bowel'
+Campaign.names['l11.dat'] = 'push the button'
+Campaign.names['l12.dat'] = 'house of the many spikes'
+Campaign.names['l13.dat'] = 'back and forth'
+Campaign.names['l14.dat'] = 'where is the ground'
+Campaign.names['l15.dat'] = 'bullet hell'
 
