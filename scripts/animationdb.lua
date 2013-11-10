@@ -292,8 +292,10 @@ function AnimationDB:loadAll()
 	AnimationDB:loadImage('log.png','log')
 	AnimationDB:addAni('log','log',{1},{1e6})
 	
-		AnimationDB:loadImage('walker.png','walker')
-	AnimationDB:addAni('walker','walker',{1},{1e6})
+	AnimationDB:loadImage('walker.png','walker',tileSize,tileSize)
+	AnimationDB:addAni('roller','walker',{1},{1e6})
+	AnimationDB:addAni('walkervert','walker',{2},{1e6})
+	AnimationDB:addAni('walkerhorz','walker',{3},{1e6})
 	
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:loadImage('keyOn.png','keyboardSmall',tileSize,tileSize, "menu")

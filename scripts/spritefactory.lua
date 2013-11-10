@@ -35,6 +35,8 @@ require 'scripts/objects.light'
 require 'scripts/objects.bonus'
 require 'scripts/objects.input'
 require 'scripts/objects.walker'
+require 'scripts/objects.walkerhorz'
+require 'scripts/objects.walkervert'
 
 
 function initAll()
@@ -82,6 +84,8 @@ function initAll()
 	InputRight:init()
 	updateInputDisplays()
 	Walker:init()
+	WalkerHorz:init()
+	WalkerVert:init()
 end
 
 function spriteFactory(name,opts)

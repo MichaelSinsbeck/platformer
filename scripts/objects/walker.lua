@@ -3,7 +3,7 @@ Walker = object:New({
 	speed = 2,
 	vx = 2,
   vis = {
-		Visualizer:New('walker'),
+		Visualizer:New('roller'),
   },
   marginx = 0.6,
   marginy = 0.6,
