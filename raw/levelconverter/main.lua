@@ -66,10 +66,6 @@ function convert(filetrunc)
 									*(tileset.height/tileset.tileHeight)
 		end
 	end
-	print("numForegroundTiles", numForegroundTiles)
-	print("numBackgroundTiles", numBackgroundTiles)
-	print("numWorldTiles", numWorldTiles)
-	print("numObjectTiles", numObjectTiles)
 
 	-- fill arrays
 	for x, y, tile in map("bg"):iterate() do
@@ -178,7 +174,6 @@ function convert(filetrunc)
 
 	for y = 1,map.height do
 			for x = 1,map.width do
-			print(objToCollision[obj[y][x]], obj[y][x], x, y)
 			local entry = math.max(
 				wallToCollision[wall[y][x]],
 				wallToCollision[fg[y][x]],
