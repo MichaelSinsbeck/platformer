@@ -1,4 +1,5 @@
 Campaign = {
+	'start.dat', -- world 1
 	'l01.dat', -- world 1
 	'l02.dat',
 	'l03.dat',

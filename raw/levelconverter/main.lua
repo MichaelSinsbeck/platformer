@@ -1,5 +1,10 @@
 loader = require("AdvTiledLoader/Loader")
 
+local numForegroundTiles = 0
+local numWorldTiles = 0
+local numBackgroundTiles = 0
+local numObjectTiles = 0
+
 function love.load(args)
 	loader.path = "maps/"
 
@@ -45,11 +50,31 @@ function convert(filetrunc)
 			col[y][x] = 0
 		end
 	end
+	
+	for a, tileset in pairs(map.tilesets) do
+		if a:find("foreground") then
+			numForegroundTiles = (tileset.width/tileset.tileWidth)
+									*(tileset.height/tileset.tileHeight)
+		elseif a:find("background") then
+			numBackgroundTiles = (tileset.width/tileset.tileWidth)
+									*(tileset.height/tileset.tileHeight)
+		elseif a:find("world") then
+			numWorldTiles = (tileset.width/tileset.tileWidth)
+									*(tileset.height/tileset.tileHeight)
+		elseif a:find("object") then
+			numObjectTiles = (tileset.width/tileset.tileWidth)
+									*(tileset.height/tileset.tileHeight)
+		end
+	end
+	print("numForegroundTiles", numForegroundTiles)
+	print("numBackgroundTiles", numBackgroundTiles)
+	print("numWorldTiles", numWorldTiles)
+	print("numObjectTiles", numObjectTiles)
 
 	-- fill arrays
 	for x, y, tile in map("bg"):iterate() do
 		if tile.id ~= 0 then
-			bg[y+1][x+1] = tile.id - 144
+			bg[y+1][x+1] = tile.id - numWorldTiles - numObjectTiles
 		end
 	end
 
@@ -62,7 +87,7 @@ function convert(filetrunc)
 	end
 
 	for x, y, tile in map("objects"):iterate() do
-		if tile.id == 65 then
+		if tile.id == numWorldTiles + 1 then
 		  if xStart then
 		    print('Warning, multiple starting points')
 		  end
@@ -70,7 +95,7 @@ function convert(filetrunc)
 		  yStart = y+1
 		else
 			if tile.id ~= 0 then
-			  obj[y+1][x+1] = tile.id-64
+			  obj[y+1][x+1] = tile.id-numWorldTiles
 			end
 		end
 	end
@@ -91,7 +116,7 @@ function convert(filetrunc)
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
-		0,0,0,0,2,0,0,0,
+		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
 		0,0,2,2,2,2,0,0,
 		0,0,0,0,0,0,0,0,
@@ -106,14 +131,21 @@ function convert(filetrunc)
 	bgToCollision[0] = 0
 
 	wallToCollision = {
-		1,1,1,1,0,2,2,2,
-		1,1,1,1,0,2,2,0,
-		1,1,1,1,0,0,0,0,
-		1,1,1,1,0,0,0,0,
+		0,0,0,0,0,0,2,2,
+		0,0,0,0,2,2,2,0,
 		0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
 	}
 	wallToCollision[0] = 0
 
@@ -146,6 +178,7 @@ function convert(filetrunc)
 
 	for y = 1,map.height do
 			for x = 1,map.width do
+			print(objToCollision[obj[y][x]], obj[y][x], x, y)
 			local entry = math.max(
 				wallToCollision[wall[y][x]],
 				wallToCollision[fg[y][x]],
