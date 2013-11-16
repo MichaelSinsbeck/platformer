@@ -3,15 +3,15 @@
  <tileset firstgid="1" name="world1" tilewidth="50" tileheight="50">
   <image source="world1.png" width="400" height="750"/>
  </tileset>
- <tileset firstgid="121" name="objectpalette" tilewidth="50" tileheight="50">
-  <image source="objectpalette.png" width="400" height="500"/>
- </tileset>
- <tileset firstgid="201" name="background" tilewidth="40" tileheight="40">
+ <tileset firstgid="121" name="background" tilewidth="40" tileheight="40">
   <image source="background1.png" width="320" height="600"/>
+ </tileset>
+ <tileset firstgid="241" name="objectpalette" tilewidth="50" tileheight="50">
+  <image source="objectpalette.png" width="400" height="500"/>
  </tileset>
  <layer name="bg" width="45" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlskOwiAURV8/Q105LRw2Dv+/t2rjkDRuHD7F29iXENJaHkmhKDc5KYvCO9BAIfrN7EAK9r5FBDmDC7j6FhEkOrvJvznz/mVc7WNb58L3UPZljmTu3UuI+mCQCAvTxzkjuTPP9VL257bpOEO4jsAYTMBU4G67zqqziuk4MzjOwQIshWvty3kFzzXYgG0gzjbJtdpdd76Dh1a7684c9bySnFNFfDnrdSX1QnbOtGcIziGu8zfnvKKfadIaqu4Lde829dXvHOrZZJOqsduk6XvdAnN+glfZPgXibJroHJ2js19n9nY1h7b+367rmeYNNth4rw==
+   eJztlskKAjEMhvvajnpwO4g3V3AFVxi3V/QfpDAOPSTtTONofvhubfMRSIkxv5cGSHI0ZXVI6YBujp6sDil1dB6Cvnn7DsBIVocc2+s69NgmxFlqhn2dM9+W+ZyHtqF7j8EETMEMzMGCeNfXuTi/3DleghVYgw3Ygh2zdmznPTiAIziBM7gwa8d2TsEV3MAdPMCTWTu2c0jUOY6z/a84/1QWKeeQfUPa2XjUU2d+XZtvc04cuPYF1znK3eIbZexLrverpIx+q7M6q7M6/4Ozprq8AHA14dI=
   </data>
  </layer>
  <layer name="walls" width="45" height="30">
@@ -21,7 +21,7 @@
  </layer>
  <layer name="objects" width="45" height="30">
   <data encoding="base64" compression="zlib">
-   eJztzsENABAQAEFtU4C/fhTHQwckd5KZ/yZbCpmM6AEAOFr0ACn16AEAgG1e9vXJBb9bpK8Cxw==
+   eJztzjENACAQBLBnxL9SEEAYsEByP7QKWkUnc6QHAPDsdICWTjoAAPDBSgdo4QLIVgLs
   </data>
  </layer>
  <layer name="fg" width="45" height="30">

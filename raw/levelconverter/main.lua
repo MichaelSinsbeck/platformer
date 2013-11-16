@@ -9,8 +9,16 @@ function love.load(args)
 	loader.path = "maps/"
 
 	if #args > 1 then
-		for i = 2,#args do
-			convert(args[i])
+		if args[2] == "-o2n" then	-- convert from old to new tilemap!
+			-- (save as .tmx which can be put back into the maps folder)
+			for i = 3,#args do
+				conertOldToNew(args[i])
+			end
+		else
+			-- standard converting from .tmx to readable lua .dat:
+			for i = 2,#args do
+				convert(args[i])
+			end
 		end
 	else
 		local files = love.filesystem.enumerate(loader.path)
@@ -24,6 +32,52 @@ function love.load(args)
 
   print('Done')
   love.event.push("quit")
+end
+
+function conertOldToNew(filetrunc)
+	print('Converting (old to new) '..filetrunc..'.tmx')
+	local map = loader.load(filetrunc .. '.tmx')
+	local tile
+
+	local i = 1
+	for x, y, tile in map("walls"):iterate() do
+		print( i, string.format("Tile at (%d,%d) has an id of %d", x, y, tile.id) )
+		if not tile.updated then		-- brick
+			tile.updated = true
+			if (tile.id >= 1 and tile.id <= 4) or
+			(tile.id >= 9 and tile.id <= 12) or
+			(tile.id >= 17 and tile.id <= 20) or
+			(tile.id >= 25 and tile.id <= 28) then
+				tile.id = tile.id + 24
+			elseif tile.id >= 33 and tile.id <= 38 then		-- signs
+				tile.id = tile.id - 32
+			elseif tile.id >= 6 and tile.id <= 8 then		-- bridges:
+				tile.id = tile.id + 7
+			elseif tile.id >= 14 and tile.id <= 15 then		-- bridges (ends):
+				tile.id = tile.id - 7
+			end
+				print("\tnew:", tile.id)
+		end
+		i = i+1
+	end
+
+	--[[for x, cell in pairs(map.layers["walls"].cells) do
+		for y, tile in pairs(cell) do
+			print(x, y, tile, tile.id)
+			if tile then	
+				if (tile.id >= 1 and tile.id <= 4) or
+				(tile.id >= 9 and tile.id <= 12) or
+				(tile.id >= 17 and tile.id <= 20) or
+				(tile.id >= 25 and tile.id <= 28) or
+				(tile.id >= 33 and tile.id <= 36) then
+					tile.id = tile.id + 24
+				print("\tnew:", tile.id)
+				end
+			end
+		end
+	end]]--
+
+	loader.save(map, filetrunc .. '_new.tmx')
 end
 
 
@@ -66,24 +120,39 @@ function convert(filetrunc)
 									*(tileset.height/tileset.tileHeight)
 		end
 	end
+	print("numForegroundTiles", numForegroundTiles)
+	print("numBackgroundTiles", numBackgroundTiles)
+	print("numWorldTiles", numWorldTiles)
+	print("numObjectTiles", numObjectTiles)
+	lowestBG, highestBG = math.huge, -math.huge
+	local x1, y1
 
 	-- fill arrays
 	for x, y, tile in map("bg"):iterate() do
 		if tile.id ~= 0 then
-			bg[y+1][x+1] = tile.id - numWorldTiles - numObjectTiles
+			if tile.id < lowestBG then
+				lowestBG = tile.id
+				x1, y1 = x, y
+			end
+			if tile.id > highestBG then
+				highestBG = tile.id
+				x2, y2 = x, y
+			end
+			bg[y+1][x+1] = tile.id - numWorldTiles
 		end
 	end
+	print(lowestBG, highestBG, x1,y1, x2, y2)
 
 	for x, y, tile in map("walls"):iterate() do
 		wall[y+1][x+1] = tile.id
 	end
 
 	for x, y, tile in map("fg"):iterate() do
-	  fg[y+1][x+1] = tile.id
+		fg[y+1][x+1] = tile.id
 	end
 
 	for x, y, tile in map("objects"):iterate() do
-		if tile.id == numWorldTiles + 1 then
+		if tile.id == numWorldTiles + numBackgroundTiles + 1 then
 		  if xStart then
 		    print('Warning, multiple starting points')
 		  end
@@ -91,7 +160,7 @@ function convert(filetrunc)
 		  yStart = y+1
 		else
 			if tile.id ~= 0 then
-			  obj[y+1][x+1] = tile.id-numWorldTiles
+			  obj[y+1][x+1] = tile.id-numWorldTiles-numBackgroundTiles
 			end
 		end
 	end
@@ -168,18 +237,18 @@ function convert(filetrunc)
 		3,3,3,3,0,0,0,0,
 		3,3,3,3,0,0,0,0,
 		3,3,3,3,0,0,0,0,
-
 	}
 	fgToCollision[0] = 0
 
 	for y = 1,map.height do
 			for x = 1,map.width do
+			--print(x,y, wall[y][x], fg[y][x], obj[y][x], bg[y][x])
 			local entry = math.max(
 				wallToCollision[wall[y][x]],
 				wallToCollision[fg[y][x]],
 				objToCollision[obj[y][x]],
 				bgToCollision[bg[y][x]])
-			col[y][x] = entry
+				col[y][x] = entry
 			if fgToCollision[obj[y][x]] == 3 then -- if there is a spikey
 				fg[y][x] = obj[y][x]
 				obj[y][x] = 33
