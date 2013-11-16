@@ -30,13 +30,11 @@ function Monocle:setGrid( grid, tileSize )
 	self.tileSize = tileSize
 	if self.useCanvas then
 		local x, y = tileSize*#grid[1], tileSize*#grid
-		print( tileSize*#grid[1], tileSize*#grid, #grid[1], #grid )
 		self.canvas = _lg.newCanvas( x, y )
 	end
 end
 
 function Monocle:setBlur( blurAmount )
-	print("Added blur!")
 	if not blurAmount or blurAmount == 0 then
 		self.blur = false
 	elseif self.useCanvas then	-- only allow blurring when canvas is enabled, too:
