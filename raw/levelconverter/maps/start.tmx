@@ -4,14 +4,17 @@
   <image source="world1.png" width="400" height="750"/>
  </tileset>
  <tileset firstgid="121" name="background" tilewidth="40" tileheight="40">
-  <image source="background1.png" width="320" height="600"/>
+  <image source="background1.png" width="320" height="1040"/>
  </tileset>
- <tileset firstgid="241" name="objectpalette" tilewidth="50" tileheight="50">
+ <tileset firstgid="329" name="objectpalette" tilewidth="50" tileheight="50">
   <image source="objectpalette.png" width="400" height="500"/>
+ </tileset>
+ <tileset firstgid="409" name="foreground" tilewidth="50" tileheight="50">
+  <image source="foreground1.png" width="400" height="400"/>
  </tileset>
  <layer name="bg" width="95" height="24">
   <data encoding="base64" compression="zlib">
-   eJzt1ddqwzAYhmHddgeFpgNKae+l0AldB91J9957XEZfUwXcoqDfIcFx9b3wnNhYiF+O45xSSimllFJKKaWqWh/6cwbK3U5SDWMINW+k3O0k1QRG3c/cxzBZ7naSK3v3Le/8LOYwjwUs5u5d4BJXgeeKfNd2sYe6ZeP/JMvsl7GCVaxh3V+/xwMe8RR4rnm2lu/aMU5wijOcWzbvqn9mzZmMt7i/gU1sYRs7/vo7PvCJr8BzRWZ/jRvc4s5fs8w1dmahNXrpvLKZTGG6xf0G9nGAQxx1YQ/PeMEr3vw1y28hdGb5Qmu0+xtLqdhcs0JnFlvDsm7R/v63WfRysbm2u0Yn1s2XzX3Q/f6+1jqwrlIqzWYiVPdaiqhS30G6hKQ=
+   eJzt1cdPFGEcxvEZRBCQchD0QFGqtIOIB4oHKX8UQkhoJobA/2JCkYR2kN5RUKQKSucA6AGQhO+G2eyweScMZXYh+3uST3jzlsnLwzKraRKJRCKRSCQSiUQikUjuayrw3qTSv9cJqNSgGrWGOv9eJ6DyEfXaee8NaPTvdQIurs++nc98C1rRhnZ8Nq3N4jt+KM45+V7bwjZ2sIu9W3y2r2Kn+050oRs96DXmF7GEZawozrn/tk681/ZxgEP8xb8rnA3WNe0hQhCKR7pn7QXjZKQgFWm69XNuI+5OPlisf0Ef+jGAQWP+D9axgU3FuZt2P4RhjCjWjnCME/zHqcV+1dxj+oxEFKIRY+o3k3EWspGDXB9034Rmi/VRjGEcE5h09jraS+P3ncI0vuIbZkx7dPYE4YGpG9V+1dwTzsQiDk/xzPSMV4zz8Br5eONw93c1c/iJeSx4rYXRSTgijJ9W+1Vz8exPQCKS8NzUbwHjQhShGG9tdu/93WbHXc4vrGINv6+532rOlXR6zdA9/2euvGNcglKUodxG967eq7SL79daG/eVSCQSVT5dQuJcOi5xn3IGDdGARg==
   </data>
  </layer>
  <layer name="walls" width="95" height="24">
@@ -21,7 +24,7 @@
  </layer>
  <layer name="objects" width="95" height="24">
   <data encoding="base64" compression="zlib">
-   eJzt0gEJACAMBMDZSbR/JE1gBmEguLsAz298BAAAAABwY7TXDWqbhf7fC91KxE7Msp0c63UBAAC+cQA0TwK9
+   eJzt0sENACEMA7Aw3jEb4lZmBqRKPGpPkCZNAAAAAIAbe7xO0NvfqP/V6FaSWbi336nx6REAgCIHHqQCzw==
   </data>
  </layer>
  <layer name="fg" width="95" height="24">

@@ -33,6 +33,10 @@ function game:draw()
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())
 	end
+	
+	if p.dead then
+		controlKeys:draw("death")	-- display the keys for "retry" and "exit"
+	end
 end
 
 function game:checkControls()

@@ -58,7 +58,9 @@ function levelEnd:draw()
 		love.graphics.print(v, 5, - font:getHeight()*(4-i))
 		i = i+1
 	end
-	love.graphics.pop()	
+	love.graphics.pop()
+	
+	controlKeys:draw("win")
 end
 
 function levelEnd:display( )	-- called when level is won:

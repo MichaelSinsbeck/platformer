@@ -92,6 +92,13 @@ function menu:init()
 	--menuPlayer.x = 0
 	--menuPlayer.y = 0
 	menuPlayer.vis:init()
+	
+	controlKeys:setup() -- make sure to display the correct keys!
+end
+
+function menu:getImage( imgName )
+	print("t", self, self.images, imgName)
+	return self.images[imgName]
 end
 
 function menu.clear()
@@ -958,6 +965,8 @@ function menu:draw()
 	
 	if keys.currentlyAssigning then
 		love.graphics.print(keys.currentlyAssigning, 10, 10)
+	else
+		controlKeys:draw("menu")
 	end
 
 end

@@ -4,9 +4,9 @@
   <image source="world1.png" width="400" height="750"/>
  </tileset>
  <tileset firstgid="121" name="background" tilewidth="40" tileheight="40">
-  <image source="background1.png" width="320" height="600"/>
+  <image source="background1.png" width="320" height="1040"/>
  </tileset>
- <tileset firstgid="241" name="objectpalette" tilewidth="50" tileheight="50">
+ <tileset firstgid="329" name="objectpalette" tilewidth="50" tileheight="50">
   <image source="objectpalette.png" width="400" height="500"/>
  </tileset>
  <layer name="bg" width="45" height="30">
@@ -16,12 +16,12 @@
  </layer>
  <layer name="walls" width="45" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlU0LwjAMhoMXFfw4qyenF50X9f//Nxs0EKpbmtJ1GeaB91BWumdtlgI4juM4/8hSGFvkLIytMA/ZhGxDbtGzeGyRXOddyP6TJooWvhbPoWP+PZr3zHgnrnFlmQoXkJ1pP09VjGRSnAkr/4zGGWsJ637s/dY40/w2ZA3vHrYYyEty0Drj3K69xn6MvXjI+4I7U8/rO3usjwfIfSq39lPuc+5MaTPfx8Fvwz5NNUTBM4j7eQNyb6/hrEF7Jtadj/B9X8e+1px/7ak759H3v9Z2XhVYo5TzrIBLKqnO/H4ZO6m+U8oLHs8n6g==
+   eJztlU0LwjAMhoMXFfw4qyenF50X9f//Nxs0EKpbmtJ1GeaB91BWumdtlgI4juM4/8hSGFvkLIytMA/ZhGxDbtGzeGyRXOddyP6TJooWvhbPoWP+PZr3zHgnrnFlmQoXkJ1pP09VjGRSnAkr/4zGGWsJ637s/dY40/w2ZA3vHrYYyEty0Drj3K69xn6MvXjI+4I7U8/rO3usjwfIfSq39lPuc+5MaTPfx8Fvwz5NNUTBM4j7egNyb6/hrEF7Jtadj/B9X8e+1px/7ak759H3v9Z2XhVYo5TzrIBLKqnO/H4ZO6m+U8oLGC8n6Q==
   </data>
  </layer>
  <layer name="objects" width="45" height="30">
   <data encoding="base64" compression="zlib">
-   eJztzjENACAQBLBnxL9SEEAYsEByP7QKWkUnc6QHAPDsdICWTjoAAPDBSgdo4QLIVgLs
+   eJzt1rEJACAQA8B3PH8Ae/dfQsH2e0XuJkgRSCJ4yWy3EwDAkTaJwtALAOAD3adhW6KVAU8=
   </data>
  </layer>
  <layer name="fg" width="45" height="30">

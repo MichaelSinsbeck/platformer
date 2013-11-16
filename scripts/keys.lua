@@ -1,3 +1,6 @@
+
+controlKeys = require("scripts/controlKeys")
+
 local keys = {}
 keys.currentlyAssigning = false		--holds the string of the key which is currently being changed.
 
