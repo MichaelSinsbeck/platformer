@@ -90,8 +90,8 @@ function controlKeys:setup()
 		menuControl = {}
 		menuControl[1] = {}
 		menuControl[1].label = "choose"
-		menuControl[1].txt = nameForKey( "return" )
-		menuControl[1].img = menu:getImage(getImageForKey( keys.RIGHT ))
+		menuControl[1].txt = "enter"
+		menuControl[1].img = menu:getImage(getImageForKey( "enter" ))
 		menuControl[1].offset = (menuControl[1].img:getWidth() - fontSmall:getWidth(menuControl[1].txt))/2/Camera.scale
 		menuControl[1].x = (love.graphics.getWidth()-menuControl[1].img:getWidth())/Camera.scale - 6
 		menuControl[1].labelX = (menuControl[1].x*Camera.scale + menuControl[1].img:getWidth() -
