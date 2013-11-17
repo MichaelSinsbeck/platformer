@@ -492,7 +492,7 @@ function keys.initKeyboard()
 
 	local x,y = 3, 20
 
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "playerScreenshot" )
 	imgOff, imgOn = getImageForKey( keys.SCREENSHOT, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_SCREENSHOT",
@@ -502,7 +502,7 @@ function keys.initKeyboard()
 					"SCREENSHOT", "screenshot")
 	y = y + 10
 	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "playerFullscreen" )
 	imgOff, imgOn = getImageForKey( keys.FULLSCREEN, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_FULLSCREEN",

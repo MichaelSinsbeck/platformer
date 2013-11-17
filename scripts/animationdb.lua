@@ -288,6 +288,8 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('moveDownWhite','menuPlayer',{11,12,13,14,15,14,13,12},{.01,.02,.03,.06,.1,.06,.03,.02})
 	AnimationDB:addAni('bandanaColor','menuPlayer',{2,3,4,5},{.05,.05,.05,.05})
 	AnimationDB:addAni('jumpFallWhite','whitePlayer',{17,5,6,5,17},{.05,.05,.5,.05,.5})
+	AnimationDB:addAni('playerScreenshot','menuPlayer',{21,22,23,24,25,21},{0.1,.01,.05,.02,.02,1})
+	AnimationDB:addAni('playerFullscreen','menuPlayer',{26,27,28,29,30,31,32,33,34,35},{0.08,.04,.08,0.04,.2,.3,0.04,0.08,.08,.5})
 
 	AnimationDB:loadImage('log.png','log')
 	AnimationDB:addAni('log','log',{1},{1e6})

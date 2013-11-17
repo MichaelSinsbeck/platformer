@@ -97,7 +97,6 @@ function menu:init()
 end
 
 function menu:getImage( imgName )
-	print("t", self, self.images, imgName)
 	return self.images[imgName]
 end
 
