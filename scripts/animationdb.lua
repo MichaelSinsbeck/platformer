@@ -328,4 +328,32 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('gamepadY','gamepadY',{1},{1e6})
 	AnimationDB:loadImage('gamepadX.png','gamepadX',tileSize,tileSize, "menu")
 	AnimationDB:addAni('gamepadX','gamepadX',{1},{1e6})
+	
+	
+	AnimationDB:loadImage('listCount.png','listCount',tileSize,tileSize)
+	AnimationDB:addAni('listCount1','listCount',{1},{1e6})
+	AnimationDB:addAni('listCount2','listCount',{2},{1e6})
+	AnimationDB:addAni('listCount3','listCount',{3},{1e6})
+	AnimationDB:addAni('listCount4','listCount',{4},{1e6})
+	AnimationDB:addAni('listCount5','listCount',{5},{1e6})
+	
+	-- level win ninjas:
+	AnimationDB:loadImage('deaths.png','deaths',tileSize*2,tileSize*2)
+	AnimationDB:addAni('deathSpikes1','deaths',{1},{1e6})
+	AnimationDB:addAni('deathSpikes2','deaths',{2},{1e6})
+	AnimationDB:addAni('deathSpikes3','deaths',{3},{1e6})
+	AnimationDB:addAni('deathSpikes4','deaths',{4},{1e6})
+	AnimationDB:addAni('deathFall1','deaths',{5},{1e6})
+	AnimationDB:addAni('deathFall2','deaths',{6},{1e6})
+	AnimationDB:addAni('deathFall3','deaths',{7},{1e6})
+	AnimationDB:addAni('deathFall4','deaths',{8},{1e6})
+	AnimationDB:addAni('deathShuriken1','deaths',{9},{1e6})
+	AnimationDB:addAni('deathShuriken2','deaths',{10},{1e6})
+	AnimationDB:addAni('deathShuriken3','deaths',{11},{1e6})
+	AnimationDB:addAni('deathShuriken4','deaths',{12},{1e6})
+	AnimationDB:addAni('deathMissile1','deaths',{13},{1e6})
+	AnimationDB:addAni('deathMissile2','deaths',{14},{1e6})
+	AnimationDB:addAni('deathMissile3','deaths',{15},{1e6})
+	AnimationDB:addAni('deathMissile4','deaths',{16},{1e6})
+	
 end

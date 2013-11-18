@@ -83,7 +83,7 @@ function love.draw()
 	
 		shaders:stop()
 		
-		if mode == 'levelEnd' then
+		if mode == 'levelEnd' and not menu.transitionActive then
 			levelEnd:draw()
 		end
 		

@@ -52,6 +52,7 @@ function Visualizer:reset()
 end
 
 function Visualizer:draw(x,y)
+			
 	if self.active then
 		--print(self.img, self.currentQuad, self.text)
 		if self.img and self.currentQuad then

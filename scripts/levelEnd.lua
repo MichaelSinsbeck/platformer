@@ -1,4 +1,7 @@
 
+-- pictures for level end display:
+local pics = require("scripts/levelEndPic")
+
 levelEnd = {}
 
 local deathList = {}
@@ -13,6 +16,7 @@ function levelEnd:reset()
 	deathList["spikey"] = 0
 	deathList["runner"] = 0
 	deathList["walker"] = 0
+	pics:reset()
 end
 
 function levelEnd:addDeath( deathType )
@@ -48,7 +52,6 @@ function levelEnd:draw()
 		love.graphics.line(scaled)
 	end
 	
-	
 	local font = love.graphics.getFont()
 	local i = 0
 	for k, v in pairs(deathList) do
@@ -58,7 +61,11 @@ function levelEnd:draw()
 		love.graphics.print(v, 5, - font:getHeight()*(4-i))
 		i = i+1
 	end
+	
+	pics:draw()
+	
 	love.graphics.pop()
+	
 	
 	controlKeys:draw("win")
 end
@@ -68,6 +75,15 @@ function levelEnd:display( )	-- called when level is won:
 	love.graphics.setBackgroundColor(40,40,40)
 	boxes = {}
 	self:addBox(-30,-20,60,40)
+	
+	if deathList["fall"] > 0 then
+		self:addBox(-100,-20,60,40)
+		pics:new( -70, 0, "fall", deathList["fall"] )
+	end
+	if deathList["spikey"] > 0 then
+		self:addBox(40,-20,60,40)
+		pics:new( 70, 0, "spikes", deathList["spikey"] )
+	end
 end
 
 function levelEnd:keypressed( key, unicode )
