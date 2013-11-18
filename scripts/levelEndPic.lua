@@ -65,10 +65,10 @@ function pics:new( x, y, statType, num )
 					list = {}, listPosX = {}, listPosY = {}}
 					
 	if statType == "fall" then
-		local width = 45
+		local width = math.min(num*5, 45)
 		local randomWidth = 3
 		-- generate positions so that they overlap, but each position is unique:
-		local freeSlots = generateSlots( num/3, width )
+		local freeSlots = generateSlots( num/2, width )
 		newPic.slots = freeSlots
 		local found = false
 		local tries = 0
@@ -107,10 +107,10 @@ function pics:new( x, y, statType, num )
 		
 		newPic.list, newPic.listPosX, newPic.listPosY = pics:generateCountList( num )
 	elseif statType == "spikes" then
-		local width = 45
+		local width = math.min(num*3, 45)
 		local randomWidth = 3
 		-- generate positions so that they overlap, but each position is unique:
-		local freeSlots = generateSlots( num/3, width )
+		local freeSlots = generateSlots( num/2, width )
 		newPic.slots = freeSlots
 		local found = false
 		local tries = 0
