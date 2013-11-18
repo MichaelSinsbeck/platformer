@@ -68,14 +68,12 @@ function love.draw()
 	
 		shaders.draw()
 	
-		if mode == 'game' then
+		if mode == 'game' or mode == 'levelEnd' then
 			game:draw()
 		elseif mode == 'menu' then
 			menu:draw()
 		elseif mode == 'bridge' then
 			bridge:draw()
-		elseif mode == 'levelEnd' then
-			levelEnd:draw()
 		end
 	
 		if menu.transitionActive and menu.transitionPercentage < 50 then	
@@ -84,6 +82,10 @@ function love.draw()
 		end
 	
 		shaders:stop()
+		
+		if mode == 'levelEnd' then
+			levelEnd:draw()
+		end
 		
 		if DEBUG then
 			love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)

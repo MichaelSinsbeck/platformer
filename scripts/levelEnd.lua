@@ -23,8 +23,8 @@ function levelEnd:draw()
 	shaders:setDeathEffect( .8 )
 	--shaders.grayScale:send( "amount", .8 )
 	--love.graphics.setPixelEffect( shaders.grayScale )
-	game:draw()
-	love.graphics.setPixelEffect()
+	--game:draw()
+	--love.graphics.setPixelEffect()
 	love.graphics.push()
 	love.graphics.translate(love.graphics.getWidth()/2,love.graphics.getHeight()/2)
 	-- for now, just show a simple list:
@@ -74,9 +74,9 @@ function levelEnd:keypressed( key, unicode )
 	if key == 'escape' then
 		Campaign:setLevel(Campaign.current+1)
 		Campaign:saveState()
-		menu.startTransition(menu.initWorldMap)()
+		menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
 		
-	else	
+	else
 	  menu.startTransition(function () Campaign:proceed() end)()
 	end
 end
