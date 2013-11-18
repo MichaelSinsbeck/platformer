@@ -7,6 +7,7 @@ levelEnd = {}
 local deathList = {}
 local boxes = {}
 
+
 function levelEnd:reset()
 	deathList["fall"] = 0
 	deathList["shuriken"] = 0
@@ -66,7 +67,6 @@ function levelEnd:draw()
 	
 	love.graphics.pop()
 	
-	
 	controlKeys:draw("win")
 end
 
@@ -76,10 +76,14 @@ function levelEnd:display( )	-- called when level is won:
 	boxes = {}
 	self:addBox(-30,-20,60,40)
 	
+	--deathList["fall"] = math.random(26)	--debug
+	
 	if deathList["fall"] > 0 then
 		self:addBox(-100,-20,60,40)
 		pics:new( -70, 0, "fall", deathList["fall"] )
 	end
+	
+	--deathList["spikey"] = math.random(26)	--debug
 	if deathList["spikey"] > 0 then
 		self:addBox(40,-20,60,40)
 		pics:new( 70, 0, "spikes", deathList["spikey"] )
