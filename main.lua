@@ -76,11 +76,6 @@ function love.draw()
 			bridge:draw()
 		end
 	
-		if menu.transitionActive and menu.transitionPercentage < 50 then	
-			local sx = (menu.transitionPercentage/15)^3
-		
-		end
-	
 		shaders:stop()
 		
 		if mode == 'levelEnd' and not menu.transitionActive then
@@ -100,7 +95,7 @@ function love.keypressed( key, unicode )
 		print('Curr:' .. Campaign.current)
 		print('Last:' .. Campaign.last)
 	end
-	if menu.transitionActive then return end
+	if menu.transitionActive and menu.transitionPercentage < 50 then return end
 	
 	if keys.currentlyAssigning then
 		if menu.state == 'keyboard' then
