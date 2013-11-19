@@ -482,7 +482,7 @@ function keys.initKeyboard()
 	menu:addText( x-8 - fontSmall:getWidth("jump")/Camera.scale, y+3, "JUMP", "jump")
 	y = y + 10
 	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "bandanaColor" )
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "blueGliding" )
 	imgOff, imgOn = getImageForKey( keys.ACTION, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_ACTION",
@@ -582,7 +582,7 @@ function keys.initGamepad()
 	menu:addText( x-8 - fontSmall:getWidth("jump")/Camera.scale, y+3, "JUMP", "jump")
 	y = y + 10
 	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "bandanaColor" )
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "blueGliding" )
 	imgOff,imgOn = getImageForPad( keys.PAD.ACTION )
 	menu:addButton( x, y,
 					imgOff, imgOn, "key_PAD_ACTION",
