@@ -5,9 +5,9 @@ Campaign = {
 	'l04.dat',	
 	'l05.dat',
 	'l06.dat', 
-	'l07.dat',
-	'l08.dat',
-	'l09.dat',
+	'l09.dat', -- blue bandana
+	'l07.dat', -- walker
+	'l08.dat', -- walker
 	'l10.dat',
 	'l11.dat',	
 	'l12.dat',	
