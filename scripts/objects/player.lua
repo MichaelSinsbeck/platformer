@@ -376,7 +376,7 @@ function Player:collision(dt)
 			end
 			self.vis[1].angle = math.atan2(-dx,dy)
 		elseif game.isAction and self.bandana == 'blue' then
-			if self.vy > -self.glideSpeed or myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then
+			if self.vy > 0 or myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then
 				self:setAnim(prefix..'Gliding')
 			else 
 				self:setAnim(prefix..'Jump')
