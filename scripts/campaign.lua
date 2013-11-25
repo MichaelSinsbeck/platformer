@@ -6,6 +6,7 @@ Campaign = {
 	'l05.dat',
 	'l06.dat', 
 	'l09.dat', -- blue bandana
+	'l16.dat',
 	'l07.dat', -- walker
 	'l08.dat', -- walker
 	'l10.dat',
@@ -190,4 +191,5 @@ Campaign.names['l12.dat'] = 'house of the many spikes'
 Campaign.names['l13.dat'] = 'back and forth'
 Campaign.names['l14.dat'] = 'where is the ground'
 Campaign.names['l15.dat'] = 'bullet hell'
+Campaign.names['l16.dat'] = 'broken bridge'
 
