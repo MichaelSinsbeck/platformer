@@ -76,6 +76,10 @@ function love.draw()
 			bridge:draw()
 		end
 	
+		if menu.transitionActive then
+			menu:drawTransition()
+		end
+
 		shaders:stop()
 		
 		if mode == 'levelEnd' and not menu.transitionActive then

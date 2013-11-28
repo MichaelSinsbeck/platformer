@@ -1,6 +1,9 @@
 -- menu for Bandana
 
 local menu = {active = false, text = '',images = {}}
+
+local TRANSITION_SPEED = 70
+
 local buttons = {}
 local menuLines = {}
 local menuImages = {}
@@ -88,12 +91,15 @@ function menu:init()
 	
 	self.images.keyNone_IMG = love.graphics.newImage("images/menu/"..prefix.."keyNone.png")
 	
+	menu:loadTransitionImages()
+
 	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
 	--menuPlayer.x = 0
 	--menuPlayer.y = 0
 	menuPlayer.vis:init()
 	
 	controlKeys:setup() -- make sure to display the correct keys!
+
 end
 
 function menu:getImage( imgName )
@@ -975,19 +981,67 @@ end
 -- Starts full screen menu transition:
 ---------------------------------------------------------
 
+local transitionImages = {}
+
+function menu.loadTransitionImages()
+	local img = love.graphics.newImage("images/transition/silhouette.png")
+	local newImage = {
+		img = img,
+		startX = 0, startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
+		startR = 0, endR = .1, -- rotation
+		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
+	}
+	table.insert( transitionImages, newImage )
+	newImage = {
+		img = img,
+		startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight()/2, endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
+		startR = 0, endR = 0, -- rotation
+		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
+	}
+	table.insert( transitionImages, newImage )
+	newImage = {
+		img = img,
+		startX = 0, startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
+		startR = 0, endR = .1, -- rotation
+		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
+	}
+	table.insert( transitionImages, newImage )
+	newImage = {
+		img = img,
+		startX = love.graphics.getWidth(), startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startSX = 3, startSY = 3, endSX = 8, endSY = 8, -- scale
+		startR = 0, endR = .1, -- rotation
+		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
+	}
+	table.insert( transitionImages, newImage )
+	newImage = {
+		img = img,
+		startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startSX = 3, startSY = 3, endSX = 7, endSY = 7, -- scale
+		startR = 0, endR = .1, -- rotation
+		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
+	}
+	table.insert( transitionImages, newImage )
+
+end
+
 function menu.startTransition( event )
 	return function()
 		if not menu.transitionActive then
 			menu.transitionActive = true
 			menu.transitionPercentage = 0
 			menu.transitionEvent = event	-- will be called when transitionPercentage is 50%
+			menu.transImg = transitionImages[ math.random( #transitionImages ) ]
 		end
 	end
 end
 
 -- Handle transition every frame until done:
 function menu:transition( dt )
-	menu.transitionPercentage = menu.transitionPercentage + dt*100
+	menu.transitionPercentage = menu.transitionPercentage + dt*TRANSITION_SPEED
 	if menu.transitionPercentage >= 50 and menu.transitionEvent then
 		menu.transitionEvent()
 		menu.transitionEvent = nil
@@ -996,6 +1050,24 @@ function menu:transition( dt )
 	if menu.transitionPercentage >= 100 then
 		menu.transitionActive = false
 		menu.transitionPercentage = 0
+	end
+end
+
+function menu:drawTransition()
+	if menu.transitionPercentage <= 50 and menu.transImg then
+		local amount = math.min(1 - math.pow((menu.transitionPercentage - 50)/50, 2)*2, 1)
+
+		local x = amount*(menu.transImg.endX -  menu.transImg.startX)
+					 + menu.transImg.startX
+		local y = amount*(menu.transImg.endY -  menu.transImg.startY)
+					 + menu.transImg.startY
+		local r = amount*(menu.transImg.endR -  menu.transImg.startR)
+					 + menu.transImg.startR
+		local sx = amount*(menu.transImg.endSX -  menu.transImg.startSX)
+					 + menu.transImg.startSX
+		local sy = amount*(menu.transImg.endSY -  menu.transImg.startSY)
+					 + menu.transImg.startSY
+		love.graphics.draw( menu.transImg.img, x, y, r, sx, sy, menu.transImg.oX, menu.transImg.oY ) 
 	end
 end
 

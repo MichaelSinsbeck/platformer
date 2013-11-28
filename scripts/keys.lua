@@ -140,7 +140,6 @@ end
 function keys.assign( key )
 	if keys.currentlyAssigning then
 		if menu.state == "keyboard" then
-			print("ASSIGNING", keys.currentlyAssigning, key)
 			if key ~= 'escape' and key ~= 'return' and key ~= 'backspace' then
 				if keys[keys.currentlyAssigning] ~= key then
 					keys.changed = true
@@ -148,13 +147,14 @@ function keys.assign( key )
 				keys[keys.currentlyAssigning] = key
 				--menu:changeText( keys.currentlyAssigning, key)
 			end
-			--menu:changeText( keys.currentlyAssigning, keys[keys.currentlyAssigning])
-		
-			local imgOff, imgOn = getImageForKey( keys[keys.currentlyAssigning], 'fontSmall' )
-			print("new", imgOff, imgOn)
-			menu:changeButtonImage( "key_" .. keys.currentlyAssigning, imgOff, imgOn )
-			menu:changeButtonLabel( "key_" .. keys.currentlyAssigning, nameForKey(key) )
-			keys.currentlyAssigning = false
+			
+			if key ~= 'return' and key ~= 'backspace' then
+				local imgOff, imgOn = getImageForKey( keys[keys.currentlyAssigning], 'fontSmall' )
+				menu:changeButtonImage( "key_" .. keys.currentlyAssigning, imgOff, imgOn )
+				menu:changeButtonLabel( "key_" .. keys.currentlyAssigning,
+				nameForKey(keys[keys.currentlyAssigning]))
+				keys.currentlyAssigning = false
+			end
 		elseif menu.state == "gamepad" then
 			if keys.PAD[keys.currentlyAssigning] ~= key then
 				keys.changed = true
@@ -188,6 +188,8 @@ function getImageForKey( str, font )
 	if str == "" then
 		return "keyNone_IMG", "keyNone_IMG"
 	end
+
+	print("asking for image for key:", str, font)
 	
 	if str == " " then str = "space" end
 	if str == "up" then str = "A" end
