@@ -2,7 +2,7 @@
 
 local menu = {active = false, text = '',images = {}}
 
-local TRANSITION_SPEED = 70
+local TRANSITION_SPEED = 50
 
 local buttons = {}
 local menuLines = {}
@@ -1005,7 +1005,7 @@ function menu.loadTransitionImages()
 		img = img,
 		startX = 0, startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
 		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
-		startR = 0, endR = .1, -- rotation
+		startR = -1, endR = -.1, -- rotation
 		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
 	}
 	table.insert( transitionImages, newImage )
@@ -1095,8 +1095,12 @@ function selectButton(button)
 
 	selButton = button
 	button.selected = true
-	--print ("Selected button: '" .. button.name .. "'")
-	menu.text = button.name
+
+	-- display names of selected buttons, but not in key selection menu:
+	if menu.state ~= "keyboard" and menu.state ~= "gamepad" then
+		menu.text = button.name
+	else menu.text = ""
+	end
 	if selButton.actionHover then
 		selButton.actionHover( selButton )
 	end

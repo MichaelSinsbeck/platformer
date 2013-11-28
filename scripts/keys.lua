@@ -131,7 +131,6 @@ function keys.startAssign( keyToAssign )
 		elseif menu.state == "gamepad" then
 			keys.currentlyAssigning = keyToAssign
 			local imgOff, imgOn = getImageForPad( "" )
-			print("new,",imgOff,imgOn)
 			menu:changeButtonImage( "key_PAD_" .. keyToAssign, imgOff, imgOn )
 		end
 	end
@@ -189,8 +188,6 @@ function getImageForKey( str, font )
 		return "keyNone_IMG", "keyNone_IMG"
 	end
 
-	print("asking for image for key:", str, font)
-	
 	if str == " " then str = "space" end
 	if str == "up" then str = "A" end
 	if str == "down" then str = "B" end
@@ -682,7 +679,7 @@ function keys:exitSubMenu()
 			end
 		end
 		if not keys:checkInvalid() then
-			settings.init()		-- exit the submenu and return to parent menu
+			menu.startTransition(settings.init)()		-- exit the submenu and return to parent menu
 		end
 	end
 end
