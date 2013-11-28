@@ -59,5 +59,17 @@ for scale in 4 5 6 7 8; do
 		fi
 	done
 	cd ..
-
+	
 done
+
+resolution=$(expr 8 \* 18)
+cd transition
+	for infile in *.svg; do
+		if [[ $1 == '' || $infile == $1 ]]; then
+			outfile=../../../images/transition/${infile%.*}.png
+			inkscape -f $infile -C -d $resolution --export-background=#000000 --export-background-opacity=0 -e $outfile
+		fi
+	done
+cd ..
+
+

@@ -984,10 +984,14 @@ end
 local transitionImages = {}
 
 function menu.loadTransitionImages()
+
+	transitionImages = {}
+
 	local img = love.graphics.newImage("images/transition/silhouette.png")
 	local newImage = {
 		img = img,
-		startX = 0, startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startX = 0, startY = love.graphics.getHeight(),
+		endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
 		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
 		startR = 0, endR = .1, -- rotation
 		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
@@ -995,15 +999,17 @@ function menu.loadTransitionImages()
 	table.insert( transitionImages, newImage )
 	newImage = {
 		img = img,
-		startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight()/2, endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
-		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
+		startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight()/2,
+		endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startSX = 0.2, startSY = 0.2, endSX = 5, endSY = 5, -- scale
 		startR = 0, endR = 0, -- rotation
 		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
 	}
 	table.insert( transitionImages, newImage )
 	newImage = {
 		img = img,
-		startX = 0, startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startX = 0, startY = love.graphics.getHeight(),
+		endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
 		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
 		startR = -1, endR = -.1, -- rotation
 		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
@@ -1011,7 +1017,8 @@ function menu.loadTransitionImages()
 	table.insert( transitionImages, newImage )
 	newImage = {
 		img = img,
-		startX = love.graphics.getWidth(), startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startX = love.graphics.getWidth(), startY = love.graphics.getHeight(),
+		endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
 		startSX = 3, startSY = 3, endSX = 8, endSY = 8, -- scale
 		startR = 0, endR = .1, -- rotation
 		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
@@ -1019,12 +1026,36 @@ function menu.loadTransitionImages()
 	table.insert( transitionImages, newImage )
 	newImage = {
 		img = img,
-		startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight(), endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+		startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight(),
+		endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
 		startSX = 3, startSY = 3, endSX = 7, endSY = 7, -- scale
 		startR = 0, endR = .1, -- rotation
 		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
 	}
 	table.insert( transitionImages, newImage )
+
+	img = love.graphics.newImage("images/transition/silhouetteBlue.png")
+	newImage = {
+		img = img,
+		startX = 0, startY = 0,
+		endX = love.graphics.getWidth() + img:getWidth(), endY = love.graphics.getHeight() + img:getWidth(), -- position
+		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
+		startR = 0, endR = 0, -- rotation
+		oX = img:getWidth(), oY = img:getHeight(), -- offset
+	}
+	table.insert( transitionImages, newImage )
+	
+	img = love.graphics.newImage("images/transition/silhouetteBlue.png")
+	newImage = {
+		img = img,
+		startX = love.graphics.getWidth(), startY = 0,
+		endX = 0, endY = love.graphics.getHeight() + img:getWidth(), -- position
+		startSX = -3, startSY = 3, endSX = -5, endSY = 5, -- scale
+		startR = 0, endR = 0, -- rotation
+		oX = img:getWidth(), oY = img:getHeight(), -- offset
+	}
+	table.insert( transitionImages, newImage )
+
 
 end
 
@@ -1055,7 +1086,7 @@ end
 
 function menu:drawTransition()
 	if menu.transitionPercentage <= 50 and menu.transImg then
-		local amount = math.min(1 - math.pow((menu.transitionPercentage - 50)/50, 2)*2, 1)
+		local amount = 1 - math.pow((menu.transitionPercentage - 50)/50, 2)
 
 		local x = amount*(menu.transImg.endX -  menu.transImg.startX)
 					 + menu.transImg.startX
