@@ -203,6 +203,14 @@ function convert(filetrunc)
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
 	}
 	bgToCollision[0] = 0
 
@@ -254,6 +262,7 @@ function convert(filetrunc)
 	for y = 1,map.height do
 			for x = 1,map.width do
 			--print(x,y, wall[y][x], fg[y][x], obj[y][x], bg[y][x])
+			print(x, y)
 			local entry = math.max(
 				wallToCollision[wall[y][x]],
 				wallToCollision[fg[y][x]],
