@@ -5,6 +5,7 @@ local pics = require("scripts/levelEndPic")
 levelEnd = {}
 
 local deathList = {}
+local statList = {}
 local boxes = {}
 
 
@@ -17,6 +18,13 @@ function levelEnd:reset()
 	deathList["spikey"] = 0
 	deathList["runner"] = 0
 	deathList["walker"] = 0
+	statList["highestJump"] = 0
+	statList["farthestJump"] = 0 
+	statList["timeInAir"] = 0
+	statList["idleTime"] = 0
+	statList["numberOfJumps"] = 0
+	statList["longestWallHang"] = 0
+	statList["numberOfButtons"] = 0
 	pics:reset()
 end
 

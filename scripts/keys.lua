@@ -679,7 +679,7 @@ function keys:exitSubMenu()
 			end
 		end
 		if not keys:checkInvalid() then
-			menu.startTransition(settings.init)()		-- exit the submenu and return to parent menu
+			menu.startTransition(settings.init, false)()		-- exit the submenu and return to parent menu
 		end
 	end
 end
