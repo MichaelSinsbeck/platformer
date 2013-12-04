@@ -377,15 +377,20 @@ function menu.startGame( lvl )
 end
 
 function menu:newLevelName( txt )
-	menu.curLevelName = txt
+	local level = Campaign.current
+	local world = math.ceil(level/15)
+	local innerlvl = (level-1) % 15 + 1
+	menu.curLevelName = world .. '.' .. innerlvl .. ' ' .. txt
 	menu.levelNameTime = 0
 end
+
 function menu:updateLevelName( dt )
 	menu.levelNameTime = menu.levelNameTime + dt
 	if menu.levelNameTime >= LEVEL_NAME_DISPL_TIME then
 		menu.curLevelName = nil
 	end
 end
+
 function menu:drawLevelName()
 	love.graphics.setFont( fontLarge )
 	local x, y = 50, 50
