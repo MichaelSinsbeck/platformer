@@ -3,7 +3,7 @@
 local menu = {active = false, text = '',images = {}}
 
 local TRANSITION_SPEED = 50
-local LEVEL_NAME_DISPL_TIME = 5
+local LEVEL_NAME_DISPL_TIME = 4
 
 local buttons = {}
 local menuLines = {}
@@ -388,7 +388,12 @@ function menu:updateLevelName( dt )
 end
 function menu:drawLevelName()
 	love.graphics.setFont( fontLarge )
-	love.graphics.print( menu.curLevelName, 50, 50 )
+	local x, y = 50, 50
+	local time = (menu.levelNameTime - 0.8*LEVEL_NAME_DISPL_TIME)/0.8
+	if time > 0 then
+		y = 50 - math.pow( time, 4)*(fontLarge:getHeight()+100)
+	end
+	love.graphics.print( menu.curLevelName, x, y )
 end
 
 ---------------------------------------------------------
