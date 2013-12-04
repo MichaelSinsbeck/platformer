@@ -66,9 +66,9 @@ function levelEnd:draw()
 	for m, list in pairs( { deathList, statList }) do
 		for k, v in pairs( list ) do
 			love.graphics.setColor(110,168,213)
-			love.graphics.print(k, - font:getWidth(k) + 55, - font:getHeight()*(12 -i))
+			love.graphics.print(string.lower(k), - font:getWidth(string.lower(k)) + 70, - font:getHeight()*(12 -i))
 			love.graphics.setColor(255,255,255)
-			love.graphics.print(v, 60, - font:getHeight()*(12-i))
+			love.graphics.print(v, 75, - font:getHeight()*(12-i))
 			i = i+1
 		end
 	end
@@ -157,7 +157,16 @@ end
 
 function levelEnd:registerJumpStart( x, y )
 	print("jump from:", x, y)
-	levelEnd.jump = {x=x, y=y}
+	levelEnd.jump = {x=x, y=y, time=love.timer.getTime()}
+	statList["numberOfJumps"] = statList["numberOfJumps"] + 1
+end
+function levelEnd:registerJumpPeak( x, y )
+	print("highest point @:", x, y)
+	if levelEnd.jump then
+		if y - levelEnd.jump.y > statList["highestJump"] then
+			statList["highestJump"] = y - levelEnd.jump.y
+		end
+	end
 end
 function levelEnd:registerJumpEnd( x, y )
 	print("landed @:", x, y)
@@ -165,10 +174,12 @@ function levelEnd:registerJumpEnd( x, y )
 		if math.abs(levelEnd.jump.x - x) > statList["farthestJump"] then
 			statList["farthestJump"] = math.abs(levelEnd.jump.x - x)
 		end
+		statList["timeInAir"] = statList["timeInAir"] +
+					love.timer.getTime() - levelEnd.jump.time
 		levelEnd.jump = nil
 	end
 end
 
-function levelEnd:registerButton()
-
+function levelEnd:registerButtonPress()
+	statList["numberOfButtons"] = statList["numberOfButtons"] + 1
 end

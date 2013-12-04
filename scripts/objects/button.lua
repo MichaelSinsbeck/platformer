@@ -42,6 +42,7 @@ function Button:postStep(dt)
 	if self.timer2 == 0 and touched then
 		self.timer2 = self.lifetime
 		spriteEngine:DoAll('buttonPress')
+		levelEnd:registerButtonPress()
 	end
 
 	if touched then
