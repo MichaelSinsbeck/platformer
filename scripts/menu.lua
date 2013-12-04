@@ -382,6 +382,8 @@ function menu:newLevelName( txt )
 	local innerlvl = (level-1) % 15 + 1
 	menu.curLevelName = world .. '.' .. innerlvl .. ' ' .. txt
 	menu.levelNameTime = 0
+	menu.levelNameWidth = fontLarge:getWidth(menu.curLevelName)
+	menu.levelNameBox = menu:generateBox(0.5*(Camera.width-menu.levelNameWidth)-2*Camera.scale,0,menu.levelNameWidth+4*Camera.scale,fontLarge:getHeight()*1.1)
 end
 
 function menu:updateLevelName( dt )
@@ -393,13 +395,26 @@ end
 
 function menu:drawLevelName()
 	love.graphics.setFont( fontLarge )
-	local x, y = 50, 50
+	local y = 50
 	local time = (menu.levelNameTime - 0.8*LEVEL_NAME_DISPL_TIME)/0.8
 	if time > 0 then
 		y = 50 - math.pow( time, 4)*(fontLarge:getHeight()+100)
 	end
-	--love.graphics.print( menu.curLevelName, x, y )
-	love.graphics.printf( menu.curLevelName, 0, y , love.graphics.getWidth(), 'center')
+	love.graphics.push()
+	love.graphics.translate(0,y)
+
+	love.graphics.setColor(44,90,160)
+	love.graphics.rectangle('fill',0.5*(Camera.width-menu.levelNameWidth)-2*Camera.scale,0,menu.levelNameWidth+4*Camera.scale,fontLarge:getHeight()*1.1)
+	
+	love.graphics.setColor(0,0,0)
+	love.graphics.setLineWidth(Camera.scale * 0.5)
+	love.graphics.line(menu.levelNameBox.points)
+	
+	love.graphics.setColor(255,255,255)
+	love.graphics.printf( menu.curLevelName, 0, fontLarge:getHeight()*0.05 , love.graphics.getWidth(), 'center')
+	
+	
+	love.graphics.pop()
 end
 
 ---------------------------------------------------------
@@ -529,7 +544,7 @@ function menu:changeButtonLabel( name, label )
 	end
 end
 
-function menu:addBox(left,top,width,height)
+function menu:generateBox(left,top,width,height)
 	local new = {}
 	new.points = {}
 	new.left = left
@@ -570,7 +585,11 @@ function menu:addBox(left,top,width,height)
 	new.points[#new.points-1] = new.points[1]
 	new.points[#new.points] = new.points[2]
 
-	table.insert(menuBoxes, new)
+	return new
+end
+
+function menu:addBox(left,top,width,height)
+	table.insert(menuBoxes, menu:generateBox(left,top,width,height))
 end
 
 -- changes scales of Logs, if existant
