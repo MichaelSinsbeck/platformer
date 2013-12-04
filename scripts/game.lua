@@ -136,10 +136,10 @@ end
 
 function game.keyreleased(key)
   if key == keys.JUMP then
-		spriteEngine:DoAll('unjump')
+	spriteEngine:DoAll('unjump')
   end
   if key == keys.ACTION then
-		spriteEngine:DoAll('disconnect')
+	spriteEngine:DoAll('disconnect')
   end
 end
 
@@ -147,9 +147,7 @@ function game.joystickpressed(joystick, button)
 	if button == 7 or button == 8 then
 		menu.startTransition(menu.initWorldMap)()
 	end
-	print(keys.PAD.JUMP, button)
   if tonumber(button) == tonumber(keys.PAD.JUMP) then
-  	print("\t\tfound")
     spriteEngine:DoAll('jump')
 		if p.dead then
 			menu.startTransition( function() myMap:start(p) end )()

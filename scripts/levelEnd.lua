@@ -63,18 +63,20 @@ function levelEnd:draw()
 	
 	local font = love.graphics.getFont()
 	local i = 0
-	for k, v in pairs(deathList) do
-		love.graphics.setColor(110,168,213)
-		love.graphics.print(k, - font:getWidth(k) - 5, - font:getHeight()*(4 -i))
-		love.graphics.setColor(255,255,255)
-		love.graphics.print(v, 5, - font:getHeight()*(4-i))
-		i = i+1
+	for m, list in pairs( { deathList, statList }) do
+		for k, v in pairs( list ) do
+			love.graphics.setColor(110,168,213)
+			love.graphics.print(k, - font:getWidth(k) + 55, - font:getHeight()*(12 -i))
+			love.graphics.setColor(255,255,255)
+			love.graphics.print(v, 60, - font:getHeight()*(12-i))
+			i = i+1
+		end
 	end
-	
+
 	pics:draw()
-	
+
 	love.graphics.pop()
-	
+
 	controlKeys:draw("win")
 end
 
@@ -82,7 +84,7 @@ function levelEnd:display( )	-- called when level is won:
 	mode = 'levelEnd'
 	love.graphics.setBackgroundColor(40,40,40)
 	boxes = {}
-	self:addBox(-30,-20,60,40)
+	self:addBox(-30,-60,60,80)
 	
 	--deathList["fall"] = math.random(26)	--debug
 	
@@ -151,4 +153,22 @@ function levelEnd:addBox(left,top,width,height)
 	new.points[#new.points] = new.points[2]
 
 	table.insert(boxes, new)
+end
+
+function levelEnd:registerJumpStart( x, y )
+	print("jump from:", x, y)
+	levelEnd.jump = {x=x, y=y}
+end
+function levelEnd:registerJumpEnd( x, y )
+	print("landed @:", x, y)
+	if levelEnd.jump then
+		if math.abs(levelEnd.jump.x - x) > statList["farthestJump"] then
+			statList["farthestJump"] = math.abs(levelEnd.jump.x - x)
+		end
+		levelEnd.jump = nil
+	end
+end
+
+function levelEnd:registerButton()
+
 end

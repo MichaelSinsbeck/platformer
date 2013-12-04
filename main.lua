@@ -48,6 +48,9 @@ function love.update( dt )
 		if menu.transitionActive then
 			menu:transition( dt )
 		end
+		if menu.curLevelName then
+			menu:updateLevelName( dt )
+		end
 
 		keys.catchGamepadEvents()
 		
@@ -84,6 +87,9 @@ function love.draw()
 		
 		if mode == 'levelEnd' and not menu.transitionActive then
 			levelEnd:draw()
+		end
+		if menu.curLevelName then
+			menu:drawLevelName()
 		end
 		
 		if DEBUG then

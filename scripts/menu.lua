@@ -3,6 +3,7 @@
 local menu = {active = false, text = '',images = {}}
 
 local TRANSITION_SPEED = 50
+local LEVEL_NAME_DISPL_TIME = 5
 
 local buttons = {}
 local menuLines = {}
@@ -92,6 +93,7 @@ function menu:init()
 	self.images.keyNone_IMG = love.graphics.newImage("images/menu/"..prefix.."keyNone.png")
 	
 	menu:loadTransitionImages()
+	menu.curLevelName = nil
 
 	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
 	--menuPlayer.x = 0
@@ -167,6 +169,8 @@ function menu.initMain()
 	
 	menuPlayer.vis:setAni("whiteWalk")
 	menuPlayer.vis.sx = 1
+
+	menu.curLevelName = nil	-- don't display level name when entering menu
 end
 
 function menu.setPlayerPosition( x, y )
@@ -367,7 +371,24 @@ function menu.startGame( lvl )
 		myMap:start(p)
 		
 		config.setValue( "level", lvl )
+
+		menu:newLevelName( Campaign.names[ lvl ] )
 	end
+end
+
+function menu:newLevelName( txt )
+	menu.curLevelName = txt
+	menu.levelNameTime = 0
+end
+function menu:updateLevelName( dt )
+	menu.levelNameTime = menu.levelNameTime + dt
+	if menu.levelNameTime >= LEVEL_NAME_DISPL_TIME then
+		menu.curLevelName = nil
+	end
+end
+function menu:drawLevelName()
+	love.graphics.setFont( fontLarge )
+	love.graphics.print( menu.curLevelName, 50, 50 )
 end
 
 ---------------------------------------------------------
@@ -1062,6 +1083,7 @@ end
 function menu.startTransition( event, showImage )
 	return function()
 		if not menu.transitionActive then
+			menu.curLevelName = nil
 			menu.transitionActive = true
 			menu.transitionPercentage = 0
 			menu.transitionEvent = event	-- will be called when transitionPercentage is 50%

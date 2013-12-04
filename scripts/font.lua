@@ -5,6 +5,6 @@ function loadFont()
 	fontSmall = love.graphics.newImageFont('images/font/'.. prefix ..'fontSmall.png',
 		' abcdefghijklmnopqrstuvwxyz0123456789.,?+&ABCD')
 	fontLarge = love.graphics.newImageFont('images/font/'.. prefix ..'fontLarge.png',
-		' abcdefghijklmnopqrstuvwxyz0123456789.,?+&ABCD')    
+		' abcdefghijklmnopqrstuvwxyz0123456789.,?+&ABCD')
 	love.graphics.setFont(fontSmall)
 end

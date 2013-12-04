@@ -51,10 +51,12 @@ function Player:jump()
     self.status = 'fly'
     self.vy = self.jumpSpeed
     self.canUnJump = true
+	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'fly' and self.jumpsLeft > 0 then
     self.vy = self.jumpSpeed
     self.jumpsLeft = self.jumpsLeft - 1
     self.canUnJump = true
+	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'leftwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -66,6 +68,7 @@ function Player:jump()
 				self:flip(false)
 			end
     self.status = 'fly'
+	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -77,11 +80,13 @@ function Player:jump()
 				self:flip(true)
 			end
     self.status = 'fly'
+	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'online' then
 		self.status = 'fly'
 		self.vy = self.jumpSpeed
 		self.line = nil
 		self.canUnJump = true
+	levelEnd:registerJumpStart( self.x, self.y )
   end
 end
 
@@ -206,6 +211,7 @@ function Player:setAcceleration(dt)
 			self.anchor.length = math.max(self.anchor.length - 5*dt, self.anchor.minLength)
 		end
 	end
+
 end
 
 function Player:collision(dt)
@@ -427,6 +433,12 @@ function Player:collision(dt)
 		self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
 	end
 
+
+	-- record statistic if landed:
+	if self.lastFrameStatus == "fly" and self.status ~= "fly" then
+		levelEnd:registerJumpEnd( self.x, self.y )
+	end
+	self.lastFrameStatus = self.status
 end
 
 function Player:postStep(dt)

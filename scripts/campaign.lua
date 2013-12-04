@@ -82,7 +82,8 @@ function Campaign:proceed()
 		myMap = Map:LoadFromFile(self[self.current])
 		levelEnd:reset()	
 		myMap:start(p) 
-		mode = 'game' 
+		mode = 'game'
+		menu:newLevelName( self.names[ self[self.current] ] )
   else
 		self:setLevel(self.current-1)  
 		menu.initWorldMap()      
