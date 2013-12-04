@@ -398,7 +398,8 @@ function menu:drawLevelName()
 	if time > 0 then
 		y = 50 - math.pow( time, 4)*(fontLarge:getHeight()+100)
 	end
-	love.graphics.print( menu.curLevelName, x, y )
+	--love.graphics.print( menu.curLevelName, x, y )
+	love.graphics.printf( menu.curLevelName, 0, y , love.graphics.getWidth(), 'center')
 end
 
 ---------------------------------------------------------

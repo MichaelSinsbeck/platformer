@@ -61,6 +61,7 @@ function levelEnd:draw()
 		love.graphics.line(scaled)
 	end
 	
+	love.graphics.setFont( fontSmall )
 	local font = love.graphics.getFont()
 	local i = 0
 	for m, list in pairs( { deathList, statList }) do
