@@ -351,6 +351,8 @@ function Player:collision(dt)
     self.jumpsLeft = self.maxJumps - 1
   end
   
+  self.newX = math.min(math.max(self.newX,1+self.semiwidth),myMap.width+1-self.semiwidth)
+  
   -- Set animation
   -- Flip character left/right, if left or right is pressed
 	local control = 0
