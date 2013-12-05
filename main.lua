@@ -52,6 +52,11 @@ function love.update( dt )
 			menu:updateLevelName( dt )
 		end
 
+		if mode == 'levelEnd' and not menu.transitionActive then
+			levelEnd:update( dt )
+		end
+
+
 		keys.catchGamepadEvents()
 		
 		shaders:update( dt )

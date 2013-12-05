@@ -46,7 +46,7 @@ function Goalie:setAcceleration(dt)
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
     p.dead = true
-    levelEnd:addDeath("goalie")
+    levelEnd:addDeath("death_goalie")
     Meat:spawn(p.x,p.y,self.vx,self.vy,12)
   end
 end

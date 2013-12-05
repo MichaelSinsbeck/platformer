@@ -173,7 +173,6 @@ function Map:start(p)
 
 	game.deathtimer = 0
 	shaders:resetDeathEffect()
-  	levelEnd:reset()		-- resets the level's statistics
 	game.restartingLevel = false
 	
   -- reset collision table

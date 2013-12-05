@@ -13,13 +13,9 @@ local function generateSlots( num, width )
 	num = math.ceil(num)
 	local slots = {}
 	local slotWidth = width/num
-	local startX = - width/2 + tileSize/Camera.scale/2
-	print(rows, startX)
+	local startX = - width/2 --+ tileSize/Camera.scale/2
 	for k = 1, num do
-		slots[k] = { x = startX + slotWidth*(k-1), y = 0, taken = {} }
-		if k == 1 then
-			print("slots start @", startX)
-		end
+		slots[k] = { x = startX + slotWidth*(k-1), y = tileSize/Camera.scale*1.4, taken = {} }
 	end
 	return slots
 end
@@ -43,35 +39,35 @@ function pics:generateCountList( num )
 		list[lNum] = Visualizer:New( 'listCount5' )
 		list[lNum]:init()
 		listX[lNum] = listStartX + tileSize*(lNum-1)/Camera.scale
-		listY[lNum] = 2*tileSize/Camera.scale -- + math.random(2)
+		listY[lNum] = (-4 + math.random(10)/40)*tileSize/Camera.scale
 	end
 	if rest > 0 then
 		local lNum = #list+1
 		list[lNum] = Visualizer:New( 'listCount' .. rest )
 		list[lNum]:init()
 		listX[lNum] = listStartX + tileSize*(lNum-1)/Camera.scale
-		listY[lNum] = 2*tileSize/Camera.scale -- + math.random(2)
+		listY[lNum] = (-4 + math.random(10)/40)*tileSize/Camera.scale -- + math.random(2)
 	end
-	print("list starts @", listStartX)
-	print("list data", num, full5, rest, images)
 	
 	return list, listX, listY -- return the images and the x and y positions
 end
 
 function pics:new( x, y, statType, num )
-	print(x, y, statType, num)
-	local newPic = { x=x, y=y,
+
+	local newPic = { x=x, y=y, statType = statType,
 					vis = {}, posX = {}, posY = {},
 					list = {}, listPosX = {}, listPosY = {}}
 					
-	if statType == "fall" then
-		local width = math.min(num*5, 45)
+	if statType == "death_fall" then
+		local width = math.min(num*3, tileSize*2 )
 		local randomWidth = 3
 		-- generate positions so that they overlap, but each position is unique:
 		local freeSlots = generateSlots( num/2, width )
 		newPic.slots = freeSlots
 		local found = false
 		local tries = 0
+
+		newPic.map = Map:LoadFromFile( 'end_fall.dat' )
 		
 		-- fill 'num' of these slots with images:
 		for k = num, 1, -1 do
@@ -106,8 +102,8 @@ function pics:new( x, y, statType, num )
 		end
 		
 		newPic.list, newPic.listPosX, newPic.listPosY = pics:generateCountList( num )
-	elseif statType == "spikes" then
-		local width = math.min(num*3, 45)
+	elseif statType == "death_spikes" then
+		local width = math.min(num*3, tileSize*2 )
 		local randomWidth = 3
 		-- generate positions so that they overlap, but each position is unique:
 		local freeSlots = generateSlots( num/2, width )
@@ -115,6 +111,8 @@ function pics:new( x, y, statType, num )
 		local found = false
 		local tries = 0
 		
+		newPic.map = Map:LoadFromFile( 'end_spikes.dat' )
+
 		-- fill 'num' of these slots with images:
 		for k = num, 1, -1 do
 			newPic.vis[k] = Visualizer:New( 'deathSpikes' .. math.random(4) )
@@ -148,25 +146,43 @@ function pics:new( x, y, statType, num )
 		end
 		
 		newPic.list, newPic.listPosX, newPic.listPosY = pics:generateCountList( num )
+	else
+		
+		newPic.map = Map:LoadFromFile( 'end.dat' )
 	end
 
 	picList[#picList+1] = newPic
 end
 
-function pics:draw()
+function pics:draw( i )
 	local x,y
-	for k,pic in pairs(picList) do
+
+	local pic = picList[i]
+		love.graphics.push()
+		love.graphics.translate( Camera.scale*pic.x, Camera.scale*pic.y )
+
+		if pic.map then
+			love.graphics.push()
+			love.graphics.translate( -(pic.map.width + 2)/2*Camera.scale*8,
+			-(pic.map.height + 2)/2*Camera.scale*8)
+			pic.map:drawBG()
+			pic.map:drawWalls()
+			love.graphics.pop()
+		end
+
 		for k = 1, #pic.vis do
-			x = pic.x + pic.posX[k]
-			y = pic.y + pic.posY[k]
+			x = pic.posX[k]
+			y = pic.posY[k]
 			pic.vis[k]:draw( x*Camera.scale, y*Camera.scale )
 		end
 		for k = 1, #pic.list do
-			x = pic.x + pic.listPosX[k]
-			y = pic.y + pic.listPosY[k]
+			x = pic.listPosX[k]
+			y = pic.listPosY[k]
 			pic.list[k]:draw( x*Camera.scale, y*Camera.scale )
 		end
-	end
+	--	love.graphics.print( pic.statType, 0, 0 )
+		--pic.map:drawFG()
+		love.graphics.pop()
 	love.graphics.setColor(255,255,255)
 end
 

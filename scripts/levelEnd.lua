@@ -4,20 +4,20 @@ local pics = require("scripts/levelEndPic")
 
 levelEnd = {}
 
-local deathList = {}
 local statList = {}
 local boxes = {}
+local statBoxes = {}
 
 
 function levelEnd:reset()
-	deathList["fall"] = 0
-	deathList["shuriken"] = 0
-	deathList["goalie"] = 0
-	deathList["imitator"] = 0
-	deathList["missile"] = 0
-	deathList["spikey"] = 0
-	deathList["runner"] = 0
-	deathList["walker"] = 0
+	statList["death_fall"] = 0
+	statList["death_shuriken"] = 0
+	statList["death_goalie"] = 0
+	statList["death_imitator"] = 0
+	statList["death_missile"] = 0
+	statList["death_spikey"] = 0
+	statList["death_runner"] = 0
+	statList["death_walker"] = 0
 	statList["highestJump"] = 0
 	statList["farthestJump"] = 0 
 	statList["timeInAir"] = 0
@@ -29,7 +29,13 @@ function levelEnd:reset()
 end
 
 function levelEnd:addDeath( deathType )
-	deathList[deathType] = deathList[deathType] + 1
+	statList[deathType] = statList[deathType] + 1
+end
+
+function levelEnd:update( dt )
+	for k, v in pairs( boxes ) do
+		v.timer = v.timer - dt
+	end
 end
 
 function levelEnd:draw()
@@ -44,37 +50,38 @@ function levelEnd:draw()
 	
 	-- draw boxes:	
 	for k,element in pairs(boxes) do
-		-- scale box coordinates according to scale
-		local scaled = {}
-		for i = 1,#element.points do
-			scaled[i] = element.points[i] * Camera.scale
-		end
-		-- draw
-		love.graphics.setColor(44,90,160)
-		love.graphics.setLineWidth(Camera.scale*0.5)
-		love.graphics.rectangle('fill',
+		if element.timer <= 0 then
+			-- scale box coordinates according to scale
+			local scaled = {}
+			for i = 1,#element.points do
+				scaled[i] = element.points[i] * Camera.scale
+			end
+			-- draw
+			love.graphics.setColor(44,90,160)
+			love.graphics.setLineWidth(Camera.scale*0.5)
+			love.graphics.rectangle('fill',
 			element.left*Camera.scale,
 			element.top*Camera.scale,
 			element.width*Camera.scale,
 			element.height*Camera.scale)
-		love.graphics.setColor(0,0,10)
-		love.graphics.line(scaled)
-	end
-	
-	love.graphics.setFont( fontSmall )
-	local font = love.graphics.getFont()
-	local i = 0
-	for m, list in pairs( { deathList, statList }) do
-		for k, v in pairs( list ) do
-			love.graphics.setColor(110,168,213)
-			love.graphics.print(string.lower(k), - font:getWidth(string.lower(k)) + 70, - font:getHeight()*(12 -i))
-			love.graphics.setColor(255,255,255)
-			love.graphics.print(v, 75, - font:getHeight()*(12-i))
-			i = i+1
+			love.graphics.setColor(0,0,10)
+			love.graphics.line(scaled)
+
+			pics:draw( k )
 		end
 	end
 
-	pics:draw()
+	--[[love.graphics.setFont( fontSmall )
+	local font = love.graphics.getFont()
+	local i = 0
+	for k, v in pairs( statList ) do
+		love.graphics.setColor(110,168,213)
+		love.graphics.print(string.lower(k), - font:getWidth(string.lower(k)) + 70, - font:getHeight()*(12 -i))
+		love.graphics.setColor(255,255,255)
+		love.graphics.print(v, 75, - font:getHeight()*(12-i))
+		i = i+1
+	end]]--
+
 
 	love.graphics.pop()
 
@@ -85,19 +92,52 @@ function levelEnd:display( )	-- called when level is won:
 	mode = 'levelEnd'
 	love.graphics.setBackgroundColor(40,40,40)
 	boxes = {}
-	self:addBox(-30,-60,60,80)
+	--self:addBox(-30,-60,60,80)
 	
-	--deathList["fall"] = math.random(26)	--debug
-	
-	if deathList["fall"] > 0 then
-		self:addBox(-100,-20,60,40)
-		pics:new( -70, 0, "fall", deathList["fall"] )
+	statList["numberOfJumps"] = 0
+	statList["highestJump"] = 0
+	statList["farthestJump"] = 0
+	statList["timeInAir"] = 1
+	statList["death_fall"] = math.random(10)
+	statList["death_spikes"] = math.random(10)
+
+
+
+	-- create a list which holds all the values which were relevant for this
+	-- level (i.e. their values are not zero - the event happened)
+	print("Level Statistics:")
+	local relevantList = {}
+	for statType, num in pairs(statList) do
+		print("\t", statType, num)
+		if num > 0 then
+			table.insert( relevantList, {num=num, statType=statType} )
+		end
 	end
-	
-	--deathList["spikey"] = math.random(26)	--debug
-	if deathList["spikey"] > 0 then
-		self:addBox(40,-20,60,40)
-		pics:new( 70, 0, "spikes", deathList["spikey"] )
+
+	-- don't try to display more pictures than possible:
+	local numOfStats = math.min( 3, #relevantList )
+
+	-- width of the area a slot can use up:
+	local fullWidth = 300
+	local width = fullWidth/(numOfStats + 1)
+
+	if numOfStats == 0 then
+		return
+	end
+
+	local pos
+
+
+	for i = 1,numOfStats do
+		-- randomly choose a stat to display:
+		k = math.random(#relevantList)
+		pos = -fullWidth/2 + width*i
+		
+		self:addBox(pos - 30,-40,60,70, (i-1)*3)
+		pics:new( pos, 0, relevantList[k].statType, relevantList[k].num, (i-1)*2 + 1 )
+
+		-- don't display a second time:
+		table.remove( relevantList, k )
 	end
 end
 
@@ -112,13 +152,14 @@ function levelEnd:keypressed( key, unicode )
 	end
 end
 
-function levelEnd:addBox(left,top,width,height)
+function levelEnd:addBox( left,top,width,height, time)
 	local new = {}
 	new.points = {}
 	new.left = left
 	new.top = top
 	new.width = width
 	new.height = height
+	new.timer = time
 	local index = 1
 	local stepsize = 0
 	table.insert(new.points, left)

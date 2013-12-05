@@ -35,7 +35,7 @@ function Walker:postStep(dt)
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
     p.dead = true
-    levelEnd:addDeath("walker")
+    levelEnd:addDeath("death_walker")
     Meat:spawn(p.x,p.y,self.vx,self.vy,12)
   end  
 end
