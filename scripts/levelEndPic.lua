@@ -182,21 +182,21 @@ function pics:new( x, y, statType, num )
 
 		newPic.title = "highest jump:"
 		newPic.subTitle = num .. " m"
-		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.map = Map:LoadFromFile( 'end_air.dat' )
 		newPic.vis[1] = Visualizer:New( 'statHighestJump' )
 		newPic.vis[1]:init()
 		newPic.posX[1] = 0
-		newPic.posY[1] = tileSize/Camera.scale*1.4
+		newPic.posY[1] = tileSize/Camera.scale*0.4
 	elseif statType == "noDeaths" then
 
 		newPic.title = "survived"
 		newPic.map = Map:LoadFromFile( 'end.dat' )
-		newPic.vis[1] = Visualizer:New( 'statNoDeaths' .. math.random(2) )
+		newPic.vis[1] = Visualizer:New( 'statNoDeath' .. math.random(2) )
 		newPic.vis[1]:init()
 		newPic.posX[1] = 0
 		newPic.posY[1] = tileSize/Camera.scale*1.4
 	else
-		
+		newPic.title = string.lower(statType)
 		newPic.map = Map:LoadFromFile( 'end.dat' )
 	end
 
