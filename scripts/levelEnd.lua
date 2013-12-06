@@ -29,6 +29,7 @@ function levelEnd:reset()
 end
 
 function levelEnd:addDeath( deathType )
+	print("new death:", deathType )
 	statList[deathType] = statList[deathType] + 1
 end
 
@@ -36,6 +37,7 @@ function levelEnd:update( dt )
 	for k, v in pairs( boxes ) do
 		v.timer = v.timer - dt
 	end
+	pics:update( dt )
 end
 
 function levelEnd:draw()
@@ -106,7 +108,7 @@ function levelEnd:display( )	-- called when level is won:
 		end
 
 	statList["death_fall"] = math.random(10)
-	statList["death_spikes"] = math.random(10)
+	statList["death_spikey"] = math.random(10)
 
 
 

@@ -106,7 +106,7 @@ function pics:new( x, y, statType, num )
 		end
 		
 		newPic.list, newPic.listPosX, newPic.listPosY = pics:generateCountList( num )
-	elseif statType == "death_spikes" then
+	elseif statType == "death_spikey" then
 		newPic.title = "pierced"
 		local width = math.min(num*3, tileSize*2 )
 		local randomWidth = 3
@@ -155,7 +155,7 @@ function pics:new( x, y, statType, num )
 
 		newPic.title = "time in air:"
 		newPic.subTitle = num .. " s"
-		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.map = Map:LoadFromFile( 'end_air.dat' )
 		newPic.vis[1] = Visualizer:New( 'statTimeInAir' )
 		newPic.vis[1]:init()
 		newPic.posX[1] = 0
@@ -168,7 +168,16 @@ function pics:new( x, y, statType, num )
 		newPic.vis[1] = Visualizer:New( 'statHighestJump' )
 		newPic.vis[1]:init()
 		newPic.posX[1] = 0
-		newPic.posY[1] = tileSize/Camera.scale*1.4
+		newPic.posY[1] = tileSize/Camera.scale*1.3
+	elseif statType == "numberOfJumps" then
+
+		newPic.title = "jumps:"
+		newPic.list, newPic.listPosX, newPic.listPosY = pics:generateCountList( num )
+		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.vis[1] = Visualizer:New( 'statNumberOfJumps' )
+		newPic.vis[1]:init()
+		newPic.posX[1] = 0
+		newPic.posY[1] = tileSize/Camera.scale*(-1.1)
 	elseif statType == "idleTime" then
 
 		newPic.title = "idle for:"
@@ -194,15 +203,23 @@ function pics:new( x, y, statType, num )
 		newPic.vis[1] = Visualizer:New( 'statNoDeath' .. math.random(2) )
 		newPic.vis[1]:init()
 		newPic.posX[1] = 0
-		newPic.posY[1] = tileSize/Camera.scale*1.4
+		newPic.posY[1] = tileSize/Camera.scale*(-1.9)
 	else
 		newPic.title = string.lower(statType)
+		newPic.subTitle = num
 		newPic.map = Map:LoadFromFile( 'end.dat' )
 	end
 
 	picList[#picList+1] = newPic
 end
 
+function pics:update( dt )
+	for i,pic in pairs(picList) do
+		for k = 1, #pic.vis do
+			pic.vis[k]:update( dt )
+		end
+	end
+end
 function pics:draw( i )
 	local x,y
 

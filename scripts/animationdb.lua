@@ -365,4 +365,6 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('statHighestJump', 'statHighestJump', {1},{1e6})
 	AnimationDB:loadImage('statTimeInAir.png', 'statTimeInAir', tileSize*2, tileSize*2 )
 	AnimationDB:addAni('statTimeInAir', 'statTimeInAir', {1},{1e6})
+	AnimationDB:loadImage('statNumberOfJumps.png', 'statNumberOfJumps', tileSize*2, tileSize*2 )
+	AnimationDB:addAni('statNumberOfJumps', 'statNumberOfJumps', {1,2,3,4},{0.12,0.05,0.1,0.05})
 end
