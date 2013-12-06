@@ -211,10 +211,11 @@ function levelEnd:registerJumpStart( x, y )
 	statList["numberOfJumps"] = statList["numberOfJumps"] + 1
 end
 function levelEnd:registerJumpPeak( x, y )
-	print("highest point @:", x, y)
-	if levelEnd.jump then
-		if y - levelEnd.jump.y > statList["highestJump"] then
-			statList["highestJump"] = y - levelEnd.jump.y
+	if levelEnd.jump and not levelEnd.jump.reachedHighestPoint then
+		print("highest point @:", x, y)
+		levelEnd.jump.reachedHighestPoint = true
+		if levelEnd.jump.y - y > statList["highestJump"] then
+			statList["highestJump"] = levelEnd.jump.y - y
 		end
 	end
 end

@@ -393,6 +393,7 @@ function Player:collision(dt)
 			if self.vy < 0 then
 				self:setAnim(prefix..'Jump')
 			else
+				levelEnd:registerJumpPeak( self.x, self.y )
 				self:setAnim(prefix..'Fall')
 			end
 		end
