@@ -93,13 +93,21 @@ function levelEnd:display( )	-- called when level is won:
 	love.graphics.setBackgroundColor(40,40,40)
 	boxes = {}
 	--self:addBox(-30,-60,60,80)
-	
-	statList["numberOfJumps"] = 0
-	statList["highestJump"] = 0
-	statList["farthestJump"] = 0
-	statList["timeInAir"] = 1
+
+	local deaths =
+		statList["death_fall"] + 
+		statList["death_shuriken"] + statList["death_goalie"] +
+		statList["death_imitator"] + statList["death_missile"] +
+		statList["death_spikey"] + statList["death_runner"] +
+		statList["death_walker"]
+
+		if deaths == 0 then
+			statList["noDeaths"] = 1
+		end
+
 	statList["death_fall"] = math.random(10)
 	statList["death_spikes"] = math.random(10)
+
 
 
 

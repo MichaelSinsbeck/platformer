@@ -337,7 +337,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('listCount4','listCount',{4},{1e6})
 	AnimationDB:addAni('listCount5','listCount',{5},{1e6})
 	
-	-- level win ninjas:
+	-- level end statistics:
 	AnimationDB:loadImage('deaths.png','deaths',tileSize*2,tileSize*2)
 	AnimationDB:addAni('deathSpikes1','deaths',{1},{1e6})
 	AnimationDB:addAni('deathSpikes2','deaths',{2},{1e6})
@@ -355,5 +355,14 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('deathMissile2','deaths',{14},{1e6})
 	AnimationDB:addAni('deathMissile3','deaths',{15},{1e6})
 	AnimationDB:addAni('deathMissile4','deaths',{16},{1e6})
-	
+
+	AnimationDB:loadImage('statIdle.png', 'statIdle', tileSize*4, tileSize*2)
+	AnimationDB:addAni('statIdle', 'statIdle', {1},{1e6})	
+	AnimationDB:loadImage('statNoDeath.png', 'statNoDeath', tileSize*4, tileSize*4)
+	AnimationDB:addAni('statNoDeath1', 'statNoDeath', {1},{1e6})
+	AnimationDB:addAni('statNoDeath2', 'statNoDeath', {2},{1e6})
+	AnimationDB:loadImage('statHighestJump.png', 'statHighestJump', tileSize*2, tileSize*4)
+	AnimationDB:addAni('statHighestJump', 'statHighestJump', {1},{1e6})
+	AnimationDB:loadImage('statTimeInAir.png', 'statTimeInAir', tileSize*2, tileSize*2 )
+	AnimationDB:addAni('statTimeInAir', 'statTimeInAir', {1},{1e6})
 end

@@ -39,14 +39,14 @@ function pics:generateCountList( num )
 		list[lNum] = Visualizer:New( 'listCount5' )
 		list[lNum]:init()
 		listX[lNum] = listStartX + tileSize*(lNum-1)/Camera.scale
-		listY[lNum] = (-4 + math.random(10)/40)*tileSize/Camera.scale
+		listY[lNum] = (-3.5 + math.random(10)/40)*tileSize/Camera.scale
 	end
 	if rest > 0 then
 		local lNum = #list+1
 		list[lNum] = Visualizer:New( 'listCount' .. rest )
 		list[lNum]:init()
 		listX[lNum] = listStartX + tileSize*(lNum-1)/Camera.scale
-		listY[lNum] = (-4 + math.random(10)/40)*tileSize/Camera.scale -- + math.random(2)
+		listY[lNum] = (-3.5 + math.random(10)/40)*tileSize/Camera.scale -- + math.random(2)
 	end
 	
 	return list, listX, listY -- return the images and the x and y positions
@@ -54,11 +54,15 @@ end
 
 function pics:new( x, y, statType, num )
 
+	-- round down at third digit behind the decimal point:
+	num = math.floor(num*1000)/1000
+
 	local newPic = { x=x, y=y, statType = statType,
 					vis = {}, posX = {}, posY = {},
 					list = {}, listPosX = {}, listPosY = {}}
 					
 	if statType == "death_fall" then
+		newPic.title = "falls"
 		local width = math.min(num*3, tileSize*2 )
 		local randomWidth = 3
 		-- generate positions so that they overlap, but each position is unique:
@@ -103,6 +107,7 @@ function pics:new( x, y, statType, num )
 		
 		newPic.list, newPic.listPosX, newPic.listPosY = pics:generateCountList( num )
 	elseif statType == "death_spikes" then
+		newPic.title = "pierced"
 		local width = math.min(num*3, tileSize*2 )
 		local randomWidth = 3
 		-- generate positions so that they overlap, but each position is unique:
@@ -146,6 +151,50 @@ function pics:new( x, y, statType, num )
 		end
 		
 		newPic.list, newPic.listPosX, newPic.listPosY = pics:generateCountList( num )
+	elseif statType == "timeInAir" then
+
+		newPic.title = "time in air:"
+		newPic.subTitle = num .. " s"
+		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.vis[1] = Visualizer:New( 'statTimeInAir' )
+		newPic.vis[1]:init()
+		newPic.posX[1] = 0
+		newPic.posY[1] = -tileSize/Camera.scale*2
+	elseif statType == "farthestJump" then
+
+		newPic.title = "longest jump:"
+		newPic.subTitle = num .. " m"
+		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.vis[1] = Visualizer:New( 'statHighestJump' )
+		newPic.vis[1]:init()
+		newPic.posX[1] = 0
+		newPic.posY[1] = tileSize/Camera.scale*1.4
+	elseif statType == "idleTime" then
+
+		newPic.title = "idle for:"
+		newPic.subTitle = num .. " s"
+		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.vis[1] = Visualizer:New( 'statIdleTime' )
+		newPic.vis[1]:init()
+		newPic.posX[1] = 0
+		newPic.posY[1] = tileSize/Camera.scale*1.4
+	elseif statType == "highestJump" then
+
+		newPic.title = "highest jump:"
+		newPic.subTitle = num .. " m"
+		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.vis[1] = Visualizer:New( 'statHighestJump' )
+		newPic.vis[1]:init()
+		newPic.posX[1] = 0
+		newPic.posY[1] = tileSize/Camera.scale*1.4
+	elseif statType == "noDeaths" then
+
+		newPic.title = "survived"
+		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.vis[1] = Visualizer:New( 'statNoDeaths' .. math.random(2) )
+		newPic.vis[1]:init()
+		newPic.posX[1] = 0
+		newPic.posY[1] = tileSize/Camera.scale*1.4
 	else
 		
 		newPic.map = Map:LoadFromFile( 'end.dat' )
@@ -179,6 +228,18 @@ function pics:draw( i )
 			x = pic.listPosX[k]
 			y = pic.listPosY[k]
 			pic.list[k]:draw( x*Camera.scale, y*Camera.scale )
+		end
+
+		if pic.title then
+			love.graphics.print( pic.title,
+								-fontSmall:getWidth( pic.title )/2,
+								-tileSize*4.5 )
+			if pic.subTitle then
+
+				love.graphics.print( pic.subTitle,
+								-fontSmall:getWidth( pic.subTitle )/2,
+								-tileSize*3.5 )
+			end
 		end
 	--	love.graphics.print( pic.statType, 0, 0 )
 		--pic.map:drawFG()
