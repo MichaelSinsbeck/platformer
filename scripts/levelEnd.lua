@@ -26,6 +26,7 @@ function levelEnd:reset()
 	statList["longestWallHang"] = 0
 	statList["numberOfButtons"] = 0
 	statList["fastestVelocity"] = 0
+	statList["time"] = 0
 	pics:reset()
 
 	self.timer = 0
@@ -108,17 +109,19 @@ function levelEnd:display( )	-- called when level is won:
 		statList["noDeaths"] = 1
 	end
 
-	statList["death_fall"] = math.random(10)
-	statList["death_spikey"] = math.random(10)
-
-
-
+	--statList["death_fall"] = math.random(10)
+	--statList["death_spikey"] = math.random(10)
+	for k,v in pairs( statList ) do
+		statList[k] = 0
+	end
+	statList["fastestVelocity"] = 10
 
 	-- create a list which holds all the values which were relevant for this
 	-- level (i.e. their values are not zero - the event happened)
 	print("Level Statistics:")
 	local relevantList = {}
 	for statType, num in pairs(statList) do
+		print( "\t", statType, num )
 		if num > 0 then
 			table.insert( relevantList, {num=num, statType=statType} )
 		end
@@ -255,5 +258,18 @@ function levelEnd:registerVelocity( vx, vy)
 	local v2 = vx^2 + vy^2
 	if v2 > statList["fastestVelocity"]^2 then
 		statList["fastestVelocity"] = math.sqrt(v2)
+	end
+end
+
+function levelEnd:registerWallHangStart()
+	levelEnd.wallHang = {time = love.timer.getMicroTime()}
+end
+
+function levelEnd:registerWallHangEnd()
+	if levelEnd.wallHang then
+		local time = love.timer.getMicroTime() - levelEnd.wallHang.time
+		if time > statList["longestWallHang"] then
+			statList["longestWallHang"] = time
+		end
 	end
 end

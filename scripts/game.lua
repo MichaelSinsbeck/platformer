@@ -67,6 +67,7 @@ function game:update(dt)
   
   if game.won then
 	game.won = nil
+	levelEnd:registerEnd()
 	levelEnd:display()
   end
   

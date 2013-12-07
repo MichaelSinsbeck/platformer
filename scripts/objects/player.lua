@@ -271,7 +271,9 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
-        if self.status ~= 'online' then self.status = 'leftwall' end
+        if self.status ~= 'online' then
+			self.status = 'leftwall'
+		end
       end
     end
   end
@@ -440,6 +442,16 @@ function Player:collision(dt)
 	-- record statistic if landed:
 	if self.lastFrameStatus == "fly" and self.status ~= "fly" then
 		levelEnd:registerJumpEnd( self.x, self.y )
+	end
+	if (self.lastFrameStatus ~= "leftwall" and self.status == "leftwall") or
+		(self.lastFrameStatus ~= "rightwall" and self.status == "rightwall") then
+		levelEnd:registerWallHangStart()
+		print("wall start", love.timer.getTime())
+	end
+	if (self.lastFrameStatus == "leftwall" and self.status ~= "leftwall") or
+		(self.lastFrameStatus == "rightwall" and self.status ~= "rightwall") then
+		levelEnd:registerWallHangEnd()
+		print("wall end", love.timer.getTime())
 	end
 	self.lastFrameStatus = self.status
 end

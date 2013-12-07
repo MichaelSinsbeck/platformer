@@ -2,7 +2,7 @@
 local pics = {}
 local picList = {}
 local tileSize = 48 -- fallback
-local slotHeight = 2	-- height of each slot (in screen space)
+local slotHeight = 0.5	-- height of each slot (in screen space)
 
 function pics:reset()
 	picList = {}
@@ -196,6 +196,24 @@ function pics:new( x, y, statType, num )
 		newPic.vis[1]:init()
 		newPic.posX[1] = 0
 		newPic.posY[1] = tileSize/Camera.scale*0.4
+	elseif statType == "fastestVelocity" then
+
+		newPic.title = "max speed:"
+		newPic.subTitle = num .. " m/s"
+		newPic.map = Map:LoadFromFile( 'end_dirt.dat' )
+		newPic.vis[1] = Visualizer:New( 'statVelocity' )
+		newPic.vis[1]:init()
+		newPic.posX[1] = -tileSize/Camera.scale*2
+		newPic.posY[1] = -tileSize/Camera.scale*0.8
+	elseif statType == "longestWallHang" then
+
+		newPic.title = "longest wall hang"
+		newPic.subTitle = num .. " s"
+		newPic.map = Map:LoadFromFile( 'end_wall.dat' )
+		newPic.vis[1] = Visualizer:New( 'statWallHang' )
+		newPic.vis[1]:init()
+		newPic.posX[1] = tileSize/2/Camera.scale
+		newPic.posY[1] = tileSize/Camera.scale*0.4
 	elseif statType == "noDeaths" then
 
 		newPic.title = "survived"
@@ -220,6 +238,7 @@ function pics:update( dt )
 		end
 	end
 end
+
 function pics:draw( i )
 	local x,y
 

@@ -1,6 +1,5 @@
 -- main menu test
 
-
 loading = require("scripts/loading")
 config = require("scripts/config")
 settings = require("scripts/settings")

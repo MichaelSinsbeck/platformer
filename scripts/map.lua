@@ -170,73 +170,73 @@ end
 ]]--
 
 function Map:start(p)
-
+	
 	game.deathtimer = 0
 	shaders:resetDeathEffect()
 	game.restartingLevel = false
 	
-  -- reset collision table
+	-- reset collision table
 	self.collision = utility.copy(self.collisionSrc,true)
 
 	-- empty spriteEngine and add player
-  spriteEngine:empty()
-  spriteEngine:insert(p)
-  if p.originalSemiwidth and p.originalSemiheight then
+	spriteEngine:empty()
+	spriteEngine:insert(p)
+	if p.originalSemiwidth and p.originalSemiheight then
 		p:resize(p.originalSemiwidth, p.originalSemiheight)
 	end
-  p.x = self.xStart+0.5
-  p.y = self.yStart+1-p.semiheight
-  p.newX = p.x
-  p.newY = p.y
-  p.vx = 0
-  p.vy = 0
-  p.bandana = 'white'
-  p.alpha = 255
-  p.status = 'stand'
-  p:setAnim(1,'whiteStand')
-  p:flip(false)
-  p.anchor = nil
-  p.hookAngle = nil
-  p:update(0)
-  p.dead = nil
-  --mode = 'intro'
-  timer = 0
-  Camera:jumpTo(p.x,p.y)
-  
-  for i = 1,#self.factoryList do
-    local constructor = self.factoryList[i].constructor
-    local nx = self.factoryList[i].x +0.5
-    local ny = self.factoryList[i].y +1 - constructor.semiheight
-    if constructor.layout == "top" then
+	p.x = self.xStart+0.5
+	p.y = self.yStart+1-p.semiheight
+	p.newX = p.x
+	p.newY = p.y
+	p.vx = 0
+	p.vy = 0
+	p.bandana = 'white'
+	p.alpha = 255
+	p.status = 'stand'
+	p:setAnim(1,'whiteStand')
+	p:flip(false)
+	p.anchor = nil
+	p.hookAngle = nil
+	p:update(0)
+	p.dead = nil
+	--mode = 'intro'
+	timer = 0
+	Camera:jumpTo(p.x,p.y)
+
+	for i = 1,#self.factoryList do
+		local constructor = self.factoryList[i].constructor
+		local nx = self.factoryList[i].x +0.5
+		local ny = self.factoryList[i].y +1 - constructor.semiheight
+		if constructor.layout == "top" then
 			ny = self.factoryList[i].y + constructor.semiheight
-    elseif constructor.layout == "left" then
+		elseif constructor.layout == "left" then
 			nx = self.factoryList[i].x + constructor.semiwidth
 			ny = self.factoryList[i].y + 0.5
-    elseif constructor.layout == "right" then
+		elseif constructor.layout == "right" then
 			nx = self.factoryList[i].x + 1 - constructor.semiwidth
 			ny = self.factoryList[i].y + 0.5
-    elseif constructor.layout == "center" then
+		elseif constructor.layout == "center" then
 			ny = self.factoryList[i].y + 0.5
-    end
-    local newObject = constructor:New({x = nx, y = ny})
-    newObject:update(0)
-    spriteEngine:insert(newObject)
-  end
-  for i = 1,#self.lineList do
-    local newObject = Line:New({
+		end
+		local newObject = constructor:New({x = nx, y = ny})
+		newObject:update(0)
+		spriteEngine:insert(newObject)
+	end
+	for i = 1,#self.lineList do
+		local newObject = Line:New({
 			x = self.lineList[i].x,
 			y = self.lineList[i].y,
 			x2 = self.lineList[i].x2,
 			y2 = self.lineList[i].y2,
-			})
+		})
 		spriteEngine:insert(newObject)
-  end
-  
+	end
+
 	if USE_SHADOWS then
 		local list = {}
 		spriteEngine:DoAll('collectLights',list)
 		self:initShadows()
-		
+
 		if #list > 0 then
 
 			for k, v in pairs(list) do
@@ -245,15 +245,15 @@ function Map:start(p)
 
 			--[[print("Map")
 			for j = 1, self.height do
-				local str = ""
-				for i = 1, self.width do
-					if self.collision[i] and self.collision[i][j] then
-						str = str .. self.collision[i][j] .. " "
-					else
-						str = str .. "- "
-					end
-				end
-				print(str)
+			local str = ""
+			for i = 1, self.width do
+			if self.collision[i] and self.collision[i][j] then
+			str = str .. self.collision[i][j] .. " "
+			else
+			str = str .. "- "
+			end
+			end
+			print(str)
 			end]]--
 			-- go through all lights in the map and add shadows for them:
 
@@ -261,24 +261,26 @@ function Map:start(p)
 			-- add a light in the top left corner if no light was found:
 			--local addedLight = false
 			--[[if #list == 0 then
-				for l = 2,math.max(self.height, self.width) do
-					for i = 1,math.min(l, self.height) do
-						print(i, self.collision[i])
-						for j = 1,math.min(l, self.width) do
-							if not self.collision[i] or self.collision[i][j] ~= 1 then
-								self:addLight(i,j)		-- add light in top left corner
-								addedLight = true
-								break
-							end
-						end
-						if addedLight then break end
-					end
-					if addedLight then break end
-				end
+			for l = 2,math.max(self.height, self.width) do
+			for i = 1,math.min(l, self.height) do
+			print(i, self.collision[i])
+			for j = 1,math.min(l, self.width) do
+			if not self.collision[i] or self.collision[i][j] ~= 1 then
+			self:addLight(i,j)		-- add light in top left corner
+			addedLight = true
+			break
+			end
+			end
+			if addedLight then break end
+			end
+			if addedLight then break end
+			end
 			end
 			]]--
 		end
 	end --end if USE_SHADOWS
+	
+	levelEnd:registerStart()
 
 end
 
