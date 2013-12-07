@@ -1,4 +1,3 @@
-
 -- pictures for level end display:
 local pics = require("scripts/levelEndPic")
 
@@ -8,6 +7,7 @@ local statList = {}
 local boxes = {}
 local statBoxes = {}
 
+local STAT_TIME = 3
 
 function levelEnd:reset()
 	statList["death_fall"] = 0
@@ -26,6 +26,8 @@ function levelEnd:reset()
 	statList["longestWallHang"] = 0
 	statList["numberOfButtons"] = 0
 	pics:reset()
+
+	self.timer = 0
 end
 
 function levelEnd:addDeath( deathType )
@@ -34,9 +36,7 @@ function levelEnd:addDeath( deathType )
 end
 
 function levelEnd:update( dt )
-	for k, v in pairs( boxes ) do
-		v.timer = v.timer - dt
-	end
+	self.timer = self.timer + dt
 	pics:update( dt )
 end
 
@@ -52,7 +52,7 @@ function levelEnd:draw()
 	
 	-- draw boxes:	
 	for k,element in pairs(boxes) do
-		if element.timer <= 0 then
+		if element.timer <= self.timer then
 			-- scale box coordinates according to scale
 			local scaled = {}
 			for i = 1,#element.points do
@@ -103,9 +103,9 @@ function levelEnd:display( )	-- called when level is won:
 		statList["death_spikey"] + statList["death_runner"] +
 		statList["death_walker"]
 
-		if deaths == 0 then
-			statList["noDeaths"] = 1
-		end
+	if deaths == 0 then
+		statList["noDeaths"] = 1
+	end
 
 	statList["death_fall"] = math.random(10)
 	statList["death_spikey"] = math.random(10)
@@ -118,32 +118,31 @@ function levelEnd:display( )	-- called when level is won:
 	print("Level Statistics:")
 	local relevantList = {}
 	for statType, num in pairs(statList) do
-		print("\t", statType, num)
 		if num > 0 then
 			table.insert( relevantList, {num=num, statType=statType} )
 		end
 	end
 
 	-- don't try to display more pictures than possible:
-	local numOfStats = math.min( 3, #relevantList )
+	self.numOfStats = math.min( 3, #relevantList )
 
 	-- width of the area a slot can use up:
 	local fullWidth = 300
-	local width = fullWidth/(numOfStats + 1)
+	local width = fullWidth/(self.numOfStats + 1)
 
-	if numOfStats == 0 then
+	if self.numOfStats == 0 then
 		return
 	end
 
 	local pos
 
 
-	for i = 1,numOfStats do
+	for i = 1,self.numOfStats do
 		-- randomly choose a stat to display:
 		k = math.random(#relevantList)
 		pos = -fullWidth/2 + width*i
 		
-		self:addBox(pos - 30,-40,60,70, (i-1)*3)
+		self:addBox(pos - 30,-40,60,70, (i-1)*STAT_TIME)
 		pics:new( pos, 0, relevantList[k].statType, relevantList[k].num, (i-1)*2 + 1 )
 
 		-- don't display a second time:
@@ -158,7 +157,13 @@ function levelEnd:keypressed( key, unicode )
 		menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
 		
 	else
-	  menu.startTransition(function () Campaign:proceed() end)()
+		-- if you're not displaying all stats yet,then display them now
+		-- otherwise, proceed to next level.
+		if self.timer < self.numOfStats*STAT_TIME then
+			self.timer = self.timer + self.numOfStats*STAT_TIME
+		else
+			menu.startTransition(function () Campaign:proceed() end)()
+		end
 	end
 end
 
@@ -235,4 +240,12 @@ end
 
 function levelEnd:registerButtonPress()
 	statList["numberOfButtons"] = statList["numberOfButtons"] + 1
+end
+
+function levelEnd:registerStart()
+	statList["time"] = love.timer.getMicroTime()
+end
+
+function levelEnd:registerEnd()
+	statList["time"] = love.timer.getMicroTime() - statList["time"]
 end
