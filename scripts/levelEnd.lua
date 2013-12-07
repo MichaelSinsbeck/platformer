@@ -25,6 +25,7 @@ function levelEnd:reset()
 	statList["numberOfJumps"] = 0
 	statList["longestWallHang"] = 0
 	statList["numberOfButtons"] = 0
+	statList["fastestVelocity"] = 0
 	pics:reset()
 end
 
@@ -235,4 +236,11 @@ end
 
 function levelEnd:registerButtonPress()
 	statList["numberOfButtons"] = statList["numberOfButtons"] + 1
+end
+
+function levelEnd:registerVelocity( vx, vy)
+	local v2 = vx^2 + vy^2
+	if v2 > statList["fastestVelocity"]^2 then
+		statList["fastestVelocity"] = math.sqrt(v2)
+	end
 end
