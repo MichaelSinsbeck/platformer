@@ -445,6 +445,8 @@ function Player:collision(dt)
 end
 
 function Player:postStep(dt)
+	levelEnd:registerVelocity( self.vx, self.vy)
+
 	if self.flipped then
 		self.vis[1].sx = -1
 	else
