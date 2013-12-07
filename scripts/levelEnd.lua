@@ -114,7 +114,7 @@ function levelEnd:display( )	-- called when level is won:
 --	for k,v in pairs( statList ) do
 --		statList[k] = 0
 --	end
-	statList["fastestVelocity"] = 10
+--	statList["fastestVelocity"] = 10
 
 	-- create a list which holds all the values which were relevant for this
 	-- level (i.e. their values are not zero - the event happened)
@@ -163,7 +163,7 @@ function levelEnd:keypressed( key, unicode )
 	else
 		-- if you're not displaying all stats yet,then display them now
 		-- otherwise, proceed to next level.
-		if self.timer < self.numOfStats*STAT_TIME then
+		if self.timer < (self.numOfStats -1)*STAT_TIME then
 			self.timer = self.timer + self.numOfStats*STAT_TIME
 		else
 			menu.startTransition(function () Campaign:proceed() end)()
