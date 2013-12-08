@@ -354,6 +354,14 @@ function Player:collision(dt)
   end
   
   self.newX = math.min(math.max(self.newX,1+self.semiwidth),myMap.width+1-self.semiwidth)
+	
+	-- correct rope length if shortening did not work (avoid unwanted snapping effects)
+	if self.anchor and game.isUp then
+		self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
+	end
+end
+
+function Player:postStep(dt)
   
   -- Set animation
   -- Flip character left/right, if left or right is pressed
@@ -432,11 +440,9 @@ function Player:collision(dt)
 	elseif self.status == 'hooked' then
 		self:setAnim(prefix..'Hooked')
 	end
-	
-	-- correct rope length if shortening did not work (avoid unwanted snapping effects)
-	if self.anchor and game.isUp then
-		self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
-	end
+
+
+	levelEnd:registerVelocity( self.vx, self.vy)
 
 	if self.status ~= self.lastStatus then
 		print(self.status)
@@ -456,10 +462,6 @@ function Player:collision(dt)
 		print("wall end", love.timer.getTime())
 	end
 	self.lastStatus = self.status
-end
-
-function Player:postStep(dt)
-	levelEnd:registerVelocity( self.vx, self.vy)
 
 	if self.flipped then
 		self.vis[1].sx = -1
