@@ -18,6 +18,7 @@ function levelEnd:reset()
 	statList["death_spikey"] = 0
 	statList["death_runner"] = 0
 	statList["death_walker"] = 0
+
 	statList["highestJump"] = 0
 	statList["farthestJump"] = 0 
 	statList["timeInAir"] = 0
@@ -27,14 +28,33 @@ function levelEnd:reset()
 	statList["numberOfButtons"] = 0
 	statList["fastestVelocity"] = 0
 	statList["time"] = 0
+	self.jump = nil
+	self.wallHang = nil
 	pics:reset()
-
 	self.timer = 0
+end
+
+-- If a death occurred, then don't reset the deaths!
+-- Only reset the other values:
+function levelEnd:levelRestart()
+	statList["highestJump"] = 0
+	statList["farthestJump"] = 0 
+	statList["timeInAir"] = 0
+	statList["idleTime"] = 0
+	statList["numberOfJumps"] = 0
+	statList["longestWallHang"] = 0
+	statList["numberOfButtons"] = 0
+	statList["fastestVelocity"] = 0
+	statList["time"] = 0
+	self.jump = nil
+	self.wallHang = nil
 end
 
 function levelEnd:addDeath( deathType )
 	print("new death:", deathType )
 	statList[deathType] = statList[deathType] + 1
+
+	levelEnd:levelRestart()	 -- reset other stats, but not the deaths.
 end
 
 function levelEnd:update( dt )
@@ -217,7 +237,7 @@ function levelEnd:addBox( left,top,width,height, time)
 end
 
 function levelEnd:registerJumpStart( x, y )
-	print("jump from:", x, y)
+	print("jump from:", x, y, love.timer.getTime())
 	levelEnd.jump = {x=x, y=y, time=love.timer.getTime()}
 	statList["numberOfJumps"] = statList["numberOfJumps"] + 1
 end
@@ -231,7 +251,7 @@ function levelEnd:registerJumpPeak( x, y )
 	end
 end
 function levelEnd:registerJumpEnd( x, y )
-	print("landed @:", x, y)
+	print("landed @:", x, y, love.timer.getTime())
 	if levelEnd.jump then
 		if math.abs(levelEnd.jump.x - x) > statList["farthestJump"] then
 			statList["farthestJump"] = math.abs(levelEnd.jump.x - x)
@@ -251,6 +271,10 @@ function levelEnd:registerStart()
 end
 
 function levelEnd:registerEnd()
+	if p then
+		self:registerJumpEnd( p.x, p.y )
+	end
+
 	statList["time"] = love.timer.getMicroTime() - statList["time"]
 end
 
@@ -262,7 +286,7 @@ function levelEnd:registerVelocity( vx, vy)
 end
 
 function levelEnd:registerWallHangStart()
-	levelEnd.wallHang = {time = love.timer.getMicroTime()}
+	self.wallHang = {time = love.timer.getMicroTime()}
 end
 
 function levelEnd:registerWallHangEnd()
