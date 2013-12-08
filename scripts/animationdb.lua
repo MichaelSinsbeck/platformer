@@ -372,4 +372,6 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('statWallHang', 'statWallHang', {1},{1e6})
 	AnimationDB:loadImage('statVelocity.png', 'statVelocity', tileSize*2, tileSize*4 )
 	AnimationDB:addAni('statVelocity','statVelocity',{1,2,3,4},{.06,.03,.06,.03})
+	AnimationDB:loadImage('statTime.png', 'statTime', tileSize*4, tileSize*2 )
+	AnimationDB:addAni('statTime','statTime',{1,2,3,4},{.08,.08,.08,.08} )
 end

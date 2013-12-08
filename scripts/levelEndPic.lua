@@ -215,6 +215,14 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = newPic.tileSize*(-1.8)
+	elseif statType == "time" then
+		newPic.title = "level time"
+		newPic.subTitle = num .. " s"
+		newPic.map = Map:LoadFromFile( 'end_air.dat' )
+		newPic.visBG[1] = Visualizer:New( 'statTime' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = newPic.tileSize*( 0.6 )
 	else
 		newPic.title = string.lower(statType)
 		newPic.subTitle = num
