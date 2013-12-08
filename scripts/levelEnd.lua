@@ -60,7 +60,9 @@ end
 function levelEnd:update( dt )
 	self.timer = self.timer + dt
 	for k, p in pairs( picList ) do
-		p:update( dt )
+		if boxes[k].timer <= self.timer then
+			p:update( dt )
+		end
 	end
 end
 
@@ -127,6 +129,7 @@ function levelEnd:display( )	-- called when level is won:
 		statList["death_imitator"] + statList["death_missile"] +
 		statList["death_spikey"] + statList["death_runner"] +
 		statList["death_walker"]
+		print(deaths, "deaths")
 
 	if deaths == 0 then
 		statList["noDeaths"] = 1
