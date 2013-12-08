@@ -1,11 +1,12 @@
 -- pictures for level end display:
-local pics = require("scripts/levelEndPic")
+require("scripts/levelEndPic")
 
 levelEnd = {}
 
 local statList = {}
 local boxes = {}
 local statBoxes = {}
+local picList = {}
 
 local STAT_TIME = 3
 
@@ -30,7 +31,6 @@ function levelEnd:reset()
 	statList["time"] = 0
 	self.jump = nil
 	self.wallHang = nil
-	pics:reset()
 	self.timer = 0
 end
 
@@ -59,7 +59,9 @@ end
 
 function levelEnd:update( dt )
 	self.timer = self.timer + dt
-	pics:update( dt )
+	for k, p in pairs( picList ) do
+		p:update( dt )
+	end
 end
 
 function levelEnd:draw()
@@ -91,7 +93,7 @@ function levelEnd:draw()
 			love.graphics.setColor(0,0,10)
 			love.graphics.line(scaled)
 
-			pics:draw( k )
+			picList[k]:draw()
 		end
 	end
 
@@ -116,6 +118,7 @@ function levelEnd:display( )	-- called when level is won:
 	mode = 'levelEnd'
 	love.graphics.setBackgroundColor(40,40,40)
 	boxes = {}
+	picList = {}
 	--self:addBox(-30,-60,60,80)
 
 	local deaths =
@@ -167,7 +170,8 @@ function levelEnd:display( )	-- called when level is won:
 		pos = -fullWidth/2 + width*i
 		
 		self:addBox(pos - 30,-40,60,70, (i-1)*STAT_TIME)
-		pics:new( pos, 0, relevantList[k].statType, relevantList[k].num, (i-1)*2 + 1 )
+		picList[#picList + 1] = 
+			Pic:new( pos, 0, relevantList[k].statType, relevantList[k].num, (i-1)*2 + 1 )
 
 		-- don't display a second time:
 		table.remove( relevantList, k )

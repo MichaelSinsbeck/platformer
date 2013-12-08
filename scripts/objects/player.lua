@@ -438,22 +438,24 @@ function Player:collision(dt)
 		self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
 	end
 
-
+	if self.status ~= self.lastStatus then
+		print(self.status)
+	end
 	-- record statistic if landed:
-	if self.lastFrameStatus == "fly" and self.status ~= "fly" then
+	if self.lastStatus == "fly" and self.status ~= "fly" then
 		levelEnd:registerJumpEnd( self.x, self.y )
 	end
-	if (self.lastFrameStatus ~= "leftwall" and self.status == "leftwall") or
-		(self.lastFrameStatus ~= "rightwall" and self.status == "rightwall") then
+	if (self.lastStatus ~= "leftwall" and self.status == "leftwall") or
+		(self.lastStatus ~= "rightwall" and self.status == "rightwall") then
 		levelEnd:registerWallHangStart()
 		print("wall start", love.timer.getTime())
 	end
-	if (self.lastFrameStatus == "leftwall" and self.status ~= "leftwall") or
-		(self.lastFrameStatus == "rightwall" and self.status ~= "rightwall") then
+	if (self.lastStatus == "leftwall" and self.status ~= "leftwall") or
+		(self.lastStatus == "rightwall" and self.status ~= "rightwall") then
 		levelEnd:registerWallHangEnd()
 		print("wall end", love.timer.getTime())
 	end
-	self.lastFrameStatus = self.status
+	self.lastStatus = self.status
 end
 
 function Player:postStep(dt)
