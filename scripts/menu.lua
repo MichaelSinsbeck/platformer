@@ -210,14 +210,13 @@ function menu.initWorldMap()
 
 	-- find out the last level that was beaten:
 	local currentLevel = config.getValue("level")
-	local lastLevel = config.getValue("lastLevel")
+	local lastLevel = config.getValue("lastLevel") or Campaign[1]
 	local currentLevelFound = false
 	local lastLevelFound = false
 	local prevX, prevY
 	local firstButton
 	--local dir = "right"
-
-
+	
 	local size = 5
 	
 	local actionHover
