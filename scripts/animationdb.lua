@@ -356,7 +356,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('deathMissile3','deaths',{15},{1e6})
 	AnimationDB:addAni('deathMissile4','deaths',{16},{1e6})
 
-	AnimationDB:loadImage('statIdle.png', 'statIdle', tileSize*2, tileSize*4)
+	AnimationDB:loadImage('statIdle.png', 'statIdle', tileSize*2, tileSize*3 )
 	AnimationDB:addAni('statIdle', 'statIdle', {1},{1e6})	
 	AnimationDB:loadImage('statNoDeath1.png', 'statNoDeath1', tileSize*3, tileSize*3)
 	AnimationDB:addAni('statNoDeath1', 'statNoDeath1', {1},{1e6})

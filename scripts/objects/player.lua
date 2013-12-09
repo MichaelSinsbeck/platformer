@@ -39,6 +39,9 @@ Player = object:New({
   canUnJump = false,
   nKeys = 0,
   hookAngle = -math.pi/4,
+
+  prevAnim = "",	-- used for level statistics
+
   vis = {
 		Visualizer:New('whiteStand'),
 		Visualizer:New('targetline',{active = false})
@@ -51,12 +54,10 @@ function Player:jump()
     self.status = 'fly'
     self.vy = self.jumpSpeed
     self.canUnJump = true
-	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'fly' and self.jumpsLeft > 0 then
     self.vy = self.jumpSpeed
     self.jumpsLeft = self.jumpsLeft - 1
     self.canUnJump = true
-	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'leftwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -68,7 +69,6 @@ function Player:jump()
 				self:flip(false)
 			end
     self.status = 'fly'
-	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -80,13 +80,11 @@ function Player:jump()
 				self:flip(true)
 			end
     self.status = 'fly'
-	levelEnd:registerJumpStart( self.x, self.y )
   elseif self.status == 'online' then
 		self.status = 'fly'
 		self.vy = self.jumpSpeed
 		self.line = nil
 		self.canUnJump = true
-	levelEnd:registerJumpStart( self.x, self.y )
   end
 end
 
@@ -403,7 +401,6 @@ function Player:postStep(dt)
 			if self.vy < 0 then
 				self:setAnim(prefix..'Jump')
 			else
-				levelEnd:registerJumpPeak( self.x, self.y )
 				self:setAnim(prefix..'Fall')
 			end
 		end
@@ -441,27 +438,40 @@ function Player:postStep(dt)
 		self:setAnim(prefix..'Hooked')
 	end
 
-
+	-- Check for changes in statistics and record them
+	-- for level-end-screen:
 	levelEnd:registerVelocity( self.vx, self.vy)
 
-	if self.status ~= self.lastStatus then
-		print(self.status)
+	-- Get the name of the currently playing animation
+	-- without the colour in the front. The string we're
+	-- looking for always starts with an upper case letter,
+	-- for example: "Stand" from "whiteStand"
+	local animation = self:getAnim():match("%u.*")
+	-- if this string has changed, then act on the change:
+	if animation ~= self.prevAnim then
+		print(animation, dt)
+		-- record statistic if landed:
+		if animation == "Jump" then
+			levelEnd:registerJumpStart( self.x, self.y )
+		elseif self.prevAnim == "Jump" then
+			levelEnd:registerJumpPeak( self.x, self.y )
+		end
+		if self.prevAnim == "Fall" then
+			levelEnd:registerJumpEnd( self.x, self.y )
+		end
+		if animation == "Wall" then
+			levelEnd:registerWallHangStart()
+		elseif self.prevAnim == "Wall" then
+			levelEnd:registerWallHangEnd()
+		end
+		self.prevAnim = animation
 	end
-	-- record statistic if landed:
-	if self.lastStatus == "fly" and self.status ~= "fly" then
-		levelEnd:registerJumpEnd( self.x, self.y )
+	if animation == "Stand" then
+		levelEnd:registerIdle( dt )
 	end
-	if (self.lastStatus ~= "leftwall" and self.status == "leftwall") or
-		(self.lastStatus ~= "rightwall" and self.status == "rightwall") then
-		levelEnd:registerWallHangStart()
-		print("wall start", love.timer.getTime())
+	if animation == "Run" or animation == "Walk" then
+		levelEnd:registerWalkedDist( dt*math.abs(self.vx) )
 	end
-	if (self.lastStatus == "leftwall" and self.status ~= "leftwall") or
-		(self.lastStatus == "rightwall" and self.status ~= "rightwall") then
-		levelEnd:registerWallHangEnd()
-		print("wall end", love.timer.getTime())
-	end
-	self.lastStatus = self.status
 
 	if self.flipped then
 		self.vis[1].sx = -1

@@ -174,14 +174,6 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = newPic.tileSize*(-1.1)
-	elseif statType == "idleTime" then
-		newPic.title = "idle for:"
-		newPic.subTitle = num .. " s"
-		newPic.map = Map:LoadFromFile( 'end.dat' )
-		newPic.visBG[1] = Visualizer:New( 'statIdleTime' )
-		newPic.visBG[1]:init()
-		newPic.visBG[1].posY = 0
-		newPic.visBG[1].posY = newPic.tileSize*1.4
 	elseif statType == "highestJump" then
 		newPic.title = "highest jump:"
 		newPic.subTitle = num .. " m"
@@ -198,6 +190,14 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = -newPic.tileSize*2
 		newPic.visBG[1].posY = -newPic.tileSize*0.8
+	elseif statType == "distWalked" then
+		newPic.title = "walked:"
+		newPic.subTitle = num .. " m" 
+		newPic.map = Map:LoadFromFile( 'end_dirt.dat' )
+		newPic.visBG[1] = Visualizer:New( 'statVelocity' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = -newPic.tileSize*2
+		newPic.visBG[1].posY = -newPic.tileSize*0.8
 	elseif statType == "longestWallHang" then
 
 		newPic.title = "longest wall hang"
@@ -207,6 +207,15 @@ function Pic:new( x, y, statType, num )
 		newPic.visFG[1]:init()
 		newPic.visFG[1].posX = newPic.tileSize/2
 		newPic.visFG[1].posY = newPic.tileSize*0.4
+	elseif statType == "idleTime" then
+
+		newPic.title = "idle for:"
+		newPic.subTitle = num .. " s"
+		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.visBG[1] = Visualizer:New( 'statIdle' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = newPic.tileSize*(-1.2)
 	elseif statType == "noDeaths" then
 
 		newPic.title = "survived"

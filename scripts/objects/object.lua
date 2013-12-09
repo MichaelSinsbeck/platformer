@@ -182,6 +182,12 @@ function object:setAnim(name,continue,vis) -- Go to specified animation and rese
 	end
 end
 
+function object:getAnim( )
+	if self.vis and self.vis[1] then
+		return self.vis[1].animation
+	end
+end
+
 function object:resetAnimation(vis)
 	if vis then
 		self.vis[vis]:reset()

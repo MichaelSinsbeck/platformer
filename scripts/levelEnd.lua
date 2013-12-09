@@ -20,17 +20,10 @@ function levelEnd:reset()
 	statList["death_runner"] = 0
 	statList["death_walker"] = 0
 
-	statList["highestJump"] = 0
-	statList["farthestJump"] = 0 
-	statList["timeInAir"] = 0
-	statList["idleTime"] = 0
-	statList["numberOfJumps"] = 0
-	statList["longestWallHang"] = 0
-	statList["numberOfButtons"] = 0
-	statList["fastestVelocity"] = 0
-	statList["time"] = 0
-	self.jump = nil
-	self.wallHang = nil
+	statList["noDeaths"] = 0
+
+	self:levelRestart()
+	
 	self.timer = 0
 end
 
@@ -46,6 +39,7 @@ function levelEnd:levelRestart()
 	statList["numberOfButtons"] = 0
 	statList["fastestVelocity"] = 0
 	statList["time"] = 0
+	statList["distWalked"] = 0
 	self.jump = nil
 	self.wallHang = nil
 end
@@ -134,6 +128,7 @@ function levelEnd:display( )	-- called when level is won:
 	if deaths == 0 then
 		statList["noDeaths"] = 1
 	end
+
 
 	--statList["death_fall"] = math.random(10)
 	--statList["death_spikey"] = math.random(10)
@@ -244,13 +239,11 @@ function levelEnd:addBox( left,top,width,height, time)
 end
 
 function levelEnd:registerJumpStart( x, y )
-	print("jump from:", x, y, love.timer.getTime())
 	levelEnd.jump = {x=x, y=y, time=love.timer.getTime()}
 	statList["numberOfJumps"] = statList["numberOfJumps"] + 1
 end
 function levelEnd:registerJumpPeak( x, y )
 	if levelEnd.jump and not levelEnd.jump.reachedHighestPoint then
-		print("highest point @:", x, y)
 		levelEnd.jump.reachedHighestPoint = true
 		if levelEnd.jump.y - y > statList["highestJump"] then
 			statList["highestJump"] = levelEnd.jump.y - y
@@ -258,7 +251,6 @@ function levelEnd:registerJumpPeak( x, y )
 	end
 end
 function levelEnd:registerJumpEnd( x, y )
-	print("landed @:", x, y, love.timer.getTime())
 	if levelEnd.jump then
 		if math.abs(levelEnd.jump.x - x) > statList["farthestJump"] then
 			statList["farthestJump"] = math.abs(levelEnd.jump.x - x)
@@ -303,4 +295,12 @@ function levelEnd:registerWallHangEnd()
 			statList["longestWallHang"] = time
 		end
 	end
+end
+
+function levelEnd:registerIdle( dt )
+	statList["idleTime"] = statList["idleTime"] + dt
+end
+
+function levelEnd:registerWalkedDist( dist )
+	statList["distWalked"] = statList["distWalked"] + dist
 end
