@@ -268,6 +268,7 @@ function Pic:draw()
 	end
 
 	if self.title then
+		love.graphics.setFont(fontSmall)
 		love.graphics.print( self.title,
 		-fontSmall:getWidth( self.title )/2,
 		-self.tileSize*4.5 )
