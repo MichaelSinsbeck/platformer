@@ -449,7 +449,6 @@ function Player:postStep(dt)
 	local animation = self:getAnim():match("%u.*")
 	-- if this string has changed, then act on the change:
 	if animation ~= self.prevAnim then
-		print(animation, dt)
 		-- record statistic if landed:
 		if animation == "Jump" then
 			levelEnd:registerJumpStart( self.x, self.y )

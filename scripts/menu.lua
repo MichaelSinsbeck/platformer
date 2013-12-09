@@ -91,7 +91,11 @@ function menu:init()
 	self.images.gamepadBack_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadBack.png")
 	
 	self.images.keyNone_IMG = love.graphics.newImage("images/menu/"..prefix.."keyNone.png")
-	
+
+	self.images.restartOff_IMG = love.graphics.newImage("images/menu/"..prefix.."restartOff.png")
+	self.images.restartOn_IMG = love.graphics.newImage("images/menu/"..prefix.."restartOn.png")
+	self.images.paused_IMG = love.graphics.newImage("images/menu/"..prefix.."paused.png")
+
 	menu:loadTransitionImages()
 	menu.curLevelName = nil
 
@@ -803,6 +807,8 @@ function menu:keypressed( key, unicode )
 					menu.startTransition(menu.initMain, false)()
 				elseif menu.state == "keyboard" or menu.state == "gamepad" then
 					keys:exitSubMenu()
+				elseif menu.state == "pause" then
+					menu.startTransition(menu.endPauseMenu, false)()
 				end
 			end
 		end
@@ -979,7 +985,7 @@ function menu:draw()
 	
 	if menu.state == "main" or menu.state == "worldMap" or
 		menu.state == "settings" or menu.state == "keyboard" 
-		or menu.state == "gamepad" then
+		or menu.state == "gamepad" or menu.state == "pause" then
 		--menuPlayer:draw()
 		menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
 	end
@@ -1027,6 +1033,65 @@ function menu:draw()
 
 end
 
+
+
+-----------------------------------------------------------
+-- Pause Menu:
+-----------------------------------------------------------
+
+
+function menu.initPauseMenu()
+	menu.xCamera = 0
+	menu.yCamera = 0
+	menu.xTarget = 0
+	menu.yTarget = 0
+
+	menu:clear()	-- remove anything that was previously on the menu
+	menu.state = "pause"
+
+	love.graphics.setBackgroundColor(40,40,40)
+
+	local x,y
+	x = -2
+	y = 0
+	
+	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
+	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "continue", menu.startTransition(menu.endPauseMenu, false), actionHover )
+	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
+	y = y + 10
+	
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
+	local restartEvent = function()
+		levelEnd:reset()
+		myMap:start(p)
+		mode = "game" 
+	end
+	menu:addButton( x, y, 'restartOff_IMG', 'restartOn_IMG', "restart map", menu.startTransition(restartEvent, false), actionHover )
+	y = y + 10
+	
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
+	menu:addButton( x, y, 'exitOff_IMG', 'exitOn_IMG', "leave", menu.startTransition(menu.initWorldMap, true), actionHover )
+
+	
+	-- add main logo:
+	x = - 45
+	y = - 78
+	table.insert(menuImages, {typ="img", img='paused_IMG', x=x, y=y})
+	
+	menu:addBox(-20,-4,40,40)
+
+	-- start of with the start button selected:
+	selectButton(startButton)
+	
+	menuPlayer.vis:setAni("whiteWalk")
+	menuPlayer.vis.sx = 1
+
+	menu.curLevelName = nil	-- don't display level name when entering menu
+end
+
+function menu.endPauseMenu()
+	mode = 'game'
+end
 ---------------------------------------------------------
 -- Starts full screen menu transition:
 ---------------------------------------------------------
