@@ -379,7 +379,7 @@ function menu:newLevelName( txt )
 	local level = Campaign.current
 	local world = math.ceil(level/15)
 	local innerlvl = (level-1) % 15 + 1
-	menu.curLevelName = world .. '.' .. innerlvl .. ' ' .. txt
+	menu.curLevelName = world .. ' - ' .. innerlvl .. ' : ' .. txt
 	menu.levelNameTime = 0
 	menu.levelNameWidth = fontLarge:getWidth(menu.curLevelName)
 	menu.levelNameBox = menu:generateBox(0.5*(Camera.width-menu.levelNameWidth)-2*Camera.scale,0,menu.levelNameWidth+4*Camera.scale,fontLarge:getHeight()*1.1)
