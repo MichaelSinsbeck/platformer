@@ -148,7 +148,7 @@ function convert(filetrunc)
 	end
 
 	for x, y, tile in map("fg"):iterate() do
-		fg[y+1][x+1] = tile.id
+		fg[y+1][x+1] = tile.id - numWorldTiles - numObjectTiles - numBackgroundTiles
 	end
 
 	for x, y, tile in map("objects"):iterate() do
@@ -254,29 +254,24 @@ function convert(filetrunc)
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,
-		3,3,3,3,0,0,0,0,
-		3,3,3,3,0,0,0,0,
-		3,3,3,3,0,0,0,0,
-		3,3,3,3,0,0,0,0,
+		3,3,3,3,3,3,3,3,
+		3,3,3,3,3,3,3,3,
+		3,3,3,3,3,3,3,3,
+		3,3,3,3,3,3,3,3,
 	}
 	fgToCollision[0] = 0
 
-	for y = 1,map.height do
-			for x = 1,map.width do
-			--print(x,y, wall[y][x], fg[y][x], obj[y][x], bg[y][x])
-			--print(x, y)
-			--print(wall[y][x])
-			--print(fg[y][x])
-			--print(obj[y][x])
-			--print(bg[y][x])
+	for y = 1,map.height do -- fill collision matrix
+		for x = 1,map.width do
 			local entry = math.max(
 				wallToCollision[wall[y][x]],
-				wallToCollision[fg[y][x]],
+				fgToCollision[fg[y][x]],
 				objToCollision[obj[y][x]],
 				bgToCollision[bg[y][x]])
-				col[y][x] = entry
-			if fgToCollision[obj[y][x]] == 3 then -- if there is a spikey
-				fg[y][x] = obj[y][x]
+			col[y][x] = entry
+			
+			-- transfer spikey object
+			if fgToCollision[fg[y][x]] == 3 then -- add the spikey object if foreground has one
 				obj[y][x] = 33
 			end
 		end
