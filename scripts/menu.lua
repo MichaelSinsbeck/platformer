@@ -1075,7 +1075,7 @@ function menu.initPauseMenu()
 
 	
 	-- add main logo:
-	x = - 45
+	x = - 35
 	y = - 78
 	table.insert(menuImages, {typ="img", img='paused_IMG', x=x, y=y})
 	
