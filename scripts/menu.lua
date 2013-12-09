@@ -383,10 +383,10 @@ function menu:newLevelName( txt )
 	local level = Campaign.current
 	local world = math.ceil(level/15)
 	local innerlvl = (level-1) % 15 + 1
-	menu.curLevelName = world .. '.' .. innerlvl .. ' ' .. txt
+	menu.curLevelName = world .. ' - ' .. innerlvl .. ' : ' .. txt
 	menu.levelNameTime = 0
 	menu.levelNameWidth = fontLarge:getWidth(menu.curLevelName)
-	menu.levelNameBox = menu:generateBox(0.5*(Camera.width-menu.levelNameWidth)-2*Camera.scale,0,menu.levelNameWidth+4*Camera.scale,fontLarge:getHeight()*1.1)
+	menu.levelNameBox = menu:generateBox(0.5*(Camera.width-menu.levelNameWidth)-2*Camera.scale,0,menu.levelNameWidth+4*Camera.scale,fontLarge:getHeight()*1.1,1/Camera.scale)
 end
 
 function menu:updateLevelName( dt )
@@ -547,7 +547,8 @@ function menu:changeButtonLabel( name, label )
 	end
 end
 
-function menu:generateBox(left,top,width,height)
+function menu:generateBox(left,top,width,height,boxFactor)
+	local boxFactor = boxFactor or 1
 	local new = {}
 	new.points = {}
 	new.left = left
@@ -558,32 +559,32 @@ function menu:generateBox(left,top,width,height)
 	local stepsize = 0
 	table.insert(new.points, left)
 	table.insert(new.points, top)
-	for i = 1,math.floor(.2*width) do
-		stepsize = width/math.floor(.2*width)
+	for i = 1,math.floor(boxFactor*.2*width) do
+		stepsize = width/math.floor(boxFactor*.2*width)
 		table.insert(new.points, left + i*stepsize)
 		table.insert(new.points, top)
 	end
 	
-	for i = 1,math.floor(.2*height) do
-		stepsize = height/math.floor(.2*height)
+	for i = 1,math.floor(boxFactor*.2*height) do
+		stepsize = height/math.floor(boxFactor*.2*height)
 		table.insert(new.points, left+width)
 		table.insert(new.points, top + i*stepsize)
 	end
 	
-	for i = 1,math.floor(.2*width) do
-		stepsize = width/math.floor(.2*width)
+	for i = 1,math.floor(boxFactor*.2*width) do
+		stepsize = width/math.floor(boxFactor*.2*width)
 		table.insert(new.points, left + width - i*stepsize)
 		table.insert(new.points, top + height)
 	end
 		
-	for i = 1,math.floor(.2*height) do
-		stepsize = height/math.floor(.2*height)
+	for i = 1,math.floor(boxFactor*.2*height) do
+		stepsize = height/math.floor(boxFactor*.2*height)
 		table.insert(new.points, left)
 		table.insert(new.points, top + height - i*stepsize)
 	end
 	
 	for i = 1,#new.points-2 do
-		new.points[i] = new.points[i] + 0.4*math.random() - 0.4*math.random()
+		new.points[i] = new.points[i] + 0.4/boxFactor*math.random() - 0.4/boxFactor*math.random()
 	end
 	new.points[#new.points-1] = new.points[1]
 	new.points[#new.points] = new.points[2]
