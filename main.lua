@@ -7,6 +7,7 @@ require 'scripts/camera'
 require 'scripts/font'
 
 mode = 'menu'	-- must be global
+paused = false
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
 DEBUG = false
 USE_SHADERS = true
@@ -78,6 +79,9 @@ function love.draw()
 		if mode == 'game' or mode == 'levelEnd' then
 			game:draw()
 		elseif mode == 'menu' then
+			if menu.state == "pause" then
+				game:draw()
+			end
 			menu:draw()
 		elseif mode == 'bridge' then
 			bridge:draw()

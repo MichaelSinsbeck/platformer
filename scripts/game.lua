@@ -97,7 +97,8 @@ end
 
 function game.keypressed(key)
 	if key == 'escape' then
-		menu.startTransition(menu.initPauseMenu, false)()
+	--	menu.startTransition(menu.initPauseMenu, false)()
+		menu.initPauseMenu()
 	end
 	if key == "r" then
 		p.status = 'stand'

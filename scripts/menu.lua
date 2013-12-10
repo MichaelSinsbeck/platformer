@@ -446,7 +446,8 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 				name=name,
 				action=action,
 				actionHover=actionHover,
-				timer = 0
+				timer = 0,
+				angle = 0,
 			}
 	new.ox = self.images[imgOff]:getWidth()*0.5/Camera.scale
 	new.oy = self.images[imgOff]:getHeight()*0.5/Camera.scale
@@ -809,7 +810,7 @@ function menu:keypressed( key, unicode )
 				elseif menu.state == "keyboard" or menu.state == "gamepad" then
 					keys:exitSubMenu()
 				elseif menu.state == "pause" then
-					menu.startTransition(menu.endPauseMenu, false)()
+					menu:endPauseMenu()
 				end
 			end
 		end
@@ -845,7 +846,7 @@ function menu:update(dt)
 				if button.name == "settings" then
 					button.timer = button.timer + dt
 					button.angle = button.timer * 5
-				elseif button.name == "start" then
+				elseif button.name == "start" or button.name == "continue" then
 					button.timer = button.timer + dt
 					button.xShift = 1-2*math.abs(math.sin(5*button.timer))
 					button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
@@ -856,7 +857,7 @@ function menu:update(dt)
 					button.yScale = button.xScale
 					button.angle = 0.2*math.sin(- button.timer * 6)
 					button.yShift = 1-2*math.abs(math.sin(6*button.timer))
-				elseif button.name == "exit" then
+				elseif button.name == "exit" or button.name == "leave" then
 					button.timer = button.timer + dt
 					button.yShift = 1-2*math.abs(math.sin(5*button.timer))
 					button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
@@ -869,6 +870,9 @@ function menu:update(dt)
 					button.timer = button.timer + dt
 					button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
 					button.yScale = 1-0.05*math.abs(math.cos(5*button.timer))
+				elseif button.name == "restart level" then
+					button.timer = button.timer + dt
+					button.angle = button.angle - math.pow(math.sin(button.timer), 2)/5
 				end
 			end
 		end
@@ -904,6 +908,11 @@ function menu:draw()
 	for k,log in ipairs(menuLogs) do
 		log.vis:draw(log.x*Camera.scale,log.y*Camera.scale)
 	end
+
+	local color = {44,90,160,150}
+	if menu.state == "pause" then
+		color = {44,90,160,255}
+	end
 	
 	-- draw boxes:
 	for k,element in pairs(menuBoxes) do
@@ -914,7 +923,7 @@ function menu:draw()
 		end
 		-- draw
 		--love.graphics.setColor(44,90,160)
-		love.graphics.setColor(44,90,160,150)
+		love.graphics.setColor( color )
 		love.graphics.setLineWidth(Camera.scale*0.5)
 		love.graphics.rectangle('fill',
 			element.left*Camera.scale,
@@ -1057,7 +1066,7 @@ function menu.initPauseMenu()
 	y = 0
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "continue", menu.startTransition(menu.endPauseMenu, false), actionHover )
+	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "continue",menu.endPauseMenu, actionHover )
 	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
@@ -1067,7 +1076,7 @@ function menu.initPauseMenu()
 		myMap:start(p)
 		mode = "game" 
 	end
-	menu:addButton( x, y, 'restartOff_IMG', 'restartOn_IMG', "restart map", menu.startTransition(restartEvent, false), actionHover )
+	menu:addButton( x, y, 'restartOff_IMG', 'restartOn_IMG', "restart level", menu.startTransition(restartEvent, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
