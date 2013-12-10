@@ -1,7 +1,9 @@
 -- pictures for level end display:
 require("scripts/levelEndPic")
 
-levelEnd = {}
+levelEnd = {
+	levels = {}
+}
 
 local statList = {}
 local boxes = {}
@@ -9,6 +11,18 @@ local statBoxes = {}
 local picList = {}
 
 local STAT_TIME = 3
+
+function levelEnd:init()
+	-- preload all the levels which could be needed:
+	self.levels["end_fall"] = Map:LoadFromFile( 'end_fall.dat' )
+	self.levels["end_wall"] = Map:LoadFromFile( 'end_wall.dat' )
+	self.levels["end_dirt"] = Map:LoadFromFile( 'end_dirt.dat' )
+	self.levels["end_air"] = Map:LoadFromFile( 'end_air.dat' )
+	self.levels["end_spikes"] = Map:LoadFromFile( 'end_spikes.dat' )
+	self.levels["end"] = Map:LoadFromFile( 'end.dat' )
+		
+
+end
 
 function levelEnd:reset()
 	statList["death_fall"] = 0

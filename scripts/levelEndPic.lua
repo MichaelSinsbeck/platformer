@@ -67,7 +67,7 @@ function Pic:new( x, y, statType, num )
 		local found = false
 		local tries = 0
 
-		newPic.map = Map:LoadFromFile( 'end_fall.dat' )
+		newPic.map = levelEnd.levels["end_fall"]
 		
 		-- fill 'num' of these slots with images:
 		for k = num, 1, -1 do
@@ -112,7 +112,7 @@ function Pic:new( x, y, statType, num )
 		local found = false
 		local tries = 0
 		
-		newPic.map = Map:LoadFromFile( 'end_spikes.dat' )
+		newPic.map = levelEnd.levels["end_spikes"]
 
 		-- fill 'num' of these slots with images:
 		for k = num, 1, -1 do
@@ -151,7 +151,7 @@ function Pic:new( x, y, statType, num )
 
 		newPic.title = "time in air:"
 		newPic.subTitle = num .. " s"
-		newPic.map = Map:LoadFromFile( 'end_air.dat' )
+		newPic.map = levelEnd.levels["end_air"]
 		newPic.visFG[1] = Visualizer:New( 'statTimeInAir' )
 		newPic.visFG[1]:init()
 		newPic.visFG[1].posX = 0
@@ -160,7 +160,7 @@ function Pic:new( x, y, statType, num )
 
 		newPic.title = "longest jump:"
 		newPic.subTitle = num .. " m"
-		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statHighestJump' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
@@ -169,7 +169,7 @@ function Pic:new( x, y, statType, num )
 
 		newPic.title = "jumps:"
 		newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, newPic.tileSize )
-		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statNumberOfJumps' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
@@ -177,7 +177,7 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "highestJump" then
 		newPic.title = "highest jump:"
 		newPic.subTitle = num .. " m"
-		newPic.map = Map:LoadFromFile( 'end_air.dat' )
+		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statHighestJump' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
@@ -185,7 +185,7 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "fastestVelocity" then
 		newPic.title = "max speed:"
 		newPic.subTitle = num .. " m/s"
-		newPic.map = Map:LoadFromFile( 'end_dirt.dat' )
+		newPic.map = levelEnd.levels["end_dirt"]
 		newPic.visBG[1] = Visualizer:New( 'statVelocity' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = -newPic.tileSize*2
@@ -193,7 +193,7 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "distWalked" then
 		newPic.title = "walked:"
 		newPic.subTitle = num .. " m" 
-		newPic.map = Map:LoadFromFile( 'end_dirt.dat' )
+		newPic.map = levelEnd.levels["end_dirt"]
 		newPic.visBG[1] = Visualizer:New( 'statVelocity' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = -newPic.tileSize*2
@@ -202,7 +202,7 @@ function Pic:new( x, y, statType, num )
 
 		newPic.title = "longest wall hang"
 		newPic.subTitle = num .. " s"
-		newPic.map = Map:LoadFromFile( 'end_wall.dat' )
+		newPic.map = levelEnd.levels["end_wall"]
 		newPic.visFG[1] = Visualizer:New( 'statWallHang' )
 		newPic.visFG[1]:init()
 		newPic.visFG[1].posX = newPic.tileSize/2
@@ -211,7 +211,7 @@ function Pic:new( x, y, statType, num )
 
 		newPic.title = "idle for:"
 		newPic.subTitle = num .. " s"
-		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statIdle' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
@@ -219,7 +219,7 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "noDeaths" then
 
 		newPic.title = "survived"
-		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statNoDeath' .. math.random(2) )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
@@ -227,7 +227,7 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "time" then
 		newPic.title = "level time"
 		newPic.subTitle = num .. " s"
-		newPic.map = Map:LoadFromFile( 'end_air.dat' )
+		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statTime' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
@@ -235,7 +235,7 @@ function Pic:new( x, y, statType, num )
 	else
 		newPic.title = string.lower(statType)
 		newPic.subTitle = num
-		newPic.map = Map:LoadFromFile( 'end.dat' )
+		newPic.map = levelEnd.levels["end"]
 	end
 
 	return newPic

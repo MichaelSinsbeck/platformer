@@ -52,12 +52,14 @@ function loading.update()
 		timer = 0
 
 		Campaign:reset()
-		
-		loading.msg = "shadows"
+		loading.msg = "levels"	
 	elseif loading.step == 6 then
+		levelEnd:init()
+		loading.msg = "shadows"
+	elseif loading.step == 7 then
 		shadows = require("scripts/monocle")
 		loading.msg = "main menu"
-	elseif loading.step == 7 then
+	elseif loading.step == 8 then
 		menu.initMain()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')
