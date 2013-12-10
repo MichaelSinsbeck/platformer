@@ -148,16 +148,14 @@ function Pic:new( x, y, statType, num )
 		
 		newPic.list = generateCountList( num, newPic.tileSize )
 	elseif statType == "timeInAir" then
-
 		newPic.title = "time in air:"
 		newPic.subTitle = num .. " s"
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visFG[1] = Visualizer:New( 'statTimeInAir' )
 		newPic.visFG[1]:init()
-		newPic.visFG[1].posX = 0
-		newPic.visFG[1].posY = -newPic.tileSize*2
+		newPic.visFG[1].posX = -newPic.tileSize/2
+		newPic.visFG[1].posY = -newPic.tileSize*1.5
 	elseif statType == "farthestJump" then
-
 		newPic.title = "longest jump:"
 		newPic.subTitle = num .. " m"
 		newPic.map = levelEnd.levels["end"]
