@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="36" height="20" tilewidth="40" tileheight="40">
+<map version="1.0" orientation="orthogonal" width="37" height="27" tilewidth="40" tileheight="40">
  <tileset firstgid="1" name="world1" tilewidth="50" tileheight="50">
   <image source="world1.png" width="400" height="850"/>
  </tileset>
@@ -12,24 +12,24 @@
  <tileset firstgid="489" name="foreground" tilewidth="50" tileheight="50">
   <image source="foreground1.png" width="400" height="400"/>
  </tileset>
- <layer name="bg" width="36" height="20">
+ <layer name="bg" width="37" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3VvQqDMBhG4dz/IKh3oLYK9mdQK6jVe3Ds1rF34VEUHEQqyJcMeeHBQIacTaXsJOf9wbQeyablPWfj/J2/PXzhnj0fw3o8A3ukZlKPK9wTIESEC66IkWjqGZfihjseeK7udPRkyFHghfJAz+/kngo1GrzRojvQo+ufoWyP7bGbNgC3qf4ZQAsAAA==
+   H4sIAAAAAAAAA2NgGDpgEpmYXm6iplpKADlueklTFw2fcKKVm3ClW3LTPDXcO1jd1IdkTh8OcWz8hzR002AMp8HmJmxuo6ZaSsCom4gDo24iDoy6iTgw6ibiwEC6iRp1Aq3chK9OJ8YMmH5qumkwhtNgctMoIA4AAH7PD2icDwAA
   </data>
  </layer>
- <layer name="walls" width="36" height="20">
+ <layer name="walls" width="37" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgoA7QBGItKmBqgVH3UOYeIyIxPdyjTUV7Rt1DH/fwAjEfEPMDsSIQK+HA1AKGDJhpE1f44HM7LQHM3lH3jLpnsLknEYiTiMTJFLiHDw0TKh+IwcpQe2FlgDGF4UNpXU2oPB7p7gFhfPGJTx+t3EMuBgCTHVAaQAsAAA==
+   H4sIAAAAAAAAA9NiYGDQQsPaQBwJxFFAHA3EhkBshAMbo6nVxGIesrnEAEr0YgP0cpMiECvhwMoD5CZS7BnJbjKkkpuMyXQTLC8hgxQG3HkPXS0+dSlkuAlX2OYQaRYhQKw5o24iDgx2N4EwrBzkBWI+IOYH4hIG3OUmSG0M1KwYAupKoOZykOgmXOU4NcoC9DKfEjcNxjKTkD3I8TFY3ESu2lE3jbpppLoJV7sCuaylt5uIAaNuGng3gepSZTS+GwEcx0C4z5lLgto8IHaC4jSoH5DdCuL7DTDG5iYAFgfexJwPAAA=
   </data>
  </layer>
- <layer name="objects" width="36" height="20">
+ <layer name="objects" width="37" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjYBQMZzCLcaBdMApGwSgYaDBztBwYBaOAqgAAVx4wpUALAAA=
+   H4sIAAAAAAAAA+3VQQ0AIAwAsc2/AhAwnTjgtyyQVsH9LgIA7nZOFwDAv6rhs8u7n3MAdeQpZJwPAAA=
   </data>
  </layer>
- <layer name="fg" width="36" height="20">
+ <layer name="fg" width="37" height="27" visible="0">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3BgQAAAADDoPlTX+EAVQEAAK8BwhlNBEALAAA=
+   H4sIAAAAAAAAA+3BMQEAAADCoPVPbQwfoAAAAICnASgiOSWcDwAA
   </data>
  </layer>
 </map>

@@ -263,6 +263,10 @@ function convert(filetrunc)
 
 	for y = 1,map.height do -- fill collision matrix
 		for x = 1,map.width do
+			assert(wallToCollision[wall[y][x]], "Error in wall layer @: " .. x .. ", " .. y .. "!")
+			assert(fgToCollision[fg[y][x]], "Error in fg layer @: " .. x .. ", " .. y .. "!")
+			assert(objToCollision[obj[y][x]], "Error in obj layer @: " .. x .. ", " .. y .. "!")
+			assert(bgToCollision[bg[y][x]], "Error in bg layer @: " .. x .. ", " .. y .. "!")
 			local entry = math.max(
 				wallToCollision[wall[y][x]],
 				fgToCollision[fg[y][x]],

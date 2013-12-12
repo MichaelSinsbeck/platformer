@@ -179,8 +179,8 @@ Campaign.names['n50.dat'] = 'welcome castle' -- hook intro
 
 Campaign.names['l01.dat'] = 'welcome'
 Campaign.names['l02.dat'] = 'windmill'
-Campaign.names['l03.dat'] = 'the chimney'
-Campaign.names['l04.dat'] = 'le parcours'
+Campaign.names['l03.dat'] = 'the tower'
+Campaign.names['l04.dat'] = 'the cellar'
 Campaign.names['l05.dat'] = 'deadly'
 Campaign.names['l06.dat'] = 'advanced jumping'
 Campaign.names['l07.dat'] = 'it moves'
