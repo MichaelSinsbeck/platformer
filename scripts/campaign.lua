@@ -62,7 +62,7 @@ Campaign = {
 	}
 
 Campaign.current = 0
-Campaign.worldNumber = 0
+Campaign.worldNumber = 1
 Campaign.last = 0
 
 function Campaign:reset()

@@ -66,6 +66,7 @@ function Camera:applyScale()
 	if myMap then -- reload Map-image, if map exists
 		myMap:loadImage()
 	end
+	levelEnd:init()
 end
 
 function Camera:setTarget()
