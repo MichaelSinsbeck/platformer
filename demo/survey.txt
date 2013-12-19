@@ -1,0 +1,96 @@
+Thank you for playtesting Bandana. Please answer the following questions to help us making the game even more awesome. You can directly write into this text file and send it to Micha: michael@sinsbeck.com
+
+Please be honest with your answer and tell us, if you did not like anything.
+
+The questions marked with a star "*" may be answered on a "star scale" (but you can also write text, if you wish):
+*     1 = no/bad
+**    2 .
+***   3 .
+****  4 .
+***** 5 = yes, totally/excellent
+
+General
+-------
+Your name?
+
+How much time did you spend playing Bandana?
+
+Gameplay
+--------
+Is the game fun?
+
+What aspects in the game are fun?
+
+What aspects in the game are not fun? Boring? Frustrating?
+
+Graphics
+--------
+Are the in-game graphics functional? Is it immediately clear, which parts of the level are relevant for the game and which ones are background? (Did the background distract from the actual gameplay?)
+
+Do graphics and interface provide all information you need to play the game?
+
+Are the graphics beautiful?
+
+Are the graphics consistent (everything fits together)? If not, what is inconsistent?
+
+Any further suggestions about the graphics?
+
+Scenario
+--------
+Do you like the ninja scenario?
+
+What ninja related stuff/abilities/enemies would you like to have in the game?
+
+Does world 1 "feel" consistent? Is the number of (background) objects right?
+
+Does the game need more of a story?
+
+Do you like the death splatter effect?
+
+Difficulty
+----------
+This demo is world 1 of 5. It is supposed to be quiet easy. The last levels of the game will be really hard. Was there any level in world 1 you found too hard?
+
+Was there any level you found boring or repetitive?
+
+How much did you like each of the following in-game objects/mechanics?
+- Wall jump
+- Spikes
+- Blue Bandana
+- Button/Red Blocks
+- [...to be completed...]
+
+End-Level screen
+----------------
+Did you understand what is shown after each level is won?
+
+How do you like it?
+
+Menu
+----
+Is the menu functional? (Did you find everything you wanted?)
+
+Is the menu looking good? Any suggestions on how to improve the look?
+
+World map
+---------
+Any suggestions for the world map?
+
+Technical
+---------
+Do the shaders work on your system? (Shaders are used to fade to gray scale when the player dies)
+
+Did you find any bugs? Anything that didn't work as you expected?
+
+In case you used the fullscreen mode, did it work?
+
+Further extensions
+------------------
+We are considering a map editor and the functionality to share user made levels over the internet.
+Would you use a level-editor if we shipped the game with one?
+
+If so, would you share your levels online if there was a "share" feature?
+
+Comment
+-------
+Any further comments/remarks/praises?
