@@ -1,6 +1,6 @@
 -- menu for Bandana
 
-local menu = {active = false, text = '',images = {}}
+local menu = {active = false, text = '',images = {}, bandanas = {}}
 
 local TRANSITION_SPEED = 50
 local LEVEL_NAME_DISPL_TIME = 4
@@ -60,6 +60,10 @@ function menu:init()
 	self.images.background4_IMG = love.graphics.newImage("images/world/"..prefix.."world4.png")
 	self.images.background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")
 	
+	self.images.shadow = love.graphics.newImage("images/menu/shadow.png") -- always 300 pixel wide.
+	self.images.shadow:setWrap('repeat','repeat')
+	self.images.shadowQuad = love.graphics.newQuad(0,0,Camera.width,Camera.height,300,1)
+	
 	self.images.keyboardOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyboardOff.png")
 	self.images.keyboardOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyboardOn.png")
 	self.images.gamepadOff_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOff.png")
@@ -105,6 +109,17 @@ function menu:init()
 	menuPlayer.vis:init()
 	
 	controlKeys:setup() -- make sure to display the correct keys!
+	
+	menu.bandanas = {}
+	for i = 0,4 do
+		local newLine = {}
+	  for x = 0,1280,10 do
+	    local y = math.sin(math.pi*x/150)
+	    newLine[#newLine+1] = x+math.random()-math.random()
+			newLine[#newLine+1] = -2*Camera.scale*y+(i+.5)*Camera.scale*40+math.random()-math.random()
+	  end
+	  menu.bandanas[#menu.bandanas+1] = newLine
+	end
 
 end
 
@@ -137,7 +152,8 @@ function menu.initMain()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "main"
 
-	love.graphics.setBackgroundColor(40,40,40)
+	--love.graphics.setBackgroundColor(40,40,40)
+	love.graphics.setBackgroundColor(22,45,100)
 
 	local x,y
 	x = -2
@@ -886,7 +902,14 @@ end
 function menu:draw()
 	if menu.state ~= "worldMap" then
 		--myMap:drawParallax(1)
+		for k,v in pairs(self.bandanas) do
+		  love.graphics.setColor(0,0,30)
+		  love.graphics.setLineWidth(Camera.scale*0.5)
+		  love.graphics.line(v)
+		end
 	end
+	love.graphics.setColor(255,255,255,100)
+	love.graphics.drawq(menu.images.shadow,menu.images.shadowQuad,0,0)
 
 	love.graphics.push()
 	love.graphics.translate(
