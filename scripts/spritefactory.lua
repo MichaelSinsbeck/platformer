@@ -37,6 +37,7 @@ require 'scripts/objects.input'
 require 'scripts/objects.walker'
 require 'scripts/objects.walkerhorz'
 require 'scripts/objects.walkervert'
+require 'scripts/objects.spawner'
 
 
 function initAll()
@@ -88,6 +89,7 @@ function initAll()
 	WalkerLeft:init()
 	WalkerDown:init()
 	WalkerUp:init()
+	Spawner:init()
 end
 
 function spriteFactory(name,opts)

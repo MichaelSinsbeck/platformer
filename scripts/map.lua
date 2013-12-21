@@ -680,6 +680,8 @@ function Map:FactoryList(tile,height,width)
 	[74] = WalkerRight,
 	[75] = WalkerUp,
 	[76] = WalkerLeft,
+	[77] = SpawnerLeft,
+	[78] = Spawner,
 }
   
   for i=1,width do
