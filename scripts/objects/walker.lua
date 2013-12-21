@@ -1,36 +1,57 @@
 Walker = object:New({
 	tag = 'walker',
-	speed = 2,
-	vx = 2,
+	speed = 1,
+	vx = 1,
+	timer = 0,
   vis = {
-		Visualizer:New('roller'),
+		Visualizer:New('walker'),
+		Visualizer:New('walkerfoot'),
+		Visualizer:New('walkerfoot'),
   },
   marginx = 0.6,
-  marginy = 0.6,
+  marginy = 0.50,
+  period = 0.8,
 })
 
-function Walker:init()
-	object.init(self)
-	self.vis[1].angle = math.random()*math.pi*2
-end
-
-function Walker:setAcceleration(dt)
--- apply acceleration to object, generically, this is only gravity
-  self.vx = self.vx
-  self.vy = self.vy + gravity * dt
-  
-  self.vis[1].angle = self.vis[1].angle + 1.5*dt*self.vx
-end
-
 function Walker:postStep(dt)
+self.timer = (self.timer + dt)%self.period
+	
 	if self.collisionResult%2 == 1 then
 	  self.vx = -self.speed
+	  for i = 1,3 do
+			self.vis[i].sx = -1
+	  end
 	end
 	
 	local truncated = (self.collisionResult - self.collisionResult%2)/2
 	if truncated%2 == 1 then
 		self.vx = self.speed
+		for i = 1,3 do
+			self.vis[i].sx = 1
+	  end
 	end
+	
+	-- positioning of feed
+	local sign = self.vis[1].sx
+	local t = self.timer/self.period -- effective timer
+	local pi = math.pi
+	if t < .5 then
+		self.vis[2].relX = sign*(0.4 - 0.2*math.cos(2*pi*t))
+		self.vis[2].relY = 0.25 - 0.1*math.sin(2*pi*t)
+		self.vis[2].angle = -sign*0.3*math.sin(2*pi*t)
+		
+		self.vis[3].relX = sign*(- 0.8*t)
+		self.vis[3].relY = 0.25
+		self.vis[3].angle = 0
+  else
+		self.vis[2].relX = sign*(1 - 0.8*t)
+		self.vis[2].relY = 0.25
+		self.vis[2].angle = 0
+		
+		self.vis[3].relX = sign*(-0.2 + 0.2*math.cos(2*pi*t))
+		self.vis[3].relY = 0.25 + 0.1*math.sin(2*pi*t)
+		self.vis[3].angle = sign*0.3*math.sin(2*pi*t)
+  end
 	
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then

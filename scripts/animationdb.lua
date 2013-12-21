@@ -298,6 +298,8 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('roller','walker',{1},{1e6})
 	AnimationDB:addAni('walkerdown','walker',{2},{1e6})
 	AnimationDB:addAni('walkerup','walker',{3},{1e6})
+	AnimationDB:addAni('walker','walker',{4},{1e6})
+	AnimationDB:addAni('walkerfoot','walker',{5},{1e6})
 	
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:loadImage('keyOn.png','keyboardSmall',tileSize,tileSize, "menu")
