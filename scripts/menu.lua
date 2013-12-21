@@ -153,7 +153,7 @@ function menu.initMain()
 	menu.state = "main"
 
 	--love.graphics.setBackgroundColor(40,40,40)
-	love.graphics.setBackgroundColor(22,45,100)
+	love.graphics.setBackgroundColor(22,45,80)
 
 	local x,y
 	x = -2
@@ -900,7 +900,7 @@ end
 ---------------------------------------------------------
 
 function menu:draw()
-	if menu.state ~= "worldMap" and menu.state ~= "pause" then
+	--[[if menu.state ~= "worldMap" and menu.state ~= "pause" then
 		--myMap:drawParallax(1)
 		for k,v in pairs(self.bandanas) do
 		  love.graphics.setColor(0,0,30)
@@ -909,7 +909,7 @@ function menu:draw()
 		end
 	love.graphics.setColor(255,255,255,100)
 	love.graphics.drawq(menu.images.shadow,menu.images.shadowQuad,0,0)
-	end
+	end]]
 
 
 	love.graphics.push()
@@ -933,7 +933,7 @@ function menu:draw()
 		log.vis:draw(log.x*Camera.scale,log.y*Camera.scale)
 	end
 
-	local color = {44,90,160,150}
+	local color = {44,90,160,150} -- color of box content
 	if menu.state == "pause" then
 		color = {44,90,160,255}
 	end
