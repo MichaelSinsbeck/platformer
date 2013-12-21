@@ -105,7 +105,7 @@ end
 
 function Walker:wake()
 	self.status = 'normal'
-	self:resize(0.5,0.375)
+	self:resize(0.48,0.375)
 	self.vis = {
 		Visualizer:New('walkerfoot2'),
 		Visualizer:New('walkerfoot2'),  
@@ -116,3 +116,7 @@ function Walker:wake()
   self:init()
 	self.vx = self.speed * self.direction
 end
+
+WalkerLeft = Walker:New({
+  direction = -1,
+})

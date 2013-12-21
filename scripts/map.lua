@@ -648,6 +648,7 @@ function Map:FactoryList(tile,height,width)
 	[29] = Bumper,
 	[30] = Clubber,
 	[31] = Walker,
+	[32] = WalkerLeft,
 	
   [33] = Spikey,
 

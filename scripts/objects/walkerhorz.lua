@@ -33,10 +33,10 @@ function WalkerRight:postStep(dt)
   end  
 end
 
-WalkerLeft = WalkerRight:New({
+--[[WalkerLeft = WalkerRight:New({
 	tag = 'walker-left',
 	vx = - WalkerRight.speed,
 	  vis = {
 		Visualizer:New('walkerdown',{angle = 0.5*math.pi}),
   },
-})
+})]]
