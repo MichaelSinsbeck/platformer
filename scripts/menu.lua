@@ -900,16 +900,17 @@ end
 ---------------------------------------------------------
 
 function menu:draw()
-	if menu.state ~= "worldMap" then
+	if menu.state ~= "worldMap" and menu.state ~= "pause" then
 		--myMap:drawParallax(1)
 		for k,v in pairs(self.bandanas) do
 		  love.graphics.setColor(0,0,30)
 		  love.graphics.setLineWidth(Camera.scale*0.5)
 		  love.graphics.line(v)
 		end
-	end
 	love.graphics.setColor(255,255,255,100)
 	love.graphics.drawq(menu.images.shadow,menu.images.shadowQuad,0,0)
+	end
+
 
 	love.graphics.push()
 	love.graphics.translate(
