@@ -1,21 +1,25 @@
 Walker = object:New({
 	tag = 'walker',
-	speed = 1,
-	vx = 1,
+	speed = 1.6,
+	vx = 1.6,
 	timer = 0,
   vis = {
 		Visualizer:New('walker'),
 		Visualizer:New('walkerfoot'),
 		Visualizer:New('walkerfoot'),
   },
-  marginx = 0.6,
+  marginx = 0.8,
   marginy = 0.50,
-  period = 0.8,
+  period = 0.5, -- should be (0.8/speed)
 })
 
 function Walker:postStep(dt)
-self.timer = (self.timer + dt)%self.period
-	
+	if self.collisionResult >= 8 then
+		self.timer = (self.timer + dt)%self.period
+	else
+		self.timer = self.period*0.25
+	end
+
 	if self.collisionResult%2 == 1 then
 	  self.vx = -self.speed
 	  for i = 1,3 do

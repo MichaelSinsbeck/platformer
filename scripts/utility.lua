@@ -22,3 +22,11 @@ end
 function utility.pyth(dx,dy)
 	return math.sqrt(dx^2+dy^2)
 end
+
+function utility.directions(collisionResult)
+	local right = (collisionResult%2 == 1)
+	local left = (math.floor(collisionResult/2)%2 == 1)
+	local up = (math.floor(collisionResult/4)%2 == 1)
+	local down = collisionResult >= 8
+	return right, left, up, down
+end
