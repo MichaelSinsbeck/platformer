@@ -1,9 +1,9 @@
 Spawner = object:New({
 	tag = 'Spawner',
-  firerate = 5, -- in seconds
+  firerate = 3, -- in seconds
   marginx = .8,
   marginy = .8,
-  timer = 0,
+  timer = 1,
   vis = {
 		Visualizer:New('spawnerback'),
 		Visualizer:New('spawnerbar'),

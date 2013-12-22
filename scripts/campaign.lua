@@ -7,8 +7,9 @@ Campaign = {
 	'l06.dat', 
 	'l09.dat', -- blue bandana
 	'l16.dat',
-	'l17.dat',
+	'l17.dat', -- cave
 	'l18.dat',
+	'l19.dat',
 	'l07.dat', -- walker
 	'l08.dat', -- walker
 	'l10.dat',
@@ -197,4 +198,5 @@ Campaign.names['l15.dat'] = 'bullet hell'
 Campaign.names['l16.dat'] = 'broken bridge'
 Campaign.names['l17.dat'] = 'cave'
 Campaign.names['l18.dat'] = 'cave2'
+Campaign.names['l19.dat'] = 'cave3'
 

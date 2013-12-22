@@ -647,8 +647,8 @@ function Map:FactoryList(tile,height,width)
 	[28] = BouncerRight,
 	[29] = Bumper,
 	[30] = Clubber,
-	[31] = Walker,
-	[32] = WalkerLeft,
+	[31] = WalkerLeft,
+	[32] = Walker,
 	
   [33] = Spikey,
 
