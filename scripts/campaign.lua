@@ -10,14 +10,10 @@ Campaign = {
 	'l17.dat', -- cave
 	'l18.dat',
 	'l19.dat',
-	'l07.dat', -- walker
-	'l08.dat', -- walker
-	'l10.dat',
-	'l11.dat',	
-	'l12.dat',	
+	'l20.dat',
 	'l13.dat',
-	'l14.dat',
-	'l15.dat',
+	'l21.dat',
+	'l12.dat',	
 
 	-- world 2
 	'n11.dat',
@@ -199,4 +195,6 @@ Campaign.names['l16.dat'] = 'broken bridge'
 Campaign.names['l17.dat'] = 'cave'
 Campaign.names['l18.dat'] = 'cave2'
 Campaign.names['l19.dat'] = 'cave3'
+Campaign.names['l20.dat'] = 'push the button'
+Campaign.names['l21.dat'] = 'walker button'
 

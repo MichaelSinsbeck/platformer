@@ -1,5 +1,5 @@
 Walker = object:New({
-	tag = 'walker',
+	tag = 'Walker',
 	speed = 1.6,
 	vx = 1.6,
 	timer = 0,
