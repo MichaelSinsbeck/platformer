@@ -378,7 +378,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('statTimeInAir', 'statTimeInAir', {1,2,3,4,3,2,1,5,6,7,6,5},
 			{.1,.08,.05,.08,.05,.08,.1,.08,.05,.08,.05,.08})
 	AnimationDB:loadImage('statNumberOfJumps.png', 'statNumberOfJumps', tileSize*2, tileSize*2 )
-	AnimationDB:addAni('statNumberOfJumps', 'statNumberOfJumps', {1,2,3,4},{0.12,0.05,0.1,0.05})
+	AnimationDB:addAni('statNumberOfJumps', 'statNumberOfJumps', {1,2,3,4,5,6,7},{.1,.05,.05,.05,.05,.05,.05})
 	AnimationDB:loadImage('statWallHang.png', 'statWallHang', tileSize*2, tileSize*2 )
 	AnimationDB:addAni('statWallHang', 'statWallHang', {1},{1e6})
 	AnimationDB:loadImage('statVelocity.png', 'statVelocity', tileSize*2, tileSize*4 )
