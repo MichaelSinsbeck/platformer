@@ -20,8 +20,6 @@ function levelEnd:init()
 	self.levels["end_air"] = Map:LoadFromFile( 'end_air.dat' )
 	self.levels["end_spikes"] = Map:LoadFromFile( 'end_spikes.dat' )
 	self.levels["end"] = Map:LoadFromFile( 'end.dat' )
-		
-
 end
 
 function levelEnd:reset()

@@ -7,16 +7,20 @@ local win = {}
 local menuControl = {}
 local toDraw
 
-function controlKeys:draw( mode )
+function controlKeys:draw( drawMode )
+
 	local x, y
 
-	if mode == "death" then
+	if drawMode == "death" then
 		toDraw = death
-	elseif mode == "win" then
+	elseif drawMode == "win" then
 		toDraw = win
-	elseif mode == "menu" then
+	elseif drawMode == "menu" then
 		toDraw = menuControl
 	end
+	
+	
+	if mode == "menu" and menu.state == "pause" and toDraw ~= menuControl then return end
 	love.graphics.setFont( fontSmall )
 	
 	y = love.graphics.getHeight() - 60

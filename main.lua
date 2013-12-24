@@ -56,7 +56,6 @@ function love.update( dt )
 			levelEnd:update( dt )
 		end
 
-
 		keys.catchGamepadEvents()
 		
 		shaders:update( dt )
@@ -76,12 +75,9 @@ function love.draw()
 	
 		shaders.draw()
 	
-		if mode == 'game' or mode == 'levelEnd' then
+		if mode == 'game' or mode == 'levelEnd' or (mode == 'menu' and menu.state == 'pause') then
 			game:draw()
-		elseif mode == 'menu' then
-			if menu.state == "pause" then
-				game:draw()
-			end
+		elseif mode == 'menu' and menu.state ~= 'pause' then
 			menu:draw()
 		elseif mode == 'bridge' then
 			bridge:draw()
@@ -93,8 +89,12 @@ function love.draw()
 
 		shaders:stop()
 		
-		if mode == 'levelEnd' and not menu.transitionActive then
-			levelEnd:draw()
+		if not menu.transitionActive then
+			if mode == 'levelEnd' then
+				levelEnd:draw()
+			elseif mode == 'menu' and menu.state == 'pause' then	-- draw AFTER grey shader!
+				menu:draw()
+			end
 		end
 		if menu.curLevelName then
 			menu:drawLevelName()
