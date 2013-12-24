@@ -27,6 +27,8 @@ Graphics
 --------
 Are the in-game graphics functional? Is it immediately clear, which parts of the level are relevant for the game and which ones are background? (Did the background distract from the actual gameplay?)
 
+Do the shaders (grayscale on death) work on your machine? If not, mind telling us your machine's specifications?
+
 Do graphics and interface provide all information you need to play the game?
 
 Are the graphics beautiful?
