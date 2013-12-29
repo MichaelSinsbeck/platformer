@@ -144,12 +144,12 @@ function levelEnd:display( )	-- called when level is won:
 
 	--statList["death_fall"] = math.random(10)
 	--statList["death_spikey"] = math.random(10)
-	for k,v in pairs( statList ) do
+	--[[for k,v in pairs( statList ) do
 		statList[k] = 0
 	end
 	statList["death_walker"] = math.random(5)
 	statList["death_spikey"] = math.random(5)
-	statList["death_fall"] = math.random(5)
+	statList["death_fall"] = math.random(5)]]
 
 	-- create a list which holds all the values which were relevant for this
 	-- level (i.e. their values are not zero - the event happened)
