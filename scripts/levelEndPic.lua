@@ -65,7 +65,7 @@ function Pic:new( x, y, statType, num )
 	if statType == "death_fall" then
 		newPic.title = "falls"
 		local width = tileSize
-		local randomWidth = 0
+		local randomWidth = tileSize/4
 		-- generate positions so that they overlap, but each position is unique:
 		local freeSlots = generateSlots( math.min(num/2, 6), width/2, 1.4*tileSize )
 
@@ -117,7 +117,7 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "death_spikey" then
 		newPic.title = "pierced"
 		local width = tileSize*1.4
-		local randomWidth = 0
+		local randomWidth = tileSize/4
 		-- generate positions so that they overlap, but each position is unique:
 		local freeSlots = generateSlots( math.min(num/2, 4), width/2, 1.4*tileSize )
 		newPic.slots = freeSlots
@@ -167,7 +167,7 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "death_walker" then
 		newPic.title = "collision"
 		local width = tileSize*2.5
-		local randomWidth = tileSize/2
+		local randomWidth = tileSize/3
 		-- generate positions so that they overlap, but each position is unique:
 		local freeSlots = generateSlots( math.min(num/2, 5), width/2, -tileSize )
 		newPic.slots = freeSlots
