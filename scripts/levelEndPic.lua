@@ -230,6 +230,14 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = -tileSize/2
 		newPic.visBG[1].posY = -tileSize*1.5
+	elseif statType == "numberOfButtons" then
+		newPic.title = "buttons:"
+		newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )
+		newPic.map = levelEnd.levels["end_air"]
+		newPic.visBG[1] = Visualizer:New( 'statNumberOfButtons' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = tileSize*0.55
 	elseif statType == "numberOfJumps" then
 		newPic.title = "jumps:"
 		newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )

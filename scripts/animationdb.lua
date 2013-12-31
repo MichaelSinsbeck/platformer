@@ -389,4 +389,8 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('statVelocity','statVelocity',{1,2,3,4},{.06,.03,.06,.03})
 	AnimationDB:loadImage('statTime.png', 'statTime', tileSize*4, tileSize*2 )
 	AnimationDB:addAni('statTime','statTime',{1,2,3,4},{.08,.08,.08,.08} )
+	AnimationDB:loadImage('statNumberOfButtons.png', 'statNumberOfButtons', tileSize*4, tileSize*4)
+	AnimationDB:addAni('statNumberOfButtons','statNumberOfButtons',
+	{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,16,18,19,18,19,20,21,22,21,22,21,22,21,22,21,22,23,24,25,26,27,28,29,30,31},
+	{1.5,.3,.03,.04,.06,.04,.03,.1,.9,.08,.05,.05,.08,.05,.2,1,.2,.5,.1,.1,.1,.1,.05,.2,.1,.3,.1,.2,.2,.1,.2,.1,.1,1,.03,.03,.03,.03,.9,.01,.9,1e6})
 end
