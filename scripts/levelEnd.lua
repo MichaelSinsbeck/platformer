@@ -148,7 +148,7 @@ function levelEnd:display( )	-- called when level is won:
 	for k,v in pairs( statList ) do
 		statList[k] = 0
 	end]]--
-	statList["numberOfButtons"] = math.random(5)
+	--statList["numberOfButtons"] = math.random(5)
 	--[[
 	statList["death_walker"] = math.random(5)
 	statList["death_spikey"] = math.random(5)
