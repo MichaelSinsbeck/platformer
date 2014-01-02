@@ -3,7 +3,7 @@ Map = {}
 
 local tileSize = 48		-- fallback
 
-function Map:LoadFromFile(mapFile)
+function Map:LoadFromFile(mapFile,tileSetNumber)
 	mapFile = mapFile or 'n1.dat'
 	mapFile = 'levels/' .. mapFile
 
@@ -37,19 +37,20 @@ function Map:LoadFromFile(mapFile)
     end
   end
   
-	o:loadImage()
+	o:loadImage(tileSetNumber)
 
 	return o	
 end
 
-function Map:loadImage()
+function Map:loadImage(tileSetNumber)
+	local tileSetNumber = tileSetNumber or Campaign.worldNumber
 	self.tileSize = Camera.scale*8
 	tileSize = self.tileSize
 	self.graphicSize = Camera.scale*10
 	
-	local imgFG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'foreground'.. Campaign.worldNumber ..'.png')
-  local imgBG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'background'.. Campaign.worldNumber ..'.png')
-	local imgWall = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. Campaign.worldNumber ..'.png')	
+	local imgFG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'foreground'.. tileSetNumber ..'.png')
+  local imgBG = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'background'.. tileSetNumber ..'.png')
+	local imgWall = love.graphics.newImage('images/tilesets/'.. Camera.scale*8 ..'world'.. tileSetNumber ..'.png')	
 	imgFG:setFilter('nearest','nearest')
 	imgBG:setFilter('nearest','nearest')
   imgWall:setFilter('nearest','nearest')
