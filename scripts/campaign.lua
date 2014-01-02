@@ -14,7 +14,8 @@ Campaign = {
 	'l13.dat',
 	'l21.dat',
 	'l12.dat',	
-
+	'l22.dat',
+	--[[
 	-- world 2
 	'n11.dat',
 	'n12.dat',
@@ -57,7 +58,7 @@ Campaign = {
 	'n49.dat', -- hook intro
 	'n47.dat', -- leap of faith, hook
 	'n48.dat', -- more hook
-	'n46.dat',	
+	'n46.dat',	]]
 	}
 
 Campaign.current = 0
@@ -197,4 +198,5 @@ Campaign.names['l18.dat'] = 'too little space'
 Campaign.names['l19.dat'] = 'one drop'
 Campaign.names['l20.dat'] = 'push the button'
 Campaign.names['l21.dat'] = 'companion'
+Campaign.names['l22.dat'] = 'the end'
 

@@ -385,7 +385,8 @@ function menu.startGame( lvl )
 
 		Campaign.current = lvlNum
 
-		myMap = Map:LoadFromFile( Campaign[Campaign.current] )
+		--myMap = Map:LoadFromFile( Campaign[Campaign.current] )
+		myMap = Map:LoadFromFile( Campaign[Campaign.current] , 1 ) -- *only for demo*
   		levelEnd:reset()		-- resets the counters of all deaths
 		myMap:start(p)
 		
