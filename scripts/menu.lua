@@ -56,9 +56,6 @@ function menu:init()
 
 	self.images.background1_IMG = love.graphics.newImage("images/world/"..prefix.."world1.png")
 	self.images.background2_IMG = love.graphics.newImage("images/world/"..prefix.."world2.png")
-	self.images.background3_IMG = love.graphics.newImage("images/world/"..prefix.."world3.png")
-	self.images.background4_IMG = love.graphics.newImage("images/world/"..prefix.."world4.png")
-	self.images.background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")
 	
 	self.images.shadow = love.graphics.newImage("images/menu/shadow.png") -- always 300 pixel wide.
 	self.images.shadow:setWrap('repeat','repeat')
@@ -218,15 +215,6 @@ function menu.initWorldMap()
 	
 	x = x + dWorld
 	table.insert(menuBackgrounds, {typ="img", img='background2_IMG', x=x, y=y})
-	
-	x = x + dWorld
-	table.insert(menuBackgrounds, {typ="img", img='background3_IMG', x=x, y=y})
-	
-	x = x + dWorld
-	table.insert(menuBackgrounds, {typ="img", img='background4_IMG', x=x, y=y})
-	
-	x = x + dWorld
-	table.insert(menuBackgrounds, {typ="img", img='background5_IMG', x=x, y=y})	
 
 	-- find out the last level that was beaten:
 	local currentLevel = config.getValue("level")
