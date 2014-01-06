@@ -100,9 +100,9 @@ function game.keypressed(key)
 	--	menu.startTransition(menu.initPauseMenu, false)()
 		menu.initPauseMenu()
 	end
-	if key == "r" then
+	--[[if key == "r" then
 		p.status = 'stand'
-	end
+	end]]
   if key == keys.JUMP then
 		spriteEngine:DoAll('jump')
 		if p.dead then
@@ -112,7 +112,7 @@ function game.keypressed(key)
   if key == keys.ACTION and p.bandana == "red" then
 		Bungee:throw()
   end
-  if key == keys.NEXTMAP then
+  --[[if key == keys.NEXTMAP then
 		Campaign:proceed()
   end
   if key == "u" then -- print all global variables
@@ -133,7 +133,7 @@ function game.keypressed(key)
 		  local filename = 'screenshot'..k..'.png'
 		  v:encode(filename)
 		end
-	end
+	end]]
 end
 
 function game.keyreleased(key)
