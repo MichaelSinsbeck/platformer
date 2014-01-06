@@ -26,21 +26,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="13.506898"
-     inkscape:cx="295.77607"
-     inkscape:cy="1213.9075"
+     inkscape:zoom="0.84418113"
+     inkscape:cx="202.3744"
+     inkscape:cy="854.89467"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:showpageshadow="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1025"
+     inkscape:window-width="1280"
+     inkscape:window-height="750"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-global="false"
+     inkscape:snap-global="true"
      gridtolerance="10000"
      inkscape:snap-bbox="true">
     <inkscape:grid
@@ -4541,6 +4541,51 @@
          id="path35942"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cccccccccccccc" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath24086-8">
+      <path
+         style="fill:#578dcb;fill-opacity:0.59722218;stroke:none"
+         d="m 480,-107.63783 40,0 0,40 -40,0 z"
+         id="path24088-0"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath24086-4">
+      <path
+         style="fill:#578dcb;fill-opacity:0.59722218;stroke:none"
+         d="m 480,-107.63783 40,0 0,40 -40,0 z"
+         id="path24088-6"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath24086-1">
+      <path
+         style="fill:#578dcb;fill-opacity:0.59722218;stroke:none"
+         d="m 480,-107.63783 40,0 0,40 -40,0 z"
+         id="path24088-5"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath24086-9">
+      <path
+         style="fill:#578dcb;fill-opacity:0.59722218;stroke:none"
+         d="m 480,-107.63783 40,0 0,40 -40,0 z"
+         id="path24088-8"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath24086-1-5">
+      <path
+         style="fill:#578dcb;fill-opacity:0.59722218;stroke:none"
+         d="m 480,-107.63783 40,0 0,40 -40,0 z"
+         id="path24088-5-5"
+         inkscape:connector-curvature="0" />
     </clipPath>
   </defs>
   <metadata
@@ -27786,6 +27831,82 @@
            d="m 200,52.36217 5.76888,-1.535806 8.00143,0.595956 8.27842,1.02838 c 1.30956,-0.03196 5.87794,-1.309384 6.83685,-1.322225 6.48962,-0.0869 5.70372,1.455551 11.11442,1.233695"
            style="fill:none;stroke:#483737;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       </g>
+    </g>
+    <g
+       style="display:inline"
+       transform="translate(-105,-255)"
+       id="g3490-3-1-3">
+      <rect
+         style="fill:#857266;fill-opacity:1;stroke:none"
+         id="rect7295-3-6-5-0-6-2"
+         width="20"
+         height="40"
+         x="125"
+         y="907.36218" />
+      <path
+         style="fill:none;stroke:#483737;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 125,907.36217 c 0,0 -0.26291,7.12338 -0.15299,10.68308 0.10008,3.241 0.63658,6.4586 0.73918,9.69952 0.10703,3.38125 -0.0265,6.76662 -0.12959,10.14798 -0.0963,3.15867 -0.4566,9.46942 -0.4566,9.46942"
+         id="path6507-1-7-2-7"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="csssc" />
+    </g>
+    <g
+       style="display:inline"
+       clip-path="url(#clipPath24086-1-5)"
+       id="g24996-8"
+       transform="translate(-480,760)">
+      <rect
+         clip-path="none"
+         style="fill:#84909e;fill-opacity:1;stroke:none"
+         id="rect25002-7"
+         width="40"
+         height="20.000013"
+         x="480"
+         y="-87.637833" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path25006-9"
+         d="m 480,-87.63783 9.93227,0.261306 15.36225,-0.172776 c 10.17236,-0.248299 8.49529,0.166107 14.70548,-0.08853"
+         style="fill:none;stroke:#483737;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <g
+       style="display:inline"
+       transform="translate(35.000005,-255)"
+       id="g3498-4-1-5">
+      <rect
+         style="fill:#857266;fill-opacity:1;stroke:none"
+         id="rect7295-3-06-0-3-2"
+         width="20"
+         height="40"
+         x="5"
+         y="907.36218" />
+      <path
+         style="fill:none;stroke:#483737;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 25,907.36217 c 0,5 -0.474043,6.27257 -0.377313,9.41039 0.108439,3.51766 0.937759,6.98666 1.071988,10.50343 0.121474,3.18258 -0.134032,6.36857 -0.242747,9.55161 C 25.331954,940.34031 25,942.36217 25,947.36217"
+         id="path6503-1-7-7-2"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="csssc" />
+    </g>
+    <g
+       style="display:inline"
+       transform="matrix(-1,0,0,1,560,760)"
+       id="g25018-2"
+       clip-path="url(#clipPath24086-9)">
+      <rect
+         y="-87.637833"
+         x="480"
+         height="20.000013"
+         width="40"
+         id="rect25024-8"
+         style="fill:#84909e;fill-opacity:1;stroke:none"
+         clip-path="none" />
+      <path
+         style="fill:none;stroke:#483737;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 480,-87.63783 9.93227,0.261306 15.36225,-0.172776 c 10.17236,-0.248299 8.49529,0.166107 14.70548,-0.08853"
+         id="path25028-1"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccc" />
     </g>
   </g>
 </svg>
