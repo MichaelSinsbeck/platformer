@@ -29,6 +29,7 @@ function Monocle:setGrid( grid, tileSize )
 	self.grid = grid
 	self.tileSize = tileSize
 	if self.useCanvas then
+		print("Creating new shadow canvas...")
 		local x, y = tileSize*#grid[1], tileSize*#grid
 		self.canvas = _lg.newCanvas( x, y )
 	end
