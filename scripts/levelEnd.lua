@@ -10,7 +10,7 @@ local boxes = {}
 local statBoxes = {}
 local picList = {}
 
-local STAT_TIME = 3
+local STAT_TIME = 0.5
 
 function levelEnd:init()
 	-- preload all the levels which could be needed:
@@ -141,7 +141,6 @@ function levelEnd:display( )	-- called when level is won:
 		statList["noDeaths"] = 1
 	end
 
-
 	--statList["death_fall"] = math.random(10)
 	--statList["death_spikey"] = math.random(10)
 	--[[
@@ -156,10 +155,10 @@ function levelEnd:display( )	-- called when level is won:
 
 	-- create a list which holds all the values which were relevant for this
 	-- level (i.e. their values are not zero - the event happened)
-	print("Level Statistics:")
+	--print("Level Statistics:")
 	local relevantList = {}
 	for statType, num in pairs(statList) do
-		print( "\t", statType, num )
+		--print( "\t", statType, num )
 		if num > 0 then
 			table.insert( relevantList, {num=num, statType=statType} )
 		end
@@ -178,13 +177,12 @@ function levelEnd:display( )	-- called when level is won:
 
 	local pos
 
-
 	for i = 1,self.numOfStats do
 		-- randomly choose a stat to display:
 		k = math.random(#relevantList)
 		pos = -fullWidth/2 + width*i
 		
-		self:addBox(pos - 30,-40,60,70, (i-1)*STAT_TIME)
+		self:addBox(pos - 30,-40,60,70, (i-1)*STAT_TIME + 1)
 		picList[#picList + 1] = 
 			Pic:new( pos, 0, relevantList[k].statType, relevantList[k].num, (i-1)*2 + 1 )
 

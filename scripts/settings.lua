@@ -26,13 +26,12 @@ function settings:setWindowSize()
 	if self.fullscreen then
 		scale = self:fullscreenScale()
 		--success = love.graphics.setMode(self.xScreen,self.yScreen, true)
-		success = love.window.setMode( 0, 0, {fullscreen = true} )
+		success = love.window.setMode( self.xScreen, self.yScreen, {fullscreen = true} )
 	else
 		scale = self:windowScale()
 		success = love.window.setMode(
 			math.min(self.xScreen,scale*8*32),
-			math.min(self.yScreen,scale*8*20)
-			, {fullscreen = false} )
+			math.min(self.yScreen,scale*8*20), {fullscreen = false} )
 	end
 	Camera:setScale(scale)
 
