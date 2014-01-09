@@ -25,17 +25,20 @@ function settings:setWindowSize()
 	local scale
 	if self.fullscreen then
 		scale = self:fullscreenScale()
-		success = love.graphics.setMode(self.xScreen,self.yScreen, true)
+		--success = love.graphics.setMode(self.xScreen,self.yScreen, true)
+		success = love.window.setMode( 0, 0, {fullscreen = true} )
 	else
 		scale = self:windowScale()
-		success = love.graphics.setMode(
+		success = love.window.setMode(
 			math.min(self.xScreen,scale*8*32),
 			math.min(self.yScreen,scale*8*20)
-			,false)
+			, {fullscreen = false} )
 	end
 	Camera:setScale(scale)
+
+	local w, h = love.window.getDimensions()
 	
-	fullscreenCanvas = love.graphics.newCanvas(self.xScreen,self.yScreen)
+	fullscreenCanvas = love.graphics.newCanvas(w, h)
 	
 	return success
 end
@@ -56,10 +59,15 @@ end
 function settings:initWindowSize()
 	
 	-- find screen size
+	--[[
 	local modes = love.graphics.getModes()
 	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
 	self.xScreen = modes[1].width
 	self.yScreen = modes[1].height
+	]]--
+	local w, h = love.window.getDesktopDimensions()
+	self.xScreen = w
+	self.yScreen = h
 
 	-- only property is "fullscreen"
 	self.fullscreen = config.getValue("fullscreen")

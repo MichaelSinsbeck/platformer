@@ -56,7 +56,8 @@ function love.update( dt )
 			levelEnd:update( dt )
 		end
 
-		keys.catchGamepadEvents()
+		-- TO DO: Port to 0.9.0
+		--keys.catchGamepadEvents()
 		
 		shaders:update( dt )
 	end
@@ -67,7 +68,7 @@ end
 local a = 0
 
 function love.draw()
-	love.graphics.setPixelEffect()
+	love.graphics.setShader()
 	
 	if mode == 'loading' then
 		loading.draw()

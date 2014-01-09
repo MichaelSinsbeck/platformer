@@ -56,7 +56,7 @@ function InputRight:setAcceleration(dt)
 end
 
 function updateInputDisplays()
-	if love.joystick.getNumJoysticks() == 0 then
+	if love.joystick.getJoystickCount() == 0 then
 		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.JUMP ) )
 		InputJump.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.JUMP) )
 		

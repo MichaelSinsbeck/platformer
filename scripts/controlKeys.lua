@@ -25,7 +25,7 @@ function controlKeys:draw( drawMode )
 	
 	y = love.graphics.getHeight() - 60
 	
-	if love.joystick.getNumJoysticks() == 0 then
+	if love.joystick.getJoystickCount() == 0 then
 		for k = 1, #toDraw do
 			x, y = toDraw[k].x, toDraw[k].y
 			love.graphics.draw( toDraw[k].img, x*Camera.scale, y*Camera.scale)
@@ -50,7 +50,7 @@ function controlKeys:draw( drawMode )
 end
 
 function controlKeys:setup()
-	if love.joystick.getNumJoysticks() == 0 then
+	if love.joystick.getJoystickCount() == 0 then
 		death = {}
 		death[1] = {}
 		death[1].label = "retry"

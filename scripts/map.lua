@@ -337,7 +337,7 @@ function Map:updateSpritebatch()
   for x in pairs(self.tileWall) do
 		for y in pairs(self.tileWall[x]) do
 			if self.quadsWall[self.tileWall[x][y]] then
-				self.spriteBatchWall:addq(self.quadsWall[self.tileWall[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
+				self.spriteBatchWall:add(self.quadsWall[self.tileWall[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
 			end
 		end
   end
@@ -345,7 +345,7 @@ function Map:updateSpritebatch()
   for x in pairs(self.tileFG) do
 		for y in pairs(self.tileFG[x]) do
 			if self.quadsFG[self.tileFG[x][y]] then
-				self.spriteBatchFG:addq(self.quadsFG[self.tileFG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
+				self.spriteBatchFG:add(self.quadsFG[self.tileFG[x][y] ], x*self.tileSize+self.offset, y*self.tileSize+self.offset)
 			end
 		end
   end
@@ -353,7 +353,7 @@ function Map:updateSpritebatch()
 	for x in pairs(self.tileBG) do
 		for y in pairs(self.tileBG[x]) do
 			if self.quadsBG[self.tileBG[x][y]] then
-				self.spriteBatchBG:addq(self.quadsBG[self.tileBG[x][y] ], x*self.tileSize, y*self.tileSize)
+				self.spriteBatchBG:add(self.quadsBG[self.tileBG[x][y] ], x*self.tileSize, y*self.tileSize)
 			end
 		end
   end  
@@ -395,7 +395,7 @@ end
 
 function Map:drawParallax(world)
 	local world = world or Campaign.worldNumber
-	love.graphics.drawq(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
+	love.graphics.draw(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
 end
 
 function Map:collisionTest(x,y,direction,tag)

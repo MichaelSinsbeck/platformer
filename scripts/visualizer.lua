@@ -57,7 +57,7 @@ function Visualizer:draw(x,y)
 		--print(self.img, self.currentQuad, self.text)
 		if self.img and self.currentQuad then
 			love.graphics.setColor(255,255,255,self.alpha)
-			love.graphics.drawq(self.img, self.currentQuad,
+			love.graphics.draw(self.img, self.currentQuad,
 				math.floor(x+self.relX*Camera.scale*8),
 				math.floor(y+self.relY*Camera.scale*8),
 				self.angle,

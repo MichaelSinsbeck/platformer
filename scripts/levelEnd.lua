@@ -283,7 +283,7 @@ function levelEnd:registerButtonPress()
 end
 
 function levelEnd:registerStart()
-	statList["time"] = love.timer.getMicroTime()
+	statList["time"] = love.timer.getTime()
 end
 
 function levelEnd:registerEnd()
@@ -291,7 +291,7 @@ function levelEnd:registerEnd()
 		self:registerJumpEnd( p.x, p.y )
 	end
 
-	statList["time"] = love.timer.getMicroTime() - statList["time"]
+	statList["time"] = love.timer.getTime() - statList["time"]
 end
 
 function levelEnd:registerVelocity( vx, vy)
@@ -302,12 +302,12 @@ function levelEnd:registerVelocity( vx, vy)
 end
 
 function levelEnd:registerWallHangStart()
-	self.wallHang = {time = love.timer.getMicroTime()}
+	self.wallHang = {time = love.timer.getTime()}
 end
 
 function levelEnd:registerWallHangEnd()
 	if levelEnd.wallHang then
-		local time = love.timer.getMicroTime() - levelEnd.wallHang.time
+		local time = love.timer.getTime() - levelEnd.wallHang.time
 		if time > statList["longestWallHang"] then
 			statList["longestWallHang"] = time
 		end

@@ -44,8 +44,8 @@ function Monocle:setBlur( blurAmount )
 	
 	if self.blur then
 		--self.blurAmount = 0
-		self.gaussianV = _lg.newPixelEffect(love.filesystem.read("scripts/shaders/gaussianV.glsl"))
-		self.gaussianH = _lg.newPixelEffect(love.filesystem.read("scripts/shaders/gaussianH.glsl"))
+		self.gaussianV = _lg.newShader("scripts/shaders/gaussianV.glsl")
+		self.gaussianH = _lg.newShader("scripts/shaders/gaussianH.glsl")
 		self.gaussianV:send("amount", self.blurAmount)
 		self.gaussianV:send("screenSize", self.canvas:getWidth())
 		self.gaussianH:send("amount", self.blurAmount)
@@ -146,30 +146,30 @@ function Monocle:update( debug )
 			
 			-- store any effects the user has set up before:
 			prevMode = _lg.getBlendMode()
-			prevEffect = love.graphics.getPixelEffect()
+			prevEffect = love.graphics.getShader()
 			
 			self.gaussCanvas:clear()
 			_lg.setCanvas(self.gaussCanvas)
 		
-			_lg.setPixelEffect( self.gaussianH )
+			_lg.setShader( self.gaussianH )
 			_lg.setColor(255,255,255,255)
 			
 			_lg.setBlendMode('premultiplied')
 			
 			_lg.draw(self.canvas)
-			_lg.setPixelEffect()
+			_lg.setShader()
 			self.canvas:clear()
 	
 			_lg.setCanvas(self.canvas)
-			_lg.setPixelEffect( self.gaussianV )
+			_lg.setShader( self.gaussianV )
 			_lg.setColor(255,255,255,255)
 			_lg.draw(self.gaussCanvas)
-			_lg.setPixelEffect()
+			_lg.setShader()
 			_lg.setCanvas()
 
 			-- restore any other shaders the user used before:
 			_lg.setBlendMode( prevMode )
-			_lg.setPixelEffect( prevEffect )
+			_lg.setShader( prevEffect )
 		end
 	end
 end

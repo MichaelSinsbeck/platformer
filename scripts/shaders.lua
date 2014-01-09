@@ -28,7 +28,7 @@ function shaders:load()
 	end
 	
 	print("\tLooking for shader support...")
-	if love.graphics.isSupported("pixeleffect") then
+	if love.graphics.isSupported("shader") then
 		print("\t\t...supported!")
 	else
 		print("\t\t...not supported!")
@@ -49,7 +49,7 @@ function shaders:load()
 
 	--shaders.grayScale = love.graphics.newPixelEffect( textFromFile ("grayscale.glsl") )
 	--shaders.fadeToBlack = love.graphics.newPixelEffect( textFromFile ("fadeToBlack.glsl") )
-	shaders.fullscreen = love.graphics.newPixelEffect( textFromFile("fullscreen.glsl") )
+	shaders.fullscreen = love.graphics.newShader( "scripts/shaders/fullscreen.glsl" )
 	print("Shaders loaded.")
 end
 
@@ -92,9 +92,9 @@ function shaders:stop()
 			love.graphics.setCanvas()
 			shaders.fullscreen:send( "percentage", menu.transitionPercentage )
 			shaders.fullscreen:send( "grayAmount", deathEffect.percentage )
-			love.graphics.setPixelEffect( shaders.fullscreen )
+			love.graphics.setShader( shaders.fullscreen )
 			love.graphics.draw(fullscreenCanvas, 0, 0)
-			love.graphics.setPixelEffect()
+			love.graphics.setShader()
 		end
 	else
 		if menu.transitionActive then
