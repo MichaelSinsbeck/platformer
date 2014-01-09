@@ -63,6 +63,10 @@ function shaders:resetDeathEffect()
 	deathEffect.percentage = 0
 end
 
+function shaders:getDeathEffect()
+	return deathEffect.active, deathEffect.percentage
+end
+
 function shaders:update( dt )
 	if USE_SHADOWS and shadows.needsShadowUpdate then
 		if myMap then

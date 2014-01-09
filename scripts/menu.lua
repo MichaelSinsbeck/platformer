@@ -1085,6 +1085,9 @@ function menu.initPauseMenu()
 	menu.state = "pause"
 
 	love.graphics.setBackgroundColor(40,40,40)
+	if not shaders:getDeathEffect() then
+		shaders:setDeathEffect( .8 )
+	end
 
 	local x,y
 	x = -2
@@ -1125,6 +1128,7 @@ function menu.initPauseMenu()
 end
 
 function menu.endPauseMenu()
+	shaders:resetDeathEffect()
 	mode = 'game'
 end
 ---------------------------------------------------------
