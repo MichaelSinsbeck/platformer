@@ -32,11 +32,21 @@ function banner:new( x, y, width, height )
 			255,255,255,		-- colour
 		}
 	end
+
+	new.shadowVerts = {}
+	for k, v in ipairs(new.verts) do
+		new.shadowVerts[k] = {}
+		for i,p in pairs(v) do
+			new.shadowVerts[k][i] = p
+		end
+	end
 	
-	local blue = math.random(128) + 128
-	new.col = { blue/5, blue/5, blue, 255 }
+	local blue = math.random(32) + 128
+	new.col = { blue/3, blue/2, blue, 255 }
 	new.timer = 0
-	new.mesh = love.graphics.newMesh( new.verts, bannerImg, "strip" )
+	--new.mesh = love.graphics.newMesh( new.verts, bannerImg, "strip" )
+	new.mesh = love.graphics.newMesh( new.verts, nil, "strip" )
+	new.shadow = love.graphics.newMesh( new.shadowVerts, nil, "strip" )
 
 	return new
 end
@@ -45,19 +55,24 @@ function banner:update( dt )
 	self.timer = self.timer + dt
 	for k = 1, #self.verts, 2 do
 		local dx = self.verts[k][1]
-		self.verts[k][2] = (self.width - dx)/self.width*math.sin(dx/self.width*5 + self.timer*5)*self.height/10
+		local amount = (self.width-dx)/self.width
+		self.verts[k][2] = amount*math.sin(dx/self.width*5 + self.timer*2)*self.height/10
+		self.shadowVerts[k][2] = (self.width - dx)/self.width*math.sin(dx/self.width*5 + self.timer*2)*self.height/15
 	end
 	for k = 2, #self.verts, 2 do
 		local dx = self.verts[k][1]
-		self.verts[k][2] = self.height+(self.width - dx)/self.width*math.sin(dx/self.width*5 + self.timer*5)*self.height/10
+		local amount = (self.width-dx)/self.width
+		self.verts[k][2] = self.height+amount*math.sin(dx/self.width*5 + self.timer*2)*self.height/10
+		self.shadowVerts[k][2] = self.height+(self.width - dx)/self.width*math.sin(dx/self.width*5 + self.timer*2)*self.height/15
 	end
 	self.mesh:setVertices(self.verts)
+	self.shadow:setVertices(self.shadowVerts)
 end
 
 function banner:draw()
 
 	love.graphics.setColor( 0, 0, 0, 50 )
-	love.graphics.draw( self.mesh, self.x, self.y + 20 )
+	love.graphics.draw( self.shadow, self.x, self.y + 20 )
 	love.graphics.setColor( 255, 255, 255, 255 )
 	--love.graphics.draw( logImg, self.x + self.width - logImg:getWidth() - 20, self.y, 0, self.sx, self.sy )
 	love.graphics.setColor( self.col )
