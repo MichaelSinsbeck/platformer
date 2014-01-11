@@ -97,7 +97,7 @@ function love.draw()
 			elseif mode == 'menu' and menu.state == 'pause' then	-- draw AFTER grey shader!
 				menu:draw()
 			elseif mode == 'game' and game.isDead() then
-				controlKeys:draw("dead")
+				controlKeys:draw("death")
 			end
 		end
 		if menu.curLevelName then

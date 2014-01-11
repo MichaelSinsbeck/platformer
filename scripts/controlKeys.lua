@@ -112,6 +112,7 @@ function controlKeys:setup()
 		menuControl[2].y = (love.graphics.getHeight())/Camera.scale - 20
 		
 	else
+		print("working")
 		death[1] = {}
 		death[1].label = "retry"
 		--death[1].txt = nameForKey( keys.JUMP )

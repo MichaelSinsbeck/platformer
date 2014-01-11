@@ -412,11 +412,11 @@ end
 function keys.joystickadded( j )
 	-- if this is the first joystick, switch menu keys to
 	-- be displayed in joystick-mode
+	keys.gamepadPressed[j:getID()] = {}
+	keys.pressedLastFrame[j:getID()] = {}
 	if love.joystick.getJoystickCount() == 1 then
 		controlKeys:setup()
 	end
-	keys.gamepadPressed[j:getID()] = {}
-	keys.pressedLastFrame[j:getID()] = {}
 end
 
 -- called when new joystick has been disconnected:

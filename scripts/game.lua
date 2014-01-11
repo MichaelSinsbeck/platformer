@@ -100,15 +100,22 @@ function game.keypressed(key)
 	end
 	if key == keys.JUMP then
 		spriteEngine:DoAll('jump')
-		if p.dead then
-			menu.startTransition( function() myMap:start(p) end )()
-		end
 	end
+	
+	if p.dead then
+		if key == keys.CHOOSE then
+			menu.startTransition( function() myMap:start(p) end )()
+		elseif key == keys.BACK then
+			menu.startTransition( menu.initWorldMap, true )()
+		end
+	end  
+
+
 	if key == keys.ACTION and p.bandana == "red" then
 		Bungee:throw()
 	end
 	if key == keys.NEXTMAP then
-		Campaign:proceed()
+		--Campaign:proceed()
 	end
 	if key == "u" then -- print all global variables
 		for k,v in pairs(_G) do
@@ -149,10 +156,14 @@ function game.joystickpressed(joystick, button)
 	end
 	if button == keys.PAD.JUMP then
 		spriteEngine:DoAll('jump')
-		if p.dead then
-			menu.startTransition( function() myMap:start(p) end )()
-		end  
 	end
+	if p.dead then
+		if button == keys.PAD.CHOOSE then
+			menu.startTransition( function() myMap:start(p) end )()
+		elseif button == keys.PAD.BACK then
+			menu.startTransition( menu.initWorldMap, true )()
+		end
+	end  
 
 	if button == keys.PAD.ACTION and p.bandana == "red" then
 		Bungee:throw()
