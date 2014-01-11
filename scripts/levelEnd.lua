@@ -182,7 +182,7 @@ function levelEnd:display( )	-- called when level is won:
 		k = math.random(#relevantList)
 		pos = -fullWidth/2 + width*i
 		
-		self:addBox(pos - 30,-40,60,70, (i-1)*STAT_TIME + 1)
+		self:addBox(pos - 30,-40,60,70, (i-1)*STAT_TIME )
 		picList[#picList + 1] = 
 			Pic:new( pos, 0, relevantList[k].statType, relevantList[k].num, (i-1)*2 + 1 )
 

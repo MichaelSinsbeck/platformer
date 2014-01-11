@@ -197,7 +197,6 @@ function love.joystickhat( joystick, hat, direction )
 		elseif direction == "ru" or direction == "rd" then
 			direction = "r"
 		end
-		print(direction)
 		keys.pressGamepadKey( joystick, direction )
 	end
 end

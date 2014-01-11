@@ -545,7 +545,6 @@ function menu:changeButtonImage( name, imageOff, imageOn )
 			b.imgOff = imageOff or b.imgOff
 			b.imgOn = imageOn or b.imgOn
 			if b.label then
-				print(self.images[b.imgOff], b.font)
 				b.labelX = (self.images[b.imgOff]:getWidth()
 						- _G[b.font]:getWidth(b.label))*0.5/Camera.scale
 			end
@@ -802,7 +801,6 @@ function menu:execute()
 end
 
 function menu:keypressed( key, unicode )
-	print("menu:", key, keys.PAD.CHOOSE, keys.PAD.BACK )
 	if menu.state == "credits" then	--any key in credits screen returns to main screen.
 		menu.startTransition(menu.initMain, false)()
 	else
@@ -1059,13 +1057,8 @@ function menu:draw()
 		love.graphics.printf(displayText, 0, y, love.graphics.getWidth(), 'center')	
 		love.graphics.setColor(255,255,255)	
 	end
-	
-	if keys.currentlyAssigning then
-		love.graphics.print(keys.currentlyAssigning, 10, 10)
-	else
-		controlKeys:draw("menu")
-	end
 
+	controlKeys:draw("menu")
 end
 
 

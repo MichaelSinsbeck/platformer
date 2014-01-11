@@ -110,7 +110,7 @@ function config.getValue( name, filename )
 			end
 		end
 	end
-	print("Value for '" .. name .. "' not found in config file.")
+	print("Value for '" .. name .. "' not found in config file. Using default.")
 	return nil
 end
 

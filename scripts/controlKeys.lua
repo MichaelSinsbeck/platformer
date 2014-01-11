@@ -84,7 +84,7 @@ function controlKeys:setup()
 		
 		win[2] = {}
 		win[2].label = "leave"
-		win[2].txt = keys.BACK
+		win[2].txt = nameForKey( keys.BACK )
 		win[2].img = menu:getImage(getImageForKey( keys.BACK ))
 		win[2].offset = (win[2].img:getWidth() - fontSmall:getWidth(win[2].txt))/2/Camera.scale
 		win[2].x = 6
@@ -94,7 +94,7 @@ function controlKeys:setup()
 		menuControl = {}
 		menuControl[1] = {}
 		menuControl[1].label = "choose"
-		menuControl[1].txt = keys.CHOOSE
+		menuControl[1].txt = nameForKey( keys.CHOOSE )
 		menuControl[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
 		menuControl[1].offset = (menuControl[1].img:getWidth() - fontSmall:getWidth(menuControl[1].txt))/2/Camera.scale
 		menuControl[1].x = (love.graphics.getWidth()-menuControl[1].img:getWidth())/Camera.scale - 6
@@ -104,7 +104,7 @@ function controlKeys:setup()
 		
 		menuControl[2] = {}
 		menuControl[2].label = "back"
-		menuControl[2].txt = keys.BACK
+		menuControl[2].txt = nameForKey( keys.BACK )
 		menuControl[2].img = menu:getImage(getImageForKey( keys.BACK ))
 		menuControl[2].offset = (menuControl[2].img:getWidth() - fontSmall:getWidth(menuControl[2].txt))/2/Camera.scale
 		menuControl[2].x = 6

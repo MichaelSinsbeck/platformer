@@ -36,7 +36,7 @@ function loading.update()
 	elseif loading.step == 2 then
 		keys.load()
 		loading.msg = "gamepad setup"
-	elseif loading.step == 4 then
+	elseif loading.step == 3 then
 		keys.loadGamepad()
 		loading.msg = "menu"
 	elseif loading.step == 4 then

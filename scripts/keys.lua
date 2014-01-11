@@ -104,6 +104,13 @@ function keys.load()
 	if key then keys.JUMP = key end
 	key = config.getValue( "ACTION", "keyboard.txt")
 	if key then keys.ACTION = key end
+
+	key = config.getValue( "BACK", "keyboard.txt")
+	if key then keys.BACK = key end
+	key = config.getValue( "CHOOSE", "keyboard.txt")
+	if key then keys.CHOOSE = key end
+	key = config.getValue( "PAUSE", "keyboard.txt")
+	if key then keys.PAUSE = key end
 	
 	-- Load gamepad setup:
 	key = config.getValue( "SCREENSHOT", "gamepad.txt")
@@ -130,10 +137,14 @@ function keys.load()
 	if key then keys.PAD.JUMP = key end
 	key = config.getValue( "ACTION", "gamepad.txt")
 	if key then keys.PAD.ACTION = key end
+
 	key = config.getValue( "BACK", "gamepad.txt")
 	if key then keys.PAD.BACK = key end
 	key = config.getValue( "CHOOSE", "gamepad.txt")
 	if key then keys.PAD.CHOOSE = key end
+	key = config.getValue( "PAUSE", "gamepad.txt")
+	if key then keys.PAD.PAUSE = key end
+
 end
 
 function keys.loadGamepad()
@@ -165,6 +176,8 @@ function nameForKey( key )
 		return "C"
 	elseif key == "right" then
 		return "D"
+	elseif key == "backspace" then
+		return "bspace"
 	else
 		return key
 	end
@@ -349,7 +362,6 @@ function keys.handleGamepad( ID )
 	for k, v in pairs( keys.pressedLastFrame[ID] ) do
 		if not keys.gamepadPressed[ID][k] then
 			keys.pressedLastFrame[ID][k] = nil
-			print("released", k)
 			if mode == "game" then
 				game.joystickreleased( ID, k )
 			elseif mode == "menu" then
@@ -393,7 +405,7 @@ end
 
 function keys.getGamepadIsDown( ID, str )
 	ID = ID or 1
-	return keys.gamepadPressed[ID][str]
+	return keys.gamepadPressed[ID] and keys.gamepadPressed[ID][str] or false
 end
 
 -- called when new joystick has been connected:
@@ -403,7 +415,6 @@ function keys.joystickadded( j )
 	if love.joystick.getJoystickCount() == 1 then
 		controlKeys:setup()
 	end
-	print("new:", j:getID())
 	keys.gamepadPressed[j:getID()] = {}
 	keys.pressedLastFrame[j:getID()] = {}
 end
@@ -445,7 +456,7 @@ function keys.initKeyboard()
 	
 	keys.changed = false -- don't save configuration unless new key has been assigned
 	
-	local x,y = -25, -45
+	local x,y = -26, -45
 	local imgOff, imgOn
 	local hoverEvent
 	local ninjaDistX = 3
@@ -486,8 +497,8 @@ function keys.initKeyboard()
 					nameForKey(keys.DOWN), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
-	y = -35
-	x = 37
+	x = 34
+	y = -45
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
 	imgOff, imgOn = getImageForKey( keys.JUMP, 'fontSmall' )
@@ -497,7 +508,7 @@ function keys.initKeyboard()
 					nameForKey(keys.JUMP), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("jump")/Camera.scale, y+3, "JUMP", "jump")
 	y = y + 10
-	
+		
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "blueGliding" )
 	imgOff, imgOn = getImageForKey( keys.ACTION, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
@@ -505,6 +516,15 @@ function keys.initKeyboard()
 					keys.startAssign( "ACTION" ), hoverEvent,
 					nameForKey(keys.ACTION), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3,	"ACTION", "use bandana")
+	y = y + 10
+
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOff, imgOn = getImageForKey( keys.PAUSE, 'fontSmall' )
+	menu:addButtonLabeled( x, y,
+					imgOff, imgOn, "key_PAUSE",
+					keys.startAssign( "PAUSE" ), hoverEvent,
+					nameForKey(keys.PAUSE), 'fontSmall' )
+	menu:addText( x-8 - fontSmall:getWidth("pause")/Camera.scale, y+3, "PAUSE", "pause")
 
 	local x,y = 3, 10
 
@@ -609,7 +629,7 @@ function keys.initGamepad()
 					keys.startAssign( "DOWN" ), hoverEvent )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
-	y = -35
+	y = -45
 	x = 37
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
@@ -741,6 +761,10 @@ function keys:exitSubMenu()
 			
 				config.setValue( "JUMP", keys.JUMP, "keyboard.txt")
 				config.setValue( "ACTION", keys.ACTION, "keyboard.txt")
+
+				config.setValue( "CHOOSE", keys.CHOOSE, "keyboard.txt")
+				config.setValue( "BACK", keys.BACK, "keyboard.txt")
+				config.setValue( "PAUSE", keys.PAUSE, "keyboard.txt")
 			else
 				config.setValue( "SCREENSHOT", keys.PAD.SCREENSHOT, "gamepad.txt")
 				config.setValue( "FULLSCREEN", keys.PAD.FULLSCREEN, "gamepad.txt")
@@ -755,6 +779,10 @@ function keys:exitSubMenu()
 			
 				config.setValue( "JUMP", keys.PAD.JUMP, "gamepad.txt")
 				config.setValue( "ACTION", keys.PAD.ACTION, "gamepad.txt")
+
+				config.setValue( "CHOOSE", keys.PAD.CHOOSE, "gamepad.txt")
+				config.setValue( "BACK", keys.PAD.BACK, "gamepad.txt")
+				config.setValue( "PAUSE", keys.PAD.PAUSE, "gamepad.txt")
 			end
 		end
 		if not keys:checkInvalid() then
@@ -792,7 +820,6 @@ function keys.assign( key )
 			menu:changeButtonImage( "key_" .. keys.currentlyAssigning, imgOff, imgOn )
 			menu:changeButtonLabel( "key_" .. keys.currentlyAssigning,
 						nameForKey(keys[keys.currentlyAssigning]))
-			print("BACK", keys.currentlyAssigning)
 			if keys.currentlyAssigning == "BACK" or keys.currentlyAssigning == "CHOOSE" then
 				controlKeys:setup()
 			end
@@ -800,14 +827,12 @@ function keys.assign( key )
 			keys.currentlyAssigning = false
 
 		elseif menu.state == "gamepad" then
-			print("new", key)
 			if keys.PAD[keys.currentlyAssigning] ~= key then
 				keys.changed = true
 			end
 			keys.PAD[keys.currentlyAssigning] = key
 
 			local imgOff,imgOn = getImageForPad( keys.PAD[keys.currentlyAssigning] )
-			print("key_PAD_" .. keys.currentlyAssigning, imgOff, imgOn )
 			menu:changeButtonImage( "key_PAD_" .. keys.currentlyAssigning, imgOff, imgOn )
 
 			if keys.currentlyAssigning == "BACK" or keys.currentlyAssigning == "CHOOSE" then
