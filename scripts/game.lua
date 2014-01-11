@@ -24,7 +24,6 @@ function game:draw()
 	
 	myMap:drawFG()
 
-		
 	--love.graphics.setColor(255,255,255) 
 	
 	Camera:free()
@@ -34,25 +33,22 @@ function game:draw()
 		table.insert(screenshots,love.graphics.newScreenshot())
 	end
 	
-	if p.dead then
-		controlKeys:draw("death")	-- display the keys for "retry" and "exit"
-	end
 end
 
 function game:checkControls()
  -- local joyHat = love.joystick.getHat(1,1)
-  self.isLeft = love.keyboard.isDown( keys.LEFT) 
---		or keys.getGamepadIsDown( "LEFT" )
+  self.isLeft = love.keyboard.isDown( keys.LEFT ) 
+		or keys.getGamepadIsDown( nil, keys.PAD.LEFT )
 	self.isRight = love.keyboard.isDown( keys.RIGHT )
---		or keys.getGamepadIsDown( "RIGHT" )
+		or keys.getGamepadIsDown( nil, keys.PAD.RIGHT )
 	self.isDown = love.keyboard.isDown( keys.DOWN )
---		or keys.getGamepadIsDown( "DOWN" )
+		or keys.getGamepadIsDown( nil, keys.PAD.DOWN )
 	self.isUp = love.keyboard.isDown( keys.UP )
---		or keys.getGamepadIsDown( "UP" )
+		or keys.getGamepadIsDown( nil, keys.PAD.UP )
 	self.isJump = love.keyboard.isDown( keys.JUMP ) 
---		or keys.getGamepadIsDown( "JUMP" )
+		or keys.getGamepadIsDown( nil, keys.PAD.JUMP )
 	self.isAction = love.keyboard.isDown( keys.ACTION )
---		or keys.getGamepadIsDown( "ACTION" )
+		or keys.getGamepadIsDown( nil, keys.PAD.ACTION )
 	--print(keys.PAD_JUMP, tonumber(keys.PAD_JUMP), love.joystick.isDown(1, tonumber(keys.PAD_JUMP)))
 	--print(self.isJump)
 end
@@ -96,76 +92,82 @@ function game:update(dt)
 end
 
 function game.keypressed(key)
-	if key == 'escape' then
-	--	menu.startTransition(menu.initPauseMenu, false)()
+	if key == keys.PAUSE then
 		menu.initPauseMenu()
 	end
 	if key == "r" then
 		p.status = 'stand'
 	end
-  if key == keys.JUMP then
+	if key == keys.JUMP then
 		spriteEngine:DoAll('jump')
 		if p.dead then
 			menu.startTransition( function() myMap:start(p) end )()
 		end
-  end
-  if key == keys.ACTION and p.bandana == "red" then
+	end
+	if key == keys.ACTION and p.bandana == "red" then
 		Bungee:throw()
-  end
-  if key == keys.NEXTMAP then
+	end
+	if key == keys.NEXTMAP then
 		Campaign:proceed()
-  end
-  if key == "u" then -- print all global variables
+	end
+	if key == "u" then -- print all global variables
 		for k,v in pairs(_G) do
 			print(k)
 		end
-  end
-  
-  if key == "m" then	-- recorder	
+	end
+
+	if key == "m" then	-- recorder	
 		recorder = not recorder
 		print('Recorder:')
 		print(recorder)
-  end
-  if key == "n" then
+	end
+	if key == "n" then
 		print('Saving screenshots')
 		for k,v in pairs(screenshots) do
 			if k < 10 then k = '0'..k end
-		  local filename = 'screenshot'..k..'.png'
-		  v:encode(filename)
+			local filename = 'screenshot'..k..'.png'
+			v:encode(filename)
 		end
 	end
 end
 
 function game.keyreleased(key)
-  if key == keys.JUMP then
-	spriteEngine:DoAll('unjump')
-  end
-  if key == keys.ACTION then
-	spriteEngine:DoAll('disconnect')
-  end
+	if key == keys.JUMP then
+		spriteEngine:DoAll('unjump')
+	end
+	if key == keys.ACTION then
+		spriteEngine:DoAll('disconnect')
+	end
 end
 
 function game.joystickpressed(joystick, button)
-	if button == 7 or button == 8 then
+	--[[if button == 7 or button == 8 then
 		menu.startTransition(menu.initWorldMap)()
+	end]]--
+	if button == keys.PAD.PAUSE then
+		menu.initPauseMenu()
 	end
-  if tonumber(button) == tonumber(keys.PAD.JUMP) then
-    spriteEngine:DoAll('jump')
+	if button == keys.PAD.JUMP then
+		spriteEngine:DoAll('jump')
 		if p.dead then
 			menu.startTransition( function() myMap:start(p) end )()
 		end  
-  end
-  
-	if button == tonumber(keys.PAD.ACTION) and p.bandana == "red" then
+	end
+
+	if button == keys.PAD.ACTION and p.bandana == "red" then
 		Bungee:throw()
-  end
+	end
 end
 
 function game.joystickreleased(joystick, button)
-  if button ==  tonumber(keys.PAD.JUMP) then
-    spriteEngine:DoAll('unjump')
-  end
-	if button == tonumber(keys.PAD.ACTION) then
+	if button == keys.PAD.JUMP then
+		spriteEngine:DoAll('unjump')
+	end
+	if button == keys.PAD.ACTION then
 		spriteEngine:DoAll('disconnect')
-  end  
+	end  
+end
+
+function game.isDead()
+	return p and p.dead or false
 end

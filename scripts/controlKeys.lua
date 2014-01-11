@@ -54,8 +54,8 @@ function controlKeys:setup()
 		death = {}
 		death[1] = {}
 		death[1].label = "retry"
-		death[1].txt = nameForKey( keys.JUMP )
-		death[1].img = menu:getImage(getImageForKey( keys.JUMP ))
+		death[1].txt = nameForKey( keys.CHOOSE )
+		death[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
 		death[1].offset = (death[1].img:getWidth() - fontSmall:getWidth(death[1].txt))/2/Camera.scale
 		death[1].x = (love.graphics.getWidth()-death[1].img:getWidth())/Camera.scale - 6
 		death[1].labelX = (death[1].x*Camera.scale + death[1].img:getWidth() -
@@ -64,8 +64,8 @@ function controlKeys:setup()
 		
 		death[2] = {}
 		death[2].label = "leave"
-		death[2].txt = "esc"
-		death[2].img = menu:getImage(getImageForKey( "esc" ))
+		death[2].txt = nameForKey( keys.BACK )
+		death[2].img = menu:getImage(getImageForKey( keys.BACK ))
 		death[2].offset = (death[2].img:getWidth() - fontSmall:getWidth(death[2].txt))/2/Camera.scale
 		death[2].x = 6
 		death[2].labelX = death[2].x
@@ -74,8 +74,8 @@ function controlKeys:setup()
 		win = {}
 		win[1] = {}
 		win[1].label = "continue"
-		win[1].txt = nameForKey( keys.RIGHT )
-		win[1].img = menu:getImage(getImageForKey( keys.RIGHT ))
+		win[1].txt = nameForKey( keys.CHOOSE )
+		win[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
 		win[1].offset = (win[1].img:getWidth() - fontSmall:getWidth(win[1].txt))/2/Camera.scale
 		win[1].x = (love.graphics.getWidth()-win[1].img:getWidth())/Camera.scale - 6
 		win[1].labelX = (win[1].x*Camera.scale + win[1].img:getWidth() -
@@ -84,8 +84,8 @@ function controlKeys:setup()
 		
 		win[2] = {}
 		win[2].label = "leave"
-		win[2].txt = "esc"
-		win[2].img = menu:getImage(getImageForKey( "esc" ))
+		win[2].txt = keys.BACK
+		win[2].img = menu:getImage(getImageForKey( keys.BACK ))
 		win[2].offset = (win[2].img:getWidth() - fontSmall:getWidth(win[2].txt))/2/Camera.scale
 		win[2].x = 6
 		win[2].labelX = win[2].x
@@ -94,8 +94,8 @@ function controlKeys:setup()
 		menuControl = {}
 		menuControl[1] = {}
 		menuControl[1].label = "choose"
-		menuControl[1].txt = "enter"
-		menuControl[1].img = menu:getImage(getImageForKey( "enter" ))
+		menuControl[1].txt = keys.CHOOSE
+		menuControl[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
 		menuControl[1].offset = (menuControl[1].img:getWidth() - fontSmall:getWidth(menuControl[1].txt))/2/Camera.scale
 		menuControl[1].x = (love.graphics.getWidth()-menuControl[1].img:getWidth())/Camera.scale - 6
 		menuControl[1].labelX = (menuControl[1].x*Camera.scale + menuControl[1].img:getWidth() -
@@ -104,8 +104,8 @@ function controlKeys:setup()
 		
 		menuControl[2] = {}
 		menuControl[2].label = "back"
-		menuControl[2].txt = "esc"
-		menuControl[2].img = menu:getImage(getImageForKey( "esc" ))
+		menuControl[2].txt = keys.BACK
+		menuControl[2].img = menu:getImage(getImageForKey( keys.BACK ))
 		menuControl[2].offset = (menuControl[2].img:getWidth() - fontSmall:getWidth(menuControl[2].txt))/2/Camera.scale
 		menuControl[2].x = 6
 		menuControl[2].labelX = menuControl[2].x
@@ -115,7 +115,7 @@ function controlKeys:setup()
 		death[1] = {}
 		death[1].label = "retry"
 		--death[1].txt = nameForKey( keys.JUMP )
-		death[1].img = menu:getImage(getImageForPad( keys.PAD.JUMP ))
+		death[1].img = menu:getImage(getImageForPad( keys.PAD.CHOOSE ))
 		death[1].x = (love.graphics.getWidth()-death[1].img:getWidth())/Camera.scale - 6
 		death[1].labelX = (death[1].x*Camera.scale + death[1].img:getWidth() -
 						fontSmall:getWidth(death[1].label))/Camera.scale
@@ -124,7 +124,7 @@ function controlKeys:setup()
 		death[2] = {}
 		death[2].label = "leave"
 		--death[2].txt = "esc"
-		death[2].img = menu:getImage(getImageForPad( "7" ))
+		death[2].img = menu:getImage(getImageForPad( keys.PAD.BACK ))
 		death[2].x = 6
 		death[2].labelX = death[2].x
 		death[2].y = (love.graphics.getHeight())/Camera.scale - 20
@@ -132,7 +132,7 @@ function controlKeys:setup()
 		win = {}
 		win[1] = {}
 		win[1].label = "continue"
-		win[1].img = menu:getImage(getImageForPad( keys.PAD.RIGHT ))
+		win[1].img = menu:getImage(getImageForPad( keys.PAD.CHOOSE ))
 		win[1].x = (love.graphics.getWidth()-win[1].img:getWidth())/Camera.scale - 6
 		win[1].labelX = (win[1].x*Camera.scale + win[1].img:getWidth() -
 						fontSmall:getWidth(win[1].label))/Camera.scale
@@ -140,7 +140,7 @@ function controlKeys:setup()
 		
 		win[2] = {}
 		win[2].label = "leave"
-		win[2].img = menu:getImage(getImageForPad( "7" ))
+		win[2].img = menu:getImage(getImageForPad( keys.PAD.BACK ))
 		win[2].x = 6
 		win[2].labelX = win[2].x
 		win[2].y = (love.graphics.getHeight())/Camera.scale - 20
@@ -148,7 +148,7 @@ function controlKeys:setup()
 		menuControl = {}
 		menuControl[1] = {}
 		menuControl[1].label = "choose"
-		menuControl[1].img = menu:getImage(getImageForPad( "1" ))
+		menuControl[1].img = menu:getImage(getImageForPad( keys.PAD.CHOOSE ))
 		menuControl[1].x = (love.graphics.getWidth()-menuControl[1].img:getWidth())/Camera.scale - 6
 		menuControl[1].labelX = (menuControl[1].x*Camera.scale + menuControl[1].img:getWidth() -
 						fontSmall:getWidth(menuControl[1].label))/Camera.scale
@@ -156,7 +156,7 @@ function controlKeys:setup()
 		
 		menuControl[2] = {}
 		menuControl[2].label = "back"
-		menuControl[2].img = menu:getImage(getImageForPad( "2" ))
+		menuControl[2].img = menu:getImage(getImageForPad( keys.PAD.BACK ))
 		menuControl[2].x = 6
 		menuControl[2].labelX = menuControl[2].x
 		menuControl[2].y = (love.graphics.getHeight())/Camera.scale - 20

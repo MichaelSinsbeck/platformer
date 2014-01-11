@@ -35,16 +35,19 @@ function loading.update()
 		loading.msg = "keyboard setup"
 	elseif loading.step == 2 then
 		keys.load()
+		loading.msg = "gamepad setup"
+	elseif loading.step == 4 then
+		keys.loadGamepad()
 		loading.msg = "menu"
-	elseif loading.step == 3 then
+	elseif loading.step == 4 then
 		menu:init()	-- must be called after AnimationDB:loadAll()
 		loading.msg = "shaders"
-	elseif loading.step == 4 then	
+	elseif loading.step == 5 then	
 		if USE_SHADERS then
 			shaders.load()
 		end
 		loading.msg = "campaign"
-	elseif loading.step == 5 then
+	elseif loading.step == 6 then
 		recorder = false
 		screenshots = {}
 		recorderTimer = 0
@@ -53,13 +56,13 @@ function loading.update()
 
 		Campaign:reset()
 		loading.msg = "levels"	
-	elseif loading.step == 6 then
+	elseif loading.step == 7 then
 		levelEnd:init()
 		loading.msg = "shadows"
-	elseif loading.step == 7 then
+	elseif loading.step == 8 then
 		shadows = require("scripts/monocle")
 		loading.msg = "main menu"
-	elseif loading.step == 8 then
+	elseif loading.step == 9 then
 		menu.initMain()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')

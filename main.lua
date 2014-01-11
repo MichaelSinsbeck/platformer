@@ -56,8 +56,9 @@ function love.update( dt )
 			levelEnd:update( dt )
 		end
 
-		-- TO DO: Port to 0.9.0
-		--keys.catchGamepadEvents()
+		-- Must be called every frame, otherwise gamepad buttons
+		-- are not recognized!
+		keys.handleGamepad()
 		
 		shaders:update( dt )
 	end
@@ -95,6 +96,8 @@ function love.draw()
 				levelEnd:draw()
 			elseif mode == 'menu' and menu.state == 'pause' then	-- draw AFTER grey shader!
 				menu:draw()
+			elseif mode == 'game' and game.isDead() then
+				controlKeys:draw("dead")
 			end
 		end
 		if menu.curLevelName then
@@ -118,8 +121,9 @@ function love.keypressed( key, unicode )
 	
 	if keys.currentlyAssigning then
 		if menu.state == 'keyboard' then
-			print("new", key)
 			keys.assign( key )
+		else
+			keys.abortAssigning()
 		end
 		return
 	else
@@ -165,15 +169,45 @@ function love.joystickpressed(joystick, button)
 		end
 		return	
 	end
-
+	keys.pressGamepadKey( joystick, button )
+	--[[
 	if mode == 'game' then
 		game.joystickpressed(joystick, button)
 	end
 	--if button == 9 then Campaign:reset() myMap:start(p) end
+	]]--
 end
 
 function love.joystickreleased(joystick, button)
-	if mode == 'game' then
+	if keys then keys.releaseGamepadKey( joystick, button ) end
+	--[[if mode == 'game' then
 		game.joystickreleased(joystick, button)
+	end]]--
+end
+
+function love.joystickhat( joystick, hat, direction )
+	keys.releaseGamepadKey( joystick, "l" )
+	keys.releaseGamepadKey( joystick, "u" )
+	keys.releaseGamepadKey( joystick, "d" )
+	keys.releaseGamepadKey( joystick, "r" )
+	if direction ~= "c" then
+		-- don't allow diagonal:
+		if direction == "lu" or direction == "ld" then
+			direction = "l"
+		elseif direction == "ru" or direction == "rd" then
+			direction = "r"
+		end
+		print(direction)
+		keys.pressGamepadKey( joystick, direction )
 	end
+end
+
+function love.joystickadded( j )
+	print( "New gamepad found:", j:getName() )
+	if keys then keys.joystickadded( j ) end
+end
+
+function love.joystickremoved( j )
+	print( "Disconnected gamepad:", j:getName() )
+	if keys then keys.joystickremoved( j ) end
 end

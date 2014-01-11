@@ -802,20 +802,21 @@ function menu:execute()
 end
 
 function menu:keypressed( key, unicode )
+	print("menu:", key, keys.PAD.CHOOSE, keys.PAD.BACK )
 	if menu.state == "credits" then	--any key in credits screen returns to main screen.
 		menu.startTransition(menu.initMain, false)()
 	else
-		if key == "up" or key == "w" or key == "u" then
+		if key == keys.UP or key == "w" or key == keys.PAD.UP then
 			menu:selectAbove()
-		elseif key == "down" or key == "s" or key == "d" then
+		elseif key == keys.DOWN or key == "s" or key == keys.PAD.DOWN then
 			menu:selectBelow()
-		elseif key == "left" or key == "a" or key == "l" then
+		elseif key == keys.LEFT or key == "a" or key == keys.PAD.LEFT then
 			menu:selectLeft()
-		elseif key == "right" or key == "d" or key == "r" then
+		elseif key == keys.RIGHT or key == "d" or key == keys.PAD.RIGHT then
 			menu:selectRight()
-		elseif key == "return" or key == " " then
+		elseif key == keys.CHOOSE or key == " " or key == keys.PAD.CHOOSE then
 			menu:execute()
-		elseif key == "escape" then
+		elseif key == keys.BACK or key == keys.PAD.BACK then
 			if menu.state == "main" then
 				menu.startTransition(love.event.quit, false)()
 			else
@@ -973,7 +974,6 @@ function menu:draw()
 	for k, element in pairs(menuImages) do
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale, alpha )
 	end
-	
 	
 	for k, button in pairs(buttons) do
 		local angle = button.angle or 0

@@ -2,6 +2,8 @@
 controlKeys = require("scripts/controlKeys")
 
 local keys = {}
+keys.gamepadePressed = {}
+keys.pressedLastFrame = {}
 keys.currentlyAssigning = false		--holds the string of the key which is currently being changed.
 
 local keyTypes = {
@@ -16,6 +18,9 @@ local keyTypes = {
 	"DOWN",
 	"JUMP",
 	"ACTION",
+	"CHOOSE",
+	"BACK",
+	"PAUSE",
 }
 ---------------------------------------------------------
 -- Defaults
@@ -35,6 +40,11 @@ function keys.setDefaults()
 
 	keys.JUMP = 'a'
 	keys.ACTION = 's'
+
+	keys.CHOOSE = 'return'
+	keys.BACK = 'escape'
+
+	keys.PAUSE = 'escape'
 	
 	-- gamepad defaults:
 	keys.PAD = {}
@@ -51,7 +61,11 @@ function keys.setDefaults()
 
 	keys.PAD.JUMP = '1'
 	keys.PAD.ACTION = '2'
-	
+
+	keys.PAD.CHOOSE = '1'
+	keys.PAD.BACK = '2'
+
+	keys.PAD.PAUSE = '7'
 	
 	keys.gamepadPressed = {}
 end
@@ -116,53 +130,26 @@ function keys.load()
 	if key then keys.PAD.JUMP = key end
 	key = config.getValue( "ACTION", "gamepad.txt")
 	if key then keys.PAD.ACTION = key end
-	
+	key = config.getValue( "BACK", "gamepad.txt")
+	if key then keys.PAD.BACK = key end
+	key = config.getValue( "CHOOSE", "gamepad.txt")
+	if key then keys.PAD.CHOOSE = key end
 end
 
+function keys.loadGamepad()
+	print("Gamepads:")
+	if love.joystick.getJoystickCount() == 0 then
+		print("\tNone found.")
+	else
+		for k, pad in ipairs( love.joystick.getJoysticks() ) do
+			print("\t",pad:getID(), pad:getName() )
 
-function keys.startAssign( keyToAssign )
-	return function()
-		if menu.state == "keyboard" then
-			keys.currentlyAssigning = keyToAssign
-			--menu:changeText( keyToAssign, "")
-			local imgOff, imgOn = getImageForKey( "", 'fontSmall' )
-			menu:changeButtonImage( "key_" .. keyToAssign, imgOff, imgOn )
-			menu:changeButtonLabel( "key_" .. keyToAssign, "" )
-		elseif menu.state == "gamepad" then
-			keys.currentlyAssigning = keyToAssign
-			local imgOff, imgOn = getImageForPad( "" )
-			menu:changeButtonImage( "key_PAD_" .. keyToAssign, imgOff, imgOn )
-		end
-	end
-end
-
-function keys.assign( key )
-	if keys.currentlyAssigning then
-		if menu.state == "keyboard" then
-			if key ~= 'escape' and key ~= 'return' and key ~= 'backspace' then
-				if keys[keys.currentlyAssigning] ~= key then
-					keys.changed = true
-				end
-				keys[keys.currentlyAssigning] = key
-				--menu:changeText( keys.currentlyAssigning, key)
-			end
-			
-			if key ~= 'return' and key ~= 'backspace' then
-				local imgOff, imgOn = getImageForKey( keys[keys.currentlyAssigning], 'fontSmall' )
-				menu:changeButtonImage( "key_" .. keys.currentlyAssigning, imgOff, imgOn )
-				menu:changeButtonLabel( "key_" .. keys.currentlyAssigning,
-				nameForKey(keys[keys.currentlyAssigning]))
-				keys.currentlyAssigning = false
-			end
-		elseif menu.state == "gamepad" then
-			if keys.PAD[keys.currentlyAssigning] ~= key then
-				keys.changed = true
-			end
-			keys.PAD[keys.currentlyAssigning] = key
-			
-			imgOff,imgOn = getImageForPad( keys.PAD[keys.currentlyAssigning] )
-			menu:changeButtonImage( "key_PAD_" .. keys.currentlyAssigning, imgOff, imgOn )
-			keys.currentlyAssigning = false
+			-- Important! initialize these tables, since they're
+			-- usually initialized when joysticks are connected,
+			-- but the first joystick is recognized only AFTER
+			-- these are first neede!
+			keys.gamepadPressed[pad:getID()] = {}
+			keys.pressedLastFrame[pad:getID()] = {}
 		end
 	end
 end
@@ -269,6 +256,11 @@ function getAnimationForPad( str )
 	end
 end
 
+---------------------------------------------------------
+-- Handle the joysticks in-game:
+---------------------------------------------------------
+
+--[[
 keys.lastFrameJoyHat = nil
 keys.lastFrameKey1 = nil
 keys.lastFrameKey2 = nil
@@ -346,11 +338,91 @@ function keys.catchGamepadEvents()
 	end
 	
 	keys.lastFrameJoyHat = joyHat
+end]]--
+
+-- calls events in case a gamepad button has been pressed this frame:
+-- Must be called every frame!
+function keys.handleGamepad( ID )
+	ID = ID or 1 -- default to joystick 1
+	if not keys.gamepadPressed[ID] then return end
+	-- check for released events:
+	for k, v in pairs( keys.pressedLastFrame[ID] ) do
+		if not keys.gamepadPressed[ID][k] then
+			keys.pressedLastFrame[ID][k] = nil
+			print("released", k)
+			if mode == "game" then
+				game.joystickreleased( ID, k )
+			elseif mode == "menu" then
+			end
+		end
+	end
+
+	-- check for newly pressed buttons:
+	for k, v in pairs( keys.gamepadPressed[ ID ]) do
+		if not keys.pressedLastFrame[ID][k] then
+			if keys.currentlyAssigning then
+				if menu.state == 'gamepad' then
+					keys.assign( k )
+				else
+					keys.abortAssigning()
+				end
+			else
+
+				if mode == "game" then
+					game.joystickpressed( ID, k )
+				elseif mode == "menu" then
+					menu:keypressed( k )
+				elseif mode == "levelEnd" then
+					levelEnd:keypressed( k )
+				end
+			end
+		end
+		keys.pressedLastFrame[ID][k] = true
+	end
 end
 
-function keys.getGamepadIsDown( str )
-	return keys.gamepadPressed[str]
+function keys.pressGamepadKey( joystick, button )
+	button = tostring(button)
+	keys.gamepadPressed[joystick:getID()][button] = true
 end
+
+function keys.releaseGamepadKey( joystick, button )
+	button = tostring(button)
+	keys.gamepadPressed[joystick:getID()][button] = nil
+end
+
+function keys.getGamepadIsDown( ID, str )
+	ID = ID or 1
+	return keys.gamepadPressed[ID][str]
+end
+
+-- called when new joystick has been connected:
+function keys.joystickadded( j )
+	-- if this is the first joystick, switch menu keys to
+	-- be displayed in joystick-mode
+	if love.joystick.getJoystickCount() == 1 then
+		controlKeys:setup()
+	end
+	print("new:", j:getID())
+	keys.gamepadPressed[j:getID()] = {}
+	keys.pressedLastFrame[j:getID()] = {}
+end
+
+-- called when new joystick has been disconnected:
+function keys.joystickremoved( j )
+	-- if, with the removal of this joystick, the last one
+	-- has been removed, switch to keyboard:
+	if love.joystick.getJoystickCount() == 0 then
+		controlKeys:setup()
+	end
+
+	keys.gamepadPressed[j:getID()] = nil
+	keys.pressedLastFrame[j:getID()] = nil
+end
+
+---------------------------------------------------------
+-- Display key setting menus:
+---------------------------------------------------------
 
 function keys.moveMenuPlayer( x, y, newAnimation )
 	return function()
@@ -366,11 +438,7 @@ function keys.moveMenuPlayer( x, y, newAnimation )
 	end
 end
 
----------------------------------------------------------
--- Display key setting menus:
----------------------------------------------------------
 
---[[
 function keys.initKeyboard()
 	menu.state = "keyboard"
 	menu:clear()
@@ -378,57 +446,6 @@ function keys.initKeyboard()
 	keys.changed = false -- don't save configuration unless new key has been assigned
 	
 	local x,y = -25, -45
-	
-	local startButton = menu:addButtonAnimated( x+5, y+5,
-						'whiteWalk', 'whiteWalk', "left",
-						keys.startAssign( "LEFT" ), nil,
-						-.9, .9 )
-	menu:addText( x+11, y+3, "LEFT", keys.LEFT)
-	
-	y = y + 10
-	
-	local hoverAction
-	
-	menu:addButtonAnimated( x+5, y+5, 'whiteWalk', 'whiteWalk', "right", keys.startAssign( "RIGHT" ), nil, .9, .9 )
-	menu:addText( x+11, y+3, "RIGHT", keys.RIGHT)
-	y = y + 10
-	menu:addButtonAnimated( x+5, y+5, 'moveUpWhite', 'moveUpWhite', "up", keys.startAssign( "UP" ), nil, .9, .9 )
-	menu:addText( x+11, y+3, "UP", keys.UP)
-	y = y + 10
-	menu:addButtonAnimated( x+5, y+5, 'moveDownWhite', 'moveDownWhite', "down", keys.startAssign( "DOWN" ), nil, .9, .9 )
-	menu:addText( x+11, y+3, "DOWN", keys.DOWN)
-	
-	y = y + 17
-	menu:addButtonAnimated( x+5, y+5, 'jumpFallWhite', 'jumpFallWhite', "jump", keys.startAssign( "JUMP" ), nil, .9, .9 )
-	menu:addText( x+11, y+3, "JUMP", keys.JUMP)
-	y = y + 10
-	menu:addButtonAnimated( x+5, y+5, 'bandanaColor', 'bandanaColor', "use bandana", keys.startAssign( "ACTION" ), nil,.9,.9 )
-	menu:addText( x+11, y+3, "ACTION", keys.ACTION)
-	
-	y = y + 17
-	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "screenshot", keys.startAssign( "SCREENSHOT" ), nil )
-	menu:addText( x+11, y+3, "SCREENSHOT", keys.SCREENSHOT)
-	y = y + 10
-	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "fullscreen", keys.startAssign( "FULLSCREEN" ), nil )
-	menu:addText( x+11, y+3, "FULLSCREEN", keys.FULLSCREEN)
-	y = y + 10
-	menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "restart map", keys.startAssign( "RESTARTMAP" ), nil )
-	menu:addText( x+11, y+3, "RESTARTMAP", keys.RESTARTMAP)
-	
-	
-	-- start of with the first button selected:
-	selectButton(startButton)
-end
-]]--
-
-
-function keys.initKeyboard()
-	menu.state = "keyboard"
-	menu:clear()
-	
-	keys.changed = false -- don't save configuration unless new key has been assigned
-	
-	local x,y = -25, -35
 	local imgOff, imgOn
 	local hoverEvent
 	local ninjaDistX = 3
@@ -469,7 +486,7 @@ function keys.initKeyboard()
 					nameForKey(keys.DOWN), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
-	y = -25
+	y = -35
 	x = 37
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
@@ -489,7 +506,7 @@ function keys.initKeyboard()
 					nameForKey(keys.ACTION), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3,	"ACTION", "use bandana")
 
-	local x,y = 3, 20
+	local x,y = 3, 10
 
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "playerScreenshot" )
 	imgOff, imgOn = getImageForKey( keys.SCREENSHOT, 'fontSmall' )
@@ -518,10 +535,32 @@ function keys.initKeyboard()
 					keys.startAssign( "RESTARTMAP" ), hoverEvent,
 					nameForKey(keys.RESTARTMAP), 'fontSmall' )
 	menu:addText( x-8 - fontSmall:getWidth("restart map")/Camera.scale, y+3,
-					"RESTARTMAP", "restart map")
+			"RESTARTMAP", "restart map")
+
+	y = y + 10
+
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOff, imgOn = getImageForKey( keys.CHOOSE, 'fontSmall' )
+	menu:addButtonLabeled( x, y,
+					imgOff, imgOn, "key_CHOOSE",
+					keys.startAssign( "CHOOSE" ), hoverEvent,
+					nameForKey(keys.CHOOSE), 'fontSmall' )
+	menu:addText( x-8 - fontSmall:getWidth("choose")/Camera.scale, y+3,
+					"CHOOSE", "choose")
+	y = y + 10
 	
-	menu:addBox(-55,-40,110,50)
-	menu:addBox(-55, 15,110,40)
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOff, imgOn = getImageForKey( keys.BACK, 'fontSmall' )
+	menu:addButtonLabeled( x, y,
+					imgOff, imgOn, "key_BACK",
+					keys.startAssign( "BACK" ), hoverEvent,
+					nameForKey(keys.BACK), 'fontSmall' )
+	menu:addText( x-8 - fontSmall:getWidth("back")/Camera.scale, y+3,
+					"BACK", "back")
+	y = y + 10
+	
+	menu:addBox(-55,-50,110,50)
+	menu:addBox(-55, 5,110,60)
 	-- start of with the first button selected:
 	selectButton(startButton)
 end
@@ -533,7 +572,7 @@ function keys.initGamepad()
 	
 	keys.changed = false -- don't save configuration unless new key has been assigned
 	
-	local x,y = -25, -35
+	local x,y = -25, -45
 	local imgOff, imgOn
 	local hoverEvent
 	local ninjaDistX = 3
@@ -570,7 +609,7 @@ function keys.initGamepad()
 					keys.startAssign( "DOWN" ), hoverEvent )
 	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
 	
-	y = -25
+	y = -35
 	x = 37
 	
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
@@ -587,8 +626,38 @@ function keys.initGamepad()
 					imgOff, imgOn, "key_PAD_ACTION",
 					keys.startAssign( "ACTION" ), hoverEvent )
 	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3, "ACTION", "use bandana")
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOff,imgOn = getImageForPad( keys.PAD.PAUSE )
+	menu:addButton( x, y,
+					imgOff, imgOn, "key_PAD_PAUSE",
+					keys.startAssign( "PAUSE" ), hoverEvent )
+	menu:addText( x-8 - fontSmall:getWidth("pause")/Camera.scale, y+3, "PAUSE", "pause")
 	y = y + 14
 	
+
+
+	local x,y = 3, 10
+
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOff, imgOn = getImageForPad( keys.PAD.CHOOSE, 'fontSmall' )
+	menu:addButton( x, y,
+					imgOff, imgOn, "key_PAD_CHOOSE",
+					keys.startAssign( "CHOOSE" ), hoverEvent )
+	menu:addText( x-8 - fontSmall:getWidth("choose")/Camera.scale, y+3,
+					"CHOOSE", "choose")
+	y = y + 10
+	
+	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	imgOff, imgOn = getImageForPad( keys.PAD.BACK, 'fontSmall' )
+	menu:addButton( x, y,
+					imgOff, imgOn, "key_PAD_BACK",
+					keys.startAssign( "BACK" ), hoverEvent )
+	menu:addText( x-8 - fontSmall:getWidth("back")/Camera.scale, y+3,
+					"BACK", "back")
+	y = y + 10
+
 	--[[
 	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
 	imgOff,imgOn = getImageForPad( keys.PAD.SCREENSHOT )
@@ -615,7 +684,8 @@ function keys.initGamepad()
 	]]--
 	
 	-- start of with the first button selected:
-	menu:addBox(-55,-40,110,50)
+	menu:addBox(-55,-50,110,50)
+	menu:addBox(-55, 5,110,40)
 	
 	selectButton(startButton)
 	
@@ -626,20 +696,29 @@ function keys:checkInvalid()
 	if menu.state == "keyboard" then
 		for k = 1, #keyTypes-1 do
 			for k2 = k+1, #keyTypes do
+				if keyTypes[k] ~= "CHOOSE" and keyTypes[k2] ~= "CHOOSE" and keyTypes[k] ~= "BACK" and keyTypes[k2] ~= "BACK" then
 				if keys[keyTypes[k]] == keys[keyTypes[k2]] then
 					menu.text = string.lower("Keys for " .. keyTypes[k] .. " and " .. keyTypes[k2] .. " are the same. Please change one of them.")
 					return true
 				end
 			end
+			end
 		end
 	else
 		for k = 1, #keyTypes-1 do
 			for k2 = k+1, #keyTypes do
-				if keys.PAD[keyTypes[k]] == keys.PAD[keyTypes[k2]] then
-					menu.text = string.lower("Keys for " .. keyTypes[k] .. " and " .. keyTypes[k2] .. " are the same. Please change one of them.")
-					return true
+				-- handle "choose" and "back" seperately:
+				if keyTypes[k] ~= "CHOOSE" and keyTypes[k2] ~= "CHOOSE" and keyTypes[k] ~= "BACK" and keyTypes[k2] ~= "BACK" then
+					if keys.PAD[keyTypes[k]] == keys.PAD[keyTypes[k2]] then
+						menu.text = string.lower("Keys for " .. keyTypes[k] .. " and " .. keyTypes[k2] .. " are the same. Please change one of them.")
+						return true
+					end
 				end
 			end
+		end
+		if keys.PAD.CHOOSE == keys.PAD.BACK then
+			menu.text = string.lower("Keys for CHOOOSE and BACK are the same. Please change one of them.")
+			return true
 		end
 	end
 	return false
@@ -654,7 +733,7 @@ function keys:exitSubMenu()
 				config.setValue( "RESTARTMAP", keys.RESTARTMAP, "keyboard.txt")
 				config.setValue( "RESTARTGAME", keys.RESTARTGAME, "keyboard.txt")
 				config.setValue( "NEXTMAP", keys.NEXTMAP, "keyboard.txt")
-			
+
 				config.setValue( "LEFT", keys.LEFT, "keyboard.txt")
 				config.setValue( "RIGHT", keys.RIGHT, "keyboard.txt")
 				config.setValue( "UP", keys.UP, "keyboard.txt")
@@ -682,6 +761,69 @@ function keys:exitSubMenu()
 			menu.startTransition(settings.init, false)()		-- exit the submenu and return to parent menu
 		end
 	end
+end
+
+function keys.startAssign( keyToAssign )
+	return function()
+		if menu.state == "keyboard" then
+			keys.currentlyAssigning = keyToAssign
+			--menu:changeText( keyToAssign, "")
+			local imgOff, imgOn = getImageForKey( "", 'fontSmall' )
+			menu:changeButtonImage( "key_" .. keyToAssign, imgOff, imgOn )
+			menu:changeButtonLabel( "key_" .. keyToAssign, "" )
+		elseif menu.state == "gamepad" then
+			keys.currentlyAssigning = keyToAssign
+			local imgOff, imgOn = getImageForPad( "" )
+			menu:changeButtonImage( "key_PAD_" .. keyToAssign, imgOff, imgOn )
+		end
+	end
+end
+
+function keys.assign( key )
+	if keys.currentlyAssigning then
+		if menu.state == "keyboard" then
+				if keys[keys.currentlyAssigning] ~= key then
+					keys.changed = true
+				end
+				keys[keys.currentlyAssigning] = key
+
+				--menu:changeText( keys.currentlyAssigning, key)
+			local imgOff,imgOn = getImageForKey( keys[keys.currentlyAssigning] )
+			menu:changeButtonImage( "key_" .. keys.currentlyAssigning, imgOff, imgOn )
+			menu:changeButtonLabel( "key_" .. keys.currentlyAssigning,
+						nameForKey(keys[keys.currentlyAssigning]))
+			print("BACK", keys.currentlyAssigning)
+			if keys.currentlyAssigning == "BACK" or keys.currentlyAssigning == "CHOOSE" then
+				controlKeys:setup()
+			end
+
+			keys.currentlyAssigning = false
+
+		elseif menu.state == "gamepad" then
+			print("new", key)
+			if keys.PAD[keys.currentlyAssigning] ~= key then
+				keys.changed = true
+			end
+			keys.PAD[keys.currentlyAssigning] = key
+
+			local imgOff,imgOn = getImageForPad( keys.PAD[keys.currentlyAssigning] )
+			print("key_PAD_" .. keys.currentlyAssigning, imgOff, imgOn )
+			menu:changeButtonImage( "key_PAD_" .. keys.currentlyAssigning, imgOff, imgOn )
+
+			if keys.currentlyAssigning == "BACK" or keys.currentlyAssigning == "CHOOSE" then
+				controlKeys:setup()
+			end
+			keys.currentlyAssigning = false
+		end
+	end
+end
+
+function keys.abortAssigning()
+	keys.changed = true
+
+	imgOff,imgOn = getImageForPad( keys.PAD[keys.currentlyAssigning] )
+	menu:changeButtonImage( "key_PAD_" .. keys.currentlyAssigning, imgOff, imgOn )
+	keys.currentlyAssigning = false
 end
 
 return keys
