@@ -76,6 +76,16 @@ for scale in 4 5 6 7 8; do
 	done
 	cd ..
 	
+	cd editor
+	for infile in *.svg; do
+		containsElement $infile $@ 
+		if [[ $# == 0 || $? == 1 ]]; then
+			outfile=../../../images/editor/${prefix}${infile%.*}.png
+			inkscape -f $infile -C -d $resolution --export-background=#000000 --export-background-opacity=0 -e $outfile
+		fi
+	done
+	cd ..
+
 done
 
 resolution=$(expr 8 \* 18)

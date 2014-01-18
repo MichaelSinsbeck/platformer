@@ -43,6 +43,8 @@ function love.update( dt )
 			menu:update(dt)
 		elseif mode == 'bridge' then
 			bridge:update(dt)
+		elseif mode == 'editor' then
+			editor.update( dt )
 		end
 	
 		if menu.transitionActive then
@@ -83,6 +85,8 @@ function love.draw()
 			menu:draw()
 		elseif mode == 'bridge' then
 			bridge:draw()
+		elseif mode == 'editor' then
+			editor.draw()
 		end
 	
 		if menu.transitionActive then
@@ -210,3 +214,10 @@ function love.joystickremoved( j )
 	print( "Disconnected gamepad:", j:getName() )
 	if keys then keys.joystickremoved( j ) end
 end
+
+function love.textinput( letter )
+	if mode == 'editor' then
+		editor.textinput( letter )
+	end
+end
+

@@ -61,8 +61,12 @@ function loading.update()
 		loading.msg = "shadows"
 	elseif loading.step == 8 then
 		shadows = require("scripts/monocle")
-		loading.msg = "main menu"
+		loading.msg = "editor"
 	elseif loading.step == 9 then
+		editor = require("editor/editor")
+		editor.init()
+		loading.msg = "menu"
+	elseif loading.step == 10 then
 		menu.initMain()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')

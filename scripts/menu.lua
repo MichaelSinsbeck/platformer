@@ -45,6 +45,8 @@ function menu:init()
 	self.images.startOn_IMG = love.graphics.newImage("images/menu/"..prefix.."startOn.png")
 	self.images.settingsOff_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOff.png")
 	self.images.settingsOn_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOn.png")
+	self.images.editorOff_IMG = love.graphics.newImage("images/menu/"..prefix.."editorOff.png")
+	self.images.editorOn_IMG = love.graphics.newImage("images/menu/"..prefix.."editorOn.png")
 	self.images.exitOff_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOff.png")
 	self.images.exitOn_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOn.png")
 	self.images.creditsOff_IMG = love.graphics.newImage("images/menu/"..prefix.."creditsOff.png")
@@ -156,9 +158,11 @@ function menu.initMain()
 	love.graphics.setBackgroundColor(22,45,80)
 
 	local x,y
-	x = -2
+	x = -3
 	--x = -52
-	y = 0
+	y = -10
+	
+	menu:addBox(x-17,y-4,40,60)
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
@@ -169,6 +173,10 @@ function menu.initMain()
 	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", menu.startTransition(settings.init, false), actionHover )
 	y = y + 10
 	
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
+	menu:addButton( x, y, 'editorOff_IMG', 'editorOn_IMG', "level editor", menu.startTransition( editor.start, true), actionHover )
+	y = y + 10
+
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'creditsOff_IMG', 'creditsOn_IMG', "credits", menu.startTransition(menu.startCredits, false), actionHover )
 	y = y + 10
@@ -182,7 +190,6 @@ function menu.initMain()
 	y = - 78
 	table.insert(menuImages, {typ="img", img='logo_IMG', x=x, y=y})
 	
-	menu:addBox(-20,-4,40,50)
 
 	-- start of with the start button selected:
 	selectButton(startButton)
@@ -870,6 +877,8 @@ function menu:update(dt)
 				elseif button.name == "credits" then
 					button.timer = button.timer + dt
 					--button.xScale = 1-0.1*math.abs(math.cos(6*button.timer))
+					--button.xScale = 1-2*math.abs(math.sin(6*button.timer))
+					button.xScale = 1+0.15*math.abs(math.sin(6*button.timer))
 					button.yScale = button.xScale
 					button.angle = 0.2*math.sin(- button.timer * 6)
 					button.yShift = 1-2*math.abs(math.sin(6*button.timer))
@@ -877,6 +886,12 @@ function menu:update(dt)
 					button.timer = button.timer + dt
 					button.yShift = 1-2*math.abs(math.sin(5*button.timer))
 					button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
+					button.yScale = 1/button.xScale
+				elseif button.name == "level editor" then
+					button.timer = button.timer + dt
+					button.yShift = -1*math.abs(math.sin(5*button.timer))
+					button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
+					button.yScale = 1/button.xScale
 					button.yScale = 1/button.xScale
 				elseif button.name == "keyboard" then
 					button.timer = button.timer + dt
@@ -1212,6 +1227,7 @@ function menu.startTransition( event, showImage )
 			menu.curLevelName = nil
 			menu.transitionActive = true
 			menu.transitionPercentage = 0
+			love.mouse.setVisible(false)
 			menu.transitionEvent = event	-- will be called when transitionPercentage is 50%
 			if showImage then
 				menu.transImg = transitionImages[ math.random( #transitionImages ) ]
