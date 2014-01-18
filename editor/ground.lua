@@ -17,8 +17,6 @@ function Ground:new( name )
 	-- "Thick" stores the block of 9 tiles, "thin" is 
 	-- for the single, thinner lines (the remaining 7 tiles).
 	o.tiles = {}
-	o.tiles.thick = {}
-	o.tiles.thin = {}
 
 	-- If the ground has transition tiles then
 	-- store them in the following:
@@ -39,33 +37,33 @@ end
 -- lt: left top, ct: center top, rt: right top
 -- and so on
 function Ground:setThickTiles( lt, ct, rt, lm, cm, rm, lb, cb, rb )
-	self.tiles.thick.lt = self:coordsToQuad( lt )
-	self.tiles.thick.ct = self:coordsToQuad( ct )
-	self.tiles.thick.rt = self:coordsToQuad( rt )
-	self.tiles.thick.lm = self:coordsToQuad( lm )
-	self.tiles.thick.cm = self:coordsToQuad( cm )
-	self.tiles.thick.rm = self:coordsToQuad( rm )
-	self.tiles.thick.lb = self:coordsToQuad( lb )
-	self.tiles.thick.cb = self:coordsToQuad( cb )
-	self.tiles.thick.rb = self:coordsToQuad( rb )
+	self.tiles.lt = self:coordsToQuad( lt )
+	self.tiles.ct = self:coordsToQuad( ct )
+	self.tiles.rt = self:coordsToQuad( rt )
+	self.tiles.lm = self:coordsToQuad( lm )
+	self.tiles.cm = self:coordsToQuad( cm )
+	self.tiles.rm = self:coordsToQuad( rm )
+	self.tiles.lb = self:coordsToQuad( lb )
+	self.tiles.cb = self:coordsToQuad( cb )
+	self.tiles.rb = self:coordsToQuad( rb )
 end
 
 -- l: left, c: center, r: right
 function Ground:setHorizontalLine( l, c, r )
-	self.tiles.thin.l = self:coordsToQuad( l )
-	self.tiles.thin.c = self:coordsToQuad( c )
-	self.tiles.thin.r = self:coordsToQuad( r )
+	self.tiles.l = self:coordsToQuad( l )
+	self.tiles.c = self:coordsToQuad( c )
+	self.tiles.r = self:coordsToQuad( r )
 end
 
 -- r: top, m: middle, b: bottom
 function Ground:setVerticalLine( t, m, b )
-	self.tiles.thin.t = self:coordsToQuad( l )
-	self.tiles.thin.m = self:coordsToQuad( m )
-	self.tiles.thin.b = self:coordsToQuad( b )
+	self.tiles.t = self:coordsToQuad( t )
+	self.tiles.m = self:coordsToQuad( m )
+	self.tiles.b = self:coordsToQuad( b )
 end
 
 function Ground:setSingleTile( cm )
-	self.tiles.thin.single = self:coordsToQuad( cm )
+	self.tiles.single = self:coordsToQuad( cm )
 end
 
 function Ground:setTransition( toType, dir, coords )
@@ -74,8 +72,8 @@ end
 
 function Ground:coordsToQuad( coords )
 	return love.graphics.newQuad(
-		coords[1]*Camera.scale*8, coords[2]*Camera.scale*8,
-		Camera.scale*8, Camera.scale*8,
+		coords[1]*Camera.scale*10, coords[2]*Camera.scale*10,
+		Camera.scale*10, Camera.scale*10,
 		editor.images.tilesetGround:getWidth(),
 		editor.images.tilesetGround:getHeight())
 end
@@ -83,52 +81,57 @@ end
 -- this returns the correct quad depending on the types of ground
 -- above, below, to the right and left of the current tile.
 function Ground:getQuad( l, r, t, b )
-
+	local quad = nil
 	-- all four are of the same kind as this ground:
-	if l == self.gType and r == self.gType and t == self.gType and b == self.gType then
-		return self.tiles.thick.cm
+	if l == self and r == self and t == self and b == self then
+		quad = self.tiles.cm
 	-- three are of the same kind:
-	elseif l == self.gType and t == self.gType and r == self.gType then
-		return self.tiles.thick.cb
-	elseif t == self.gType and r == self.gType and b == self.gType then
-		return self.tiles.thick.lm
-	elseif r == self.gType and b == self.gType and l == self.gType then
-		return self.tiles.thick.ct
-	elseif b == self.gType and l == self.gType and t == self.gType then
-		return self.tiles.thick.rm
+	elseif l == self and t == self and r == self then
+		quad = self.tiles.cb
+	elseif t == self and r == self and b == self then
+		quad = self.tiles.lm
+	elseif r == self and b == self and l == self then
+		quad = self.tiles.ct
+	elseif b == self and l == self and t == self then
+		quad = self.tiles.rm
 	-- two are the same (opposite of each other):
-	elseif l == self.gType and r == self.gType then
-		return self.tiles.thin.c
-	elseif t == self.gType and b == self.gType then
-		return self.tiles.thin.m
+	elseif l == self and r == self then
+		quad = self.tiles.c
+	elseif t == self and b == self then
+		quad = self.tiles.m
 	-- two are the same (around the corner):
-	elseif l == self.gType and t == self.gType then
-		return self.tiles.thin.rb
-	elseif t == self.gType and r == self.gType then
-		return self.tiles.thin.lb
-	elseif r == self.gType and b == self.gType then
-		return self.tiles.thin.lt
-	elseif b == self.gType and l == self.gType then
-		return self.tiles.thin.rt
+	elseif l == self and t == self then
+		quad = self.tiles.rb
+	elseif t == self and r == self then
+		quad = self.tiles.lb
+	elseif r == self and b == self then
+		quad = self.tiles.lt
+	elseif b == self and l == self then
+		quad = self.tiles.rt
 	-- one is the same:
-	elseif l == self.gType then
-		return self.tiles.thin.r
-	elseif r == self.gType then
-		return self.tiles.thin.l
-	elseif t == self.gType then
-		return self.tiles.thin.b
-	elseif b == self.gType then
-		return self.tiles.thin.t
+	elseif l == self then
+		quad = self.tiles.r
+	elseif r == self then
+		quad = self.tiles.l
+	elseif t == self then
+		quad = self.tiles.b
+	elseif b == self then
+		quad = self.tiles.t
 	end
 
 	-- Otherwise - none are the same. Return the single tile:
-	return self.tiles.thin.single
+	return quad or self.tiles.single
 end
 
 function Ground:init()
 	local list = {}
 	local new = Ground:new("concrete")
 	new:setSingleTile( {3, 0} )
+	new:setThickTiles( {0,1}, {1,1}, {2,1},
+						{0,2}, {1,2}, {2,2},
+						{0,3}, {1,3}, {2,3})
+	new:setHorizontalLine( {0,0}, {1,0}, {2,0} )
+	new:setVerticalLine( {3,1}, {3,2}, {3,3} )
 
 	table.insert( list, new )
 

@@ -133,7 +133,12 @@ end
 
 function editor.useTool( tileX, tileY )
 	if editor.selectedTool == "draw" then
-		map:setGroundTile( tileX, tileY, editor.selectedGround )
+		map:setGroundTile( tileX, tileY, editor.selectedGround, true )
+	elseif editor.selectedTool == "erase" then
+		local success = map:eraseGroundTile( tileX, tileY, true )
+		-- TODO:
+		-- if success is false, then try to delete background object
+		-- at this position instead.
 	end
 end
 
