@@ -18,7 +18,7 @@ function EditorMap:new()
 		for y = 0, MAP_SIZE-1 do
 			o.groundArray[x][y] = {}
 			-- store type to remember what's in the tile:
-			o.groundArray[x][y].gType = ""
+			o.groundArray[x][y].gType = nil
 			-- store id returned by the spritebatch to be able to modify image:
 			o.groundArray[x][y].batchID = nil
 		end
@@ -28,15 +28,16 @@ function EditorMap:new()
 end
 
 function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
-
+	
+	if not self.groundArray[x] or not self.groundArray[x][y] then return end
 	-- set the new ground type:
 	self.groundArray[x][y].gType = ground
 
 	-- load the surrounding ground types:
-	local l = x > 0 and self.groundArray[x-1][y].gType or ""
-	local r = x < MAP_SIZE-1 and self.groundArray[x+1][y].gType or ""
-	local t = y > 0 and self.groundArray[x][y-1].gType or ""
-	local b = y < MAP_SIZE-1 and self.groundArray[x][y+1].gType or ""
+	local l = x > 0 and self.groundArray[x-1][y].gType
+	local r = x < MAP_SIZE-1 and self.groundArray[x+1][y].gType
+	local t = y > 0 and self.groundArray[x][y-1].gType
+	local b = y < MAP_SIZE-1 and self.groundArray[x][y+1].gType
 
 
 	-- get the quad for the current tile  which depends on the surrounding ground types:
@@ -52,41 +53,44 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	end
 
 	if updateSurrounding then
-		if x > 0 and self.groundArray[x-1][y].gType ~= "" then
+		if x > 0 and self.groundArray[x-1][y].gType then
 			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
 		end
-		if x < MAP_SIZE-1 and self.groundArray[x+1][y].gType ~= "" then
+		if x < MAP_SIZE-1 and self.groundArray[x+1][y].gType then
 			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
 		end
-		if y > 0 and self.groundArray[x][y-1].gType ~= "" then
+		if y > 0 and self.groundArray[x][y-1].gType then
 			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
 		end
-		if y < MAP_SIZE-1 and self.groundArray[x][y+1].gType ~= "" then
+		if y < MAP_SIZE-1 and self.groundArray[x][y+1].gType then
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
 	end
 end
 
 function EditorMap:eraseGroundTile( x, y, updateSurrounding )
+
+	if not self.groundArray[x] or not self.groundArray[x][y] then return end
+
 	if self.groundArray[x][y].batchID then
 		-- sadly, there's no way to remove from a sprite batch,
 		-- so instead, move to 0:
 		self.groundBatch:set( self.groundArray[x][y].batchID,
 			0,0,0,0,0)
-		self.groundArray[x][y].gType = ""
+		self.groundArray[x][y].gType = nil
 
 
 	if updateSurrounding then
-		if x > 0 and self.groundArray[x-1][y].gType ~= "" then
+		if x > 0 and self.groundArray[x-1][y].gType then
 			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
 		end
-		if x < MAP_SIZE-1 and self.groundArray[x+1][y].gType ~= "" then
+		if x < MAP_SIZE-1 and self.groundArray[x+1][y].gType then
 			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
 		end
-		if y > 0 and self.groundArray[x][y-1].gType ~= "" then
+		if y > 0 and self.groundArray[x][y-1].gType then
 			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
 		end
-		if y < MAP_SIZE-1 and self.groundArray[x][y+1].gType ~= "" then
+		if y < MAP_SIZE-1 and self.groundArray[x][y+1].gType then
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
 	end

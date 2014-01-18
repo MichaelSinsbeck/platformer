@@ -12,7 +12,10 @@ Panel = require("editor/panel")
 EditorMap = require("editor/editorMap")
 Ground = require("editor/ground")
 
-local map = ""
+EditorCam = require("editor/editorCam")
+
+local map = nil
+local cam = nil
 
 -- called when loading game	
 function editor.init()
@@ -49,6 +52,7 @@ function editor.start()
 	mode = "editor"
 
 	map = EditorMap:new()
+	cam = EditorCam:new()
 
 	love.mouse.setVisible( true )
 	groundPanel = Panel:new( 1, 30, 15, 90 )
@@ -99,11 +103,12 @@ end
 function editor.update( dt )
 	local clicked = love.mouse.isDown("l")
 	local x, y = love.mouse.getPosition()
+	local wX, wY = cam:screenToWorld( x, y )
 	local hit = toolPanel:update( dt, x, y, clicked ) or groundPanel:update( dt, x, y, clicked )
 
 	if not hit and clicked then
-		local tileX = math.floor(x/(Camera.scale*8))
-		local tileY = math.floor(y/(Camera.scale*8))
+		local tileX = math.floor(wX/(Camera.scale*8))
+		local tileY = math.floor(wY/(Camera.scale*8))
 		if editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY then
 			editor.useTool( tileX, tileY )
 			editor.clickedTileX = tileX
@@ -113,14 +118,40 @@ function editor.update( dt )
 		editor.clickedTileX = nil
 		editor.clickedTileY = nil
 	end
+
+	local clicked = love.mouse.isDown("m")
+
+	if clicked then
+		if editor.clickedX and editor.clickedY then
+			local dx, dy = x-editor.clickedX, y-editor.clickedY
+			dx, dy = dx*cam.zoom, dy*cam.zoom
+			cam:move(dx, dy)
+		end
+		editor.clickedX, editor.clickedY = x, y
+	else
+		editor.clickedX, editor.clickedY = nil, nil
+	end
+	
+end
+
+function editor.mousepressed( button )
+	if button == "wu" then
+		cam:zoomIn()
+	elseif button == "wd" then
+		cam:zoomOut()
+	end
 end
 
 -- called as long as editor is running:
 function editor.draw()
 
+	cam:apply()
+
 	map:drawGrid()
 	map:drawBackground()
 	map:drawGround()
+
+	cam:free()
 
 	toolPanel:draw()
 	groundPanel:draw()

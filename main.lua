@@ -221,3 +221,9 @@ function love.textinput( letter )
 	end
 end
 
+function love.mousepressed( x, y, button )
+	if mode == 'editor' then
+		editor.mousepressed( button )
+	end
+end
+
