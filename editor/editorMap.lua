@@ -73,7 +73,7 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 		-- so instead, move to 0:
 		self.groundBatch:set( self.groundArray[x][y].batchID,
 			0,0,0,0,0)
-		self.groundArray[x][y].gTpye = ""
+		self.groundArray[x][y].gType = ""
 
 
 	if updateSurrounding then
