@@ -184,22 +184,27 @@ end
 
 -- called as long as editor is running:
 function editor.draw()
+	local x, y = love.mouse.getPosition()
+	local wX, wY = cam:screenToWorld( x, y )
 
 	cam:apply()
 
 	map:drawGrid()
 	map:drawBackground()
 	map:drawGround()
+	
+	love.graphics.setColor(0,0,0,128)
+	local rX = math.floor(wX/(8*Camera.scale))*8*Camera.scale
+	local rY = math.floor(wY/(8*Camera.scale))*8*Camera.scale
+	love.graphics.rectangle('fill',rX,rY,8*Camera.scale,8*Camera.scale)
 
 	cam:free()
 
 	toolPanel:draw()
 	groundPanel:draw()
 	
-	local x, y = love.mouse.getPosition()
-	local wX, wY = cam:screenToWorld( x, y )
-	love.graphics.print(wX,10,10)
-	love.graphics.print(wY,10,50)
+	--[[love.graphics.print(wX,10,10)
+	love.graphics.print(wY,10,50)--]]
 
 	love.graphics.print( love.timer.getFPS(), 20, love.graphics.getHeight() - 40 )
 

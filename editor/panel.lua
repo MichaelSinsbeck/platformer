@@ -7,12 +7,12 @@ function Panel:new( x, y, width, height )
 	local o = {}
 	setmetatable(o, self)
 
-	self.x = x or 0
-	self.y = y or 0
-	self.width = width or 100
-	self.height = height or 100
+	o.x = x or 0
+	o.y = y or 0
+	o.width = width or 100
+	o.height = height or 100
 	
-	o.box = menu:generateBox( self.x, self.y, self.width, self.height, boxFactor)
+	o.box = menu:generateBox( o.x, o.y, o.width, o.height, boxFactor)
 	o.clickables = {}
 
 	return o
@@ -51,14 +51,24 @@ end
 function Panel:update( dt, mouseX, mouseY, clicked )
 
 	-- this gets set to true if the click hit a clickable on this panel:
-	local clickHit = false
+	--local clickHit = false
 
 	for k,button in ipairs( self.clickables ) do
-		if button:update( dt, mouseX, mouseY, clicked ) then
-			clickHit = true
-		end
+		button:update( dt, mouseX, mouseY, clicked )
+		--if button:update( dt, mouseX, mouseY, clicked ) then
+		--	clickHit = true
+		--end
 	end
-	return clickHit
+	--return clickHit
+	return self:collisionCheck(mouseX,mouseY)
 end
+
+function Panel:collisionCheck( x, y )
+	return x/Camera.scale > self.x and
+					y/Camera.scale > self.y and
+					x/Camera.scale < self.x + self.width and
+					y/Camera.scale < self.y + self.height
+end
+
 
 return Panel
