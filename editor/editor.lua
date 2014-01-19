@@ -132,13 +132,15 @@ function editor.start()
 end
 
 -- called as long as editor is running:
-function editor.update( dt )
+function editor:update( dt )
 	local clicked = love.mouse.isDown("l")
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 	local hit = toolPanel:update( dt, x, y, clicked ) or groundPanel:update( dt, x, y, clicked )
+	
+	self.mouseOnCanvas = not hit
 
-	if not hit and clicked then
+	if self.mouseOnCanvas and clicked then
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
 		if editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY then
@@ -183,7 +185,7 @@ function editor.mousereleased( button )
 end
 
 -- called as long as editor is running:
-function editor.draw()
+function editor:draw()
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 
@@ -193,10 +195,12 @@ function editor.draw()
 	map:drawBackground()
 	map:drawGround()
 	
-	love.graphics.setColor(0,0,0,128)
-	local rX = math.floor(wX/(8*Camera.scale))*8*Camera.scale
-	local rY = math.floor(wY/(8*Camera.scale))*8*Camera.scale
-	love.graphics.rectangle('fill',rX,rY,8*Camera.scale,8*Camera.scale)
+	if self.mouseOnCanvas then
+		love.graphics.setColor(0,0,0,128)
+		local rX = math.floor(wX/(8*Camera.scale))*8*Camera.scale
+		local rY = math.floor(wY/(8*Camera.scale))*8*Camera.scale
+		love.graphics.rectangle('fill',rX,rY,8*Camera.scale,8*Camera.scale)
+	end
 
 	cam:free()
 

@@ -44,7 +44,7 @@ function love.update( dt )
 		elseif mode == 'bridge' then
 			bridge:update(dt)
 		elseif mode == 'editor' then
-			editor.update( dt )
+			editor:update( dt )
 		end
 	
 		if menu.transitionActive then
@@ -86,7 +86,7 @@ function love.draw()
 		elseif mode == 'bridge' then
 			bridge:draw()
 		elseif mode == 'editor' then
-			editor.draw()
+			editor:draw()
 		end
 	
 		if menu.transitionActive then
