@@ -31,6 +31,17 @@ function Visualizer:init()
 	self:update(0)
 end
 
+function Visualizer:getSize() -- returns size in pixels (screen coordinates)
+	if self.animation and AnimationDB.animation[self.animation] then
+		local name	= AnimationDB.animation[self.animation].source
+		local width = AnimationDB.source[name].width
+		local height = AnimationDB.source[name].height
+		return width,height
+	else
+		return 0,0
+	end
+end
+
 function Visualizer:copy()
   local o = Visualizer:New(self.animation)
   o.timer = self.timer or 0
@@ -52,7 +63,6 @@ function Visualizer:reset()
 end
 
 function Visualizer:draw(x,y)
-			
 	if self.active then
 		--print(self.img, self.currentQuad, self.text)
 		if self.img and self.currentQuad then

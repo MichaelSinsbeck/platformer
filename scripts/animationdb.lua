@@ -307,6 +307,11 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('spawnerback','spawner',{2},{1e6})
 	AnimationDB:addAni('spawnerbar','spawner',{3},{1e6})
 	
+	AnimationDB:loadImage('button.png','editorButton',tileSize,tileSize, "editor")
+	AnimationDB:addAni('editorButtonOff','editorButton',{1},{1e6})
+	AnimationDB:addAni('editorButtonHover','editorButton',{2},{1e6})
+	AnimationDB:addAni('editorButtonOn','editorButton',{3},{1e6})
+	
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:loadImage('keyOn.png','keyboardSmall',tileSize,tileSize, "menu")
 	AnimationDB:addAni('keyboardSmall','keyboardSmall',{1},{1e6})

@@ -59,67 +59,69 @@ function editor.start()
 
 	love.mouse.setVisible( true )
 	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
-	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-16,
-							 toolPanelWidth, 15 )
+	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-18,
+							 toolPanelWidth, 16 )
 	-- right side:
-	toolPanel:addClickable( 7, 3, function() editor.setTool("draw") end,
-				editor.images.penOff_IMG,
-				editor.images.penOn_IMG,
-				editor.images.penHover_IMG)
-	toolPanel:addClickable( 17, 3, function() editor.setTool("erase") end,
-				editor.images.eraserOff_IMG,
-				editor.images.eraserOn_IMG,
-				editor.images.eraserHover_IMG)
+	toolPanel:addClickable( 11, 8, function() editor.setTool("draw") end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
+				
+	toolPanel:addClickable( 21, 8, function() editor.setTool("erase") end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
 	
 	-- left side
-	toolPanel:addClickable( toolPanelWidth - 17, 3,
+	toolPanel:addClickable( toolPanelWidth - 13, 8,
 				menu.startTransition( menu.initMain, true ),
-				menu.images.exitOff_IMG,
-				menu.images.exitOn_IMG)
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
 
-	toolPanel:addClickable( toolPanelWidth - 27, 3,
+	toolPanel:addClickable( toolPanelWidth - 23, 8,
 				nil,
-				editor.images.saveOff_IMG,
-				editor.images.saveOn_IMG,
-				editor.images.saveHover_IMG)
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
 
-	toolPanel:addClickable( toolPanelWidth - 37, 3,
+	toolPanel:addClickable( toolPanelWidth - 33, 8,
 				nil,
-				editor.images.loadOff_IMG,
-				editor.images.loadOn_IMG,
-				editor.images.loadHover_IMG)
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
 
 
 
 	-- Panel for choosing the ground type:
-	groundPanel = Panel:new( 1, 30, 15, 90 )
+	groundPanel = Panel:new( 1, 30, 16, 90 )
 
 	-- TODO: change these pictures to fit with the ground type they represent:
-	groundPanel:addClickable( 3, 3, function() editor.seleceedGround = editor.groundList[1] end,
-				editor.images.groundOff_IMG,
-				editor.images.groundOn_IMG,
-				editor.images.groundHover_IMG)
+	groundPanel:addClickable( 8, 7, function() editor.seleceedGround = editor.groundList[1] end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
 
-	groundPanel:addClickable( 3, 13, function() editor.selectedGround = editor.groundList[2] end,
-				editor.images.groundOff_IMG,
-				editor.images.groundOn_IMG,
-				editor.images.groundHover_IMG)
-	groundPanel:addClickable( 3, 23, function() editor.selectedGround = editor.groundList[3] end,
-				editor.images.groundOff_IMG,
-				editor.images.groundOn_IMG,
-				editor.images.groundHover_IMG)
-	groundPanel:addClickable( 3, 33, function() editor.selectedGround = editor.groundList[4] end,
-				editor.images.groundOff_IMG,
-				editor.images.groundOn_IMG,
-				editor.images.groundHover_IMG)
-	groundPanel:addClickable( 3, 43, function() editor.selectedGround = editor.groundList[5] end,
-				editor.images.groundOff_IMG,
-				editor.images.groundOn_IMG,
-				editor.images.groundHover_IMG)
-	groundPanel:addClickable( 3, 53, function() editor.selectedGround = editor.groundList[6] end,
-				editor.images.groundOff_IMG,
-				editor.images.groundOn_IMG,
-				editor.images.groundHover_IMG)
+	groundPanel:addClickable( 8, 17, function() editor.selectedGround = editor.groundList[2] end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
+	groundPanel:addClickable( 8, 27, function() editor.selectedGround = editor.groundList[3] end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
+	groundPanel:addClickable( 8, 37, function() editor.selectedGround = editor.groundList[4] end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
+	groundPanel:addClickable( 8, 47, function() editor.selectedGround = editor.groundList[5] end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
+	groundPanel:addClickable( 8, 57, function() editor.selectedGround = editor.groundList[6] end,
+				'editorButtonOff',
+				'editorButtonOn',
+				'editorButtonHover')
 
 	-- available tools:
 	-- "draw", "erase"

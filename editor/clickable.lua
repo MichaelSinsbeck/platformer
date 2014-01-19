@@ -40,9 +40,14 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, centered )
 	o.imgHover = imgHover or imgOn
 	o.centered = centered
 
+	-- Add visualizer
+	o.vis = Visualizer:New(imgOff)
+	o.vis:init()
+	o.width, o.height = o.vis:getSize()
+	
 	-- react when mouse is in the 
-	o.width = imgOff:getWidth()
-	o.height = imgOff:getHeight()
+	--o.width = imgOff:getWidth()
+	--o.height = imgOff:getHeight()
 
 	o.x = x or 0
 	o.y = y or 0
@@ -52,8 +57,8 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, centered )
 	end
 
 	-- for collision checking:
-	o.minX = x*Camera.scale
-	o.minY = y*Camera.scale
+	o.minX = x*Camera.scale - 0.5 * o.width
+	o.minY = y*Camera.scale - 0.5 * o.height
 	o.maxX = o.minX + o.width
 	o.maxY = o.minY + o.height
 
@@ -90,6 +95,10 @@ function Clickable:newLabel( x, y, event, text, font )
 end
 
 function Clickable:draw()
+	if self.vis then
+		self.vis:draw(self.x*Camera.scale,self.y*Camera.scale)
+		--self.vis:draw(10,10)
+	end
 	if self.text then
 		if self.active == "off" then
 			love.graphics.setColor( 120, 120, 160 )
@@ -101,14 +110,14 @@ function Clickable:draw()
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.textX, self.textY, self.text )
-	else
+	--[[else
 		if self.active == "off" then
 			love.graphics.draw( self.imgOff, self.x*Camera.scale, self.y*Camera.scale )
 		elseif self.active == "hover" then
 			love.graphics.draw( self.imgHover, self.x*Camera.scale, self.y*Camera.scale )
 		else
 			love.graphics.draw( self.imgOn, self.x*Camera.scale, self.y*Camera.scale )
-		end
+		end--]]
 	end
 end
 
@@ -122,18 +131,33 @@ function Clickable:update( dt, mouseX, mouseY, clicked )
 					self.event()
 				end
 				self.active = "click"
+				self:setAnim(self.imgOn)
 				return true
 			end
 		else
 			self.active = "hover"
+			self:setAnim(self.imgHover)
 		end
 	else
 		self.active = "off"
+		self:setAnim(self.imgOff)
+	end
+	if self.vis then
+		self.vis:update(dt)
 	end
 end
 
 function Clickable:collisionCheck( x, y )
 	return x > self.minX and y > self.minY and x < self.maxX and y < self.maxY
+end
+
+function Clickable:setAnim(name,continue) -- Go to specified animation and reset, if not already there
+	if self.vis and self.vis.animation ~= name then
+	  self.vis.animation = name
+	  if not continue then
+			self.vis:reset()
+	  end
+	end
 end
 
 
