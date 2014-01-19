@@ -40,6 +40,9 @@ function editor.init()
 	editor.images.saveOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "saveOn.png")
 	editor.images.saveHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "saveHover.png")
 
+	editor.images.groundOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeOff.png")
+	editor.images.groundOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeOn.png")
+	editor.images.groundHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeHover.png")
 	editor.images.tilesetGround = love.graphics.newImage( "images/tilesets/" .. prefix .. "grounds.png" )
 	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "background1.png" )
 
@@ -55,9 +58,6 @@ function editor.start()
 	cam = EditorCam:new()
 
 	love.mouse.setVisible( true )
-	groundPanel = Panel:new( 1, 30, 15, 90 )
-
-
 	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
 	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-16,
 							 toolPanelWidth, 15 )
@@ -88,6 +88,38 @@ function editor.start()
 				editor.images.loadOff_IMG,
 				editor.images.loadOn_IMG,
 				editor.images.loadHover_IMG)
+
+
+
+	-- Panel for choosing the ground type:
+	groundPanel = Panel:new( 1, 30, 15, 90 )
+
+	-- TODO: change these pictures to fit with the ground type they represent:
+	groundPanel:addClickable( 3, 3, function() editor.seleceedGround = editor.groundList[1] end,
+				editor.images.groundOff_IMG,
+				editor.images.groundOn_IMG,
+				editor.images.groundHover_IMG)
+
+	groundPanel:addClickable( 3, 13, function() editor.selectedGround = editor.groundList[2] end,
+				editor.images.groundOff_IMG,
+				editor.images.groundOn_IMG,
+				editor.images.groundHover_IMG)
+	groundPanel:addClickable( 3, 23, function() editor.selectedGround = editor.groundList[3] end,
+				editor.images.groundOff_IMG,
+				editor.images.groundOn_IMG,
+				editor.images.groundHover_IMG)
+	groundPanel:addClickable( 3, 33, function() editor.selectedGround = editor.groundList[4] end,
+				editor.images.groundOff_IMG,
+				editor.images.groundOn_IMG,
+				editor.images.groundHover_IMG)
+	groundPanel:addClickable( 3, 43, function() editor.selectedGround = editor.groundList[5] end,
+				editor.images.groundOff_IMG,
+				editor.images.groundOn_IMG,
+				editor.images.groundHover_IMG)
+	groundPanel:addClickable( 3, 53, function() editor.selectedGround = editor.groundList[6] end,
+				editor.images.groundOff_IMG,
+				editor.images.groundOn_IMG,
+				editor.images.groundHover_IMG)
 
 	-- available tools:
 	-- "draw", "erase"
@@ -155,6 +187,8 @@ function editor.draw()
 
 	toolPanel:draw()
 	groundPanel:draw()
+
+	love.graphics.print( love.timer.getFPS(), 20, love.graphics.getHeight() - 40 )
 
 end
 

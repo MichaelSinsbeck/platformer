@@ -132,7 +132,51 @@ function Ground:init()
 						{0,3}, {1,3}, {2,3})
 	new:setHorizontalLine( {0,0}, {1,0}, {2,0} )
 	new:setVerticalLine( {3,1}, {3,2}, {3,3} )
+	table.insert( list, new )
+	
+	new = Ground:new("grass")
+	new:setSingleTile( {3, 4} )
+	new:setThickTiles( {0,5}, {1,5}, {2,5},
+						{4,2}, {5,2}, {6,2},
+						{4,3}, {5,3}, {6,3})
+	new:setHorizontalLine( {0,4}, {1,4}, {2,4} )
+	new:setVerticalLine( {3,5}, {7,2}, {7,3} )
+	table.insert( list, new )
+		
+	new = Ground:new("dirt")
+	new:setSingleTile( {7, 4} )
+	new:setThickTiles( {4,5}, {5,5}, {6,5},
+						{4,2}, {5,2}, {6,2},
+						{4,3}, {5,3}, {6,3})
+	new:setHorizontalLine( {4,4}, {5,4}, {6,4} )
+	new:setVerticalLine( {7,5}, {7,2}, {7,3} )
+	table.insert( list, new )
+	
+	new = Ground:new("stone")
+	new:setSingleTile( {7, 6} )
+	new:setThickTiles( {4,7}, {5,7}, {6,7},
+						{4,2}, {5,2}, {6,2},
+						{4,3}, {5,3}, {6,3})
+	new:setHorizontalLine( {4,6}, {5,6}, {6,6} )
+	new:setVerticalLine( {7,7}, {7,2}, {7,3} )
+	table.insert( list, new )
+	
+	new = Ground:new("wood")
+	new:setSingleTile( {7, 8} )
+	new:setThickTiles( {4,9}, {5,9}, {6,9},
+						{4,10}, {5,10}, {6,10},
+						{4,11}, {5,11}, {6,11})
+	new:setHorizontalLine( {4,8}, {5,8}, {6,8} )
+	new:setVerticalLine( {7,9}, {7,10}, {7,11} )
+	table.insert( list, new )
 
+	new = Ground:new("bridge")
+	new:setSingleTile( {1,10} )
+	new:setThickTiles( {0,9}, {1,10}, {1,9},
+						{0,9}, {1,10}, {1,9},
+						{0,9}, {1,10}, {1,9})
+	new:setHorizontalLine( {0,9}, {1,10}, {1,9} )
+	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
 	table.insert( list, new )
 
 	return list
