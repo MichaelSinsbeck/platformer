@@ -46,10 +46,10 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	-- if there's already a tile there, update it:
 	if self.groundArray[x][y].batchID then
 		self.groundBatch:set( self.groundArray[x][y].batchID,
-			quad, x*Camera.scale*8, y*Camera.scale*8 )
+			quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
 	else
 		self.groundArray[x][y].batchID = self.groundBatch:add(
-			quad, x*Camera.scale*8, y*Camera.scale*8 )
+			quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
 	end
 
 	if updateSurrounding then
