@@ -58,6 +58,8 @@ function Cam:zoomOut()
 	local x, y = love.mouse.getPosition()
 	local wX, wY = self:screenToWorld( x, y )
 	self.zoom = math.max(self.zoom/2, 0.25)
+	wX = math.floor(wX*self.zoom)/self.zoom
+	wY = math.floor(wY*self.zoom)/self.zoom
 	self:alignTo(wX,wY,x,y)
 end
 
