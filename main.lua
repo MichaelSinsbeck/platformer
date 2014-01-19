@@ -227,3 +227,9 @@ function love.mousepressed( x, y, button )
 	end
 end
 
+function love.mousereleased( x, y, button )
+	if mode == 'editor' then
+		editor.mousereleased( button )
+	end
+end
+

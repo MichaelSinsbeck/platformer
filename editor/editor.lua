@@ -119,7 +119,7 @@ function editor.update( dt )
 		editor.clickedTileY = nil
 	end
 
-	local clicked = love.mouse.isDown("m")
+	--[[local clicked = false -- love.mouse.isDown("m")
 
 	if clicked then
 		if editor.clickedX and editor.clickedY then
@@ -130,15 +130,23 @@ function editor.update( dt )
 		editor.clickedX, editor.clickedY = x, y
 	else
 		editor.clickedX, editor.clickedY = nil, nil
-	end
+	end]]
 	
 end
 
 function editor.mousepressed( button )
-	if button == "wu" then
+	if button == "m" then
+		cam:setMouseAnchor()
+	elseif button == "wu" then
 		cam:zoomIn()
 	elseif button == "wd" then
 		cam:zoomOut()
+	end
+end
+
+function editor.mousereleased( button )
+	if button == "m" then
+		cam:releaseMouseAnchor()
 	end
 end
 
@@ -155,6 +163,11 @@ function editor.draw()
 
 	toolPanel:draw()
 	groundPanel:draw()
+	
+	local x, y = love.mouse.getPosition()
+	local wX, wY = cam:screenToWorld( x, y )
+	love.graphics.print(wX,10,10)
+	love.graphics.print(wY,10,50)
 
 end
 
