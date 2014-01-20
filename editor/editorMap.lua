@@ -41,7 +41,8 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 
 
 	-- get the quad for the current tile  which depends on the surrounding ground types:
-	local quad = ground:getQuad( l, r, t, b )
+	local forceNoTransition = updateSurrounding and ground.name ~= "bridge"
+	local quad = ground:getQuad( l, r, t, b, forceNoTransition )
 	
 	-- if there's already a tile there, update it:
 	if self.groundArray[x][y].batchID then

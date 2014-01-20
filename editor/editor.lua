@@ -26,23 +26,6 @@ function editor.init()
 	editor.images = {}
 
 	local prefix = Camera.scale * 8
-	--[[editor.images.penOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "penOff.png")
-	editor.images.penOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "penOn.png")
-	editor.images.penHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "penHover.png")
-	editor.images.eraserOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "eraserOff.png")
-	editor.images.eraserOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "eraserOn.png")
-	editor.images.eraserHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "eraserHover.png")
-
-	editor.images.loadOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "loadOff.png")
-	editor.images.loadOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "loadOn.png")
-	editor.images.loadHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "loadHover.png")
-	editor.images.saveOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "saveOff.png")
-	editor.images.saveOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "saveOn.png")
-	editor.images.saveHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "saveHover.png")
-
-	editor.images.groundOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeOff.png")
-	editor.images.groundOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeOn.png")
-	editor.images.groundHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeHover.png")--]]
 	editor.images.tilesetGround = love.graphics.newImage( "images/tilesets/" .. prefix .. "grounds.png" )
 	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "background1.png" )
 	editor.images.cell = love.graphics.newImage( "images/editor/" .. prefix .. "cell.png")

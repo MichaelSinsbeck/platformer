@@ -13,7 +13,7 @@ function Ground:new( name )
 	local o = {}
 	setmetatable( o, Ground )
 
-	o.gType = name
+	o.name = name
 
 	-- The 'tiles' table will hold all the ground's tile positions on the tile map.
 	-- "Thick" stores the block of 9 tiles, "thin" is 
@@ -23,10 +23,6 @@ function Ground:new( name )
 	-- If the ground has transition tiles then
 	-- store them in the following:
 	o.transitions = {}
-	o.transitions.left = {}
-	o.transitions.right = {}
-	--o.transitions.up = {}
-	--o.transitions.down = {}
 	return o
 end
 
@@ -68,7 +64,10 @@ function Ground:setSingleTile( cm )
 	self.tiles.single = self:coordsToQuad( cm )
 end
 
-function Ground:setTransition( toType, dir, coords )
+function Ground:addTransition( dir, toType, coords )
+	if not self.transitions[dir] then
+		self.transitions[dir] = {}
+	end
 	self.transitions[dir][toType] = self:coordsToQuad( coords )
 end
 
@@ -82,8 +81,32 @@ end
 
 -- this returns the correct quad depending on the types of ground
 -- above, below, to the right and left of the current tile.
-function Ground:getQuad( l, r, t, b )
-	local quad = nil
+function Ground:getQuad( l, r, t, b, forceNoTransition )
+	
+	-- if forceNoTransition is set, then for every surrounding tile
+	-- type which I have a transition to, make me believe that this
+	-- ground tile's type is my own (i.e. don't add transition to that)
+	print("before", l and l.name or "nil",
+		r and r.name or "nil")
+	if forceNoTransition then
+		if l then
+			if self.transitions.l and self.transitions.l[l.name] or
+				self.transitions.lt and self.transitions.lt[l.name] then
+				l = self
+			end
+		end
+		if r then
+			if self.transitions.r and self.transitions.r[r.name] or
+				self.transitions.rt and self.transitions.rt[r.name] then
+				r = self
+			end
+		end
+	end
+	print("\tafter", l and l.name or "nil",
+		r and r.name or "nil")
+
+
+	local quad,dir = nil,nil
 	-- all four are of the same kind as this ground:
 	if l == self and r == self and t == self and b == self then
 		quad = self.tiles.cm
@@ -104,17 +127,35 @@ function Ground:getQuad( l, r, t, b )
 	-- two are the same (around the corner):
 	elseif l == self and t == self then
 		quad = self.tiles.rb
+		if r and self.transitions.rb and self.transitions.rb[r.name] then
+			quad = self.transitions.rb[r.name]
+		end
 	elseif t == self and r == self then
 		quad = self.tiles.lb
+		if l and self.transitions.lb and self.transitions.lb[l.name] then
+			quad = self.transitions.lb[l.name]
+		end
 	elseif r == self and b == self then
 		quad = self.tiles.lt
+		if l and self.transitions.lt and self.transitions.lt[l.name] then
+			quad = self.transitions.lt[l.name]
+		end
 	elseif b == self and l == self then
 		quad = self.tiles.rt
+		if r and self.transitions.rt and self.transitions.rt[r.name] then
+			quad = self.transitions.rt[r.name]
+		end
 	-- one is the same:
 	elseif l == self then
 		quad = self.tiles.r
+		if r and self.transitions.r and self.transitions.r[r.name] then
+			quad = self.transitions.r[r.name]
+		end
 	elseif r == self then
 		quad = self.tiles.l
+		if l and self.transitions.l and self.transitions.l[l.name] then
+			quad = self.transitions.l[l.name]
+		end
 	elseif t == self then
 		quad = self.tiles.b
 	elseif b == self then
@@ -143,6 +184,16 @@ function Ground:init()
 						{4,3}, {5,3}, {6,3})
 	new:setHorizontalLine( {4,4}, {5,4}, {6,4} )
 	new:setVerticalLine( {7,5}, {7,2}, {7,3} )
+
+	new:addTransition( "lt", "grass", {1,7} )
+	new:addTransition( "l", "grass", {3,7} )
+	new:addTransition( "rt", "grass", {1,8} )
+	new:addTransition( "r", "grass", {3,8} )
+	new:addTransition( "lt", "stone", {1,6} )
+	new:addTransition( "l", "stone", {4,6} )
+	new:addTransition( "rt", "stone", {0,8} )
+	new:addTransition( "r", "stone", {2,8} )
+
 	table.insert( list, new )	
 	
 	new = Ground:new("grass")
@@ -154,6 +205,15 @@ function Ground:init()
 	new:setVerticalLine( {3,5}, {7,2}, {7,3} )
 	table.insert( list, new )
 
+	new:addTransition( "lt", "dirt", {1,8} )
+	new:addTransition( "l", "dirt", {4,8} )
+	new:addTransition( "rt", "dirt", {1,7} )
+	new:addTransition( "r", "dirt", {4,7} )
+	new:addTransition( "lt", "stone", {0,6} )
+	new:addTransition( "l", "stone", {2,6} )
+	new:addTransition( "rt", "stone", {0,7} )
+	new:addTransition( "r", "stone", {2,7} )
+
 	new = Ground:new("stone")
 	new:setSingleTile( {7, 6} )
 	new:setThickTiles( {4,7}, {5,7}, {6,7},
@@ -162,6 +222,15 @@ function Ground:init()
 	new:setHorizontalLine( {4,6}, {5,6}, {6,6} )
 	new:setVerticalLine( {7,7}, {7,2}, {7,3} )
 	table.insert( list, new )
+
+	new:addTransition( "lt", "dirt", {0,8} )
+	new:addTransition( "l", "dirt", {2,8} )
+	new:addTransition( "rt", "dirt", {1,6} )
+	new:addTransition( "r", "dirt", {3,6} )
+	new:addTransition( "lt", "grass", {0,7} )
+	new:addTransition( "l", "grass", {2,7} )
+	new:addTransition( "rt", "grass", {0,6} )
+	new:addTransition( "r", "grass", {2,6} )
 	
 	new = Ground:new("wood")
 	new:setSingleTile( {7, 8} )
@@ -179,6 +248,37 @@ function Ground:init()
 						{0,9}, {1,10}, {1,9})
 	new:setHorizontalLine( {0,9}, {1,10}, {1,9} )
 	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
+
+	new:addTransition( "l", "concrete", {0, 10} )
+	new:addTransition( "l", "dirt", {0, 10} )
+	new:addTransition( "l", "grass", {0, 10} )
+	new:addTransition( "l", "stone", {0, 10} )
+	new:addTransition( "l", "wood", {0, 10} )
+	new:addTransition( "lt", "concrete", {0, 10} )
+	new:addTransition( "lt", "dirt", {0, 10} )
+	new:addTransition( "lt", "grass", {0, 10} )
+	new:addTransition( "lt", "stone", {0, 10} )
+	new:addTransition( "lt", "wood", {0, 10} )
+	new:addTransition( "lb", "concrete", {0, 10} )
+	new:addTransition( "lb", "dirt", {0, 10} )
+	new:addTransition( "lb", "grass", {0, 10} )
+	new:addTransition( "lb", "stone", {0, 10} )
+	new:addTransition( "lb", "wood", {0, 10} )
+	new:addTransition( "r", "concrete", {2, 10} )
+	new:addTransition( "r", "dirt", {2, 10} )
+	new:addTransition( "r", "grass", {2, 10} )
+	new:addTransition( "r", "stone", {2, 10} )
+	new:addTransition( "r", "wood", {2, 10} )
+	new:addTransition( "rt", "concrete", {2, 10} )
+	new:addTransition( "rt", "dirt", {2, 10} )
+	new:addTransition( "rt", "grass", {2, 10} )
+	new:addTransition( "rt", "stone", {2, 10} )
+	new:addTransition( "rt", "wood", {2, 10} )
+	new:addTransition( "rb", "concrete", {2, 10} )
+	new:addTransition( "rb", "dirt", {2, 10} )
+	new:addTransition( "rb", "grass", {2, 10} )
+	new:addTransition( "rb", "stone", {2, 10} )
+	new:addTransition( "rb", "wood", {2, 10} )
 	table.insert( list, new )
 
 	return list
