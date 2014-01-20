@@ -52,6 +52,7 @@ function Cam:zoomIn()
 	local wX, wY = self:screenToWorld( x, y )
 	self.zoom = math.min(self.zoom*2, 1)
 	self:alignTo(wX,wY,x,y)
+	editor.createCellQuad()
 end
 
 function Cam:zoomOut()
@@ -61,6 +62,7 @@ function Cam:zoomOut()
 	wX = math.floor(wX*self.zoom)/self.zoom
 	wY = math.floor(wY*self.zoom)/self.zoom
 	self:alignTo(wX,wY,x,y)
+	editor.createCellQuad()
 end
 
 function Cam:screenToWorld( screenX, screenY ) -- solve formula for w

@@ -45,8 +45,18 @@ function editor.init()
 	editor.images.groundHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeHover.png")--]]
 	editor.images.tilesetGround = love.graphics.newImage( "images/tilesets/" .. prefix .. "grounds.png" )
 	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "background1.png" )
+	editor.images.cell = love.graphics.newImage( "images/editor/" .. prefix .. "cell.png")
+	editor.images.cell:setWrap('repeat', 'repeat')
+
+	local tileSize = Camera.scale * 8
+	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width+tileSize, Camera.height+tileSize, tileSize, tileSize)
 
 	editor.groundList = Ground:init()
+end
+
+function editor.createCellQuad()
+	local tileSize = Camera.scale * 8
+	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width/cam.zoom+tileSize, Camera.height/cam.zoom+tileSize, tileSize, tileSize)
 end
 
 -- called when editor is to be started:
@@ -193,7 +203,13 @@ function editor:draw()
 
 	cam:apply()
 
-	map:drawGrid()
+	-- map:drawGrid()
+	local tileSize = Camera.scale * 8
+	local cx,cy = cam:screenToWorld( 0, 0 )
+	cx = math.floor(cx/tileSize)*tileSize
+	cy = math.floor(cy/tileSize)*tileSize
+	love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
+	
 	map:drawBackground()
 	map:drawGround()
 	
