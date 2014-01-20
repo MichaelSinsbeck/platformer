@@ -54,8 +54,8 @@ end
 function Camera:setScale(scale)
 -- scale has to have one of the values 4,5,6,7 or 8
 	self.scale = scale
-	self.width = love.graphics.getWidth()
-	self.height = love.graphics.getHeight()	
+	self.width = love.window.getWidth()
+	self.height = love.window.getHeight()	
 end
 
 -- reloads all images
