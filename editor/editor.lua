@@ -26,7 +26,7 @@ function editor.init()
 	editor.images = {}
 
 	local prefix = Camera.scale * 8
-	editor.images.penOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "penOff.png")
+	--[[editor.images.penOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "penOff.png")
 	editor.images.penOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "penOn.png")
 	editor.images.penHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "penHover.png")
 	editor.images.eraserOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "eraserOff.png")
@@ -42,7 +42,7 @@ function editor.init()
 
 	editor.images.groundOff_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeOff.png")
 	editor.images.groundOn_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeOn.png")
-	editor.images.groundHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeHover.png")
+	editor.images.groundHover_IMG = love.graphics.newImage("images/editor/" .. prefix .. "groundTypeHover.png")--]]
 	editor.images.tilesetGround = love.graphics.newImage( "images/tilesets/" .. prefix .. "grounds.png" )
 	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "background1.png" )
 
@@ -63,33 +63,33 @@ function editor.start()
 							 toolPanelWidth, 16 )
 	-- right side:
 	toolPanel:addClickable( 11, 8, function() editor.setTool("draw") end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEPenOff',
+				'LEPenOn',
+				'LEPenHover')
 				
 	toolPanel:addClickable( 21, 8, function() editor.setTool("erase") end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEEraserOff',
+				'LEEraserOn',
+				'LEEraserHover')
 	
 	-- left side
 	toolPanel:addClickable( toolPanelWidth - 13, 8,
 				menu.startTransition( menu.initMain, true ),
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEExitOff',
+				'LEExitOn',
+				'LEExitHover')
 
 	toolPanel:addClickable( toolPanelWidth - 23, 8,
 				nil,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LESaveOff',
+				'LESaveOn',
+				'LESaveHover')
 
 	toolPanel:addClickable( toolPanelWidth - 33, 8,
 				nil,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEOpenOff',
+				'LEOpenOn',
+				'LEOpenHover')
 
 
 
@@ -97,31 +97,31 @@ function editor.start()
 	groundPanel = Panel:new( 1, 30, 16, 90 )
 
 	-- TODO: change these pictures to fit with the ground type they represent:
-	groundPanel:addClickable( 8, 7, function() editor.seleceedGround = editor.groundList[1] end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+	groundPanel:addClickable( 8, 7, function() editor.selectedGround = editor.groundList[1] end,
+				'LEGround1Off',
+				'LEGround1On',
+				'LEGround1Hover')
 
 	groundPanel:addClickable( 8, 17, function() editor.selectedGround = editor.groundList[2] end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEGround2Off',
+				'LEGround2On',
+				'LEGround2Hover')
 	groundPanel:addClickable( 8, 27, function() editor.selectedGround = editor.groundList[3] end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEGround3Off',
+				'LEGround3On',
+				'LEGround3Hover')
 	groundPanel:addClickable( 8, 37, function() editor.selectedGround = editor.groundList[4] end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEGround4Off',
+				'LEGround4On',
+				'LEGround4Hover')
 	groundPanel:addClickable( 8, 47, function() editor.selectedGround = editor.groundList[5] end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEGround5Off',
+				'LEGround5On',
+				'LEGround5Hover')
 	groundPanel:addClickable( 8, 57, function() editor.selectedGround = editor.groundList[6] end,
-				'editorButtonOff',
-				'editorButtonOn',
-				'editorButtonHover')
+				'LEGround6Off',
+				'LEGround6On',
+				'LEGround6Hover')
 
 	-- available tools:
 	-- "draw", "erase"
