@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="76.005566"
-     inkscape:cy="752.16554"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="102.53337"
+     inkscape:cy="318.9271"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g10682"
      showgrid="true"
      inkscape:showpageshadow="true"
      inkscape:window-width="1916"
@@ -5573,7 +5573,8 @@
            style="fill:#bdb1a9;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
       </g>
       <g
-         id="g11085">
+         id="g11085"
+         transform="translate(50,-150)">
         <g
            id="g10716"
            transform="translate(-25,-285)">
@@ -5603,7 +5604,7 @@
       </g>
       <g
          id="g11068"
-         transform="translate(50,-100)">
+         transform="translate(100,-250)">
         <g
            id="g10760"
            transform="translate(-25,-265)">
@@ -5649,7 +5650,7 @@
       </g>
       <g
          id="g11092"
-         transform="translate(100,-50)">
+         transform="translate(100,-150)">
         <path
            inkscape:connector-curvature="0"
            id="path10740"

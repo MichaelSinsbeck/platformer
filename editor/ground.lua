@@ -1,7 +1,6 @@
 ----------------------------------------------
 -- Represents all the ground types for the editor:
 ----------------------------------------------
---
 -- TODO: allow for variations in ground types.
 
 local Ground = {}
@@ -23,6 +22,10 @@ function Ground:new( name )
 	-- If the ground has transition tiles then
 	-- store them in the following:
 	o.transitions = {}
+
+	-- This table stores all variating tiles, indexed by the same "direction" as in
+	-- the tiles table above.
+	o.variations = {}
 	return o
 end
 
@@ -71,6 +74,10 @@ function Ground:addTransition( dir, toType, coords )
 	self.transitions[dir][toType] = self:coordsToQuad( coords )
 end
 
+function Ground:addVariation( dir, coords )
+	self.variations[dir] = self:coordsToQuad( coords )
+end
+
 function Ground:coordsToQuad( coords )
 	return love.graphics.newQuad(
 		coords[1]*Camera.scale*10, coords[2]*Camera.scale*10,
@@ -86,8 +93,6 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	-- if forceNoTransition is set, then for every surrounding tile
 	-- type which I have a transition to, make me believe that this
 	-- ground tile's type is my own (i.e. don't add transition to that)
-	print("before", l and l.name or "nil",
-		r and r.name or "nil")
 	if forceNoTransition then
 		if l then
 			if self.transitions.l and self.transitions.l[l.name] or
@@ -102,66 +107,63 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 			end
 		end
 	end
-	print("\tafter", l and l.name or "nil",
-		r and r.name or "nil")
 
-
-	local quad,dir = nil,nil
+	local dir = "single"
 	-- all four are of the same kind as this ground:
 	if l == self and r == self and t == self and b == self then
-		quad = self.tiles.cm
+		dir = "cm"
 	-- three are of the same kind:
 	elseif l == self and t == self and r == self then
-		quad = self.tiles.cb
+		dir = "cb"
 	elseif t == self and r == self and b == self then
-		quad = self.tiles.lm
+		dir = "lm"
 	elseif r == self and b == self and l == self then
-		quad = self.tiles.ct
+		dir = "ct"
 	elseif b == self and l == self and t == self then
-		quad = self.tiles.rm
+		dir = "rm"
 	-- two are the same (opposite of each other):
 	elseif l == self and r == self then
-		quad = self.tiles.c
+		dir = "c"
 	elseif t == self and b == self then
-		quad = self.tiles.m
+		dir = "m"
 	-- two are the same (around the corner):
 	elseif l == self and t == self then
-		quad = self.tiles.rb
-		if r and self.transitions.rb and self.transitions.rb[r.name] then
-			quad = self.transitions.rb[r.name]
-		end
+		dir = "rb"
 	elseif t == self and r == self then
-		quad = self.tiles.lb
-		if l and self.transitions.lb and self.transitions.lb[l.name] then
-			quad = self.transitions.lb[l.name]
-		end
+		dir = "lb"
 	elseif r == self and b == self then
-		quad = self.tiles.lt
-		if l and self.transitions.lt and self.transitions.lt[l.name] then
-			quad = self.transitions.lt[l.name]
-		end
+		dir = "lt"
 	elseif b == self and l == self then
-		quad = self.tiles.rt
-		if r and self.transitions.rt and self.transitions.rt[r.name] then
-			quad = self.transitions.rt[r.name]
-		end
+		dir = "rt"
 	-- one is the same:
 	elseif l == self then
-		quad = self.tiles.r
-		if r and self.transitions.r and self.transitions.r[r.name] then
-			quad = self.transitions.r[r.name]
-		end
+		dir = "r"
 	elseif r == self then
-		quad = self.tiles.l
-		if l and self.transitions.l and self.transitions.l[l.name] then
-			quad = self.transitions.l[l.name]
-		end
+		dir = "l"
 	elseif t == self then
-		quad = self.tiles.b
+		dir = "b"
 	elseif b == self then
-		quad = self.tiles.t
+		dir = "t"
 	end
 
+	local tNeighbour
+
+	if dir[1] == "l" then tNeighbour = l and l.name end
+	if dir[1] == "r" then tNeighbour = r and r.name end
+	
+		if tNeighbour and self.transitions[dir] and self.transitions[dir][tNeighbour] then
+			quad = self.transitions[dir][tNeighbour]
+		end
+	local quad = self.tiles[dir]
+	if self.variations[dir] then
+		-- with a chance of 1/20th, place the variation instead of normal tile.
+		if math.random(20) == 1 then
+			-- if it's the center tile, make the variation less likely:
+			if dir ~= "cm" or math.random(2) == 1 then
+				quad = self.variations[dir]
+			end
+		end
+	end
 	-- Otherwise - none are the same. Return the single tile:
 	return quad or self.tiles.single
 end
@@ -175,6 +177,14 @@ function Ground:init()
 						{0,3}, {1,3}, {2,3})
 	new:setHorizontalLine( {0,0}, {1,0}, {2,0} )
 	new:setVerticalLine( {3,1}, {3,2}, {3,3} )
+
+	new:addVariation( "lm", {0,11})
+	new:addVariation( "c", {1,11})
+	new:addVariation( "rm", {2,11})
+	new:addVariation( "m", {3,11})
+	new:addVariation( "ct", {2,9})
+	new:addVariation( "cb", {3,9})
+	new:addVariation( "cm", {3,10})
 	table.insert( list, new )
 	
 	new = Ground:new("dirt")
