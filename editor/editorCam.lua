@@ -21,8 +21,6 @@ function Cam:new( x, y )
 	o.x = x or love.graphics.getWidth()/2
 	o.y = y or love.graphics.getHeight()/2
 
-	print(o.x, o.y)
-
 	o.zoom = 1
 	return o
 end

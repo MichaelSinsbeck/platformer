@@ -31,7 +31,7 @@ local Clickable = {}
 Clickable.__index = Clickable
 local PADDING = 5	-- padding around labeled buttons
 
-function Clickable:new( x, y, event, imgOff, imgOn, imgHover, centered )
+function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered )
 	local o = {}
 	setmetatable(o, self)
 
@@ -39,6 +39,7 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, centered )
 	o.imgOn = imgOn
 	o.imgHover = imgHover or imgOn
 	o.centered = centered
+	o.toolTip = toolTip  or ""
 
 	-- Add visualizer
 	o.vis = Visualizer:New(imgOff)
@@ -110,19 +111,12 @@ function Clickable:draw()
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.textX, self.textY, self.text )
-	--[[else
-		if self.active == "off" then
-			love.graphics.draw( self.imgOff, self.x*Camera.scale, self.y*Camera.scale )
-		elseif self.active == "hover" then
-			love.graphics.draw( self.imgHover, self.x*Camera.scale, self.y*Camera.scale )
-		else
-			love.graphics.draw( self.imgOn, self.x*Camera.scale, self.y*Camera.scale )
-		end--]]
 	end
 end
 
 function Clickable:update( dt, mouseX, mouseY, clicked )
 	if self:collisionCheck( mouseX, mouseY ) then
+		editor.setToolTip( self.toolTip )
 		if clicked then
 			-- new click?
 			if self.active ~= "click" then

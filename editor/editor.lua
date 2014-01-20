@@ -35,6 +35,15 @@ function editor.init()
 	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width+tileSize, Camera.height+tileSize, tileSize, tileSize)
 
 	editor.groundList = Ground:init()
+
+	editor.toolTip = {
+		text = "",
+		x = 0,
+		y = 0,
+	}
+	editor.toolsToolTips = {}
+	editor.toolsToolTips["draw"] = "click: draw, shift+click: draw straight line"
+	editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
 end
 
 function editor.createCellQuad()
@@ -52,37 +61,42 @@ function editor.start()
 
 	love.mouse.setVisible( true )
 	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
-	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-18,
+	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-23,
 							 toolPanelWidth, 16 )
 	-- right side:
 	toolPanel:addClickable( 11, 8, function() editor.setTool("draw") end,
 				'LEPenOff',
 				'LEPenOn',
-				'LEPenHover')
+				'LEPenHover',
+				"Pen - draw single tiles or objects onto the map.")
 				
 	toolPanel:addClickable( 21, 8, function() editor.setTool("erase") end,
 				'LEEraserOff',
 				'LEEraserOn',
-				'LEEraserHover')
+				'LEEraserHover',
+				"Eraser - remove tiles or objects.")
 	
 	-- left side
 	toolPanel:addClickable( toolPanelWidth - 13, 8,
 				menu.startTransition( menu.initMain, true ),
 				'LEExitOff',
 				'LEExitOn',
-				'LEExitHover')
+				'LEExitHover',
+				"Close editor and return to main menu.")
 
 	toolPanel:addClickable( toolPanelWidth - 23, 8,
 				nil,
 				'LESaveOff',
 				'LESaveOn',
-				'LESaveHover')
+				'LESaveHover',
+				"Save the map.")
 
 	toolPanel:addClickable( toolPanelWidth - 33, 8,
 				nil,
 				'LEOpenOff',
 				'LEOpenOn',
-				'LEOpenHover')
+				'LEOpenHover',
+				"Load another map.")
 
 
 
@@ -127,6 +141,9 @@ end
 
 -- called as long as editor is running:
 function editor:update( dt )
+
+	self.toolTip.text = ""
+
 	local clicked = love.mouse.isDown("l")
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
@@ -147,6 +164,9 @@ function editor:update( dt )
 		editor.clickedTileY = nil
 	end
 
+	if self.toolTip.text == "" and self.selectedTool then
+		self.setToolTip( self.toolsToolTips[self.selectedTool] )
+	end
 end
 
 function editor.mousepressed( button )
@@ -169,6 +189,7 @@ end
 function editor:draw()
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
+
 
 	cam:apply()
 
@@ -194,6 +215,8 @@ function editor:draw()
 	toolPanel:draw()
 	groundPanel:draw()
 	
+	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
+	
 	--[[love.graphics.print(wX,10,10)
 	love.graphics.print(wY,10,50)--]]
 
@@ -214,6 +237,12 @@ function editor.useTool( tileX, tileY )
 		-- if success is false, then try to delete background object
 		-- at this position instead.
 	end
+end
+
+function editor.setToolTip( tip )
+	editor.toolTip.text = string.lower(tip)
+	editor.toolTip.x = (love.graphics.getWidth() - love.graphics.getFont():getWidth( tip ))/2
+	editor.toolTip.y = love.graphics.getHeight() - love.graphics.getFont():getHeight() - 10
 end
 
 function editor.textinput( letter )

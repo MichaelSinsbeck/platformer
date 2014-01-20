@@ -25,7 +25,6 @@ function EditorMap:new()
 			o.groundArray[x][y].batchID = nil
 		end
 	end
-
 	return o
 end
 
