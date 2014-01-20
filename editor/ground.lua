@@ -26,6 +26,8 @@ function Ground:new( name )
 	-- This table stores all variating tiles, indexed by the same "direction" as in
 	-- the tiles table above.
 	o.variations = {}
+
+	o.similar = {}
 	return o
 end
 
@@ -78,6 +80,10 @@ function Ground:addVariation( dir, coords )
 	self.variations[dir] = self:coordsToQuad( coords )
 end
 
+function Ground:addSimilar( name )
+	self.similar[name] = true
+end
+
 function Ground:coordsToQuad( coords )
 	return love.graphics.newQuad(
 		coords[1]*Camera.scale*10, coords[2]*Camera.scale*10,
@@ -96,16 +102,37 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	if forceNoTransition then
 		if l then
 			if self.transitions.l and self.transitions.l[l.name] or
-				self.transitions.lt and self.transitions.lt[l.name] then
+				self.transitions.lt and self.transitions.lt[l.name] or
+				self.transitions.lb and self.transitions.lb[l.name] then
 				l = self
 			end
 		end
 		if r then
 			if self.transitions.r and self.transitions.r[r.name] or
-				self.transitions.rt and self.transitions.rt[r.name] then
+				self.transitions.rt and self.transitions.rt[r.name] or
+				self.transitions.rb and self.transitions.rb[r.name] then
 				r = self
 			end
 		end
+	end
+
+	-- If I don't have a transition tile into a direction, but the neighbour
+	-- in that direction is similar, make me think it has the same type as me:
+	if l and self.similar[l.name] and 
+		 not (self.transitions.l and self.transitions.l[l.name]) then
+			l = self
+	end
+	if r and self.similar[r.name] and 
+		 not (self.transitions.r and self.transitions.r[r.name]) then
+			r = self
+	end
+	if t and self.similar[t.name] and 
+		 not (self.transitions.t and self.transitions.t[t.name]) then
+			t = self
+	end
+	if b and self.similar[b.name] and 
+		 not (self.transitions.b and self.transitions.b[b.name]) then
+			b = self
 	end
 
 	local dir = "single"
@@ -146,15 +173,19 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 		dir = "t"
 	end
 
-	local tNeighbour
+	local quad = self.tiles[dir]
 
-	if dir[1] == "l" then tNeighbour = l and l.name end
-	if dir[1] == "r" then tNeighbour = r and r.name end
+	local tNeighbour
+	print(dir, dir:sub(1,1), dir:sub(1,1) == "l")
+
+	if dir:sub(1,1) == "l" then tNeighbour = l and l.name end
+	if dir:sub(1,1) == "r" then tNeighbour = r and r.name end
+
+	print(tNeighbour)
 
 	if tNeighbour and self.transitions[dir] and self.transitions[dir][tNeighbour] then
 		quad = self.transitions[dir][tNeighbour]
 	end
-	local quad = self.tiles[dir]
 	if self.variations[dir] then
 		-- with a chance of 1/20th, place the variation instead of normal tile.
 		if math.random(20) == 1 then
@@ -195,6 +226,9 @@ function Ground:init()
 	new:setHorizontalLine( {4,4}, {5,4}, {6,4} )
 	new:setVerticalLine( {7,5}, {7,2}, {7,3} )
 
+	new:addSimilar("grass")
+	new:addSimilar("stone")
+
 	new:addTransition( "lt", "grass", {1,7} )
 	new:addTransition( "l", "grass", {3,7} )
 	new:addTransition( "rt", "grass", {1,8} )
@@ -213,16 +247,19 @@ function Ground:init()
 						{4,3}, {5,3}, {6,3})
 	new:setHorizontalLine( {0,4}, {1,4}, {2,4} )
 	new:setVerticalLine( {3,5}, {7,2}, {7,3} )
-	table.insert( list, new )
+
+	new:addSimilar("dirt")
+	new:addSimilar("stone")
 
 	new:addTransition( "lt", "dirt", {1,8} )
-	new:addTransition( "l", "dirt", {4,8} )
+	new:addTransition( "l", "dirt", {3,8} )
 	new:addTransition( "rt", "dirt", {1,7} )
-	new:addTransition( "r", "dirt", {4,7} )
+	new:addTransition( "r", "dirt", {3,7} )
 	new:addTransition( "lt", "stone", {0,6} )
 	new:addTransition( "l", "stone", {2,6} )
 	new:addTransition( "rt", "stone", {0,7} )
 	new:addTransition( "r", "stone", {2,7} )
+	table.insert( list, new )
 
 	new = Ground:new("stone")
 	new:setSingleTile( {7, 6} )
@@ -231,7 +268,9 @@ function Ground:init()
 						{4,3}, {5,3}, {6,3})
 	new:setHorizontalLine( {4,6}, {5,6}, {6,6} )
 	new:setVerticalLine( {7,7}, {7,2}, {7,3} )
-	table.insert( list, new )
+
+	new:addSimilar("dirt")
+	new:addSimilar("grass")
 
 	new:addTransition( "lt", "dirt", {0,8} )
 	new:addTransition( "l", "dirt", {2,8} )
@@ -241,6 +280,7 @@ function Ground:init()
 	new:addTransition( "l", "grass", {2,7} )
 	new:addTransition( "rt", "grass", {0,6} )
 	new:addTransition( "r", "grass", {2,6} )
+	table.insert( list, new )
 	
 	new = Ground:new("wood")
 	new:setSingleTile( {7, 8} )
