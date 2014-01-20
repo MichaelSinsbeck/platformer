@@ -13,7 +13,7 @@
    inkscape:export-xdpi="90"
    inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/menu/exitOff.png"
    sodipodi:docname="cell.svg"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    version="1.1"
    id="svg2"
    height="40"
@@ -26,16 +26,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8"
-     inkscape:cx="34.868971"
+     inkscape:cx="12.806471"
      inkscape:cy="16.901254"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:showpageshadow="true"
-     inkscape:window-width="1280"
-     inkscape:window-height="750"
+     inkscape:window-width="1916"
+     inkscape:window-height="1057"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="19"
      inkscape:window-maximized="1"
      inkscape:snap-global="true">
     <inkscape:grid
@@ -84,7 +84,7 @@
          id="flowPara18824">hover</flowPara><flowPara
          id="flowPara18847" /><flowPara
          id="flowPara18826" /></flowRoot>    <path
-       style="fill:none;stroke:#ffffff;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;opacity:0.3"
+       style="fill:none;stroke:#ffffff;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.18055555;stroke-miterlimit:4;stroke-dasharray:none;opacity:0.29999999999999999"
        d="M 0,0 40,0 40,40 0,40 z"
        id="path16146"
        inkscape:connector-curvature="0"
