@@ -1,6 +1,8 @@
 ----------------------------------------------
 -- Represents all the ground types for the editor:
 ----------------------------------------------
+--
+-- TODO: allow for variations in ground types.
 
 local Ground = {}
 Ground.__index = Ground

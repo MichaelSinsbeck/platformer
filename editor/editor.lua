@@ -106,7 +106,6 @@ function editor.start()
 	-- Panel for choosing the ground type:
 	groundPanel = Panel:new( 1, 30, 16, 90 )
 
-	-- TODO: change these pictures to fit with the ground type they represent:
 	groundPanel:addClickable( 8, 7, function() editor.selectedGround = editor.groundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
