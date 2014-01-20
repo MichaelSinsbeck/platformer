@@ -150,10 +150,10 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 
 	if dir[1] == "l" then tNeighbour = l and l.name end
 	if dir[1] == "r" then tNeighbour = r and r.name end
-	
-		if tNeighbour and self.transitions[dir] and self.transitions[dir][tNeighbour] then
-			quad = self.transitions[dir][tNeighbour]
-		end
+
+	if tNeighbour and self.transitions[dir] and self.transitions[dir][tNeighbour] then
+		quad = self.transitions[dir][tNeighbour]
+	end
 	local quad = self.tiles[dir]
 	if self.variations[dir] then
 		-- with a chance of 1/20th, place the variation instead of normal tile.

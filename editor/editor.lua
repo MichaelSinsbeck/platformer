@@ -48,7 +48,7 @@ function editor.start()
 	mode = "editor"
 
 	map = EditorMap:new()
-	cam = EditorCam:new()
+	cam = EditorCam:new( -Camera.scale*8*map.MAP_SIZE/2, -Camera.scale*8*map.MAP_SIZE/2 )
 
 	love.mouse.setVisible( true )
 	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
@@ -147,19 +147,6 @@ function editor:update( dt )
 		editor.clickedTileY = nil
 	end
 
-	--[[local clicked = false -- love.mouse.isDown("m")
-
-	if clicked then
-		if editor.clickedX and editor.clickedY then
-			local dx, dy = x-editor.clickedX, y-editor.clickedY
-			dx, dy = dx*cam.zoom, dy*cam.zoom
-			cam:move(dx, dy)
-		end
-		editor.clickedX, editor.clickedY = x, y
-	else
-		editor.clickedX, editor.clickedY = nil, nil
-	end]]
-	
 end
 
 function editor.mousepressed( button )

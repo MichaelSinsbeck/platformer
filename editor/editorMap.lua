@@ -1,21 +1,23 @@
 local EditorMap = {}
 EditorMap.__index = EditorMap
 
-MAP_SIZE = 1000
 
 function EditorMap:new()
 	local o = {}
 	setmetatable( o, EditorMap )
+	o.MAP_SIZE = 1000
 
 	o.groundBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
-					MAP_SIZE*MAP_SIZE, "dynamic" )
+					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
 	o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
 					1000, "dynamic" )
 
+
+
 	o.groundArray = {}
-	for x = 0, MAP_SIZE-1 do
+	for x = 0, o.MAP_SIZE-1 do
 		o.groundArray[x] = {}
-		for y = 0, MAP_SIZE-1 do
+		for y = 0, o.MAP_SIZE-1 do
 			o.groundArray[x][y] = {}
 			-- store type to remember what's in the tile:
 			o.groundArray[x][y].gType = nil
@@ -35,9 +37,9 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 
 	-- load the surrounding ground types:
 	local l = x > 0 and self.groundArray[x-1][y].gType
-	local r = x < MAP_SIZE-1 and self.groundArray[x+1][y].gType
+	local r = x < self.MAP_SIZE-1 and self.groundArray[x+1][y].gType
 	local t = y > 0 and self.groundArray[x][y-1].gType
-	local b = y < MAP_SIZE-1 and self.groundArray[x][y+1].gType
+	local b = y < self.MAP_SIZE-1 and self.groundArray[x][y+1].gType
 
 
 	-- get the quad for the current tile  which depends on the surrounding ground types:
@@ -57,13 +59,13 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		if x > 0 and self.groundArray[x-1][y].gType then
 			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
 		end
-		if x < MAP_SIZE-1 and self.groundArray[x+1][y].gType then
+		if x < self.MAP_SIZE-1 and self.groundArray[x+1][y].gType then
 			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
 		end
 		if y > 0 and self.groundArray[x][y-1].gType then
 			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
 		end
-		if y < MAP_SIZE-1 and self.groundArray[x][y+1].gType then
+		if y < self.MAP_SIZE-1 and self.groundArray[x][y+1].gType then
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
 	end
@@ -85,13 +87,13 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 		if x > 0 and self.groundArray[x-1][y].gType then
 			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
 		end
-		if x < MAP_SIZE-1 and self.groundArray[x+1][y].gType then
+		if x < self.MAP_SIZE-1 and self.groundArray[x+1][y].gType then
 			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
 		end
 		if y > 0 and self.groundArray[x][y-1].gType then
 			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
 		end
-		if y < MAP_SIZE-1 and self.groundArray[x][y+1].gType then
+		if y < self.MAP_SIZE-1 and self.groundArray[x][y+1].gType then
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
 	end
