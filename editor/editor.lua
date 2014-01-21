@@ -18,6 +18,8 @@ EditorCam = require("editor/editorCam")
 local map = nil
 local cam = nil
 
+local choosingBackgroundObject = false
+
 -- called when loading game	
 function editor.init()
 
@@ -63,6 +65,7 @@ function editor.start()
 	cam = EditorCam:new( -Camera.scale*8*map.MAP_SIZE/2, -Camera.scale*8*map.MAP_SIZE/2 )
 
 	love.mouse.setVisible( true )
+
 	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
 	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-23,
 							 toolPanelWidth, 16 )
@@ -119,8 +122,7 @@ function editor.start()
 
 	groundPanel:addClickable( 8, 17, function() editor.selectedGround = editor.groundList[2] end,
 				'LEGround2Off',
-				'LEGround2On',
-				'LEGround2Hover')
+				'LEGround2On', 'LEGround2Hover')
 	groundPanel:addClickable( 8, 27, function() editor.selectedGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
@@ -138,6 +140,11 @@ function editor.start()
 				'LEGround6On',
 				'LEGround6Hover')
 
+
+	
+	bgObjectPanel = Panel:new( 20, 10,
+				love.graphics.getWidth()/Camera.scale - 40,
+				love.graphics.getHeight()/Camera.scale - 23 - 14)
 	-- available tools:
 	-- "draw", "erase"
 	-- mabye later add "fill"
@@ -174,7 +181,7 @@ function editor:update( dt )
 		editor.clickedTileY = nil
 	end
 
-	if self.toolTip.text == "" and self.selectedTool then
+	if self.toolTip.text == "" and self.selectedTool and not hit then
 		self.setToolTip( self.toolsToolTips[self.selectedTool] )
 	end
 end
@@ -200,7 +207,6 @@ function editor:draw()
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 
-
 	cam:apply()
 
 	-- map:drawGrid()
@@ -224,6 +230,10 @@ function editor:draw()
 
 	toolPanel:draw()
 	groundPanel:draw()
+
+	if choosingBackgroundObject then
+		bgObjectPanel:draw()
+	end
 	
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
 	
@@ -236,6 +246,9 @@ end
 
 function editor.setTool( tool )
 	editor.selectedTool = tool
+	if tool == "bgObject" then
+		choosingBackgroundObject = true
+	end
 end
 
 function editor.useTool( tileX, tileY )
