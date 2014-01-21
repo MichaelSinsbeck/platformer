@@ -110,18 +110,18 @@ function Map:initShadows()
 
 	--USE_SHADERS = false
 	if Campaign.worldNumber == 1 then
-		shadows:init( USE_SHADERS, 0,0,0,200 )
+		shadows:init( false, 0,0,0,200 )
 	elseif Campaign.worldNumber == 2 then
-		shadows:init( USE_SHADERS, 0,0,0,200 )
+		shadows:init( false, 0,0,0,200 )
 		col = {r=200,g=200,b=200,a=80}
 	elseif Campaign.worldNumber == 3 then
-		shadows:init( USE_SHADERS, 0,0,0,200 )
+		shadows:init( false, 0,0,0,200 )
 		col = {r=80,g=150,b=205,a=20}
 	elseif Campaign.worldNumber == 4 then
-		shadows:init( USE_SHADERS, 0,0,0,250 )
+		shadows:init( false, 0,0,0,250 )
 		col = {r=205,g=205,b=205,a=60}
 	elseif Campaign.worldNumber == 5 then
-		shadows:init( USE_SHADERS, 0,0,0,200 )
+		shadows:init( false, 0,0,0,200 )
 		col = {r=150,g=150,b=150,a=40}
 	else
 		love.graphics.setColor(80,150,205) -- blue (world 1)
