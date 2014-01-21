@@ -6,7 +6,7 @@ local coords = {
 	{tileX=3,tileY=8,x=0,y=1},
 	{tileX=4,tileY=8,x=1,y=1},
 	{tileX=5,tileY=8,x=2,y=1},
-	{tileX=5,tileY=8,x=3,y=1},
+	{tileX=7,tileY=6,x=3,y=1},
 	{tileX=5,tileY=8,x=4,y=1},
 	{tileX=6,tileY=8,x=5,y=1},
 	{tileX=7,tileY=8,x=6,y=1},
