@@ -215,17 +215,20 @@ function editor:update( dt )
 
 	local shift = love.keyboard.isDown("lshift", "rshift")
 
+
 	if self.mouseOnCanvas and clicked then
-		
-		if not shift and (editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) then
-			editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY )
-			editor.clickedTileX = tileX
-			editor.clickedTileY = tileY
-			editor.lineStartX, editor.lineStartY = tileX, tileY
+	
+		if not choosingBgObject then
+			if not shift and (editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) and 
+				(editor.selectedTool ~= "bgObject" or editor.clickedLastFrame == false) then
+				editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY )
+				editor.clickedTileX = tileX
+				editor.clickedTileY = tileY
+				editor.lineStartX, editor.lineStartY = tileX, tileY
+			end
+
 		end
-
-		editor.clickedLastFrame = true
-
+		choosingBgObject = false
 	else
 		if editor.clickedLastFrame then
 			if shift and self.selectedTool == "draw" then
@@ -244,6 +247,9 @@ function editor:update( dt )
 
 	if self.toolTip.text == "" and self.selectedTool and not hit then
 		self.setToolTip( self.toolsToolTips[self.selectedTool] )
+	end
+	if clicked then 
+		editor.clickedLastFrame = true
 	end
 end
 
