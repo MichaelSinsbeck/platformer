@@ -157,7 +157,7 @@ end
 
 function editor.createBgObjectPanel()
 
-	local PADDING = Camera.scale
+	local PADDING = Camera.scale*1.5
 
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 40
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
@@ -178,17 +178,21 @@ function editor.createBgObjectPanel()
 			choosingBgObject = false
 		end
 
+		maxY = math.max( bBox.maxY, maxY )
+
+		if x + bBox.maxX*8 > panelWidth then
+			-- add the maximum height of the obejcts in this row, then continue:
+			y = y + maxY*8 + PADDING
+			x = 0
+
+			maxY = -math.huge
+		end
+
 		bgObjectPanel:addBatchClickable( x, y, event, b, bBox.maxX*8, bBox.maxY*8, obj.name, page )
 
 		-- Is this object higher than the others of this row?
-		maxY = math.max( bBox.maxY, maxY )
 
 		x = x + bBox.maxX*8 + PADDING
-		if x > panelWidth*Camera.scale then
-			-- add the maximum height of the obejcts in this row, then continue:
-			y = y + maxY*8 + PADDING
-			maxY = -math.huge
-		end
 	end
 end
 
