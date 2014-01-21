@@ -207,8 +207,8 @@ function BgObject:init()
 	files = love.filesystem.getDirectoryItems("editor/objects/")
 	for i, file in ipairs(files) do
 		name = file:match("([^/]*).lua$")
-		print("\t...", name)
 		if name then
+			print("\t...", name)
 			img, coords = dofile( "editor/objects/" .. file )
 			new = BgObject:new( name, img, coords)
 			table.insert( list, new )

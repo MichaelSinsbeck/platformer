@@ -178,7 +178,7 @@ function editor.createBgObjectPanel()
 			choosingBgObject = false
 		end
 
-		bgObjectPanel:addBatchClickable( x, y, event, b, bBox.maxX*8, bBox.maxY*8, " ", page )
+		bgObjectPanel:addBatchClickable( x, y, event, b, bBox.maxX*8, bBox.maxY*8, obj.name, page )
 
 		-- Is this object higher than the others of this row?
 		maxY = math.max( bBox.maxY, maxY )
