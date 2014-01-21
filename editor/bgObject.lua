@@ -200,15 +200,20 @@ end
 
 function BgObject:init()
 	local list = {}
-	local coords, img
+	local coords, img, name
 
-	img, coords = dofile("editor/objects/tree1.lua")
-	local new = BgObject:new( "tree1", img, coords)
-	table.insert( list, new )
+	print("Loading objects:")
 
-	img, coords = dofile("editor/objects/tree2.lua")
-	local new = BgObject:new( "tree2", img, coords)
-	table.insert( list, new )
+	files = love.filesystem.getDirectoryItems("editor/objects/")
+	for i, file in ipairs(files) do
+		name = file:match("([^/]*).lua$")
+		print("\t...", name)
+		if name then
+			img, coords = dofile( "editor/objects/" .. file )
+			new = BgObject:new( name, img, coords)
+			table.insert( list, new )
+		end
+	end
 
 	return list
 end

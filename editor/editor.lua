@@ -157,6 +157,8 @@ end
 
 function editor.createBgObjectPanel()
 
+	local PADDING = Camera.scale
+
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 40
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
 
@@ -181,10 +183,10 @@ function editor.createBgObjectPanel()
 		-- Is this object higher than the others of this row?
 		maxY = math.max( bBox.maxY, maxY )
 
-		x = x + bBox.maxX*8
+		x = x + bBox.maxX*8 + PADDING
 		if x > panelWidth*Camera.scale then
 			-- add the maximum height of the obejcts in this row, then continue:
-			y = y + maxY*8
+			y = y + maxY*8 + PADDING
 			maxY = -math.huge
 		end
 	end
