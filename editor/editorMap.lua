@@ -10,7 +10,7 @@ function EditorMap:new()
 	o.groundBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
 					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
 	o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
-					1000, "dynamic" )
+					100000, "dynamic" )
 
 
 	o.groundArray = {}
@@ -136,10 +136,8 @@ function EditorMap:removeBackgroundObject( tileX, tileY )
 	-- Go through the list backwards and delete the first object found
 	-- which is hit by the click:
 	local obj
-	print("removing at:", tileX, tileY )
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
-		print(obj.x, obj.y, obj.maxX, obj.maxY)
 		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX and tileY <= obj.maxY then
 			for i, ID in pairs(obj.ids) do
 				self.backgroundBatch:set( ID, 0,0,0,0,0 )

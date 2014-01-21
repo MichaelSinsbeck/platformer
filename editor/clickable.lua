@@ -26,6 +26,7 @@
 --
 -- TODO:
 -- allow visualizers to be used instead of plain images.
+-- edit: done by Micha
 
 local Clickable = {}
 Clickable.__index = Clickable
@@ -46,7 +47,6 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered 
 	o.vis:init()
 	o.width, o.height = o.vis:getSize()
 	
-	-- react when mouse is in the 
 	--o.width = imgOff:getWidth()
 	--o.height = imgOff:getHeight()
 
@@ -95,10 +95,43 @@ function Clickable:newLabel( x, y, event, text, font )
 	self.active = "off"
 end
 
+function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centered )
+	local o = {}
+	setmetatable(o, self)
+
+	o.batch = batch
+	o.toolTip = toolTip  or ""
+
+	-- react when mouse is in the area:
+	o.width, o.height = width, height
+	
+	o.x = x or 0
+	o.y = y or 0
+	if centered then
+		o.x = o.x - o.width/2
+		o.y = o.y - o.height/2
+	end
+
+	-- for collision checking:
+	o.minX = x*Camera.scale
+	o.minY = y*Camera.scale
+	o.maxX = o.minX + o.width*Camera.scale
+	o.maxY = o.minY + o.height*Camera.scale
+
+	o.event = event
+
+	self.active = "off"
+
+	return o
+
+end
+
 function Clickable:draw()
 	if self.vis then
 		self.vis:draw(self.x*Camera.scale,self.y*Camera.scale)
 		--self.vis:draw(10,10)
+	else
+		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
 	end
 	if self.text then
 		if self.active == "off" then

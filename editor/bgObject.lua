@@ -16,58 +16,58 @@
 local BgObject = {}
 BgObject.__index = BgObject
 
-function BgObject:new( name, tilesheet, tileList, sorted )
+function BgObject:new( name, tileset, tileList, sorted )
 	local o = {}
-	setmetatable( o, BgObject )
+	setmetatable( o, self )
 
 	o.name = name or ""
 	o.sorted = false
 
-	if not editor.images[tilesheet] then
-		editor.images[tilesheet] = love.graphics.newImage( "images/tilesets/" .. Camera.scale*8 .. tilesheet .. ".png")
+	if not editor.images[tileset] then
+		editor.images[tileset] = love.graphics.newImage( "images/tilesets/" .. Camera.scale*8 .. tileset .. ".png")
 	end
 
-	self.tilesheet = editor.images[tilesheet]
+	o.tileset = editor.images[tileset]
 
-	self.tileList = tileList
+	o.tileList = tileList
 
-	self.quadList = {}
+	o.quadList = {}
 
-	self.tileArray = {}
-	self.coordsArray = {}
-	--[[self.sortedTileArray = {}
+	o.tileArray = {}
+	o.coordsArray = {}
+	--[[o.sortedTileArray = {}
 	local minX, minY = math.huge, math.huge
 	local maxY, maxY = -math.huge, -math.huge]]
 	-- add all coords into lists:
 	for k, coords in pairs(tileList) do
-		if not self.tileArray[coords.tileX] then
-			self.tileArray[coords.tileX] = {}
+		if not o.tileArray[coords.tileX] then
+			o.tileArray[coords.tileX] = {}
 		end
-		if not self.coordsArray[coords.x] then
-			self.coordsArray[coords.x] = {}
+		if not o.coordsArray[coords.x] then
+			o.coordsArray[coords.x] = {}
 		end
-		--self.tileArray[coords.tileX][coords.tileY] = coords
-		self.coordsArray[coords.x][coords.y] = coords
+		--o.tileArray[coords.tileX][coords.tileY] = coords
+		o.coordsArray[coords.x][coords.y] = coords
 	end
 
 	-- calculate bounding box:
-	self.minX, self.minY = math.huge, math.huge
-	self.maxX, self.maxY = -math.huge,-math.huge
-	for x,v in pairs(self.tileList) do
-		self.minX = math.min(self.minX, v.x)
-		self.maxX = math.max(self.maxX, v.x)
-		self.minY = math.min(self.minY, v.y)
-		self.maxY = math.max(self.maxY, v.y)
+	o.minX, o.minY = math.huge, math.huge
+	o.maxX, o.maxY = -math.huge,-math.huge
+	for x,v in pairs(o.tileList) do
+		o.minX = math.min(o.minX, v.x)
+		o.maxX = math.max(o.maxX, v.x)
+		o.minY = math.min(o.minY, v.y)
+		o.maxY = math.max(o.maxY, v.y)
 	end
-	self.bBox = {
-		x = self.minX,
-		y = self.minY,
-		maxX = self.maxX,
-		maxY = self.maxY,
+	o.bBox = {
+		x = o.minX,
+		y = o.minY,
+		maxX = o.maxX,
+		maxY = o.maxY,
 	}
 
 
-	self:calculateQuads()
+	o:calculateQuads()
 
 	return o
 end
@@ -165,7 +165,7 @@ function BgObject:calculateQuads()
 			local quad = love.graphics.newQuad(
 				coords.tileX*Camera.scale*8, coords.tileY*Camera.scale*8,
 				Camera.scale*8, Camera.scale*8,
-				self.tilesheet:getWidth(), self.tilesheet:getHeight()
+				self.tileset:getWidth(), self.tileset:getHeight()
 				)
 			local new = {
 				quad = quad,
@@ -178,6 +178,7 @@ function BgObject:calculateQuads()
 end
 
 function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
+
 	local usedIDs = {}
 	local quad, xOffset, yOffset
 	for k, element in pairs(self.quadList) do
@@ -199,15 +200,14 @@ end
 
 function BgObject:init()
 	local list = {}
-	local new = nil
-	local coords
+	local coords, img
 
-	coords = dofile("editor/objects/tree1.lua")
-	new = BgObject:new( "tree1", "background1", coords)
+	img, coords = dofile("editor/objects/tree1.lua")
+	local new = BgObject:new( "tree1", img, coords)
 	table.insert( list, new )
 
-	coords = dofile("editor/objects/tree2.lua")
-	new = BgObject:new( "tree2", "background1", coords)
+	img, coords = dofile("editor/objects/tree2.lua")
+	local new = BgObject:new( "tree2", img, coords)
 	table.insert( list, new )
 
 	return list

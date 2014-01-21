@@ -12,16 +12,35 @@ function Panel:new( x, y, width, height )
 	o.width = width or 100
 	o.height = height or 100
 	
+	-- page[0] always gets drawn!
+	-- Other pages only if selectedPage is set correctly.
+	o.pages = {}
+	o.pages[0] = {}
+	o.selectedPage = 1
+	
 	o.box = menu:generateBox( o.x, o.y, o.width, o.height, boxFactor)
-	o.clickables = {}
 
 	return o
 end
 
-function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, centered )
-	local c = Clickable:new( x+self.x, y+self.y, event, imgOff, imgOn, imgHover, centered )
-	table.insert( self.clickables, c )
+function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, centered )
+	local c = Clickable:new( x+self.x, y+self.y, event, imgOff, imgOn, imgHover, toolTip, centered )
+	page = page or 0
+	if not self.pages[page] then
+		self.pages[page] = {}
+	end
+	table.insert( self.pages[page], c )
 end
+
+function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, page, centered )
+	local c = Clickable:newBatch( x+self.x, y+self.y, event, batch, width, height, toolTip, centered )
+	page = page or 0
+	if not self.pages[page] then
+		self.pages[page] = {}
+	end
+	table.insert( self.pages[page], c )
+end
+
 
 function Panel:draw()
 
@@ -43,8 +62,15 @@ function Panel:draw()
 	love.graphics.line(scaled)
 
 	love.graphics.setColor(255,255,255,255)
-	for k, button in ipairs( self.clickables ) do
+
+	for k, button in ipairs( self.pages[0] ) do
 		button:draw()
+	end
+
+	if self.pages[self.selectedPage] then
+		for k, button in ipairs( self.pages[self.selectedPage] ) do
+			button:draw()
+		end
 	end
 end
 
@@ -52,21 +78,23 @@ function Panel:update( dt, mouseX, mouseY, clicked )
 
 	-- this gets set to true if the click hit a clickable on this panel:
 	--local clickHit = false
-
-	for k,button in ipairs( self.clickables ) do
+	for k,button in ipairs( self.pages[0] ) do
 		button:update( dt, mouseX, mouseY, clicked )
-		--if button:update( dt, mouseX, mouseY, clicked ) then
-		--	clickHit = true
-		--end
 	end
-	--return clickHit
+	
+	if self.pages[self.selectedPage] then
+		for k,button in ipairs( self.pages[self.selectedPage] ) do
+			button:update( dt, mouseX, mouseY, clicked )
+		end
+	end
+
 	return self:collisionCheck(mouseX,mouseY)
 end
 
 function Panel:collisionCheck( x, y )
 	return x/Camera.scale > self.x and
-					y/Camera.scale > self.y and
-					x/Camera.scale < self.x + self.width and
+	y/Camera.scale > self.y and
+	x/Camera.scale < self.x + self.width and
 					y/Camera.scale < self.y + self.height
 end
 

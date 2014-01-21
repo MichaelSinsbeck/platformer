@@ -18,7 +18,7 @@ EditorCam = require("editor/editorCam")
 local map = nil
 local cam = nil
 
-local choosingBackgroundObject = false
+local choosingBgObject = false
 
 -- called when loading game	
 function editor.init()
@@ -122,7 +122,8 @@ function editor.start()
 
 	groundPanel:addClickable( 8, 17, function() editor.selectedGround = editor.groundList[2] end,
 				'LEGround2Off',
-				'LEGround2On', 'LEGround2Hover')
+				'LEGround2On',
+				'LEGround2Hover')
 	groundPanel:addClickable( 8, 27, function() editor.selectedGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
@@ -141,10 +142,8 @@ function editor.start()
 				'LEGround6Hover')
 
 
-	
-	bgObjectPanel = Panel:new( 20, 10,
-				love.graphics.getWidth()/Camera.scale - 40,
-				love.graphics.getHeight()/Camera.scale - 23 - 14)
+	editor.createBgObjectPanel()
+
 	-- available tools:
 	-- "draw", "erase"
 	-- mabye later add "fill"
@@ -156,6 +155,41 @@ function editor.start()
 	editor.loadFile()
 end
 
+function editor.createBgObjectPanel()
+
+	local panelWidth = love.graphics.getWidth()/Camera.scale - 40
+	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
+
+	bgObjectPanel = Panel:new( 20, 10, panelWidth, panelHeight )
+
+	local x, y = 0, 0 
+	local page = 1
+	local maxY = -math.huge
+	for k, obj in ipairs( editor.bgObjectList ) do
+		local b = love.graphics.newSpriteBatch( obj.tileset )
+
+		-- after this operation, bBox should hold the dimensions of the sprite:
+		local IDs, bBox = obj:addToBatch( b, {}, 0, 0 )
+
+		local event = function()
+			editor.selectedBgObject = obj
+			choosingBgObject = false
+		end
+
+		bgObjectPanel:addBatchClickable( x, y, event, b, bBox.maxX*8, bBox.maxY*8, " ", page )
+
+		-- Is this object higher than the others of this row?
+		maxY = math.max( bBox.maxY, maxY )
+
+		x = x + bBox.maxX*8
+		if x > panelWidth*Camera.scale then
+			-- add the maximum height of the obejcts in this row, then continue:
+			y = y + maxY*8
+			maxY = -math.huge
+		end
+	end
+end
+
 -- called as long as editor is running:
 function editor:update( dt )
 
@@ -164,7 +198,9 @@ function editor:update( dt )
 	local clicked = love.mouse.isDown("l")
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
-	local hit = toolPanel:update( dt, x, y, clicked ) or groundPanel:update( dt, x, y, clicked )
+	local hit = toolPanel:update( dt, x, y, clicked ) or
+				groundPanel:update( dt, x, y, clicked ) or
+				(choosingBgObject and bgObjectPanel:update( dt, x, y, clicked) )
 	
 	self.mouseOnCanvas = not hit
 
@@ -231,7 +267,7 @@ function editor:draw()
 	toolPanel:draw()
 	groundPanel:draw()
 
-	if choosingBackgroundObject then
+	if choosingBgObject then
 		bgObjectPanel:draw()
 	end
 	
@@ -247,7 +283,7 @@ end
 function editor.setTool( tool )
 	editor.selectedTool = tool
 	if tool == "bgObject" then
-		choosingBackgroundObject = true
+		choosingBgObject = true
 	end
 end
 
