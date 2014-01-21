@@ -25,8 +25,7 @@ function settings:setWindowSize()
 	local scale
 	if self.fullscreen then
 		scale = self:fullscreenScale()
-		--success = love.graphics.setMode(self.xScreen,self.yScreen, true)
-		success = love.window.setMode( self.xScreen, self.yScreen, {fullscreen = true} )
+		success = love.window.setMode( 0, 0, {fullscreen = true} )
 	else
 		scale = self:windowScale()
 		success = love.window.setMode(
@@ -57,13 +56,6 @@ end
 -- reads previous configuration and sets it:
 function settings:initWindowSize()
 	
-	-- find screen size
-	--[[
-	local modes = love.graphics.getModes()
-	table.sort(modes, function(a, b) return a.width*a.height > b.width*b.height end)
-	self.xScreen = modes[1].width
-	self.yScreen = modes[1].height
-	]]--
 	local w, h = love.window.getDesktopDimensions()
 	self.xScreen = w
 	self.yScreen = h

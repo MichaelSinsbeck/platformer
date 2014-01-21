@@ -56,13 +56,8 @@ function object:init()
 end
 
 function object:draw()
-	if self.tag == 'inputJump' then
-	end
 	if self.vis then
 		for i = 1,#self.vis do
-		
-	if self.tag == 'inputJump' then
-	end
 			self.vis[i]:draw(			
 				(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
 				(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
