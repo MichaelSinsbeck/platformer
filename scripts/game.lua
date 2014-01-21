@@ -115,7 +115,7 @@ function game.keypressed(key)
 		Bungee:throw()
 	end
 	if key == keys.NEXTMAP then
-		--Campaign:proceed()
+		Campaign:proceed()
 	end
 	if key == "u" then -- print all global variables
 		for k,v in pairs(_G) do
