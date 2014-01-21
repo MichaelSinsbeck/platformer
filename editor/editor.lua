@@ -11,6 +11,7 @@ Clickable = require("editor/clickable")
 Panel = require("editor/panel")
 EditorMap = require("editor/editorMap")
 Ground = require("editor/ground")
+BgObject = require("editor/bgObject")
 
 EditorCam = require("editor/editorCam")
 
@@ -35,6 +36,7 @@ function editor.init()
 	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width+tileSize, Camera.height+tileSize, tileSize, tileSize)
 
 	editor.groundList = Ground:init()
+	editor.bgObjectList = BgObject:init()
 
 	editor.toolTip = {
 		text = "",
@@ -44,6 +46,7 @@ function editor.init()
 	editor.toolsToolTips = {}
 	editor.toolsToolTips["draw"] = "click: draw, shift+click: draw straight line"
 	editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
+	editor.toolsToolTips["bgObject"] = "click: add current object to scene's background"
 end
 
 function editor.createCellQuad()
@@ -64,35 +67,41 @@ function editor.start()
 	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-23,
 							 toolPanelWidth, 16 )
 	-- right side:
-	toolPanel:addClickable( 11, 8, function() editor.setTool("draw") end,
+	local x,y = 11,8
+	toolPanel:addClickable( x, y, function() editor.setTool("draw") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				"Pen - draw single tiles or objects onto the map.")
+	x = x + 10
+	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
+				'LEPenOff',
+				'LEPenOn',
+				'LEPenHover',
+				"Stamp - Select and place background objects.")
+	x = x +10
 				
-	toolPanel:addClickable( 21, 8, function() editor.setTool("erase") end,
+	toolPanel:addClickable( x, y, function() editor.setTool("erase") end,
 				'LEEraserOff',
 				'LEEraserOn',
 				'LEEraserHover',
 				"Eraser - remove tiles or objects.")
-	
+
 	-- left side
-	toolPanel:addClickable( toolPanelWidth - 13, 8,
-				menu.startTransition( menu.initMain, true ),
+	x, y = toolPanelWidth - 13, 8
+	toolPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
 				'LEExitOff',
 				'LEExitOn',
 				'LEExitHover',
 				"Close editor and return to main menu.")
-
-	toolPanel:addClickable( toolPanelWidth - 23, 8,
-				nil,
+	x = x - 10
+	toolPanel:addClickable( x, y, nil,
 				'LESaveOff',
 				'LESaveOn',
 				'LESaveHover',
 				"Save the map.")
-
-	toolPanel:addClickable( toolPanelWidth - 33, 8,
-				nil,
+	x = x - 10
+	toolPanel:addClickable( x, y, nil,
 				'LEOpenOff',
 				'LEOpenOn',
 				'LEOpenHover',
@@ -134,6 +143,7 @@ function editor.start()
 	-- mabye later add "fill"
 	editor.selectedTool = "draw"
 	editor.selectedGround = editor.groundList[1]
+	editor.selectedBgObject = editor.bgObjectList[1]
 	
 	-- debug (loads test.dat)
 	editor.loadFile()
@@ -236,6 +246,11 @@ function editor.useTool( tileX, tileY )
 		-- TODO:
 		-- if success is false, then try to delete background object
 		-- at this position instead.
+		if not success then
+			map:removeBackgroundObject( tileX, tileY )
+		end
+	elseif editor.selectedTool == "bgObject" then
+		map:addBackgroundObject( tileX, tileY, editor.selectedBgObject )
 	end
 end
 

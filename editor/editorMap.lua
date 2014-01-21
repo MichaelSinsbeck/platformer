@@ -12,7 +12,11 @@ function EditorMap:new()
 	o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
 					1000, "dynamic" )
 
+
 	o.groundArray = {}
+
+	o.bgList = {}	-- list of background objects
+	o.bgEmptyIDs = {}
 	--[[
 	for x = 0, o.MAP_SIZE-1 do
 		o.groundArray[x] = {}
@@ -114,6 +118,37 @@ end
 
 function EditorMap:addBackgroundTile()
 
+end
+
+function EditorMap:addBackgroundObject( tileX, tileY, object )
+	local newIDs, bBox = object:addToBatch( self.backgroundBatch, self.bgEmptyIDs, tileX, tileY )
+	local newObject = {
+		ids = newIDs,
+		x = bBox.x + tileX,
+		y = bBox.y + tileY,
+		maxX = bBox.maxX + tileX,
+		maxY = bBox.maxY + tileY
+	}
+	table.insert( self.bgList, newObject )
+end
+
+function EditorMap:removeBackgroundObject( tileX, tileY )
+	-- Go through the list backwards and delete the first object found
+	-- which is hit by the click:
+	local obj
+	print("removing at:", tileX, tileY )
+	for k = #self.bgList, 1, -1 do
+		obj = self.bgList[k]
+		print(obj.x, obj.y, obj.maxX, obj.maxY)
+		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX and tileY <= obj.maxY then
+			for i, ID in pairs(obj.ids) do
+				self.backgroundBatch:set( ID, 0,0,0,0,0 )
+				table.insert( self.bgEmptyIDs, ID )
+			end
+			table.remove(self.bgList, k)
+			break	-- only remove the one!
+		end
+	end
 end
 
 function EditorMap:drawGrid()

@@ -176,12 +176,9 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	local quad = self.tiles[dir]
 
 	local tNeighbour
-	print(dir, dir:sub(1,1), dir:sub(1,1) == "l")
 
 	if dir:sub(1,1) == "l" then tNeighbour = l and l.name end
 	if dir:sub(1,1) == "r" then tNeighbour = r and r.name end
-
-	print(tNeighbour)
 
 	if tNeighbour and self.transitions[dir] and self.transitions[dir][tNeighbour] then
 		quad = self.transitions[dir][tNeighbour]
