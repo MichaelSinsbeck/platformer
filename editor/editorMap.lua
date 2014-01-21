@@ -116,6 +116,58 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 	return false
 end
 
+local function sign( i )
+	if i < 0 then
+		return -1
+	elseif i > 0 then
+		return 1
+	else
+		return 0
+	end
+end
+
+function EditorMap:drawGroundLine( tileX, tileY, startX, startY, ground )
+	-- Bresenham's algorithm:
+	local dx, dy = tileX - startX, tileY - startY
+	local incx,incy = sign(dx), sign(dy)
+	dx,dy = math.abs(dx), math.abs(dy)
+
+	local pdx,pdy,ddx,ddy,es,el
+
+	if dx > dy then		-- x is fast direction
+		pdx = incx
+		pdy = 0
+		ddx = incx
+		ddy = incy
+		es = dy
+		el = dx
+	else	-- y is fast direction
+		pdx = 0
+		pdy = incy
+		ddx = incx
+		ddy = incy
+		es = dx
+		el = dy
+	end
+
+	local x, y = startX, startY
+	local err = el/2
+	
+	self:setGroundTile( x, y, ground, true )
+	for t=0, el-1 do
+		err = err - es
+		if err < 0 then
+			err = err + el
+			x = x + ddx
+			y = y + ddy
+		else
+			x = x + pdx
+			y = y + pdy
+		end
+		self:setGroundTile( x, y, ground, true )
+	end
+end
+
 function EditorMap:addBackgroundTile()
 
 end

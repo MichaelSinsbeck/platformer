@@ -206,17 +206,36 @@ function editor:update( dt )
 	
 	self.mouseOnCanvas = not hit
 
+	local tileX = math.floor(wX/(Camera.scale*8))
+	local tileY = math.floor(wY/(Camera.scale*8))
+
+	local shift = love.keyboard.isDown("lshift", "rshift")
+
 	if self.mouseOnCanvas and clicked then
-		local tileX = math.floor(wX/(Camera.scale*8))
-		local tileY = math.floor(wY/(Camera.scale*8))
-		if editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY then
-			editor.useTool( tileX, tileY )
+		
+		if not shift and (editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) then
+			editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY )
 			editor.clickedTileX = tileX
 			editor.clickedTileY = tileY
+			editor.lineStartX, editor.lineStartY = tileX, tileY
 		end
+
+		editor.clickedLastFrame = true
+
 	else
-		editor.clickedTileX = nil
-		editor.clickedTileY = nil
+		if editor.clickedLastFrame then
+			if shift and self.selectedTool == "draw" then
+				if not editor.lineStartX or not editor.lineStartY then
+					editor.lineStartX, editor.lineStartY = tileX, tileY
+				else
+					editor.useTool( tileX, tileY, editor.lineStartX, editor.lineStartY )
+					editor.lineStartX, editor.lineStartY = tileX, tileY
+				end
+			end
+		end
+		editor.clickedLastFrame = false
+			editor.clickedTileX = nil
+			editor.clickedTileY = nil
 	end
 
 	if self.toolTip.text == "" and self.selectedTool and not hit then
@@ -262,6 +281,12 @@ function editor:draw()
 		local rX = math.floor(wX/(8*Camera.scale))*8*Camera.scale
 		local rY = math.floor(wY/(8*Camera.scale))*8*Camera.scale
 		love.graphics.rectangle('fill',rX,rY,8*Camera.scale,8*Camera.scale)
+
+		if self.lineStartX and self.lineStartY and love.keyboard.isDown("lshift", "rshift") then
+			local sX = math.floor(self.lineStartX)*8*Camera.scale
+			local sY = math.floor(self.lineStartY)*8*Camera.scale
+			love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale, sX+4*Camera.scale, sY+4*Camera.scale )
+		end
 	end
 
 	cam:free()
@@ -289,9 +314,15 @@ function editor.setTool( tool )
 	end
 end
 
-function editor.useTool( tileX, tileY )
+function editor.useTool( tileX, tileY, lastTileX, lastTileY )
 	if editor.selectedTool == "draw" then
-		map:setGroundTile( tileX, tileY, editor.selectedGround, true )
+		if lastTileX and lastTileY then
+			map:drawGroundLine( tileX, tileY,
+								lastTileX, lastTileY,
+								editor.selectedGround )
+		else
+			map:setGroundTile( tileX, tileY, editor.selectedGround, true )
+		end
 	elseif editor.selectedTool == "erase" then
 		local success = map:eraseGroundTile( tileX, tileY, true )
 		-- TODO:
