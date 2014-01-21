@@ -202,23 +202,12 @@ function BgObject:init()
 	local new = nil
 	local coords
 
-	coords = {}
-	table.insert( coords, {tileX=0,tileY=23,x=0,y=0} )
-	table.insert( coords, {tileX=1,tileY=23,x=1,y=0} )
-	table.insert( coords, {tileX=2,tileY=23,x=2,y=0} )
-	table.insert( coords, {tileX=3,tileY=23,x=3,y=0} )
-	table.insert( coords, {tileX=0,tileY=24,x=0,y=1} )
-	table.insert( coords, {tileX=1,tileY=24,x=1,y=1} )
-	table.insert( coords, {tileX=2,tileY=24,x=2,y=1} )
-	table.insert( coords, {tileX=3,tileY=24,x=3,y=1} )
-	table.insert( coords, {tileX=4,tileY=24,x=4,y=1} )
-	table.insert( coords, {tileX=0,tileY=25,x=0,y=2} )
-	table.insert( coords, {tileX=1,tileY=25,x=1,y=2} )
-	table.insert( coords, {tileX=2,tileY=25,x=2,y=2} )
-	table.insert( coords, {tileX=1,tileY=26,x=1,y=3} )
-	table.insert( coords, {tileX=2,tileY=26,x=2,y=3} )
+	coords = dofile("editor/objects/tree1.lua")
+	new = BgObject:new( "tree1", "background1", coords)
+	table.insert( list, new )
 
-	new = BgObject:new( "tree", "background1", coords)
+	coords = dofile("editor/objects/tree2.lua")
+	new = BgObject:new( "tree2", "background1", coords)
 	table.insert( list, new )
 
 	return list
