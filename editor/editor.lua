@@ -233,7 +233,7 @@ function editor:update( dt )
 		choosingBgObject = false
 	else
 		if editor.clickedLastFrame then
-			if shift and self.selectedTool == "draw" then
+			if shift and (self.selectedTool == "draw" or self.selectedTool == "erase") then
 				if not editor.lineStartX or not editor.lineStartY then
 					editor.lineStartX, editor.lineStartY = tileX, tileY
 				else
@@ -335,17 +335,22 @@ end
 function editor.useTool( tileX, tileY, lastTileX, lastTileY )
 	if editor.selectedTool == "draw" then
 		if lastTileX and lastTileY then
-			map:drawGroundLine( tileX, tileY,
-								lastTileX, lastTileY,
-								editor.selectedGround )
+			map:line( tileX, tileY,
+				lastTileX, lastTileY,
+				function(x, y) map:setGroundTile(x, y, editor.selectedGround, true ) end )
 		else
 			map:setGroundTile( tileX, tileY, editor.selectedGround, true )
 		end
 	elseif editor.selectedTool == "erase" then
-		local success = map:eraseGroundTile( tileX, tileY, true )
-		-- TODO:
-		-- if success is false, then try to delete background object
-		-- at this position instead.
+		local success = false
+		if lastTileX and lastTileY then
+			map:line( tileX, tileY,
+				lastTileX, lastTileY,
+				function(x, y) map:eraseGroundTile(x, y, true ) end )
+			success = true
+		else
+			success = map:eraseGroundTile( tileX, tileY, true )
+		end
 		if not success then
 			map:removeBackgroundObject( tileX, tileY )
 		end

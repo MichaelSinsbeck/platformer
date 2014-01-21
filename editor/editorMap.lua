@@ -126,7 +126,7 @@ local function sign( i )
 	end
 end
 
-function EditorMap:drawGroundLine( tileX, tileY, startX, startY, ground )
+function EditorMap:line( tileX, tileY, startX, startY, event )
 	-- Bresenham's algorithm:
 	local dx, dy = tileX - startX, tileY - startY
 	local incx,incy = sign(dx), sign(dy)
@@ -152,8 +152,8 @@ function EditorMap:drawGroundLine( tileX, tileY, startX, startY, ground )
 
 	local x, y = startX, startY
 	local err = el/2
-	
-	self:setGroundTile( x, y, ground, true )
+
+	event(x,y)	-- draw or erase tile, depending on what event is
 	for t=0, el-1 do
 		err = err - es
 		if err < 0 then
@@ -164,7 +164,7 @@ function EditorMap:drawGroundLine( tileX, tileY, startX, startY, ground )
 			x = x + pdx
 			y = y + pdy
 		end
-		self:setGroundTile( x, y, ground, true )
+		event(x,y)	-- draw or erase tile, depending on what event is
 	end
 end
 
