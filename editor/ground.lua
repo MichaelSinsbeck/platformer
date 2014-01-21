@@ -99,7 +99,7 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	-- if forceNoTransition is set, then for every surrounding tile
 	-- type which I have a transition to, make me believe that this
 	-- ground tile's type is my own (i.e. don't add transition to that)
-	print( l and l.name or "nil", r and r.name or "nil", t and t.name or "nil", b and b.name or "nil")
+	--print( l and l.name or "nil", r and r.name or "nil", t and t.name or "nil", b and b.name or "nil")
 	if forceNoTransition then
 		if l then
 			if self.transitions.l and self.transitions.l[l.name] or
@@ -137,7 +137,6 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 		if b and self.similar[b.name] then
 			b = self
 		end
-	print( "\t",l and l.name or "nil", r and r.name or "nil", t and t.name or "nil", b and b.name or "nil")
 
 	local dir = "single"
 	-- all four are of the same kind as this ground:
@@ -176,7 +175,6 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	elseif b == self then
 		dir = "t"
 	end
-	print("\t",dir)
 
 	local quad = self.tiles[dir]
 

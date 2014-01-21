@@ -315,7 +315,6 @@ function editor.setTool( tool )
 end
 
 function editor.useTool( tileX, tileY, lastTileX, lastTileY )
-	print("----------")
 	if editor.selectedTool == "draw" then
 		if lastTileX and lastTileY then
 			map:drawGroundLine( tileX, tileY,
