@@ -150,7 +150,9 @@ function editor.start()
 	editor.selectedTool = "draw"
 	editor.selectedGround = editor.groundList[1]
 	editor.selectedBgObject = editor.bgObjectList[1]
-	
+
+	love.graphics.setPointStyle( "smooth" )
+	love.graphics.setPointSize( 6 )
 	-- debug (loads test.dat)
 	editor.loadFile()
 end
@@ -217,7 +219,7 @@ function editor:update( dt )
 
 
 	if self.mouseOnCanvas and clicked then
-	
+
 		if not choosingBgObject then
 			if not shift and (editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) and 
 				(editor.selectedTool ~= "bgObject" or editor.clickedLastFrame == false) then
@@ -241,8 +243,8 @@ function editor:update( dt )
 			end
 		end
 		editor.clickedLastFrame = false
-			editor.clickedTileX = nil
-			editor.clickedTileY = nil
+		editor.clickedTileX = nil
+		editor.clickedTileY = nil
 	end
 
 	if self.toolTip.text == "" and self.selectedTool and not hit then
@@ -295,7 +297,13 @@ function editor:draw()
 		if self.lineStartX and self.lineStartY and love.keyboard.isDown("lshift", "rshift") then
 			local sX = math.floor(self.lineStartX)*8*Camera.scale
 			local sY = math.floor(self.lineStartY)*8*Camera.scale
+			love.graphics.setColor( 255,188,128,200 )
 			love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale, sX+4*Camera.scale, sY+4*Camera.scale )
+
+			love.graphics.setColor( 255,188,128,255)
+			love.graphics.point( rX + 4*Camera.scale, rY+4*Camera.scale )
+			love.graphics.point( sX + 4*Camera.scale, sY+4*Camera.scale )
+			love.graphics.setColor(255,255,255,255)
 		end
 	end
 
