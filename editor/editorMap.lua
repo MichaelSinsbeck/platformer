@@ -190,7 +190,7 @@ function EditorMap:removeBackgroundObject( tileX, tileY )
 	local obj
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
-		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX and tileY <= obj.maxY then
+		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			for i, ID in pairs(obj.ids) do
 				self.backgroundBatch:set( ID, 0,0,0,0,0 )
 				table.insert( self.bgEmptyIDs, ID )

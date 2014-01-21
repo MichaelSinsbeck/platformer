@@ -157,14 +157,14 @@ end
 
 function editor.createBgObjectPanel()
 
-	local PADDING = Camera.scale*1.5
+	local PADDING = Camera.scale/2
 
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 40
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
 
 	bgObjectPanel = Panel:new( 20, 10, panelWidth, panelHeight )
 
-	local x, y = 0, 0 
+	local x, y = PADDING, PADDING
 	local page = 1
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.bgObjectList ) do
@@ -183,7 +183,7 @@ function editor.createBgObjectPanel()
 		if x + bBox.maxX*8 > panelWidth then
 			-- add the maximum height of the obejcts in this row, then continue:
 			y = y + maxY*8 + PADDING
-			x = 0
+			x = PADDING
 
 			maxY = -math.huge
 		end

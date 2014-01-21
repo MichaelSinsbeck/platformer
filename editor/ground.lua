@@ -115,28 +115,29 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 				r = self
 			end
 		end
-	-- If I don't have a transition tile into a direction, but the neighbour
-	-- in that direction is similar, make me think it has the same type as me:
+
+		-- If I don't have a transition tile into a direction, but the neighbour
+		-- in that direction is similar, make me think it has the same type as me:
 		if l and self.similar[l.name] then--and t and (self.similar[t.name] or t == self) then
-				l = self
+			l = self
 		end
 		if r and self.similar[r.name] then--and t and (self.similar[t.name] or t == self) then
-				r = self
+			r = self
 		end
 	else
 		if l and self.similar[l.name] and t and (self.similar[t.name] or t == self) then
-				l = self
+			l = self
 		end
 		if r and self.similar[r.name] and t and (self.similar[t.name] or t == self) then
-				r = self
+			r = self
 		end
 	end
-		if t and self.similar[t.name] then
-			t = self
-		end
-		if b and self.similar[b.name] then
-			b = self
-		end
+	if t and self.similar[t.name] then
+		t = self
+	end
+	if b and self.similar[b.name] then
+		b = self
+	end
 
 	local dir = "single"
 	-- all four are of the same kind as this ground:

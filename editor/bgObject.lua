@@ -62,8 +62,8 @@ function BgObject:new( name, tileset, tileList, sorted )
 	o.bBox = {
 		x = o.minX,
 		y = o.minY,
-		maxX = o.maxX,
-		maxY = o.maxY,
+		maxX = o.maxX + 1,
+		maxY = o.maxY + 1,
 	}
 
 
