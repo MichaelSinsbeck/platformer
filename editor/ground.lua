@@ -99,6 +99,7 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	-- if forceNoTransition is set, then for every surrounding tile
 	-- type which I have a transition to, make me believe that this
 	-- ground tile's type is my own (i.e. don't add transition to that)
+	print( l and l.name or "nil", r and r.name or "nil", t and t.name or "nil", b and b.name or "nil")
 	if forceNoTransition then
 		if l then
 			if self.transitions.l and self.transitions.l[l.name] or
@@ -114,26 +115,29 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 				r = self
 			end
 		end
-	end
-
 	-- If I don't have a transition tile into a direction, but the neighbour
 	-- in that direction is similar, make me think it has the same type as me:
-	if l and self.similar[l.name] and 
-		 not (self.transitions.l and self.transitions.l[l.name]) then
-			l = self
+		if l and self.similar[l.name] then--and t and (self.similar[t.name] or t == self) then
+				l = self
+		end
+		if r and self.similar[r.name] then--and t and (self.similar[t.name] or t == self) then
+				r = self
+		end
+	else
+		if l and self.similar[l.name] and t and (self.similar[t.name] or t == self) then
+				l = self
+		end
+		if r and self.similar[r.name] and t and (self.similar[t.name] or t == self) then
+				r = self
+		end
 	end
-	if r and self.similar[r.name] and 
-		 not (self.transitions.r and self.transitions.r[r.name]) then
-			r = self
-	end
-	if t and self.similar[t.name] and 
-		 not (self.transitions.t and self.transitions.t[t.name]) then
+		if t and self.similar[t.name] then
 			t = self
-	end
-	if b and self.similar[b.name] and 
-		 not (self.transitions.b and self.transitions.b[b.name]) then
+		end
+		if b and self.similar[b.name] then
 			b = self
-	end
+		end
+	print( "\t",l and l.name or "nil", r and r.name or "nil", t and t.name or "nil", b and b.name or "nil")
 
 	local dir = "single"
 	-- all four are of the same kind as this ground:
@@ -172,6 +176,7 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	elseif b == self then
 		dir = "t"
 	end
+	print("\t",dir)
 
 	local quad = self.tiles[dir]
 

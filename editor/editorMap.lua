@@ -72,15 +72,19 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 
 	if updateSurrounding then
 		if self.groundArray[x-1] and self.groundArray[x-1][y] and self.groundArray[x-1][y].gType then
+			print("left:")
 			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
 		end
 		if self.groundArray[x+1] and self.groundArray[x+1][y] and self.groundArray[x+1][y].gType then
+			print("right")
 			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
 		end
 		if self.groundArray[x][y-1] and self.groundArray[x][y-1].gType then
+			print("above")
 			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
 		end
 		if self.groundArray[x][y+1] and self.groundArray[x][y+1].gType then
+			print("below")
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
 	end
