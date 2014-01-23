@@ -95,11 +95,11 @@ end
 -- this returns the correct quad depending on the types of ground
 -- above, below, to the right and left of the current tile.
 function Ground:getQuad( l, r, t, b, forceNoTransition )
-	
+
 	-- if forceNoTransition is set, then for every surrounding tile
 	-- type which I have a transition to, make me believe that this
 	-- ground tile's type is my own (i.e. don't add transition to that)
-	--print( l and l.name or "nil", r and r.name or "nil", t and t.name or "nil", b and b.name or "nil")
+	print("\t", l and l.name or "nil", r and r.name or "nil", t and t.name or "nil", b and b.name or "nil")
 	if forceNoTransition then
 		if l then
 			if self.transitions.l and self.transitions.l[l.name] or
@@ -217,6 +217,9 @@ function Ground:init()
 	new:addVariation( "ct", {2,9})
 	new:addVariation( "cb", {3,9})
 	new:addVariation( "cm", {3,10})
+
+	new:addSimilar( "spikesConcrete" )
+
 	table.insert( list, new )
 	
 	new = Ground:new("dirt")
@@ -229,6 +232,7 @@ function Ground:init()
 
 	new:addSimilar("grass")
 	new:addSimilar("stone")
+	new:addSimilar("spikesSoil")
 
 	new:addTransition( "lt", "grass", {1,7} )
 	new:addTransition( "l", "grass", {3,7} )
@@ -251,6 +255,7 @@ function Ground:init()
 
 	new:addSimilar("dirt")
 	new:addSimilar("stone")
+	new:addSimilar("spikesSoil")
 
 	new:addTransition( "lt", "dirt", {1,8} )
 	new:addTransition( "l", "dirt", {3,8} )
@@ -272,6 +277,7 @@ function Ground:init()
 
 	new:addSimilar("dirt")
 	new:addSimilar("grass")
+	new:addSimilar("spikesSoil")
 
 	new:addTransition( "lt", "dirt", {0,8} )
 	new:addTransition( "l", "dirt", {2,8} )
@@ -330,6 +336,29 @@ function Ground:init()
 	new:addTransition( "rb", "grass", {2, 10} )
 	new:addTransition( "rb", "stone", {2, 10} )
 	new:addTransition( "rb", "wood", {2, 10} )
+	table.insert( list, new )
+
+
+	new = Ground:new("spikesConcrete")
+	new:setSingleTile( {3,12} )
+	new:setThickTiles( {0,13}, {1,13}, {2,13},
+						{0,14}, {1,14}, {2,14},
+						{0,15}, {1,15}, {2,15})
+	new:setHorizontalLine( {0,12}, {1,12}, {2,12} )
+	new:setVerticalLine( {3,13}, {3,14}, {3,15} )
+	new:addSimilar( "concrete" )
+	table.insert( list, new )
+
+	new = Ground:new("spikesSoil")
+	new:setSingleTile( {7,12} )
+	new:setThickTiles( {4,13}, {5,13}, {6,13},
+						{4,14}, {5,14}, {6,14},
+						{4,15}, {5,15}, {6,15})
+	new:setHorizontalLine( {4,12}, {5,12}, {6,12} )
+	new:setVerticalLine( {7,13}, {7,14}, {7,15} )
+	new:addSimilar( "dirt" )
+	new:addSimilar( "grass" )
+	new:addSimilar( "stone" )
 	table.insert( list, new )
 
 	return list

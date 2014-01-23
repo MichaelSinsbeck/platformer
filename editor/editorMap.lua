@@ -9,9 +9,10 @@ function EditorMap:new()
 
 	o.groundBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
 					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
+	o.spikeBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
+					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
 	o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
 					100000, "dynamic" )
-
 
 	o.groundArray = {}
 
@@ -37,10 +38,27 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		self.groundArray[x] = {}
 	end
 	if not self.groundArray[x][y] then
-		self.groundArray[x][y] = {}
+		self.groundArray[x][y] = { batchID = {} }
 	end
-	-- set the new ground type:
-	self.groundArray[x][y].gType = ground
+
+	-- determine whether or not the old and new ground types are the same:
+	local oldGroundType = ""
+	local newGroundType = ""
+	if self.groundArray[x][y].gType then
+		oldGroundType = (self.groundArray[x][y].gType.name == "spikesConcrete" or
+					self.groundArray[x][y].gType.name == "spikesSoil") and "spikes" or "noSpikes"
+	end
+	if ground.name == "spikesConcrete" or ground.name == "spikesSoil" then
+		newGroundType = "spikes"
+	else
+		newGroundType = "noSpikes"
+	end
+
+	-- if the ground type change, remove the old:
+	if oldGroundType ~= "" and newGroundType ~= oldGroundType then
+		print("different. erasing.")
+		self:eraseGroundTile( x, y, false )
+	end
 
 	-- load the surrounding ground types:
 	local l,r,b,t = nil,nil,nil,nil
@@ -62,24 +80,41 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	local quad = ground:getQuad( l, r, t, b, forceNoTransition )
 	
 	-- if there's already a tile there, update it:
-	if self.groundArray[x][y].batchID then
-		self.groundBatch:set( self.groundArray[x][y].batchID,
-			quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+	if newGroundType == "spikes" then
+		if self.groundArray[x][y].batchID["spikes"] then
+			self.spikeBatch:set( self.groundArray[x][y].batchID["spikes"],
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		else
+			self.groundArray[x][y].batchID["spikes"] = self.spikeBatch:add(
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		end
 	else
-		self.groundArray[x][y].batchID = self.groundBatch:add(
-			quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		if self.groundArray[x][y].batchID["noSpikes"] then
+			self.groundBatch:set( self.groundArray[x][y].batchID["noSpikes"],
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		else
+			self.groundArray[x][y].batchID["noSpikes"] = self.groundBatch:add(
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		end
 	end
 
+	-- set the new ground type:
+	self.groundArray[x][y].gType = ground
+
 	if updateSurrounding then
+		print("left:")
 		if self.groundArray[x-1] and self.groundArray[x-1][y] and self.groundArray[x-1][y].gType then
 			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
 		end
+		print("right:")
 		if self.groundArray[x+1] and self.groundArray[x+1][y] and self.groundArray[x+1][y].gType then
 			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
 		end
+		print("above:")
 		if self.groundArray[x][y-1] and self.groundArray[x][y-1].gType then
 			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
 		end
+		print("below:")
 		if self.groundArray[x][y+1] and self.groundArray[x][y+1].gType then
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
@@ -90,10 +125,24 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 
 	if not self.groundArray[x] or not self.groundArray[x][y] then return end
 
-	if self.groundArray[x][y].batchID then
+	-- determine whether to remove a spike or a normal wall/ground:
+	local batchID, batch
+	if self.groundArray[x][y].gType then
+		if self.groundArray[x][y].gType.name == "spikesConcrete" or
+				self.groundArray[x][y].gType.name == "spikesSoil" then
+			batchID = self.groundArray[x][y].batchID["spikes"]
+			batch = self.spikeBatch
+		else
+			batchID = self.groundArray[x][y].batchID["noSpikes"]
+			batch = self.groundBatch
+			print(batchID, batch)
+		end
+	end
+
+	if batchID then
 		-- sadly, there's no way to remove from a sprite batch,
 		-- so instead, move to 0:
-		self.groundBatch:set( self.groundArray[x][y].batchID,0,0,0,0,0 )
+		batch:set( batchID,0,0,0,0,0 )
 		self.groundArray[x][y].gType = nil
 
 		if updateSurrounding then
@@ -219,6 +268,7 @@ end
 
 function EditorMap:drawGround()
 	love.graphics.draw( self.groundBatch, 0, 0 )
+	love.graphics.draw( self.spikeBatch, 0, 0 )
 end
 
 return EditorMap

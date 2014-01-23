@@ -114,33 +114,47 @@ function editor.start()
 
 	-- Panel for choosing the ground type:
 	groundPanel = Panel:new( 1, 30, 16, 90 )
+	x,y = 8,7
 
-	groundPanel:addClickable( 8, 7, function() editor.selectedGround = editor.groundList[1] end,
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
 				'LEGround1Hover')
-
-	groundPanel:addClickable( 8, 17, function() editor.selectedGround = editor.groundList[2] end,
+	y = y + 10
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover')
-	groundPanel:addClickable( 8, 27, function() editor.selectedGround = editor.groundList[3] end,
+	y = y + 10
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
 				'LEGround3Hover')
-	groundPanel:addClickable( 8, 37, function() editor.selectedGround = editor.groundList[4] end,
+	y = y + 10
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
 				'LEGround4Hover')
-	groundPanel:addClickable( 8, 47, function() editor.selectedGround = editor.groundList[5] end,
+	y = y + 10
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
 				'LEGround5Hover')
-	groundPanel:addClickable( 8, 57, function() editor.selectedGround = editor.groundList[6] end,
+	y = y + 10
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover')
-
+	y = y + 10
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[7] end,
+				'LEGround6Off',
+				'LEGround6On',
+				'LEGround6Hover')
+	y = y + 10
+	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[8] end,
+				'LEGround6Off',
+				'LEGround6On',
+				'LEGround6Hover')
 
 	editor.createBgObjectPanel()
 
