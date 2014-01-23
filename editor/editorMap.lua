@@ -33,6 +33,7 @@ function EditorMap:new()
 end
 
 function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
+	--if updateSurrounding then print("---------------") end
 	
 	if not self.groundArray[x] then
 		self.groundArray[x] = {}
@@ -54,7 +55,7 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		newGroundType = "noSpikes"
 	end
 
-	-- if the ground type change, remove the old:
+	-- if the ground type changed, remove the old:
 	if oldGroundType ~= "" and newGroundType ~= oldGroundType then
 		print("different. erasing.")
 		self:eraseGroundTile( x, y, false )
@@ -102,19 +103,19 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	self.groundArray[x][y].gType = ground
 
 	if updateSurrounding then
-		print("left:")
+		--print("left:")
 		if self.groundArray[x-1] and self.groundArray[x-1][y] and self.groundArray[x-1][y].gType then
 			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
 		end
-		print("right:")
+		--print("right:")
 		if self.groundArray[x+1] and self.groundArray[x+1][y] and self.groundArray[x+1][y].gType then
 			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
 		end
-		print("above:")
+		--print("above:")
 		if self.groundArray[x][y-1] and self.groundArray[x][y-1].gType then
 			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
 		end
-		print("below:")
+		--print("below:")
 		if self.groundArray[x][y+1] and self.groundArray[x][y+1].gType then
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
