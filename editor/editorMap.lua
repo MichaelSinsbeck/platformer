@@ -57,7 +57,6 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 
 	-- if the ground type changed, remove the old:
 	if oldGroundType ~= "" and newGroundType ~= oldGroundType then
-		print("different. erasing.")
 		self:eraseGroundTile( x, y, false )
 	end
 
@@ -136,7 +135,6 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 		else
 			batchID = self.groundArray[x][y].batchID["noSpikes"]
 			batch = self.groundBatch
-			print(batchID, batch)
 		end
 	end
 
