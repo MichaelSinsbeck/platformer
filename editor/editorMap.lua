@@ -78,7 +78,7 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 
 	-- get the quad for the current tile  which depends on the surrounding ground types:
 	local forceNoTransition = updateSurrounding and ground.name ~= "bridge"
-	local quad = ground:getQuad( l, r, t, b, forceNoTransition )
+	local quad = ground:getQuad( l, r, t, b, nil,nil,nil,nil, forceNoTransition )
 	
 	-- if there's already a tile there, update it:
 	if newGroundType == "spikes" then

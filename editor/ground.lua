@@ -6,7 +6,7 @@
 local Ground = {}
 Ground.__index = Ground
 
-local DC = " ;"	-- DON'T CARE
+local DONT_CARE = "."	-- match any character
 
 -- Each ground object will hold one type of ground
 -- (Wood, Stone, Concrete, Grass etc)
@@ -24,7 +24,7 @@ function Ground:new( name, matchName )
 
 	-- If the ground has transition tiles then
 	-- store them in the following:
-	--o.transitions = {}
+	o.transitions = {}
 
 	-- This table stores all variating tiles, indexed by the same "direction" as in
 	-- the tiles table above.
@@ -165,11 +165,42 @@ function Ground:setSingleTile( cm )
 	self.matchStrings.single = tmp
 end
 
-function Ground:addTransition( dir, toType, coords )
-	if not self.transitions[dir] then
-		self.transitions[dir] = {}
-	end
-	self.transitions[dir][toType] = self:coordsToQuad( coords )
+function Ground:addTransition( lt, t, rt, l, r, lb, b, rb, coords )
+	local lMatch
+	local rMatch
+	local tMatch
+	local bMatch
+
+	-- diagonal:
+	local ltMatch
+	local rtMatch
+	local lbMatch
+	local rbMatch
+
+	if l == "similar" then lMatch = self.similar
+	else lMatch = l and l .. ";" or self.diff end
+	if r == "similar" then rMatch = self.similar
+	else rMatch = r and r .. ";" or self.diff end
+	if t == "similar" then lMatch = self.similar
+	else tMatch = t and t .. ";" or self.diff end
+	if b == "similar" then bMatch = self.similar
+	else bMatch = b and b .. ";" or self.diff end
+	if lt == "similar" then ltMatch = self.similar
+	else ltMatch = lt and lt .. ";" or self.diff end
+	if rt == "similar" then rtMatch = self.similar
+	else rtMatch = rt and rt .. ";" or self.diff end
+	if lb == "similar" then lbMatch = self.similar
+	else lbMatch = lb and lb .. ";" or self.diff end
+	if rb == "similar" then rbMatch = self.similar
+	else rbMatch = rb and rb .. ";" or self.diff end
+
+	local mStr = ltMatch .. tMatch .. rtMatch	-- top line
+	mStr = mStr .. lMatch .. rMatch					-- center line
+	mStr = mStr .. lbMatch .. bMatch .. rbMatch	-- bottom line
+
+	local ID = #self.tiles + 1
+	self.tiles[ID] = self:coordsToQuad( coords )
+	self.transitions[mStr] = ID
 end
 
 function Ground:addVariation( dir, coords )
@@ -188,7 +219,6 @@ function Ground:addSimilar( match )
 	-- match as "different" every letter that's NOT similar:
 	-- example: "[^gds];
 	self.diff = "[^" .. self.similarList .. "];"
-	print("new similar:", self.similar, self.diff, "(" .. self.name .. ")" )
 end
 
 function Ground:coordsToQuad( coords )
@@ -201,7 +231,7 @@ end
 
 -- this returns the correct quad depending on the types of ground
 -- above, below, to the right and left of the current tile.
-function Ground:getQuad( l, r, t, b, forceNoTransition )
+function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 	local lMatch = l and l.matchName .. ";" or " ;"
 	local rMatch = r and r.matchName .. ";" or " ;"
 	local tMatch = t and t.matchName .. ";" or " ;"
@@ -216,9 +246,23 @@ function Ground:getQuad( l, r, t, b, forceNoTransition )
 	local mStr = ltMatch .. tMatch .. rtMatch	-- top line
 	mStr = mStr .. lMatch .. rMatch					-- center line
 	mStr = mStr .. lbMatch .. bMatch .. rbMatch	-- bottom line
-	for dir, str in pairs( self.matchStrings ) do
-		if mStr:match(str) then
-			foundDir = dir
+
+	local foundDir
+
+	if not forceNoTransition then
+		for str, ID in pairs( self.transitions ) do
+			if mStr:match(str) then
+				foundDir = ID
+				break
+			end
+		end
+	end
+	if not foundDir then
+		for dir, str in pairs( self.matchStrings ) do
+			if mStr:match(str) then
+				foundDir = dir
+				break
+			end
 		end
 	end
 
@@ -270,16 +314,40 @@ function Ground:init()
 	new:setHorizontalLine( {4,4}, {5,4}, {6,4} )
 	new:setVerticalLine( {7,5}, {7,2}, {7,3} )
 
-
-	--[[new:addTransition( "lt", "grass", {1,7} )
-	new:addTransition( "l", "grass", {3,7} )
-	new:addTransition( "rt", "grass", {1,8} )
-	new:addTransition( "r", "grass", {3,8} )
-	new:addTransition( "lt", "stone", {1,6} )
-	new:addTransition( "l", "stone", {4,6} )
-	new:addTransition( "rt", "stone", {0,8} )
-	new:addTransition( "r", "stone", {2,8} )
-	]]
+	-- dirt to grass transitions:
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, "similar", nil,
+			{1,7} )
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, nil, nil,
+			{3,7} )
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, "similar", nil,
+			{1,8} )
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, nil, nil,
+			{3,8} )
+	-- dirt to stone transitions:
+	new:addTransition( nil, nil, nil,
+			's', 'd',
+			nil, "similar", nil,
+			{1,6} )
+	new:addTransition( nil, nil, nil,
+			's', 'd',
+			nil, nil, nil,
+			{4,6} )
+	new:addTransition( nil, nil, nil,
+			'd', 's',
+			nil, "similar", nil,
+			{0,8} )
+	new:addTransition( nil, nil, nil,
+			'd', 's',
+			nil, nil, nil,
+			{2,8} )
 
 	table.insert( list, new )	
 	
@@ -294,15 +362,40 @@ function Ground:init()
 	new:setHorizontalLine( {0,4}, {1,4}, {2,4} )
 	new:setVerticalLine( {3,5}, {7,2}, {7,3} )
 
-
-	--[[new:addTransition( "lt", "dirt", {1,8} )
-	new:addTransition( "l", "dirt", {3,8} )
-	new:addTransition( "rt", "dirt", {1,7} )
-	new:addTransition( "r", "dirt", {3,7} )
-	new:addTransition( "lt", "stone", {0,6} )
-	new:addTransition( "l", "stone", {2,6} )
-	new:addTransition( "rt", "stone", {0,7} )
-	new:addTransition( "r", "stone", {2,7} )]]
+	-- grass to dirt transitions:
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, "similar", nil,
+			{1,8} )
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, nil, nil,
+			{3,8} )
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, "similar", nil,
+			{1,7} )
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, nil, nil,
+			{3,8} )
+	-- grass to dirt:
+	new:addTransition( nil, nil, nil,
+			's', 'g',
+			nil, "similar", nil,
+			{0,6} )
+	new:addTransition( nil, nil, nil,
+			's', 'g',
+			nil, nil, nil,
+			{2,6} )
+	new:addTransition( nil, nil, nil,
+			'g', 's',
+			nil, "similar", nil,
+			{0,7} )
+	new:addTransition( nil, nil, nil,
+			'g', 's',
+			nil, nil, nil,
+			{2,7} )
 	table.insert( list, new )
 
 	new = Ground:new("stone", 's' )
@@ -316,15 +409,40 @@ function Ground:init()
 	new:setHorizontalLine( {4,6}, {5,6}, {6,6} )
 	new:setVerticalLine( {7,7}, {7,2}, {7,3} )
 
-
-	--[[new:addTransition( "lt", "dirt", {0,8} )
-	new:addTransition( "l", "dirt", {2,8} )
-	new:addTransition( "rt", "dirt", {1,6} )
-	new:addTransition( "r", "dirt", {3,6} )
-	new:addTransition( "lt", "grass", {0,7} )
-	new:addTransition( "l", "grass", {2,7} )
-	new:addTransition( "rt", "grass", {0,6} )
-	new:addTransition( "r", "grass", {2,6} )]]
+	-- stone to dirt:
+	new:addTransition( nil, nil, nil,
+			'd', 's',
+			nil, "similar", nil,
+			{0,8} )
+	new:addTransition( nil, nil, nil,
+			'd', 's',
+			nil, nil, nil,
+			{2,6} )
+	new:addTransition( nil, nil, nil,
+			's', 'd',
+			nil, "similar", nil,
+			{1,6} )
+	new:addTransition( nil, nil, nil,
+			's', 'd',
+			nil, nil, nil,
+			{3,6} )
+	-- stone to grass:
+	new:addTransition( nil, nil, nil,
+			'g', 's',
+			nil, "similar", nil,
+			{0,7} )
+	new:addTransition( nil, nil, nil,
+			'g', 's',
+			nil, nil, nil,
+			{2,7} )
+	new:addTransition( nil, nil, nil,
+			's', 'g',
+			nil, "similar", nil,
+			{0,6} )
+	new:addTransition( nil, nil, nil,
+			's', 'g',
+			nil, nil, nil,
+			{2,6} )
 	table.insert( list, new )
 	
 	new = Ground:new("wood", 'w')
@@ -343,6 +461,48 @@ function Ground:init()
 						{0,9}, {1,10}, {1,9})
 	new:setHorizontalLine( {0,9}, {1,10}, {1,9} )
 	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'c', 'similar',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'd', 'similar',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'g', 'similar',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			's', 'similar',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'w', 'similar',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,10} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'similar','c',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'similar','d',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'similar','g',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'similar','s',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,10} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'similar', 'w',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,10} )
+
 
 	--[[new:addTransition( "l", "concrete", {0, 10} )
 	new:addTransition( "l", "dirt", {0, 10} )
