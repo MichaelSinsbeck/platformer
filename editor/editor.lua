@@ -147,14 +147,14 @@ function editor.start()
 				'LEGround6Hover')
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[7] end,
-				'LEGround6Off',
-				'LEGround6On',
-				'LEGround6Hover')
+				'LESpikes1Off',
+				'LESpikes1On',
+				'LESpikes1Hover')
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[8] end,
-				'LEGround6Off',
-				'LEGround6On',
-				'LEGround6Hover')
+				'LESpikes2Off',
+				'LESpikes2On',
+				'LESpikes2Hover')
 
 	editor.createBgObjectPanel()
 
