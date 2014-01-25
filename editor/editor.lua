@@ -62,7 +62,7 @@ function editor.start()
 	mode = "editor"
 
 	map = EditorMap:new()
-	cam = EditorCam:new( -Camera.scale*8*map.MAP_SIZE/2, -Camera.scale*8*map.MAP_SIZE/2 )
+	cam = EditorCam:new() -- -Camera.scale*8*map.MAP_SIZE/2, -Camera.scale*8*map.MAP_SIZE/2 )
 
 	love.mouse.setVisible( true )
 
@@ -309,6 +309,8 @@ function editor:draw()
 	
 	map:drawBackground()
 	map:drawGround()
+
+	map:drawBoundings()
 	
 	if self.mouseOnCanvas then
 		love.graphics.setColor(0,0,0,128)

@@ -15,6 +15,17 @@ function EditorMap:new()
 					100000, "dynamic" )
 
 	o.groundArray = {}
+	
+	o.tileSize = Camera.scale*8
+
+	o.minX = -15
+	o.maxX = 15
+	o.minY = -8
+	o.maxY = 8
+
+	o.border = {}	-- the border which to draw around the map...
+
+	EditorMap.updateBorder(o)
 
 	o.bgList = {}	-- list of background objects
 	o.bgEmptyIDs = {}
@@ -119,6 +130,16 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
 		end
 	end
+
+
+	-- update border:
+	if x < self.minX or x > self.maxX or y < self.minY or y > self.maxY then
+		self.minX = math.min(self.minX, x)
+		self.maxX = math.max(self.maxX, x+1)
+		self.minY = math.min(self.minY, y)
+		self.maxY = math.max(self.maxY, y+1)
+		self:updateBorder()
+	end
 end
 
 function EditorMap:eraseGroundTile( x, y, updateSurrounding )
@@ -159,9 +180,8 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 			end
 		end
 
-		return true
 	end
-	return false
+
 end
 
 local function sign( i )
@@ -249,8 +269,33 @@ function EditorMap:removeBackgroundObject( tileX, tileY )
 	end
 end
 
+function EditorMap:updateBorder()
+
+	self.border = {}
+	local padding = self.tileSize*0.25
+	local minX = self.minX*self.tileSize
+	local minY = self.minY*self.tileSize
+	local maxX = self.maxX*self.tileSize
+	local maxY = self.maxY*self.tileSize
+	for ang = 0, math.pi/2, math.pi/8 do
+		self.border[#self.border+1] = minX + padding - padding*math.cos(ang)		-- x
+		self.border[#self.border+1] = minY + padding - padding*math.sin(ang)		-- y
+	end
+	for ang = math.pi/2, math.pi, math.pi/8 do
+		self.border[#self.border+1] = maxX - padding - padding*math.cos(ang)		-- x
+		self.border[#self.border+1] = minY + padding - padding*math.sin(ang)		-- y
+	end
+	for ang = math.pi, 3*math.pi/2, math.pi/8 do
+		self.border[#self.border+1] = maxX - padding - padding*math.cos(ang)		-- x
+		self.border[#self.border+1] = maxY - padding - padding*math.sin(ang)		-- y
+	end
+	for ang = 3*math.pi/2, 2*math.pi, math.pi/8 do
+		self.border[#self.border+1] = minX + padding - padding*math.cos(ang)		-- x
+		self.border[#self.border+1] = maxY - padding - padding*math.sin(ang)		-- y
+	end
+end
+
 function EditorMap:drawGrid()
-	local tileSize = Camera.scale*8
 	love.graphics.setColor(255,255,255,25)
 	for x = 0, love.graphics.getWidth(), tileSize do
 		love.graphics.line( x, 0, x, love.graphics.getHeight() )
@@ -268,6 +313,10 @@ end
 function EditorMap:drawGround()
 	love.graphics.draw( self.groundBatch, 0, 0 )
 	love.graphics.draw( self.spikeBatch, 0, 0 )
+end
+
+function EditorMap:drawBoundings()
+	love.graphics.polygon( "line", self.border )
 end
 
 return EditorMap
