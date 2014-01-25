@@ -46,8 +46,8 @@ function editor.init()
 		y = 0,
 	}
 	editor.toolsToolTips = {}
-	editor.toolsToolTips["draw"] = "click: draw, shift+click: draw straight line"
-	editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
+	editor.toolsToolTips["pen"] = "right mouse: draw, left mouse: erase, shift: draw straight line, ctrl: flood fill"
+	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
 	editor.toolsToolTips["bgObject"] = "click: add current object to scene's background"
 end
 
@@ -69,9 +69,9 @@ function editor.start()
 	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
 	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-23,
 							 toolPanelWidth, 16 )
-	-- right side:
+	-- left side:
 	local x,y = 11,8
-	toolPanel:addClickable( x, y, function() editor.setTool("draw") end,
+	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
@@ -84,13 +84,13 @@ function editor.start()
 				"Stamp - Select and place background objects.")
 	x = x +10
 				
-	toolPanel:addClickable( x, y, function() editor.setTool("erase") end,
+	--[[toolPanel:addClickable( x, y, function() editor.setTool("erase") end,
 				'LEEraserOff',
 				'LEEraserOn',
 				'LEEraserHover',
-				"Eraser - remove tiles or objects.")
+				"Eraser - remove tiles or objects.")]]
 
-	-- left side
+	-- right side
 	x, y = toolPanelWidth - 13, 8
 	toolPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
 				'LEExitOff',
@@ -116,49 +116,49 @@ function editor.start()
 	groundPanel = Panel:new( 1, 30, 16, 90 )
 	x,y = 8,7
 
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
 				'LEGround1Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
 				'LEGround3Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
 				'LEGround4Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
 				'LEGround5Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[7] end,
 				'LESpikes1Off',
 				'LESpikes1On',
 				'LESpikes1Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[8] end,
 				'LESpikes2Off',
 				'LESpikes2On',
@@ -167,9 +167,8 @@ function editor.start()
 	editor.createBgObjectPanel()
 
 	-- available tools:
-	-- "draw", "erase"
-	-- mabye later add "fill"
-	editor.selectedTool = "draw"
+	-- "pen", "bgObject"
+	editor.selectedTool = "pen"
 	editor.selectedGround = editor.groundList[1]
 	editor.selectedBgObject = editor.bgObjectList[1]
 
@@ -225,7 +224,9 @@ function editor:update( dt )
 
 	self.toolTip.text = ""
 
-	local clicked = love.mouse.isDown("l")
+	local clicked = love.mouse.isDown("l", "r")
+	local clickedLeft = love.mouse.isDown("l")
+	local clickedRight = love.mouse.isDown("r")
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 	local hit = toolPanel:update( dt, x, y, clicked ) or
@@ -238,14 +239,18 @@ function editor:update( dt )
 	local tileY = math.floor(wY/(Camera.scale*8))
 
 	local shift = love.keyboard.isDown("lshift", "rshift")
-
+	local ctrl = love.keyboard.isDown("lctrl", "rctrl")
 
 	if self.mouseOnCanvas and clicked then
-
 		if not choosingBgObject then
-			if not shift and (editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) and 
+			if not shift and not ctrl and
+				(editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) and 
 				(editor.selectedTool ~= "bgObject" or editor.clickedLastFrame == false) then
-				editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY )
+				if clickedLeft then
+					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "l")
+				else
+					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "r")
+				end
 				editor.clickedTileX = tileX
 				editor.clickedTileY = tileY
 				editor.lineStartX, editor.lineStartY = tileX, tileY
@@ -255,16 +260,22 @@ function editor:update( dt )
 		choosingBgObject = false
 	else
 		if editor.clickedLastFrame then
-			if shift and (self.selectedTool == "draw" or self.selectedTool == "erase") then
+			if (shift or ctrl) and self.selectedTool == "pen" then
+				if editor.clickedLeftLastFrame then
+					editor.useTool( tileX, tileY, editor.lineStartX, editor.lineStartY, "l" )
+				else
+					editor.useTool( tileX, tileY, editor.lineStartX, editor.lineStartY, "r" )
+				end
+
 				if not editor.lineStartX or not editor.lineStartY then
 					editor.lineStartX, editor.lineStartY = tileX, tileY
 				else
-					editor.useTool( tileX, tileY, editor.lineStartX, editor.lineStartY )
 					editor.lineStartX, editor.lineStartY = tileX, tileY
 				end
 			end
 		end
 		editor.clickedLastFrame = false
+		editor.clickedLeftLastFrame = false
 		editor.clickedTileX = nil
 		editor.clickedTileY = nil
 	end
@@ -274,6 +285,8 @@ function editor:update( dt )
 	end
 	if clicked then 
 		editor.clickedLastFrame = true
+		editor.clickedLeftLastFrame = clickedLeft
+		editor.clickedTileX = nil
 	end
 
 	map:update( dt )
@@ -358,28 +371,34 @@ function editor.setTool( tool )
 	end
 end
 
-function editor.useTool( tileX, tileY, lastTileX, lastTileY )
-	if editor.selectedTool == "draw" then
-		if lastTileX and lastTileY then
-			map:line( tileX, tileY,
-				lastTileX, lastTileY,
-				function(x, y) map:setGroundTile(x, y, editor.selectedGround, true ) end )
-		else
-			map:setGroundTile( tileX, tileY, editor.selectedGround, true )
+function editor.useTool( tileX, tileY, lastTileX, lastTileY, mouse )
+	if editor.selectedTool == "pen" then
+		if mouse == "l" then	-- draw
+			if love.keyboard.isDown( "lctrl", "rctrl" ) then
+				map:startFillGround( tileX, tileY, "set", editor.selectedGround )
+			else
+				if lastTileX and lastTileY then
+					map:line( tileX, tileY,
+					lastTileX, lastTileY,
+					function(x, y) map:setGroundTile(x, y, editor.selectedGround, true ) end )
+				else
+					map:setGroundTile( tileX, tileY, editor.selectedGround, true )
+				end
+			end
+		elseif mouse == "r" then	-- erase
+			if love.keyboard.isDown( "lctrl", "rctrl" ) then
+				map:startFillGround( tileX, tileY, "erase", nil )
+			else
+				if lastTileX and lastTileY then
+					map:line( tileX, tileY,
+					lastTileX, lastTileY,
+					function(x, y) map:eraseGroundTile(x, y, true ) end )
+				else
+					map:eraseGroundTile( tileX, tileY, true )
+				end
+			end
 		end
-	elseif editor.selectedTool == "erase" then
-		local success = false
-		if lastTileX and lastTileY then
-			map:line( tileX, tileY,
-				lastTileX, lastTileY,
-				function(x, y) map:eraseGroundTile(x, y, true ) end )
-			success = true
-		else
-			success = map:eraseGroundTile( tileX, tileY, true )
-		end
-		if not success then
-			map:removeBackgroundObject( tileX, tileY )
-		end
+		--map:removeBackgroundObject( tileX, tileY )
 	elseif editor.selectedTool == "bgObject" then
 		map:addBackgroundObject( tileX, tileY, editor.selectedBgObject )
 	end

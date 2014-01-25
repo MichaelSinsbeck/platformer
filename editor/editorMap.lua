@@ -2,6 +2,7 @@ local EditorMap = {}
 EditorMap.__index = EditorMap
 
 local MAX_TILES_PER_FRAME = 5
+local MAX_FLOOD_FILL_RECURSION = 500
 
 function EditorMap:new()
 	local o = {}
@@ -102,7 +103,6 @@ function EditorMap:setGroundTileNow( x, y, ground )
 		newGroundType = "noSpikes"
 	end
 
-	print(oldGroundType, newGroundType)
 	-- if the ground type changed, remove the old:
 	if oldGroundType ~= "" and newGroundType ~= oldGroundType then
 		self:eraseGroundTileNow( x, y, false )
@@ -260,6 +260,64 @@ function EditorMap:line( tileX, tileY, startX, startY, event )
 		end
 		event(x,y)	-- draw or erase tile, depending on what event is
 	end
+end
+
+function EditorMap:fill( x, y, initialType, event, checked, depth )
+
+	if depth > MAX_FLOOD_FILL_RECURSION then return end
+
+	if not checked[x][y] then
+		checked[x][y] = true
+
+		local typeMatch
+		if self.groundArray[x] and self.groundArray[x][y] then
+			typeMatch = self.groundArray[x][y].gType == initialType
+		else
+			typeMatch = initialType == nil
+		end
+
+		if typeMatch then
+			event( x, y )
+
+			if x+1 < self.maxX then
+				self:fill( x+1, y, initialType, event, checked, depth+1)
+			end
+			if x-1 >= self.minX then
+				self:fill( x-1, y, initialType, event, checked, depth+1)
+			end
+			if y+1 < self.maxY then
+				self:fill( x, y+1, initialType, event, checked, depth+1)
+			end
+			if y-1 >= self.minY then
+				self:fill( x, y-1, initialType, event, checked, depth+1)
+			end	
+		end
+	end
+end
+
+function EditorMap:startFillGround( x, y, eventType, ground )
+	local initialType = self.groundArray[x] and
+	(self.groundArray[x][y] and self.groundArray[x][y].gType)
+
+	if x < self.minX or x + 1 > self.maxX or y < self.minY or y + 1 > self.maxY then return end
+
+	print("Filling from:", x, y, initialType and initialType.name)
+
+	local event
+	if eventType == "set" then
+		event = function( x, y )
+			self:setGroundTile( x, y, ground, true )
+		end
+	else
+		event = function( x, y )
+			self:eraseGroundTile( x, y, true )
+		end
+	end
+	local array = {}
+	for x = self.minX, self.maxX do
+		array[x] = {}
+	end
+	self:fill( x, y, initialType, event, array, 1)
 end
 
 function EditorMap:addBackgroundTile()
