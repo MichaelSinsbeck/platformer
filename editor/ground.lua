@@ -1,7 +1,48 @@
 ----------------------------------------------
 -- Represents all the ground types for the editor:
 ----------------------------------------------
--- TODO: allow for variations in ground types.
+--
+-- Each ground type is represented by a name and a single letter:
+-- g: grass
+-- c: concrete
+-- d: dirt
+-- w: wood
+-- s: stonr
+-- 1: spikes grey
+-- 2: spikes brown
+--
+-- A dot represents any tile and a space an empty tile.
+--
+-- For each variation and transition, a string is created which represents the state of the neighbours; the condition of when to use the variation or transition.
+--
+-- Whenever a new tile is placed, a string is created which holds all the 8 neightbouring tiles, seperated by ; in the order:
+-- top row from left to right, right tile, left tile, bottom row from left to right
+-- For example, if the three tiles above are grass and the tiles below are empty, the tiles left and right hold stone, this would result in:
+-- "g;g;g;s;s; ; ; ;"
+--
+-- Now. the string is compared with all the variations' and transitions' strings. As soon as there is a hit, the corresponding quad is returned.
+-- Example: If the neighbourhood yields this string:
+-- " ; ; ;s;s; ; ; ;"
+-- and there's a transition which is represented by this string:
+-- ".;.;.;s;s;.;.;.;"
+-- then this transition is used, because it matches.
+--
+-- This allows neat things like representing "similar" tiles: Grass, stone and dirt tiles are similar: So they're added to each other's similar strings. For grass, for example, the similar string looks like this: [gsd];
+-- This matches any of g or s or d, so if the following is used for the center tile of the grass:
+-- "[gds];[gds];[gds];[gsd];[gsd];[gds];[gds];[gds];"
+-- ... then this means that the center tile (cm) does not care whether it's surrounded by grass, stone, dirt or a mixture of them - in either way, it will be using the center piece.
+--
+-- At the same time, this method allows for transitions:
+-- "[^gds];[^gds];[^gds];s;d;[^gds];[^gds];[^gds];"
+-- or "[^gds];[^gds];[^gds];s;d;[gds];[gds];[gds];"
+-- The first line will match the transition from stone to grass with a black line at the bottom the second one from without a black line at the bottom.
+--
+--
+--
+
+
+-- IMPORTANT! The similar ground types must be given to a ground BEFORE its tiles are set, otherwise its matching strings cannot be created correctly.
+
 
 local Ground = {}
 Ground.__index = Ground
@@ -18,8 +59,14 @@ function Ground:new( name, matchName )
 	o.matchName = matchName
 
 	-- The 'tiles' table will hold all the ground's tile positions on the tile map.
-	-- "Thick" stores the block of 9 tiles, "thin" is 
-	-- for the single, thinner lines (the remaining 7 tiles).
+	-- Naming convention: c: center, l: left, r: right, m: middle, t: top, b:bottom.
+	-- Putting these together yields all possible tiles:
+	-- lt, ct, rt: the top tiles of the thick block of nine tiles
+	-- lm, cm, rm: the middle tiles ''
+	-- lb, cb, rc: the lower tiles ''
+	-- l, c, r: the horizontal line
+	-- t, m, b: the vertical line
+	-- single: the single block
 	o.tiles = {}
 
 	-- If the ground has transition tiles then
@@ -29,6 +76,7 @@ function Ground:new( name, matchName )
 	-- This table stores all variating tiles, indexed by the same "direction" as in
 	-- the tiles table above.
 	o.variations = {}
+
 
 	-- start of being similar only to yourself:
 	o.similarList = o.matchName
@@ -59,6 +107,7 @@ function Ground:setThickTiles( lt, ct, rt, lm, cm, rm, lb, cb, rb )
 	self.tiles.cb = self:coordsToQuad( cb )
 	self.tiles.rb = self:coordsToQuad( rb )
 
+	-- create the matching strings for the new tiles:
 	local l = ""
 	l = self.diff .. self.diff .. self.diff	-- line above
 	l = l .. self.diff .. self.similar	-- left and right
@@ -113,6 +162,7 @@ function Ground:setHorizontalLine( l, c, r )
 	self.tiles.c = self:coordsToQuad( c )
 	self.tiles.r = self:coordsToQuad( r )
 
+	-- create the matching strings for the new tiles:
 	local tmp = ""
 	tmp = self.diff .. self.diff .. self.diff	-- line above
 	tmp = tmp .. self.diff .. self.similar	-- left and right
@@ -137,6 +187,7 @@ function Ground:setVerticalLine( t, m, b )
 	self.tiles.m = self:coordsToQuad( m )
 	self.tiles.b = self:coordsToQuad( b )
 
+	-- create the matching strings for the new tiles:
 	local tmp = ""
 	tmp = self.diff .. self.diff .. self.diff	-- line above
 	tmp = tmp .. self.diff .. self.diff	-- left and right
@@ -165,6 +216,10 @@ function Ground:setSingleTile( cm )
 	self.matchStrings.single = tmp
 end
 
+-- allowed values for the arguments:
+-- any matching name ('g', 'c', 'd' etc) to match that ground type
+-- "similar": match all similar ground types
+-- nil: match anything BUT the similar ground types
 function Ground:addTransition( lt, t, rt, l, r, lb, b, rb, coords )
 	local lMatch
 	local rMatch
@@ -213,7 +268,7 @@ function Ground:addSimilar( match )
 	self.similarList = self.similarList .. match
 
 	-- match these as "similar:"
-	-- example: "gsd;"
+	-- example: "[gsd];"
 	self.similar = "[" .. self.similarList .. "];"
 
 	-- match as "different" every letter that's NOT similar:
@@ -232,6 +287,8 @@ end
 -- this returns the correct quad depending on the types of ground
 -- above, below, to the right and left of the current tile.
 function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
+
+	-- 4-Neighbourhood:
 	local lMatch = l and l.matchName .. ";" or " ;"
 	local rMatch = r and r.matchName .. ";" or " ;"
 	local tMatch = t and t.matchName .. ";" or " ;"
@@ -243,12 +300,15 @@ function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 	local lbMatch = lb and lb.matchName .. ";" or " ;"
 	local rbMatch = rb and rb.matchName .. ";" or " ;"
 
+	-- Create a match string from the given neighbourhood:
 	local mStr = ltMatch .. tMatch .. rtMatch	-- top line
 	mStr = mStr .. lMatch .. rMatch					-- center line
 	mStr = mStr .. lbMatch .. bMatch .. rbMatch	-- bottom line
 
 	local foundDir
 
+
+	-- First, check for transitions for this neighbourhood:
 	if not forceNoTransition then
 		for str, ID in pairs( self.transitions ) do
 			if mStr:match(str) then
@@ -257,6 +317,7 @@ function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 			end
 		end
 	end
+	-- If there was no transition, check for any other matches (this should always return something!)
 	if not foundDir then
 		for dir, str in pairs( self.matchStrings ) do
 			if mStr:match(str) then
@@ -266,6 +327,7 @@ function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 		end
 	end
 
+	-- if a tile was found, check if there are variations for it:
 	if foundDir then
 		if self.variations[foundDir] then
 			if math.random(20) == 1 then
@@ -275,6 +337,7 @@ function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 				end
 			end
 		end
+		-- return the quad found:
 		return self.tiles[foundDir]
 	else
 		print("NONE FOUND!")
