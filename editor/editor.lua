@@ -116,42 +116,50 @@ function editor.start()
 	groundPanel = Panel:new( 1, 30, 16, 90 )
 	x,y = 8,7
 
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[1] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
 				'LEGround1Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[2] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[3] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
 				'LEGround3Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[4] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
 				'LEGround4Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[5] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
 				'LEGround5Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[6] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[7] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[7] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover')
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.selectedGround = editor.groundList[8] end,
+	groundPanel:addClickable( x, y, function() editor.selectedTool = "draw"
+										editor.selectedGround = editor.groundList[8] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover')
