@@ -247,6 +247,7 @@ function editor:update( dt )
 				(editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) and 
 				(editor.selectedTool ~= "bgObject" or editor.clickedLastFrame == false) then
 				if clickedLeft then
+					print(editor.clickedTileX, editor.clickedTileY, tileX, tileY )
 					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "l")
 				else
 					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "r")
@@ -286,7 +287,6 @@ function editor:update( dt )
 	if clicked then 
 		editor.clickedLastFrame = true
 		editor.clickedLeftLastFrame = clickedLeft
-		editor.clickedTileX = nil
 	end
 
 	map:update( dt )

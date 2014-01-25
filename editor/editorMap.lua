@@ -66,13 +66,54 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	end
 
 	local data = {
-		command = "set",
+		command = "update",
 		x = x,
 		y = y,
 		ground = ground,
 	}
 	self.tilesToModify[#self.tilesToModify + 1] = data
-	
+	-- determine whether or not the old and new ground types are the same:
+	local oldGroundType = ""
+	local newGroundType = ""
+	if self.groundArray[x][y].gType then
+		oldGroundType = (self.groundArray[x][y].gType.name == "spikesConcrete" or
+					self.groundArray[x][y].gType.name == "spikesSoil") and "spikes" or "noSpikes"
+	end
+
+	if ground.name == "spikesConcrete" or ground.name == "spikesSoil" then
+		newGroundType = "spikes"
+	else
+		newGroundType = "noSpikes"
+	end
+
+	-- if the ground type changed, remove the old:
+	if oldGroundType ~= "" and newGroundType ~= oldGroundType then
+		self:eraseGroundTile( x, y, false )
+	end
+
+	local quad = ground.tiles.cm
+	-- if there's already a tile there, update it:
+	if newGroundType == "spikes" then
+		if self.groundArray[x][y].batchID["spikes"] then
+			self.spikeBatch:set( self.groundArray[x][y].batchID["spikes"],
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		else
+			self.groundArray[x][y].batchID["spikes"] = self.spikeBatch:add(
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		end
+	else
+		if self.groundArray[x][y].batchID["noSpikes"] then
+			self.groundBatch:set( self.groundArray[x][y].batchID["noSpikes"],
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		else
+			self.groundArray[x][y].batchID["noSpikes"] = self.groundBatch:add(
+				quad, x*Camera.scale*8 - Camera.scale, y*Camera.scale*8 - Camera.scale )
+		end
+	end
+	-- set the new ground type:
+	self.groundArray[x][y].gType = ground
+
+
 	if updateSurrounding then
 		--print("left:")
 		self:updateGroundTile( x-1, y )
@@ -86,27 +127,12 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 end
 
 
-function EditorMap:setGroundTileNow( x, y, ground )
+function EditorMap:updateGroundTileNow( x, y )
 	--if updateSurrounding then print("---------------") end
 	--
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
-	-- determine whether or not the old and new ground types are the same:
-	local oldGroundType = ""
-	local newGroundType = ""
-	if self.groundArray[x][y].gType then
-		oldGroundType = (self.groundArray[x][y].gType.name == "spikesConcrete" or
-					self.groundArray[x][y].gType.name == "spikesSoil") and "spikes" or "noSpikes"
-	end
-	if ground.name == "spikesConcrete" or ground.name == "spikesSoil" then
-		newGroundType = "spikes"
-	else
-		newGroundType = "noSpikes"
-	end
 
-	-- if the ground type changed, remove the old:
-	if oldGroundType ~= "" and newGroundType ~= oldGroundType then
-		self:eraseGroundTileNow( x, y, false )
-	end
+	local ground = self.groundArray[x][y].gType
 
 	-- load the surrounding ground types:
 	local l,r,b,t = nil,nil,nil,nil
@@ -127,6 +153,12 @@ function EditorMap:setGroundTileNow( x, y, ground )
 	local forceNoTransition = updateSurrounding and ground.name ~= "bridge"
 	local quad = ground:getQuad( l, r, t, b, nil,nil,nil,nil, forceNoTransition )
 	
+	if ground.name == "spikesConcrete" or ground.name == "spikesSoil" then
+		newGroundType = "spikes"
+	else
+		newGroundType = "noSpikes"
+	end
+
 	-- if there's already a tile there, update it:
 	if newGroundType == "spikes" then
 		if self.groundArray[x][y].batchID["spikes"] then
@@ -146,9 +178,6 @@ function EditorMap:setGroundTileNow( x, y, ground )
 		end
 	end
 
-	-- set the new ground type:
-	self.groundArray[x][y].gType = ground
-
 	-- update border:
 	if x < self.minX or x+1 > self.maxX or y < self.minY or y+1 > self.maxY then
 		self.minX = math.min(self.minX, x)
@@ -163,30 +192,6 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 
 	if not self.groundArray[x] or not self.groundArray[x][y] then return end
 
-	local data = {
-		command = "erase",
-		x = x,
-		y = y,
-		updateSurrounding = updateSurrounding,
-	}
-	self.tilesToModify[#self.tilesToModify + 1] = data
-
-	if updateSurrounding then
-		--print("left:")
-		self:updateGroundTile( x-1, y )
-		--print("right:")
-		self:updateGroundTile( x+1, y )
-		--print("above:")
-		self:updateGroundTile( x, y-1 )
-		--print("below:")
-		self:updateGroundTile( x, y+1 )
-	end
-
-end
-
-function EditorMap:eraseGroundTileNow( x, y, updateSurrounding )
-
-	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
 	-- determine whether to remove a spike or a normal wall/ground:
 	local batchID, batch
 	if self.groundArray[x][y].gType then
@@ -208,7 +213,23 @@ function EditorMap:eraseGroundTileNow( x, y, updateSurrounding )
 
 	end
 
+	if updateSurrounding then
+		--print("left:")
+		self:updateGroundTile( x-1, y )
+		--print("right:")
+		self:updateGroundTile( x+1, y )
+		--print("above:")
+		self:updateGroundTile( x, y-1 )
+		--print("below:")
+		self:updateGroundTile( x, y+1 )
+	end
+
 end
+--[[
+function EditorMap:eraseGroundTileNow( x, y, updateSurrounding )
+
+	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
+end]]
 
 local function sign( i )
 	if i < 0 then
@@ -415,15 +436,11 @@ function EditorMap:update( dt )
 
 	while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
 		local data = self.tilesToModify[1]
-		if data.command == "set" then
-			self:setGroundTileNow( data.x, data.y, data.ground )
-		elseif data.command == "erase" then
-			self:eraseGroundTileNow( data.x, data.y )
-		elseif data.command == "update" then
+		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
 				self.groundArray[data.x][data.y].gType then
 
-				self:setGroundTileNow( data.x, data.y, self.groundArray[data.x][data.y].gType )
+				self:updateGroundTileNow( data.x, data.y, self.groundArray[data.x][data.y].gType )
 			end
 		end
 
