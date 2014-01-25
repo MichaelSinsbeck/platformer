@@ -102,9 +102,10 @@ function EditorMap:setGroundTileNow( x, y, ground )
 		newGroundType = "noSpikes"
 	end
 
+	print(oldGroundType, newGroundType)
 	-- if the ground type changed, remove the old:
 	if oldGroundType ~= "" and newGroundType ~= oldGroundType then
-		self:eraseGroundTile( x, y, false )
+		self:eraseGroundTileNow( x, y, false )
 	end
 
 	-- load the surrounding ground types:
@@ -185,7 +186,7 @@ end
 
 function EditorMap:eraseGroundTileNow( x, y, updateSurrounding )
 
-
+	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
 	-- determine whether to remove a spike or a normal wall/ground:
 	local batchID, batch
 	if self.groundArray[x][y].gType then
