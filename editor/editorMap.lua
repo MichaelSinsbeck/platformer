@@ -1,6 +1,7 @@
 local EditorMap = {}
 EditorMap.__index = EditorMap
 
+local MAX_TILES_PER_FRAME = 5
 
 function EditorMap:new()
 	local o = {}
@@ -11,10 +12,12 @@ function EditorMap:new()
 					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
 	o.spikeBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
 					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
-	o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
-					100000, "dynamic" )
+	--o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
+					--100000, "dynamic" )
 
 	o.groundArray = {}
+	o.tilesToModify = {}
+	o.tilesModifiedThisFrame = 0
 	
 	o.tileSize = Camera.scale*8
 
@@ -43,8 +46,16 @@ function EditorMap:new()
 	return o
 end
 
+function EditorMap:updateGroundTile( x, y )
+	local data = {
+		command = "update",
+		x = x,
+		y = y,
+	}
+	self.tilesToModify[#self.tilesToModify + 1] = data
+end
+
 function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
-	--if updateSurrounding then print("---------------") end
 	
 	if not self.groundArray[x] then
 		self.groundArray[x] = {}
@@ -53,6 +64,31 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		self.groundArray[x][y] = { batchID = {} }
 	end
 
+	local data = {
+		command = "set",
+		x = x,
+		y = y,
+		ground = ground,
+	}
+	self.tilesToModify[#self.tilesToModify + 1] = data
+	
+	if updateSurrounding then
+		--print("left:")
+		self:updateGroundTile( x-1, y )
+		--print("right:")
+		self:updateGroundTile( x+1, y )
+		--print("above:")
+		self:updateGroundTile( x, y-1 )
+		--print("below:")
+		self:updateGroundTile( x, y+1 )
+	end
+end
+
+
+function EditorMap:setGroundTileNow( x, y, ground )
+	--if updateSurrounding then print("---------------") end
+	--
+	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
 	-- determine whether or not the old and new ground types are the same:
 	local oldGroundType = ""
 	local newGroundType = ""
@@ -112,28 +148,8 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	-- set the new ground type:
 	self.groundArray[x][y].gType = ground
 
-	if updateSurrounding then
-		--print("left:")
-		if self.groundArray[x-1] and self.groundArray[x-1][y] and self.groundArray[x-1][y].gType then
-			self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
-		end
-		--print("right:")
-		if self.groundArray[x+1] and self.groundArray[x+1][y] and self.groundArray[x+1][y].gType then
-			self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
-		end
-		--print("above:")
-		if self.groundArray[x][y-1] and self.groundArray[x][y-1].gType then
-			self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
-		end
-		--print("below:")
-		if self.groundArray[x][y+1] and self.groundArray[x][y+1].gType then
-			self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
-		end
-	end
-
-
 	-- update border:
-	if x < self.minX or x > self.maxX or y < self.minY or y > self.maxY then
+	if x < self.minX or x+1 > self.maxX or y < self.minY or y+1 > self.maxY then
 		self.minX = math.min(self.minX, x)
 		self.maxX = math.max(self.maxX, x+1)
 		self.minY = math.min(self.minY, y)
@@ -145,6 +161,30 @@ end
 function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 
 	if not self.groundArray[x] or not self.groundArray[x][y] then return end
+
+	local data = {
+		command = "erase",
+		x = x,
+		y = y,
+		updateSurrounding = updateSurrounding,
+	}
+	self.tilesToModify[#self.tilesToModify + 1] = data
+
+	if updateSurrounding then
+		--print("left:")
+		self:updateGroundTile( x-1, y )
+		--print("right:")
+		self:updateGroundTile( x+1, y )
+		--print("above:")
+		self:updateGroundTile( x, y-1 )
+		--print("below:")
+		self:updateGroundTile( x, y+1 )
+	end
+
+end
+
+function EditorMap:eraseGroundTileNow( x, y, updateSurrounding )
+
 
 	-- determine whether to remove a spike or a normal wall/ground:
 	local batchID, batch
@@ -164,21 +204,6 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 		-- so instead, move to 0:
 		batch:set( batchID,0,0,0,0,0 )
 		self.groundArray[x][y].gType = nil
-
-		if updateSurrounding then
-			if self.groundArray[x-1] and self.groundArray[x-1][y] and self.groundArray[x-1][y].gType then
-				self:setGroundTile( x-1, y, self.groundArray[x-1][y].gType )
-			end
-			if self.groundArray[x+1] and self.groundArray[x+1][y] and self.groundArray[x+1][y].gType then
-				self:setGroundTile( x+1, y, self.groundArray[x+1][y].gType )
-			end
-			if self.groundArray[x][y-1] and self.groundArray[x][y-1].gType then
-				self:setGroundTile( x, y-1, self.groundArray[x][y-1].gType )
-			end
-			if self.groundArray[x][y+1] and self.groundArray[x][y+1].gType then
-				self:setGroundTile( x, y+1, self.groundArray[x][y+1].gType )
-			end
-		end
 
 	end
 
@@ -241,13 +266,18 @@ function EditorMap:addBackgroundTile()
 end
 
 function EditorMap:addBackgroundObject( tileX, tileY, object )
-	local newIDs, bBox = object:addToBatch( self.backgroundBatch, self.bgEmptyIDs, tileX, tileY )
+	local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
+	local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
 	local newObject = {
 		ids = newIDs,
 		x = bBox.x + tileX,
 		y = bBox.y + tileY,
 		maxX = bBox.maxX + tileX,
-		maxY = bBox.maxY + tileY
+		maxY = bBox.maxY + tileY,
+		drawX = (bBox.x + tileX)*self.tileSize,
+		drawY = (bBox.y + tileY)*self.tileSize,
+		selected = false,
+		batch = newBatch,
 	}
 	table.insert( self.bgList, newObject )
 end
@@ -259,10 +289,10 @@ function EditorMap:removeBackgroundObject( tileX, tileY )
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
 		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
-			for i, ID in pairs(obj.ids) do
+			--[[for i, ID in pairs(obj.ids) do
 				self.backgroundBatch:set( ID, 0,0,0,0,0 )
 				table.insert( self.bgEmptyIDs, ID )
-			end
+			end]]
 			table.remove(self.bgList, k)
 			break	-- only remove the one!
 		end
@@ -307,7 +337,9 @@ function EditorMap:drawGrid()
 end
 
 function EditorMap:drawBackground()
-	love.graphics.draw( self.backgroundBatch, 0, 0 )
+	for k, obj in ipairs( self.bgList ) do
+		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+	end
 end
 
 function EditorMap:drawGround()
@@ -317,6 +349,27 @@ end
 
 function EditorMap:drawBoundings()
 	love.graphics.polygon( "line", self.border )
+end
+
+function EditorMap:update( dt )
+	self.tilesModifiedThisFrame = 0
+
+	while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
+		local data = self.tilesToModify[1]
+		if data.command == "set" then
+			self:setGroundTileNow( data.x, data.y, data.ground )
+		elseif data.command == "erase" then
+			self:eraseGroundTileNow( data.x, data.y )
+		elseif data.command == "update" then
+			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
+				self.groundArray[data.x][data.y].gType then
+
+				self:setGroundTileNow( data.x, data.y, self.groundArray[data.x][data.y].gType )
+			end
+		end
+
+		table.remove( self.tilesToModify, 1 )
+	end
 end
 
 return EditorMap

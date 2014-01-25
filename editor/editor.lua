@@ -275,6 +275,8 @@ function editor:update( dt )
 	if clicked then 
 		editor.clickedLastFrame = true
 	end
+
+	map:update( dt )
 end
 
 function editor.mousepressed( button )

@@ -185,8 +185,11 @@ function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
 		quad = element.quad
 		xOffset = element.coordX
 		yOffset = element.coordY
-		local k, id = next(emptyIDs)
-		
+		local k, id
+		if emptyIDs then
+			k, id = next(emptyIDs)
+		end
+
 		if id then
 			spriteBatch:set( id, quad, (x + xOffset)*Camera.scale*8, (y + yOffset)*Camera.scale*8)
 			table.remove(emptyIDs, k)
