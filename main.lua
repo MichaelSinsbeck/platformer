@@ -3,6 +3,7 @@
 loading = require("scripts/loading")
 config = require("scripts/config")
 settings = require("scripts/settings")
+profiler = require("scripts/profiler")
 require 'scripts/camera'
 require 'scripts/font'
 
@@ -65,7 +66,6 @@ function love.update( dt )
 		shaders:update( dt )
 	end
 	--print(love.joystick.getHat(1,1), love.joystick.getHat(1,2), love.joystick.getHat(1,3))
-	--vis:update(dt)
 end
 
 local a = 0
@@ -112,11 +112,15 @@ function love.draw()
 			love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
 		end
 	end
-	
-	--vis:draw(100,100)
 end
 
 function love.keypressed( key, unicode )
+	if key == 'r' then
+		profiler:report()
+	end
+	if key == 't' then
+		profiler:clear()
+	end
 	if key == 'z' then
 		print('Curr:' .. Campaign.current)
 		print('Last:' .. Campaign.last)
