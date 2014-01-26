@@ -191,15 +191,13 @@ function editor.createBgObjectPanel()
 	local page = 1
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.bgObjectList ) do
-		local b = love.graphics.newSpriteBatch( obj.tileset )
-
-		-- after this operation, bBox should hold the dimensions of the sprite:
-		local IDs, bBox = obj:addToBatch( b, {}, 0, 0 )
 
 		local event = function()
 			editor.selectedBgObject = obj
 			choosingBgObject = false
 		end
+
+		local bBox = obj.bBox
 
 		maxY = math.max( bBox.maxY, maxY )
 
@@ -211,7 +209,7 @@ function editor.createBgObjectPanel()
 			maxY = -math.huge
 		end
 
-		bgObjectPanel:addBatchClickable( x, y, event, b, bBox.maxX*8, bBox.maxY*8, obj.name, page )
+		bgObjectPanel:addBatchClickable( x, y, event, obj.batch, bBox.maxX*8, bBox.maxY*8, obj.name, page )
 
 		-- Is this object higher than the others of this row?
 
@@ -328,11 +326,17 @@ function editor:draw()
 	map:drawBoundings()
 	
 	if self.mouseOnCanvas then
+
 		love.graphics.setColor(0,0,0,128)
 		local rX = math.floor(wX/(8*Camera.scale))*8*Camera.scale
 		local rY = math.floor(wY/(8*Camera.scale))*8*Camera.scale
-		love.graphics.rectangle('fill',rX,rY,8*Camera.scale,8*Camera.scale)
-
+		if self.selectedBgObject and self.selectedTool == "bgObject" then
+			love.graphics.draw( self.selectedBgObject.batch, rX - 8*Camera.scale, rY - 8*Camera.scale)
+		else
+			love.graphics.rectangle('fill',rX,rY,8*Camera.scale,8*Camera.scale)
+		end
+		
+		-- draw the line:
 		if self.lineStartX and self.lineStartY and love.keyboard.isDown("lshift", "rshift") then
 			local sX = math.floor(self.lineStartX)*8*Camera.scale
 			local sY = math.floor(self.lineStartY)*8*Camera.scale
@@ -400,7 +404,7 @@ function editor.useTool( tileX, tileY, lastTileX, lastTileY, mouse )
 		end
 		--map:removeBackgroundObject( tileX, tileY )
 	elseif editor.selectedTool == "bgObject" then
-		map:addBackgroundObject( tileX, tileY, editor.selectedBgObject )
+		map:addBackgroundObject( tileX-1, tileY-1, editor.selectedBgObject )
 	end
 end
 

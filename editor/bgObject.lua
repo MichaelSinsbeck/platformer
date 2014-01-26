@@ -68,6 +68,10 @@ function BgObject:new( name, tileset, tileList, sorted )
 
 
 	o:calculateQuads()
+	
+	o.batch = love.graphics.newSpriteBatch( o.tileset )
+	o:addToBatch( o.batch, {}, 0, 0 )
+
 
 	return o
 end
