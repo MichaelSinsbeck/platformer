@@ -441,7 +441,7 @@ function Ground:init()
 	new:addTransition( nil, nil, nil,
 			'g', 'd',
 			nil, nil, nil,
-			{3,8} )
+			{3,7} )
 	-- grass to dirt:
 	new:addTransition( nil, nil, nil,
 			's', 'g',

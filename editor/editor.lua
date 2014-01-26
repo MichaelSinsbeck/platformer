@@ -46,7 +46,7 @@ function editor.init()
 		y = 0,
 	}
 	editor.toolsToolTips = {}
-	editor.toolsToolTips["pen"] = "right mouse: draw, left mouse: erase, shift: draw straight line, ctrl: flood fill"
+	editor.toolsToolTips["pen"] = "left mouse: draw, right mouse: erase, shift: draw straight line, ctrl: flood fill"
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
 	editor.toolsToolTips["bgObject"] = "click: add current object to scene's background"
 end
