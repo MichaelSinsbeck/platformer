@@ -53,6 +53,7 @@ function editor.init()
 	editor.toolsToolTips["pen"] = "left mouse: draw, right mouse: erase, shift: draw straight line, ctrl: flood fill"
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
 	editor.toolsToolTips["bgObject"] = "left mouse: add current background object, right mouse: delete object"
+	editor.toolsToolTips["edit"] = "left mouse: select object, left + drag: move object"
 end
 
 function editor.createCellQuad()
@@ -82,9 +83,15 @@ function editor.start()
 				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.")
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
-				'LEPenOff',
-				'LEPenOn',
-				'LEPenHover',
+				'LEStampOff',
+				'LEStampOn',
+				'LEStampHover',
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
+	x = x +10
+	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
+				'LEEditOff',
+				'LEEditOn',
+				'LEEditHover',
 				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
 	x = x +10
 				
@@ -443,6 +450,7 @@ function editor.useTool( tileX, tileY, lastTileX, lastTileY, mouse )
 end
 
 function editor.setToolTip( tip )
+	tip = tip or ""
 	editor.toolTip.text = string.lower(tip)
 	editor.toolTip.x = (love.graphics.getWidth() - love.graphics.getFont():getWidth( tip ))/2
 	editor.toolTip.y = love.graphics.getHeight() - love.graphics.getFont():getHeight() - 10
