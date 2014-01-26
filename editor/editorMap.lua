@@ -341,9 +341,6 @@ function EditorMap:startFillGround( x, y, eventType, ground )
 	self:fill( x, y, initialType, event, array, 1)
 end
 
-function EditorMap:addBackgroundTile()
-
-end
 
 function EditorMap:addBackgroundObject( tileX, tileY, object )
 	local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
@@ -360,6 +357,15 @@ function EditorMap:addBackgroundObject( tileX, tileY, object )
 		batch = newBatch,
 	}
 	table.insert( self.bgList, newObject )
+
+	if newObject.x < self.minX or newObject.maxX > self.maxX or
+		newObject.y < self.minY or newObject.maxY > self.maxY then
+		self.minX = math.min(self.minX, newObject.x)
+		self.maxX = math.max(self.maxX, newObject.maxX)
+		self.minY = math.min(self.minY, newObject.y)
+		self.maxY = math.max(self.maxY, newObject.maxY)
+		self:updateBorder()
+	end
 end
 
 function EditorMap:removeBackgroundObject( tileX, tileY )
@@ -378,6 +384,7 @@ function EditorMap:removeBackgroundObject( tileX, tileY )
 		end
 	end
 end
+
 
 function EditorMap:updateBorder()
 
