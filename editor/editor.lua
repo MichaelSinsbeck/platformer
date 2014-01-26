@@ -238,7 +238,6 @@ end
 
 -- called as long as editor is running:
 function editor:update( dt )
-
 	self.toolTip.text = ""
 
 	local clicked = love.mouse.isDown("l", "r")
@@ -304,7 +303,6 @@ function editor:update( dt )
 		editor.clickedLastFrame = true
 		editor.clickedLeftLastFrame = clickedLeft
 	end
-
 	map:update( dt )
 end
 
@@ -359,9 +357,12 @@ function editor:draw()
 	love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
 	
 	map:drawBackground()
+
+	
 	map:drawGround()
 
 	map:drawBoundings()
+	
 	
 	if self.mouseOnCanvas then
 
@@ -387,7 +388,7 @@ function editor:draw()
 			love.graphics.setColor(255,255,255,255)
 		end
 	end
-
+	
 	cam:free()
 
 	toolPanel:draw()

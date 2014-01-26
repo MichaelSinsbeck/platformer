@@ -10,9 +10,9 @@ function EditorMap:new()
 	o.MAP_SIZE = 1000
 
 	o.groundBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
-					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
+					o.MAP_SIZE*o.MAP_SIZE, "stream" )
 	o.spikeBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
-					o.MAP_SIZE*o.MAP_SIZE, "dynamic" )
+					o.MAP_SIZE*o.MAP_SIZE, "stream" )
 	--o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
 					--100000, "dynamic" )
 
@@ -496,7 +496,7 @@ function EditorMap:drawBackground()
 end
 
 function EditorMap:drawGround()
-	love.graphics.draw( self.groundBatch, 0, 0 )
+	love.graphics.draw( self.groundBatch, 0, 0 )	
 	love.graphics.draw( self.spikeBatch, 0, 0 )
 end
 
@@ -507,7 +507,9 @@ end
 function EditorMap:update( dt )
 	self.tilesModifiedThisFrame = 0
 
-	while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
+
+	--while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
+	while #self.tilesToModify > 0 do
 		local data = self.tilesToModify[1]
 		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
@@ -516,9 +518,9 @@ function EditorMap:update( dt )
 				self:updateGroundTileNow( data.x, data.y, self.groundArray[data.x][data.y].gType )
 			end
 		end
-
 		table.remove( self.tilesToModify, 1 )
 	end
+	
 end
 
 return EditorMap
