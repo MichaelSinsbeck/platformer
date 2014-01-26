@@ -404,7 +404,11 @@ function editor.useTool( tileX, tileY, lastTileX, lastTileY, mouse )
 		end
 		--map:removeBackgroundObject( tileX, tileY )
 	elseif editor.selectedTool == "bgObject" then
-		map:addBackgroundObject( tileX-1, tileY-1, editor.selectedBgObject )
+		if mouse == "l" then
+			map:addBackgroundObject( tileX-1, tileY-1, editor.selectedBgObject )
+		else
+			map:removeBackgroundObject( tileX, tileY )
+		end
 	end
 end
 
