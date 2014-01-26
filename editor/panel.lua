@@ -17,8 +17,10 @@ function Panel:new( x, y, width, height )
 	o.pages = {}
 	o.pages[0] = {}
 	o.selectedPage = 1
-	
-	o.box = menu:generateBox( o.x, o.y, o.width, o.height, boxFactor)
+
+	if o.width > 0 and o.height > 0 then
+		o.box = menu:generateBox( o.x, o.y, o.width, o.height, boxFactor)
+	end
 
 	return o
 end
@@ -44,22 +46,24 @@ end
 
 function Panel:draw()
 
-	-- draw the background box:
-	-- scale box coordinates according to scale
-	local scaled = {}
-	for i = 1,#self.box.points do
-		scaled[i] = self.box.points[i] * Camera.scale
+	if self.box then
+		-- draw the background box:
+		-- scale box coordinates according to scale
+		local scaled = {}
+		for i = 1,#self.box.points do
+			scaled[i] = self.box.points[i] * Camera.scale
+		end
+		-- draw
+		love.graphics.setColor( backgroundColor )
+		love.graphics.setLineWidth(Camera.scale*0.5)
+		love.graphics.rectangle('fill',
+		self.box.left*Camera.scale,
+		self.box.top*Camera.scale,
+		self.box.width*Camera.scale,
+		self.box.height*Camera.scale)
+		love.graphics.setColor(0,0,0)
+		love.graphics.line(scaled)
 	end
-	-- draw
-	love.graphics.setColor( backgroundColor )
-	love.graphics.setLineWidth(Camera.scale*0.5)
-	love.graphics.rectangle('fill',
-	self.box.left*Camera.scale,
-	self.box.top*Camera.scale,
-	self.box.width*Camera.scale,
-	self.box.height*Camera.scale)
-	love.graphics.setColor(0,0,0)
-	love.graphics.line(scaled)
 
 	love.graphics.setColor(255,255,255,255)
 
@@ -74,21 +78,40 @@ function Panel:draw()
 	end
 end
 
+function Panel:moveTo( x, y )
+	local ox, oy = self.x - x, self.y - y
+	for i, page in pairs( self.pages ) do
+		for k, button in ipairs( page ) do
+			button.x = button.x - ox
+			button.y = button.y - oy
+	-- for collision checking:
+	button.minX = button.x*Camera.scale - 0.5 * button.width
+	button.minY = button.y*Camera.scale - 0.5 * button.height
+	button.maxX = button.minX + button.width
+	button.maxY = button.minY + button.height
+
+
+
+		end
+	end
+	self.x, self.y = x,y
+end
+
 function Panel:update( dt, mouseX, mouseY, clicked )
 
 	-- this gets set to true if the click hit a clickable on this panel:
-	--local clickHit = false
+	local hitButton = false
 	for k,button in ipairs( self.pages[0] ) do
-		button:update( dt, mouseX, mouseY, clicked )
+		hitButton = button:update( dt, mouseX, mouseY, clicked ) or hitButton
 	end
 	
 	if self.pages[self.selectedPage] then
 		for k,button in ipairs( self.pages[self.selectedPage] ) do
-			button:update( dt, mouseX, mouseY, clicked )
+			hitButton = button:update( dt, mouseX, mouseY, clicked ) or hitButton
 		end
 	end
 
-	return self:collisionCheck(mouseX,mouseY)
+	return self:collisionCheck(mouseX,mouseY), hitButton
 end
 
 function Panel:collisionCheck( x, y )

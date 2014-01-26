@@ -209,6 +209,7 @@ function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
 	return usedIDs, self.bBox
 end
 
+
 function BgObject:init()
 	local list = {}
 	local coords, img, name

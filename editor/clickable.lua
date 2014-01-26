@@ -103,7 +103,7 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 	o.toolTip = toolTip  or ""
 
 	-- react when mouse is in the area:
-	o.width, o.height = width, height
+	o.width, o.height = width*Camera.scale, height*Camera.scale
 	
 	o.x = x or 0
 	o.y = y or 0
@@ -115,8 +115,8 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 	-- for collision checking:
 	o.minX = x*Camera.scale
 	o.minY = y*Camera.scale
-	o.maxX = o.minX + o.width*Camera.scale
-	o.maxY = o.minY + o.height*Camera.scale
+	o.maxX = o.minX + o.width
+	o.maxY = o.minY + o.height
 
 	o.event = event
 
@@ -172,6 +172,7 @@ function Clickable:update( dt, mouseX, mouseY, clicked )
 	if self.vis then
 		self.vis:update(dt)
 	end
+	return false
 end
 
 function Clickable:collisionCheck( x, y )

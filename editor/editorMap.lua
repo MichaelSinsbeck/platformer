@@ -359,6 +359,7 @@ function EditorMap:addBackgroundObject( tileX, tileY, object )
 		height = object.height,
 		selected = false,
 		batch = newBatch,
+		objType = object,
 	}
 	table.insert( self.bgList, newObject )
 
@@ -402,13 +403,11 @@ function EditorMap:removeSelectedBgObject()
 	end
 end
 
-function EditorMap:selectBgObject( tileX, tileY )
+function EditorMap:selectBgObjectAt( tileX, tileY )
 
 	-- unselect previously selected objects:
-	if self.selectedBgObject then
-		self.selectedBgObject.selected = false
-		self.selectedBgObject = nil
-	end
+	self:selectNoBgObject()
+
 	-- Go through the list backwards and select first object found
 	local obj
 	for k = #self.bgList, 1, -1 do
@@ -424,6 +423,13 @@ function EditorMap:selectBgObject( tileX, tileY )
 			obj.oY = tileY - obj.y
 			break	-- only remove the one!
 		end
+	end
+end
+
+function EditorMap:selectNoBgObject()
+	if self.selectedBgObject then
+		self.selectedBgObject.selected = false
+		self.selectedBgObject = nil
 	end
 end
 
@@ -446,6 +452,55 @@ function EditorMap:dragBgObject( tileX, tileY )
 		self:updateBorder()
 	end
 
+	end
+end
+
+function EditorMap:neighbourhoodBgObjects( curObj )
+	local list = {}
+	for k, obj in pairs(self.bgList) do
+		-- is the current object colliding with the obj in the list?
+		if ((obj.x >= curObj.x and obj.x <= curObj.maxX + 1) or 
+			(obj.maxX >= curObj.x and obj.maxX <= curObj.maxX + 1)) and
+			((obj.y >= curObj.y and obj.y <= curObj.maxY + 1) or 
+			(obj.maxY >= curObj.y and obj.maxY <= curObj.maxY + 1)) then
+			-- add the object to the list:
+			table.insert( list, {k=k, obj=obj} )
+		end
+	end
+	return list
+end
+
+function EditorMap:bgObjectLayerUp()
+	-- find all objects partly covering the selected object:
+	local neighbourhood = self:neighbourhoodBgObjects( self.selectedBgObject )
+	for i, obj in pairs( neighbourhood ) do
+		-- find the selected object in its neighbourhood:
+		if obj.obj == self.selectedBgObject then
+			-- if there's an object in the neighbourhood which is higher than the selected
+			-- one, then switch them in the list ob background objects:
+			if neighbourhood[i+1] then
+				local higher = neighbourhood[i+1]
+				self.bgList[higher.k], self.bgList[obj.k] = obj.obj, higher.obj
+			end
+			break
+		end
+	end
+end
+
+function EditorMap:bgObjectLayerDown()
+	-- find all objects partly covering the selected object:
+	local neighbourhood = self:neighbourhoodBgObjects( self.selectedBgObject )
+	for i, obj in pairs( neighbourhood ) do
+		-- find the selected object in its neighbourhood:
+		if obj.obj == self.selectedBgObject then
+			-- if there's an object in the neighbourhood which is lower than the selected
+			-- one, then switch them in the list ob background objects:
+			if neighbourhood[i-1] then
+				local lower = neighbourhood[i-1]
+				self.bgList[lower.k], self.bgList[obj.k] = obj.obj, lower.obj
+			end
+			break
+		end
 	end
 end
 

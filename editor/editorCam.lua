@@ -69,6 +69,12 @@ function Cam:screenToWorld( screenX, screenY ) -- solve formula for w
 	return (screenX-self.x)/self.zoom, (screenY-self.y)/self.zoom
 end
 
+function Cam:worldToScreen( worldX, worldY ) -- solve formula for s
+	-- 			w * z = s - c
+	-- => 		s = w*z + c
+	return worldX*self.zoom + self.x, worldY*self.zoom + self.y
+end
+
 function Cam:alignTo( worldX, worldY, screenX, screenY)
 	-- sets Cam.x and Cam.y such that specified world point lies at specified
 	-- screen position
