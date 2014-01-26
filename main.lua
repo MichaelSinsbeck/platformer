@@ -116,7 +116,7 @@ function love.draw()
 	--vis:draw(100,100)
 end
 
-function love.keypressed( key, unicode )
+function love.keypressed( key, repeated )
 	if key == 'z' then
 		print('Curr:' .. Campaign.current)
 		print('Last:' .. Campaign.last)
@@ -130,6 +130,8 @@ function love.keypressed( key, unicode )
 			keys.abortAssigning()
 		end
 		return
+	elseif mode == 'editor' then
+		editor.keypressed( key, repeated )
 	else
 	
 		if key == keys.FULLSCREEN then
@@ -137,11 +139,11 @@ function love.keypressed( key, unicode )
 		end
 
 		if mode == 'menu' then
-			menu:keypressed( key, unicode )
+			menu:keypressed( key, repeated )
 		elseif mode == 'game' then
 			game.keypressed( key )
 		elseif mode == 'levelEnd' then
-			levelEnd:keypressed( key, unicode )
+			levelEnd:keypressed( key, repeated )
 		end
 
 		-- always works, independently of game state:

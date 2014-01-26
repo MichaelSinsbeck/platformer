@@ -20,6 +20,10 @@ local cam = nil
 
 local choosingBgObject = false
 
+local KEY_CLOSE = "escape"
+local KEY_STAMP = "s"
+local KEY_PEN = "d"
+
 -- called when loading game	
 function editor.init()
 
@@ -48,7 +52,7 @@ function editor.init()
 	editor.toolsToolTips = {}
 	editor.toolsToolTips["pen"] = "left mouse: draw, right mouse: erase, shift: draw straight line, ctrl: flood fill"
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
-	editor.toolsToolTips["bgObject"] = "click: add current object to scene's background"
+	editor.toolsToolTips["bgObject"] = "left mouse: add current background object, right mouse: delete object"
 end
 
 function editor.createCellQuad()
@@ -75,13 +79,13 @@ function editor.start()
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				"Pen - draw single tiles or objects onto the map.")
+				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.")
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				"Stamp - Select and place background objects.")
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
 	x = x +10
 				
 	--[[toolPanel:addClickable( x, y, function() editor.setTool("erase") end,
@@ -111,7 +115,6 @@ function editor.start()
 				"Load another map.")
 
 
-
 	-- Panel for choosing the ground type:
 	groundPanel = Panel:new( 1, 30, 16, 90 )
 	x,y = 8,7
@@ -120,49 +123,57 @@ function editor.start()
 										editor.selectedGround = editor.groundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
-				'LEGround1Hover')
+				'LEGround1Hover',
+				"1 - draw concrete ground" )
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
-				'LEGround2Hover')
+				'LEGround2Hover',
+				"2 - draw dirt ground" )
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
-				'LEGround3Hover')
+				'LEGround3Hover',
+				"3 - draw grass ground" )
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
-				'LEGround4Hover')
+				'LEGround4Hover',
+				"4 - draw stone ground" )
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
-				'LEGround5Hover')
+				'LEGround5Hover',
+				"5 - draw wood ground" )
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
-				'LEGround6Hover')
+				'LEGround6Hover',
+				"6 - draw bridges" )
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[7] end,
 				'LESpikes1Off',
 				'LESpikes1On',
-				'LESpikes1Hover')
+				'LESpikes1Hover',
+				"7 - draw grey spikes" )
 	y = y + 10
 	groundPanel:addClickable( x, y, function() editor.selectedTool = "pen"
 										editor.selectedGround = editor.groundList[8] end,
 				'LESpikes2Off',
 				'LESpikes2On',
-				'LESpikes2Hover')
+				'LESpikes2Hover',
+				"8 - draw brown spikes" )
 
 	editor.createBgObjectPanel()
 
@@ -245,7 +256,6 @@ function editor:update( dt )
 				(editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) and 
 				(editor.selectedTool ~= "bgObject" or editor.clickedLastFrame == false) then
 				if clickedLeft then
-					print(editor.clickedTileX, editor.clickedTileY, tileX, tileY )
 					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "l")
 				else
 					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "r")
@@ -306,6 +316,22 @@ function editor.mousereleased( button )
 	end
 end
 
+function editor.keypressed( key, repeated )
+	if key == KEY_CLOSE and choosingBgObject then
+		choosingBgObject = false
+		editor.selectedBgObject = editor.selectedBgObject or editor.bgObjectList[1]
+	elseif key == KEY_PEN then
+		editor.setTool("pen")
+	elseif key == KEY_STAMP then
+		editor.setTool("bgObject")
+	elseif tonumber(key) then
+		local num = tonumber(key)
+		if num >= 1 and num < 10 and editor.groundList[num] then
+			editor.selectedGround = editor.groundList[num]
+		end
+	end
+end
+
 -- called as long as editor is running:
 function editor:draw()
 	local x, y = love.mouse.getPosition()
@@ -353,10 +379,12 @@ function editor:draw()
 	cam:free()
 
 	toolPanel:draw()
-	groundPanel:draw()
+
 
 	if choosingBgObject then
 		bgObjectPanel:draw()
+	elseif editor.selectedTool == "pen" then
+		groundPanel:draw()
 	end
 	
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
@@ -372,6 +400,8 @@ function editor.setTool( tool )
 	editor.selectedTool = tool
 	if tool == "bgObject" then
 		choosingBgObject = true
+	else
+		choosingBgObject = false
 	end
 end
 
