@@ -353,6 +353,10 @@ function EditorMap:addBackgroundObject( tileX, tileY, object )
 		maxY = bBox.maxY + tileY,
 		drawX = (bBox.x + tileX)*self.tileSize,
 		drawY = (bBox.y + tileY)*self.tileSize,
+		tileWidth = object.tileWidth,
+		tileHeight = object.tileHeight,
+		width = object.width,
+		height = object.height,
 		selected = false,
 		batch = newBatch,
 	}
@@ -385,6 +389,54 @@ function EditorMap:removeBackgroundObject( tileX, tileY )
 	end
 end
 
+function EditorMap:selectBgObject( tileX, tileY )
+
+	-- unselect previously selected objects:
+	if self.selectedBgObject then
+		self.selectedBgObject.selected = false
+		self.selectedBgObject = nil
+	end
+	-- Go through the list backwards and select first object found
+	local obj
+	for k = #self.bgList, 1, -1 do
+		obj = self.bgList[k]
+		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+			--[[for i, ID in pairs(obj.ids) do
+				self.backgroundBatch:set( ID, 0,0,0,0,0 )
+				table.insert( self.bgEmptyIDs, ID )
+			end]]
+			self.selectedBgObject = obj
+			obj.selected = true
+			obj.oX = tileX - obj.x
+			obj.oY = tileY - obj.y
+			break	-- only remove the one!
+		end
+	end
+end
+
+function EditorMap:dragBgObject( tileX, tileY )
+	if self.selectedBgObject then
+		local obj = self.selectedBgObject
+		obj.x = tileX - obj.oX
+		obj.y = tileY - obj.oY
+		obj.maxX = obj.x + obj.tileWidth +1
+		obj.maxY = obj.y + obj.tileHeight +1
+		print(obj.x)
+		print(obj.y)
+		obj.drawX = obj.x*Camera.scale*8
+		obj.drawY = obj.y*Camera.scale*8
+
+	if obj.x < self.minX or obj.maxX > self.maxX or
+		obj.y < self.minY or obj.maxY > self.maxY then
+		self.minX = math.min(self.minX, obj.x)
+		self.maxX = math.max(self.maxX, obj.maxX)
+		self.minY = math.min(self.minY, obj.y)
+		self.maxY = math.max(self.maxY, obj.maxY)
+		self:updateBorder()
+	end
+
+	end
+end
 
 function EditorMap:updateBorder()
 
@@ -426,6 +478,9 @@ end
 function EditorMap:drawBackground()
 	for k, obj in ipairs( self.bgList ) do
 		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+		if obj.selected == true then
+			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
+		end
 	end
 end
 

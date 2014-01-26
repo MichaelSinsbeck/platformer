@@ -263,9 +263,9 @@ function editor:update( dt )
 				(editor.clickedTileX ~= tileX or editor.clickedTileY ~= tileY) and 
 				(editor.selectedTool ~= "bgObject" or editor.clickedLastFrame == false) then
 				if clickedLeft then
-					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "l")
+					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "l", self.clickedLastFrame )
 				else
-					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "r")
+					editor.useTool( tileX, tileY, editor.clickedTileX, editor.clickedTileY, "r", self.clickedLastFrame )
 				end
 				editor.clickedTileX = tileX
 				editor.clickedTileY = tileY
@@ -412,7 +412,7 @@ function editor.setTool( tool )
 	end
 end
 
-function editor.useTool( tileX, tileY, lastTileX, lastTileY, mouse )
+function editor.useTool( tileX, tileY, lastTileX, lastTileY, mouse, heldDown )
 	if editor.selectedTool == "pen" then
 		if mouse == "l" then	-- draw
 			if love.keyboard.isDown( "lctrl", "rctrl" ) then
@@ -448,9 +448,9 @@ function editor.useTool( tileX, tileY, lastTileX, lastTileY, mouse )
 		end
 	elseif editor.selectedTool == "edit" then
 		if mouse == "l" then
-			if map.selectedBgObject then
+			if heldDown then	-- not a new click, but dragging instead
 				map:dragBgObject( tileX, tileY )
-			else
+			else	-- new click:
 				map:selectBgObject( tileX, tileY )
 			end
 		end

@@ -66,12 +66,16 @@ function BgObject:new( name, tileset, tileList, sorted )
 		maxY = o.maxY + 1,
 	}
 
-
 	o:calculateQuads()
 	
 	o.batch = love.graphics.newSpriteBatch( o.tileset )
 	o:addToBatch( o.batch, {}, 0, 0 )
 
+	o.tileWidth = (o.maxX - o.minX)
+	o.tileHeight = (o.maxY - o.minY)
+	
+	o.width = (o.tileWidth+1)*Camera.scale*8
+	o.height = (o.tileHeight+1)*Camera.scale*8
 
 	return o
 end
