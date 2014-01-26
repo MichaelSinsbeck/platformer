@@ -389,6 +389,19 @@ function EditorMap:removeBackgroundObject( tileX, tileY )
 	end
 end
 
+function EditorMap:removeSelectedBgObject()
+	if self.selectedBgObject then
+		for k, obj in pairs(self.bgList) do
+			if obj == self.selectedBgObject then
+				table.remove( self.bgList, k )
+				break
+			end
+		end
+		self.selectedBgObject.selected = false
+		self.selectedBgObject = nil
+	end
+end
+
 function EditorMap:selectBgObject( tileX, tileY )
 
 	-- unselect previously selected objects:
@@ -421,8 +434,6 @@ function EditorMap:dragBgObject( tileX, tileY )
 		obj.y = tileY - obj.oY
 		obj.maxX = obj.x + obj.tileWidth +1
 		obj.maxY = obj.y + obj.tileHeight +1
-		print(obj.x)
-		print(obj.y)
 		obj.drawX = obj.x*Camera.scale*8
 		obj.drawY = obj.y*Camera.scale*8
 

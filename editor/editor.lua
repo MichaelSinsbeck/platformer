@@ -23,6 +23,7 @@ local choosingBgObject = false
 local KEY_CLOSE = "escape"
 local KEY_STAMP = "s"
 local KEY_PEN = "d"
+local KEY_DELETE = "delete"
 
 -- called when loading game	
 function editor.init()
@@ -331,7 +332,11 @@ function editor.keypressed( key, repeated )
 		editor.setTool("pen")
 	elseif key == KEY_STAMP then
 		editor.setTool("bgObject")
-	elseif tonumber(key) then
+	elseif key == KEY_DELETE then
+		if map.selectedBgObject then
+			map:removeSelectedBgObject()
+		end
+	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if num >= 1 and num < 10 and editor.groundList[num] then
 			editor.selectedGround = editor.groundList[num]
