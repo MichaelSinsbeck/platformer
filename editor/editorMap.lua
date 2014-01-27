@@ -1,7 +1,7 @@
 local EditorMap = {}
 EditorMap.__index = EditorMap
 
-local MAX_TILES_PER_FRAME = 5
+local MAX_TILES_PER_FRAME = 500
 local MAX_FLOOD_FILL_RECURSION = 500
 
 function EditorMap:new()
@@ -563,8 +563,7 @@ function EditorMap:update( dt )
 	self.tilesModifiedThisFrame = 0
 
 
-	--while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
-	while #self.tilesToModify > 0 do
+	while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
 		local data = self.tilesToModify[1]
 		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
