@@ -70,6 +70,7 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		x = x,
 		y = y,
 		ground = ground,
+		updateSurrounding = updateSurrounding,
 	}
 	self.tilesToModify[#self.tilesToModify + 1] = data
 	-- determine whether or not the old and new ground types are the same:
@@ -127,7 +128,7 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 end
 
 
-function EditorMap:updateGroundTileNow( x, y )
+function EditorMap:updateGroundTileNow( x, y, updateSurrounding )
 	--if updateSurrounding then print("---------------") end
 	--
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
@@ -563,14 +564,13 @@ end
 function EditorMap:update( dt )
 	self.tilesModifiedThisFrame = 0
 
-
 	while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
 		local data = self.tilesToModify[1]
 		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
 				self.groundArray[data.x][data.y].gType then
 
-				self:updateGroundTileNow( data.x, data.y, self.groundArray[data.x][data.y].gType )
+				self:updateGroundTileNow( data.x, data.y, data.updateSurrounding )
 			end
 		end
 		table.remove( self.tilesToModify, 1 )
