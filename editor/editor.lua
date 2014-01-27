@@ -46,6 +46,9 @@ function editor.init()
 	local tileSize = Camera.scale * 8
 	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width+tileSize, Camera.height+tileSize, tileSize, tileSize)
 
+	editor.images.fill = love.graphics.newImage( "images/editor/" .. prefix .. "fill.png")
+	editor.fillQuad = love.graphics.newQuad(0, 0, tileSize*3, tileSize*3, tileSize*3, tileSize*3 )
+
 	editor.groundList = Ground:init()
 	editor.bgObjectList = BgObject:init()
 
@@ -288,8 +291,8 @@ function editor:update( dt )
 	local tileX = math.floor(wX/(Camera.scale*8))
 	local tileY = math.floor(wY/(Camera.scale*8))
 
-	local shift = love.keyboard.isDown("lshift", "rshift")
-	local ctrl = love.keyboard.isDown("lctrl", "rctrl")
+	self.shift = love.keyboard.isDown("lshift", "rshift")
+	self.ctrl = love.keyboard.isDown("lctrl", "rctrl")
 
 	if self.mouseOnCanvas then
 		if self.drawing then
@@ -301,7 +304,7 @@ function editor:update( dt )
 				map:eraseGroundTile( tileX, tileY, true )
 			end
 		end
-		if self.currentTool == "pen" and shift then
+		if self.currentTool == "pen" and self.shift then
 			self.drawLine = true
 		elseif self.currentTool == "edit" and self.dragging and
 				(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
@@ -346,15 +349,12 @@ function editor:mousepressed( button, x, y )
 		if mouseOnCanvas then
 			if self.currentTool == "pen" then
 
-				local shift = love.keyboard.isDown( "lshift", "rshift" )
-				local ctrl = love.keyboard.isDown( "lctrl", "rctrl" )
-
-				if shift and self.lastClickX and self.lastClickY then
+				if self.shift and self.lastClickX and self.lastClickY then
 					-- draw a line
 					map:line( tileX, tileY,
 					self.lastClickX, self.lastClickY,
 					function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
-				elseif ctrl then
+				elseif self.ctrl then
 					-- fill the area
 					map:startFillGround( tileX, tileY, "set", self.currentGround )
 				else
@@ -394,15 +394,12 @@ function editor:mousepressed( button, x, y )
 		if mouseOnCanvas then
 			if self.currentTool == "pen" then
 
-				local shift = love.keyboard.isDown( "lshift", "rshift" )
-				local ctrl = love.keyboard.isDown( "lctrl", "rctrl" )
-
-				if shift and self.lastClickX and self.lastClickY then
+				if self.shift and self.lastClickX and self.lastClickY then
 					-- draw a line
 					map:line( tileX, tileY,
 					self.lastClickX, self.lastClickY,
 					function(x, y) map:eraseGroundTile(x, y, true ) end )
-				elseif ctrl then
+				elseif self.ctrl then
 					-- fill the area
 					map:startFillGround( tileX, tileY, "erase", nil )
 				else
@@ -459,10 +456,11 @@ function editor:draw()
 	-- map:drawGrid()
 	local tileSize = Camera.scale * 8
 	local cx,cy = cam:screenToWorld( 0, 0 )
-	cx = math.floor(cx/tileSize)*tileSize
-	cy = math.floor(cy/tileSize)*tileSize
-	love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
-	
+		cx = math.floor(cx/tileSize)*tileSize
+		cy = math.floor(cy/tileSize)*tileSize
+		love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
+
+
 	map:drawBackground()
 	
 	map:drawGround()
@@ -477,9 +475,13 @@ function editor:draw()
 		if self.currentBgObject and self.currentTool == "bgObject" then
 			love.graphics.draw( self.currentBgObject.batch, rX - 8*Camera.scale, rY - 8*Camera.scale)
 		else
-			love.graphics.rectangle('fill',rX,rY,8*Camera.scale,8*Camera.scale)
+			if self.ctrl and self.currentTool == "pen" then
+				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
+			else
+				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
+			end
 		end
-		
+
 		-- draw the line:
 		if self.drawLine then
 			local sX = math.floor(self.lastClickX)*8*Camera.scale

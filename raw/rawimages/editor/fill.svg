@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="90"
+   inkscape:export-xdpi="90"
+   inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/menu/exitOff.png"
+   sodipodi:docname="fill.svg"
+   inkscape:version="0.48.4 r9939"
+   version="1.1"
+   id="svg2"
+   height="120"
+   width="120">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="49.600381"
+     inkscape:cy="48.0337"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:showpageshadow="true"
+     inkscape:window-width="1916"
+     inkscape:window-height="1057"
+     inkscape:window-x="0"
+     inkscape:window-y="19"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="true">
+    <inkscape:grid
+       originy="0px"
+       originx="0px"
+       spacingy="10px"
+       spacingx="10px"
+       snapvisiblegridlinesonly="true"
+       enabled="true"
+       visible="true"
+       empspacing="4"
+       id="grid2985"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-932.3622)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Ebene 1">
+    <g
+       style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1;opacity:1"
+       transform="translate(40.231395,-0.0550804)"
+       id="g11309"
+       inkscape:label="Ebene 1">
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot11311"
+         style="font-size:15px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1;font-family:Sans"
+         transform="translate(0,1002.3622)"><flowRegion
+           id="flowRegion11313"><rect
+             style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+             id="rect11315"
+             width="43.663849"
+             height="38.890869"
+             x="4.4194174"
+             y="7.2200403" /></flowRegion><flowPara
+           id="flowPara11317">Eraser</flowPara><flowPara
+           id="flowPara11319">hover</flowPara><flowPara
+           id="flowPara11321" /><flowPara
+           id="flowPara11323" /></flowRoot>      <path
+         style="opacity:0.29999999999999999;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+         d="M 0,0 40,0 40,40 0,40 z"
+         id="path11325"
+         inkscape:connector-curvature="0"
+         transform="translate(0,1012.3622)" />
+    </g>
+    <g
+       style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1;opacity:1"
+       transform="translate(80.231395,-40.05508)"
+       id="g11345"
+       inkscape:label="Ebene 1">
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot11347"
+         style="font-size:15px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1;font-family:Sans"
+         transform="translate(0,1002.3622)"><flowRegion
+           id="flowRegion11349"><rect
+             style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+             id="rect11351"
+             width="43.663849"
+             height="38.890869"
+             x="4.4194174"
+             y="7.2200403" /></flowRegion><flowPara
+           id="flowPara11353">Eraser</flowPara><flowPara
+           id="flowPara11355">hover</flowPara><flowPara
+           id="flowPara11357" /><flowPara
+           id="flowPara11359" /></flowRoot>      <path
+         style="opacity:0.29999999999999999;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+         d="M 0,0 40,0 40,40 0,40 z"
+         id="path11361"
+         inkscape:connector-curvature="0"
+         transform="translate(0,1012.3622)" />
+    </g>
+    <g
+       inkscape:label="Ebene 1"
+       id="g11363"
+       transform="translate(40.231395,-80.05508)"
+       style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1;opacity:1">
+      <flowRoot
+         transform="translate(0,1002.3622)"
+         style="font-size:15px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1;font-family:Sans"
+         id="flowRoot11365"
+         xml:space="preserve"><flowRegion
+           id="flowRegion11367"><rect
+             y="7.2200403"
+             x="4.4194174"
+             height="38.890869"
+             width="43.663849"
+             id="rect11369"
+             style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1" /></flowRegion><flowPara
+           id="flowPara11371">Eraser</flowPara><flowPara
+           id="flowPara11373">hover</flowPara><flowPara
+           id="flowPara11375" /><flowPara
+           id="flowPara11377" /></flowRoot>      <path
+         transform="translate(0,1012.3622)"
+         inkscape:connector-curvature="0"
+         id="path11379"
+         d="M 0,0 40,0 40,40 0,40 z"
+         style="opacity:0.29999999999999999;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1" />
+    </g>
+    <g
+       style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1;opacity:1"
+       transform="translate(0.231395,-40.05508)"
+       id="g11381"
+       inkscape:label="Ebene 1">
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot11383"
+         style="font-size:15px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1;font-family:Sans"
+         transform="translate(0,1002.3622)"><flowRegion
+           id="flowRegion11385"><rect
+             style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+             id="rect11387"
+             width="43.663849"
+             height="38.890869"
+             x="4.4194174"
+             y="7.2200403" /></flowRegion><flowPara
+           id="flowPara11389">Eraser</flowPara><flowPara
+           id="flowPara11391">hover</flowPara><flowPara
+           id="flowPara11393" /><flowPara
+           id="flowPara11395" /></flowRoot>      <path
+         style="opacity:0.29999999999999999;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
+         d="M 0,0 40,0 40,40 0,40 z"
+         id="path11397"
+         inkscape:connector-curvature="0"
+         transform="translate(0,1012.3622)" />
+    </g>
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0.18039216;stroke-dasharray:none"
+       id="rect11921"
+       width="150"
+       height="125.68823"
+       x="-183.87199"
+       y="967.15582" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot18816"
+       style="font-size:15px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(0,1002.3622)"><flowRegion
+         id="flowRegion18818"><rect
+           id="rect18820"
+           width="43.663849"
+           height="38.890869"
+           x="4.4194174"
+           y="7.2200403" /></flowRegion><flowPara
+         id="flowPara18822">Eraser</flowPara><flowPara
+         id="flowPara18824">hover</flowPara><flowPara
+         id="flowPara18847" /><flowPara
+         id="flowPara18826" /></flowRoot>    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 55.902318,1032.5404 c -1.10135,-5.1545 -1.18694,-5.2412 -1.18735,-10.2693 l 11.33043,0.2535 c -0.54672,4.1023 0.19503,2.1749 -2.01487,10.2167 l 4.01122,-0.053 c -1.98609,3.9376 -3.46732,6.7545 -8.15673,10.1782 -3.78563,-2.9429 -5.602664,-5.8494 -7.835794,-10.495 z"
+       id="path6015-5-5-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc" />
+    <path
+       sodipodi:nodetypes="cccccccc"
+       inkscape:connector-curvature="0"
+       id="path10731"
+       d="m 20.073888,988.42581 c 5.1545,-1.1013 5.2412,-1.1869 10.2693,-1.1873 l -0.2535,11.33006 c -4.1023,-0.54664 -2.1749,0.19498 -10.2167,-2.01468 l 0.053,4.01121 c -3.9376,-1.98623 -6.7545,-3.46737 -10.1782051,-8.15659 2.9429051,-3.7856 5.8494051,-5.6026 10.4950051,-7.8358 z"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 64.188688,952.59741 c 1.1013,5.1545 1.1869,5.2412 1.1873,10.2693 l -11.330404,-0.2535 c 0.546704,-4.1023 -0.195,-2.1749 2.014904,-10.2167 l -4.011304,0.053 c 1.9861,-3.9376 3.467404,-6.7545 8.156804,-10.1782 3.7856,2.9429 5.6026,5.8494 7.8358,10.495 z"
+       id="path10737"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc" />
+    <path
+       sodipodi:nodetypes="cccccccc"
+       inkscape:connector-curvature="0"
+       id="path10739"
+       d="m 100.01708,996.71207 c -5.154492,1.10118 -5.241192,1.18678 -10.269292,1.18718 l 0.2535,-11.33014 c 4.1023,0.5467 2.1749,-0.195 10.216692,2.0149 l -0.053,-4.0113 c 3.93752,1.9861 6.75442,3.4674 10.17812,8.1568 -2.9429,3.7855 -5.8494,5.60228 -10.494913,7.83559 z"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <g
+       inkscape:label="Ebene 1"
+       id="g11327"
+       transform="translate(40.231395,-40.05508)"
+       style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1;opacity:1">
+      <flowRoot
+         transform="translate(0,1002.3622)"
+         style="font-size:15px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1;font-family:Sans"
+         id="flowRoot11329"
+         xml:space="preserve"><flowRegion
+           id="flowRegion11331"><rect
+             y="7.2200403"
+             x="4.4194174"
+             height="38.890869"
+             width="43.663849"
+             id="rect11333"
+             style="stroke:none;stroke-opacity:1;fill:#ffffff;fill-opacity:1" /></flowRegion><flowPara
+           id="flowPara11335">Eraser</flowPara><flowPara
+           id="flowPara11337">hover</flowPara><flowPara
+           id="flowPara11339" /><flowPara
+           id="flowPara11341" /></flowRoot>      <path
+         transform="translate(0,1012.3622)"
+         inkscape:connector-curvature="0"
+         id="path11343"
+         d="M 0,0 40,0 40,40 0,40 z"
+         style="opacity:0.29999999999999999;fill:#ffffff;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1" />
+    </g>
+  </g>
+</svg>
