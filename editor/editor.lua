@@ -297,11 +297,25 @@ function editor:update( dt )
 	if self.mouseOnCanvas then
 		if self.drawing then
 			if tileX ~= self.lastTileX or tileY ~= self.lastTileY then
-				map:setGroundTile( tileX, tileY, self.currentGround, true )
+				if math.abs(tileX - self.lastTileX) > 1 or
+					math.abs(tileX - self.lastTileY) > 1 then
+					map:line( tileX, tileY,
+						self.lastTileX, self.lastTileY,
+						function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
+				else
+					map:setGroundTile( tileX, tileY, self.currentGround, true )
+				end
 			end
 		elseif self.erasing then
 			if tileX ~= self.lastTileX or tileY ~= self.lastTileY then
-				map:eraseGroundTile( tileX, tileY, true )
+				if math.abs(tileX - self.lastTileX) > 1 or
+					math.abs(tileX - self.lastTileY) > 1 then
+					map:line( tileX, tileY,
+						self.lastTileX, self.lastTileY,
+						function(x, y) map:eraseGroundTile(x, y, true ) end )
+				else
+					map:eraseGroundTile( tileX, tileY, true )
+				end
 			end
 		end
 		if self.currentTool == "pen" and self.shift then
@@ -352,8 +366,8 @@ function editor:mousepressed( button, x, y )
 				if self.shift and self.lastClickX and self.lastClickY then
 					-- draw a line
 					map:line( tileX, tileY,
-					self.lastClickX, self.lastClickY,
-					function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
+						self.lastClickX, self.lastClickY,
+						function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
 				elseif self.ctrl then
 					-- fill the area
 					map:startFillGround( tileX, tileY, "set", self.currentGround )
@@ -361,7 +375,7 @@ function editor:mousepressed( button, x, y )
 					-- paint:
 					self.drawing = true
 					-- force to draw one tile:
-					self.lastTileX, self.lastTileY = nil,nil
+					map:setGroundTile( tileX, tileY, self.currentGround, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "bgObject" then
@@ -406,7 +420,7 @@ function editor:mousepressed( button, x, y )
 					-- start erasing
 					self.erasing = true
 					-- force to erase one tile:
-					self.lastTileX, self.lastTileY = nil,nil
+					map:eraseGroundTile( tileX, tileY, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "bgObject" then
