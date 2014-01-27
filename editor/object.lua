@@ -1,22 +1,21 @@
 -------------------------------------------
--- Background Objects for the map
+-- Interactable/Moving Objects for the map
 -------------------------------------------
--- Background objects can consist of an arbitary number of tiles.
--- Each background object knows what tilesheet its tiles are from and
+-- Objects can consist of an arbitary number of tiles.
+-- Each object object knows what tilesheet its tiles are from and
 -- how to place them onto the map.
---
 
--- A background object can either be a single rectangle or multiple ones.
+-- An object can either be a single rectangle or multiple ones.
 -- The coords given through tilelist are tables containing:
 -- tileX, tileY, x, y. tileX and tileY give the coordinates of the square on
 -- the tile map, x and y give the rendering position.
 -- x and y MUST start at 0 for the lowest tiles, tileX and tileY are relative
 -- to the upper left corner of the corresponding tilesheet.
 
-local BgObject = {}
-BgObject.__index = BgObject
+local Object = {}
+Object.__index = Object
 
-function BgObject:new( name, tileset, tileList, sorted )
+function Object:new( name, tileset, tileList, sorted )
 	local o = {}
 	setmetatable( o, self )
 
@@ -24,7 +23,7 @@ function BgObject:new( name, tileset, tileList, sorted )
 	o.sorted = false
 
 	if not editor.images[tileset] then
-		editor.images[tileset] = love.graphics.newImage( "images/tilesets/" .. Camera.scale*8 .. tileset .. ".png")
+		editor.images[tileset] = love.graphics.newImage( "images/" .. Camera.scale*8 .. tileset .. ".png")
 	end
 
 	o.tileset = editor.images[tileset]
@@ -150,7 +149,7 @@ function getLargestRectangle( tbl, minX, maxX, minY, maxY )
 end]]
 
 -- looks for the largest possible quads:
-function BgObject:calculateQuads()
+function Object:calculateQuads()
 
 	-- if object is "sorted", that means that neighbouring tiles are also neighbouring on the tile sheet:
 	--[[if self.sorted then
@@ -171,8 +170,8 @@ function BgObject:calculateQuads()
 	else]]
 		for k, coords in pairs(self.tileList) do
 			local quad = love.graphics.newQuad(
-				coords.tileX*Camera.scale*8, coords.tileY*Camera.scale*8,
-				Camera.scale*8, Camera.scale*8,
+				coords.tileX*Camera.scale*10, coords.tileY*Camera.scale*10,
+				Camera.scale*10, Camera.scale*10,
 				self.tileset:getWidth(), self.tileset:getHeight()
 				)
 			local new = {
@@ -185,7 +184,7 @@ function BgObject:calculateQuads()
 	--end
 end
 
-function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
+function Object:addToBatch( spriteBatch, emptyIDs, x, y )
 
 	local usedIDs = {}
 	local quad, xOffset, yOffset
@@ -199,10 +198,10 @@ function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
 		end
 
 		if id then
-			spriteBatch:set( id, quad, (x + xOffset)*Camera.scale*8, (y + yOffset)*Camera.scale*8)
+			spriteBatch:set( id, quad, (x + xOffset)*Camera.scale*10, (y + yOffset)*Camera.scale*10)
 			table.remove(emptyIDs, k)
 		else
-			id = spriteBatch:add( quad, (x + xOffset)*Camera.scale*8, (y + yOffset)*Camera.scale*8)
+			id = spriteBatch:add( quad, (x + xOffset)*Camera.scale*10, (y + yOffset)*Camera.scale*10)
 		end
 		table.insert( usedIDs, id )
 	end
@@ -210,19 +209,19 @@ function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
 end
 
 
-function BgObject:init()
+function Object:init()
 	local list = {}
 	local coords, img, name
 
 	print("Loading objects:")
 
-	files = love.filesystem.getDirectoryItems("editor/bgObjects/")
+	files = love.filesystem.getDirectoryItems("editor/objects/")
 	for i, file in ipairs(files) do
 		name = file:match("([^/]*).lua$")
 		if name then
 			print("\t...", name)
-			img, coords = dofile( "editor/bgObjects/" .. file )
-			new = BgObject:new( name, img, coords)
+			img, coords = dofile( "editor/objects/" .. file )
+			new = Object:new( name, img, coords )
 			table.insert( list, new )
 		end
 	end
@@ -230,4 +229,4 @@ function BgObject:init()
 	return list
 end
 
-return BgObject
+return Object

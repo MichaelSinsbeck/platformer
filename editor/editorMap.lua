@@ -32,7 +32,7 @@ function EditorMap:new()
 	EditorMap.updateBorder(o)
 
 	o.bgList = {}	-- list of background objects
-	o.bgEmptyIDs = {}
+	o.objectList = {}	-- list of objects
 	--[[
 	for x = 0, o.MAP_SIZE-1 do
 		o.groundArray[x] = {}
@@ -342,6 +342,9 @@ function EditorMap:startFillGround( x, y, eventType, ground )
 	self:fill( x, y, initialType, event, array, 1)
 end
 
+---------------------------------------
+-- Background Objects
+---------------------------------------
 
 function EditorMap:addBgObject( tileX, tileY, object )
 	local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
@@ -381,10 +384,6 @@ function EditorMap:removeBgObjectAt( tileX, tileY )
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
 		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
-			--[[for i, ID in pairs(obj.ids) do
-				self.backgroundBatch:set( ID, 0,0,0,0,0 )
-				table.insert( self.bgEmptyIDs, ID )
-			end]]
 			table.remove(self.bgList, k)
 			break	-- only remove the one!
 		end
@@ -414,10 +413,6 @@ function EditorMap:selectBgObjectAt( tileX, tileY )
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
 		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
-			--[[for i, ID in pairs(obj.ids) do
-				self.backgroundBatch:set( ID, 0,0,0,0,0 )
-				table.insert( self.bgEmptyIDs, ID )
-			end]]
 			self.selectedBgObject = obj
 			obj.selected = true
 			obj.oX = tileX - obj.x
@@ -455,9 +450,6 @@ function EditorMap:dragBgObject( tileX, tileY )
 	end
 end
 
-function EditorMap:dropBgObject()
-
-end
 
 function EditorMap:neighbourhoodBgObjects( curObj )
 	local list = {}
@@ -506,6 +498,134 @@ function EditorMap:bgObjectLayerDown()
 	end
 end
 
+-----------------------------------------
+-- Objects (front layer)
+-----------------------------------------
+
+function EditorMap:addObject( tileX, tileY, object )
+	local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
+	local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
+	local newObject = {
+		ids = newIDs,
+		x = bBox.x + tileX,
+		y = bBox.y + tileY,
+		maxX = bBox.maxX + tileX,
+		maxY = bBox.maxY + tileY,
+		drawX = (bBox.x + tileX)*self.tileSize,
+		drawY = (bBox.y + tileY)*self.tileSize,
+		tileWidth = object.tileWidth,
+		tileHeight = object.tileHeight,
+		width = object.width,
+		height = object.height,
+		selected = false,
+		batch = newBatch,
+		objType = object,
+	}
+
+	-- only allow one object at the same position!
+	local toRemove = {}
+	for k, obj in pairs( self.objectList ) do
+		if obj.x < newObject.maxX and obj.y < newObject.maxY and
+			obj.maxX > newObject.x and obj.maxY > newObject.y then
+			table.insert( toRemove, k )
+		end
+	end
+	for i, k in pairs( toRemove ) do
+		table.remove( self.objectList, k )
+	end
+	table.insert( self.objectList, newObject )
+
+	if newObject.x < self.minX or newObject.maxX > self.maxX or
+		newObject.y < self.minY or newObject.maxY > self.maxY then
+		self.minX = math.min(self.minX, newObject.x)
+		self.maxX = math.max(self.maxX, newObject.maxX)
+		self.minY = math.min(self.minY, newObject.y)
+		self.maxY = math.max(self.maxY, newObject.maxY)
+		self:updateBorder()
+	end
+end
+
+function EditorMap:removeObjectAt( tileX, tileY )
+	-- Go through the list backwards and delete the first object found
+	-- which is hit by the click:
+	local obj
+	for k = #self.objectList, 1, -1 do
+		obj = self.objectList[k]
+		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+			--[[for i, ID in pairs(obj.ids) do
+				self.backgroundBatch:set( ID, 0,0,0,0,0 )
+				table.insert( self.bgEmptyIDs, ID )
+			end]]
+			table.remove(self.objectList, k)
+			break	-- only remove the one!
+		end
+	end
+end
+
+function EditorMap:removeSelectedObject()
+	if self.selectedObject then
+		for k, obj in pairs(self.objectList) do
+			if obj == self.selectedObject then
+				table.remove( self.objectList, k )
+				break
+			end
+		end
+		self.selectedObject.selected = false
+		self.selectedObject = nil
+	end
+end
+
+function EditorMap:selectObjectAt( tileX, tileY )
+
+	-- unselect previously selected objects:
+	self:selectNoObject()
+
+	-- Go through the list backwards and select first object found
+	local obj
+	for k = #self.objectList, 1, -1 do
+		obj = self.objectList[k]
+		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+			self.selectedObject = obj
+			obj.selected = true
+			obj.oX = tileX - obj.x
+			obj.oY = tileY - obj.y
+			return obj
+		end
+	end
+end
+
+function EditorMap:selectNoObject()
+	if self.selectedObject then
+		self.selectedObject.selected = false
+		self.selectedObject = nil
+	end
+end
+
+function EditorMap:dragObject( tileX, tileY )
+	if self.selectedObject then
+		local obj = self.selectedObject
+		obj.x = tileX - obj.oX
+		obj.y = tileY - obj.oY
+		obj.maxX = obj.x + obj.tileWidth +1
+		obj.maxY = obj.y + obj.tileHeight +1
+		obj.drawX = obj.x*Camera.scale*8
+		obj.drawY = obj.y*Camera.scale*8
+
+		if obj.x < self.minX or obj.maxX > self.maxX or
+			obj.y < self.minY or obj.maxY > self.maxY then
+			self.minX = math.min(self.minX, obj.x)
+			self.maxX = math.max(self.maxX, obj.maxX)
+			self.minY = math.min(self.minY, obj.y)
+			self.maxY = math.max(self.maxY, obj.maxY)
+			self:updateBorder()
+		end
+	end
+end
+
+----------------------------------------
+-- General:
+----------------------------------------
+
 function EditorMap:updateBorder()
 
 	self.border = {}
@@ -545,6 +665,15 @@ end
 
 function EditorMap:drawBackground()
 	for k, obj in ipairs( self.bgList ) do
+		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+		if obj.selected == true then
+			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
+		end
+	end
+end
+
+function EditorMap:drawObjects()
+	for k, obj in ipairs( self.objectList ) do
 		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		if obj.selected == true then
 			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
