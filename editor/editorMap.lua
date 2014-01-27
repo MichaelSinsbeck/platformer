@@ -2,7 +2,7 @@ local EditorMap = {}
 EditorMap.__index = EditorMap
 
 local MAX_TILES_PER_FRAME = 500
-local MAX_FLOOD_FILL_RECURSION = 500
+local MAX_FLOOD_FILL_RECURSION = 1500
 
 function EditorMap:new()
 	local o = {}
