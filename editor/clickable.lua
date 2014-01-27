@@ -147,7 +147,7 @@ function Clickable:draw()
 	end
 end
 
-function Clickable:update( dt, mouseX, mouseY, clicked )
+function Clickable:click( mouseX, mouseY, clicked )
 	if self:collisionCheck( mouseX, mouseY ) then
 		editor.setToolTip( self.toolTip )
 		if clicked then
@@ -168,9 +168,6 @@ function Clickable:update( dt, mouseX, mouseY, clicked )
 	else
 		self.active = "off"
 		self:setAnim(self.imgOff)
-	end
-	if self.vis then
-		self.vis:update(dt)
 	end
 	return false
 end

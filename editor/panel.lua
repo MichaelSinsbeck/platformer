@@ -18,8 +18,10 @@ function Panel:new( x, y, width, height )
 	o.pages[0] = {}
 	o.selectedPage = 1
 
+	o.visible = true
+
 	if o.width > 0 and o.height > 0 then
-		o.box = menu:generateBox( o.x, o.y, o.width, o.height, boxFactor)
+		o.box = menu:generateBox( 0, 0, o.width, o.height, boxFactor)
 	end
 
 	return o
@@ -47,6 +49,8 @@ end
 function Panel:draw()
 
 	if self.box then
+		love.graphics.push()
+		love.graphics.translate( self.x*Camera.scale, self.y*Camera.scale )
 		-- draw the background box:
 		-- scale box coordinates according to scale
 		local scaled = {}
@@ -63,6 +67,8 @@ function Panel:draw()
 		self.box.height*Camera.scale)
 		love.graphics.setColor(0,0,0)
 		love.graphics.line(scaled)
+
+		love.graphics.pop()
 	end
 
 	love.graphics.setColor(255,255,255,255)
@@ -95,23 +101,32 @@ function Panel:moveTo( x, y )
 		end
 	end
 	self.x, self.y = x,y
+
 end
 
-function Panel:update( dt, mouseX, mouseY, clicked )
+function Panel:update( dt )
+	for k, page in pairs(self.pages) do
+		for i, button in pairs(page) do
+			if button.vis then button.vis:update( dt ) end
+		end
+	end
+end
+
+function Panel:click( mouseX, mouseY, clicked )
 
 	-- this gets set to true if the click hit a clickable on this panel:
 	local hitButton = false
 	for k,button in ipairs( self.pages[0] ) do
-		hitButton = button:update( dt, mouseX, mouseY, clicked ) or hitButton
+		hitButton = button:click( mouseX, mouseY, clicked ) or hitButton
 	end
 	
 	if self.pages[self.selectedPage] then
 		for k,button in ipairs( self.pages[self.selectedPage] ) do
-			hitButton = button:update( dt, mouseX, mouseY, clicked ) or hitButton
+			hitButton = button:click( mouseX, mouseY, clicked ) or hitButton
 		end
 	end
 
-	return self:collisionCheck(mouseX,mouseY), hitButton
+	return hitButton
 end
 
 function Panel:collisionCheck( x, y )
@@ -120,6 +135,5 @@ function Panel:collisionCheck( x, y )
 	x/Camera.scale < self.x + self.width and
 					y/Camera.scale < self.y + self.height
 end
-
 
 return Panel

@@ -342,7 +342,7 @@ function EditorMap:startFillGround( x, y, eventType, ground )
 end
 
 
-function EditorMap:addBackgroundObject( tileX, tileY, object )
+function EditorMap:addBgObject( tileX, tileY, object )
 	local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
 	local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
 	local newObject = {
@@ -373,7 +373,7 @@ function EditorMap:addBackgroundObject( tileX, tileY, object )
 	end
 end
 
-function EditorMap:removeBackgroundObject( tileX, tileY )
+function EditorMap:removeBgObjectAt( tileX, tileY )
 	-- Go through the list backwards and delete the first object found
 	-- which is hit by the click:
 	local obj
@@ -421,7 +421,7 @@ function EditorMap:selectBgObjectAt( tileX, tileY )
 			obj.selected = true
 			obj.oX = tileX - obj.x
 			obj.oY = tileY - obj.y
-			break	-- only remove the one!
+			return obj
 		end
 	end
 end
@@ -443,26 +443,27 @@ function EditorMap:dragBgObject( tileX, tileY )
 		obj.drawX = obj.x*Camera.scale*8
 		obj.drawY = obj.y*Camera.scale*8
 
-	if obj.x < self.minX or obj.maxX > self.maxX or
-		obj.y < self.minY or obj.maxY > self.maxY then
-		self.minX = math.min(self.minX, obj.x)
-		self.maxX = math.max(self.maxX, obj.maxX)
-		self.minY = math.min(self.minY, obj.y)
-		self.maxY = math.max(self.maxY, obj.maxY)
-		self:updateBorder()
+		if obj.x < self.minX or obj.maxX > self.maxX or
+			obj.y < self.minY or obj.maxY > self.maxY then
+			self.minX = math.min(self.minX, obj.x)
+			self.maxX = math.max(self.maxX, obj.maxX)
+			self.minY = math.min(self.minY, obj.y)
+			self.maxY = math.max(self.maxY, obj.maxY)
+			self:updateBorder()
+		end
 	end
+end
 
-	end
+function EditorMap:dropBgObject()
+
 end
 
 function EditorMap:neighbourhoodBgObjects( curObj )
 	local list = {}
 	for k, obj in pairs(self.bgList) do
 		-- is the current object colliding with the obj in the list?
-		if ((obj.x >= curObj.x and obj.x <= curObj.maxX + 1) or 
-			(obj.maxX >= curObj.x and obj.maxX <= curObj.maxX + 1)) and
-			((obj.y >= curObj.y and obj.y <= curObj.maxY + 1) or 
-			(obj.maxY >= curObj.y and obj.maxY <= curObj.maxY + 1)) then
+		if obj.x < curObj.maxX and obj.y < curObj.maxY and
+			obj.maxX > curObj.x and obj.maxY > curObj.y then
 			-- add the object to the list:
 			table.insert( list, {k=k, obj=obj} )
 		end
