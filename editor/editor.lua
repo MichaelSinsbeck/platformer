@@ -405,6 +405,8 @@ function editor:mousepressed( button, x, y )
 				else
 					-- start erasing
 					self.erasing = true
+					-- force to erase one tile:
+					self.lastTileX, self.lastTileY = nil,nil
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "bgObject" then
