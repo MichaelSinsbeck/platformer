@@ -474,9 +474,9 @@ function EditorMap:line( tileX, tileY, startX, startY, thick, event )
 
 	event(x,y)	-- draw or erase tile, depending on what event is
 	if thick then
-		event(x+1,y)
-		event(x,y+1)
-		event(x+1,y+1)
+		event(x-1,y)
+		event(x,y-1)
+		event(x-1,y-1)
 	end
 	for t=0, el-1 do
 		err = err - es
@@ -490,9 +490,9 @@ function EditorMap:line( tileX, tileY, startX, startY, thick, event )
 		end
 		event(x,y)	-- draw or erase tile, depending on what event is
 		if thick then
-			event(x+1,y)
-			event(x,y+1)
-			event(x+1,y+1)
+			event(x-1,y)
+			event(x,y-1)
+			event(x-1,y-1)
 		end
 	end
 end

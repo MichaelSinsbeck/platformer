@@ -90,11 +90,11 @@ function Panel:moveTo( x, y )
 		for k, button in ipairs( page ) do
 			button.x = button.x - ox
 			button.y = button.y - oy
-	-- for collision checking:
-	button.minX = button.x*Camera.scale - 0.5 * button.width
-	button.minY = button.y*Camera.scale - 0.5 * button.height
-	button.maxX = button.minX + button.width
-	button.maxY = button.minY + button.height
+			-- for collision checking:
+			button.minX = button.x*Camera.scale - 0.5 * button.width
+			button.minY = button.y*Camera.scale - 0.5 * button.height
+			button.maxX = button.minX + button.width
+			button.maxY = button.minY + button.height
 
 
 

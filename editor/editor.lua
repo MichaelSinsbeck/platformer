@@ -538,7 +538,7 @@ function editor:mousepressed( button, x, y )
 					-- draw a line
 					map:line( tileX, tileY,
 						self.lastClickX, self.lastClickY, true,
-						function(x, y) map:setBackgroundTile(x, y, self.currentGround, true ) end )
+						function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
 				elseif self.ctrl then
 
 				else
