@@ -407,7 +407,7 @@ function Background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 		-- return the quad found:
 		return self.tiles[foundDir]
 	else
-		print("NONE FOUND")
+		--print("NONE FOUND")
 		return false
 	end
 end
@@ -415,6 +415,8 @@ end
 function Background:init()
 	local list = {}
 	local new = Background:new("concreteBg", 'c' )
+	new:addSimilar('s')
+	new:addSimilar('d')
 	new:setThickTiles( {0,0}, {1,0}, {2,0},
 						{0,1}, {1,1}, {2,1},
 						{0,2}, {1,2}, {2,2})
@@ -424,7 +426,9 @@ function Background:init()
 
 	table.insert( list, new )
 
+
 	new = Background:new("soilBg", 's' )
+	new:addSimilar('d')
 	new:setThickTiles( {0,3}, {1,3}, {2,3},
 						{0,4}, {1,4}, {2,4},
 						{0,5}, {1,5}, {2,5})
@@ -433,6 +437,17 @@ function Background:init()
 	new:setDiagonal( {3,5}, {4,5} )
 
 	table.insert( list, new )
+
+	new = Background:new("soilDarkBg", 'd' )
+	new:setThickTiles( {0,6}, {1,6}, {2,6},
+						{0,7}, {1,7}, {2,7},
+						{0,8}, {1,8}, {2,8})
+	new:setCorners( {3,6}, {4,6},
+					{3,7}, {4,7})
+	new:setDiagonal( {3,8}, {4,8} )
+
+	table.insert( list, new )
+
 
 	return list
 end

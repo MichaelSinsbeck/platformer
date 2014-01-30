@@ -4,15 +4,22 @@ EditorMap.__index = EditorMap
 local MAX_TILES_PER_FRAME = 500
 local MAX_FLOOD_FILL_RECURSION = 1500
 
-function EditorMap:new()
+function EditorMap:new( backgroundList )
 	local o = {}
 	setmetatable( o, EditorMap )
 	o.MAP_SIZE = 1000
 
+	o.backgroundList = backgroundList
+
 	o.groundBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
 					o.MAP_SIZE*o.MAP_SIZE, "stream" )
-	o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
-					o.MAP_SIZE*o.MAP_SIZE, "stream" )
+	o.backgroundBatch = {}
+	o.bgIDs = {}
+	for i,bg in pairs(backgroundList) do
+		o.backgroundBatch[i] = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
+						o.MAP_SIZE*o.MAP_SIZE, "stream" )
+		o.bgIDs[bg] = i
+	end
 	o.spikeBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
 					o.MAP_SIZE*o.MAP_SIZE, "stream" )
 	--o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
@@ -253,12 +260,13 @@ end
 
 function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 
+	--print("set:", background, background.name)
 	
 	if not self.backgroundArray[x] then
 		self.backgroundArray[x] = {}
 	end
 	if not self.backgroundArray[x][y] then
-		self.backgroundArray[x][y] = {}
+		self.backgroundArray[x][y] = { batchID = {} }
 	end
 
 	local data = {
@@ -268,20 +276,27 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 		background = background,
 		updateSurrounding = updateSurrounding,
 	}
-	self.tilesToModify[#self.tilesToModify + 1] = data
+	--self.tilesToModify[#self.tilesToModify + 1] = data
 
+	-- fill all tile layers below mine:
 	local quad = background.tiles.cm
+
 	-- if there's already a tile there, update it:
-		if self.backgroundArray[x][y].batchID then
-			self.backgroundBatch:set( self.backgroundArray[x][y].batchID,
-				quad, x*self.tileSize, y*self.tileSize )
-		else
-			self.backgroundArray[x][y].batchID = self.backgroundBatch:add(
+	if self.backgroundArray[x][y].batchID[background] then
+		self.backgroundBatch[self.bgIDs[background]]:set(
+			self.backgroundArray[x][y].batchID[background],
+			quad, x*self.tileSize, y*self.tileSize )
+	else
+		self.backgroundArray[x][y].batchID[background] =
+			self.backgroundBatch[self.bgIDs[background]]:add(
 				quad, x*self.tileSize, y*self.tileSize)
-		end
+	end
+
+	if self.backgroundArray[x][y].gType then
+		self:eraseBackgroundTile( x, y, false )
+	end
 	-- set the new ground type:
 	self.backgroundArray[x][y].gType = background
-
 
 	if updateSurrounding then
 		--print("left:")
@@ -340,52 +355,65 @@ function EditorMap:updateBackgroundTileNow( x, y, updateSurrounding )
 		b = self.backgroundArray[x][y+1].gType
 	end
 
-	-- get the quad for the current tile  which depends on the surrounding ground types:
 	local forceNoTransition = updateSurrounding
-	local quad = background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 
-	if quad then
+	local quad
+	for i, bg in ipairs(self.backgroundList) do
+	-- get the quad for the current tile  which depends on the surrounding ground types:
+		quad = bg:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 
-		-- if there's already a tile there, update it:
-		if self.backgroundArray[x][y].batchID then
-			self.backgroundBatch:set( self.backgroundArray[x][y].batchID,
-			quad, x*self.tileSize, y*self.tileSize )
-		else
-			self.backgroundArray[x][y].batchID = self.backgroundBatch:add(
-			quad, x*self.tileSize, y*self.tileSize )
+		if quad then
+
+			-- if there's already a tile there, update it:
+			if self.backgroundArray[x][y].batchID[bg] then
+				self.backgroundBatch[i]:set( self.backgroundArray[x][y].batchID[bg],
+				quad, x*self.tileSize, y*self.tileSize )
+			else
+				self.backgroundArray[x][y].batchID[bg] = self.backgroundBatch[i]:add(
+				quad, x*self.tileSize, y*self.tileSize )
+			end
+
+		elseif bg == background then
+			self:eraseBackgroundTile( x, y, true )
+			return
 		end
 
-		-- update border:
-		if x < self.minX or x+1 > self.maxX or y < self.minY or y+1 > self.maxY then
-			self.minX = math.min(self.minX, x)
-			self.maxX = math.max(self.maxX, x+1)
-			self.minY = math.min(self.minY, y)
-			self.maxY = math.max(self.maxY, y+1)
-			self:updateBorder()
+		if bg == background then
+			break
 		end
-	else
-		self:eraseBackgroundTile( x, y, true )
 	end
+
+	-- update border:
+	if x < self.minX or x+1 > self.maxX or y < self.minY or y+1 > self.maxY then
+		self.minX = math.min(self.minX, x)
+		self.maxX = math.max(self.maxX, x+1)
+		self.minY = math.min(self.minY, y)
+		self.maxY = math.max(self.maxY, y+1)
+		self:updateBorder()
+	end
+
 end
 
 function EditorMap:eraseBackgroundTile( x, y, updateSurrounding )
 
-
 	if not self.backgroundArray[x] or not self.backgroundArray[x][y] then return end
 
 	-- determine whether to remove a spike or a normal wall/ground:
-	local batchID, batch
-	batchID = self.backgroundArray[x][y].batchID
-	batch = self.backgroundBatch
+	local background = self.backgroundArray[x][y].gType
+	--print("erasing:", x, y, background and background.name or "nil")
+	for i, bg in ipairs(self.backgroundList) do
+		local batchID, batch
+		batchID = self.backgroundArray[x][y].batchID[bg]
+		batch = self.backgroundBatch[i]
 
-	if batchID then
-		-- sadly, there's no way to remove from a sprite batch,
-		-- so instead, move to 0:
-		batch:set( batchID,0,0,0,0,0 )
-		self.backgroundArray[x][y].gType = nil
-
+		if batchID then
+			-- sadly, there's no way to remove from a sprite batch,
+			-- so instead, move to 0:
+			batch:set( batchID,0,0,0,0,0 )
+		end
 	end
 
+	self.backgroundArray[x][y].gType = nil
 	if updateSurrounding then
 		--print("left:")
 		self:updateBackgroundTile( x-1, y )
@@ -848,7 +876,9 @@ function EditorMap:drawGrid()
 end
 
 function EditorMap:drawBackground()
-	love.graphics.draw( self.backgroundBatch, 0, 0 )
+	for i = 1, #self.backgroundBatch do
+		love.graphics.draw( self.backgroundBatch[i], 0, 0 )
+	end
 	for k, obj in ipairs( self.bgList ) do
 		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		if obj.selected == true then

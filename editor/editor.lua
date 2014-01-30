@@ -82,7 +82,7 @@ function editor.start()
 	print("Starting editor..." )
 	mode = "editor"
 
-	map = EditorMap:new()
+	map = EditorMap:new( editor.backgroundList )
 	cam = EditorCam:new() -- -Camera.scale*8*map.MAP_SIZE/2, -Camera.scale*8*map.MAP_SIZE/2 )
 
 	love.mouse.setVisible( true )
@@ -223,7 +223,6 @@ function editor.start()
 	x,y = 8,7
 
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
-										print(editor.backgroundList[1], editor.currentBackground)
 										editor.currentBackground = editor.backgroundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
@@ -236,6 +235,13 @@ function editor.start()
 				'LEGround2On',
 				'LEGround2Hover',
 				"2 - draw soil background" )
+	y = y + 10
+	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+										editor.currentBackground = editor.backgroundList[3] end,
+				'LEGround2Off',
+				'LEGround2On',
+				'LEGround2Hover',
+				"3 - draw dark soil background" )
 
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
@@ -712,9 +718,9 @@ function editor:draw()
 				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
 			end
 		elseif self.currentTool == "bgPen" then
-			local tX = math.floor(rX - tileSize/2)
-			local tY = math.floor(rY - tileSize/2)
-			love.graphics.rectangle( 'fill', tX, tY, tileSize, tileSize )
+			local tX = math.floor(rX - tileSize/2) - tileSize*0.3
+			local tY = math.floor(rY - tileSize/2) - tileSize*0.3
+			love.graphics.rectangle( 'fill', tX, tY, tileSize*1.6, tileSize*1.6 )
 		end
 
 		-- draw the line:
