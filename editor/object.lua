@@ -198,10 +198,10 @@ function Object:addToBatch( spriteBatch, emptyIDs, x, y )
 		end
 
 		if id then
-			spriteBatch:set( id, quad, (x + xOffset)*Camera.scale*10, (y + yOffset)*Camera.scale*10)
+			spriteBatch:set( id, quad, (x + xOffset)*Camera.scale*8, (y + yOffset)*Camera.scale*8)
 			table.remove(emptyIDs, k)
 		else
-			id = spriteBatch:add( quad, (x + xOffset)*Camera.scale*10, (y + yOffset)*Camera.scale*10)
+			id = spriteBatch:add( quad, (x + xOffset)*Camera.scale*8, (y + yOffset)*Camera.scale*8)
 		end
 		table.insert( usedIDs, id )
 	end

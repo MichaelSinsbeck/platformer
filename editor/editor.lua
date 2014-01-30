@@ -215,7 +215,8 @@ function editor.start()
 	editBgPanel.visible = false
 
 	x, y = 6, 6
-	editBgPanel:addClickable( x, y, function() map:removeSelectedBgObject() end,
+	editBgPanel:addClickable( x, y, function() map:removeSelectedBgObject()
+											editBgPanel.visible = false end,
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
@@ -237,7 +238,8 @@ function editor.start()
 	editPanel.visible = false
 
 	x, y = 6, 6
-	editPanel:addClickable( x, y, function() map:removeSelectedObject() end,
+	editPanel:addClickable( x, y, function() map:removeSelectedObject();
+											editPanel.visible = false end,
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
@@ -618,9 +620,9 @@ function editor:draw()
 	
 	cam:free()
 
-	if map.selectedBgObject then
+	if editBgPanel.visible then
 		editBgPanel:draw()
-	elseif map.selectedObject then
+	elseif editPanel.visible then
 		editPanel:draw()
 	end
 

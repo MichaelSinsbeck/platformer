@@ -610,7 +610,7 @@ function EditorMap:dragObject( tileX, tileY )
 		obj.maxY = obj.y + obj.tileHeight +1
 		obj.drawX = obj.x*Camera.scale*8
 		obj.drawY = obj.y*Camera.scale*8
-
+		
 		if obj.x < self.minX or obj.maxX > self.maxX or
 			obj.y < self.minY or obj.maxY > self.maxY then
 			self.minX = math.min(self.minX, obj.x)
