@@ -11,9 +11,9 @@ Clickable = require("editor/clickable")
 Panel = require("editor/panel")
 EditorMap = require("editor/editorMap")
 Ground = require("editor/ground")
+Background = require("editor/background")
 BgObject = require("editor/bgObject")
 Object = require("editor/object")
-
 EditorCam = require("editor/editorCam")
 
 local map = nil
@@ -23,13 +23,14 @@ local objectPanel
 local bgObjectPanel
 local toolPanel
 local groundPanel
+local backgroundPanel
 local editPanel
 local editBgPanel
-
 
 local KEY_CLOSE = "escape"
 local KEY_STAMP = "s"
 local KEY_PEN = "d"
+local KEY_BGPEN = "b"
 local KEY_DELETE = "delete"
 
 -- called when loading game	
@@ -42,7 +43,8 @@ function editor.init()
 
 	local prefix = Camera.scale * 8
 	editor.images.tilesetGround = love.graphics.newImage( "images/tilesets/" .. prefix .. "grounds.png" )
-	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "background1.png" )
+	--editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "background1.png" )
+	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "backgrounds.png" )
 	editor.images.cell = love.graphics.newImage( "images/editor/" .. prefix .. "cell.png")
 	editor.images.cell:setWrap('repeat', 'repeat')
 
@@ -55,6 +57,7 @@ function editor.init()
 	editor.groundList = Ground:init()
 	editor.bgObjectList = BgObject:init()
 	editor.objectList = Object:init()
+	editor.backgroundList = Background:init()
 
 	editor.toolTip = {
 		text = "",
@@ -94,6 +97,13 @@ function editor.start()
 				'LEPenOn',
 				'LEPenHover',
 				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.")
+	x = x + 10
+	x = x + 10
+	toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
+				'LEPenOff',
+				'LEPenOn',
+				'LEPenHover',
+				KEY_BGPEN .. " - Draw Tool: Draw tiles onto the background.")
 	x = x + 10
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("object") end,
@@ -152,61 +162,80 @@ function editor.start()
 	groundPanel = Panel:new( 1, 30, 16, 90 )
 	x,y = 8,7
 
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
 				'LEGround1Hover',
 				"1 - draw concrete ground" )
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover',
 				"2 - draw dirt ground" )
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
 				'LEGround3Hover',
 				"3 - draw grass ground" )
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
 				'LEGround4Hover',
 				"4 - draw stone ground" )
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
 				'LEGround5Hover',
 				"5 - draw wood ground" )
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover',
 				"6 - draw bridges" )
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[7] end,
 				'LESpikes1Off',
 				'LESpikes1On',
 				'LESpikes1Hover',
 				"7 - draw grey spikes" )
 	y = y + 10
-	groundPanel:addClickable( x, y, function() editor.currentTool = "pen"
+	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[8] end,
 				'LESpikes2Off',
 				'LESpikes2On',
 				'LESpikes2Hover',
 				"8 - draw brown spikes" )
+
+	-- Panel for choosing the background type:
+	backgroundPanel = Panel:new( 1, 30, 16, 90 )
+	x,y = 8,7
+
+	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+										print(editor.backgroundList[1], editor.currentBackground)
+										editor.currentBackground = editor.backgroundList[1] end,
+				'LEGround1Off',
+				'LEGround1On',
+				'LEGround1Hover',
+				"1 - draw concrete background" )
+	y = y + 10
+	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+										editor.currentBackground = editor.backgroundList[2] end,
+				'LEGround2Off',
+				'LEGround2On',
+				'LEGround2Hover',
+				"2 - draw soil background" )
 
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
@@ -251,6 +280,7 @@ function editor.start()
 	-- "pen", "bgObject"
 	editor.currentTool = "pen"
 	editor.currentGround = editor.groundList[1]
+	editor.currentBackground = editor.backgroundList[1]
 	editor.currentBgObject = editor.bgObjectList[1]
 
 	love.graphics.setPointStyle( "smooth" )
@@ -357,7 +387,9 @@ function editor:update( dt )
 		editPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
 	end
 
-	local hit = toolPanel:collisionCheck( x, y ) or groundPanel:collisionCheck( x, y ) or
+	local hit = toolPanel:collisionCheck( x, y ) or
+				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
+				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
 				( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
 				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
@@ -377,11 +409,27 @@ function editor:update( dt )
 			if tileX ~= self.lastTileX or tileY ~= self.lastTileY then
 				if math.abs(tileX - self.lastTileX) > 1 or
 					math.abs(tileX - self.lastTileY) > 1 then
-					map:line( tileX, tileY,
+					if self.currentTool == "pen" then
+						map:line( tileX, tileY,
 						self.lastTileX, self.lastTileY,
 						function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
+					else	-- bgPen
+						local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+						map:setBackgroundTile( tX, tY, self.currentBackground, true )
+						map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
+						map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
+						map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
+					end
 				else
-					map:setGroundTile( tileX, tileY, self.currentGround, true )
+					if self.currentTool == "pen" then
+						map:setGroundTile( tileX, tileY, self.currentGround, true )
+					else 	-- bgPen
+						local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+						map:setBackgroundTile( tX, tY, self.currentBackground, true )
+						map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
+						map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
+						map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
+					end
 				end
 			end
 		elseif self.erasing then
@@ -389,8 +437,8 @@ function editor:update( dt )
 				if math.abs(tileX - self.lastTileX) > 1 or
 					math.abs(tileX - self.lastTileY) > 1 then
 					map:line( tileX, tileY,
-						self.lastTileX, self.lastTileY,
-						function(x, y) map:eraseGroundTile(x, y, true ) end )
+					self.lastTileX, self.lastTileY,
+					function(x, y) map:eraseGroundTile(x, y, true ) end )
 				else
 					map:eraseGroundTile( tileX, tileY, true )
 				end
@@ -399,20 +447,22 @@ function editor:update( dt )
 		if self.currentTool == "pen" and self.shift then
 			self.drawLine = true
 		elseif self.currentTool == "editBg" and self.dragging and
-				(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
+			(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
 			map:dragBgObject( tileX, tileY )
 		elseif self.currentTool == "edit" and self.dragging and
-				(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
+			(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
 			map:dragObject( tileX, tileY )
 		end
 		self.lastTileX, self.lastTileY = tileX, tileY
 	else
 		-- mouse did hit a panel? Then check for a click:
-		local hit = toolPanel:click( x, y, false ) or groundPanel:click( x, y, false ) or
-			( editBgPanel.visible and editBgPanel:click( x, y, false) ) or 
-			( editPanel.visible and editPanel:click( x, y, false) ) or 
-			( bgObjectPanel.visible and bgObjectPanel:click( x, y, false ) ) or
-			( objectPanel.visible and objectPanel:click( x, y, false ) )
+		local hit = toolPanel:click( x, y, false ) or 
+		( groundPanel.visible and groundPanel:click( x, y, false ) ) or
+		( backgroundPanel.visible and backgroundPanel:click( x, y, false) ) or
+		( editBgPanel.visible and editBgPanel:click( x, y, false) ) or 
+		( editPanel.visible and editPanel:click( x, y, false) ) or 
+		( bgObjectPanel.visible and bgObjectPanel:click( x, y, false ) ) or
+		( objectPanel.visible and objectPanel:click( x, y, false ) )
 	end
 
 	if self.toolTip.text == "" and self.currentTool and not hit then
@@ -439,7 +489,9 @@ function editor:mousepressed( button, x, y )
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
-		local hit = toolPanel:collisionCheck( x, y ) or groundPanel:collisionCheck( x, y ) or
+		local hit = toolPanel:collisionCheck( x, y ) or
+				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
+				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
 				( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
 				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
@@ -465,6 +517,19 @@ function editor:mousepressed( button, x, y )
 					map:setGroundTile( tileX, tileY, self.currentGround, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
+			elseif self.currentTool == "bgPen" then
+				if self.shift and self.lastClickX and self.lastClickY then
+				elseif self.ctrl then
+
+				else
+					self.drawing = true
+
+					local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+					map:setBackgroundTile( tX, tY, self.currentBackground, true )
+					map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
+					map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
+					map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
+				end
 			elseif self.currentTool == "bgObject" then
 				map:addBgObject( tileX-1, tileY-1, self.currentBgObject )
 			elseif self.currentTool == "object" then
@@ -487,7 +552,9 @@ function editor:mousepressed( button, x, y )
 			end
 		else
 			-- a panel was hit: check if any button was pressed:
-			local hit = toolPanel:click( x, y, true ) or groundPanel:click( x, y, true ) or
+			local hit = toolPanel:click( x, y, true ) or
+				( groundPanel.visible and groundPanel:click( x, y, true ) ) or
+				( backgroundPanel.visible and backgroundPanel:click( x, y, true ) ) or
 				( editBgPanel.visible and editBgPanel:click( x, y, true) ) or 
 				( editPanel.visible and editPanel:click( x, y, true) ) or 
 				( bgObjectPanel.visible and bgObjectPanel:click( x, y, true ) ) or
@@ -498,7 +565,9 @@ function editor:mousepressed( button, x, y )
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
-		local hit = toolPanel:collisionCheck( x, y ) or groundPanel:collisionCheck( x, y ) or
+		local hit = toolPanel:collisionCheck( x, y ) or
+				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
+				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
 				( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
 				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
@@ -558,8 +627,14 @@ function editor.keypressed( key, repeated )
 		end
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
-		if num >= 1 and num < 10 and editor.groundList[num] then
-			editor.currentGround = editor.groundList[num]
+		if editor.currentTool == "pen" then
+			if editor.groundList[num] then
+				editor.currentGround = editor.groundList[num]
+			end
+		elseif editor.currentTool == "bgPen" then	
+			if editor.backgroundList[num] then
+				editor.currentBackground = editor.backgroundList[num]
+			end
 		end
 	end
 end
@@ -574,40 +649,43 @@ function editor:draw()
 	-- map:drawGrid()
 	local tileSize = Camera.scale * 8
 	local cx,cy = cam:screenToWorld( 0, 0 )
-		cx = math.floor(cx/tileSize)*tileSize
-		cy = math.floor(cy/tileSize)*tileSize
-		love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
-
+	cx = math.floor(cx/tileSize)*tileSize
+	cy = math.floor(cy/tileSize)*tileSize
+	love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
 
 	map:drawBackground()
-	
+
 	map:drawGround()
 
 	map:drawObjects()
 
 	map:drawBoundings()
-	
+
 	if self.mouseOnCanvas then
 
 		love.graphics.setColor(0,0,0,128)
-		local rX = math.floor(wX/(8*Camera.scale))*8*Camera.scale
-		local rY = math.floor(wY/(8*Camera.scale))*8*Camera.scale
+		local rX = math.floor(wX/(tileSize))*tileSize
+		local rY = math.floor(wY/(tileSize))*tileSize
 		if self.currentBgObject and self.currentTool == "bgObject" then
-			love.graphics.draw( self.currentBgObject.batch, rX - 8*Camera.scale, rY - 8*Camera.scale)
+			love.graphics.draw( self.currentBgObject.batch, rX - tileSize, rY - tileSize)
 		elseif self.currentObject and self.currentTool == "object" then
 			love.graphics.draw( self.currentObject.batch, rX, rY)
-		else
-			if self.ctrl and self.currentTool == "pen" then
+		elseif self.currentTool == "pen" then
+			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
 			else
 				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
 			end
+		elseif self.currentTool == "bgPen" then
+			local tX = math.floor(rX - tileSize/2)
+			local tY = math.floor(rY - tileSize/2)
+			love.graphics.rectangle( 'fill', tX, tY, tileSize, tileSize )
 		end
 
 		-- draw the line:
 		if self.drawLine then
-			local sX = math.floor(self.lastClickX)*8*Camera.scale
-			local sY = math.floor(self.lastClickY)*8*Camera.scale
+			local sX = math.floor(self.lastClickX)*tileSize
+			local sY = math.floor(self.lastClickY)*tileSize
 			love.graphics.setColor( 255,188,128,200 )
 			love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale, sX+4*Camera.scale, sY+4*Camera.scale )
 
@@ -632,8 +710,10 @@ function editor:draw()
 		objectPanel:draw()
 	elseif bgObjectPanel.visible then
 		bgObjectPanel:draw()
-	elseif editor.currentTool == "pen" then
+	elseif groundPanel.visible then
 		groundPanel:draw()
+	elseif backgroundPanel.visible then
+		backgroundPanel:draw()
 	end
 	
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
@@ -649,15 +729,20 @@ function editor.setTool( tool )
 	map:selectNoBgObject()
 	map:selectNoObject()
 	editor.currentTool = tool
+	bgObjectPanel.visible = false
+	objectPanel.visible = false
+	editPanel.visible = false
+	editBgPanel.visible = false
+	groundPanel.visible = false
+	backgroundPanel.visible = false
 	if tool == "bgObject" then
 		bgObjectPanel.visible = true
-	else
-		bgObjectPanel.visible = false
-	end
-	if tool == "object" then
+	elseif tool == "object" then
 		objectPanel.visible = true
-	else
-		objectPanel.visible = false
+	elseif tool == "pen" then
+		groundPanel.visible = true
+	elseif tool == "bgPen" then
+		backgroundPanel.visible = true
 	end
 end
 
