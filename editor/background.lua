@@ -362,6 +362,7 @@ function Background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 
 	--print("Matching:", mStr)
 
+	--[[
 	-- First, check for transitions for this neighbourhood:
 	if not forceNoTransition then
 		for str, ID in pairs( self.transitions ) do
@@ -370,7 +371,7 @@ function Background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 				break
 			end
 		end
-	end
+	end]]
 	-- If there was no transition, check for any other matches (this should always return something!)
 	if not foundDir then
 		for dir, str in pairs( self.matchStrings ) do
@@ -393,8 +394,6 @@ function Background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 		end
 	end
 
-
-
 	-- if a tile was found, check if there are variations for it:
 	if foundDir then
 		if self.variations[foundDir] then
@@ -408,15 +407,14 @@ function Background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 		-- return the quad found:
 		return self.tiles[foundDir]
 	else
-		print("NONE FOUND!")
-		return self.tiles.single
+		print("NONE FOUND")
+		return false
 	end
 end
 
 function Background:init()
 	local list = {}
 	local new = Background:new("concreteBg", 'c' )
-	new:setSingleTile( {1, 1} )
 	new:setThickTiles( {0,0}, {1,0}, {2,0},
 						{0,1}, {1,1}, {2,1},
 						{0,2}, {1,2}, {2,2})
@@ -427,7 +425,6 @@ function Background:init()
 	table.insert( list, new )
 
 	new = Background:new("soilBg", 's' )
-	new:setSingleTile( {1, 4} )
 	new:setThickTiles( {0,3}, {1,3}, {2,3},
 						{0,4}, {1,4}, {2,4},
 						{0,5}, {1,5}, {2,5})

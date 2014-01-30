@@ -252,6 +252,7 @@ function EditorMap:updateBackgroundTile( x, y )
 end
 
 function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
+
 	
 	if not self.backgroundArray[x] then
 		self.backgroundArray[x] = {}
@@ -343,26 +344,32 @@ function EditorMap:updateBackgroundTileNow( x, y, updateSurrounding )
 	local forceNoTransition = updateSurrounding
 	local quad = background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 
-	-- if there's already a tile there, update it:
-	if self.backgroundArray[x][y].batchID then
-		self.backgroundBatch:set( self.backgroundArray[x][y].batchID,
-		quad, x*self.tileSize, y*self.tileSize )
-	else
-		self.backgroundArray[x][y].batchID = self.backgroundBatch:add(
-		quad, x*self.tileSize, y*self.tileSize )
-	end
+	if quad then
 
-	-- update border:
-	if x < self.minX or x+1 > self.maxX or y < self.minY or y+1 > self.maxY then
-		self.minX = math.min(self.minX, x)
-		self.maxX = math.max(self.maxX, x+1)
-		self.minY = math.min(self.minY, y)
-		self.maxY = math.max(self.maxY, y+1)
-		self:updateBorder()
+		-- if there's already a tile there, update it:
+		if self.backgroundArray[x][y].batchID then
+			self.backgroundBatch:set( self.backgroundArray[x][y].batchID,
+			quad, x*self.tileSize, y*self.tileSize )
+		else
+			self.backgroundArray[x][y].batchID = self.backgroundBatch:add(
+			quad, x*self.tileSize, y*self.tileSize )
+		end
+
+		-- update border:
+		if x < self.minX or x+1 > self.maxX or y < self.minY or y+1 > self.maxY then
+			self.minX = math.min(self.minX, x)
+			self.maxX = math.max(self.maxX, x+1)
+			self.minY = math.min(self.minY, y)
+			self.maxY = math.max(self.maxY, y+1)
+			self:updateBorder()
+		end
+	else
+		self:eraseBackgroundTile( x, y, true )
 	end
 end
 
 function EditorMap:eraseBackgroundTile( x, y, updateSurrounding )
+
 
 	if not self.backgroundArray[x] or not self.backgroundArray[x][y] then return end
 
@@ -381,13 +388,18 @@ function EditorMap:eraseBackgroundTile( x, y, updateSurrounding )
 
 	if updateSurrounding then
 		--print("left:")
-		self:updateGroundTile( x-1, y )
+		self:updateBackgroundTile( x-1, y )
 		--print("right:")
-		self:updateGroundTile( x+1, y )
+		self:updateBackgroundTile( x+1, y )
 		--print("above:")
-		self:updateGroundTile( x, y-1 )
+		self:updateBackgroundTile( x, y-1 )
 		--print("below:")
-		self:updateGroundTile( x, y+1 )
+		self:updateBackgroundTile( x, y+1 )
+		--diagonal:
+		self:updateBackgroundTile( x-1, y-1 )
+		self:updateBackgroundTile( x-1, y+1 )
+		self:updateBackgroundTile( x+1, y-1 )
+		self:updateBackgroundTile( x+1, y+1 )
 	end
 end
 
@@ -405,7 +417,7 @@ local function sign( i )
 	end
 end
 
-function EditorMap:line( tileX, tileY, startX, startY, event )
+function EditorMap:line( tileX, tileY, startX, startY, thick, event )
 	-- Bresenham's algorithm:
 	local dx, dy = tileX - startX, tileY - startY
 	local incx,incy = sign(dx), sign(dy)
@@ -433,6 +445,11 @@ function EditorMap:line( tileX, tileY, startX, startY, event )
 	local err = el/2
 
 	event(x,y)	-- draw or erase tile, depending on what event is
+	if thick then
+		event(x+1,y)
+		event(x,y+1)
+		event(x+1,y+1)
+	end
 	for t=0, el-1 do
 		err = err - es
 		if err < 0 then
@@ -444,6 +461,11 @@ function EditorMap:line( tileX, tileY, startX, startY, event )
 			y = y + pdy
 		end
 		event(x,y)	-- draw or erase tile, depending on what event is
+		if thick then
+			event(x+1,y)
+			event(x,y+1)
+			event(x+1,y+1)
+		end
 	end
 end
 
@@ -486,7 +508,6 @@ function EditorMap:startFillGround( x, y, eventType, ground )
 
 	if x < self.minX or x + 1 > self.maxX or y < self.minY or y + 1 > self.maxY then return end
 
-	print("Filling from:", x, y, initialType and initialType.name)
 
 	local event
 	if eventType == "set" then

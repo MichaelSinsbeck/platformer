@@ -411,14 +411,14 @@ function editor:update( dt )
 					math.abs(tileX - self.lastTileY) > 1 then
 					if self.currentTool == "pen" then
 						map:line( tileX, tileY,
-						self.lastTileX, self.lastTileY,
+						self.lastTileX, self.lastTileY, false,
 						function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
 					else	-- bgPen
 						local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
-						map:setBackgroundTile( tX, tY, self.currentBackground, true )
-						map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
-						map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
-						map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
+						local sX, sY = math.floor(self.lastTileX-0.5), math.floor(self.lastTileY-0.5)
+						map:line( tX, tY,
+						sX, sY, true,
+						function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
 					end
 				else
 					if self.currentTool == "pen" then
@@ -436,15 +436,25 @@ function editor:update( dt )
 			if tileX ~= self.lastTileX or tileY ~= self.lastTileY then
 				if math.abs(tileX - self.lastTileX) > 1 or
 					math.abs(tileX - self.lastTileY) > 1 then
-					map:line( tileX, tileY,
-					self.lastTileX, self.lastTileY,
-					function(x, y) map:eraseGroundTile(x, y, true ) end )
+					if self.currentTool == "pen" then
+						map:line( tileX, tileY,
+						self.lastTileX, self.lastTileY, false,
+						function(x, y) map:eraseGroundTile(x, y, true ) end )
+					else
+						map:line( tileX, tileY,
+						self.lastTileX, self.lastTileY, true,
+						function(x, y) map:eraseBackgroundTile(x, y, true ) end )
+					end
 				else
-					map:eraseGroundTile( tileX, tileY, true )
+					if self.currentTool == "pen" then
+						map:eraseGroundTile( tileX, tileY, true )
+					else
+						map:eraseBackgroundTile( tileX, tileY, true )
+					end
 				end
 			end
 		end
-		if self.currentTool == "pen" and self.shift then
+		if (self.currentTool == "pen" or self.currentTool == "bgPen") and self.shift then
 			self.drawLine = true
 		elseif self.currentTool == "editBg" and self.dragging and
 			(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
@@ -505,7 +515,7 @@ function editor:mousepressed( button, x, y )
 				if self.shift and self.lastClickX and self.lastClickY then
 					-- draw a line
 					map:line( tileX, tileY,
-						self.lastClickX, self.lastClickY,
+						self.lastClickX, self.lastClickY, false,
 						function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
 				elseif self.ctrl then
 					-- fill the area
@@ -519,6 +529,10 @@ function editor:mousepressed( button, x, y )
 				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "bgPen" then
 				if self.shift and self.lastClickX and self.lastClickY then
+					-- draw a line
+					map:line( tileX, tileY,
+						self.lastClickX, self.lastClickY, true,
+						function(x, y) map:setBackgroundTile(x, y, self.currentGround, true ) end )
 				elseif self.ctrl then
 
 				else
@@ -530,6 +544,7 @@ function editor:mousepressed( button, x, y )
 					map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
 					map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
 				end
+				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "bgObject" then
 				map:addBgObject( tileX-1, tileY-1, self.currentBgObject )
 			elseif self.currentTool == "object" then
@@ -581,7 +596,7 @@ function editor:mousepressed( button, x, y )
 				if self.shift and self.lastClickX and self.lastClickY then
 					-- draw a line
 					map:line( tileX, tileY,
-					self.lastClickX, self.lastClickY,
+					self.lastClickX, self.lastClickY, false,
 					function(x, y) map:eraseGroundTile(x, y, true ) end )
 				elseif self.ctrl then
 					-- fill the area
@@ -591,6 +606,26 @@ function editor:mousepressed( button, x, y )
 					self.erasing = true
 					-- force to erase one tile:
 					map:eraseGroundTile( tileX, tileY, true )
+				end
+				self.lastClickX, self.lastClickY = tileX, tileY
+			elseif self.currentTool == "bgPen" then
+				if self.shift and self.lastClickX and self.lastClickY then
+					-- draw a line
+					map:line( tileX, tileY,
+					self.lastClickX, self.lastClickY, true,
+					function(x, y) map:eraseBackgroundTile(x, y, true ) end, true )
+				elseif self.ctrl then
+					-- fill the area
+					--map:startFillGround( tileX, tileY, "erase", nil )
+				else
+					-- start erasing
+					self.erasing = true
+					-- force to erase one tile:
+					local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+					map:eraseBackgroundTile( tX, tY, true )
+					map:eraseBackgroundTile( tX+1, tY, true )
+					map:eraseBackgroundTile( tX, tY+1, true )
+					map:eraseBackgroundTile( tX+1, tY+1, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "bgObject" then
@@ -683,7 +718,7 @@ function editor:draw()
 		end
 
 		-- draw the line:
-		if self.drawLine then
+		if self.drawLine and self.lastClickX and self.lastClickY then
 			local sX = math.floor(self.lastClickX)*tileSize
 			local sY = math.floor(self.lastClickY)*tileSize
 			love.graphics.setColor( 255,188,128,200 )
