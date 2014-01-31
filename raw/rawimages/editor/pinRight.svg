@@ -12,7 +12,7 @@
    inkscape:export-ydpi="90"
    inkscape:export-xdpi="90"
    inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/menu/exitOff.png"
-   sodipodi:docname="pinLeftUp.svg"
+   sodipodi:docname="pinLeft.svg"
    inkscape:version="0.48.4 r9939"
    version="1.1"
    id="svg2"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710679"
-     inkscape:cx="776.1831"
-     inkscape:cy="-356.62207"
+     inkscape:zoom="8.0000002"
+     inkscape:cx="65.342075"
+     inkscape:cy="26.124558"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -121,14 +121,14 @@
      inkscape:label="Ebene 1">
     <path
        sodipodi:type="arc"
-       style="fill:#361111;fill-opacity:0.45833333;stroke:none"
+       style="fill:#242424;fill-opacity:0.45833333;stroke:none"
        id="path4469"
        sodipodi:cx="24.25"
        sodipodi:cy="41.6875"
        sodipodi:rx="16.5"
        sodipodi:ry="6.1875"
        d="m 40.75,41.6875 a 16.5,6.1875 0 1 1 -33,0 16.5,6.1875 0 1 1 33,0 z"
-       transform="matrix(0.90590197,-0.11122833,0.07300205,1.3802621,7.1779498,988.67775)" />
+       transform="matrix(-0.91254611,-0.01702132,0.07001843,1.3804167,41.532602,986.38678)" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot18816"
@@ -144,23 +144,23 @@
          id="flowPara18824">hover</flowPara><flowPara
          id="flowPara18847" /><flowPara
          id="flowPara18826" /></flowRoot>    <path
-       style="fill:#c4b1b1;fill-opacity:1;stroke:#483737;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 25.57552,1034.792 3.98892,-1.8621 4.655234,9.9722 c -0.499854,1.546 -2.328684,2.376 -3.988919,1.8621 z"
+       style="fill:#c4b1b1;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 28.936078,1033.292 -3.98892,-1.8621 -4.655234,9.9722 c 0.499854,1.546 2.328684,2.376 3.988919,1.8621 z"
        id="rect3002"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <path
        sodipodi:type="arc"
-       style="fill:#c62626;fill-opacity:1;stroke:#000000;stroke-width:8.30832576999999795;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#c62626;fill-opacity:1;stroke:#000000;stroke-width:8.30832577;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="path3000"
        sodipodi:cx="400"
        sodipodi:cy="199.50504"
        sodipodi:rx="62.857143"
        sodipodi:ry="32.857143"
        d="m 462.85714,199.50504 a 62.857143,32.857143 0 1 1 -125.71428,0 62.857143,32.857143 0 1 1 125.71428,0 z"
-       transform="matrix(0.20487294,-0.09563872,0.10841228,0.23223589,-76.674203,1024.1248)" />
+       transform="matrix(-0.20487294,-0.09563872,-0.10841228,0.23223589,131.1858,1022.6248)" />
     <path
-       transform="matrix(0.87981859,-0.37289287,0.53726221,1.2300372,51.457998,1027.5318)"
+       transform="matrix(-0.87981859,-0.37289287,-0.53726221,1.2300372,3.0535995,1026.0318)"
        d="m -18.625,-4.5624995 a 9.8125,4.1875 0 1 1 -19.625,0 9.8125,4.1875 0 1 1 19.625,0 z"
        sodipodi:ry="4.1875"
        sodipodi:rx="9.8125"
@@ -171,28 +171,27 @@
        sodipodi:type="arc" />
     <path
        style="fill:#c62626;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 10.012549,1017.8207 7.426049,15.9078 c 0.01586,0.039 0.02798,0.077 0.04604,0.1161 1.115534,2.3897 5.693244,2.617 10.218116,0.5047 4.509999,-2.1053 7.265396,-5.7401 6.178945,-8.1301 l 0.0067,-0 -7.489922,-16.0445 -16.385937,7.6492 z"
+       d="M 44.499049,1016.3207 37.073,1032.2285 c -0.01586,0.039 -0.02798,0.077 -0.04604,0.1161 -1.115534,2.3897 -5.693244,2.617 -10.218116,0.5047 -4.509999,-2.1053 -7.265396,-5.7401 -6.178945,-8.1301 l -0.0067,0 7.489922,-16.0445 16.385937,7.6492 z"
        id="rect2998"
        inkscape:connector-curvature="0" />
     <path
-       transform="matrix(0.91427909,-0.40508487,0.42633078,0.90456734,0,0)"
        style="fill:#efb0b0;fill-opacity:1;stroke:none"
-       inkscape:transform-center-x="-12.770283"
+       inkscape:transform-center-x="12.770283"
        inkscape:transform-center-y="0.41867335"
-       d="m -411.64404,936.31091 2.99411,0 0,16.27454 c -0.59634,0.96035 -1.51925,1.36443 -2.58075,1.53244 z"
+       d="m 31.690976,1012.207 -2.737452,-1.2128 -6.938338,14.7214 c 0.135795,1.1103 0.80732,1.8496 1.7062,2.4316 z"
        id="rect4475"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <path
        sodipodi:type="arc"
-       style="fill:#c62626;fill-opacity:1;stroke:#000000;stroke-width:8.06432915000000072;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#c62626;fill-opacity:1;stroke:#000000;stroke-width:8.06432915;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="path2996"
        sodipodi:cx="399.28571"
        sodipodi:cy="120.21932"
        sodipodi:rx="55"
        sodipodi:ry="32.142857"
        d="m 454.28571,120.21932 a 55,32.142857 0 1 1 -110,0 55,32.142857 0 1 1 110,0 z"
-       transform="matrix(0.2168056,-0.10120912,0.10873847,0.23293464,-80.201724,1027.8687)" />
+       transform="matrix(-0.2168056,-0.10120912,-0.10873847,0.23293464,134.71332,1026.3687)" />
     <path
        sodipodi:type="arc"
        style="fill:#efb0b0;fill-opacity:1;stroke:none"
@@ -202,6 +201,6 @@
        sodipodi:rx="9.8125"
        sodipodi:ry="4.1875"
        d="m -18.625,-4.5624995 a 9.8125,4.1875 0 1 1 -19.625,0 9.8125,4.1875 0 1 1 19.625,0 z"
-       transform="matrix(0.69016086,-0.29737545,0.34837527,0.80852329,40.875071,1007.1961)" />
+       transform="matrix(-0.69016086,-0.29737545,-0.34837527,0.80852329,13.636527,1005.6961)" />
   </g>
 </svg>

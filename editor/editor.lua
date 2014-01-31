@@ -53,6 +53,8 @@ function editor.init()
 
 	editor.images.fill = love.graphics.newImage( "images/editor/" .. prefix .. "fill.png")
 	editor.fillQuad = love.graphics.newQuad(0, 0, tileSize*3, tileSize*3, tileSize*3, tileSize*3 )
+	editor.images.pinLeft= love.graphics.newImage( "images/editor/" .. prefix .. "pinLeft.png")
+	editor.images.pinRight= love.graphics.newImage( "images/editor/" .. prefix .. "pinRight.png")
 
 	editor.groundList = Ground:init()
 	editor.bgObjectList = BgObject:init()
@@ -400,6 +402,13 @@ function editor:update( dt )
 				( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
 				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
 				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
+
+	if map.draggedBorderMarker then
+		map:dragBorderMarker( wX, wY )
+		hit = true
+	elseif map:collisionCheckBorderMarker( wX, wY ) then
+		hit = true
+	end
 	
 	self.mouseOnCanvas = not hit
 	self.drawLine = false
@@ -513,6 +522,12 @@ function editor:mousepressed( button, x, y )
 				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
 				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
 
+		if not hit then
+			if map:selectBorderMarker( wX, wY ) then
+				hit = true
+			end
+		end
+
 		local mouseOnCanvas = not hit
 
 		if mouseOnCanvas then
@@ -583,6 +598,7 @@ function editor:mousepressed( button, x, y )
 		end
 	elseif button == "r" then
 
+
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
@@ -647,6 +663,9 @@ function editor:mousereleased( button, x, y )
 	if button == "m" then
 		cam:releaseMouseAnchor()
 	elseif button == "l" then
+		if map.draggedBorderMarker then
+			map:dropBorderMarker()
+		end
 		self.drawing = false
 		self.dragging = false
 	elseif button == "r" then

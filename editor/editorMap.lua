@@ -38,6 +38,11 @@ function EditorMap:new( backgroundList )
 	o.maxY = 8
 
 	o.border = {}	-- the border which to draw around the map...
+	o.borderMarkers = {}
+	o.borderMarkers[1] = {x=0,y=0,img=editor.images.pinLeft}
+	o.borderMarkers[2] = {x=0,y=0,img=editor.images.pinLeft}
+	o.borderMarkers[3] = {x=0,y=0,img=editor.images.pinRight}
+	o.borderMarkers[4] = {x=0,y=0,img=editor.images.pinRight}
 
 	EditorMap.updateBorder(o)
 
@@ -862,6 +867,74 @@ function EditorMap:updateBorder()
 		self.border[#self.border+1] = minX + padding - padding*math.cos(ang)		-- x
 		self.border[#self.border+1] = maxY - padding - padding*math.sin(ang)		-- y
 	end
+
+	self.borderMarkers[1].x = (self.minX-0.5)*self.tileSize
+	self.borderMarkers[1].y = (self.minY-0.9)*self.tileSize
+
+	self.borderMarkers[2].x = (self.minX-0.5)*self.tileSize
+	self.borderMarkers[2].y = (self.maxY-1.1)*self.tileSize
+
+	self.borderMarkers[3].x = (self.maxX-0.7)*self.tileSize
+	self.borderMarkers[3].y = (self.minY-0.9)*self.tileSize
+
+	self.borderMarkers[4].x = (self.maxX-0.7)*self.tileSize
+	self.borderMarkers[4].y = (self.maxY-1.1)*self.tileSize
+
+end
+
+-- check if mouse is hovering over a border marker:
+function EditorMap:collisionCheckBorderMarker( x, y )
+	for i = 1, 4 do
+		if x > self.borderMarkers[i].x and
+			y > self.borderMarkers[i].y and
+			x < self.borderMarkers[i].x + self.borderMarkers[i].img:getWidth() and
+			y < self.borderMarkers[i].y + self.borderMarkers[i].img:getHeight() then
+			
+			return self.borderMarkers[i]
+		end
+	end
+end
+
+-- select the border marker which you're hovering over:
+function EditorMap:selectBorderMarker( x, y )
+	for i = 1, 4 do
+		if x > self.borderMarkers[i].x and
+			y > self.borderMarkers[i].y and
+			x < self.borderMarkers[i].x + self.borderMarkers[i].img:getWidth() and
+			y < self.borderMarkers[i].y + self.borderMarkers[i].img:getHeight() then
+			
+			--self.borderMarkers[i].dragged = true
+			self.draggedBorderMarker = self.borderMarkers[i]
+			self.borderMarkers[i].oX = x - self.borderMarkers[i].x
+			self.borderMarkers[i].oY = y - self.borderMarkers[i].y
+			return self.borderMarkers[i]
+		end
+	end
+end
+
+function EditorMap:dragBorderMarker( x, y )
+	if self.draggedBorderMarker then
+		self.draggedBorderMarker.x = x - self.draggedBorderMarker.oX
+		self.draggedBorderMarker.y = y - self.draggedBorderMarker.oY
+	end
+end
+
+function EditorMap:dropBorderMarker()
+	if self.draggedBorderMarker == self.borderMarkers[1] then	-- top left
+		self.minX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
+		self.minY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
+	elseif self.draggedBorderMarker == self.borderMarkers[2] then	-- bottom left
+		self.minX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
+		self.maxY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
+	elseif self.draggedBorderMarker == self.borderMarkers[3] then	-- bottom left
+		self.maxX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
+		self.minY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
+	elseif self.draggedBorderMarker == self.borderMarkers[4] then	-- bottom left
+		self.maxX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
+		self.maxY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
+	end
+	self:updateBorder()
+	self.draggedBorderMarker = nil
 end
 
 function EditorMap:drawGrid()
@@ -922,6 +995,10 @@ end
 
 function EditorMap:drawBoundings()
 	love.graphics.polygon( "line", self.border )
+	for i = 1, 4 do
+		love.graphics.draw( self.borderMarkers[i].img, self.borderMarkers[i].x,
+			self.borderMarkers[i].y )
+	end
 end
 
 function EditorMap:update( dt )
