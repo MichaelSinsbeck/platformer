@@ -116,13 +116,24 @@ function Panel:click( mouseX, mouseY, clicked )
 
 	-- this gets set to true if the click hit a clickable on this panel:
 	local hitButton = false
+	local hit
 	for k,button in ipairs( self.pages[0] ) do
-		hitButton = button:click( mouseX, mouseY, clicked ) or hitButton
+		hit = button:click( mouseX, mouseY, clicked )
+		if hit then
+			self:disselectAll()
+			button:setSelected(true)
+			hitButton = true
+		end
 	end
 	
 	if self.pages[self.selectedPage] then
 		for k,button in ipairs( self.pages[self.selectedPage] ) do
-			hitButton = button:click( mouseX, mouseY, clicked ) or hitButton
+			hit = button:click( mouseX, mouseY, clicked )
+			if hit then
+				self:disselectAll()
+				button:setSelected(true)
+				hitButton = true
+			end
 		end
 	end
 
@@ -134,6 +145,14 @@ function Panel:collisionCheck( x, y )
 	y/Camera.scale > self.y and
 	x/Camera.scale < self.x + self.width and
 					y/Camera.scale < self.y + self.height
+end
+
+function Panel:disselectAll()
+	for k, p in pairs(self.pages) do
+		for i,button in pairs(p) do
+			button:setSelected( false )
+		end
+	end
 end
 
 return Panel

@@ -158,7 +158,7 @@ function Clickable:click( mouseX, mouseY, clicked )
 					self.event()
 				end
 				self.active = "click"
-				self:setAnim(self.imgOn)
+				--self:setAnim(self.imgOn)
 				return true
 			end
 		else
@@ -167,9 +167,22 @@ function Clickable:click( mouseX, mouseY, clicked )
 		end
 	else
 		self.active = "off"
-		self:setAnim(self.imgOff)
+		if self.selected then
+			self:setAnim(self.imgOn)
+		else
+			self:setAnim(self.imgOff)
+		end
 	end
 	return false
+end
+
+function Clickable:setSelected( bool )
+	self.selected = bool
+	if self.selected then
+		self:setAnim(self.imgOn)
+	else
+		self:setAnim(self.imgOff)
+	end
 end
 
 function Clickable:collisionCheck( x, y )
