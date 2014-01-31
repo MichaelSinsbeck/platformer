@@ -422,8 +422,8 @@ function editor:update( dt )
 					else	-- bgPen
 						local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
 						local sX, sY = math.floor(self.lastTileX-0.5), math.floor(self.lastTileY-0.5)
-						map:line( tX, tY,
-						sX, sY, true,
+						map:line( tX+1, tY+1,
+						sX+1, sY+1, true,
 						function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
 					end
 				else
@@ -735,6 +735,10 @@ function editor:draw()
 			love.graphics.point( sX + 4*Camera.scale, sY+4*Camera.scale )
 			love.graphics.setColor(255,255,255,255)
 		end
+	end
+
+	if DEBUG then
+		map:drawBackgroundTypes( cam )
 	end
 	
 	cam:free()

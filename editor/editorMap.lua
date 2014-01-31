@@ -887,6 +887,25 @@ function EditorMap:drawBackground()
 	end
 end
 
+function EditorMap:drawBackgroundTypes( cam )
+	local startX, startY = cam:screenToWorld(0,0)
+	local endX, endY = cam:screenToWorld(love.graphics.getWidth(), love.graphics.getHeight())
+
+	startX, startY = math.floor(startX/self.tileSize), math.floor(startY/self.tileSize)
+	endX, endY = math.floor(endX/self.tileSize), math.floor(endY/self.tileSize)
+	for x = startX, endX do
+		if self.backgroundArray[x] then
+			for y = startY, endY do
+				if self.backgroundArray[x][y] and self.backgroundArray[x][y].gType then
+					love.graphics.print( self.backgroundArray[x][y].gType.matchName,
+						(x+0.5)*self.tileSize,
+						(y+0.5)*self.tileSize)
+				end
+			end
+		end
+	end
+end
+
 function EditorMap:drawObjects()
 	for k, obj in ipairs( self.objectList ) do
 		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
@@ -924,7 +943,6 @@ function EditorMap:update( dt )
 		end
 		table.remove( self.tilesToModify, 1 )
 	end
-	
 end
 
 return EditorMap
