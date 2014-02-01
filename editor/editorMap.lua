@@ -1022,4 +1022,72 @@ function EditorMap:update( dt )
 	end
 end
 
+-----------------------------------
+-- Functions related to saving:
+-----------------------------------
+
+function EditorMap:dimensionsToString()
+	return "Dimensions: " .. self.maxX - self.minX .. "," .. self.maxY - self.minY .. "\n"
+end
+
+function EditorMap:backgroundToString()
+	local str = ""
+	for y = self.minY, self.maxY-1 do
+		for x = self.minX, self.maxX-1 do
+			if self.backgroundArray[x] and self.backgroundArray[x][y] and
+				self.backgroundArray[x][y].gType and
+				self.backgroundArray[x][y].gType.matchName then
+				str = str .. self.backgroundArray[x][y].gType.matchName
+			else
+				str = str .. "-"
+			end
+		end
+		str = str .. "\n"
+	end
+	return str
+end
+
+function EditorMap:groundToString()
+	local str = ""
+	for y = self.minY, self.maxY-1 do
+		for x = self.minX, self.maxX-1 do
+			if self.groundArray[x] and self.groundArray[x][y] and
+				self.groundArray[x][y].gType and
+				self.groundArray[x][y].gType.matchName then
+				str = str .. self.groundArray[x][y].gType.matchName
+			else
+				str = str .. "-"
+			end
+		end
+		str = str .. "\n"
+	end
+	return str
+end
+
+function EditorMap:backgroundObjectsToString()
+	local str = ""
+	-- Add the objects in order of appearance:
+	for k, obj in ipairs(self.bgList) do
+		str = str .. "Obj:" .. obj.objType.name .. "\n"
+		str = str .. "x:" .. obj.x - self.minX .. "\n"
+		str = str .. "y:" .. obj.y - self.minY .. "\n"
+		str = str .. "endObj\n"
+		-- TODO: add possible properties here...
+	end
+	return str
+end
+
+function EditorMap:objectsToString()
+	local str = ""
+	-- Add the objects in order of appearance:
+	for k, obj in ipairs(self.objectList) do
+		str = str .. "Obj:" .. obj.objType.name .. "\n"
+		str = str .. "x:" .. obj.x - self.minX .. "\n"
+		str = str .. "y:" .. obj.y - self.minY .. "\n"
+		str = str .. "endObj\n"
+		-- TODO: add possible properties here...
+	end
+	return str
+end
+
 return EditorMap

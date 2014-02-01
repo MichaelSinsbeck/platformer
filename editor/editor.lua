@@ -37,7 +37,7 @@ local KEY_DELETE = "delete"
 function editor.init()
 
 	-- save all user made files in here:
-	love.filesystem.createDirectory("userlevels")
+	love.filesystem.createDirectory("mylevels")
 	
 	editor.images = {}
 
@@ -147,13 +147,13 @@ function editor.start()
 				'LEExitHover',
 				"Close editor and return to main menu.")
 	x = x - 10
-	toolPanel:addClickable( x, y, nil,
+	toolPanel:addClickable( x, y, function() editor.saveFile() end,
 				'LESaveOff',
 				'LESaveOn',
 				'LESaveHover',
 				"Save the map.")
 	x = x - 10
-	toolPanel:addClickable( x, y, nil,
+	toolPanel:addClickable( x, y, function() editor.loadFile() end,
 				'LEOpenOff',
 				'LEOpenOn',
 				'LEOpenHover',
@@ -827,16 +827,144 @@ end
 -- from loading them for the game.
 
 -- displays all file names and lets user choose one of them:
+--
+--
+local FILE_HEADER = [[
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+]]
+--
 function editor.loadList()
-	
+	list = love.filesystem.getDirectoryList( "userlevels/")
 end
 
 function editor.saveFile( fileName )
-	fileName = "userlevels/" .. (fileName or "test.dat")
+	local fullName = "mylevels/" .. (fileName or "test.dat")
+
+	print("Attempting to save as '" .. fullName .. "'")
+
+	if love.filesystem.isFile( fullName ) then
+		print( "\tWarning: file exists! Replacing..." )
+		-- TODO:
+		-- Add message box here, let the user choose to overwrite or not.
+	end
+
+	if map then
+		local content = FILE_HEADER
+
+		content = content .. map:dimensionsToString() .. "\n"
+	print(map.minX, map.maxX, map.minY, map.maxY)
+		
+		content = content .. "Background:\n"
+		content = content .. map:backgroundToString()
+		content = content .. "endBackground\n\n"
+
+		content = content .. "Ground:\n"
+		content = content .. map:groundToString()
+		content = content .. "endGround\n\n"
+
+		content = content .. "BgObjects:\n"
+		content = content .. map:backgroundObjectsToString()
+		content = content .. "endBgObjects\n\n"
+
+		content = content .. "Objects:\n"
+		content = content .. map:objectsToString()
+		content = content .. "endObjects\n\n"
+		love.filesystem.write( fullName, content )
+	else
+		print("\tError: no map!")
+	end
 end
 
 function editor.loadFile( fileName )
-	fileName = "userlevels/" .. (fileName or "test.dat")
+	local fullName = "mylevels/" .. (fileName or "test.dat")
+
+	local str = love.filesystem.read( fullName )
+
+	local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
+	print(dimX, dimY)
+	local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
+	local minY, maxY = -math.floor(dimY/2), math.floor(dimY/2)
+	print(minX, maxX, minY, maxY)
+	local bg = str:match("Background:(.-)endBackground\n")
+	local ground = str:match("Ground:(.-)endGround\n")
+	local bgObjects = str:match("BgObjects:(.-)endBgObjects\n")
+	local objects = str:match("Objects:(.-)endObjects\n")
+
+	local backgroundsList = {}
+	for k,b in pairs(editor.backgroundList) do
+		backgroundsList[b.matchName] = b
+	end
+	local groundsList = {}
+	for k,b in pairs(editor.groundList) do
+		groundsList[b.matchName] = b
+	end
+	local bgObjList = {}
+	for k,b in pairs(editor.bgObjectList) do
+		bgObjList[b.name] = b
+	end
+	local objList = {}
+	for k,b in pairs(editor.objectList) do
+		objList[b.name] = b
+	end
+
+	map = EditorMap:new( editor.backgroundList )
+	map.minX, map.maxX = minX+1, maxX
+	map.minY, map.maxY = minY+1, maxY
+
+	local matchName
+	local y = 0
+	for line in bg:gmatch("(.-)\n") do
+		for x = 1, #line do
+			matchName = line:sub(x, x)
+			if backgroundsList[matchName] then
+				map:setBackgroundTile( x + minX, y + minY, backgroundsList[matchName], true )
+			end
+		end
+		y = y + 1
+	end
+
+	y = 0
+	for line in ground:gmatch("(.-)\n") do
+		for x = 1, #line do
+			matchName = line:sub(x, x)
+			if groundsList[matchName] then
+				map:setGroundTile( x + minX, y + minY, groundsList[matchName], true )
+			end
+		end
+		y = y + 1
+	end
+
+	local objType,x,y
+	for obj in bgObjects:gmatch( "(Obj:.-endObj)\n" ) do
+		print(obj)
+		objType = obj:match( "Obj:(.-)\n")
+		print(objType)
+		x = obj:match( "x:(.-)\n")
+		y = obj:match( "y:(.-)\n")
+
+		x = tonumber(x)
+		y = tonumber(y)
+		if bgObjList[objType] then
+			map:addBgObject( x + minX+1, y + minY+1, bgObjList[objType] )
+		end
+	end
+
+	for obj in objects:gmatch( "(Obj:.-endObj)\n" ) do
+		objType = obj:match( "Obj:(.-)\n")
+		x = obj:match( "x:(.-)\n")
+		y = obj:match( "y:(.-)\n")
+
+		x = tonumber(x)
+		y = tonumber(y)
+		if objList[objType] then
+			map:addObject( x + minX+1, y + minY+1, objList[objType] )
+		end
+	end
 end
 
 return editor
