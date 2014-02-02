@@ -502,7 +502,7 @@ function EditorMap:line( tileX, tileY, startX, startY, thick, event )
 	end
 end
 
-function EditorMap:fill( x, y, initialType, event, checked, depth )
+function EditorMap:fill( x, y, initialType, event, checked, field, depth )
 
 	if depth > MAX_FLOOD_FILL_RECURSION then return end
 
@@ -510,8 +510,8 @@ function EditorMap:fill( x, y, initialType, event, checked, depth )
 		checked[x][y] = true
 
 		local typeMatch
-		if self.groundArray[x] and self.groundArray[x][y] then
-			typeMatch = self.groundArray[x][y].gType == initialType
+		if field[x] and field[x][y] then
+			typeMatch = field[x][y].gType == initialType
 		else
 			typeMatch = initialType == nil
 		end
@@ -520,16 +520,16 @@ function EditorMap:fill( x, y, initialType, event, checked, depth )
 			event( x, y )
 
 			if x+1 < self.maxX then
-				self:fill( x+1, y, initialType, event, checked, depth+1)
+				self:fill( x+1, y, initialType, event, checked, field, depth+1)
 			end
 			if x-1 >= self.minX then
-				self:fill( x-1, y, initialType, event, checked, depth+1)
+				self:fill( x-1, y, initialType, event, checked, field, depth+1)
 			end
 			if y+1 < self.maxY then
-				self:fill( x, y+1, initialType, event, checked, depth+1)
+				self:fill( x, y+1, initialType, event, checked, field, depth+1)
 			end
 			if y-1 >= self.minY then
-				self:fill( x, y-1, initialType, event, checked, depth+1)
+				self:fill( x, y-1, initialType, event, checked, field, depth+1)
 			end	
 		end
 	end
@@ -541,13 +541,12 @@ function EditorMap:startFillGround( x, y, eventType, ground )
 
 	if x < self.minX or x + 1 > self.maxX or y < self.minY or y + 1 > self.maxY then return end
 
-
 	local event
 	if eventType == "set" then
 		event = function( x, y )
 			self:setGroundTile( x, y, ground, true )
 		end
-	else
+	elseif eventType == "erase" then
 		event = function( x, y )
 			self:eraseGroundTile( x, y, true )
 		end
@@ -556,7 +555,30 @@ function EditorMap:startFillGround( x, y, eventType, ground )
 	for x = self.minX, self.maxX do
 		array[x] = {}
 	end
-	self:fill( x, y, initialType, event, array, 1)
+	self:fill( x, y, initialType, event, array, self.groundArray, 1)
+end
+
+function EditorMap:startFillBackground( x, y, eventType, ground )
+	local initialType = self.backgroundArray[x] and
+	(self.backgroundArray[x][y] and self.backgroundArray[x][y].gType)
+
+	if x < self.minX or x + 1 > self.maxX or y < self.minY or y + 1 > self.maxY then return end
+
+	local event
+	if eventType == "set" then
+		event = function( x, y )
+			self:setBackgroundTile( x, y, ground, true )
+		end
+	elseif eventType == "erase" then
+		event = function( x, y )
+			self:eraseBackgroundTile( x, y, true )
+		end
+	end
+	local array = {}
+	for x = self.minX, self.maxX do
+		array[x] = {}
+	end
+	self:fill( x, y, initialType, event, array, self.backgroundArray, 1)
 end
 
 ---------------------------------------

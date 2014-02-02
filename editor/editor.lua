@@ -555,7 +555,7 @@ function editor:mousepressed( button, x, y )
 						self.lastClickX, self.lastClickY, true,
 						function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
 				elseif self.ctrl then
-
+					map:startFillBackground( tileX, tileY, "set", self.currentBackground )
 				else
 					self.drawing = true
 
@@ -639,6 +639,7 @@ function editor:mousepressed( button, x, y )
 				elseif self.ctrl then
 					-- fill the area
 					--map:startFillGround( tileX, tileY, "erase", nil )
+					map:startFillBackground( tileX, tileY, "erase", nil )
 				else
 					-- start erasing
 					self.erasing = true
@@ -739,7 +740,11 @@ function editor:draw()
 		elseif self.currentTool == "bgPen" then
 			local tX = math.floor(rX - tileSize/2) - tileSize*0.3
 			local tY = math.floor(rY - tileSize/2) - tileSize*0.3
+			if self.ctrl then
+				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
+			else
 			love.graphics.rectangle( 'fill', tX, tY, tileSize*1.6, tileSize*1.6 )
+		end
 		end
 
 		-- draw the line:
@@ -886,10 +891,8 @@ function editor.loadFile( fileName )
 	local str = love.filesystem.read( fullName )
 
 	local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
-	print(dimX, dimY)
 	local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
 	local minY, maxY = -math.floor(dimY/2), math.floor(dimY/2)
-	print(minX, maxX, minY, maxY)
 	local bg = str:match("Background:(.-)endBackground\n")
 	local ground = str:match("Ground:(.-)endGround\n")
 	local bgObjects = str:match("BgObjects:(.-)endBgObjects\n")
@@ -941,9 +944,7 @@ function editor.loadFile( fileName )
 
 	local objType,x,y
 	for obj in bgObjects:gmatch( "(Obj:.-endObj)\n" ) do
-		print(obj)
 		objType = obj:match( "Obj:(.-)\n")
-		print(objType)
 		x = obj:match( "x:(.-)\n")
 		y = obj:match( "y:(.-)\n")
 

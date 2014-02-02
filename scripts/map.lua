@@ -365,7 +365,7 @@ function Map:drawBG()
 	--love.graphics.setColor(244,238,215)
 	
 	-- use relatively dark colors for testing shadows:
-	if Campaign.worldNumber == 1 then
+	--[[if Campaign.worldNumber == 1 then
 		love.graphics.setColor(80,150,205) -- blue (world 1)
 	elseif Campaign.worldNumber == 2 then
 		love.graphics.setColor(100,110,70)
@@ -377,7 +377,7 @@ function Map:drawBG()
 		love.graphics.setColor(50,50,50)
 	else
 		love.graphics.setColor(80,150,205) -- blue (world 1)
-	end
+	end]]
 	
 	--love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
 	love.graphics.setColor(255,255,255)
