@@ -73,6 +73,8 @@ function Ground:new( name, matchName )
 	-- store them in the following:
 	o.transitions = {}
 
+	o.transitionNames = {}
+
 	-- This table stores all variating tiles, indexed by the same "direction" as in
 	-- the tiles table above.
 	o.variations = {}
@@ -220,7 +222,7 @@ end
 -- any matching name ('g', 'c', 'd' etc) to match that ground type
 -- "similar": match all similar ground types
 -- nil: match anything BUT the similar ground types
-function Ground:addTransition( lt, t, rt, l, r, lb, b, rb, coords )
+function Ground:addTransition( lt, t, rt, l, r, lb, b, rb, coords, tName )
 	local lMatch
 	local rMatch
 	local tMatch
@@ -256,6 +258,8 @@ function Ground:addTransition( lt, t, rt, l, r, lb, b, rb, coords )
 	local ID = #self.tiles + 1
 	self.tiles[ID] = self:coordsToQuad( coords )
 	self.transitions[mStr] = ID
+
+	self.transitionNames[ID] = tName
 end
 
 function Ground:addVariation( dir, coords )
@@ -306,13 +310,15 @@ function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 	mStr = mStr .. lbMatch .. bMatch .. rbMatch	-- bottom line
 
 	local foundDir
-
+	local foundTransition
 
 	-- First, check for transitions for this neighbourhood:
-	if not forceNoTransition then
-		for str, ID in pairs( self.transitions ) do
+	for str, ID in pairs( self.transitions ) do
+		if not ( forceNoTransition and self.transitionNames[ID] and
+				forceNoTransition:find(self.transitionNames[ID]) ) then
 			if mStr:match(str) then
 				foundDir = ID
+				foundTransition = self.transitionNames[ID]
 				break
 			end
 		end
@@ -338,10 +344,10 @@ function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 			end
 		end
 		-- return the quad found:
-		return self.tiles[foundDir]
+		return self.tiles[foundDir], foundTransition
 	else
 		print("NONE FOUND!")
-		return self.tiles.single
+		return self.tiles.single, foundTransition
 	end
 end
 
@@ -381,36 +387,36 @@ function Ground:init()
 	new:addTransition( nil, nil, nil,
 			'g', 'd',
 			nil, "similar", nil,
-			{1,7} )
+			{1,7}, "gd" )
 	new:addTransition( nil, nil, nil,
 			'g', 'd',
 			nil, nil, nil,
-			{3,7} )
+			{3,7}, "gd")
 	new:addTransition( nil, nil, nil,
 			'd', 'g',
 			nil, "similar", nil,
-			{1,8} )
+			{1,8}, "dg" )
 	new:addTransition( nil, nil, nil,
 			'd', 'g',
 			nil, nil, nil,
-			{3,8} )
+			{3,8}, "dg" )
 	-- dirt to stone transitions:
 	new:addTransition( nil, nil, nil,
 			's', 'd',
 			nil, "similar", nil,
-			{1,6} )
+			{1,6}, "sd" )
 	new:addTransition( nil, nil, nil,
 			's', 'd',
 			nil, nil, nil,
-			{4,6} )
+			{4,6}, "sd" )
 	new:addTransition( nil, nil, nil,
 			'd', 's',
 			nil, "similar", nil,
-			{0,8} )
+			{0,8}, "ds" )
 	new:addTransition( nil, nil, nil,
 			'd', 's',
 			nil, nil, nil,
-			{2,8} )
+			{2,8}, "ds" )
 
 	table.insert( list, new )	
 	
@@ -429,36 +435,36 @@ function Ground:init()
 	new:addTransition( nil, nil, nil,
 			'd', 'g',
 			nil, "similar", nil,
-			{1,8} )
+			{1,8}, "dg" )
 	new:addTransition( nil, nil, nil,
 			'd', 'g',
 			nil, nil, nil,
-			{3,8} )
+			{3,8}, "dg" )
 	new:addTransition( nil, nil, nil,
 			'g', 'd',
 			nil, "similar", nil,
-			{1,7} )
+			{1,7}, "gd" )
 	new:addTransition( nil, nil, nil,
 			'g', 'd',
 			nil, nil, nil,
-			{3,7} )
+			{3,7}, "gd" )
 	-- grass to dirt:
 	new:addTransition( nil, nil, nil,
 			's', 'g',
 			nil, "similar", nil,
-			{0,6} )
+			{0,6}, "sg" )
 	new:addTransition( nil, nil, nil,
 			's', 'g',
 			nil, nil, nil,
-			{2,6} )
+			{2,6}, "sg" )
 	new:addTransition( nil, nil, nil,
 			'g', 's',
 			nil, "similar", nil,
-			{0,7} )
+			{0,7}, "gs" )
 	new:addTransition( nil, nil, nil,
 			'g', 's',
 			nil, nil, nil,
-			{2,7} )
+			{2,7}, "gs" )
 	table.insert( list, new )
 
 	new = Ground:new("stone", 's' )
@@ -476,36 +482,36 @@ function Ground:init()
 	new:addTransition( nil, nil, nil,
 			'd', 's',
 			nil, "similar", nil,
-			{0,8} )
+			{0,8}, "ds" )
 	new:addTransition( nil, nil, nil,
 			'd', 's',
 			nil, nil, nil,
-			{2,6} )
+			{2,8}, "ds" )
 	new:addTransition( nil, nil, nil,
 			's', 'd',
 			nil, "similar", nil,
-			{1,6} )
+			{1,6}, "sd" )
 	new:addTransition( nil, nil, nil,
 			's', 'd',
 			nil, nil, nil,
-			{3,6} )
+			{3,6}, "sd" )
 	-- stone to grass:
 	new:addTransition( nil, nil, nil,
 			'g', 's',
 			nil, "similar", nil,
-			{0,7} )
+			{0,7}, "gs" )
 	new:addTransition( nil, nil, nil,
 			'g', 's',
 			nil, nil, nil,
-			{2,7} )
+			{2,7}, "gs" )
 	new:addTransition( nil, nil, nil,
 			's', 'g',
 			nil, "similar", nil,
-			{0,6} )
+			{0,6}, "sg" )
 	new:addTransition( nil, nil, nil,
 			's', 'g',
 			nil, nil, nil,
-			{2,6} )
+			{2,6}, "sg" )
 	table.insert( list, new )
 	
 	new = Ground:new("wood", 'w')

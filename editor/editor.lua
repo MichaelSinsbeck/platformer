@@ -427,7 +427,8 @@ function editor:update( dt )
 					if self.currentTool == "pen" then
 						map:line( tileX, tileY,
 						self.lastTileX, self.lastTileY, false,
-						function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
+						function(x, y) 
+							map:setGroundTile(x, y, self.currentGround, true ) end )
 					else	-- bgPen
 						local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
 						local sX, sY = math.floor(self.lastTileX-0.5), math.floor(self.lastTileY-0.5)
@@ -537,7 +538,8 @@ function editor:mousepressed( button, x, y )
 					-- draw a line
 					map:line( tileX, tileY,
 						self.lastClickX, self.lastClickY, false,
-						function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
+						function(x, y)
+							map:setGroundTile(x, y, self.currentGround, true ) end )
 				elseif self.ctrl then
 					-- fill the area
 					map:startFillGround( tileX, tileY, "set", self.currentGround )
@@ -862,7 +864,6 @@ function editor.saveFile( fileName )
 		local content = FILE_HEADER
 
 		content = content .. map:dimensionsToString() .. "\n"
-	print(map.minX, map.maxX, map.minY, map.maxY)
 		
 		content = content .. "Background:\n"
 		content = content .. map:backgroundToString()
@@ -909,8 +910,7 @@ function editor.loadFile( fileName )
 	local bgObjList = {}
 	for k,b in pairs(editor.bgObjectList) do
 		bgObjList[b.name] = b
-	end
-	local objList = {}
+	end local objList = {}
 	for k,b in pairs(editor.objectList) do
 		objList[b.name] = b
 	end

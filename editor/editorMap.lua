@@ -66,11 +66,12 @@ end
 -- Ground Manupulations (Walls the player collides with)
 -------------------------------------------------------
 
-function EditorMap:updateGroundTile( x, y )
+function EditorMap:updateGroundTile( x, y, noMoreRecursion )
 	local data = {
 		command = "update",
 		x = x,
 		y = y,
+		noMoreRecursion = noMoreRecursion,
 	}
 	self.tilesToModify[#self.tilesToModify + 1] = data
 end
@@ -84,14 +85,7 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		self.groundArray[x][y] = { batchID = {} }
 	end
 
-	local data = {
-		command = "update",
-		x = x,
-		y = y,
-		ground = ground,
-		updateSurrounding = updateSurrounding,
-	}
-	self.tilesToModify[#self.tilesToModify + 1] = data
+	self:updateGroundTile( x, y )
 	-- determine whether or not the old and new ground types are the same:
 	local oldGroundType = ""
 	local newGroundType = ""
@@ -147,31 +141,43 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 end
 
 
-function EditorMap:updateGroundTileNow( x, y, updateSurrounding )
+function EditorMap:updateGroundTileNow( x, y, noMoreRecursion )
 	--if updateSurrounding then print("---------------") end
-	--
+	
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
 
 	local ground = self.groundArray[x][y].gType
 
 	-- load the surrounding ground types:
 	local l,r,b,t = nil,nil,nil,nil
+	local forbiddenTransitions = ""
 	if self.groundArray[x-1] and self.groundArray[x-1][y] then
 		l = self.groundArray[x-1][y].gType
+		if self.groundArray[x-1][y].transition then
+			forbiddenTransitions = forbiddenTransitions .. self.groundArray[x-1][y].transition .. ","
+		end
 	end
 	if self.groundArray[x+1] and self.groundArray[x+1][y] then
 		r = self.groundArray[x+1][y].gType
+		if self.groundArray[x+1][y].transition then
+			forbiddenTransitions = forbiddenTransitions .. self.groundArray[x+1][y].transition .. ","
+		end
 	end
 	if self.groundArray[x][y-1] then
 		t = self.groundArray[x][y-1].gType
+		if self.groundArray[x][y-1].transition then
+			forbiddenTransitions = forbiddenTransitions .. self.groundArray[x][y-1].transition .. ","
+		end
 	end
 	if self.groundArray[x][y+1] then
 		b = self.groundArray[x][y+1].gType
+		if self.groundArray[x][y+1].transition then
+			forbiddenTransitions = forbiddenTransitions .. self.groundArray[x][y+1].transition .. ","
+		end
 	end
 
-	-- get the quad for the current tile  which depends on the surrounding ground types:
-	local forceNoTransition = updateSurrounding and ground.name ~= "bridge"
-	local quad = ground:getQuad( l, r, t, b, nil,nil,nil,nil, forceNoTransition )
+	-- get the quad for the current tile which depends on the surrounding ground types:
+	local quad, foundTransition = ground:getQuad( l, r, t, b, nil,nil,nil,nil, forbiddenTransitions )
 	
 	if ground.name == "spikesConcrete" or ground.name == "spikesSoil" then
 		newGroundType = "spikes"
@@ -196,6 +202,21 @@ function EditorMap:updateGroundTileNow( x, y, updateSurrounding )
 			self.groundArray[x][y].batchID["noSpikes"] = self.groundBatch:add(
 				quad, x*self.tileSize - Camera.scale, y*self.tileSize - Camera.scale )
 		end
+	end
+
+	if foundTransition and not noMoreRecursion then
+		print("transition:", foundTransition)
+		self.groundArray[x][y].transition = foundTransition
+		if self.groundArray[x-1] and self.groundArray[x-1][y] and
+			self.groundArray[x-1][y].gType then
+			self:updateGroundTile( x-1, y, true )
+		end
+		if self.groundArray[x+1] and self.groundArray[x+1][y] and
+			self.groundArray[x+1][y].gType then
+			self:updateGroundTile( x+1, y, true )
+		end
+	else
+		self.groundArray[x][y].transition = nil
 	end
 
 	-- update border:
@@ -274,14 +295,7 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 		self.backgroundArray[x][y] = { batchID = {} }
 	end
 
-	local data = {
-		command = "updateBg",
-		x = x,
-		y = y,
-		background = background,
-		updateSurrounding = updateSurrounding,
-	}
-	--self.tilesToModify[#self.tilesToModify + 1] = data
+	--self:updateBackgroundTile( x-1, y )
 
 	-- fill all tile layers below mine:
 	local quad = background.tiles.cm
@@ -322,7 +336,7 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 end
 
 
-function EditorMap:updateBackgroundTileNow( x, y, updateSurrounding )
+function EditorMap:updateBackgroundTileNow( x, y, forceNoTransition )
 	--if updateSurrounding then print("---------------") end
 	--
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
@@ -359,8 +373,6 @@ function EditorMap:updateBackgroundTileNow( x, y, updateSurrounding )
 	if self.backgroundArray[x][y+1] then
 		b = self.backgroundArray[x][y+1].gType
 	end
-
-	local forceNoTransition = updateSurrounding
 
 	local quad
 	for i, bg in ipairs(self.backgroundList) do
@@ -1031,13 +1043,12 @@ function EditorMap:update( dt )
 		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
 				self.groundArray[data.x][data.y].gType then
-
-				self:updateGroundTileNow( data.x, data.y, data.updateSurrounding )
+				self:updateGroundTileNow( data.x, data.y, data.noMoreRecursion )
 			end
 		elseif data.command == "updateBg" then
 			if self.backgroundArray[data.x] and self.backgroundArray[data.x][data.y] and
 				self.backgroundArray[data.x][data.y].gType then
-				self:updateBackgroundTileNow( data.x, data.y, data.updateSurrounding )
+				self:updateBackgroundTileNow( data.x, data.y )
 			end
 		end
 		table.remove( self.tilesToModify, 1 )
