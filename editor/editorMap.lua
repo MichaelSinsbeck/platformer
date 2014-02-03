@@ -753,10 +753,18 @@ end
 -- Objects (front layer)
 -----------------------------------------
 
-function EditorMap:addObject( tileX, tileY, object )
-	local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
-	local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
-	local newObject = {
+function EditorMap:addObject( tileX, tileY, objName )
+	--local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
+	--local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
+	local newObject = spriteFactory( objName )
+	newObject:init()
+	newObject.x = tileX + newObject.width*0.5/self.tileSize
+	newObject.y = tileY + newObject.height*0.5/self.tileSize
+	newObject.name = objName
+	for i = 1, #newObject.vis do
+		newObject.vis[i]:init()
+	end
+	--[[local newObject = {
 		ids = newIDs,
 		x = bBox.x + tileX,
 		y = bBox.y + tileY,
@@ -769,15 +777,17 @@ function EditorMap:addObject( tileX, tileY, object )
 		width = object.width,
 		height = object.height,
 		selected = false,
-		batch = newBatch,
+		--batch = newBatch,
 		objType = object,
-	}
+	}]]--
 
 	-- only allow one object at the same position!
 	local toRemove = {}
 	for k, obj in pairs( self.objectList ) do
-		if obj.x < newObject.maxX and obj.y < newObject.maxY and
-			obj.maxX > newObject.x and obj.maxY > newObject.y then
+		if obj.x < newObject.x + newObject.width/self.tileSize and
+			obj.y < newObject.y + newObject.height/self.tileSize and
+			obj.x + obj.width/self.tileSize > newObject.x and
+			obj.y + obj.height/self.tileSize > newObject.y then
 			table.insert( toRemove, k )
 		end
 	end
@@ -785,7 +795,7 @@ function EditorMap:addObject( tileX, tileY, object )
 		table.remove( self.objectList, k )
 	end
 	table.insert( self.objectList, newObject )
-
+--[[
 	if newObject.x < self.minX or newObject.maxX > self.maxX or
 		newObject.y < self.minY or newObject.maxY > self.maxY then
 		self.minX = math.min(self.minX, newObject.x)
@@ -793,7 +803,7 @@ function EditorMap:addObject( tileX, tileY, object )
 		self.minY = math.min(self.minY, newObject.y)
 		self.maxY = math.max(self.maxY, newObject.maxY)
 		self:updateBorder()
-	end
+	end]]
 end
 
 function EditorMap:removeObjectAt( tileX, tileY )
@@ -802,7 +812,7 @@ function EditorMap:removeObjectAt( tileX, tileY )
 	local obj
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
-		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+		if tileX >= obj.minX and tileY >= obj.minY and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			--[[for i, ID in pairs(obj.ids) do
 				self.backgroundBatch:set( ID, 0,0,0,0,0 )
 				table.insert( self.bgEmptyIDs, ID )
@@ -1015,7 +1025,9 @@ end
 
 function EditorMap:drawObjects()
 	for k, obj in ipairs( self.objectList ) do
-		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+		--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+		obj:draw()
+
 		if obj.selected == true then
 			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
 		end
@@ -1114,9 +1126,9 @@ function EditorMap:objectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.objectList) do
-		str = str .. "Obj:" .. obj.objType.name .. "\n"
-		str = str .. "x:" .. obj.x - self.minX .. "\n"
-		str = str .. "y:" .. obj.y - self.minY .. "\n"
+		str = str .. "Obj:" .. obj.name .. "\n"
+		str = str .. "x:" .. obj.x - self.minX - obj.width*0.5/self.tileSize .. "\n"
+		str = str .. "y:" .. obj.y - self.minY - obj.height*0.5/self.tileSize .. "\n"
 		str = str .. "endObj\n"
 		-- TODO: add possible properties here...
 	end

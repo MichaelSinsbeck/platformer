@@ -36,8 +36,12 @@ function object:init()
   self.marginx = self.marginx or 1
   self.marginy = self.marginy or 1
   
+  self.width, self.height = 0,0
+
   if self.vis then
 		if self.vis[1] then
+			self.width, self.height = self.vis[1]:getSize()
+
 			local name = AnimationDB.animation[self.vis[1].animation].source
 			self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
 			self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
@@ -58,9 +62,17 @@ end
 function object:draw()
 	if self.vis then
 		for i = 1,#self.vis do
-			self.vis[i]:draw(			
+			self.vis[i]:draw(
 				(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
 				(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
+		end
+	end
+end
+
+function object:drawInEditor()
+	if self.vis then
+		for i = 1, #self.vis do
+			self.vis[i]:draw( self.x, self.y )
 		end
 	end
 end
@@ -234,4 +246,26 @@ function object:resize(newSemiwidth, newSemiheight)
 		end
 	end
 	self.semiheight = newSemiheight
+end
+
+
+
+------------------------------------
+-- Editor related functions:
+------------------------------------
+
+function object:startDragging( x, y )
+	self.dragX = self.x - x
+	self.dragY = self.y - y
+end
+
+function object:drag( x, y )
+	self.x = self.dragX + x
+	self.y = self.dragY + y
+end
+
+function object:checkCollision( x, y )
+	return x >= self.x and y >= self.y and
+		x <= self.x + self.width and
+		y <= self.y + self.height
 end

@@ -70,6 +70,41 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered 
 	return o
 end
 
+function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
+	local o = {}
+	setmetatable(o, self)
+	
+	o.centered = centered
+	o.toolTip = toolTip  or ""
+
+	-- Add visualizer
+	o.vis = obj.vis[1]
+	o.vis:init()
+	o.width, o.height = o.vis:getSize()
+	
+	--o.width = imgOff:getWidth()
+	--o.height = imgOff:getHeight()
+
+	o.x = (x or 0) + o.width*0.5/Camera.scale
+	o.y = (y or 0) + o.height*0.5/Camera.scale
+	if centered then
+		o.x = o.x - o.width/2
+		o.y = o.y - o.height/2
+	end
+
+	-- for collision checking:
+	o.minX = x*Camera.scale
+	o.minY = y*Camera.scale
+	o.maxX = o.minX + o.width
+	o.maxY = o.minY + o.height
+
+	o.event = event
+
+	self.active = "off"
+
+	return o
+end
+
 function Clickable:newLabel( x, y, event, text, font )
 	local o = {}
 	o.__index = Clickable
@@ -163,14 +198,20 @@ function Clickable:click( mouseX, mouseY, clicked )
 			end
 		else
 			self.active = "hover"
-			self:setAnim(self.imgHover)
+			if self.imgHover then
+				self:setAnim(self.imgHover)
+			end
 		end
 	else
 		self.active = "off"
 		if self.selected then
-			self:setAnim(self.imgOn)
+			if self.imgOn then
+				self:setAnim(self.imgOn)
+			end
 		else
-			self:setAnim(self.imgOff)
+			if self.imgOff then
+				self:setAnim(self.imgOff)
+			end
 		end
 	end
 	return false

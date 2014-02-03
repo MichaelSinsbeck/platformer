@@ -356,12 +356,10 @@ function editor.createObjectPanel()
 			editor.currentObject = obj
 			objectPanel.visible = false
 		end
+		
+		maxY = math.max( obj.height, maxY )
 
-		local bBox = obj.bBox
-
-		maxY = math.max( bBox.maxY, maxY )
-
-		if x + bBox.maxX*8 > panelWidth then
+		if x + obj.width > panelWidth then
 			-- add the maximum height of the obejcts in this row, then continue:
 			y = y + maxY*8 + PADDING
 			x = PADDING
@@ -369,11 +367,11 @@ function editor.createObjectPanel()
 			maxY = -math.huge
 		end
 
-		objectPanel:addBatchClickable( x, y, event, obj.batch, bBox.maxX*8, bBox.maxY*8, obj.name, page )
+		objectPanel:addClickableObject( x, y, event, obj.objType, obj.name, page )
 
 		-- Is this object higher than the others of this row?
 
-		x = x + bBox.maxX*8 + PADDING
+		x = x + obj.width + PADDING
 	end
 end
 
@@ -571,7 +569,7 @@ function editor:mousepressed( button, x, y )
 			elseif self.currentTool == "bgObject" then
 				map:addBgObject( tileX-1, tileY-1, self.currentBgObject )
 			elseif self.currentTool == "object" then
-				map:addObject( tileX, tileY, self.currentObject )
+				map:addObject( tileX, tileY, self.currentObject.name )
 				editor.setTool("edit")
 			elseif self.currentTool == "editBg" then
 				if map:selectBgObjectAt( tileX, tileY ) then
@@ -732,7 +730,9 @@ function editor:draw()
 		if self.currentBgObject and self.currentTool == "bgObject" then
 			love.graphics.draw( self.currentBgObject.batch, rX - tileSize, rY - tileSize)
 		elseif self.currentObject and self.currentTool == "object" then
-			love.graphics.draw( self.currentObject.batch, rX, rY)
+			--love.graphics.draw( self.currentObject.obj, rX, rY)
+			local w, h = self.currentObject.width, self.currentObject.height
+			self.currentObject.objType.vis[1]:draw( rX + w*0.5, rY + h*0.5, true )
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
@@ -963,7 +963,8 @@ function editor.loadFile( fileName )
 		x = tonumber(x)
 		y = tonumber(y)
 		if objList[objType] then
-			map:addObject( x + minX+1, y + minY+1, objList[objType] )
+			print(x, minX, y, minY)
+			map:addObject( x + minX + 1, y + minY + 1, objType )
 		end
 	end
 end

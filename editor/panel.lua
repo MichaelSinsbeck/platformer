@@ -36,6 +36,15 @@ function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page
 	table.insert( self.pages[page], c )
 end
 
+function Panel:addClickableObject( x, y, event, obj, toolTip, page, centered )
+	local c = Clickable:newFromObject( x+self.x, y+self.y, event, obj, toolTip, centered )
+	page = page or 0
+	if not self.pages[page] then
+		self.pages[page] = {}
+	end
+	table.insert( self.pages[page], c )
+end
+
 function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, page, centered )
 	local c = Clickable:newBatch( x+self.x, y+self.y, event, batch, width, height, toolTip, centered )
 	page = page or 0

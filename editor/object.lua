@@ -76,9 +76,7 @@ function Object:new( name, tileset, tileList, sorted )
 	o.width = (o.tileWidth+1)*Camera.scale*8
 	o.height = (o.tileHeight+1)*Camera.scale*8
 
-	return o
-end
-
+	return o end 
 --[[
 -- looks for the largest possible quads:
 function getLargestRectangle( tbl, minX, maxX, minY, maxY )
@@ -208,7 +206,7 @@ function Object:addToBatch( spriteBatch, emptyIDs, x, y )
 	return usedIDs, self.bBox
 end
 
-
+--[[
 function Object:init()
 	local list = {}
 	local coords, img, name
@@ -225,6 +223,27 @@ function Object:init()
 			table.insert( list, new )
 		end
 	end
+
+	return list
+end]]
+
+function Object:init()
+	local list = {}
+
+	local new
+
+	new = {
+		name = "player",
+		objType = spriteFactory("player"),
+	}
+	new.objType:init()
+	if new.objType.vis then
+		new.width, new.height = new.objType.width, new.objType.height
+	else
+		new.width, new.height = 10,10
+	end
+
+	table.insert( list, new )
 
 	return list
 end
