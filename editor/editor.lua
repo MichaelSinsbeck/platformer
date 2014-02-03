@@ -388,8 +388,8 @@ function editor:update( dt )
 							map.selectedBgObject.drawY + map.selectedBgObject.height )
 		editBgPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
 	elseif map.selectedObject and editPanel.visible then
-		local ex, ey = cam:worldToScreen( map.selectedObject.drawX,
-							map.selectedObject.drawY + map.selectedObject.height )
+		local ex, ey = cam:worldToScreen( map.selectedObject.editorX,
+							map.selectedObject.editorY + map.selectedObject.height )
 		editPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
 	end
 
@@ -890,6 +890,7 @@ function editor.loadFile( fileName )
 	local fullName = "mylevels/" .. (fileName or "test.dat")
 
 	local str = love.filesystem.read( fullName )
+	if str then
 
 	local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
 	local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
@@ -967,6 +968,9 @@ function editor.loadFile( fileName )
 			map:addObject( x + minX + 1, y + minY + 1, objType )
 		end
 	end
+else
+	print( fullName .. " not found." )
+end
 end
 
 return editor

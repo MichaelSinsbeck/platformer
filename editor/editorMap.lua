@@ -758,9 +758,19 @@ function EditorMap:addObject( tileX, tileY, objName )
 	--local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
 	local newObject = spriteFactory( objName )
 	newObject:init()
+	newObject.name = objName
+	-- for drawing:
 	newObject.x = tileX + newObject.width*0.5/self.tileSize
 	newObject.y = tileY + newObject.height*0.5/self.tileSize
-	newObject.name = objName
+	-- for selecting:
+	newObject.tileX = tileX
+	newObject.tileY = tileY
+	newObject.maxX = tileX + newObject.width/self.tileSize
+	newObject.maxY = tileY + newObject.height/self.tileSize
+	-- for drawing borders in editor:
+	newObject.editorX = newObject.x*self.tileSize - newObject.width*0.5
+	newObject.editorY = newObject.y*self.tileSize - newObject.height*0.5
+	
 	for i = 1, #newObject.vis do
 		newObject.vis[i]:init()
 	end
@@ -779,34 +789,44 @@ function EditorMap:addObject( tileX, tileY, objName )
 		selected = false,
 		--batch = newBatch,
 		objType = object,
-	}]]--
+		}]]--
 
-	-- only allow one object at the same position!
-	local toRemove = {}
-	for k, obj in pairs( self.objectList ) do
-		if obj.x < newObject.x + newObject.width/self.tileSize and
-			obj.y < newObject.y + newObject.height/self.tileSize and
-			obj.x + obj.width/self.tileSize > newObject.x and
-			obj.y + obj.height/self.tileSize > newObject.y then
-			table.insert( toRemove, k )
+		-- only allow one object at the same position!
+		local toRemove = {}
+		for k, obj in pairs( self.objectList ) do
+			if obj.x < newObject.x + newObject.width/self.tileSize and
+				obj.y < newObject.y + newObject.height/self.tileSize and
+				obj.x + obj.width/self.tileSize > newObject.x and
+				obj.y + obj.height/self.tileSize > newObject.y then
+				table.insert( toRemove, k )
+			end
 		end
-	end
-	for i, k in pairs( toRemove ) do
-		table.remove( self.objectList, k )
-	end
-	table.insert( self.objectList, newObject )
---[[
-	if newObject.x < self.minX or newObject.maxX > self.maxX or
+		for i, k in pairs( toRemove ) do
+			table.remove( self.objectList, k )
+		end
+		table.insert( self.objectList, newObject )
+
+		if newObject.tileX < self.minX or newObject.tileX > self.maxX or
+			newObject.tileY < self.minY or newObject.tileY > self.maxY then
+			self.minX = math.min(self.minX, newObject.tileX)
+			self.maxX = math.max(self.maxX, newObject.maxX)
+			self.minY = math.min(self.minY, newObject.tileY)
+			self.maxY = math.max(self.maxY, newObject.maxY)
+			self:updateBorder()
+		end
+
+		--[[
+		if newObject.x < self.minX or newObject.maxX > self.maxX or
 		newObject.y < self.minY or newObject.maxY > self.maxY then
 		self.minX = math.min(self.minX, newObject.x)
 		self.maxX = math.max(self.maxX, newObject.maxX)
 		self.minY = math.min(self.minY, newObject.y)
 		self.maxY = math.max(self.maxY, newObject.maxY)
 		self:updateBorder()
-	end]]
-end
+		end]]
+	end
 
-function EditorMap:removeObjectAt( tileX, tileY )
+	function EditorMap:removeObjectAt( tileX, tileY )
 	-- Go through the list backwards and delete the first object found
 	-- which is hit by the click:
 	local obj
@@ -845,7 +865,8 @@ function EditorMap:selectObjectAt( tileX, tileY )
 	local obj
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
-		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+		if tileX >= obj.tileX and tileY >= obj.tileY and
+			tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			self.selectedObject = obj
 			obj.selected = true
 			obj.oX = tileX - obj.x
@@ -865,18 +886,23 @@ end
 function EditorMap:dragObject( tileX, tileY )
 	if self.selectedObject then
 		local obj = self.selectedObject
-		obj.x = tileX - obj.oX
-		obj.y = tileY - obj.oY
-		obj.maxX = obj.x + obj.tileWidth +1
-		obj.maxY = obj.y + obj.tileHeight +1
-		obj.drawX = obj.x*self.tileSize
-		obj.drawY = obj.y*self.tileSize
-		
-		if obj.x < self.minX or obj.maxX > self.maxX or
-			obj.y < self.minY or obj.maxY > self.maxY then
-			self.minX = math.min(self.minX, obj.x)
+
+		obj.x = tileX + obj.width*0.5/self.tileSize
+		obj.y = tileY + obj.height*0.5/self.tileSize
+		-- for selecting:
+		obj.tileX = tileX
+		obj.tileY = tileY
+		obj.maxX = tileX + obj.width/self.tileSize
+		obj.maxY = tileY + obj.height/self.tileSize
+		-- for drawing borders in editor:
+		obj.editorX = obj.x*self.tileSize - obj.width*0.5
+		obj.editorY = obj.y*self.tileSize - obj.height*0.5
+
+		if obj.tileX < self.minX or obj.tileX > self.maxX or
+			obj.tileY < self.minY or obj.tileY > self.maxY then
+			self.minX = math.min(self.minX, obj.tileX)
 			self.maxX = math.max(self.maxX, obj.maxX)
-			self.minY = math.min(self.minY, obj.y)
+			self.minY = math.min(self.minY, obj.tileY)
 			self.maxY = math.max(self.maxY, obj.maxY)
 			self:updateBorder()
 		end
@@ -1029,7 +1055,8 @@ function EditorMap:drawObjects()
 		obj:draw()
 
 		if obj.selected == true then
-			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
+			love.graphics.rectangle( "line", obj.editorX,
+									obj.editorY, obj.width, obj.height )
 		end
 	end
 end
