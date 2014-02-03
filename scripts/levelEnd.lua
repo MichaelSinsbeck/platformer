@@ -14,12 +14,12 @@ local STAT_TIME = 0.5
 
 function levelEnd:init()
 	-- preload all the levels which could be needed:
-	self.levels["end_fall"] = Map:LoadFromFile( 'end_fall.dat' , 1 )
-	self.levels["end_wall"] = Map:LoadFromFile( 'end_wall.dat' , 1 )
-	self.levels["end_dirt"] = Map:LoadFromFile( 'end_dirt.dat' , 1 )
-	self.levels["end_air"] = Map:LoadFromFile( 'end_air.dat' , 1 )
-	self.levels["end_spikes"] = Map:LoadFromFile( 'end_spikes.dat' , 1 )
-	self.levels["end"] = Map:LoadFromFile( 'end.dat' , 1 )
+	self.levels["end_fall"] = Map:loadFromFile( 'end_fall.dat' , 1 )
+	self.levels["end_wall"] = Map:loadFromFile( 'end_wall.dat' , 1 )
+	self.levels["end_dirt"] = Map:loadFromFile( 'end_dirt.dat' , 1 )
+	self.levels["end_air"] = Map:loadFromFile( 'end_air.dat' , 1 )
+	self.levels["end_spikes"] = Map:loadFromFile( 'end_spikes.dat' , 1 )
+	self.levels["end"] = Map:loadFromFile( 'end.dat' , 1 )
 end
 
 function levelEnd:reset()
@@ -193,16 +193,24 @@ end
 
 function levelEnd:keypressed( key, unicode )
 	if key == keys.BACK or key == keys.PAD.BACK then
-		Campaign:setLevel(Campaign.current+1)
-		Campaign:saveState()
-		menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
+		if editor.active then
+			editor.resume()
+		else
+			Campaign:setLevel(Campaign.current+1)
+			Campaign:saveState()
+			menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
+		end
 	elseif key == keys.CHOOSE or key == keys.PAD.CHOOSE then
 		-- if you're not displaying all stats yet,then display them now
 		-- otherwise, proceed to next level.
 		if self.timer < (self.numOfStats -1)*STAT_TIME then
 			self.timer = self.timer + self.numOfStats*STAT_TIME
 		else
-			menu.startTransition(function () Campaign:proceed() end)()
+			if editor.active then
+				editor.resume()
+			else
+				menu.startTransition(function () Campaign:proceed() end)()
+			end
 		end
 	end
 end

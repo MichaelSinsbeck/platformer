@@ -363,6 +363,9 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('LELayerUpOff'  ,'editorButton',{49},{1e6})
 	AnimationDB:addAni('LELayerUpHover','editorButton',{50},{1e6})
 	AnimationDB:addAni('LELayerUpOn'   ,'editorButton',{51},{1e6})
+	AnimationDB:addAni('LEPlayOff'  ,'editorButton',{52},{1e6})
+	AnimationDB:addAni('LEPlayHover','editorButton',{53},{1e6})
+	AnimationDB:addAni('LEPlayOn'   ,'editorButton',{54},{1e6})
 
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)

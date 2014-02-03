@@ -154,6 +154,8 @@ function menu.initMain()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "main"
 
+	editor.active = false
+
 	--love.graphics.setBackgroundColor(40,40,40)
 	love.graphics.setBackgroundColor(22,45,80)
 
@@ -368,7 +370,7 @@ end
 ---------------------------------------------------------
 
 function menu.startGame( lvl )
-
+	--[[
 	local lvlNum = 1
 
 	-- lvl is the filename, so find the corresponding index
@@ -377,7 +379,7 @@ function menu.startGame( lvl )
 			lvlNum = k
 			break
 		end
-	end
+	end]]
 
 	return function ()
 		initAll()
@@ -393,13 +395,14 @@ function menu.startGame( lvl )
 		Campaign.current = lvlNum
 
 		--myMap = Map:LoadFromFile( Campaign[Campaign.current] )
-		myMap = Map:LoadFromFile( Campaign[Campaign.current] , 1 ) -- *only for demo*
-  		levelEnd:reset()		-- resets the counters of all deaths
+		--myMap = Map:LoadFromFile( Campaign[Campaign.current] , 1 ) -- *only for demo*
+		myMap = Map:loadFromFile( lvl )
+  		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start(p)
 		
 		config.setValue( "level", lvl )
 
-		menu:newLevelName( Campaign.names[ lvl ] )
+		--menu:newLevelName( Campaign.names[ lvl ] or lvl )
 	end
 end
 

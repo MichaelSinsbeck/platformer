@@ -615,35 +615,35 @@ function Map:LineList(tile,height,width)
 end
 
 function Map:FactoryList(tile,height,width)
-  
-  local factoryList = {} 
-  -- find all entities, add objects to spriteEngine and replace by zero
-  
-  local objectList ={
-  [ 2] = Exit,
-  [ 3] = Bandana.white,
-  [ 4] = Bandana.blue,
-  [ 5] = Bandana.red,
-  [ 6] = Bandana.green,    
-  [ 7] = Bouncer,
-  [ 9] = Runner,
-  [10] = Goalie, 
-  
-	[11] = Imitator,
-	[12] = Launcher,
-  [13] = Cannon,
-  [14] = Bonus,
-  [16] = Emitter,
-  [17] = Button,
-  [18] = Appearblock,
-	[19] = Disappearblock,
-	[20] = Crumbleblock,
-	[21] = Glassblock,
-	[22] = Keyhole,
-	[23] = Door,
-	[24] = Key,
-	[25] = Windmill,
-	[26] = BouncerLeft,
+
+	local factoryList = {} 
+	-- find all entities, add objects to spriteEngine and replace by zero
+
+	local objectList ={
+		[ 2] = Exit,
+		[ 3] = Bandana.white,
+		[ 4] = Bandana.blue,
+		[ 5] = Bandana.red,
+		[ 6] = Bandana.green,    
+		[ 7] = Bouncer,
+		[ 9] = Runner,
+		[10] = Goalie, 
+
+		[11] = Imitator,
+		[12] = Launcher,
+		[13] = Cannon,
+		[14] = Bonus,
+		[16] = Emitter,
+		[17] = Button,
+		[18] = Appearblock,
+		[19] = Disappearblock,
+		[20] = Crumbleblock,
+		[21] = Glassblock,
+		[22] = Keyhole,
+		[23] = Door,
+		[24] = Key,
+		[25] = Windmill,
+		[26] = BouncerLeft,
 	[27] = BouncerTop,
 	[28] = BouncerRight,
 	[29] = Bumper,

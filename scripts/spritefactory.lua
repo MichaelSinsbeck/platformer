@@ -93,17 +93,19 @@ function initAll()
 end
 
 function spriteFactory(name,opts)
-  if name == 'runner' then
-    return Runner:New(opts)
-  elseif name == 'player' then
-    return Player:New(opts)
-  elseif name == 'bouncer' then
-    return Bouncer:New(opts)
-  elseif name == 'cannon' then
-    return Cannon:New(opts)   
+	if name == 'runner' then
+		return Runner:New(opts)
+	elseif name == 'player' then
+		return Player:New(opts)
+	elseif name == 'bouncer' then
+		return Bouncer:New(opts)
+	elseif name == 'cannon' then
+		return Cannon:New(opts)   
 	elseif name == 'bullet' then
-    return Bullet:New(opts)
+		return Bullet:New(opts)
 	elseif name == 'missle' then
-    return Missle:New(opts)    
-  end
+		return Missle:New(opts)    
+	elseif name == 'exit' then
+		return Exit:New(opts)    
+	end
 end

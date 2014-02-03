@@ -24,7 +24,7 @@ function loading.update()
 		require 'scripts/utility'
 		require 'scripts/game'
 		require 'scripts/spritefactory'
-		require 'scripts/map'
+		Map = require 'editor/editorMap'
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
 		require 'scripts/bridge'

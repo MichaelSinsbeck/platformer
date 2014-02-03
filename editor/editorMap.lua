@@ -1063,6 +1063,9 @@ end
 
 function EditorMap:drawGround()
 	love.graphics.draw( self.groundBatch, 0, 0 )	
+end
+
+function EditorMap:drawForeground()
 	love.graphics.draw( self.spikeBatch, 0, 0 )
 end
 
@@ -1074,10 +1077,11 @@ function EditorMap:drawBoundings()
 	end
 end
 
-function EditorMap:update( dt )
+function EditorMap:update( dt, forceUpdateAll )
 	self.tilesModifiedThisFrame = 0
 
-	while #self.tilesToModify > 0 and self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME do
+	while #self.tilesToModify > 0 and
+		(self.tilesModifiedThisFrame < MAX_TILES_PER_FRAME or forceUpdateAll) do
 		local data = self.tilesToModify[1]
 		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
@@ -1092,6 +1096,125 @@ function EditorMap:update( dt )
 		end
 		table.remove( self.tilesToModify, 1 )
 	end
+end
+
+-- pass a full name including the path!
+function EditorMap:loadFromFile( fullName )
+	local map = nil
+	local str = love.filesystem.read( fullName )
+	if str then
+
+		local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
+		--local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
+		--local minY, maxY = -math.floor(dimY/2), math.floor(dimY/2)
+		local minX, maxX = 0, tonumber(dimX)
+		local minY, maxY = 0, tonumber(dimY)
+		local bg = str:match("Background:(.-)endBackground\n")
+		local ground = str:match("Ground:(.-)endGround\n")
+		local bgObjects = str:match("BgObjects:(.-)endBgObjects\n")
+		local objects = str:match("Objects:(.-)endObjects\n")
+
+		local backgroundsList = {}
+		for k,b in pairs(editor.backgroundList) do
+			backgroundsList[b.matchName] = b
+		end
+		local groundsList = {}
+		for k,b in pairs(editor.groundList) do
+			groundsList[b.matchName] = b
+		end
+		local bgObjList = {}
+		for k,b in pairs(editor.bgObjectList) do
+			bgObjList[b.name] = b
+		end local objList = {}
+		for k,b in pairs(editor.objectList) do
+			objList[b.name] = b
+		end
+
+		map = EditorMap:new( editor.backgroundList )
+		map.minX, map.maxX = minX+1, maxX
+		map.minY, map.maxY = minY+1, maxY
+		map.width = map.maxX - map.minX + 1
+		map.height = map.maxY - map.minY + 1
+
+		local matchName
+		local y = 0
+		for line in bg:gmatch("(.-)\n") do
+			for x = 1, #line do
+				matchName = line:sub(x, x)
+				if backgroundsList[matchName] then
+					map:setBackgroundTile( x + minX, y + minY, backgroundsList[matchName], true )
+				end
+			end
+			y = y + 1
+		end
+
+		map.collisionSrc = {}
+		y = 0
+		for line in ground:gmatch("(.-)\n") do
+			for x = 1, #line do
+				map.collisionSrc[x] = map.collisionSrc[x] or {}
+				matchName = line:sub(x, x)
+				if groundsList[matchName] then
+					if matchName == "b" then	-- bridge
+						map.collisionSrc[x][y] = 2
+					elseif matchName == "1" or matchName == "2" then	-- spikes
+						map.collisionSrc[x][y] = 3
+					else
+						map.collisionSrc[x][y] = 1		-- normal wall
+					end
+					map:setGroundTile( x + minX, y + minY, groundsList[matchName], true )
+				else
+					map.collisionSrc[x][y] = 0
+				end
+			end
+			y = y + 1
+		end
+
+		local objType,x,y
+		for obj in bgObjects:gmatch( "(Obj:.-endObj)\n" ) do
+			objType = obj:match( "Obj:(.-)\n")
+			x = obj:match( "x:(.-)\n")
+			y = obj:match( "y:(.-)\n")
+
+			x = tonumber(x)
+			y = tonumber(y)
+			if bgObjList[objType] then
+				map:addBgObject( x + minX+1, y + minY+1, bgObjList[objType] )
+			end
+		end
+
+		for obj in objects:gmatch( "(Obj:.-endObj)\n" ) do
+			objType = obj:match( "Obj:(.-)\n")
+			x = obj:match( "x:(.-)\n")
+			y = obj:match( "y:(.-)\n")
+
+			x = tonumber(x)
+			y = tonumber(y)
+			if objList[objType] then
+				map:addObject( x + minX + 1, y + minY + 1, objType )
+			end
+
+			if objType == "player" then
+				map.xStart = x
+				map.yStart = y
+			end
+		end
+
+		-- Postprocess
+		--map.factoryList = map:FactoryList(o.tileOBJ,o.height,o.width) -- see at the end of this file
+		--map.lineList = map:LineList(o.tileOBJ,o.height,o.width)
+		map.lineList = {}
+
+
+		-- Update all map tiles to make sure the rught
+		-- tile type is used. Force to update all the 
+		-- tiles that need updating
+		map:update( nil, true )
+	else
+		print( fullName .. " not found." )
+	end
+	return map
+
 end
 
 -----------------------------------
@@ -1160,6 +1283,420 @@ function EditorMap:objectsToString()
 		-- TODO: add possible properties here...
 	end
 	return str
+end
+
+----------------------------------------------------
+-- In Game functions:
+-- The following functions are only needed in-game, not in the editor:
+----------------------------------------------------
+local tileSize = 48		-- fallback
+
+function EditorMap:convertForShadows( h, w )
+end
+
+function EditorMap:updateShadows()
+end
+
+function EditorMap:queueShadowUpdate()
+end
+
+function EditorMap:initShadows()
+end
+
+function EditorMap:addLight( x, y )
+end
+
+function EditorMap:start(p)
+
+	game.deathtimer = 0
+	shaders:resetDeathEffect()
+	game.restartingLevel = false
+
+	-- reset collision table
+	self.collision = utility.copy(self.collisionSrc,true)
+
+	-- empty spriteEngine and add player
+	spriteEngine:empty()
+	spriteEngine:insert(p)
+	if p.originalSemiwidth and p.originalSemiheight then
+		p:resize(p.originalSemiwidth, p.originalSemiheight)
+	end
+	p.x = self.xStart+0.5
+	p.y = self.yStart+1-p.semiheight
+	p.newX = p.x
+	p.newY = p.y
+	p.vx = 0
+	p.vy = 0
+	p.bandana = 'white'
+	p.alpha = 255
+	p.status = 'stand'
+	p:setAnim(1,'whiteStand')
+	p:flip(false)
+	p.anchor = nil
+	p.hookAngle = nil
+	p:update(0)
+	p.dead = nil
+	--mode = 'intro'
+	timer = 0
+	Camera:jumpTo(p.x,p.y)
+
+	for i, obj in ipairs(self.objectList) do
+		if obj.name == "player" then
+			table.remove( self.objectList, i )
+			break
+		end
+	end
+
+	for i, obj in ipairs(self.objectList) do
+		--[[local constructor = self.factoryList[i].constructor
+		local nx = self.factoryList[i].x +0.5
+		local ny = self.factoryList[i].y +1 - constructor.semiheight
+		if constructor.layout == "top" then
+			ny = self.factoryList[i].y + constructor.semiheight
+		elseif constructor.layout == "left" then
+			nx = self.factoryList[i].x + constructor.semiwidth
+			ny = self.factoryList[i].y + 0.5
+		elseif constructor.layout == "right" then
+			nx = self.factoryList[i].x + 1 - constructor.semiwidth
+			ny = self.factoryList[i].y + 0.5
+		elseif constructor.layout == "center" then
+			ny = self.factoryList[i].y + 0.5
+		end
+		local newObject = constructor:New({x = nx, y = ny})
+		]]
+		obj:update(0)
+		spriteEngine:insert(obj)
+	end
+	for i = 1,#self.lineList do
+		local newObject = Line:New({
+			x = self.lineList[i].x,
+			y = self.lineList[i].y,
+			x2 = self.lineList[i].x2,
+			y2 = self.lineList[i].y2,
+		})
+		spriteEngine:insert(newObject)
+	end
+
+	if USE_SHADOWS then
+		local list = {}
+		spriteEngine:DoAll('collectLights',list)
+		self:initShadows()
+
+		if #list > 0 then
+
+			for k, v in pairs(list) do
+				self:addLight(v.x, v.y)
+			end		
+
+		end
+	end --end if USE_SHADOWS
+
+	levelEnd:registerStart()
+end
+
+function EditorMap:drawParallax(world)
+	local world = world or Campaign.worldNumber
+	love.graphics.draw(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
+end
+
+function EditorMap:collisionTest(x,y,direction,tag)
+	-- Given the (integer) coordinates of a cell, check if there is a
+	-- collision entry in this cell and then check if collisionNumber causes
+	-- a collision
+
+
+	local collisionNumber
+	-- check if entry exists at all
+	if self.collision[x] and self.collision[x][y] then
+		collisionNumber = self.collision[x][y]
+	else
+		return false
+	end
+
+	--print ('collisionTest with direction '..direction..' and tag ' .. tag .. ', CollisionNr: '..collisionNumber)	
+
+	if tag == 'player' then -- player does not collide with spikes
+		if direction == 'down' then -- down collides with 1 and 2
+			if collisionNumber == 1 or collisionNumber == 2 then
+				return true
+			else
+				return false
+			end
+		else -- other direction collides with 1 only
+			if collisionNumber == 1 then
+				return true
+			else
+				return false
+			end
+		end
+	else -- everything else collides with spikes
+		if direction == 'down' then -- down collides with 1, 2 and 3
+			if collisionNumber == 1 or collisionNumber == 2 or collisionNumber == 3 then
+				return true
+			else
+				return false
+			end
+		else -- other directions collides with 1 and 3
+			if collisionNumber == 1 or collisionNumber == 3 then
+				return true
+			else
+				return false
+			end			
+		end
+	end
+end
+
+function lineOfSight(x1,y1,x2,y2)
+	-- Determines if a straight line between two points collides with the map
+	local fx1,fy1,fx2,fy2 = math.floor(x1),math.floor(y1),math.floor(x2),math.floor(y2)
+	local dx,dy = fx1-fx2,fy1-fy2
+	if dy > 0 then sy = -1 else sy = 1 end
+	if dx > 0 then sx = -1 else sx = 1 end  
+
+	local ok
+	ok = function(number)
+		if not number then return false end
+		if number == 1 or number == 3 then return true end
+		if sy == 1 and number == 2 then return true end
+	end
+
+	if fx1 == fx2 then
+		for yy = fy1,fy2,sy do
+			if myMap.collision[fx1] and ok(myMap.collision[fx1][yy]) then
+				local yReturn = yy + 0.5 - 0.5*sy
+				local xReturn = x1 + (yReturn-y1)/(y2-y1)*(x2-x1)
+				return false,xReturn,yReturn
+			end
+		end
+		return true
+	end
+
+	if fy1 == fy2 then
+		for xx = fx1,fx2,sx do
+			if myMap.collision[xx] and myMap.collision[xx][fy1] then
+				local xReturn = xx + 0.5 - 0.5*sx
+				local yReturn = y1 + (xReturn-x1)/(x2-x1)*(y2-y1)
+				return false,xReturn,yReturn
+			end
+		end
+		return true
+	end 
+
+
+
+	if math.abs(dx) > math.abs(dy) then -- schleife über y
+		local m = (x2-x1)/(y2-y1)
+		local xx2 = math.floor(m*(fy1+math.max(0, sy))-m*y1+x1)
+		for xx = fx1,xx2,sx do
+			if myMap.collision[xx] and ok(myMap.collision[xx][fy1]) then
+				local xReturn = xx + 0.5 - 0.5*sx
+				local yReturn = y1 + (xReturn-x1)/m
+				return false,xReturn,yReturn
+			end
+		end
+		for yy = fy1+sy,fy2-sy,sy do
+			local xx1 = math.floor(m*(yy+math.max(0,-sy))-m*y1+x1)
+			local xx2 = math.floor(m*(yy+math.max(0, sy))-m*y1+x1)
+			for xx = xx1,xx2,sx do
+				if myMap.collision[xx] and ok(myMap.collision[xx][yy]) then
+					if xx == xx1 then -- collision from above or below
+						local yReturn = yy + 0.5 - 0.5*sy
+						local xReturn = x1 + (yReturn-y1)*m
+						return false,xReturn,yReturn						
+					else -- collision from left or right
+						local xReturn = xx + 0.5 - 0.5*sx
+						local yReturn = y1 + (xReturn-x1)/m
+						return false,xReturn,yReturn
+					end
+				end
+			end
+		end
+		local xx1 = math.floor(m*(fy2+math.max(0, -sy))-m*y1+x1)
+		for xx = xx1,fx2,sx do
+			if myMap.collision[xx] and ok(myMap.collision[xx][fy2]) then
+				if xx == xx1 then -- collision from above or below
+					local yReturn = fy2 + 0.5 - 0.5*sy
+					local xReturn = x1 + (yReturn-y1)*m
+					return false,xReturn,yReturn						
+				else -- collision from left or right
+					local xReturn = xx + 0.5 - 0.5*sx
+					local yReturn = y1 + (xReturn-x1)/m
+					return false,xReturn,yReturn
+				end
+			end
+		end
+		return true
+	else -- schleife über x
+		local m = (y2-y1)/(x2-x1)
+		local yy2 = math.floor(m*(fx1+math.max(0, sx))-m*x1+y1)
+		if myMap.collision[fx1] then
+			for yy = fy1,yy2,sy do
+				if ok(myMap.collision[fx1][yy]) then
+					local yReturn = yy + 0.5 - 0.5*sy
+					local xReturn = x1 + (yReturn-y1)/m
+					return false,xReturn,yReturn
+				end
+			end
+		end
+		for xx = fx1+sx,fx2-sx,sx do
+			if myMap.collision[xx] then
+				local yy1 = math.floor(m*(xx+math.max(0,-sx))-m*x1+y1)
+				local yy2 = math.floor(m*(xx+math.max(0, sx))-m*x1+y1)
+				for yy = yy1,yy2,sy do
+					if ok(myMap.collision[xx][yy]) then
+						if yy == yy1 then -- collision from above or below
+							local xReturn = xx + 0.5 - 0.5*sx
+							local yReturn = y1 + (xReturn-x1)*m
+							return false,xReturn,yReturn						
+						else -- collision from left or right
+							local yReturn = yy + 0.5 - 0.5*sy
+							local xReturn = x1 + (yReturn-y1)/m
+							return false,xReturn,yReturn
+						end				  
+					end
+				end
+			end
+		end
+		local yy1 = math.floor(m*(fx2+math.max(0, -sx))-m*x1+y1)
+		if myMap.collision[fx2] then
+			for yy = yy1,fy2,sy do
+				if ok(myMap.collision[fx2][yy]) then
+					if yy == yy1 then -- collision from above or below
+						local xReturn = fx2 + 0.5 - 0.5*sx
+						local yReturn = y1 + (xReturn-x1)*m
+						return false,xReturn,yReturn						
+					else -- collision from left or right
+						local yReturn = yy + 0.5 - 0.5*sy
+						local xReturn = x1 + (yReturn-y1)/m
+						return false,xReturn,yReturn
+					end	
+				end
+			end
+		end
+		return true
+	end
+end
+
+function EditorMap:raycast(x,y,vx,vy,dist)
+	if vx == 0 and vy == 0 then
+		return true,x,y
+	end
+	local dist = dist or 15
+	local length = utility.pyth(vx,vy)
+	vx,vy = vx/length,vy/length
+
+	local xTarget = x + dist * vx
+	local yTarget = y + dist * vy
+
+	return lineOfSight(x,y,xTarget,yTarget)
+
+end
+
+function EditorMap:LineList(tile,height,width)
+	local lineList = {}
+	local nodeList = {}
+
+	for i=1,width do
+		for j = 1,height do
+			if tile[i][j] == 8 then
+				table.insert(nodeList,{x=i+0.5,y=j+0.5})
+			end             
+		end
+	end
+	-- traverse node list and add line for two nodes
+	local nLines = math.floor((#nodeList)/2)
+	for iLine = 1,nLines do
+		table.insert(lineList,{
+			x = nodeList[2*iLine-1].x,
+			y = nodeList[2*iLine-1].y,
+			x2 = nodeList[2*iLine].x,
+			y2 = nodeList[2*iLine].y})
+	end
+	return lineList
+end
+
+function EditorMap:FactoryList(tile,height,width)
+
+		local factoryList = {} 
+		-- find all entities, add objects to spriteEngine and replace by zero
+
+		local objectList ={
+			[ 2] = Exit,
+			[ 3] = Bandana.white,
+			[ 4] = Bandana.blue,
+			[ 5] = Bandana.red,
+			[ 6] = Bandana.green,    
+			[ 7] = Bouncer,
+			[ 9] = Runner,
+			[10] = Goalie, 
+
+			[11] = Imitator,
+			[12] = Launcher,
+			[13] = Cannon,
+			[14] = Bonus,
+			[16] = Emitter,
+			[17] = Button,
+			[18] = Appearblock,
+			[19] = Disappearblock,
+			[20] = Crumbleblock,
+		[21] = Glassblock,
+		[22] = Keyhole,
+		[23] = Door,
+		[24] = Key,
+		[25] = Windmill,
+		[26] = BouncerLeft,
+	[27] = BouncerTop,
+	[28] = BouncerRight,
+	[29] = Bumper,
+	[30] = Clubber,
+	[31] = WalkerLeft,
+	[32] = Walker,
+	
+  [33] = Spikey,
+
+	[37] = FixedCannon1r,
+	[38] = FixedCannon2r,
+	[39] = FixedCannon3r,
+	[40] = FixedCannon4r,
+	[45] = FixedCannon1d,
+	[46] = FixedCannon2d,
+	[47] = FixedCannon3d,
+	[48] = FixedCannon4d,
+	[53] = FixedCannon1l,
+	[54] = FixedCannon2l,
+	[55] = FixedCannon3l,
+	[56] = FixedCannon4l,
+	[61] = FixedCannon1u,
+	[62] = FixedCannon2u,
+	[63] = FixedCannon3u,
+	[64] = FixedCannon4u,
+	
+	[65] = Light,
+	[66] = Torch,
+	[67] = Lamp,
+	
+	[68] = InputJump,
+	[69] = InputAction,
+	[70] = InputLeft,
+	[71] = InputRight,
+	[73] = WalkerDown,
+	[74] = WalkerRight,
+	[75] = WalkerUp,
+	[76] = WalkerLeft,
+	[77] = SpawnerLeft,
+	[78] = Spawner,
+}
+  
+  for i=1,width do
+    for j = 1,height do
+			if objectList[tile[i][j]] then
+				local constr = objectList[tile[i][j]]
+			  local newObject = {constructor = constr, x = i, y = j}
+			  table.insert(factoryList,newObject)
+			end             
+    end
+  end
+return factoryList
 end
 
 return EditorMap

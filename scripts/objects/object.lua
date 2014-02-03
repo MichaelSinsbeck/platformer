@@ -43,8 +43,8 @@ function object:init()
 			self.width, self.height = self.vis[1]:getSize()
 
 			local name = AnimationDB.animation[self.vis[1].animation].source
-			self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/myMap.tileSize*self.marginx
-			self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/myMap.tileSize*self.marginy
+			self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/(Camera.scale*8)*self.marginx
+			self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/(Camera.scale*8)*self.marginy
 		end
 		
 		for i = 1,#self.vis do
@@ -63,8 +63,8 @@ function object:draw()
 	if self.vis then
 		for i = 1,#self.vis do
 			self.vis[i]:draw(
-				(self.x*myMap.tileSize*Camera.zoom)/Camera.zoom,
-				(self.y*myMap.tileSize*Camera.zoom)/Camera.zoom)
+				(self.x*8*Camera.scale*Camera.zoom)/Camera.zoom,
+				(self.y*8*Camera.scale*Camera.zoom)/Camera.zoom)
 		end
 	end
 end

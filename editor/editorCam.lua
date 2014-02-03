@@ -47,6 +47,10 @@ function Cam:move( dx, dy )
 	self.y = self.y + dy
 end
 
+function Cam:jumpTo( x, y )
+	self.x, self.y = x, y
+end
+
 function Cam:zoomIn()
 	local x, y = love.mouse.getPosition()
 	local wX, wY = self:screenToWorld( x, y )

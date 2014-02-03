@@ -76,13 +76,17 @@ end
 
 function editor.createCellQuad()
 	local tileSize = Camera.scale * 8
-	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width/cam.zoom+tileSize, Camera.height/cam.zoom+tileSize, tileSize, tileSize)
+	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width/cam.zoom+tileSize,
+							Camera.height/cam.zoom+tileSize, tileSize, tileSize)
 end
 
 -- called when editor is to be started:
 function editor.start()
 	print("Starting editor..." )
 	mode = "editor"
+
+	-- make sure to return to level after testing map!
+	editor.active = true
 
 	map = EditorMap:new( editor.backgroundList )
 	cam = EditorCam:new() -- -Camera.scale*8*map.MAP_SIZE/2, -Camera.scale*8*map.MAP_SIZE/2 )
@@ -158,6 +162,12 @@ function editor.start()
 				'LEOpenOn',
 				'LEOpenHover',
 				"Load another map.")
+	x = x - 10
+	toolPanel:addClickable( x, y, function() editor.testMap() end,
+				'LEPlayOff',
+				'LEPlayOn',
+				'LEPlayHover',
+				"Test the map")
 
 
 	-- Panel for choosing the ground type:
@@ -297,6 +307,12 @@ function editor.start()
 	editor.loadFile()
 end
 
+function editor.resume()
+	mode = "editor"
+	shaders:resetDeathEffect()
+	love.mouse.setVisible( true )
+end
+
 function editor.createBgObjectPanel()
 
 	local PADDING = Camera.scale/2
@@ -371,7 +387,7 @@ function editor.createObjectPanel()
 
 		-- Is this object higher than the others of this row?
 
-		x = x + obj.width + PADDING
+		x = x + obj.width/(8*Camera.scale) + PADDING
 	end
 end
 
@@ -720,6 +736,8 @@ function editor:draw()
 
 	map:drawObjects()
 
+	map:drawForeground()
+
 	map:drawBoundings()
 
 	if self.mouseOnCanvas then
@@ -827,6 +845,12 @@ end
 function editor.textinput( letter )
 end
 
+function editor.testMap()
+	editor.saveFile( "test.dat", "" )
+
+	menu.startTransition( menu.startGame( "test.dat" ), false )()
+end
+
 ------------------------------------
 -- Saving and Loading maps:
 ------------------------------------
@@ -849,8 +873,11 @@ function editor.loadList()
 	list = love.filesystem.getDirectoryList( "userlevels/")
 end
 
-function editor.saveFile( fileName )
-	local fullName = "mylevels/" .. (fileName or "test.dat")
+function editor.saveFile( fileName, testFile )
+	local fullName = "mylevels/" .. (fileName or "bkup.dat")
+	if testFile then
+		fullName = "test.dat"
+	end
 
 	print("Attempting to save as '" .. fullName .. "'")
 
@@ -886,91 +913,13 @@ function editor.saveFile( fileName )
 	end
 end
 
-function editor.loadFile( fileName )
-	local fullName = "mylevels/" .. (fileName or "test.dat")
-
-	local str = love.filesystem.read( fullName )
-	if str then
-
-	local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
-	local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
-	local minY, maxY = -math.floor(dimY/2), math.floor(dimY/2)
-	local bg = str:match("Background:(.-)endBackground\n")
-	local ground = str:match("Ground:(.-)endGround\n")
-	local bgObjects = str:match("BgObjects:(.-)endBgObjects\n")
-	local objects = str:match("Objects:(.-)endObjects\n")
-
-	local backgroundsList = {}
-	for k,b in pairs(editor.backgroundList) do
-		backgroundsList[b.matchName] = b
+function editor.loadFile( fileName, testFile )
+	local fullName = "mylevels/" .. (fileName or "bkup.dat")
+	if testFile then
+		fullName = "test.dat"
 	end
-	local groundsList = {}
-	for k,b in pairs(editor.groundList) do
-		groundsList[b.matchName] = b
-	end
-	local bgObjList = {}
-	for k,b in pairs(editor.bgObjectList) do
-		bgObjList[b.name] = b
-	end local objList = {}
-	for k,b in pairs(editor.objectList) do
-		objList[b.name] = b
-	end
-
-	map = EditorMap:new( editor.backgroundList )
-	map.minX, map.maxX = minX+1, maxX
-	map.minY, map.maxY = minY+1, maxY
-
-	local matchName
-	local y = 0
-	for line in bg:gmatch("(.-)\n") do
-		for x = 1, #line do
-			matchName = line:sub(x, x)
-			if backgroundsList[matchName] then
-				map:setBackgroundTile( x + minX, y + minY, backgroundsList[matchName], true )
-			end
-		end
-		y = y + 1
-	end
-
-	y = 0
-	for line in ground:gmatch("(.-)\n") do
-		for x = 1, #line do
-			matchName = line:sub(x, x)
-			if groundsList[matchName] then
-				map:setGroundTile( x + minX, y + minY, groundsList[matchName], true )
-			end
-		end
-		y = y + 1
-	end
-
-	local objType,x,y
-	for obj in bgObjects:gmatch( "(Obj:.-endObj)\n" ) do
-		objType = obj:match( "Obj:(.-)\n")
-		x = obj:match( "x:(.-)\n")
-		y = obj:match( "y:(.-)\n")
-
-		x = tonumber(x)
-		y = tonumber(y)
-		if bgObjList[objType] then
-			map:addBgObject( x + minX+1, y + minY+1, bgObjList[objType] )
-		end
-	end
-
-	for obj in objects:gmatch( "(Obj:.-endObj)\n" ) do
-		objType = obj:match( "Obj:(.-)\n")
-		x = obj:match( "x:(.-)\n")
-		y = obj:match( "y:(.-)\n")
-
-		x = tonumber(x)
-		y = tonumber(y)
-		if objList[objType] then
-			print(x, minX, y, minY)
-			map:addObject( x + minX + 1, y + minY + 1, objType )
-		end
-	end
-else
-	print( fullName .. " not found." )
-end
+	map = EditorMap:loadFromFile( fullName ) or map
+	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
 end
 
 return editor

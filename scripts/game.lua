@@ -10,7 +10,7 @@ function game:draw()
 	myMap:drawParallax()
 	Camera:apply()
 
-	myMap:drawBG()
+	myMap:drawBackground()
 
 	if USE_SHADOWS and shadows:getNumLights() > 0 then
 		love.graphics.push()
@@ -19,10 +19,10 @@ function game:draw()
 		love.graphics.pop()
 	end
 	
-	myMap:drawWalls()	
+	myMap:drawGround()
 	spriteEngine:draw()
 	
-	myMap:drawFG()
+	myMap:drawForeground()
 
 	--love.graphics.setColor(255,255,255) 
 	
@@ -92,7 +92,17 @@ function game:update(dt)
 end
 
 function game.keypressed(key)
+
+	if key == "escape" and editor.active then
+		editor.resume()
+		return
+	end
+
 	if key == keys.PAUSE then
+		if editor.active then
+			mode = "editor"
+			return
+		end
 		menu.initPauseMenu()
 	end
 	if key == "r" then
