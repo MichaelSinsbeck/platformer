@@ -1130,6 +1130,7 @@ function EditorMap:loadFromFile( fullName )
 		map.minY, map.maxY = minY+1, maxY
 		map.width = map.maxX - map.minX + 1
 		map.height = map.maxY - map.minY + 1
+		print(map.width, map.height, map.minX, map.minY, map.maxX, map.maxY)
 
 		local matchName
 		local y = 0
@@ -1221,6 +1222,7 @@ function EditorMap:loadFromFile( fullName )
 		-- tile type is used. Force to update all the 
 		-- tiles that need updating
 		map:update( nil, true )
+		map:updateBorder()
 	else
 		print( fullName .. " not found." )
 	end
