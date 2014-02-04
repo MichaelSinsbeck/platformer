@@ -765,6 +765,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 	local newObject = spriteFactory( objName )
 	newObject:init()
 	newObject.name = objName
+
 	-- for drawing:
 	newObject.x = tileX + newObject.width*0.5/self.tileSize
 	newObject.y = tileY + newObject.height*0.5/self.tileSize
@@ -780,59 +781,43 @@ function EditorMap:addObject( tileX, tileY, objName )
 	for i = 1, #newObject.vis do
 		newObject.vis[i]:init()
 	end
-	--[[local newObject = {
-		ids = newIDs,
-		x = bBox.x + tileX,
-		y = bBox.y + tileY,
-		maxX = bBox.maxX + tileX,
-		maxY = bBox.maxY + tileY,
-		drawX = (bBox.x + tileX)*self.tileSize,
-		drawY = (bBox.y + tileY)*self.tileSize,
-		tileWidth = object.tileWidth,
-		tileHeight = object.tileHeight,
-		width = object.width,
-		height = object.height,
-		selected = false,
-		--batch = newBatch,
-		objType = object,
-		}]]--
 
-		-- only allow one object at the same position!
-		local toRemove = {}
-		for k, obj in pairs( self.objectList ) do
-			if obj.x < newObject.x + newObject.width/self.tileSize and
-				obj.y < newObject.y + newObject.height/self.tileSize and
-				obj.x + obj.width/self.tileSize > newObject.x and
-				obj.y + obj.height/self.tileSize > newObject.y then
-				table.insert( toRemove, k )
-			end
+	-- only allow one object at the same position!
+	local toRemove = {}
+	for k, obj in pairs( self.objectList ) do
+		if obj.x < newObject.x + newObject.width/self.tileSize and
+			obj.y < newObject.y + newObject.height/self.tileSize and
+			obj.x + obj.width/self.tileSize > newObject.x and
+			obj.y + obj.height/self.tileSize > newObject.y then
+			table.insert( toRemove, k )
 		end
-		for i, k in pairs( toRemove ) do
-			table.remove( self.objectList, k )
-		end
-		table.insert( self.objectList, newObject )
+	end
+	for i, k in pairs( toRemove ) do
+		table.remove( self.objectList, k )
+	end
+	table.insert( self.objectList, newObject )
 
-		if newObject.tileX < self.minX or newObject.tileX > self.maxX or
-			newObject.tileY < self.minY or newObject.tileY > self.maxY then
-			self.minX = math.min(self.minX, newObject.tileX)
-			self.maxX = math.max(self.maxX, newObject.maxX)
-			self.minY = math.min(self.minY, newObject.tileY)
-			self.maxY = math.max(self.maxY, newObject.maxY)
-			self:updateBorder()
-		end
-
-		--[[
-		if newObject.x < self.minX or newObject.maxX > self.maxX or
-		newObject.y < self.minY or newObject.maxY > self.maxY then
-		self.minX = math.min(self.minX, newObject.x)
+	if newObject.tileX < self.minX or newObject.tileX > self.maxX or
+		newObject.tileY < self.minY or newObject.tileY > self.maxY then
+		self.minX = math.min(self.minX, newObject.tileX)
 		self.maxX = math.max(self.maxX, newObject.maxX)
-		self.minY = math.min(self.minY, newObject.y)
+		self.minY = math.min(self.minY, newObject.tileY)
 		self.maxY = math.max(self.maxY, newObject.maxY)
 		self:updateBorder()
-		end]]
 	end
 
-	function EditorMap:removeObjectAt( tileX, tileY )
+	--[[
+	if newObject.x < self.minX or newObject.maxX > self.maxX or
+	newObject.y < self.minY or newObject.maxY > self.maxY then
+	self.minX = math.min(self.minX, newObject.x)
+	self.maxX = math.max(self.maxX, newObject.maxX)
+	self.minY = math.min(self.minY, newObject.y)
+	self.maxY = math.max(self.maxY, newObject.maxY)
+	self:updateBorder()
+	end]]
+end
+
+function EditorMap:removeObjectAt( tileX, tileY )
 	-- Go through the list backwards and delete the first object found
 	-- which is hit by the click:
 	local obj
@@ -840,8 +825,8 @@ function EditorMap:addObject( tileX, tileY, objName )
 		obj = self.objectList[k]
 		if tileX >= obj.minX and tileY >= obj.minY and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			--[[for i, ID in pairs(obj.ids) do
-				self.backgroundBatch:set( ID, 0,0,0,0,0 )
-				table.insert( self.bgEmptyIDs, ID )
+			self.backgroundBatch:set( ID, 0,0,0,0,0 )
+			table.insert( self.bgEmptyIDs, ID )
 			end]]
 			table.remove(self.objectList, k)
 			break	-- only remove the one!
@@ -871,13 +856,15 @@ function EditorMap:selectObjectAt( tileX, tileY )
 	local obj
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
-		if tileX >= obj.tileX and tileY >= obj.tileY and
-			tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
-			self.selectedObject = obj
-			obj.selected = true
-			obj.oX = tileX - obj.x
-			obj.oY = tileY - obj.y
-			return obj
+		if not obj.invisible then
+			if tileX >= obj.tileX and tileY >= obj.tileY and
+				tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+				self.selectedObject = obj
+				obj.selected = true
+				obj.oX = tileX - obj.x
+				obj.oY = tileY - obj.y
+				return obj
+			end
 		end
 	end
 end
@@ -1060,9 +1047,9 @@ function EditorMap:drawObjects()
 		--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		obj:draw()
 
-		if obj.selected == true then
+		if obj.selected == true or obj.invisible == true then
 			love.graphics.rectangle( "line", obj.editorX,
-									obj.editorY, obj.width, obj.height )
+									obj.editorY, math.max(30,obj.width), math.max(30,obj.height) )
 		end
 	end
 end
@@ -1165,6 +1152,7 @@ function EditorMap:loadFromFile( fullName )
 						map.collisionSrc[x][y] = 2
 					elseif matchName == "1" or matchName == "2" then	-- spikes
 						map.collisionSrc[x][y] = 3
+						map:addObject( x, y, "spikey" ) -- +1 because collision map starts at 0
 					else
 						map.collisionSrc[x][y] = 1		-- normal wall
 					end
@@ -1243,7 +1231,7 @@ end
 -----------------------------------
 
 function EditorMap:dimensionsToString()
-	return "Dimensions: " .. self.maxX - self.minX .. "," .. self.maxY - self.minY .. "\n"
+	return "Dimensions: " .. self.maxX - self.minX+1 .. "," .. self.maxY - self.minY+1 .. "\n"
 end
 
 function EditorMap:backgroundToString()
@@ -1297,11 +1285,13 @@ function EditorMap:objectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.objectList) do
-		str = str .. "Obj:" .. obj.name .. "\n"
-		str = str .. "x:" .. obj.x - self.minX - obj.width*0.5/self.tileSize .. "\n"
-		str = str .. "y:" .. obj.y - self.minY - obj.height*0.5/self.tileSize .. "\n"
-		str = str .. "endObj\n"
-		-- TODO: add possible properties here...
+		if not obj.name == "spikey" then
+			str = str .. "Obj:" .. obj.name .. "\n"
+			str = str .. "x:" .. obj.x - self.minX - obj.width*0.5/self.tileSize .. "\n"
+			str = str .. "y:" .. obj.y - self.minY - obj.height*0.5/self.tileSize .. "\n"
+			str = str .. "endObj\n"
+			-- TODO: add possible properties here...
+		end
 	end
 	return str
 end

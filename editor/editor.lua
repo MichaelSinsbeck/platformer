@@ -368,27 +368,28 @@ function editor.createObjectPanel()
 	local page = 1
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.objectList ) do
+		if not obj.invisible then
+			local event = function()
+				editor.currentObject = obj
+				objectPanel.visible = false
+			end
 
-		local event = function()
-			editor.currentObject = obj
-			objectPanel.visible = false
+			maxY = math.max( obj.height, maxY )
+
+			if x + obj.width > panelWidth then
+				-- add the maximum height of the obejcts in this row, then continue:
+				y = y + maxY*8 + PADDING
+				x = PADDING
+
+				maxY = -math.huge
+			end
+
+			objectPanel:addClickableObject( x, y, event, obj.objType, obj.name, page )
+
+			-- Is this object higher than the others of this row?
+
+			x = x + obj.width/(8*Camera.scale) + PADDING
 		end
-		
-		maxY = math.max( obj.height, maxY )
-
-		if x + obj.width > panelWidth then
-			-- add the maximum height of the obejcts in this row, then continue:
-			y = y + maxY*8 + PADDING
-			x = PADDING
-
-			maxY = -math.huge
-		end
-
-		objectPanel:addClickableObject( x, y, event, obj.objType, obj.name, page )
-
-		-- Is this object higher than the others of this row?
-
-		x = x + obj.width/(8*Camera.scale) + PADDING
 	end
 end
 

@@ -107,5 +107,7 @@ function spriteFactory(name,opts)
 		return Missle:New(opts)    
 	elseif name == 'exit' then
 		return Exit:New(opts)    
+	elseif name == 'spikey' then
+		return Spikey:New(opts)    
 	end
 end

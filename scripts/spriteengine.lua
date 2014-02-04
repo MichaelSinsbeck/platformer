@@ -5,7 +5,6 @@ objects = {}
 }
 
 function spriteEngine:insert(newObject)
-	print(newObject, newObject.name, "inserted")
   if newObject.init then
 	  newObject:init()
 	end
