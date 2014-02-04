@@ -10,11 +10,15 @@ function Object:init()
 	new:init()
 	table.insert( list, new )
 
-	new = spriteFactory("exit"),
+	new = spriteFactory("exit")
 	new:init()
 	table.insert( list, new )
 	
-	new = spriteFactory("spikey"),
+	new = spriteFactory("spikey")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("bouncer")
 	new:init()
 	table.insert( list, new )
 

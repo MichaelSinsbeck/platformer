@@ -769,8 +769,20 @@ function EditorMap:addObject( tileX, tileY, objName )
 	newObject.name = objName
 
 	-- for drawing:
-	newObject.x = tileX + 0.5
-	newObject.y = tileY + 0.5
+	local nx = tileX + 0.5
+	local ny = tileY + 1 - newObject.semiheight
+	if newObject.layout == "top" then
+		ny = tileY + newObject.semiheight
+	elseif newObject.layout == "left" then
+		nx = tileX + newObject.semiwidth
+		ny = tileY + 0.5
+	elseif newObject.layout == "right" then
+		nx = tileX + 1 - newObject.semiwidth
+		ny = tileY + 0.5
+	elseif newObject.layout == "center" then
+		ny = tileY + 0.5
+	end
+	newObject.x, newObject.y = nx, ny
 	print("layout:", newObject.layout)
 	-- for selecting:
 	newObject.tileX = tileX
@@ -868,6 +880,7 @@ function EditorMap:selectObjectAt( tileX, tileY )
 				obj.selected = true
 				obj.oX = tileX - obj.x
 				obj.oY = tileY - obj.y
+
 				return obj
 			end
 		end
@@ -885,8 +898,8 @@ function EditorMap:dragObject( tileX, tileY )
 	if self.selectedObject then
 		local obj = self.selectedObject
 
-		obj.x = tileX + obj.width*0.5/self.tileSize
-		obj.y = tileY + obj.height*0.5/self.tileSize
+		obj.x = tileX - obj.oX
+		obj.y = tileY - obj.oY
 		-- for selecting:
 		obj.tileX = tileX
 		obj.tileY = tileY
