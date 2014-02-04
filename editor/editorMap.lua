@@ -4,6 +4,8 @@ EditorMap.__index = EditorMap
 local MAX_TILES_PER_FRAME = 500
 local MAX_FLOOD_FILL_RECURSION = 1500
 
+local MIN_MAP_SIZE = 3
+
 function EditorMap:new( backgroundList )
 	local o = {}
 	setmetatable( o, EditorMap )
@@ -767,8 +769,9 @@ function EditorMap:addObject( tileX, tileY, objName )
 	newObject.name = objName
 
 	-- for drawing:
-	newObject.x = tileX + newObject.width*0.5/self.tileSize
-	newObject.y = tileY + newObject.height*0.5/self.tileSize
+	newObject.x = tileX + 0.5
+	newObject.y = tileY + 0.5
+	print("layout:", newObject.layout)
 	-- for selecting:
 	newObject.tileX = tileX
 	newObject.tileY = tileY
@@ -912,6 +915,15 @@ function EditorMap:updateBorder()
 
 	self.border = {}
 	local padding = self.tileSize*0.25
+
+	-- correct to make minimum size true:
+	if self.minX + MIN_MAP_SIZE > self.maxX then
+		self.minX = self.maxX - MIN_MAP_SIZE
+	end
+	if self.minY + MIN_MAP_SIZE > self.maxY then
+		self.minY = self.maxY - MIN_MAP_SIZE
+	end
+
 	local minX = self.minX*self.tileSize
 	local minY = self.minY*self.tileSize
 	local maxX = self.maxX*self.tileSize
@@ -1130,7 +1142,6 @@ function EditorMap:loadFromFile( fullName )
 		map.minY, map.maxY = minY+1, maxY
 		map.width = map.maxX - map.minX
 		map.height = map.maxY - map.minY
-		print(map.width, map.height, map.minX, map.minY, map.maxX, map.maxY)
 
 		local matchName
 		local y = 0
@@ -1207,8 +1218,8 @@ function EditorMap:loadFromFile( fullName )
 			end
 
 			if objType == "player" then
-				map.xStart = x
-				map.yStart = y
+				map.xStart = x + 1
+				map.yStart = y + 1
 			end
 		end
 
@@ -1291,8 +1302,8 @@ function EditorMap:objectsToString()
 	for k, obj in ipairs(self.objectList) do
 		if obj.name ~= "spikey" then
 			str = str .. "Obj:" .. obj.name .. "\n"
-			str = str .. "x:" .. obj.x - self.minX - obj.width*0.5/self.tileSize .. "\n"
-			str = str .. "y:" .. obj.y - self.minY - obj.height*0.5/self.tileSize .. "\n"
+			str = str .. "x:" .. obj.tileX - self.minX .. "\n"
+			str = str .. "y:" .. obj.tileY - self.minY .. "\n"
 			str = str .. "endObj\n"
 			-- TODO: add possible properties here...
 		end
