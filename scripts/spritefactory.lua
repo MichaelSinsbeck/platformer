@@ -93,21 +93,24 @@ function initAll()
 end
 
 function spriteFactory(name,opts)
+	local new
 	if name == 'runner' then
-		return Runner:New(opts)
+		new = Runner:New(opts)
 	elseif name == 'player' then
-		return Player:New(opts)
+		new = Player:New(opts)
 	elseif name == 'bouncer' then
-		return Bouncer:New(opts)
+		new = Bouncer:New(opts)
 	elseif name == 'cannon' then
-		return Cannon:New(opts)   
+		new = Cannon:New(opts)   
 	elseif name == 'bullet' then
-		return Bullet:New(opts)
+		new = Bullet:New(opts)
 	elseif name == 'missle' then
-		return Missle:New(opts)    
+		new = Missle:New(opts)    
 	elseif name == 'exit' then
-		return Exit:New(opts)    
+		new = Exit:New(opts)    
 	elseif name == 'spikey' then
-		return Spikey:New(opts)    
+		new = Spikey:New(opts)    
 	end
+	new.name = name
+	return new
 end

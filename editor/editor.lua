@@ -317,7 +317,7 @@ end
 
 function editor.createBgObjectPanel()
 
-	local PADDING = Camera.scale/2
+	local PADDING = 4
 
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 40
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
@@ -337,6 +337,7 @@ function editor.createBgObjectPanel()
 
 		local bBox = obj.bBox
 
+		-- Is this object higher than the others of this row?
 		maxY = math.max( bBox.maxY, maxY )
 
 		if x + bBox.maxX*8 > panelWidth then
@@ -349,15 +350,13 @@ function editor.createBgObjectPanel()
 
 		bgObjectPanel:addBatchClickable( x, y, event, obj.batch, bBox.maxX*8, bBox.maxY*8, obj.name, page )
 
-		-- Is this object higher than the others of this row?
-
 		x = x + bBox.maxX*8 + PADDING
 	end
 end
 
 function editor.createObjectPanel()
 
-	local PADDING = Camera.scale/2
+	local PADDING = 4
 
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 40
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
@@ -375,6 +374,7 @@ function editor.createObjectPanel()
 				objectPanel.visible = false
 			end
 
+			-- Is this object higher than the others of this row?
 			maxY = math.max( obj.height, maxY )
 
 			if x + obj.width > panelWidth then
@@ -385,11 +385,10 @@ function editor.createObjectPanel()
 				maxY = -math.huge
 			end
 
-			objectPanel:addClickableObject( x, y, event, obj.objType, obj.name, page )
+			objectPanel:addClickableObject( x, y, event, obj, obj.name, page )
 
-			-- Is this object higher than the others of this row?
 
-			x = x + obj.width/(8*Camera.scale) + PADDING
+			x = x + obj.width/8 + PADDING
 		end
 	end
 end
@@ -755,7 +754,7 @@ function editor:draw()
 		elseif self.currentObject and self.currentTool == "object" then
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
 			local w, h = self.currentObject.width, self.currentObject.height
-			self.currentObject.objType.vis[1]:draw( rX + w*0.5, rY + h*0.5, true )
+			self.currentObject.vis[1]:draw( rX + w*0.5, rY + h*0.5, true )
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )

@@ -180,6 +180,7 @@ function Clickable:draw()
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.textX, self.textY, self.text )
 	end
+	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
 end
 
 function Clickable:click( mouseX, mouseY, clicked )

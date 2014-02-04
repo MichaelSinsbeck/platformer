@@ -782,28 +782,30 @@ function EditorMap:addObject( tileX, tileY, objName )
 		newObject.vis[i]:init()
 	end
 
-	-- only allow one object at the same position!
-	local toRemove = {}
-	for k, obj in pairs( self.objectList ) do
-		if obj.x < newObject.x + newObject.width/self.tileSize and
-			obj.y < newObject.y + newObject.height/self.tileSize and
-			obj.x + obj.width/self.tileSize > newObject.x and
-			obj.y + obj.height/self.tileSize > newObject.y then
-			table.insert( toRemove, k )
+	if not newObject.invisible then
+		-- only allow one object at the same position!
+		local toRemove = {}
+		for k, obj in pairs( self.objectList ) do
+			if obj.x < newObject.x + newObject.width/self.tileSize and
+				obj.y < newObject.y + newObject.height/self.tileSize and
+				obj.x + obj.width/self.tileSize > newObject.x and
+				obj.y + obj.height/self.tileSize > newObject.y then
+				table.insert( toRemove, k )
+			end
 		end
-	end
-	for i, k in pairs( toRemove ) do
-		table.remove( self.objectList, k )
-	end
-	table.insert( self.objectList, newObject )
+		for i, k in pairs( toRemove ) do
+			table.remove( self.objectList, k )
+		end
+		table.insert( self.objectList, newObject )
 
-	if newObject.tileX < self.minX or newObject.tileX > self.maxX or
-		newObject.tileY < self.minY or newObject.tileY > self.maxY then
-		self.minX = math.min(self.minX, newObject.tileX)
-		self.maxX = math.max(self.maxX, newObject.maxX)
-		self.minY = math.min(self.minY, newObject.tileY)
-		self.maxY = math.max(self.maxY, newObject.maxY)
-		self:updateBorder()
+		if newObject.tileX < self.minX or newObject.tileX > self.maxX or
+			newObject.tileY < self.minY or newObject.tileY > self.maxY then
+			self.minX = math.min(self.minX, newObject.tileX)
+			self.maxX = math.max(self.maxX, newObject.maxX)
+			self.minY = math.min(self.minY, newObject.tileY)
+			self.maxY = math.max(self.maxY, newObject.maxY)
+			self:updateBorder()
+		end
 	end
 
 	--[[
@@ -1272,7 +1274,7 @@ function EditorMap:backgroundObjectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.bgList) do
-		str = str .. "Obj:" .. obj.objType.name .. "\n"
+		str = str .. "Obj:" .. obj.name .. "\n"
 		str = str .. "x:" .. obj.x - self.minX .. "\n"
 		str = str .. "y:" .. obj.y - self.minY .. "\n"
 		str = str .. "endObj\n"
