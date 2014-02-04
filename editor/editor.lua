@@ -588,7 +588,7 @@ function editor:mousepressed( button, x, y )
 				map:addBgObject( tileX-1, tileY-1, self.currentBgObject )
 			elseif self.currentTool == "object" then
 				map:addObject( tileX, tileY, self.currentObject.name )
-				editor.setTool("edit")
+				--editor.setTool("edit")
 			elseif self.currentTool == "editBg" then
 				if map:selectBgObjectAt( tileX, tileY ) then
 					editBgPanel.visible = true
