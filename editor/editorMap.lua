@@ -808,7 +808,6 @@ function EditorMap:addObject( tileX, tileY, objName )
 		for i, k in pairs( toRemove ) do
 			table.remove( self.objectList, k )
 		end
-		table.insert( self.objectList, newObject )
 
 		if newObject.tileX < self.minX or newObject.tileX > self.maxX or
 			newObject.tileY < self.minY or newObject.tileY > self.maxY then
@@ -819,6 +818,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 			self:updateBorder()
 		end
 	end
+	table.insert( self.objectList, newObject )
 
 	--[[
 	if newObject.x < self.minX or newObject.maxX > self.maxX or
@@ -837,7 +837,8 @@ function EditorMap:removeObjectAt( tileX, tileY )
 	local obj
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
-		if tileX >= obj.minX and tileY >= obj.minY and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+		if tileX >= obj.minX and tileY >= obj.minY and
+			tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			--[[for i, ID in pairs(obj.ids) do
 			self.backgroundBatch:set( ID, 0,0,0,0,0 )
 			table.insert( self.bgEmptyIDs, ID )
@@ -966,7 +967,6 @@ function EditorMap:updateBorder()
 
 	self.borderMarkers[4].x = (self.maxX-0.7)*self.tileSize
 	self.borderMarkers[4].y = (self.maxY-1.1)*self.tileSize
-
 end
 
 -- check if mouse is hovering over a border marker:
