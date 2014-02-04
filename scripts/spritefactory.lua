@@ -94,7 +94,6 @@ end
 
 function spriteFactory(name,opts)
 	local new
-	print(name)
 	if name == 'runner' then
 		new = Runner:New(opts)
 	elseif name == 'player' then

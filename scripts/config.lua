@@ -93,7 +93,7 @@ function config.getValue( name, filename )
 	filename = filename or CONFIG_FILE	-- default to configfile
 
 	if not love.filesystem.isFile(filename) then
-		print("Could not find config file.", name, filename)
+		--print("Could not find config file.", name, filename)
 		return nil
 	end
 	local ok, file = pcall(love.filesystem.newFile, filename )
