@@ -837,7 +837,7 @@ function EditorMap:removeObjectAt( tileX, tileY )
 	local obj
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
-		if tileX >= obj.minX and tileY >= obj.minY and
+		if tileX >= obj.tileX and tileY >= obj.tileY and
 			tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			--[[for i, ID in pairs(obj.ids) do
 			self.backgroundBatch:set( ID, 0,0,0,0,0 )
@@ -1176,7 +1176,7 @@ function EditorMap:loadFromFile( fullName )
 						map.collisionSrc[x][y] = 2
 					elseif matchName == "1" or matchName == "2" then	-- spikes
 						map.collisionSrc[x][y] = 3
-						map:addObject( x+0.5, y+0.5, "spikey" ) -- +1 because collision map starts at 0
+						map:addObject( x, y, "spikey" ) -- +1 because collision map starts at 0
 					else
 						map.collisionSrc[x][y] = 1		-- normal wall
 					end
