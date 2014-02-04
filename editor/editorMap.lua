@@ -61,6 +61,10 @@ function EditorMap:new( backgroundList )
 			o.groundArray[x][y].batchID = nil
 		end
 	end]]
+
+	o.xStart = 1
+	o.yStart = 1
+
 	return o
 end
 
