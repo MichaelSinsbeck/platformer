@@ -94,6 +94,7 @@ end
 
 function spriteFactory(name,opts)
 	local new
+	print(name)
 	if name == 'runner' then
 		new = Runner:New(opts)
 	elseif name == 'player' then
@@ -102,15 +103,31 @@ function spriteFactory(name,opts)
 		new = Bouncer:New(opts)
 	elseif name == 'cannon' then
 		new = Cannon:New(opts)   
-	elseif name == 'bullet' then
-		new = Bullet:New(opts)
-	elseif name == 'missle' then
-		new = Missle:New(opts)    
+	elseif name == 'button' then
+		new = Button:New(opts)
+	elseif name == 'missile' then
+		new = Missile:New(opts)    
 	elseif name == 'exit' then
 		new = Exit:New(opts)    
 	elseif name == 'spikey' then
 		new = Spikey:New(opts)    
+	elseif name == 'bandana' then
+		new = Bandana:New(opts)    
+	elseif name == 'door' then
+		new = Door:New(opts)    
+	elseif name == 'emitter' then
+		new = Emitter:New(opts)    
+	elseif name == 'spawner' then
+		new = Spawner:New(opts)    
+	elseif name == 'launcher' then
+		new = Launcher:New(opts)    
+	elseif name == 'crumbleblock' then
+		new = Crumbleblock:New(opts)    
+	elseif name == 'appearblock' then
+		new = Appearblock:New(opts)    
 	end
-	new.name = name
+	if new then
+		new.name = name
+	end
 	return new
 end

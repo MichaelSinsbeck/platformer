@@ -22,6 +22,42 @@ function Object:init()
 	new:init()
 	table.insert( list, new )
 
+	new = spriteFactory("cannon")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("button")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("bandana")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("door")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("emitter")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("spawner")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("launcher")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("crumbleblock")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("appearblock")
+	new:init()
+	table.insert( list, new )
+
 	return list
 end
 

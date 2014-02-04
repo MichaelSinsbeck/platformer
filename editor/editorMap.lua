@@ -797,7 +797,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 		newObject.vis[i]:init()
 	end
 
-	if not newObject.invisible then
+	if newObject.vis[1] then
 		-- only allow one object at the same position!
 		local toRemove = {}
 		for k, obj in pairs( self.objectList ) do
@@ -873,7 +873,7 @@ function EditorMap:selectObjectAt( tileX, tileY )
 	local obj
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
-		if not obj.invisible then
+		if obj.vis[1] then
 			if tileX >= obj.tileX and tileY >= obj.tileY and
 				tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 				self.selectedObject = obj
@@ -1074,7 +1074,7 @@ function EditorMap:drawObjects()
 		--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		obj:draw()
 
-		if obj.selected == true or obj.invisible == true then
+		if obj.selected == true then
 			love.graphics.rectangle( "line", obj.editorX,
 									obj.editorY, math.max(30,obj.width), math.max(30,obj.height) )
 		end

@@ -2,7 +2,6 @@ Spikey = object:New({
 	tag = 'spikey',
   semiheight = 0.5,
   semiwidth = 0.5,
-  invisible = true,
 })
 
 function Spikey:setAcceleration(dt)

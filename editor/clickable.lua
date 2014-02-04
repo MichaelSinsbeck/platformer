@@ -77,6 +77,8 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	o.centered = centered
 	o.toolTip = toolTip  or ""
 
+	print("obj.name", obj.name)
+
 	-- Add visualizer
 	o.vis = obj.vis[1]
 	o.vis:init()

@@ -368,7 +368,7 @@ function editor.createObjectPanel()
 	local page = 1
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.objectList ) do
-		if not obj.invisible then
+		if obj.vis[1] then
 			local event = function()
 				editor.currentObject = obj
 				objectPanel.visible = false
