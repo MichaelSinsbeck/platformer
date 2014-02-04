@@ -783,7 +783,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 		ny = tileY + 0.5
 	end
 	newObject.x, newObject.y = nx, ny
-	print("layout:", newObject.layout)
+
 	-- for selecting:
 	newObject.tileX = tileX
 	newObject.tileY = tileY
@@ -801,10 +801,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 		-- only allow one object at the same position!
 		local toRemove = {}
 		for k, obj in pairs( self.objectList ) do
-			if obj.x < newObject.x + newObject.width/self.tileSize and
-				obj.y < newObject.y + newObject.height/self.tileSize and
-				obj.x + obj.width/self.tileSize > newObject.x and
-				obj.y + obj.height/self.tileSize > newObject.y then
+			if obj.tileX == newObject.tileX and obj.tileY == newObject.tileY then
 				table.insert( toRemove, k )
 			end
 		end
