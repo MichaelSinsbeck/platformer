@@ -32,10 +32,12 @@ function EditorMap:new( backgroundList )
 	
 	o.tileSize = Camera.scale*8
 
-	o.minX = -15
-	o.maxX = 15
-	o.minY = -8
-	o.maxY = 8
+	o.minX = 1
+	o.maxX = 30
+	o.minY = 1
+	o.maxY = 16
+	
+	o.width, o.height = o.maxX-o.minX+1,o.maxY-o.minY+1	-- fallback
 
 	o.border = {}	-- the border which to draw around the map...
 	o.borderMarkers = {}
@@ -1164,10 +1166,25 @@ function EditorMap:loadFromFile( fullName )
 					end
 					map:setGroundTile( x + minX, y + minY, groundsList[matchName], true )
 				else
-					map.collisionSrc[x][y] = 0
+					map.collisionSrc[x][y] = nil
 				end
 			end
 			y = y + 1
+		end
+
+		print("------------------------")
+		print("Collision Map:")
+		local str
+		for y = 1, map.height do
+			str = ""
+			for x = 1, map.width do
+				if map.collisionSrc[x] and map.collisionSrc[x][y] then
+					str = str .. map.collisionSrc[x][y]
+				else
+					str = str .. "-"
+				end
+			end
+			print(str)
 		end
 
 		local objType,x,y

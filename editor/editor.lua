@@ -311,6 +311,7 @@ function editor.resume()
 	mode = "editor"
 	shaders:resetDeathEffect()
 	love.mouse.setVisible( true )
+	love.graphics.setBackgroundColor(22,45,80)
 end
 
 function editor.createBgObjectPanel()
