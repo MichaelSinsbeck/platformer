@@ -32,6 +32,7 @@ local KEY_STAMP = "s"
 local KEY_PEN = "d"
 local KEY_BGPEN = "b"
 local KEY_DELETE = "delete"
+local KEY_TEST = "t"
 
 -- called when loading game	
 function editor.init()
@@ -167,7 +168,7 @@ function editor.start()
 				'LEPlayOff',
 				'LEPlayOn',
 				'LEPlayHover',
-				"Test the map")
+				KEY_TEST .. " - Test the map")
 
 
 	-- Panel for choosing the ground type:
@@ -700,6 +701,8 @@ function editor.keypressed( key, repeated )
 		editor.setTool("pen")
 	elseif key == KEY_STAMP then
 		editor.setTool("bgObject")
+	elseif key == KEY_TEST then
+		editor.testMap()
 	elseif key == KEY_DELETE then
 		if map.selectedBgObject then
 			map:removeSelectedBgObject()
