@@ -1128,8 +1128,8 @@ function EditorMap:loadFromFile( fullName )
 		map = EditorMap:new( editor.backgroundList )
 		map.minX, map.maxX = minX+1, maxX
 		map.minY, map.maxY = minY+1, maxY
-		map.width = map.maxX - map.minX + 1
-		map.height = map.maxY - map.minY + 1
+		map.width = map.maxX - map.minX
+		map.height = map.maxY - map.minY
 		print(map.width, map.height, map.minX, map.minY, map.maxX, map.maxY)
 
 		local matchName
@@ -1276,7 +1276,7 @@ function EditorMap:backgroundObjectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.bgList) do
-		str = str .. "Obj:" .. obj.name .. "\n"
+		str = str .. "Obj:" .. obj.objType.name .. "\n"
 		str = str .. "x:" .. obj.x - self.minX .. "\n"
 		str = str .. "y:" .. obj.y - self.minY .. "\n"
 		str = str .. "endObj\n"
