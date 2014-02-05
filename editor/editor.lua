@@ -740,9 +740,9 @@ function editor:draw()
 
 	map:drawGround()
 
-	map:drawObjects()
-
 	map:drawForeground()
+
+	map:drawObjects()
 
 	map:drawBoundings()
 
