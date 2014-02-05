@@ -165,8 +165,13 @@ end
 
 function Clickable:draw()
 	if self.vis then
+		local vW, vH = self.vis:getSize()
+		local iW, iH = editor.images.highlight:getWidth(), editor.images.highlight:getHeight()
+		local dX, dY = (vW-iW)*0.5, (vH-iH)*0.5
+		if self.selected then
+			love.graphics.draw( editor.images.highlight, (self.x)*Camera.scale-vW/2+dX, (self.y)*Camera.scale-vH/2+dY)
+		end
 		self.vis:draw(self.x*Camera.scale,self.y*Camera.scale)
-		--self.vis:draw(10,10)
 	else
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
 	end
@@ -196,7 +201,7 @@ function Clickable:click( mouseX, mouseY, clicked )
 					self.event()
 				end
 				self.active = "click"
-				--self:setAnim(self.imgOn)
+				self:setAnim(self.imgOn)
 				return true
 			end
 		else
@@ -207,26 +212,20 @@ function Clickable:click( mouseX, mouseY, clicked )
 		end
 	else
 		self.active = "off"
-		if self.selected then
-			if self.imgOn then
-				self:setAnim(self.imgOn)
-			end
-		else
 			if self.imgOff then
 				self:setAnim(self.imgOff)
 			end
-		end
 	end
 	return false
 end
 
 function Clickable:setSelected( bool )
 	self.selected = bool
-	if self.selected then
+	--[[if self.selected then
 		self:setAnim(self.imgOn)
 	else
 		self:setAnim(self.imgOff)
-	end
+	end]]--
 end
 
 function Clickable:collisionCheck( x, y )

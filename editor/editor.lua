@@ -57,6 +57,8 @@ function editor.init()
 	editor.images.pinLeft= love.graphics.newImage( "images/editor/" .. prefix .. "pinLeft.png")
 	editor.images.pinRight= love.graphics.newImage( "images/editor/" .. prefix .. "pinRight.png")
 
+	editor.images.highlight = love.graphics.newImage( "images/editor/" .. prefix .. "buttonHighlight.png")
+
 	editor.groundList = Ground:init()
 	editor.bgObjectList = BgObject:init()
 	editor.objectList = Object:init()
