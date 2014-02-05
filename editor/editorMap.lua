@@ -1166,26 +1166,33 @@ function EditorMap:loadFromFile( fullName )
 		end
 
 		map.collisionSrc = {}
+
+		local order = {'b','c','d','g','s','w','1','2'}
+		
+		for tileCounter, currentTile in pairs(order) do
 		y = 0
-		for line in ground:gmatch("(.-)\n") do
-			for x = 1, #line do
-				map.collisionSrc[x] = map.collisionSrc[x] or {}
-				matchName = line:sub(x, x)
-				if groundsList[matchName] then
-					if matchName == "b" then	-- bridge
-						map.collisionSrc[x][y] = 2
-					elseif matchName == "1" or matchName == "2" then	-- spikes
-						map.collisionSrc[x][y] = 3
-						map:addObject( x, y, "spikey" ) -- +1 because collision map starts at 0
-					else
-						map.collisionSrc[x][y] = 1		-- normal wall
+			for line in ground:gmatch("(.-)\n") do
+				for x = 1, #line do
+					map.collisionSrc[x] = map.collisionSrc[x] or {}
+					matchName = line:sub(x, x)
+					if matchName == currentTile then
+						if groundsList[matchName] then
+							if matchName == "b" then	-- bridge
+								map.collisionSrc[x][y] = 2
+							elseif matchName == "1" or matchName == "2" then	-- spikes
+								map.collisionSrc[x][y] = 3
+								map:addObject( x, y, "spikey" ) -- +1 because collision map starts at 0
+							else
+								map.collisionSrc[x][y] = 1		-- normal wall
+							end
+							map:setGroundTile( x + minX, y + minY, groundsList[matchName], true )
+						else
+							map.collisionSrc[x][y] = nil
+						end
 					end
-					map:setGroundTile( x + minX, y + minY, groundsList[matchName], true )
-				else
-					map.collisionSrc[x][y] = nil
 				end
+				y = y + 1
 			end
-			y = y + 1
 		end
 
 		print("------------------------")
