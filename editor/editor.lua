@@ -116,9 +116,9 @@ function editor.start()
 	x = x + 10
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("object") end,
-				'LEStampOff',
-				'LEStampOn',
-				'LEStampHover',
+				'LEObjectOff',
+				'LEObjectOn',
+				'LEObjectHover',
 				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
