@@ -116,7 +116,11 @@ end
 function Panel:update( dt )
 	for k, page in pairs(self.pages) do
 		for i, button in pairs(page) do
-			if button.vis then button.vis:update( dt ) end
+			if button.vis then
+				for k = 1, #button.vis do
+					button.vis[k]:update( dt )
+				end
+			end
 		end
 	end
 end

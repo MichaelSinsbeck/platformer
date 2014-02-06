@@ -43,9 +43,10 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered 
 	o.toolTip = toolTip  or ""
 
 	-- Add visualizer
-	o.vis = Visualizer:New(imgOff)
-	o.vis:init()
-	o.width, o.height = o.vis:getSize()
+	o.vis = {}
+	o.vis[1] = Visualizer:New(imgOff)
+	o.vis[1]:init()
+	o.width, o.height = o.vis[1]:getSize()
 	
 	--o.width = imgOff:getWidth()
 	--o.height = imgOff:getHeight()
@@ -77,12 +78,15 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	o.centered = centered
 	o.toolTip = toolTip  or ""
 
-	print("obj.name", obj.name)
 
 	-- Add visualizer
-	o.vis = obj.vis[1]
-	o.vis:init()
-	o.width, o.height = o.vis:getSize()
+	o.vis = obj.vis
+	o.width, o.height = -math.huge, -math.huge
+	for k = 1, #o.vis do
+		o.vis[k]:init()
+		local w, h = o.vis[k]:getSize()
+		o.width, o.height = math.max(o.width, w), math.max(o.height, h)
+	end
 	
 	--o.width = imgOff:getWidth()
 	--o.height = imgOff:getHeight()
@@ -157,7 +161,7 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 
 	o.event = event
 
-	self.active = "off"
+	o.active = "off"
 
 	return o
 
@@ -165,13 +169,16 @@ end
 
 function Clickable:draw()
 	if self.vis then
-		local vW, vH = self.vis:getSize()
 		local iW, iH = editor.images.highlight:getWidth(), editor.images.highlight:getHeight()
-		local dX, dY = (vW-iW)*0.5, (vH-iH)*0.5
+		local dX, dY = (self.width-iW)*0.5, (self.height-iH)*0.5
 		if self.selected then
-			love.graphics.draw( editor.images.highlight, (self.x)*Camera.scale-vW/2+dX, (self.y)*Camera.scale-vH/2+dY)
+			love.graphics.draw( editor.images.highlight,
+				(self.x)*Camera.scale-self.width/2+dX,
+				(self.y)*Camera.scale-self.height/2+dY)
 		end
-		self.vis:draw(self.x*Camera.scale,self.y*Camera.scale)
+		for k = 1, #self.vis do
+			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)
+		end
 	else
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
 	end
@@ -233,10 +240,11 @@ function Clickable:collisionCheck( x, y )
 end
 
 function Clickable:setAnim(name,continue) -- Go to specified animation and reset, if not already there
-	if self.vis and self.vis.animation ~= name then
-	  self.vis.animation = name
+	-- this only needs to be done for the normal buttons, which only have a single visualizer:
+	if self.vis and #self.vis == 1 and self.vis[1].animation ~= name then
+	  self.vis[1].animation = name
 	  if not continue then
-			self.vis:reset()
+			self.vis[1]:reset()
 	  end
 	end
 end
