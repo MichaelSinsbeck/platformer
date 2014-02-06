@@ -585,9 +585,9 @@ function editor:mousepressed( button, x, y )
 					map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
-			elseif self.currentTool == "bgObject" then
+			elseif self.currentTool == "bgObject" and self.currentObject then
 				map:addBgObject( tileX-1, tileY-1, self.currentBgObject )
-			elseif self.currentTool == "object" then
+			elseif self.currentTool == "object" and self.currentObject then
 				map:addObject( tileX, tileY, self.currentObject.name )
 				--editor.setTool("edit")
 			elseif self.currentTool == "edit" then
@@ -671,10 +671,10 @@ function editor:mousepressed( button, x, y )
 					map:eraseBackgroundTile( tX+1, tY+1, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
-			elseif self.currentTool == "bgObject" then
-				map:removeBgObjectAt( tileX, tileY )
-			elseif self.currentTool == "object" then
-				map:removeObjectAt( tileX, tileY )
+			elseif self.currentTool == "object" or self.currentTool == "bgObject" then
+				if not map:removeObjectAt( tileX, tileY ) then
+					map:removeBgObjectAt( tileX, tileY )
+				end
 			end
 		end
 	end

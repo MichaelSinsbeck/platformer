@@ -644,7 +644,7 @@ function EditorMap:removeBgObjectAt( tileX, tileY )
 		obj = self.bgList[k]
 		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			table.remove(self.bgList, k)
-			break	-- only remove the one!
+			return true	-- only remove the one!
 		end
 	end
 end
@@ -845,7 +845,7 @@ function EditorMap:removeObjectAt( tileX, tileY )
 			table.insert( self.bgEmptyIDs, ID )
 			end]]
 			table.remove(self.objectList, k)
-			break	-- only remove the one!
+			return true		-- only remove the one!
 		end
 	end
 end
