@@ -74,7 +74,6 @@ function editor.init()
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
 	editor.toolsToolTips["bgObject"] = "left mouse: add current background object, right mouse: delete object"
 	editor.toolsToolTips["edit"] = "left mouse: select object, left + drag: move object"
-	editor.toolsToolTips["editBg"] = "left mouse: select object, left + drag: move object"
 end
 
 function editor.createCellQuad()
@@ -121,24 +120,25 @@ function editor.start()
 				'LEObjectHover',
 				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
 	x = x +10
-	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
-				'LEEditOff',
-				'LEEditOn',
-				'LEEditHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
-	x = x +10
-	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
 				'LEStampOff',
 				'LEStampOn',
 				'LEStampHover',
 				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
 	x = x +10
-	toolPanel:addClickable( x, y, function() editor.setTool("editBg") end,
+	x = x +10
+	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
 				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
+	x = x +10
+	--[[
+	toolPanel:addClickable( x, y, function() editor.setTool("editBg") end,
+				'LEEditOff',
+				'LEEditOn',
+				'LEEditHover',
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")]]
 				
 	--[[toolPanel:addClickable( x, y, function() editor.setTool("erase") end,
 				'LEEraserOff',
@@ -490,12 +490,11 @@ function editor:update( dt )
 		end
 		if (self.currentTool == "pen" or self.currentTool == "bgPen") and self.shift then
 			self.drawLine = true
-		elseif self.currentTool == "editBg" and self.dragging and
-			(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
-			map:dragBgObject( tileX, tileY )
 		elseif self.currentTool == "edit" and self.dragging and
 			(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
-			map:dragObject( tileX, tileY )
+			if not map:dragObject( tileX, tileY ) then
+				map:dragBgObject( tileX, tileY )
+			end
 		end
 		self.lastTileX, self.lastTileY = tileX, tileY
 	else
@@ -591,18 +590,19 @@ function editor:mousepressed( button, x, y )
 			elseif self.currentTool == "object" then
 				map:addObject( tileX, tileY, self.currentObject.name )
 				--editor.setTool("edit")
-			elseif self.currentTool == "editBg" then
-				if map:selectBgObjectAt( tileX, tileY ) then
+			elseif self.currentTool == "edit" then
+				map:selectNoObject()
+				map:selectNoBgObject()
+				editPanel.visible = false
+				editBgPanel.visible = false
+				if map:selectObjectAt( tileX, tileY ) then
+					editPanel.visible = true
+					self.dragging = true
+				elseif map:selectBgObjectAt( tileX, tileY ) then
 					editBgPanel.visible = true
 					self.dragging = true
 				else
 					editBgPanel.visible = false
-				end
-			elseif self.currentTool == "edit" then
-				if map:selectObjectAt( tileX, tileY ) then
-					editPanel.visible = true
-					self.dragging = true
-				else
 					editPanel.visible = false
 				end
 			end

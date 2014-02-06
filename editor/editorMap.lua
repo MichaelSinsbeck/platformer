@@ -706,6 +706,7 @@ function EditorMap:dragBgObject( tileX, tileY )
 			self.maxY = math.max(self.maxY, obj.maxY)
 			self:updateBorder()
 		end
+		return true
 	end
 end
 
@@ -915,6 +916,7 @@ function EditorMap:dragObject( tileX, tileY )
 			self.maxY = math.max(self.maxY, obj.maxY)
 			self:updateBorder()
 		end
+		return true
 	end
 end
 
