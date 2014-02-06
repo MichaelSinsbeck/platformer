@@ -34,9 +34,6 @@ function Object:init()
 	new:init()
 	table.insert( list, new )
 
-	new = spriteFactory("door")
-	new:init()
-	table.insert( list, new )
 
 	new = spriteFactory("emitter")
 	new:init()
@@ -55,6 +52,18 @@ function Object:init()
 	table.insert( list, new )
 
 	new = spriteFactory("appearblock")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("key")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("keyhole")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("door")
 	new:init()
 	table.insert( list, new )
 

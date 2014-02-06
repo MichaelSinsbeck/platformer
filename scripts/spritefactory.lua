@@ -112,8 +112,6 @@ function spriteFactory(name,opts)
 		new = Spikey:New(opts)    
 	elseif name == 'bandana' then
 		new = Bandana:New(opts)    
-	elseif name == 'door' then
-		new = Door:New(opts)    
 	elseif name == 'emitter' then
 		new = Emitter:New(opts)    
 	elseif name == 'spawner' then
@@ -124,6 +122,12 @@ function spriteFactory(name,opts)
 		new = Crumbleblock:New(opts)    
 	elseif name == 'appearblock' then
 		new = Appearblock:New(opts)    
+	elseif name == 'door' then
+		new = Door:New(opts)    
+	elseif name == 'key' then
+		new = Key:New(opts)    
+	elseif name == 'keyhole' then
+		new = Keyhole:New(opts)    
 	end
 	if new then
 		new.name = name
