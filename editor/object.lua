@@ -39,7 +39,7 @@ function Object:init()
 			current = 1,
 			values = {"red", "green", "blue", "white"},
 			names = {"red", "green", "blue", "white"},
-			changeEvent = function( newValue ) print("colour changed:", newValue ) end,
+			changeEvent = function( object, newValue ) print("colour changed:", newValue, object ) end,
 		},
 	}
 
@@ -83,7 +83,7 @@ function Object:init()
 			current = 1,
 			values = {0, 0.5*math.pi, math.pi, -0.5*math.pi},
 			names = {"0", "90", "180", "270" },
-			changeEvent = function( newValue ) print("angle changed:", newValue ) end,
+			changeEvent = function( object, newValue ) print("angle changed:", newValue, object ) end,
 		},
 	}
 

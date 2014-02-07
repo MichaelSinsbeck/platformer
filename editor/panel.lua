@@ -203,7 +203,7 @@ function Panel:disselectAll()
 	end
 end
 
-function Panel:addProperty( name, x, y, property )
+function Panel:addProperty( name, x, y, property, obj )
 	
 	--self:addLabel( self.x + x, self.y + y, name .. ":" )
 
@@ -212,13 +212,13 @@ function Panel:addProperty( name, x, y, property )
 	function decrease()
 		property.current = math.max( property.current - 1, 1)
 		if property.changeEvent then
-			property.changeEvent( property.values[property.current] )
+			property.changeEvent( property.obj, property.values[property.current] )
 		end
 	end
 	function increase()
 		property.current = math.min( property.current + 1, #property.values )
 		if property.changeEvent then
-			property.changeEvent( property.values[property.current] )
+			property.changeEvent( property.obj, property.values[property.current] )
 		end
 	end
 
@@ -236,6 +236,7 @@ function Panel:addProperty( name, x, y, property )
 	
 	property.x = x + self.x
 	property.y = y + self.y
+	property.obj = obj
 	self.properties[ name .. ":" ] = property
 end
 
