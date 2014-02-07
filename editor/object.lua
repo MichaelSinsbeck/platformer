@@ -3,6 +3,7 @@ local Object = {}
 function Object:init()
 
 	local list = {}
+	local properties = {}
 
 	local new
 
@@ -33,7 +34,14 @@ function Object:init()
 	new = spriteFactory("bandana")
 	new:init()
 	table.insert( list, new )
-
+	properties[new.name] = {
+		colour = {
+			current = 1,
+			values = {"red", "green", "blue", "white"},
+			names = {"red", "green", "blue", "white"},
+			changeEvent = function( newValue ) print("colour changed:", newValue ) end,
+		},
+	}
 
 	new = spriteFactory("emitter")
 	new:init()
@@ -67,7 +75,19 @@ function Object:init()
 	new:init()
 	table.insert( list, new )
 
-	return list
+	new = spriteFactory("fixedcannon")
+	new:init()
+	table.insert( list, new )
+	properties[new.name] = {
+		angle = {
+			current = 1,
+			values = {0, 0.5*math.pi, math.pi, -0.5*math.pi},
+			names = {"0", "90", "180", "270" },
+			changeEvent = function( newValue ) print("angle changed:", newValue ) end,
+		},
+	}
+
+	return list, properties
 end
 
 return Object

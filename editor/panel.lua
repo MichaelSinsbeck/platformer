@@ -3,7 +3,7 @@ Panel.__index = Panel
 local backgroundColor = {44,90,160,150} -- color of box content
 local PADDING = 3
 
-function Panel:new( x, y, width, height )
+function Panel:new( x, y, width, height, highlightSelected )
 	local o = {}
 	setmetatable(o, self)
 
@@ -11,12 +11,18 @@ function Panel:new( x, y, width, height )
 	o.y = y or 0
 	o.width = width or 100
 	o.height = height or 100
+
+	-- store whether or not the selected buttons of this panel should be highlighted:
+	o.highlightSelected = highlightSelected
 	
 	-- page[0] always gets drawn!
 	-- Other pages only if selectedPage is set correctly.
 	o.pages = {}
 	o.pages[0] = {}
 	o.selectedPage = 1
+
+	o.labels = {}
+	o.properties = {}
 
 	o.visible = true
 
@@ -25,6 +31,15 @@ function Panel:new( x, y, width, height )
 	end
 
 	return o
+end
+
+function Panel:addLabel( x, y, text )
+	local l = {
+		x = x,
+		y = y,
+		text = text,
+	}
+	table.insert( self.labels, l )
 end
 
 function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, centered )
@@ -54,6 +69,14 @@ function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, pa
 	table.insert( self.pages[page], c )
 end
 
+function Panel:clearClickables()
+	self.pages = {}
+	self.pages[0] = {}
+	self.selectedPage = 1
+
+	self.labels = {}
+	self.properties = {}
+end
 
 function Panel:draw()
 
@@ -81,6 +104,14 @@ function Panel:draw()
 	end
 
 	love.graphics.setColor(255,255,255,255)
+
+	for k, label in ipairs( self.labels ) do
+		love.graphics.print( label.name, label.x*Camera.scale, label.y*Camera.scale )
+	end
+	for k, p in pairs( self.properties ) do
+		love.graphics.print( k, p.x*Camera.scale, p.y*Camera.scale )
+		love.graphics.print( p.names[p.current], (p.x+18)*Camera.scale, (p.y)*Camera.scale )
+	end
 
 	for k, button in ipairs( self.pages[0] ) do
 		button:draw()
@@ -133,8 +164,10 @@ function Panel:click( mouseX, mouseY, clicked )
 	for k,button in ipairs( self.pages[0] ) do
 		hit = button:click( mouseX, mouseY, clicked )
 		if hit then
-			self:disselectAll()
-			button:setSelected(true)
+			if self.highlightSelected then
+				self:disselectAll()
+				button:setSelected(true)
+			end
 			hitButton = true
 		end
 	end
@@ -143,8 +176,10 @@ function Panel:click( mouseX, mouseY, clicked )
 		for k,button in ipairs( self.pages[self.selectedPage] ) do
 			hit = button:click( mouseX, mouseY, clicked )
 			if hit then
-				self:disselectAll()
-				button:setSelected(true)
+				if self.highlightSelected then
+					self:disselectAll()
+					button:setSelected(true)
+				end
 				hitButton = true
 			end
 		end
@@ -166,6 +201,42 @@ function Panel:disselectAll()
 			button:setSelected( false )
 		end
 	end
+end
+
+function Panel:addProperty( name, x, y, property )
+	
+	--self:addLabel( self.x + x, self.y + y, name .. ":" )
+
+	-- since the properties are copied by reference,
+	-- changing them here will change them for the object, too:
+	function decrease()
+		property.current = math.max( property.current - 1, 1)
+		if property.changeEvent then
+			property.changeEvent( property.values[property.current] )
+		end
+	end
+	function increase()
+		property.current = math.min( property.current + 1, #property.values )
+		if property.changeEvent then
+			property.changeEvent( property.values[property.current] )
+		end
+	end
+
+	self:addClickable( x + 20, y - 3, decrease,
+		'LEUpOff',
+		'LEUpOn',
+		'LEUpHover',
+		"Choose next value")
+
+	self:addClickable( x + 20, y + 7, increase,
+		'LEDownOff',
+		'LEDownOn',
+		'LEDownHover',
+		"Choose next value")
+	
+	property.x = x + self.x
+	property.y = y + self.y
+	self.properties[ name .. ":" ] = property
 end
 
 return Panel

@@ -38,6 +38,8 @@ function object:init()
   
   self.width, self.height = 0,0
 
+  self.properties = {}	-- used within editor...
+
   if self.vis then
 		if self.vis[1] then
 			self.width, self.height = self.vis[1]:getSize()
@@ -253,7 +255,7 @@ end
 ------------------------------------
 -- Editor related functions:
 ------------------------------------
-
+--[[
 function object:startDragging( x, y )
 	self.dragX = self.x - x
 	self.dragY = self.y - y
@@ -268,4 +270,13 @@ function object:checkCollision( x, y )
 	return x >= self.x and y >= self.y and
 		x <= self.x + self.width and
 		y <= self.y + self.height
-end
+end]]
+
+--[[function object:addProperty( name, initialValue, onChangeEvent )
+	self.properties[name] = {
+		val = initialValua,
+		event = onChangeEvent,
+	}
+end]]
+
+--function object:setProperty( name, 

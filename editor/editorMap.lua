@@ -213,7 +213,6 @@ function EditorMap:updateGroundTileNow( x, y, noMoreRecursion )
 	end
 
 	if foundTransition and not noMoreRecursion then
-		print("transition:", foundTransition)
 		self.groundArray[x][y].transition = foundTransition
 		if self.groundArray[x-1] and self.groundArray[x-1][y] and
 			self.groundArray[x-1][y].gType then
@@ -821,6 +820,17 @@ function EditorMap:addObject( tileX, tileY, objName )
 	end
 	table.insert( self.objectList, newObject )
 
+	-- copy and initialize the objects' properties:
+	local prop = editor.objectProperties[objName]
+	if prop then	-- if there are properties for this type of object:
+		-- copy (and thus initialize) the correct properties:
+		-- (make sure it's a deep copy to copy all the attributes and values
+		-- by value.)
+		newObject.properties = utility.copy( prop, true )
+	else
+		newObject.properties = {}
+	end
+
 	--[[
 	if newObject.x < self.minX or newObject.maxX > self.maxX or
 	newObject.y < self.minY or newObject.maxY > self.maxY then
@@ -920,6 +930,19 @@ function EditorMap:dragObject( tileX, tileY )
 	end
 end
 
+function EditorMap:setObjectProperty( property, value, obj )
+	obj = obj or self.selectedObject
+	if obj then
+		obj.properties[property] = value
+	end
+end
+
+function EditorMap:getObjectProperty( property, obj )
+	obj = obj or self.selectedObject
+	if obj then
+		return obj.properties[property]
+	end
+end
 ----------------------------------------
 -- General:
 ----------------------------------------
@@ -1239,6 +1262,10 @@ function EditorMap:loadFromFile( fullName )
 			if objType == "player" then
 				map.xStart = x + 1
 				map.yStart = y + 1
+			end
+
+			for property, value in obj:gmatch("p:(.-),(.-)\n")do
+				
 			end
 		end
 

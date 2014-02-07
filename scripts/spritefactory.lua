@@ -128,6 +128,8 @@ function spriteFactory(name,opts)
 		new = Key:New(opts)    
 	elseif name == 'keyhole' then
 		new = Keyhole:New(opts)    
+	elseif name == 'fixedcannon' then
+		new = FixedCannon:New(opts)    
 	end
 	if new then
 		new.name = name

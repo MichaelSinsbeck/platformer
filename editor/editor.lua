@@ -24,8 +24,10 @@ local bgObjectPanel
 local toolPanel
 local groundPanel
 local backgroundPanel
-local editPanel
-local editBgPanel
+--local editPanel
+--local editBgPanel
+local propertiesPanel
+
 
 local KEY_CLOSE = "escape"
 local KEY_STAMP = "s"
@@ -61,7 +63,7 @@ function editor.init()
 
 	editor.groundList = Ground:init()
 	editor.bgObjectList = BgObject:init()
-	editor.objectList = Object:init()
+	editor.objectList, editor.objectProperties = Object:init()
 	editor.backgroundList = Background:init()
 
 	editor.toolTip = {
@@ -82,10 +84,53 @@ function editor.createCellQuad()
 							Camera.height/cam.zoom+tileSize, tileSize, tileSize)
 end
 
--- called when editor is to be started:
-function editor.start()
-	print("Starting editor..." )
-	mode = "editor"
+function editor.createPropertiesPanel()
+	propertiesPanel:clearClickables()
+
+	if map.selectedObject then
+		propertiesPanel.visible = true
+		local x, y = 8, 8
+		propertiesPanel:addClickable( x, y, function() map:removeSelectedObject();
+										propertiesPanel.visible = false end,
+				'LEDeleteOff',
+				'LEDeleteOn',
+				'LEDeleteHover',
+				KEY_DELETE .. " - remove" )
+
+		x,y = 4, 22
+		for name, p in pairs(map.selectedObject.properties) do
+			propertiesPanel:addProperty( name, x, y, p )
+			y = y + 25
+		end
+	elseif map.selectedBgObject then
+		propertiesPanel.visible = true
+		local x, y = 8, 8
+		propertiesPanel:addClickable( x, y, function() map:removeSelectedBgObject()
+			propertiesPanel.visible = false end,
+			'LEDeleteOff',
+			'LEDeleteOn',
+			'LEDeleteHover',
+			KEY_DELETE .. " - remove" )
+		x = x + 10
+		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
+			'LELayerUpOff',
+			'LELayerUpOn',
+			'LELayerUpHover',
+			"move up one layer" )
+		x = x + 10
+		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
+			'LELayerDownOff',
+			'LELayerDownOn',
+			'LELayerDownHover',
+			"move down one layer" )
+
+	end
+end
+
+	-- called when editor is to be started:
+	function editor.start()
+		print("Starting editor..." )
+		mode = "editor"
 
 	-- make sure to return to level after testing map!
 	editor.active = true
@@ -97,7 +142,7 @@ function editor.start()
 
 	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
 	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-23,
-							 toolPanelWidth, 16 )
+							 toolPanelWidth, 16, true )
 	-- left side:
 	local x,y = 11,8
 	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
@@ -174,7 +219,7 @@ function editor.start()
 
 
 	-- Panel for choosing the ground type:
-	groundPanel = Panel:new( 1, 30, 16, 90 )
+	groundPanel = Panel:new( 1, 30, 16, 90, true )
 	x,y = 8,7
 
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
@@ -234,7 +279,7 @@ function editor.start()
 				"8 - draw brown spikes" )
 
 	-- Panel for choosing the background type:
-	backgroundPanel = Panel:new( 1, 30, 16, 90 )
+	backgroundPanel = Panel:new( 1, 30, 16, 90, true )
 	x,y = 8,7
 
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
@@ -261,41 +306,11 @@ function editor.start()
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
 
-	editBgPanel = Panel:new( 0, 0, 3*12, 12)
-	editBgPanel.visible = false
 
-	x, y = 6, 6
-	editBgPanel:addClickable( x, y, function() map:removeSelectedBgObject()
-											editBgPanel.visible = false end,
-				'LEDeleteOff',
-				'LEDeleteOn',
-				'LEDeleteHover',
-				KEY_DELETE .. " - remove" )
-	x = x + 10
-	editBgPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
-				'LELayerUpOff',
-				'LELayerUpOn',
-				'LELayerUpHover',
-				"move up one layer" )
-	x = x + 10
-	editBgPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
-				'LELayerDownOff',
-				'LELayerDownOn',
-				'LELayerDownHover',
-				"move down one layer" )
-
-	editPanel = Panel:new( 0, 0, 12, 12 )
-	editPanel.visible = false
-
-	x, y = 6, 6
-	editPanel:addClickable( x, y, function() map:removeSelectedObject();
-											editPanel.visible = false end,
-				'LEDeleteOff',
-				'LEDeleteOn',
-				'LEDeleteHover',
-				KEY_DELETE .. " - remove" )
-
-
+	local panelX = love.graphics.getWidth()/Camera.scale - 40
+	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
+	propertiesPanel = Panel:new( panelX, 10,  39, panelHeight )
+	propertiesPanel.visible = false
 
 	-- available tools:
 	-- "pen", "bgObject"
@@ -403,6 +418,7 @@ function editor:update( dt )
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 
+	--[[
 	if map.selectedBgObject and editBgPanel.visible then
 		local ex, ey = cam:worldToScreen( map.selectedBgObject.drawX,
 							map.selectedBgObject.drawY + map.selectedBgObject.height )
@@ -411,14 +427,15 @@ function editor:update( dt )
 		local ex, ey = cam:worldToScreen( map.selectedObject.editorX,
 							map.selectedObject.editorY + map.selectedObject.height )
 		editPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
-	end
+	end]]
 
 	local hit = toolPanel:collisionCheck( x, y ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
-				( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
-				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
+				--( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
+				--( editPanel.visible and editPanel:collisionCheck(x, y) ) or
+				( propertiesPanel.visible and propertiesPanel:collisionCheck(x, y) ) or
 				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
 
 	if map.draggedBorderMarker then
@@ -502,9 +519,10 @@ function editor:update( dt )
 		local hit = toolPanel:click( x, y, false ) or 
 		( groundPanel.visible and groundPanel:click( x, y, false ) ) or
 		( backgroundPanel.visible and backgroundPanel:click( x, y, false) ) or
-		( editBgPanel.visible and editBgPanel:click( x, y, false) ) or 
-		( editPanel.visible and editPanel:click( x, y, false) ) or 
+		--( editBgPanel.visible and editBgPanel:click( x, y, false) ) or 
+		--( editPanel.visible and editPanel:click( x, y, false) ) or 
 		( bgObjectPanel.visible and bgObjectPanel:click( x, y, false ) ) or
+		( propertiesPanel.visible and propertiesPanel:click( x, y, false ) ) or
 		( objectPanel.visible and objectPanel:click( x, y, false ) )
 	end
 
@@ -516,8 +534,9 @@ function editor:update( dt )
 
 	toolPanel:update( dt )
 	groundPanel:update( dt )
-	editBgPanel:update( dt )
-	editPanel:update( dt )
+	--editBgPanel:update( dt )
+	--editPanel:update( dt )
+	propertiesPanel:update( dt )
 end
 
 function editor:mousepressed( button, x, y )
@@ -536,8 +555,9 @@ function editor:mousepressed( button, x, y )
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
-				( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
-				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
+				--( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
+				--( editPanel.visible and editPanel:collisionCheck(x, y) ) or
+				( propertiesPanel.visible and propertiesPanel:collisionCheck(x, y) ) or
 				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
 
 		if not hit then
@@ -593,17 +613,20 @@ function editor:mousepressed( button, x, y )
 			elseif self.currentTool == "edit" then
 				map:selectNoObject()
 				map:selectNoBgObject()
-				editPanel.visible = false
-				editBgPanel.visible = false
+				propertiesPanel.visible = false
+				--editPanel.visible = false
+				--editBgPanel.visible = false
 				if map:selectObjectAt( tileX, tileY ) then
-					editPanel.visible = true
+					--editPanel.visible = true
 					self.dragging = true
+					editor.createPropertiesPanel()
 				elseif map:selectBgObjectAt( tileX, tileY ) then
-					editBgPanel.visible = true
+					--editBgPanel.visible = true
 					self.dragging = true
-				else
-					editBgPanel.visible = false
-					editPanel.visible = false
+					editor.createPropertiesPanel()
+				--else
+					--editBgPanel.visible = false
+					--editPanel.visible = false
 				end
 			end
 		else
@@ -611,8 +634,9 @@ function editor:mousepressed( button, x, y )
 			local hit = toolPanel:click( x, y, true ) or
 				( groundPanel.visible and groundPanel:click( x, y, true ) ) or
 				( backgroundPanel.visible and backgroundPanel:click( x, y, true ) ) or
-				( editBgPanel.visible and editBgPanel:click( x, y, true) ) or 
-				( editPanel.visible and editPanel:click( x, y, true) ) or 
+				--( editBgPanel.visible and editBgPanel:click( x, y, true) ) or 
+				--( editPanel.visible and editPanel:click( x, y, true) ) or 
+				( propertiesPanel.visible and propertiesPanel:click(x, y, true ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:click( x, y, true ) ) or
 				( objectPanel.visible and objectPanel:click( x, y, true ) )
 		end
@@ -626,8 +650,9 @@ function editor:mousepressed( button, x, y )
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
-				( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
-				( editPanel.visible and editPanel:collisionCheck(x, y) ) or
+				--( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
+				--( editPanel.visible and editPanel:collisionCheck(x, y) ) or
+				( propertiesPanel.visible and propertiesPanel:collisionCheck(x, y ) ) or
 				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
 
 		local mouseOnCanvas = not hit
@@ -792,12 +817,12 @@ function editor:draw()
 	end
 	
 	cam:free()
-
+--[[
 	if editBgPanel.visible then
 		editBgPanel:draw()
 	elseif editPanel.visible then
 		editPanel:draw()
-	end
+	end]]
 
 	toolPanel:draw()
 
@@ -809,6 +834,8 @@ function editor:draw()
 		groundPanel:draw()
 	elseif backgroundPanel.visible then
 		backgroundPanel:draw()
+	elseif propertiesPanel.visible then
+		propertiesPanel:draw()
 	end
 	
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
@@ -823,11 +850,12 @@ end
 function editor.setTool( tool )
 	map:selectNoBgObject()
 	map:selectNoObject()
+	propertiesPanel.visible = false
 	editor.currentTool = tool
 	bgObjectPanel.visible = false
 	objectPanel.visible = false
-	editPanel.visible = false
-	editBgPanel.visible = false
+	--editPanel.visible = false
+	--editBgPanel.visible = false
 	groundPanel.visible = false
 	backgroundPanel.visible = false
 	if tool == "bgObject" then
