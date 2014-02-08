@@ -547,7 +547,6 @@ function editor:mousepressed( button, x, y )
 	elseif button == "wd" then
 		cam:zoomOut()
 	elseif button == "l" then
-
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
@@ -605,7 +604,7 @@ function editor:mousepressed( button, x, y )
 					map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
-			elseif self.currentTool == "bgObject" and self.currentObject then
+			elseif self.currentTool == "bgObject" and self.currentBgObject then
 				map:addBgObject( tileX-1, tileY-1, self.currentBgObject )
 			elseif self.currentTool == "object" and self.currentObject then
 				map:addObject( tileX, tileY, self.currentObject.name )
