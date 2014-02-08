@@ -30,3 +30,11 @@ function utility.directions(collisionResult)
 	local down = collisionResult >= 8
 	return right, left, up, down
 end
+
+function newProperty(values, names)
+	local newProp = {}
+	newProp.values = values
+	newProp.names = names or values
+	newProp.current = 1
+	return newProp
+end

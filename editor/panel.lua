@@ -211,15 +211,13 @@ function Panel:addProperty( name, x, y, property, obj )
 	-- changing them here will change them for the object, too:
 	function decrease()
 		property.current = math.max( property.current - 1, 1)
-		if property.changeEvent then
-			property.changeEvent( property.obj, property.values[property.current] )
-		end
+		obj:setProperty(name, property.values[property.current] ) 
+		obj:applyOptions()
 	end
 	function increase()
 		property.current = math.min( property.current + 1, #property.values )
-		if property.changeEvent then
-			property.changeEvent( property.obj, property.values[property.current] )
-		end
+		obj:setProperty(name, property.values[property.current] ) 
+		obj:applyOptions()
 	end
 
 	self:addClickable( x + 20, y - 3, decrease,

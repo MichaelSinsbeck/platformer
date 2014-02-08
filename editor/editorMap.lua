@@ -1262,6 +1262,7 @@ function EditorMap:loadFromFile( fullName )
 					for property, value in obj:gmatch("p:(.-)=(.-)\n")do
 						newObject:setProperty( property, value )
 					end
+					newObject:applyOptions()
 				end
 			end
 
@@ -1353,8 +1354,10 @@ function EditorMap:objectsToString()
 			str = str .. "Obj:" .. obj.name .. "\n"
 			str = str .. "\tx:" .. obj.tileX - self.minX .. "\n"
 			str = str .. "\ty:" .. obj.tileY - self.minY .. "\n"
-			for name, p in pairs( obj.properties ) do
-				str = str .. "\tp:" .. name .. "=" .. p.values[p.current] .. "\n"
+			if obj.properties then
+				for name, p in pairs( obj.properties ) do
+					str = str .. "\tp:" .. name .. "=" .. p.values[p.current] .. "\n"
+				end
 			end
 			str = str .. "endObj\n"
 			-- TODO: add possible properties here...

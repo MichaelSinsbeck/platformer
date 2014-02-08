@@ -99,6 +99,7 @@ function editor.createPropertiesPanel()
 
 		x,y = 4, 22
 		for name, p in pairs(map.selectedObject.properties) do
+			print(name)
 			propertiesPanel:addProperty( name, x, y, p, map.selectedObject )
 			y = y + 25
 		end

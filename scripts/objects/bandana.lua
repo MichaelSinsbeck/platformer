@@ -2,11 +2,22 @@ Bandana = object:New({
 	tag = 'bandana',
   marginx = .8,
   marginy = .8,
+  color = 'white',
   vis = {
 		Visualizer:New('starBandana'),
 		Visualizer:New('whiteBandana'),
   },
+	properties = {
+		color = newProperty({'white','blue','red'}),
+	},  
 })
+
+function Bandana:applyOptions()
+	print(self.color)
+	local newAnim = self.color .. 'Bandana'
+	print(newAnim)
+	self:setAnim(newAnim,true,2)
+end
 
 function Bandana:setAcceleration(dt)
 	--self.vis[1].angle = self.vis[1].angle + 2*dt

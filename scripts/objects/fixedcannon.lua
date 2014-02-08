@@ -4,11 +4,23 @@ FixedCannon = object:New({
   velocity = 15,
   marginx = .8,
   marginy = .8,
+  angle = -0.5*math.pi,
+  delay = 0,
   vis = {
 		Visualizer:New('shuriken'),
-		Visualizer:New('fixedcannon',{angle = -0.5*math.pi})
+		Visualizer:New('fixedcannon')
+	},
+	properties = {
+		angle = newProperty({0, 0.5*math.pi, math.pi, -0.5*math.pi}, {'right', 'down', 'left', 'up'}),
+		firerate = newProperty({.4, .6, .8, 1, 1.2, 1.4}),
+		delay = newProperty({0, .2 , .4 , .6 , .8})
 	},
 })
+
+function FixedCannon:applyOptions()
+	self.vis[2].angle = self.angle
+	self.vis[1].timer = self.firerate*self.delay
+end
 
 function FixedCannon:setAcceleration(dt)
 	self.vis[1].angle = self.vis[1].angle + 5*dt

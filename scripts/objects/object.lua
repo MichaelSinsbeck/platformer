@@ -25,6 +25,10 @@ function object:New(input)
 		end
 	end
 	
+	if not input.properties and self.properties then
+		o.properties = utility.copy(self.properties,true)
+	end
+	
 	setmetatable(o, self)
 	self.__index = self
 	return o
@@ -38,7 +42,7 @@ function object:init()
   
   self.width, self.height = 0,0
 
-  self.properties = {}	-- used within editor...
+  --self.properties = {}	-- used within editor...
 
   if self.vis then
 		if self.vis[1] then
@@ -55,6 +59,7 @@ function object:init()
 	end
 	self.semiwidth = self.semiwidth or 0.5
 	self.semiheight = self.semiheight or 0.5
+	self:applyOptions()
 end
 
 function object:draw()
@@ -184,6 +189,7 @@ function object:setAnim(name,continue,vis) -- Go to specified animation and rese
 	  if not continue then
 	    self:resetAnimation(vis)
 	  end
+	  self.vis[vis]:update(0)
 	end
 end
 
@@ -247,6 +253,8 @@ function object:resize(newSemiwidth, newSemiheight)
 end
 
 
+function object:applyOptions()
+end
 
 ------------------------------------
 -- Editor related functions:
@@ -277,8 +285,12 @@ end]]
 
 function object:setProperty( name, value )
 	print("setting:", name, value)
-	if name == "firerate" then
-		self.firerate = tonumber(value)
+	
+	-- convert value to number, if it is one
+	if tonumber(value) then value = tonumber(value) end
+	
+	if self[name] then
+		self[name] = value
 	end
 
 	if self.properties[name] then
