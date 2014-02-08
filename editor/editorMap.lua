@@ -793,9 +793,6 @@ function EditorMap:addObject( tileX, tileY, objName )
 	newObject.editorX = newObject.x*self.tileSize - newObject.width*0.5
 	newObject.editorY = newObject.y*self.tileSize - newObject.height*0.5
 	
-	for i = 1, #newObject.vis do
-		newObject.vis[i]:init()
-	end
 
 	if newObject.vis[1] then
 		-- only allow one object at the same position!
@@ -1170,7 +1167,8 @@ function EditorMap:loadFromFile( fullName )
 		local bgObjList = {}
 		for k,b in pairs(editor.bgObjectList) do
 			bgObjList[b.name] = b
-		end local objList = {}
+		end
+		local objList = {}
 		for k,b in pairs(editor.objectList) do
 			objList[b.name] = b
 		end
@@ -1197,7 +1195,7 @@ function EditorMap:loadFromFile( fullName )
 
 		local order = {'b','c','d','g','s','w','1','2'}
 		
-		for tileCounter, currentTile in pairs(order) do
+		for tileCounter, currentTile in ipairs(order) do
 		y = 0
 			for line in ground:gmatch("(.-)\n") do
 				for x = 1, #line do
@@ -1261,10 +1259,10 @@ function EditorMap:loadFromFile( fullName )
 			if objList[objType] then
 				local newObject = map:addObject( x + minX + 1, y + minY + 1, objType )
 				if newObject then
-			for property, value in obj:gmatch("p:(.-)=(.-)\n")do
-				newObject:setProperty( property, value )
-			end
-		end
+					for property, value in obj:gmatch("p:(.-)=(.-)\n")do
+						newObject:setProperty( property, value )
+					end
+				end
 			end
 
 			if objType == "player" then

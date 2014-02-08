@@ -50,11 +50,7 @@ function object:init()
 		end
 		
 		for i = 1,#self.vis do
-			if self.vis[i].animation and AnimationDB.animation[self.vis[i].animation] then
-				local name = AnimationDB.animation[self.vis[i].animation].source
-				self.vis[i].ox = self.vis[i].ox or 0.5*AnimationDB.source[name].width/Camera.scale
-				self.vis[i].oy = self.vis[i].oy or 0.5*AnimationDB.source[name].height/Camera.scale		
-			end
+			self.vis[i]:init()
 		end
 	end
 	self.semiwidth = self.semiwidth or 0.5
