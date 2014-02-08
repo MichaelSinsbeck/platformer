@@ -109,8 +109,8 @@ function Panel:draw()
 		love.graphics.print( label.name, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
-		love.graphics.print( k, p.x*Camera.scale, p.y*Camera.scale )
-		love.graphics.print( p.names[p.current], (p.x+18)*Camera.scale, (p.y)*Camera.scale )
+		love.graphics.print( k .. p.names[p.current], p.x*Camera.scale, p.y*Camera.scale )
+		--love.graphics.print( p.names[p.current], (p.x+18)*Camera.scale, (p.y)*Camera.scale )
 	end
 
 	for k, button in ipairs( self.pages[0] ) do
@@ -237,7 +237,7 @@ function Panel:addProperty( name, x, y, property, obj )
 	property.x = x + self.x
 	property.y = y + self.y
 	property.obj = obj
-	self.properties[ name .. ":" ] = property
+	self.properties[ name .. ": " ] = property
 end
 
 return Panel

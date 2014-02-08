@@ -85,6 +85,12 @@ function Object:init()
 			names = {"0", "90", "180", "270" },
 			changeEvent = function( object, newValue ) print("angle changed:", newValue, object ) end,
 		},
+		firerate = {
+			current = 12,
+			values = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6},
+			names = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6},
+			changeEvent = function( obj, newValue ) obj:setProperty( "firerate", newValue ) end,
+		},
 	}
 
 	return list, properties

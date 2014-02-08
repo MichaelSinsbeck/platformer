@@ -279,4 +279,19 @@ end]]
 	}
 end]]
 
---function object:setProperty( name, 
+function object:setProperty( name, value )
+	print("setting:", name, value)
+	if name == "firerate" then
+		self.firerate = tonumber(value)
+	end
+
+	if self.properties[name] then
+		for i, v in ipairs( self.properties[name].values ) do
+			if tostring(v) == value then
+				print("\tmatch!")
+				self.properties[name].current = i
+				break
+			end
+		end
+	end
+end

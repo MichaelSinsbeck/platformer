@@ -818,7 +818,6 @@ function EditorMap:addObject( tileX, tileY, objName )
 			self:updateBorder()
 		end
 	end
-	table.insert( self.objectList, newObject )
 
 	-- copy and initialize the objects' properties:
 	local prop = editor.objectProperties[objName]
@@ -827,9 +826,13 @@ function EditorMap:addObject( tileX, tileY, objName )
 		-- (make sure it's a deep copy to copy all the attributes and values
 		-- by value.)
 		newObject.properties = utility.copy( prop, true )
-	else
-		newObject.properties = {}
+	--else
+	--	newObject.properties = {}
 	end
+
+	table.insert( self.objectList, newObject )
+
+	return newObject
 
 	--[[
 	if newObject.x < self.minX or newObject.maxX > self.maxX or
@@ -1256,17 +1259,19 @@ function EditorMap:loadFromFile( fullName )
 			x = tonumber(x)
 			y = tonumber(y)
 			if objList[objType] then
-				map:addObject( x + minX + 1, y + minY + 1, objType )
+				local newObject = map:addObject( x + minX + 1, y + minY + 1, objType )
+				if newObject then
+			for property, value in obj:gmatch("p:(.-)=(.-)\n")do
+				newObject:setProperty( property, value )
+			end
+		end
 			end
 
 			if objType == "player" then
 				map.xStart = x + 1
 				map.yStart = y + 1
 			end
-
-			for property, value in obj:gmatch("p:(.-),(.-)\n")do
-				
-			end
+			
 		end
 
 		-- Postprocess
@@ -1348,8 +1353,11 @@ function EditorMap:objectsToString()
 	for k, obj in ipairs(self.objectList) do
 		if obj.name ~= "spikey" then
 			str = str .. "Obj:" .. obj.name .. "\n"
-			str = str .. "x:" .. obj.tileX - self.minX .. "\n"
-			str = str .. "y:" .. obj.tileY - self.minY .. "\n"
+			str = str .. "\tx:" .. obj.tileX - self.minX .. "\n"
+			str = str .. "\ty:" .. obj.tileY - self.minY .. "\n"
+			for name, p in pairs( obj.properties ) do
+				str = str .. "\tp:" .. name .. "=" .. p.values[p.current] .. "\n"
+			end
 			str = str .. "endObj\n"
 			-- TODO: add possible properties here...
 		end
@@ -1683,11 +1691,11 @@ function EditorMap:LineList(tile,height,width)
 			y = nodeList[2*iLine-1].y,
 			x2 = nodeList[2*iLine].x,
 			y2 = nodeList[2*iLine].y})
+		end
+		return lineList
 	end
-	return lineList
-end
 
-function EditorMap:FactoryList(tile,height,width)
+	function EditorMap:FactoryList(tile,height,width)
 
 		local factoryList = {} 
 		-- find all entities, add objects to spriteEngine and replace by zero
@@ -1711,64 +1719,64 @@ function EditorMap:FactoryList(tile,height,width)
 			[18] = Appearblock,
 			[19] = Disappearblock,
 			[20] = Crumbleblock,
-		[21] = Glassblock,
-		[22] = Keyhole,
-		[23] = Door,
-		[24] = Key,
-		[25] = Windmill,
-		[26] = BouncerLeft,
-	[27] = BouncerTop,
-	[28] = BouncerRight,
-	[29] = Bumper,
-	[30] = Clubber,
-	[31] = WalkerLeft,
-	[32] = Walker,
-	
-  [33] = Spikey,
+			[21] = Glassblock,
+			[22] = Keyhole,
+			[23] = Door,
+			[24] = Key,
+			[25] = Windmill,
+			[26] = BouncerLeft,
+			[27] = BouncerTop,
+			[28] = BouncerRight,
+			[29] = Bumper,
+			[30] = Clubber,
+			[31] = WalkerLeft,
+			[32] = Walker,
 
-	[37] = FixedCannon1r,
-	[38] = FixedCannon2r,
-	[39] = FixedCannon3r,
-	[40] = FixedCannon4r,
-	[45] = FixedCannon1d,
-	[46] = FixedCannon2d,
-	[47] = FixedCannon3d,
-	[48] = FixedCannon4d,
-	[53] = FixedCannon1l,
-	[54] = FixedCannon2l,
-	[55] = FixedCannon3l,
-	[56] = FixedCannon4l,
-	[61] = FixedCannon1u,
-	[62] = FixedCannon2u,
-	[63] = FixedCannon3u,
-	[64] = FixedCannon4u,
-	
-	[65] = Light,
-	[66] = Torch,
-	[67] = Lamp,
-	
-	[68] = InputJump,
-	[69] = InputAction,
-	[70] = InputLeft,
-	[71] = InputRight,
-	[73] = WalkerDown,
-	[74] = WalkerRight,
-	[75] = WalkerUp,
-	[76] = WalkerLeft,
-	[77] = SpawnerLeft,
-	[78] = Spawner,
-}
-  
-  for i=1,width do
-    for j = 1,height do
-			if objectList[tile[i][j]] then
-				local constr = objectList[tile[i][j]]
-			  local newObject = {constructor = constr, x = i, y = j}
-			  table.insert(factoryList,newObject)
-			end             
-    end
-  end
-return factoryList
-end
+			[33] = Spikey,
 
-return EditorMap
+			[37] = FixedCannon1r,
+			[38] = FixedCannon2r,
+			[39] = FixedCannon3r,
+			[40] = FixedCannon4r,
+			[45] = FixedCannon1d,
+			[46] = FixedCannon2d,
+			[47] = FixedCannon3d,
+			[48] = FixedCannon4d,
+			[53] = FixedCannon1l,
+			[54] = FixedCannon2l,
+			[55] = FixedCannon3l,
+			[56] = FixedCannon4l,
+			[61] = FixedCannon1u,
+			[62] = FixedCannon2u,
+			[63] = FixedCannon3u,
+			[64] = FixedCannon4u,
+
+			[65] = Light,
+			[66] = Torch,
+			[67] = Lamp,
+
+			[68] = InputJump,
+			[69] = InputAction,
+			[70] = InputLeft,
+			[71] = InputRight,
+			[73] = WalkerDown,
+			[74] = WalkerRight,
+			[75] = WalkerUp,
+			[76] = WalkerLeft,
+			[77] = SpawnerLeft,
+			[78] = Spawner,
+		}
+
+		for i=1,width do
+			for j = 1,height do
+				if objectList[tile[i][j]] then
+					local constr = objectList[tile[i][j]]
+					local newObject = {constructor = constr, x = i, y = j}
+					table.insert(factoryList,newObject)
+				end             
+			end
+		end
+		return factoryList
+	end
+
+	return EditorMap
