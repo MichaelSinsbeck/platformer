@@ -8,7 +8,7 @@ Bandana = object:New({
 		Visualizer:New('whiteBandana'),
   },
 	properties = {
-		color = newProperty({'white','blue','red'}),
+		color = newProperty({'white','blue','red'}, {'white', 'blue', 'red'}, true)
 	},  
 })
 

@@ -203,19 +203,33 @@ function Panel:disselectAll()
 	end
 end
 
-function Panel:addProperty( name, x, y, property, obj )
+function Panel:addProperty( name, x, y, property, obj, cycle )
 	
 	--self:addLabel( self.x + x, self.y + y, name .. ":" )
 
 	-- since the properties are copied by reference,
 	-- changing them here will change them for the object, too:
 	function decrease()
-		property.current = math.max( property.current - 1, 1)
+		property.current = property.current - 1
+		if property.current < 1 then
+			if property.cycle then
+				property.current = #property.values
+			else
+				property.current = 1
+			end
+		end
 		obj:setProperty(name, property.values[property.current] ) 
 		obj:applyOptions()
 	end
 	function increase()
-		property.current = math.min( property.current + 1, #property.values )
+		property.current = property.current + 1
+		if property.current > #property.values then
+			if property.cycle then
+				property.current = 1
+			else
+				property.current = #property.values
+			end
+		end
 		obj:setProperty(name, property.values[property.current] ) 
 		obj:applyOptions()
 	end
