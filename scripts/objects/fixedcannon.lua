@@ -11,7 +11,7 @@ FixedCannon = object:New({
 		Visualizer:New('fixedcannon')
 	},
 	properties = {
-		angle = newProperty({0, 0.5*math.pi, math.pi, -0.5*math.pi}, {'right', 'down', 'left', 'up'}, true),
+		angle = newCycleProperty({0, 0.5*math.pi, math.pi, -0.5*math.pi}, {'right', 'down', 'left', 'up'}),
 		firerate = newProperty({.4, .6, .8, 1, 1.2, 1.4}),
 		delay = newProperty({0, .2 , .4 , .6 , .8})
 	},

@@ -8,15 +8,12 @@ Bandana = object:New({
 		Visualizer:New('whiteBandana'),
   },
 	properties = {
-		color = newProperty({'white','blue','red'}, nil, true )
+		color = newCycleProperty({'white','blue','red'})
 	},  
 })
 
 function Bandana:applyOptions()
-	print(self.color)
-	local newAnim = self.color .. 'Bandana'
-	print(newAnim)
-	self:setAnim(newAnim,true,2)
+	self:setAnim(self.color .. 'Bandana',true,2)
 end
 
 function Bandana:setAcceleration(dt)
