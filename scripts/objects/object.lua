@@ -38,8 +38,6 @@ function object:init()
   
   self.width, self.height = 0,0
 
-  --self.properties = {}	-- used within editor...
-
   if self.vis then
 		if self.vis[1] then
 			self.width, self.height = self.vis[1]:getSize()

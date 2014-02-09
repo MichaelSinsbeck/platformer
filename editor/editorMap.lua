@@ -1450,8 +1450,9 @@ function EditorMap:start(p)
 		end
 		local newObject = constructor:New({x = nx, y = ny})
 		]]
-		obj:update(0)
-		spriteEngine:insert(obj)
+		local newObj = obj:New()
+		newObj:update(0)
+		spriteEngine:insert(newObj)
 	end
 	for i = 1,#self.lineList do
 		local newObject = Line:New({
