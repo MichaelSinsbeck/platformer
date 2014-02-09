@@ -97,12 +97,12 @@ function editor.createPropertiesPanel()
 				'LEDeleteHover',
 				KEY_DELETE .. " - remove" )
 
-		x,y = 4, 22
+		x,y = 4, 16
 		if map.selectedObject.properties then
 			for name, p in pairs(map.selectedObject.properties) do
 				print(name)
 				propertiesPanel:addProperty( name, x, y, p, map.selectedObject )
-				y = y + 25
+				y = y + 16
 			end
 		end
 	elseif map.selectedBgObject then

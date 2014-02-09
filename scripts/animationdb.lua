@@ -5,7 +5,7 @@ source = {},
 animation = {}
 }
 
-function AnimationDB:loadImage(imagefilename,name,height,width, subfolder)
+function AnimationDB:loadImage(imagefilename,name,height,width,subfolder)
 	-- Load image and prepare quads (height and width are optional)
 	if subfolder then
 		imagefilename = 'images/'.. subfolder .. "/" .. Camera.scale*8 .. imagefilename
@@ -369,7 +369,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('LEObjectOn'  ,'editorButton',{55},{1e6})
 	AnimationDB:addAni('LEObjectHover','editorButton',{56},{1e6})
 	AnimationDB:addAni('LEObjectOff'   ,'editorButton',{55},{1e6})
-	AnimationDB:loadImage('buttonProperties.png','editorButtonProperties',tileSize*0.5,tileSize, "editor")
+	AnimationDB:loadImage('buttonProperties.png','editorButtonProperties',tileSize*0.5,tileSize*0.5, "editor")
 	AnimationDB:addAni('LEUpOff'   ,'editorButtonProperties',{1},{1e6})
 	AnimationDB:addAni('LEUpHover'   ,'editorButtonProperties',{2},{1e6})
 	AnimationDB:addAni('LEUpOn'   ,'editorButtonProperties',{3},{1e6})

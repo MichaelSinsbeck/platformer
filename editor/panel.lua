@@ -109,9 +109,9 @@ function Panel:draw()
 		love.graphics.print( label.name, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
-		love.graphics.print( k  .. ' :' .. p.obj[k], p.x*Camera.scale, p.y*Camera.scale )
+		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
+		love.graphics.print( p.obj[k], (p.x+6)*Camera.scale, (p.y+6)*Camera.scale )
 	end
-
 	for k, button in ipairs( self.pages[0] ) do
 		button:draw()
 	end
@@ -134,9 +134,6 @@ function Panel:moveTo( x, y )
 			button.minY = button.y*Camera.scale - 0.5 * button.height
 			button.maxX = button.minX + button.width
 			button.maxY = button.minY + button.height
-
-
-
 		end
 	end
 	self.x, self.y = x,y
@@ -226,15 +223,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 				current = 1
 			end
 		end
-		--[[property.current = property.current - 1
-		if property.current < 1 then
-			if property.cycle then
-				property.current = #property.values
-			else
-				property.current = 1
-			end
-		end--]]
-		obj:setProperty(name, property.values[current] ) 
+		obj:setProperty( name, property.values[current] ) 
 		obj:applyOptions()
 	end
 	function increase()
@@ -254,25 +243,17 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 				current = #property.values
 			end		
 		end
-		--[[property.current = property.current + 1
-		if property.current > #property.values then
-			if property.cycle then
-				property.current = 1
-			else
-				property.current = #property.values
-			end
-		end]]
-		obj:setProperty(name, property.values[current] ) 
+		obj:setProperty( name, property.values[current] ) 
 		obj:applyOptions()
 	end
 
-	self:addClickable( x + 20, y - 3, decrease,
+	self:addClickable( x + 1, y + 8, decrease,
 		'LEUpOff',
 		'LEUpOn',
 		'LEUpHover',
 		"Choose next value")
 
-	self:addClickable( x + 20, y + 7, increase,
+	self:addClickable( x + 30, y + 8, increase,
 		'LEDownOff',
 		'LEDownOn',
 		'LEDownHover',

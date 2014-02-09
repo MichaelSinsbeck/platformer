@@ -159,7 +159,7 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 	o.maxX = o.minX + o.width
 	o.maxY = o.minY + o.height
 
-	o.event = event
+ 	o.event = event
 
 	o.active = "off"
 
