@@ -815,6 +815,11 @@ function EditorMap:addObject( tileX, tileY, objName )
 			self:updateBorder()
 		end
 	end
+	
+	-- Change collision array of map, if object is solid
+	if newObject.solid then
+		self.collisionSrc[tileX][tileY] = 1
+	end
 
 	-- copy and initialize the objects' properties:
 	local prop = editor.objectProperties[objName]

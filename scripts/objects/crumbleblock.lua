@@ -3,11 +3,15 @@ Crumbleblock = object:New({
   marginx = 0.8,
   marginy = 0.8,
   state = 'sleep',
+  solid = true,
   crumbleTime = 1,
   --animation = 'crumbleblock',
   spreadSpeed = 8,  -- For explosion
   particleRotSpeed = 5, -- For explosion
   vis = {Visualizer:New('crumbleblock')},
+	properties = {
+		crumbleTime = newProperty({.5 , 1, 1.5, 2, 2.5, 3})
+	},  
 })
 
 function Crumbleblock:setAcceleration(dt)

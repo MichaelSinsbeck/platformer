@@ -6,6 +6,7 @@ FixedCannon = object:New({
   marginy = .8,
   angle = -0.5*math.pi,
   delay = 0,
+  solid = true,
   vis = {
 		Visualizer:New('shuriken'),
 		Visualizer:New('fixedcannon')
