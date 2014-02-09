@@ -31,17 +31,17 @@ function utility.directions(collisionResult)
 	return right, left, up, down
 end
 
-function newProperty(values, names, current)
+function newProperty(values, names, default)
 	local newProp = {}
 	newProp.values = values
 	newProp.names = names or values
-	newProp.current = current or 1
+	newProp.default = default or 1
 	newProp.cycle = false
 	return newProp
 end
 
-function newCycleProperty(values, names, current)
-	local newProp = newProperty(values, names, current)
+function newCycleProperty(values, names, default)
+	local newProp = newProperty(values, names, default)
 	newProp.cycle = true
 	return newProp
 end

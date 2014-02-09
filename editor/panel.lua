@@ -109,8 +109,7 @@ function Panel:draw()
 		love.graphics.print( label.name, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
-		love.graphics.print( k .. p.names[p.current], p.x*Camera.scale, p.y*Camera.scale )
-		--love.graphics.print( p.names[p.current], (p.x+18)*Camera.scale, (p.y)*Camera.scale )
+		love.graphics.print( k  .. ' :' .. p.obj[k], p.x*Camera.scale, p.y*Camera.scale )
 	end
 
 	for k, button in ipairs( self.pages[0] ) do
@@ -210,27 +209,60 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 	-- since the properties are copied by reference,
 	-- changing them here will change them for the object, too:
 	function decrease()
-		property.current = property.current - 1
+		-- find current index
+		local current = 1
+		for i,v in ipairs(property.values) do
+			if tostring(v) == tostring(obj[name]) then
+				current = i
+				break
+			end
+		end
+		-- decrease value and cycle/clamp
+		current = current -1
+		if current < 1 then
+			if property.cycle then
+				current = #property.values
+			else
+				current = 1
+			end
+		end
+		--[[property.current = property.current - 1
 		if property.current < 1 then
 			if property.cycle then
 				property.current = #property.values
 			else
 				property.current = 1
 			end
-		end
-		obj:setProperty(name, property.values[property.current] ) 
+		end--]]
+		obj:setProperty(name, property.values[current] ) 
 		obj:applyOptions()
 	end
 	function increase()
-		property.current = property.current + 1
+		-- find current index
+		local current = 1
+		for i,v in ipairs(property.values) do
+			if tostring(v) == tostring(obj[name]) then
+				current = i
+				break
+			end
+		end
+		current = current + 1
+		if current > #property.values then
+			if property.cycle then
+				current = 1
+			else
+				current = #property.values
+			end		
+		end
+		--[[property.current = property.current + 1
 		if property.current > #property.values then
 			if property.cycle then
 				property.current = 1
 			else
 				property.current = #property.values
 			end
-		end
-		obj:setProperty(name, property.values[property.current] ) 
+		end]]
+		obj:setProperty(name, property.values[current] ) 
 		obj:applyOptions()
 	end
 
@@ -249,7 +281,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 	property.x = x + self.x
 	property.y = y + self.y
 	property.obj = obj
-	self.properties[ name .. ": " ] = property
+	self.properties[ name ] = property
 end
 
 return Panel

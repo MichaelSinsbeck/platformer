@@ -1361,7 +1361,7 @@ function EditorMap:objectsToString()
 			str = str .. "\ty:" .. obj.tileY - self.minY .. "\n"
 			if obj.properties then
 				for name, p in pairs( obj.properties ) do
-					str = str .. "\tp:" .. name .. "=" .. p.values[p.current] .. "\n"
+					str = str .. "\tp:" .. name .. "=" ..  obj[name] .. "\n"
 				end
 			end
 			str = str .. "endObj\n"

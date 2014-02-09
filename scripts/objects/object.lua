@@ -25,10 +25,6 @@ function object:New(input)
 		end
 	end
 	
-	if not input.properties and self.properties then
-		o.properties = utility.copy(self.properties,true)
-	end
-	
 	setmetatable(o, self)
 	self.__index = self
 	return o
@@ -61,18 +57,12 @@ function object:init()
 	self.semiheight = self.semiheight or 0.5
 	
 	-- copy values from properties to self variables, then applyOptions
+	-- warning: If any parent class has a variable set already, then it will
+	--          not be overwritten.
 	if self.properties then
 		for k,prop in pairs(self.properties) do
-			-- if variable exists already, then write "current"
-			if self[k] ~= nil then		
-				for i, v in ipairs( prop.values ) do
-					if tostring(v) == tostring(self[k]) then
-						prop.current = i
-						break
-					end
-				end
-			else -- otherwise, write value to variable
-				self[k] = prop.values[prop.current]
+			if self[k] == nil then
+				self[k] = prop.values[prop.default]
 			end
 		end
 	end
@@ -310,7 +300,7 @@ function object:setProperty( name, value )
 		self[name] = value
 	end
 
-	if self.properties[name] then
+	--[[if self.properties[name] then
 		for i, v in ipairs( self.properties[name].values ) do
 			if tostring(v) == tostring(value) then
 				--print("\tmatch!")
@@ -318,5 +308,5 @@ function object:setProperty( name, value )
 				break
 			end
 		end
-	end
+	end]]
 end
