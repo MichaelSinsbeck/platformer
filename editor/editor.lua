@@ -98,10 +98,12 @@ function editor.createPropertiesPanel()
 				KEY_DELETE .. " - remove" )
 
 		x,y = 4, 22
-		for name, p in pairs(map.selectedObject.properties) do
-			print(name)
-			propertiesPanel:addProperty( name, x, y, p, map.selectedObject )
-			y = y + 25
+		if map.selectedObject.properties then
+			for name, p in pairs(map.selectedObject.properties) do
+				print(name)
+				propertiesPanel:addProperty( name, x, y, p, map.selectedObject )
+				y = y + 25
+			end
 		end
 	elseif map.selectedBgObject then
 		propertiesPanel.visible = true

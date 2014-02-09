@@ -1,5 +1,6 @@
 Keyhole = Door:New({
 	tag = 'keyhole',
+	solid = true,	
 	vis = {Visualizer:New('keyhole')},
 })
 

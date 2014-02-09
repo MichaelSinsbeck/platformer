@@ -4,13 +4,12 @@ Crumbleblock = object:New({
   marginy = 0.8,
   state = 'sleep',
   solid = true,
-  crumbleTime = 1,
-  --animation = 'crumbleblock',
+  lifetime = .5,
   spreadSpeed = 8,  -- For explosion
   particleRotSpeed = 5, -- For explosion
   vis = {Visualizer:New('crumbleblock')},
 	properties = {
-		crumbleTime = newProperty({.5 , 1, 1.5, 2, 2.5, 3})
+		lifetime = newProperty({.5 , 1, 1.5, 2, 2.5, 3})
 	},  
 })
 
@@ -22,10 +21,10 @@ function Crumbleblock:postStep(dt)
 		math.abs(self.x-p.x) <= self.semiwidth+p.semiwidth and
 		math.abs(self.y-p.y) <= self.semiheight+p.semiheight then
 		self.state = 'wait'
+		self.vis[1].timer = 0
 	elseif self.state == 'wait' then
-		self.crumbleTime = self.crumbleTime - dt
-		self.vis[1].alpha = 120+125*self.crumbleTime
-		if self.crumbleTime < 0 then
+		self.vis[1].alpha = 120+125*math.max(1-self.vis[1].timer/self.lifetime,0)
+		if self.vis[1].timer > self.lifetime then
 			myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
 			myMap:queueShadowUpdate()
 			self:kill()

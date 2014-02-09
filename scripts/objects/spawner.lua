@@ -4,6 +4,7 @@ Spawner = object:New({
   marginx = .8,
   marginy = .8,
   timer = 3,
+  solid = true,
   vis = {
 		Visualizer:New('spawnerback'),
 		Visualizer:New('spawnerbar'),

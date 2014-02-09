@@ -4,6 +4,7 @@ Door = object:New({
   marginy = 0.8,
   status = 'passive',
   openTime = 0.05,
+  solid = true,
   vis = {Visualizer:New('door'),},
 })
 
