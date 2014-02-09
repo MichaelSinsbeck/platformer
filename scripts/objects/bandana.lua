@@ -2,7 +2,6 @@ Bandana = object:New({
 	tag = 'bandana',
   marginx = .8,
   marginy = .8,
-  color = 'white',
   vis = {
 		Visualizer:New('starBandana'),
 		Visualizer:New('whiteBandana'),

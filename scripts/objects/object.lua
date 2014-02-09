@@ -59,6 +59,23 @@ function object:init()
 	end
 	self.semiwidth = self.semiwidth or 0.5
 	self.semiheight = self.semiheight or 0.5
+	
+	-- copy values from properties to self variables, then applyOptions
+	if self.properties then
+		for k,prop in pairs(self.properties) do
+			-- if variable exists already, then write "current"
+			if self[k] ~= nil then		
+				for i, v in ipairs( prop.values ) do
+					if tostring(v) == tostring(self[k]) then
+						prop.current = i
+						break
+					end
+				end
+			else -- otherwise, write value to variable
+				self[k] = prop.values[prop.current]
+			end
+		end
+	end
 	self:applyOptions()
 end
 

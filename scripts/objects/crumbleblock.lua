@@ -4,12 +4,11 @@ Crumbleblock = object:New({
   marginy = 0.8,
   state = 'sleep',
   solid = true,
-  lifetime = .5,
   spreadSpeed = 8,  -- For explosion
   particleRotSpeed = 5, -- For explosion
   vis = {Visualizer:New('crumbleblock')},
 	properties = {
-		lifetime = newProperty({.5 , 1, 1.5, 2, 2.5, 3})
+		lifetime = newProperty({.5 , 1, 1.5, 2, 2.5, 3},nil,2)
 	},  
 })
 

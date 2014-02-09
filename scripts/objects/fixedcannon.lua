@@ -1,11 +1,9 @@
 FixedCannon = object:New({
 	tag = 'Fixed Cannon',
-  firerate = 1.2, -- in seconds
+  --firerate = 1.2, -- in seconds
   velocity = 15,
   marginx = .8,
   marginy = .8,
-  angle = -0.5*math.pi,
-  delay = 0,
   solid = true,
   vis = {
 		Visualizer:New('shuriken'),
@@ -13,7 +11,7 @@ FixedCannon = object:New({
 	},
 	properties = {
 		angle = newCycleProperty({0, 0.5*math.pi, math.pi, -0.5*math.pi}, {'right', 'down', 'left', 'up'}),
-		firerate = newProperty({.4, .6, .8, 1, 1.2, 1.4}),
+		firerate = newProperty({.4, .6, .8, 1, 1.2, 1.4},nil,5),
 		delay = newProperty({0, .2 , .4 , .6 , .8})
 	},
 })
