@@ -219,6 +219,12 @@ end
 				'LEPlayOn',
 				'LEPlayHover',
 				KEY_TEST .. " - Test the map")
+	x = x - 12
+	toolPanel:addClickable( x, y, function() editor.newMap() end,
+				'LENewOff',
+				'LENewOn',
+				'LENewHover',
+				"New map" )
 
 
 	-- Panel for choosing the ground type:
@@ -887,6 +893,11 @@ function editor.testMap()
 	menu.startTransition( menu.startGame( "test.dat" ), false )()
 end
 
+function editor.newMap()
+	map = EditorMap:new( editor.backgroundList )
+	cam.zoom = 1
+	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
+end
 ------------------------------------
 -- Saving and Loading maps:
 ------------------------------------
@@ -955,6 +966,7 @@ function editor.loadFile( fileName, testFile )
 		fullName = "test.dat"
 	end
 	map = EditorMap:loadFromFile( fullName ) or map
+	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
 end
 
