@@ -34,7 +34,11 @@ end
 function newProperty(values, names, default)
 	local newProp = {}
 	newProp.values = values
-	newProp.names = names or values
+	names = names or values
+	newProp.names = {}
+	for i,v in ipairs(values) do
+		newProp.names[v] = names[i]
+	end
 	newProp.default = default or 1
 	newProp.cycle = false
 	return newProp
