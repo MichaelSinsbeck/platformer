@@ -15,6 +15,7 @@ Background = require("editor/background")
 BgObject = require("editor/bgObject")
 Object = require("editor/object")
 EditorCam = require("editor/editorCam")
+require("editor/msgBox")
 
 local map = nil
 local cam = nil
@@ -202,7 +203,7 @@ end
 				'LEExitHover',
 				"Close editor and return to main menu.")
 	x = x - 10
-	toolPanel:addClickable( x, y, function() editor.saveFile() end,
+	toolPanel:addClickable( x, y, function() editor.saveFileAttempt() end,
 				'LESaveOff',
 				'LESaveOn',
 				'LESaveHover',
@@ -214,13 +215,13 @@ end
 				'LEOpenHover',
 				"Load another map.")
 	x = x - 10
-	toolPanel:addClickable( x, y, function() editor.testMap() end,
+	toolPanel:addClickable( x, y, function() editor.testMapAttempt() end,
 				'LEPlayOff',
 				'LEPlayOn',
 				'LEPlayHover',
 				KEY_TEST .. " - Test the map")
 	x = x - 12
-	toolPanel:addClickable( x, y, function() editor.newMap() end,
+	toolPanel:addClickable( x, y, function() editor.newMapAttempt() end,
 				'LENewOff',
 				'LENewOn',
 				'LENewHover',
@@ -437,8 +438,8 @@ function editor:update( dt )
 							map.selectedObject.editorY + map.selectedObject.height )
 		editPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
 	end]]
-
-	local hit = toolPanel:collisionCheck( x, y ) or
+	local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
@@ -525,14 +526,15 @@ function editor:update( dt )
 		self.lastTileX, self.lastTileY = tileX, tileY
 	else
 		-- mouse did hit a panel? Then check for a click:
-		local hit = toolPanel:click( x, y, false ) or 
-		( groundPanel.visible and groundPanel:click( x, y, false ) ) or
-		( backgroundPanel.visible and backgroundPanel:click( x, y, false) ) or
-		--( editBgPanel.visible and editBgPanel:click( x, y, false) ) or 
-		--( editPanel.visible and editPanel:click( x, y, false) ) or 
-		( bgObjectPanel.visible and bgObjectPanel:click( x, y, false ) ) or
-		( propertiesPanel.visible and propertiesPanel:click( x, y, false ) ) or
-		( objectPanel.visible and objectPanel:click( x, y, false ) )
+		local hit = ( msgBox.active and msgBox:click( x, y, false ) ) or
+			( toolPanel.visible and toolPanel:click( x, y, false ) ) or
+			( groundPanel.visible and groundPanel:click( x, y, false ) ) or
+			( backgroundPanel.visible and backgroundPanel:click( x, y, false) ) or
+			--( editBgPanel.visible and editBgPanel:click( x, y, false) ) or 
+			--( editPanel.visible and editPanel:click( x, y, false) ) or 
+			( bgObjectPanel.visible and bgObjectPanel:click( x, y, false ) ) or
+			( propertiesPanel.visible and propertiesPanel:click( x, y, false ) ) or
+			( objectPanel.visible and objectPanel:click( x, y, false ) )
 	end
 
 	if self.toolTip.text == "" and self.currentTool and not hit then
@@ -559,7 +561,8 @@ function editor:mousepressed( button, x, y )
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
-		local hit = toolPanel:collisionCheck( x, y ) or
+		local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
@@ -639,7 +642,8 @@ function editor:mousepressed( button, x, y )
 			end
 		else
 			-- a panel was hit: check if any button was pressed:
-			local hit = toolPanel:click( x, y, true ) or
+			local hit = ( msgBox.active and msgBox:click( x, y, true ) ) or
+				( toolPanel.visible and toolPanel:click( x, y, true ) ) or
 				( groundPanel.visible and groundPanel:click( x, y, true ) ) or
 				( backgroundPanel.visible and backgroundPanel:click( x, y, true ) ) or
 				--( editBgPanel.visible and editBgPanel:click( x, y, true) ) or 
@@ -650,11 +654,10 @@ function editor:mousepressed( button, x, y )
 		end
 	elseif button == "r" then
 
-
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
-		local hit = toolPanel:collisionCheck( x, y ) or
+		local hit = ( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
@@ -736,7 +739,7 @@ function editor.keypressed( key, repeated )
 	elseif key == KEY_STAMP then
 		editor.setTool("bgObject")
 	elseif key == KEY_TEST then
-		editor.testMap()
+		editor.testMapAttempt()
 	elseif key == KEY_DELETE then
 		if map.selectedBgObject then
 			map:removeSelectedBgObject()
@@ -845,6 +848,10 @@ function editor:draw()
 	elseif propertiesPanel.visible then
 		propertiesPanel:draw()
 	end
+
+	if msgBox.active then
+		msgBox:draw()
+	end
 	
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
 	
@@ -887,13 +894,39 @@ end
 function editor.textinput( letter )
 end
 
-function editor.testMap()
-	editor.saveFile( "test.dat", "" )
+function editor.testMapAttempt()
+	local foundPlayer, foundFlag
+	for k, obj in ipairs( map.objectList ) do
+		if obj.name == "player" then
+			foundPlayer = true
+		elseif obj.name == "exit" then
+			foundFlag = true
+		end
+	end
+
+	if not foundPlayer then
+		msgBox:new("No player found on map.\nTest with default start position?", editor.testMapNow)
+		return
+	end
+	if not foundFlag then
+		msgBox:new("No flag found on map.\nTest without it?", editor.testMapNow)
+		return
+	end
+	editor.testMapNow()
+end
+
+function editor.testMapNow()
+	editor.saveFileNow( "test.dat", "" )
 
 	menu.startTransition( menu.startGame( "test.dat" ), false )()
 end
 
-function editor.newMap()
+function editor.newMapAttempt()
+	msgBox:new( "Create new map?\nAnswering yes will destroy all changes for the current map.",
+				editor.newMapNow, nil )
+end
+
+function editor.newMapNow()
 	map = EditorMap:new( editor.backgroundList )
 	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
@@ -920,19 +953,30 @@ function editor.loadList()
 	list = love.filesystem.getDirectoryList( "userlevels/")
 end
 
-function editor.saveFile( fileName, testFile )
-	local fullName = "mylevels/" .. (fileName or "bkup.dat")
+function editor.saveFileAttempt( fileName, testFile )
+	fileName = fileName or "bkup.dat"
+	local fullName = "mylevels/" .. fileName 
+	if love.filesystem.isFile( fullName ) then
+		local ev = function()
+			editor.saveFileNow( fileName, testFile )
+		end
+		msgBox:new( "The file '" .. fileName .. "' already exists.\nOverwrite?", ev )
+	else
+		editor.saveFileNow( fileName, testFile )
+	end
+end
+
+
+-- Note: the following does NOT prompt if there's an existing file of the
+-- same file name. To do that, call saveFileAttempt instead.
+function editor.saveFileNow( fileName, testFile )
+	fileName = fileName or "bkup.dat"
+	local fullName = "mylevels/" .. fileName
 	if testFile then
 		fullName = "test.dat"
 	end
 
-	print("Attempting to save as '" .. fullName .. "'")
-
-	if love.filesystem.isFile( fullName ) then
-		print( "\tWarning: file exists! Replacing..." )
-		-- TODO:
-		-- Add message box here, let the user choose to overwrite or not.
-	end
+	print("Sasving as '" .. fullName .. "'")
 
 	if map then
 		local content = FILE_HEADER
@@ -959,6 +1003,7 @@ function editor.saveFile( fileName, testFile )
 		print("\tError: no map!")
 	end
 end
+
 
 function editor.loadFile( fileName, testFile )
 	local fullName = "mylevels/" .. (fileName or "bkup.dat")
