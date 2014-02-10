@@ -153,13 +153,13 @@ function Panel:update( dt )
 	end
 end
 
-function Panel:click( mouseX, mouseY, clicked )
+function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 
 	-- this gets set to true if the click hit a clickable on this panel:
 	local hitButton = false
 	local hit
 	for k,button in ipairs( self.pages[0] ) do
-		hit = button:click( mouseX, mouseY, clicked )
+		hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
 		if hit then
 			if self.highlightSelected then
 				self:disselectAll()
@@ -171,7 +171,7 @@ function Panel:click( mouseX, mouseY, clicked )
 	
 	if self.pages[self.selectedPage] then
 		for k,button in ipairs( self.pages[self.selectedPage] ) do
-			hit = button:click( mouseX, mouseY, clicked )
+			hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
 			if hit then
 				if self.highlightSelected then
 					self:disselectAll()

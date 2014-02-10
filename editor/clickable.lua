@@ -197,41 +197,49 @@ function Clickable:draw()
 	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
 end
 
-function Clickable:click( mouseX, mouseY, clicked )
-	if self:collisionCheck( mouseX, mouseY ) then
-		editor.setToolTip( self.toolTip )
-		if clicked then
-			-- new click?
-			if self.active ~= "click" then
-				-- if new click, run the event:
-				if self.event then
-					self.event()
-				end
-				self.active = "click"
-				self:setAnim(self.imgOn)
-				return true
-			end
-		else
-			self.active = "hover"
-			if self.imgHover then
-				self:setAnim(self.imgHover)
-			end
+function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
+	if msgBoxActive then
+		self.active = "off"
+		if self.imgOff then
+			self:setAnim(self.imgOff)
 		end
 	else
-		self.active = "off"
+		if self:collisionCheck( mouseX, mouseY ) then
+			editor.setToolTip( self.toolTip )
+			if clicked then
+				-- new click?
+				if self.active ~= "click" then
+					-- if new click, run the event:
+					if self.event then
+						self.event()
+					end
+					self.active = "click"
+					self:setAnim(self.imgOn)
+					return true
+				end
+			else
+				self.active = "hover"
+				if self.imgHover then
+					self:setAnim(self.imgHover)
+				end
+			end
+		else
+			self.active = "off"
 			if self.imgOff then
 				self:setAnim(self.imgOff)
 			end
+		end
 	end
+
 	return false
 end
 
 function Clickable:setSelected( bool )
 	self.selected = bool
 	--[[if self.selected then
-		self:setAnim(self.imgOn)
+	self:setAnim(self.imgOn)
 	else
-		self:setAnim(self.imgOff)
+	self:setAnim(self.imgOff)
 	end]]--
 end
 
@@ -242,10 +250,10 @@ end
 function Clickable:setAnim(name,continue) -- Go to specified animation and reset, if not already there
 	-- this only needs to be done for the normal buttons, which only have a single visualizer:
 	if self.vis and #self.vis == 1 and self.vis[1].animation ~= name then
-	  self.vis[1].animation = name
-	  if not continue then
+		self.vis[1].animation = name
+		if not continue then
 			self.vis[1]:reset()
-	  end
+		end
 	end
 end
 

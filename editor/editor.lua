@@ -470,7 +470,7 @@ function editor:update( dt )
 	self.shift = love.keyboard.isDown("lshift", "rshift")
 	self.ctrl = love.keyboard.isDown("lctrl", "rctrl")
 
-	if self.mouseOnCanvas then
+	if self.mouseOnCanvas and not msgBox.active then
 		if self.drawing then
 			if tileX ~= self.lastTileX or tileY ~= self.lastTileY then
 				if math.abs(tileX - self.lastTileX) > 1 or
@@ -532,16 +532,16 @@ function editor:update( dt )
 		self.lastTileX, self.lastTileY = tileX, tileY
 	else
 		-- mouse did hit a panel? Then check for a click:
-		local hit = ( msgBox.active and msgBox:click( x, y, false ) ) or
-			( menuPanel.visible and menuPanel:click( x, y, false ) ) or
-			( toolPanel.visible and toolPanel:click( x, y, false ) ) or
-			( groundPanel.visible and groundPanel:click( x, y, false ) ) or
-			( backgroundPanel.visible and backgroundPanel:click( x, y, false) ) or
+		local hit = ( msgBox.active and msgBox:click( x, y, nil ) ) or
+			( menuPanel.visible and menuPanel:click( x, y, nil, msgBox.active ) ) or
+			( toolPanel.visible and toolPanel:click( x, y, nil, msgBox.active ) ) or
+			( groundPanel.visible and groundPanel:click( x, y, nil, msgBox.active ) ) or
+			( backgroundPanel.visible and backgroundPanel:click( x, y, nil, msgBox.active) ) or
 			--( editBgPanel.visible and editBgPanel:click( x, y, false) ) or 
 			--( editPanel.visible and editPanel:click( x, y, false) ) or 
-			( bgObjectPanel.visible and bgObjectPanel:click( x, y, false ) ) or
-			( propertiesPanel.visible and propertiesPanel:click( x, y, false ) ) or
-			( objectPanel.visible and objectPanel:click( x, y, false ) )
+			( bgObjectPanel.visible and bgObjectPanel:click( x, y, nil, msgBox.active ) ) or
+			( propertiesPanel.visible and propertiesPanel:click( x, y, nil, msgBox.active ) ) or
+			( objectPanel.visible and objectPanel:click( x, y, nil, msgBox.active ) )
 	end
 
 	if self.toolTip.text == "" and self.currentTool and not hit then
@@ -556,6 +556,9 @@ function editor:update( dt )
 	--editBgPanel:update( dt )
 	--editPanel:update( dt )
 	propertiesPanel:update( dt )
+	if msgBox.active then
+		msgBox:update( dt )
+	end
 end
 
 function editor:mousepressed( button, x, y )
@@ -588,7 +591,7 @@ function editor:mousepressed( button, x, y )
 
 		local mouseOnCanvas = not hit
 
-		if mouseOnCanvas then
+		if mouseOnCanvas and not msgBox.active then
 			if self.currentTool == "pen" then
 
 				if self.shift and self.lastClickX and self.lastClickY then
@@ -651,23 +654,24 @@ function editor:mousepressed( button, x, y )
 			end
 		else
 			-- a panel was hit: check if any button was pressed:
-			local hit = ( msgBox.active and msgBox:click( x, y, true ) ) or
-				( menuPanel.visible and menuPanel:click( x, y, true ) ) or
-				( toolPanel.visible and toolPanel:click( x, y, true ) ) or
-				( groundPanel.visible and groundPanel:click( x, y, true ) ) or
-				( backgroundPanel.visible and backgroundPanel:click( x, y, true ) ) or
+			local hit = ( msgBox.active and msgBox:click( x, y, "l" ) ) or
+				( menuPanel.visible and menuPanel:click( x, y, "l", msgBox.active ) ) or
+				( toolPanel.visible and toolPanel:click( x, y, "l", msgBox.active ) ) or
+				( groundPanel.visible and groundPanel:click( x, y, "l", msgBox.active ) ) or
+				( backgroundPanel.visible and backgroundPanel:click( x, y, "l", msgBox.active ) ) or
 				--( editBgPanel.visible and editBgPanel:click( x, y, true) ) or 
 				--( editPanel.visible and editPanel:click( x, y, true) ) or 
-				( propertiesPanel.visible and propertiesPanel:click(x, y, true ) ) or
-				( bgObjectPanel.visible and bgObjectPanel:click( x, y, true ) ) or
-				( objectPanel.visible and objectPanel:click( x, y, true ) )
+				( propertiesPanel.visible and propertiesPanel:click(x, y, "l", msgBox.active ) ) or
+				( bgObjectPanel.visible and bgObjectPanel:click( x, y, "l", msgBox.active ) ) or
+				( objectPanel.visible and objectPanel:click( x, y, "l", msgBox.active ) )
 		end
 	elseif button == "r" then
 
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
-		local hit = ( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
+		local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
@@ -679,7 +683,7 @@ function editor:mousepressed( button, x, y )
 
 		local mouseOnCanvas = not hit
 
-		if mouseOnCanvas then
+		if mouseOnCanvas and not msgBox.active then
 			if self.currentTool == "pen" then
 
 				if self.shift and self.lastClickX and self.lastClickY then
@@ -988,7 +992,7 @@ function editor.saveFileNow( fileName, testFile )
 		fullName = "test.dat"
 	end
 
-	print("Sasving as '" .. fullName .. "'")
+	print("Saving as '" .. fullName .. "'")
 
 	if map then
 		local content = FILE_HEADER
