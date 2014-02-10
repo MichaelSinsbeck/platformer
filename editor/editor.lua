@@ -23,6 +23,7 @@ local cam = nil
 local objectPanel
 local bgObjectPanel
 local toolPanel
+local menuPanel
 local groundPanel
 local backgroundPanel
 --local editPanel
@@ -144,24 +145,24 @@ end
 
 	love.mouse.setVisible( true )
 
-	local toolPanelWidth = love.graphics.getWidth()/Camera.scale-60
-	toolPanel = Panel:new( 30, love.graphics.getHeight()/Camera.scale-23,
+	local toolPanelWidth = 10*9
+	toolPanel = Panel:new( 15, love.graphics.getHeight()/Camera.scale-23,
 							 toolPanelWidth, 16, true )
 	-- left side:
-	local x,y = 11,8
+	local x,y = 10,8
 	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.")
-	x = x + 10
+	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				KEY_BGPEN .. " - Draw Tool: Draw tiles onto the background.")
-	x = x + 10
+	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("object") end,
 				'LEObjectOff',
@@ -174,7 +175,7 @@ end
 				'LEStampOn',
 				'LEStampHover',
 				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
-	x = x +10
+	x = x +5
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
@@ -194,39 +195,43 @@ end
 				'LEEraserOn',
 				'LEEraserHover',
 				"Eraser - remove tiles or objects.")]]
+	menuPanel = Panel:new( 15, 2, toolPanelWidth, 16 )
+	x, y = 10,8
 
-	-- right side
-	x, y = toolPanelWidth - 13, 8
-	toolPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
-				'LEExitOff',
-				'LEExitOn',
-				'LEExitHover',
-				"Close editor and return to main menu.")
-	x = x - 10
-	toolPanel:addClickable( x, y, function() editor.saveFileAttempt() end,
-				'LESaveOff',
-				'LESaveOn',
-				'LESaveHover',
-				"Save the map.")
-	x = x - 10
-	toolPanel:addClickable( x, y, function() editor.loadFile() end,
-				'LEOpenOff',
-				'LEOpenOn',
-				'LEOpenHover',
-				"Load another map.")
-	x = x - 10
-	toolPanel:addClickable( x, y, function() editor.testMapAttempt() end,
-				'LEPlayOff',
-				'LEPlayOn',
-				'LEPlayHover',
-				KEY_TEST .. " - Test the map")
-	x = x - 12
-	toolPanel:addClickable( x, y, function() editor.newMapAttempt() end,
+	menuPanel:addClickable( x, y, function() editor.newMapAttempt() end,
 				'LENewOff',
 				'LENewOn',
 				'LENewHover',
 				"New map" )
+	x = x + 10
+	x = x + 5
+	menuPanel:addClickable( x, y, function() editor.saveFileAttempt() end,
+				'LESaveOff',
+				'LESaveOn',
+				'LESaveHover',
+				"Save the map.")
+	x = x + 10
+	menuPanel:addClickable( x, y, function() editor.loadFile() end,
+				'LEOpenOff',
+				'LEOpenOn',
+				'LEOpenHover',
+				"Load another map.")
+	x = x + 10
+	x = x + 5
 
+	menuPanel:addClickable( x, y, function() editor.testMapAttempt() end,
+				'LEPlayOff',
+				'LEPlayOn',
+				'LEPlayHover',
+				KEY_TEST .. " - Test the map")
+	x = x + 10
+	x = x + 5
+
+	menuPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
+				'LEExitOff',
+				'LEExitOn',
+				'LEExitHover',
+				"Close editor and return to main menu.")
 
 	-- Panel for choosing the ground type:
 	groundPanel = Panel:new( 1, 30, 16, 90, true )
@@ -439,6 +444,7 @@ function editor:update( dt )
 		editPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
 	end]]
 	local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
@@ -527,6 +533,7 @@ function editor:update( dt )
 	else
 		-- mouse did hit a panel? Then check for a click:
 		local hit = ( msgBox.active and msgBox:click( x, y, false ) ) or
+			( menuPanel.visible and menuPanel:click( x, y, false ) ) or
 			( toolPanel.visible and toolPanel:click( x, y, false ) ) or
 			( groundPanel.visible and groundPanel:click( x, y, false ) ) or
 			( backgroundPanel.visible and backgroundPanel:click( x, y, false) ) or
@@ -543,6 +550,7 @@ function editor:update( dt )
 
 	map:update( dt )
 
+	menuPanel:update( dt )
 	toolPanel:update( dt )
 	groundPanel:update( dt )
 	--editBgPanel:update( dt )
@@ -562,6 +570,7 @@ function editor:mousepressed( button, x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
 		local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
@@ -643,6 +652,7 @@ function editor:mousepressed( button, x, y )
 		else
 			-- a panel was hit: check if any button was pressed:
 			local hit = ( msgBox.active and msgBox:click( x, y, true ) ) or
+				( menuPanel.visible and menuPanel:click( x, y, true ) ) or
 				( toolPanel.visible and toolPanel:click( x, y, true ) ) or
 				( groundPanel.visible and groundPanel:click( x, y, true ) ) or
 				( backgroundPanel.visible and backgroundPanel:click( x, y, true ) ) or
@@ -658,6 +668,7 @@ function editor:mousepressed( button, x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
 		local hit = ( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
+				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
@@ -836,6 +847,7 @@ function editor:draw()
 	end]]
 
 	toolPanel:draw()
+	menuPanel:draw()
 
 	if objectPanel.visible then
 		objectPanel:draw()
