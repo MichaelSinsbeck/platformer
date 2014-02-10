@@ -31,6 +31,11 @@ function Visualizer:init()
 	self:update(0)
 end
 
+function Visualizer:useMesh()
+	self.update = self.updateMesh
+	self.draw = self.drawMesh
+end
+
 function Visualizer:getSize() -- returns size in pixels (screen coordinates)
 	if self.animation and AnimationDB.animation[self.animation] then
 		local name	= AnimationDB.animation[self.animation].source
@@ -98,6 +103,50 @@ function Visualizer:update(dt)
 				end
 			end
 			self.currentQuad = source.quads[animationData.frames[self.frame]]
+			self.img = source.image
+		else -- if animation does not exists
+			self.img = nil
+		end
+  end
+end
+
+-- The following uses a mesh to draw the animation:
+function Visualizer:drawMesh(x,y, useExternalColor)
+	if self.active then
+		--print(self.img, self.currentQuad, self.text)
+		if self.img and self.currentMesh then
+			if not useExternalColor then
+				love.graphics.setColor(255,255,255,self.alpha)
+			end
+			love.graphics.draw(self.currentMesh,
+				math.floor(x+self.relX*Camera.scale*8),
+				math.floor(y+self.relY*Camera.scale*8),
+				self.angle,
+				self.sx,self.sy,
+				self.ox*Camera.scale,self.oy*Camera.scale)
+		elseif self.text then
+			love.graphics.setColor(0,0,0, self.alpha)
+			love.graphics.setFont(fontSmall)
+			love.graphics.print(self.text, x+self.ox, y+self.oy)
+		end
+	end
+end
+
+function Visualizer:updateMesh(dt)
+  self.timer = self.timer + dt
+  -- switch to next frame
+  if self.animation then
+		local animationData = AnimationDB.animation[self.animation]
+		if animationData then -- only advance, if the animation exists in DB
+			local source = AnimationDB.source[animationData.source]
+			while self.timer > animationData.duration[self.frame] do
+				self.timer = self.timer - animationData.duration[self.frame]
+				self.frame = self.frame + 1
+				if self.frame > #animationData.frames then
+					self.frame = 1
+				end
+			end
+			self.currentMesh = source.meshes[animationData.frames[self.frame]]
 			self.img = source.image
 		else -- if animation does not exists
 			self.img = nil

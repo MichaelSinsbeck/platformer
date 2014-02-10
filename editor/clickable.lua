@@ -32,7 +32,7 @@ local Clickable = {}
 Clickable.__index = Clickable
 local PADDING = 5	-- padding around labeled buttons
 
-function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered )
+function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered, useMesh )
 	local o = {}
 	setmetatable(o, self)
 
@@ -46,6 +46,9 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered 
 	o.vis = {}
 	o.vis[1] = Visualizer:New(imgOff)
 	o.vis[1]:init()
+	if useMesh then
+		o.vis[1]:useMesh()
+	end
 	o.width, o.height = o.vis[1]:getSize()
 	
 	--o.width = imgOff:getWidth()

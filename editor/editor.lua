@@ -97,12 +97,11 @@ function editor.createPropertiesPanel()
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
-				KEY_DELETE .. " - remove" )
+				KEY_DELETE .. " - remove", nil, nil, true)
 
 		x,y = 4, 16
 		if map.selectedObject.properties then
 			for name, p in pairs(map.selectedObject.properties) do
-				print(name)
 				propertiesPanel:addProperty( name, x, y, p, map.selectedObject )
 				y = y + 16
 			end
@@ -115,19 +114,19 @@ function editor.createPropertiesPanel()
 			'LEDeleteOff',
 			'LEDeleteOn',
 			'LEDeleteHover',
-			KEY_DELETE .. " - remove" )
+			KEY_DELETE .. " - remove", nil, nil, true)
 		x = x + 10
 		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
 			'LELayerUpOff',
 			'LELayerUpOn',
 			'LELayerUpHover',
-			"move up one layer" )
+			"move up one layer", nil, nil, true)
 		x = x + 10
 		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
 			'LELayerDownOff',
 			'LELayerDownOn',
 			'LELayerDownHover',
-			"move down one layer" )
+			"move down one layer", nil, nil, true)
 
 	end
 end
@@ -154,34 +153,34 @@ end
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.")
+				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.", nil,nil,true )
 	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				KEY_BGPEN .. " - Draw Tool: Draw tiles onto the background.")
+				KEY_BGPEN .. " - Draw Tool: Draw tiles onto the background.", nil,nil,true )
 	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("object") end,
 				'LEObjectOff',
 				'LEObjectOn',
 				'LEObjectHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,true )
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
 				'LEStampOff',
 				'LEStampOn',
 				'LEStampHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,true )
 	x = x +5
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,true )
 	x = x +10
 	--[[
 	toolPanel:addClickable( x, y, function() editor.setTool("editBg") end,
@@ -202,20 +201,20 @@ end
 				'LENewOff',
 				'LENewOn',
 				'LENewHover',
-				"New map" )
+				"New map" , nil,nil,true )
 	x = x + 10
 	x = x + 5
 	menuPanel:addClickable( x, y, function() editor.saveFileAttempt() end,
 				'LESaveOff',
 				'LESaveOn',
 				'LESaveHover',
-				"Save the map.")
+				"Save the map.", nil,nil,true )
 	x = x + 10
 	menuPanel:addClickable( x, y, function() editor.loadFile() end,
 				'LEOpenOff',
 				'LEOpenOn',
 				'LEOpenHover',
-				"Load another map.")
+				"Load another map.", nil,nil,true )
 	x = x + 10
 	x = x + 5
 
@@ -223,7 +222,7 @@ end
 				'LEPlayOff',
 				'LEPlayOn',
 				'LEPlayHover',
-				KEY_TEST .. " - Test the map")
+				KEY_TEST .. " - Test the map", nil,nil,true )
 	x = x + 10
 	x = x + 5
 
@@ -231,7 +230,7 @@ end
 				'LEExitOff',
 				'LEExitOn',
 				'LEExitHover',
-				"Close editor and return to main menu.")
+				"Close editor and return to main menu.", nil,nil,true )
 
 	-- Panel for choosing the ground type:
 	groundPanel = Panel:new( 1, 30, 16, 90, true )

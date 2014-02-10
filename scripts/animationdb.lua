@@ -5,7 +5,10 @@ source = {},
 animation = {}
 }
 
-function AnimationDB:loadImage(imagefilename,name,height,width,subfolder)
+local R = 3
+local HR = 1.5
+
+function AnimationDB:loadImage(imagefilename,name,height,width,subfolder,generateMeshes)
 	-- Load image and prepare quads (height and width are optional)
 	if subfolder then
 		imagefilename = 'images/'.. subfolder .. "/" .. Camera.scale*8 .. imagefilename
@@ -21,14 +24,96 @@ function AnimationDB:loadImage(imagefilename,name,height,width,subfolder)
 	self.source[name].height = height
 	self.source[name].width = width
 	self.source[name].quads = {}
+	self.source[name].meshes = {}
   
   local imageWidth = self.source[name].image:getWidth()
   local imageHeight = self.source[name].image:getHeight()
-  for j = 1,math.floor(imageHeight/height) do
-    for i = 1,math.floor(imageWidth/width) do
+
+  local tilesX, tilesY = math.floor(imageWidth/width), math.floor(imageHeight/height)
+  for j = 1,tilesY do
+    for i = 1,tilesX do
       self.source[name].quads[i+(j-1)*math.floor(imageWidth/width)] = 
         love.graphics.newQuad((i-1)*(width),(j-1)*(height), width, height,
         imageWidth,imageHeight)
+
+		if generateMeshes then
+			local verts = {}
+			-- place vert in center:
+			verts[1] = {
+				width*0.5, height*0.5,
+				(i-0.5)/tilesX, (j-0.5)/tilesY
+			}
+			local k = 2
+			verts[k] = {
+				0+math.random(R)-HR, 0+math.random(R)-HR,
+				(i-1)/tilesX, (j-1)/tilesY,
+			} k = k + 1
+			verts[k] = {
+				width/2+math.random(R)-HR, 0+math.random(R)-HR,
+				(i-0.5)/tilesX, (j-1)/tilesY,
+			} k = k + 1
+			verts[k] = {
+				width+math.random(R)-HR, 0+math.random(R)-HR,
+				(i)/tilesX, (j-1)/tilesY,
+			} k = k + 1
+			verts[k] = {
+				width+math.random(R)-HR, height/2+math.random(R)-HR,
+				(i)/tilesX, (j-0.5)/tilesY,
+			} k = k + 1
+			verts[k] = {
+				width+math.random(R)-HR, height+math.random(R)-HR,
+				(i)/tilesX, (j)/tilesY,
+			} k = k + 1
+			verts[k] = {
+				width/2+math.random(R)-HR, height+math.random(R)-HR,
+				(i-0.5)/tilesX, (j)/tilesY,
+			} k = k + 1
+			verts[k] = {
+				0+math.random(R)-HR, height+math.random(R)-HR,
+				(i-1)/tilesX, (j)/tilesY,
+			} k = k + 1
+			verts[k] = {
+				0+math.random(R)-HR, height/2+math.random(R)-HR,
+				(i-1)/tilesX, (j-0.5)/tilesY,
+			} k = k + 1
+			verts[k] = verts[2]
+			--[[
+			-- upper:
+			for x = 0,1,STEP_SIZE do
+				print(x)
+				verts[k] = {
+					50*x, 0,
+					x, 0,
+				}
+				k = k+1
+			end
+			-- right:
+			for y = 0,1,STEP_SIZE do
+				verts[k] = {
+					50*1, y*50,
+					1, y,
+				}
+				k = k+1
+			end
+			-- bottom:
+			for x = 1,0,-STEP_SIZE do
+				verts[k] = {
+					50*x, 1,
+					x, 1,
+				}
+				k = k+1
+			end
+			-- left:
+			for y = 1,0,-STEP_SIZE do
+				verts[k] = {
+					0, y*50,
+					0, y,
+				}
+				k = k+1
+			end]]
+      		self.source[name].meshes[i+(j-1)*math.floor(imageWidth/width)] = 
+				love.graphics.newMesh( verts, image )
+		end
     end
   end
 end
@@ -307,7 +392,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('spawnerback','spawner',{2},{1e6})
 	AnimationDB:addAni('spawnerbar','spawner',{3},{1e6})
 	
-	AnimationDB:loadImage('button.png','editorButton',tileSize,tileSize, "editor")
+	AnimationDB:loadImage('button.png','editorButton',tileSize,tileSize, "editor", true)
 	AnimationDB:addAni('LEGround1Off'  ,'editorButton',{1},{1e6})
 	AnimationDB:addAni('LEGround1Hover','editorButton',{2},{1e6})
 	AnimationDB:addAni('LEGround1On'   ,'editorButton',{3},{1e6})
@@ -376,7 +461,7 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('LEAcceptHover'   ,'editorButton',{62},{1e6})
 	AnimationDB:addAni('LEAcceptOn'   ,'editorButton',{63},{1e6})
 
-	AnimationDB:loadImage('buttonProperties.png','editorButtonProperties',tileSize*0.5,tileSize*0.5, "editor")
+	AnimationDB:loadImage('buttonProperties.png','editorButtonProperties',tileSize*0.5,tileSize*0.5, "editor", true )
 	AnimationDB:addAni('LEUpOff'   ,'editorButtonProperties',{1},{1e6})
 	AnimationDB:addAni('LEUpHover'   ,'editorButtonProperties',{2},{1e6})
 	AnimationDB:addAni('LEUpOn'   ,'editorButtonProperties',{3},{1e6})
