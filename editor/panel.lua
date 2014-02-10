@@ -110,7 +110,8 @@ function Panel:draw()
 	end
 	for k, p in pairs( self.properties ) do
 		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
-		love.graphics.print( p.obj[k], (p.x+6)*Camera.scale, (p.y+6)*Camera.scale )
+		local displayName = p.names[p.obj[k]] or p.obj[k]
+		love.graphics.print( displayName, (p.x+6)*Camera.scale, (p.y+6)*Camera.scale )
 	end
 	for k, button in ipairs( self.pages[0] ) do
 		button:draw()
