@@ -33,21 +33,29 @@ function Appearblock:buttonPress(color)
 end
 
 function Appearblock:invert()
-  if self.state == 'solid' then
-    self:setAnim(self.color .. 'BlockPassable')
-    self.state = 'passable'
-    myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
-		myMap:queueShadowUpdate()
-  else
+	if self.state == 'solid' then
+		self:setAnim(self.color .. 'BlockPassable')
+		self.state = 'passable'
+		if myMap then
+			if myMap.collision and myMap.collision[math.floor(self.x)] then
+				myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
+			end
+			myMap:queueShadowUpdate()
+		end
+	else
 		self.state = 'solid'
-		myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
-		myMap:queueShadowUpdate()
+		if myMap then
+			if myMap.collision and myMap.collision[math.floor(self.x)] then
+				myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
+			end
+			myMap:queueShadowUpdate()
+		end
 		if not self:touchPlayer() then
-		  self:setAnim(self.color .. 'BlockSolid')
+			self:setAnim(self.color .. 'BlockSolid')
 			self.vis[1].sx = 0.77
 			self.vis[1].sy = self.vis[1].sx
 		end
-  end
+	end
 end
 
 function Appearblock:setState( newState )

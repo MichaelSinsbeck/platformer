@@ -817,7 +817,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 	end
 	
 	-- Change collision array of map, if object is solid
-	if newObject.solid then
+	if newObject.solid and self.collisionSrc and self.collisionSrc[tileX] then
 		self.collisionSrc[tileX][tileY] = 1
 	end
 
