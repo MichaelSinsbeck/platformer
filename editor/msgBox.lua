@@ -36,12 +36,12 @@ function msgBox:new( msg, eventAccept, eventDecline )
 				'LEAcceptOff',
 				'LEAcceptOn',
 				'LEAcceptHover',
-				'Accept')
+				'Accept', nil, nil, true )
 	msgBox.panel:addClickable( 28, textHeight/Camera.scale + 16, msgBox.eventDecline,
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
-				'Decline')
+				'Decline', nil, nil, true )
 
 	msgBox.active = true
 
