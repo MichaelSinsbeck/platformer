@@ -110,9 +110,14 @@ function Panel:draw()
 		love.graphics.print( label.name, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
+
+		love.graphics.setColor(255,255,255,20)
+		love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
+						25*Camera.scale, 4*Camera.scale)
+		love.graphics.setColor(255,255,255,255)
 		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
 		local displayName = p.names[p.obj[k]] or p.obj[k]
-		love.graphics.print( displayName, (p.x+6)*Camera.scale, (p.y+6)*Camera.scale )
+		love.graphics.print( displayName, (p.x+6)*Camera.scale, (p.y+5)*Camera.scale )
 	end
 	for k, button in ipairs( self.pages[0] ) do
 		button:draw()
@@ -249,13 +254,13 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 		obj:applyOptions()
 	end
 
-	self:addClickable( x + 1, y + 8, decrease,
+	self:addClickable( x + 1, y + 7, decrease,
 		'LEUpOff',
 		'LEUpOn',
 		'LEUpHover',
 		"Choose next value", nil,nil,true)
 
-	self:addClickable( x + 30, y + 8, increase,
+	self:addClickable( x + 30, y + 7, increase,
 		'LEDownOff',
 		'LEDownOn',
 		'LEDownHover',
