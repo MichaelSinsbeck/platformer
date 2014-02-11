@@ -1097,14 +1097,19 @@ function EditorMap:drawBackgroundTypes( cam )
 end
 
 function EditorMap:drawObjects()
+	local x,y,height,width
 	for k, obj in ipairs( self.objectList ) do
 		--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		obj:draw()
 
 		if obj.selected == true then
-			love.graphics.rectangle( "line", obj.editorX,
-									obj.editorY, math.max(30,obj.width), math.max(30,obj.height) )
+			x,y = obj.editorX, obj.editorY
+			width,height = math.max(30,obj.width), math.max(30,obj.height) 
 		end
+	end
+	love.graphics.setColor(255,255,255)
+	if x then
+		love.graphics.rectangle( "line", x, y, width, height)
 	end
 end
 
