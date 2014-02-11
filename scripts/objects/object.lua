@@ -257,7 +257,6 @@ function object:resize(newSemiwidth, newSemiheight)
 	self.semiheight = newSemiheight
 end
 
-
 function object:applyOptions()
 end
 

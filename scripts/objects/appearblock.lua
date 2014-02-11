@@ -4,6 +4,9 @@ Appearblock = object:New({
   marginy = 0.8,
   state = 'notThere',
   vis = {Visualizer:New('appearBlockNotThere')},
+	properties = {
+		state = newCycleProperty({'notThere','there'}, {"invisible", "visible"})
+	},  
 })
 
 function Appearblock:setAcceleration(dt)
@@ -45,8 +48,37 @@ function Appearblock:invert()
   end
 end
 
+function Appearblock:setState( newState )
+	if newState == 'notThere' then
+		self:setAnim('appearBlockNotThere')
+		self.state = 'notThere'
+		if myMap then
+			if myMap.collision and myMap.collision[math.floor(self.x)] then
+				myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
+			end
+			myMap:queueShadowUpdate()
+		end
+	else
+		self.state = 'there'
+		if myMap then
+			if myMap.collision and myMap.collision[math.floor(self.x)] then
+				myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
+			end
+			myMap:queueShadowUpdate()
+		end
+		self:setAnim('appearBlockThere')
+		self.vis[1].sx = 1
+		self.vis[1].sy = self.vis[1].sx
+	end
+end
+
+function Appearblock:applyOptions()
+	self:setState(self.state)
+end
+
+--[[
 Disappearblock = Appearblock:New({
-	tag = 'Disappearblock',
-	state = 'there',
-  vis = {Visualizer:New('appearBlockThere')},	
-})
+tag = 'Disappearblock',
+state = 'there',
+vis = {Visualizer:New('appearBlockThere')},	
+})]]
