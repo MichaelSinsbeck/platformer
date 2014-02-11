@@ -35,11 +35,20 @@ end
 
 function Panel:addLabel( x, y, text )
 	local l = {
-		x = x,
-		y = y,
-		text = text,
+		x = x+self.x,
+		y = y+self.y,
+		text = string.lower(text),
 	}
 	table.insert( self.labels, l )
+end
+
+function Panel:addClickableLabel( x, y, event, width, text, page )
+	local c = Clickable:newLabel( x+self.x, y+self.y, event, width, text )
+	page = page or 0
+	if not self.pages[page] then
+		self.pages[page] = {}
+	end
+	table.insert( self.pages[page], c )
 end
 
 function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, centered, useMesh)
@@ -70,7 +79,7 @@ function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, pa
 	table.insert( self.pages[page], c )
 end
 
-function Panel:clearClickables()
+function Panel:clearAll()
 	self.pages = {}
 	self.pages[0] = {}
 	self.selectedPage = 1
@@ -107,7 +116,7 @@ function Panel:draw()
 	love.graphics.setColor(255,255,255,255)
 
 	for k, label in ipairs( self.labels ) do
-		love.graphics.print( label.name, label.x*Camera.scale, label.y*Camera.scale )
+		love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
 

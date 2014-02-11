@@ -114,20 +114,20 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	return o
 end
 
-function Clickable:newLabel( x, y, event, text, font )
+function Clickable:newLabel( x, y, event, width, text, font )
 	local o = {}
 	o.__index = Clickable
 	setmetatable( o, Clickable )
 
 	o.font = font or fontSmall
-	o.wdith = o.font:getWidth( text ) + PADDING*2
+	o.width = width and width*Camera.scale or o.font:getWidth( text ) + PADDING*2
 	o.height = o.font:getHeight() + PADDING*2
 	o.text = text
 
 	o.x = x or 0
 	o.y = y or 0
-	o.textX = o.x + PADDING
-	o.textY = o.y + PADDING
+	o.textX = o.x*Camera.scale + PADDING
+	o.textY = o.y*Camera.scale + PADDING
 
 	o.minX = x*Camera.scale
 	o.minY = y*Camera.scale
@@ -136,7 +136,8 @@ function Clickable:newLabel( x, y, event, text, font )
 
 	o.event = event
 
-	self.active = "off"
+	o.active = "off"
+	return o
 end
 
 function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centered )
@@ -182,20 +183,19 @@ function Clickable:draw()
 		for k = 1, #self.vis do
 			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)
 		end
-	else
+	elseif self.batch then
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
-	end
-	if self.text then
+	elseif self.text then
 		if self.active == "off" then
-			love.graphics.setColor( 120, 120, 160 )
+			love.graphics.setColor( 255, 255, 255, 20 )
 		elseif self.active == "hover" then
-			love.graphics.setColor( 120, 120, 200 )
+			love.graphics.setColor( 255, 255, 255, 60 )
 		else
-			love.graphics.setColor( 150, 150, 220 )
+			love.graphics.setColor( 255, 255, 255, 100 )
 		end
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
 		love.graphics.setColor(255,255,255)
-		love.graphics.print( self.textX, self.textY, self.text )
+		love.graphics.print( self.text, self.textX, self.textY )
 	end
 	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
 end
