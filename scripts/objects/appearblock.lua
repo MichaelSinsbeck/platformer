@@ -2,10 +2,10 @@ Appearblock = object:New({
 	tag = 'appearblock',
   marginx = 0.8,
   marginy = 0.8,
-  state = 'notThere',
-  vis = {Visualizer:New('appearBlockNotThere')},
+  vis = {Visualizer:New('redBlockPassable')},
 	properties = {
-		state = newCycleProperty({'notThere','there'}, {"passable", "solid"})
+		state = newCycleProperty({'passable','solid'}, {"passable", "solid"}),
+		color = newCycleProperty({'red','blue','green','yellow'}),
 	},  
 })
 
@@ -16,32 +16,34 @@ function Appearblock:postStep(dt)
 	self.vis[1].sx = math.min(self. vis[1].sx+dt,1)
 	self.vis[1].sy = self.vis[1].sx	
 	
-	if self.state == 'there'
+	if self.state == 'solid'
 			and self.vis[1]
-			and self.vis[1].animation == 'appearBlockNotThere'
+			and self.vis[1].animation:sub(-8) == 'Passable'
 	    and not self:touchPlayer() then
-		self:setAnim('appearBlockThere')
+		self:setAnim(self.color .. 'BlockSolid')
 		self.vis[1].sx = 0.77
 		self.vis[1].sy = self.vis[1].sx
 	end
 end
 
-function Appearblock:buttonPress()
-  self:invert()
+function Appearblock:buttonPress(color)
+	if self.color == color then
+		self:invert()
+  end
 end
 
 function Appearblock:invert()
-  if self.state == 'there' then
-    self:setAnim('appearBlockNotThere')
-    self.state = 'notThere'
+  if self.state == 'solid' then
+    self:setAnim(self.color .. 'BlockPassable')
+    self.state = 'passable'
     myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
-	myMap:queueShadowUpdate()
+		myMap:queueShadowUpdate()
   else
-		self.state = 'there'
+		self.state = 'solid'
 		myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
 		myMap:queueShadowUpdate()
 		if not self:touchPlayer() then
-		  self:setAnim('appearBlockThere')
+		  self:setAnim(self.color .. 'BlockSolid')
 			self.vis[1].sx = 0.77
 			self.vis[1].sy = self.vis[1].sx
 		end
@@ -49,9 +51,9 @@ function Appearblock:invert()
 end
 
 function Appearblock:setState( newState )
-	if newState == 'notThere' then
-		self:setAnim('appearBlockNotThere')
-		self.state = 'notThere'
+	if newState == 'passable' then
+		self:setAnim(self.color .. 'BlockPassable')
+		self.state = 'passable'
 		if myMap then
 			if myMap.collision and myMap.collision[math.floor(self.x)] then
 				myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
@@ -59,14 +61,14 @@ function Appearblock:setState( newState )
 			myMap:queueShadowUpdate()
 		end
 	else
-		self.state = 'there'
+		self.state = 'solid'
 		if myMap then
 			if myMap.collision and myMap.collision[math.floor(self.x)] then
 				myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
 			end
 			myMap:queueShadowUpdate()
 		end
-		self:setAnim('appearBlockThere')
+		self:setAnim(self.color .. 'BlockSolid')
 		self.vis[1].sx = 1
 		self.vis[1].sy = self.vis[1].sx
 	end
