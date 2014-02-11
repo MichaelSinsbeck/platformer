@@ -32,7 +32,7 @@ local Clickable = {}
 Clickable.__index = Clickable
 local PADDING = 5	-- padding around labeled buttons
 
-function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered, useMesh )
+function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered, shortcut, useMesh )
 	local o = {}
 	setmetatable(o, self)
 
@@ -41,6 +41,7 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered,
 	o.imgHover = imgHover or imgOn
 	o.centered = centered
 	o.toolTip = toolTip  or ""
+	o.shortcut = shortcut
 
 	-- Add visualizer
 	o.vis = {}
@@ -196,6 +197,14 @@ function Clickable:draw()
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.text, self.textX, self.textY )
+	end
+	if self.shortcut then
+		local shortcut = self.shortcut
+		if #shortcut > 3 then
+			shortcut = shortcut:sub(1,3)
+		end
+		offset = math.floor(0.5*fontSmall:getWidth ( shortcut ))
+		love.graphics.print(shortcut, self.x*Camera.scale-offset, (self.y+6)*Camera.scale)
 	end
 	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
 end

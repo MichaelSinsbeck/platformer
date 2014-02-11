@@ -31,13 +31,23 @@ local backgroundPanel
 local propertiesPanel
 local loadPanel
 
+local panelsWithShortcuts
+
 
 local KEY_CLOSE = "escape"
 local KEY_STAMP = "s"
 local KEY_PEN = "d"
 local KEY_BGPEN = "b"
+local KEY_BGSTAMP = "f"
+local KEY_EDIT = "e"
 local KEY_DELETE = "delete"
-local KEY_TEST = "t"
+
+local KEY_NEW = "f1"
+local KEY_OPEN = "f2"
+local KEY_SAVE = "f3"
+local KEY_QUIT = "escape"
+local KEY_TEST = "f4"
+
 
 -- called when loading game	
 function editor.init()
@@ -98,7 +108,7 @@ function editor.createPropertiesPanel()
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
-				KEY_DELETE .. " - remove", nil, nil, true)
+				KEY_DELETE .. " - remove", nil, nil, KEY_DELETE, true)
 
 		x,y = 4, 16
 		if map.selectedObject.properties then
@@ -115,19 +125,19 @@ function editor.createPropertiesPanel()
 			'LEDeleteOff',
 			'LEDeleteOn',
 			'LEDeleteHover',
-			KEY_DELETE .. " - remove", nil, nil, true)
+			KEY_DELETE .. " - remove", nil, nil, KEY_DELETE, true)
 		x = x + 10
 		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
 			'LELayerUpOff',
 			'LELayerUpOn',
 			'LELayerUpHover',
-			"move up one layer", nil, nil, true)
+			"move up one layer", nil, nil, nil, true)
 		x = x + 10
 		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
 			'LELayerDownOff',
 			'LELayerDownOn',
 			'LELayerDownHover',
-			"move down one layer", nil, nil, true)
+			"move down one layer", nil, nil, nil, true)
 
 	end
 end
@@ -146,42 +156,42 @@ end
 	love.mouse.setVisible( true )
 
 	local toolPanelWidth = 10*9
-	toolPanel = Panel:new( 15, love.graphics.getHeight()/Camera.scale-23,
-							 toolPanelWidth, 16, true )
+	toolPanel = Panel:new( 15, love.graphics.getHeight()/Camera.scale-29,
+							 toolPanelWidth, 20, true )
 	-- left side:
 	local x,y = 10,8
 	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.", nil,nil,true )
+				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.", nil,nil, KEY_PEN,true )
 	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				KEY_BGPEN .. " - Draw Tool: Draw tiles onto the background.", nil,nil,true )
+				KEY_BGPEN .. " - Draw Tool: Draw tiles onto the background.", nil,nil,KEY_BGPEN,true )
 	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("object") end,
 				'LEObjectOff',
 				'LEObjectOn',
 				'LEObjectHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,true )
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,KEY_STAMP,true )
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
 				'LEStampOff',
 				'LEStampOn',
 				'LEStampHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,true )
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,KEY_BGSTAMP,true )
 	x = x +5
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,true )
+				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,KEY_EDIT,true )
 	x = x +10
 	--[[
 	toolPanel:addClickable( x, y, function() editor.setTool("editBg") end,
@@ -195,27 +205,36 @@ end
 				'LEEraserOn',
 				'LEEraserHover',
 				"Eraser - remove tiles or objects.")]]
-	menuPanel = Panel:new( 15, 2, toolPanelWidth, 16 )
+	menuPanel = Panel:new( 15, 2, toolPanelWidth, 20 )
 	x, y = 10,8
+	
+	menuPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
+				'LEExitOff',
+				'LEExitOn',
+				'LEExitHover',
+				"Close editor and return to main menu.", nil,nil,KEY_QUIT,true )
+				
+	x = x + 10
+	x = x + 5
 
 	menuPanel:addClickable( x, y, function() editor.newMapAttempt() end,
 				'LENewOff',
 				'LENewOn',
 				'LENewHover',
-				"New map" , nil,nil,true )
+				"New map" , nil,nil,KEY_NEW,true )
 	x = x + 10
 	x = x + 5
-	menuPanel:addClickable( x, y, function() editor.saveFileAttempt() end,
-				'LESaveOff',
-				'LESaveOn',
-				'LESaveHover',
-				"Save the map.", nil,nil,true )
-	x = x + 10
 	menuPanel:addClickable( x, y, function() editor.loadFileList() end,
 				'LEOpenOff',
 				'LEOpenOn',
 				'LEOpenHover',
-				"Load another map.", nil,nil,true )
+				"Load another map.", nil,nil,KEY_OPEN,true )
+	x = x + 10
+	menuPanel:addClickable( x, y, function() editor.saveFileAttempt() end,
+				'LESaveOff',
+				'LESaveOn',
+				'LESaveHover',
+				"Save the map.", nil,nil,KEY_SAVE,true )
 	x = x + 10
 	x = x + 5
 
@@ -223,16 +242,8 @@ end
 				'LEPlayOff',
 				'LEPlayOn',
 				'LEPlayHover',
-				KEY_TEST .. " - Test the map", nil,nil,true )
-	x = x + 10
-	x = x + 5
-
-	menuPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
-				'LEExitOff',
-				'LEExitOn',
-				'LEExitHover',
-				"Close editor and return to main menu.", nil,nil,true )
-
+				KEY_TEST .. " - Test the map", nil,nil,KEY_TEST,true )
+				
 	-- Panel for choosing the ground type:
 	groundPanel = Panel:new( 1, 30, 16, 90, true )
 	x,y = 8,7
@@ -333,7 +344,7 @@ end
 	local panelHeight = y
 	loadPanel = Panel:new( x, y, panelWidth, panelHeight )
 	loadPanel.visible = false
-
+	
 	-- available tools:
 	-- "pen", "bgObject"
 	editor.currentTool = "pen"
@@ -343,6 +354,8 @@ end
 
 	love.graphics.setPointStyle( "smooth" )
 	love.graphics.setPointSize( 6 )
+	
+	panelsWithShortcuts = {toolPanel, menuPanel, propertiesPanel}
 
 	editor.loadFile()
 end
@@ -760,22 +773,43 @@ function editor:mousereleased( button, x, y )
 end
 
 function editor.keypressed( key, repeated )
+
+	local panelsToCheck = panelsWithShortcuts	
+	if msgBox.active then
+		panelsToCheck = {msgBox.panel}
+	elseif loadPanel.visible then
+		panelsToCheck = {loadPanel}
+	end
+		
+	for i, panel in pairs(panelsToCheck) do
+		if panel.visible then
+			for k, v in pairs(panel.pages[0]) do
+				if v.shortcut and v.shortcut == key then
+					v.event()
+				end
+			end
+		end
+	end
+
+
+
 	if key == KEY_CLOSE and bgObjectPanel.visible then
 		bgObjectPanel.visible = false
 		editor.currentBgObject = editor.currentBgObject or editor.bgObjectList[1]
-	elseif key == KEY_PEN then
-		editor.setTool("pen")
-	elseif key == KEY_STAMP then
-		editor.setTool("bgObject")
-	elseif key == KEY_TEST then
-		editor.testMapAttempt()
-	elseif key == KEY_DELETE then
-		if map.selectedBgObject then
-			map:removeSelectedBgObject()
-		elseif map.selectedObject then
-			map:removeSelectedObject()
-		end
-		propertiesPanel.visible = false
+	--elseif key == KEY_PEN then
+	--	editor.setTool("pen")
+	--elseif key == KEY_STAMP then
+	--	editor.setTool("bgObject")
+	--elseif key == KEY_TEST then
+	--	editor.testMapAttempt()
+	--elseif key == KEY_DELETE then
+	--	if map.selectedBgObject then
+	--		map:removeSelectedBgObject()
+	--	elseif map.selectedObject then
+	--		map:removeSelectedObject()
+	--	end
+	--	propertiesPanel.visible = false
+	
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then
@@ -993,7 +1027,7 @@ function editor.loadFileList()
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
-		"Cancel", nil, nil, true )
+		"Cancel", nil, nil, nil, true )
 	loadPanel:addLabel( 4, 4, "Load file:" )
 
 	local x, y = 10,12

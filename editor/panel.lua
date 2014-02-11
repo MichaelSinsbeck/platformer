@@ -51,9 +51,9 @@ function Panel:addClickableLabel( x, y, event, width, text, page )
 	table.insert( self.pages[page], c )
 end
 
-function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, centered, useMesh)
+function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, centered, shortcut, useMesh)
 	local c = Clickable:new( x+self.x, y+self.y, event,
-						imgOff, imgOn, imgHover, toolTip, centered, useMesh )
+						imgOff, imgOn, imgHover, toolTip, centered, shortcut, useMesh )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
@@ -267,13 +267,13 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 		'LEUpOff',
 		'LEUpOn',
 		'LEUpHover',
-		"Choose next value", nil,nil,true)
+		"Choose next value", nil,nil, nil, true)
 
 	self:addClickable( x + 30, y + 7, increase,
 		'LEDownOff',
 		'LEDownOn',
 		'LEDownHover',
-		"Choose next value", nil,nil,true)
+		"Choose next value", nil,nil, nil, true)
 	
 	property.x = x + self.x
 	property.y = y + self.y
