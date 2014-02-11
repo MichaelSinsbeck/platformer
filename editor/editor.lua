@@ -1027,7 +1027,7 @@ function editor.loadFileList()
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
-		"Cancel", nil, nil, nil, true )
+		"Cancel", nil, nil, "escape", true )
 	loadPanel:addLabel( 4, 4, "Load file:" )
 
 	local x, y = 10,12
