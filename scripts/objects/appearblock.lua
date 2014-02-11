@@ -5,7 +5,7 @@ Appearblock = object:New({
   state = 'notThere',
   vis = {Visualizer:New('appearBlockNotThere')},
 	properties = {
-		state = newCycleProperty({'notThere','there'}, {"invisible", "visible"})
+		state = newCycleProperty({'notThere','there'}, {"passable", "solid"})
 	},  
 })
 
