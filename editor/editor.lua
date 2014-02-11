@@ -29,6 +29,7 @@ local backgroundPanel
 --local editPanel
 --local editBgPanel
 local propertiesPanel
+local loadPanel
 
 
 local KEY_CLOSE = "escape"
@@ -87,7 +88,7 @@ function editor.createCellQuad()
 end
 
 function editor.createPropertiesPanel()
-	propertiesPanel:clearClickables()
+	propertiesPanel:clearAll()
 
 	if map.selectedObject then
 		propertiesPanel.visible = true
@@ -210,7 +211,7 @@ end
 				'LESaveHover',
 				"Save the map.", nil,nil,true )
 	x = x + 10
-	menuPanel:addClickable( x, y, function() editor.loadFile() end,
+	menuPanel:addClickable( x, y, function() editor.loadFileList() end,
 				'LEOpenOff',
 				'LEOpenOn',
 				'LEOpenHover',
@@ -325,6 +326,13 @@ end
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
 	propertiesPanel = Panel:new( panelX, 10,  39, panelHeight )
 	propertiesPanel.visible = false
+
+	local x = love.graphics.getWidth()/3/Camera.scale
+	local y = love.graphics.getHeight()/3/Camera.scale
+	local panelWidth = x
+	local panelHeight = y
+	loadPanel = Panel:new( x, y, panelWidth, panelHeight )
+	loadPanel.visible = false
 
 	-- available tools:
 	-- "pen", "bgObject"
@@ -443,6 +451,7 @@ function editor:update( dt )
 		editPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
 	end]]
 	local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
 				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
@@ -532,6 +541,7 @@ function editor:update( dt )
 	else
 		-- mouse did hit a panel? Then check for a click:
 		local hit = ( msgBox.active and msgBox:click( x, y, nil ) ) or
+			( loadPanel.visible and loadPanel:click( x, y, nil, msgBox.active ) ) or
 			( menuPanel.visible and menuPanel:click( x, y, nil, msgBox.active ) ) or
 			( toolPanel.visible and toolPanel:click( x, y, nil, msgBox.active ) ) or
 			( groundPanel.visible and groundPanel:click( x, y, nil, msgBox.active ) ) or
@@ -555,6 +565,9 @@ function editor:update( dt )
 	--editBgPanel:update( dt )
 	--editPanel:update( dt )
 	propertiesPanel:update( dt )
+	if loadPanel.visible then
+		loadPanel:update( dt )
+	end
 	if msgBox.active then
 		msgBox:update( dt )
 	end
@@ -572,6 +585,7 @@ function editor:mousepressed( button, x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
 		local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
 				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
@@ -590,7 +604,7 @@ function editor:mousepressed( button, x, y )
 
 		local mouseOnCanvas = not hit
 
-		if mouseOnCanvas and not msgBox.active then
+		if mouseOnCanvas and not msgBox.active and not loadPanel.visible then
 			if self.currentTool == "pen" then
 
 				if self.shift and self.lastClickX and self.lastClickY then
@@ -654,15 +668,16 @@ function editor:mousepressed( button, x, y )
 		else
 			-- a panel was hit: check if any button was pressed:
 			local hit = ( msgBox.active and msgBox:click( x, y, "l" ) ) or
-				( menuPanel.visible and menuPanel:click( x, y, "l", msgBox.active ) ) or
-				( toolPanel.visible and toolPanel:click( x, y, "l", msgBox.active ) ) or
-				( groundPanel.visible and groundPanel:click( x, y, "l", msgBox.active ) ) or
-				( backgroundPanel.visible and backgroundPanel:click( x, y, "l", msgBox.active ) ) or
+				( loadPanel.visible and loadPanel:click( x, y, "l", msgBox.active ) ) or
+				( menuPanel.visible and menuPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
+				( toolPanel.visible and toolPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
+				( groundPanel.visible and groundPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
+				( backgroundPanel.visible and backgroundPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
 				--( editBgPanel.visible and editBgPanel:click( x, y, true) ) or 
 				--( editPanel.visible and editPanel:click( x, y, true) ) or 
-				( propertiesPanel.visible and propertiesPanel:click(x, y, "l", msgBox.active ) ) or
-				( bgObjectPanel.visible and bgObjectPanel:click( x, y, "l", msgBox.active ) ) or
-				( objectPanel.visible and objectPanel:click( x, y, "l", msgBox.active ) )
+				( propertiesPanel.visible and propertiesPanel:click(x, y, "l", msgBox.active or loadPanel.visible ) ) or
+				( bgObjectPanel.visible and bgObjectPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
+				( objectPanel.visible and objectPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) )
 		end
 	elseif button == "r" then
 
@@ -682,7 +697,7 @@ function editor:mousepressed( button, x, y )
 
 		local mouseOnCanvas = not hit
 
-		if mouseOnCanvas and not msgBox.active then
+		if mouseOnCanvas and not msgBox.active and not loadPanel.visible then
 			if self.currentTool == "pen" then
 
 				if self.shift and self.lastClickX and self.lastClickY then
@@ -855,7 +870,9 @@ function editor:draw()
 	toolPanel:draw()
 	menuPanel:draw()
 
-	if objectPanel.visible then
+	if loadPanel.visible then
+		loadPanel:draw()
+	elseif objectPanel.visible then
 		objectPanel:draw()
 	elseif bgObjectPanel.visible then
 		bgObjectPanel:draw()
@@ -967,8 +984,38 @@ subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 ]]
 --
-function editor.loadList()
-	list = love.filesystem.getDirectoryList( "userlevels/")
+function editor.loadFileList()
+	local list = love.filesystem.getDirectoryItems( "mylevels/")
+	
+	loadPanel:clearAll()
+
+	loadPanel:addClickable( loadPanel.width - 8, loadPanel.height - 8, editor.closeFileList,
+		"LEDeleteOff",
+		"LEDeleteOn",
+		"LEDeleteHover",
+		"Cancel", nil, nil, true )
+	loadPanel:addLabel( 4, 4, "Load file:" )
+
+	local x, y = 10,12
+	for k, v in ipairs(list) do
+		print(k, v)
+		if v:match("(.*%.dat)$") then
+			print("match")
+			loadPanel:addClickableLabel( x, y,
+				function()
+					editor.loadFile( v )
+					loadPanel.visible = false
+				end,
+				loadPanel.width - 24, v )
+			y = y + 6
+		end
+	end
+
+	loadPanel.visible = true
+end
+
+function editor.closeFileList()
+	loadPanel.visible = false
 end
 
 function editor.saveFileAttempt( fileName, testFile )
