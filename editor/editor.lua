@@ -757,7 +757,10 @@ function editor.keypressed( key, repeated )
 	elseif key == KEY_DELETE then
 		if map.selectedBgObject then
 			map:removeSelectedBgObject()
+		elseif map.selectedObject then
+			map:removeSelectedObject()
 		end
+		propertiesPanel.visible = false
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then
