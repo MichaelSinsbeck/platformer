@@ -28,6 +28,7 @@ function Button:draw()
 	love.graphics.arc('fill',self.x*tileSize,(self.y-1)*tileSize,0.2*tileSize,-.5*math.pi,angle)
 	love.graphics.setLineJoin( 'none')
 	love.graphics.arc('line',self.x*tileSize,(self.y-1)*tileSize,0.2*tileSize,-.5*math.pi,angle,nSegments)
+	love.graphics.setColor(255,255,255)
 end
 
 function Button:applyOptions()

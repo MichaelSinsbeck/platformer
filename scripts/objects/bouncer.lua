@@ -5,67 +5,39 @@ Bouncer = object:New({
   marginy = 0.2,
   vis = {
 		Visualizer:New('bouncer',{frame = 2}),
-  },  
+  }, 
+  properties = {
+		angle = newCycleProperty({-1,0,1,2},{'up', 'right', 'down', 'left'}),
+		strength = newProperty({15,23,30},{'weak','medium','strong'},2),
+  }, 
 })
+
+function Bouncer:applyOptions()
+	if self.angle == 0 or self.angle == 2 then
+		self.semiwidth, self.semiheight = 0.125, 0.5
+	else
+		self.semiwidth, self.semiheight = 0.5, 0.125
+	end
+	local tileX, tileY = math.floor(self.x), math.floor(self.y)
+	self.x = tileX+0.5-.375*math.cos(self.angle*0.5*math.pi)
+	self.y = tileY+0.5-.375*math.sin(self.angle*0.5*math.pi)
+	self.vis[1].angle = self.angle*0.5*math.pi+0.5*math.pi
+end
 
 function Bouncer:setAcceleration(dt)
 end
 
 function Bouncer:postStep(dt)
 	if self:touchPlayer() then
-     p.vy = math.min(self.targetvy,p.vy)
-     p.canUnJump = false
-     self:resetAnimation()
-  end
-end
-
-BouncerTop = Bouncer:New({
-	targetvy = 23,
-  vis = {
-		Visualizer:New('bouncer',{frame = 2,angle = math.pi,}),
-  },
-	layout = 'top',
-})
-
-function BouncerTop:postStep(dt)
-	if self:touchPlayer() then
-     p.vy = math.max(self.targetvy,p.vy)
-     p.canUnJump = false
-     self:resetAnimation()
-  end
-end
-
-BouncerLeft = Bouncer:New({
-  marginx = 0.2,
-  marginy = 0.8,
-	targetvx = 23,
-  vis = {
-		Visualizer:New('bouncer',{frame = 2,angle = 0.5*math.pi,}),
-  },
-	layout = 'left',
-})
-
-function BouncerLeft:postStep(dt)
-	if self:touchPlayer() then
-		p.vx = math.max(self.targetvx,p.vx)
-		p.status = 'fly'
+		local nx,ny = math.cos(self.angle*.5*math.pi),math.sin(self.angle*0.5*math.pi)
+		local normal = nx*p.vx + ny*p.vy
+		local tangential = ny*p.vx - nx*p.vy
+		normal = math.max(normal, self.strength)
+		p.vx = nx * normal + ny * tangential
+		p.vy = ny * normal - nx * tangential
 		self:resetAnimation()
-  end
-end
-
-BouncerRight = BouncerLeft:New({
-	targetvx = -23,
-  vis = {
-		Visualizer:New('bouncer',{frame = 2,angle = -0.5*math.pi,}),
-  }, 	
-	--animationData = {frame = 2,angle = -0.5*math.pi,},
-	layout = 'right',
-})
-
-function BouncerRight:postStep(dt)
-	if self:touchPlayer() then
-		p.vx = math.min(self.targetvx,p.vx)
-		p.status = 'fly'
-		self:resetAnimation()
+		if self.angle == -1 then
+			p.canUnJump = false
+		end
   end
 end
