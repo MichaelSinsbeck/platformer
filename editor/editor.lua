@@ -108,7 +108,7 @@ function editor.createPropertiesPanel()
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
-				KEY_DELETE .. " - remove", nil, nil, KEY_DELETE, true)
+				"remove", nil, nil, KEY_DELETE, true)
 
 		x,y = 4, 16
 		if map.selectedObject.properties then
@@ -125,7 +125,7 @@ function editor.createPropertiesPanel()
 			'LEDeleteOff',
 			'LEDeleteOn',
 			'LEDeleteHover',
-			KEY_DELETE .. " - remove", nil, nil, KEY_DELETE, true)
+			"remove", nil, nil, KEY_DELETE, true)
 		x = x + 10
 		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
 			'LELayerUpOff',
@@ -164,27 +164,27 @@ end
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				KEY_PEN .. " - Draw Tool: Draw tiles onto the canvas.", nil,nil, KEY_PEN,true )
+				"Draw Tool: Draw tiles onto the canvas.", nil,nil, KEY_PEN,true )
 	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				KEY_BGPEN .. " - Draw Tool: Draw tiles onto the background.", nil,nil,KEY_BGPEN,true )
+				"Draw Tool: Draw tiles onto the background.", nil,nil,KEY_BGPEN,true )
 	x = x + 5
 	x = x + 10
 	toolPanel:addClickable( x, y, function() editor.setTool("object") end,
 				'LEObjectOff',
 				'LEObjectOn',
 				'LEObjectHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,KEY_STAMP,true )
+				"Stamp Tool: Select and place background objects.", nil,nil,KEY_STAMP,true )
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
 				'LEStampOff',
 				'LEStampOn',
 				'LEStampHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.", nil,nil,KEY_BGSTAMP,true )
+				"Stamp Tool: Select and place background objects.", nil,nil,KEY_BGSTAMP,true )
 	x = x +5
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,

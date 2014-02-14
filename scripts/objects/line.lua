@@ -14,11 +14,12 @@ function Line:draw()
 	love.graphics.setLineWidth(Camera.scale*0.4)
 	local r, g, b, a = love.graphics.getColor()	
 	love.graphics.setColor(0,0,0)
+	local size = myMap and myMap.tileSize or 8*Camera.scale
 	love.graphics.line(
-		math.floor(self.x*myMap.tileSize),
-		math.floor(self.y*myMap.tileSize),
-		math.floor(self.x2*myMap.tileSize),
-		math.floor(self.y2*myMap.tileSize))
+		math.floor(self.x*size),
+		math.floor(self.y*size),
+		math.floor(self.x2*size),
+		math.floor(self.y2*size))
 	love.graphics.setColor(r,g,b,a)
 	
 	-- restore pixel effect:
@@ -44,7 +45,6 @@ function Line:update(dt)
 	local dx,dy = p.x+p.linePointx-self.x,p.y+p.linePointy-self.y
 	local distance = (self.nx * dx + self.ny * dy)
 	local position = self.ex * dx + self.ey*dy
-
 	
 	if p.line and p.line == self then
 	  distance = 0

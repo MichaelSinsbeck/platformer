@@ -70,6 +70,10 @@ function Object:init()
 	new = spriteFactory("fixedcannon")
 	new:init()
 	table.insert( list, new )
+	
+	new = spriteFactory("line")
+	new:init()
+	table.insert( list, new )
 
 	return list, properties
 end

@@ -82,7 +82,6 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	o.centered = centered
 	o.toolTip = toolTip  or ""
 
-
 	-- Add visualizer
 	o.vis = obj.vis
 	o.width, o.height = -math.huge, -math.huge

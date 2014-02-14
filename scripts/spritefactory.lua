@@ -129,6 +129,8 @@ function spriteFactory(name,opts)
 		new = Keyhole:New(opts)    
 	elseif name == 'fixedcannon' then
 		new = FixedCannon:New(opts)    
+	elseif name == 'line' then
+		new = Line:New(opts)    
 	end
 	if new then
 		new.name = name
