@@ -33,6 +33,8 @@ function Panel:new( x, y, width, height, highlightSelected )
 		o.box = menu:generateBox( 0, 0, o.width, o.height, boxFactor)
 	end
 
+	o.timer = 0
+
 	return o
 end
 
@@ -136,6 +138,9 @@ function Panel:draw()
 
 	for k, input in ipairs( self.inputBoxes ) do
 		if input == self.activeInput then
+		local cX = input.x*Camera.scale + input.curX
+		local cY = input.y*Camera.scale + input.curY
+			love.graphics.line( cX, cY - fontSmall:getHeight(), cX, cY )
 			love.graphics.setColor(255,255,255,50)
 		else
 			love.graphics.setColor(255,255,255,20)
@@ -182,6 +187,7 @@ function Panel:moveTo( x, y )
 end
 
 function Panel:update( dt )
+	self.timer = self.timer + dt
 	for k, page in pairs(self.pages) do
 		for i, button in pairs(page) do
 			if button.vis then
@@ -323,6 +329,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 end
 
 function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters, allowedChars )
+	local wrappedText, curX, curY = wrap( txt or "", "", width*Camera.scale )
 	local new = {
 		x = x + self.x,
 		y = y + self.y,
@@ -332,8 +339,10 @@ function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters, al
 		txt = txt or "",
 		front = txt or "",
 		back = "",
-		wrappedText = wrap( txt or "", width*Camera.scale ),
 		lines = lines,
+		wrappedText = wrappedText,
+		curX = curX,
+		curY = curY,
 		maxLetters = maxLetters or math.huge,
 		returnEvent = returnEvent,
 		allowedChars = allowedChars,
@@ -344,20 +353,22 @@ end
 -- Add the letter to the currently active text.
 function Panel:textinput( letter )
 	if self.activeInput then
-		if letter:find( self.activeInput.allowedChars or ALLOWED_CHARS ) then
+		local inp = self.activeInput
+		if letter:find( inp.allowedChars or ALLOWED_CHARS ) then
 		letter = string.lower(letter)
-		if self.activeInput.maxLetters > #self.activeInput.txt then
-			local prevFront, prevWrapped = self.activeInput.front, self.activeInput.wrappedText
-			self.activeInput.front = self.activeInput.front .. letter
-			self.activeInput.wrappedText =
-					wrap( self.activeInput.front .. self.activeInput.back,
-					self.activeInput.pixelWidth )
+		if inp.maxLetters > #inp.txt then
+			local prevFront, prevWrapped = inp.front, inp.wrappedText
+			local prevX, prevY = inp.curX, inp.curY
+			inp.front = inp.front .. letter
+			inp.wrappedText,inp.curX,inp.curY =
+					wrap( inp.front, inp.back, inp.pixelWidth )
 
 			-- Don't allow more than 'lines' lines. If number is greater with the newly added char,
 			-- reset to previous.
-			if #self.activeInput.wrappedText > self.activeInput.lines then
-				self.activeInput.front = prevFront
-				self.activeInput.wrappedText = prevWrapped
+			if #inp.wrappedText > inp.lines then
+				inp.front = prevFront
+				inp.wrappedText = prevWrapped
+				inp.curX, inp.curY = prevX, prevY
 			end
 		end
 	end
@@ -377,19 +388,19 @@ function Panel:keypressed( key )
 			if len > 0 then
 				inp.front = inp.front:sub(1, len-1)
 			end
-			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "escape" then
 			inp.front = inp.txt
 			inp.back = ""
 			stop = true
-			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "return" then
 			inp.txt = inp.front .. inp.back
 			stop = true
 			if inp.returnEvent then
 				inp.returnEvent( inp.txt )
 			end
-			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "left" then
 			local len = #inp.front
 
@@ -397,24 +408,28 @@ function Panel:keypressed( key )
 				inp.back = inp.front:sub( len,len ) .. inp.back
 				inp.front = inp.front:sub(1, len-1)
 			end
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "right" then
 			local len = #inp.back
 			if len > 0 then
 				inp.front = inp.front .. inp.back:sub(1,1)
 				inp.back = inp.back:sub(2,len)
 			end
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "delete" then
 			local len = #inp.back
 			if len > 0 then
 				inp.back = inp.back:sub(2,len)
 			end
-			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "home" then
 			inp.back = inp.front .. inp.back
 			inp.front = ""
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "end" then
 			inp.front = inp.front .. inp.back
 			inp.back = ""
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "tab" then
 			inp.txt = inp.front .. inp.back
 			--[[if love.keyboard.isDown("lshift", "rshift") then
@@ -426,7 +441,7 @@ function Panel:keypressed( key )
 			if inp.returnEvent then
 				inp.returnEvent( inp.txt )
 			end
-			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
 		end
 
 		if stop then
@@ -440,9 +455,11 @@ function Panel:keypressed( key )
 		end
 	end
 end
-function wrap( plain, width )
+
+function wrap( front, back, width )
 	local lines = {}
-	plain = plain .. "\n"
+	local plain = front .. back .. "\n"
+	local num = #front
 	for line in plain:gmatch( "([^\n]-\n)" ) do
 		table.insert( lines, line )
 	end
@@ -500,16 +517,8 @@ function wrap( plain, width )
 		end
 	end
 
-	local trueWidth = 0
-	local w = 0
-	for k, l in pairs( wLines ) do
-		w = fontSmall:getWidth(l)
-		if w > trueWidth then
-			trueWidth = w
-		end
-	end
-
-	return wLines, trueWidth
+	local cursorX, cursorY = getCharPos( wLines, num )
+	return wLines, cursorX, cursorY
 end
  
 function getCharPos( wrappedLines, num )
@@ -526,6 +535,5 @@ function getCharPos( wrappedLines, num )
 	end
 	return x, y
 end
-
 
 return Panel
