@@ -6,6 +6,9 @@ Cannon = object:New({
   timeleft = 0,
   velocity = 10,
   vis = {Visualizer:New('cannon',{angle = -0.5*math.pi}),},
+  properties = {
+		firerate = newProperty({.4, .6, .8, 1, 1.2, 1.4},nil,5),
+	}
   --animation = 'cannon',
   --angle = -0.5*math.pi,
 })
