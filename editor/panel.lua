@@ -23,6 +23,7 @@ function Panel:new( x, y, width, height, highlightSelected )
 
 	o.labels = {}
 	o.properties = {}
+	o.inputBoxes = {}
 
 	o.visible = true
 
@@ -86,6 +87,8 @@ function Panel:clearAll()
 
 	self.labels = {}
 	self.properties = {}
+
+	self.inputBoxes = {}
 end
 
 function Panel:draw()
@@ -128,6 +131,20 @@ function Panel:draw()
 		local displayName = p.names[p.obj[k]] or p.obj[k]
 		love.graphics.print( displayName, (p.x+6)*Camera.scale, (p.y+5)*Camera.scale )
 	end
+
+	for k, input in ipairs( self.inputBoxes ) do
+		if input == self.activeInput then
+			love.graphics.setColor(255,255,255,50)
+		else
+			love.graphics.setColor(255,255,255,20)
+		end
+		love.graphics.rectangle("fill", input.x*Camera.scale, input.y*Camera.scale,
+									input.width*Camera.scale, input.height*Camera.scale )
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.printf( input.front .. input.back, input.x*Camera.scale, input.y*Camera.scale,
+									input.width*Camera.scale )
+	end
+
 	for k, button in ipairs( self.pages[0] ) do
 		button:draw()
 	end
@@ -197,8 +214,24 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 		end
 	end
 
+	if not hitButton and clicked then
+		self.activeInput = nil
+		editor.activeInputPanel = nil
+		local x, y = mouseX/Camera.scale, mouseY/Camera.scale
+		for k, input in ipairs( self.inputBoxes ) do
+			if input.x < x and input.y < y and
+				input.x + input.width > x and input.y + input.height > y then
+				self.activeInput = input
+				editor.activeInputPanel = self
+				hitButton = true
+				break
+			end
+		end
+	end
+
 	return hitButton
 end
+
 
 function Panel:collisionCheck( x, y )
 	return x/Camera.scale > self.x and
@@ -279,6 +312,102 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 	property.y = y + self.y
 	property.obj = obj
 	self.properties[ name ] = property
+end
+
+function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters )
+	local new = {
+		x = x + self.x,
+		y = y + self.y,
+		width = width,
+		height = lines*fontSmall:getHeight()/Camera.scale,
+		txt = txt or "",
+		front = txt or "",
+		back = "",
+		lines = lines,
+		maxLetters = maxLetters or math.huge,
+		returnEvent = returnEvent,
+	}
+	table.insert( self.inputBoxes, new )
+end
+
+function Panel:textinput( letter )
+	letter = string.lower(letter)
+	if self.activeInput then
+		if self.activeInput.maxLetters > #self.activeInput.txt then
+			self.activeInput.front = self.activeInput.front .. letter
+		end
+	end
+end
+
+function Panel:keypressed( key )
+
+	if self.activeInput then
+		inp = self.activeInput
+		-- back up text incase anything goes wrong:
+		inp.oldFront, inp.oldBack = inp.front, inp.back
+		local stop, jump
+
+		if key == "backspace" then
+			local len = #inp.front
+			if len > 0 then
+				inp.front = inp.front:sub(1, len-1)
+			end
+		elseif key == "escape" then
+			inp.front = inp.txt
+			inp.back = ""
+			stop = true
+		elseif key == "return" then
+			inp.txt = inp.front .. inp.back
+			stop = true
+			if inp.returnEvent then
+				inp.returnEvent( inp.txt )
+			end
+		elseif key == "left" then
+			local len = #inp.front
+
+			if len > 0 then
+				inp.back = inp.front:sub( len,len ) .. inp.back
+				inp.front = inp.front:sub(1, len-1)
+			end
+		elseif key == "right" then
+			local len = #inp.back
+			if len > 0 then
+				inp.front = inp.front .. inp.back:sub(1,1)
+				inp.back = inp.back:sub(2,len)
+			end
+		elseif key == "delete" then
+			local len = #inp.back
+			if len > 0 then
+				inp.back = inp.back:sub(2,len)
+			end
+		elseif key == "home" then
+			inp.back = inp.front .. inp.back
+			inp.front = ""
+		elseif key == "end" then
+			inp.front = inp.front .. inp.back
+			inp.back = ""
+		elseif key == "tab" then
+			inp.txt = inp.front .. inp.back
+			if love.keyboard.isDown("lshift", "rshift") then
+				jump = "backward"
+			else
+				jump = "forward"
+			end
+			if inp.returnEvent then
+				inp.returnEvent( inp.txt )
+			end
+		end
+
+		if stop then
+			self.activeInputBox = nil
+			editor.activeInputPanel = nil
+			return "stop"
+		elseif jump then
+			self.activeInputBox = nil
+			editor.activeInputPanel = nil
+			return jump
+		end
+	end
 end
 
 return Panel

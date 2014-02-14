@@ -67,6 +67,8 @@ function EditorMap:new( backgroundList )
 	o.xStart = 1
 	o.yStart = 1
 
+	o.name = ""
+
 	return o
 end
 
@@ -1153,7 +1155,11 @@ end
 -- pass a full name including the path!
 function EditorMap:loadFromFile( fullName )
 	local map = nil
+
+	local mapName = fullName:match("([^/]*).dat$")
+
 	local str = love.filesystem.read( fullName )
+
 	if str then
 
 		local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
@@ -1188,6 +1194,7 @@ function EditorMap:loadFromFile( fullName )
 		map.minY, map.maxY = minY+1, maxY
 		map.width = map.maxX - map.minX
 		map.height = map.maxY - map.minY
+		map.name = mapName or ""
 
 		local matchName
 		local y = 0

@@ -30,6 +30,7 @@ local backgroundPanel
 --local editBgPanel
 local propertiesPanel
 local loadPanel
+local savePanel
 
 local panelsWithShortcuts
 
@@ -230,7 +231,7 @@ end
 				'LEOpenHover',
 				"Load another map.", nil,nil,KEY_OPEN,true )
 	x = x + 10
-	menuPanel:addClickable( x, y, function() editor.saveFileAttempt() end,
+	menuPanel:addClickable( x, y, function() editor.saveFileStart() end,
 				'LESaveOff',
 				'LESaveOn',
 				'LESaveHover',
@@ -344,6 +345,8 @@ end
 	local panelHeight = y
 	loadPanel = Panel:new( x, y, panelWidth, panelHeight )
 	loadPanel.visible = false
+	savePanel = Panel:new( x, y, panelWidth, panelHeight )
+	savePanel.visible = false
 	
 	-- available tools:
 	-- "pen", "bgObject"
@@ -465,6 +468,7 @@ function editor:update( dt )
 	end]]
 	local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
 				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
+				( savePanel.visible and savePanel:collisionCheck( x, y ) ) or
 				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
@@ -555,6 +559,7 @@ function editor:update( dt )
 		-- mouse did hit a panel? Then check for a click:
 		local hit = ( msgBox.active and msgBox:click( x, y, nil ) ) or
 			( loadPanel.visible and loadPanel:click( x, y, nil, msgBox.active ) ) or
+			( savePanel.visible and savePanel:click( x, y, nil, msgBox.active ) ) or
 			( menuPanel.visible and menuPanel:click( x, y, nil, msgBox.active ) ) or
 			( toolPanel.visible and toolPanel:click( x, y, nil, msgBox.active ) ) or
 			( groundPanel.visible and groundPanel:click( x, y, nil, msgBox.active ) ) or
@@ -581,6 +586,9 @@ function editor:update( dt )
 	if loadPanel.visible then
 		loadPanel:update( dt )
 	end
+	if savePanel.visible then
+		savePanel:update( dt )
+	end
 	if msgBox.active then
 		msgBox:update( dt )
 	end
@@ -599,6 +607,7 @@ function editor:mousepressed( button, x, y )
 		local tileY = math.floor(wY/(Camera.scale*8))
 		local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
 				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
+				( savePanel.visible and savePanel:collisionCheck( x, y ) ) or
 				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
@@ -617,7 +626,7 @@ function editor:mousepressed( button, x, y )
 
 		local mouseOnCanvas = not hit
 
-		if mouseOnCanvas and not msgBox.active and not loadPanel.visible then
+		if mouseOnCanvas and not msgBox.active and not loadPanel.visible and not savePanel.visible then
 			if self.currentTool == "pen" then
 
 				if self.shift and self.lastClickX and self.lastClickY then
@@ -682,15 +691,23 @@ function editor:mousepressed( button, x, y )
 			-- a panel was hit: check if any button was pressed:
 			local hit = ( msgBox.active and msgBox:click( x, y, "l" ) ) or
 				( loadPanel.visible and loadPanel:click( x, y, "l", msgBox.active ) ) or
-				( menuPanel.visible and menuPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
-				( toolPanel.visible and toolPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
-				( groundPanel.visible and groundPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
-				( backgroundPanel.visible and backgroundPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
+				( savePanel.visible and savePanel:click( x, y, "l", msgBox.active ) ) or
+				( menuPanel.visible and menuPanel:click( x, y, "l",
+								msgBox.active or loadPanel.visible or savePanel.visible) ) or
+				( toolPanel.visible and toolPanel:click( x, y, "l",
+								msgBox.active or loadPanel.visible or savePanel.visible) ) or
+				( groundPanel.visible and groundPanel:click( x, y, "l",
+								msgBox.active or loadPanel.visible or savePanel.visible) ) or
+				( backgroundPanel.visible and backgroundPanel:click( x, y, "l",
+								msgBox.active or loadPanel.visible or savePanel.visible) ) or
 				--( editBgPanel.visible and editBgPanel:click( x, y, true) ) or 
 				--( editPanel.visible and editPanel:click( x, y, true) ) or 
-				( propertiesPanel.visible and propertiesPanel:click(x, y, "l", msgBox.active or loadPanel.visible ) ) or
-				( bgObjectPanel.visible and bgObjectPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) ) or
-				( objectPanel.visible and objectPanel:click( x, y, "l", msgBox.active or loadPanel.visible ) )
+				( propertiesPanel.visible and propertiesPanel:click(x, y, "l",
+								msgBox.active or loadPanel.visible or savePanel.visible) ) or
+				( bgObjectPanel.visible and bgObjectPanel:click( x, y, "l",
+								msgBox.active or loadPanel.visible or savePanel.visible) ) or
+				( objectPanel.visible and objectPanel:click( x, y, "l",
+								msgBox.active or loadPanel.visible or savePanel.visible) )
 		end
 	elseif button == "r" then
 
@@ -710,7 +727,8 @@ function editor:mousepressed( button, x, y )
 
 		local mouseOnCanvas = not hit
 
-		if mouseOnCanvas and not msgBox.active and not loadPanel.visible then
+		if mouseOnCanvas and not msgBox.active and
+					not loadPanel.visible and not savePanel.visible then
 			if self.currentTool == "pen" then
 
 				if self.shift and self.lastClickX and self.lastClickY then
@@ -773,12 +791,18 @@ function editor:mousereleased( button, x, y )
 end
 
 function editor.keypressed( key, repeated )
+	if editor.activeInputPanel and editor.activeInputPanel.visible then
+		editor.activeInputPanel:keypressed( key )
+		return
+	end
 
 	local panelsToCheck = panelsWithShortcuts	
 	if msgBox.active then
 		panelsToCheck = {msgBox.panel}
 	elseif loadPanel.visible then
 		panelsToCheck = {loadPanel}
+	elseif savePanel.visible then
+		panelsToCheck = {savePanel}
 	end
 		
 	for i, panel in pairs(panelsToCheck) do
@@ -906,6 +930,8 @@ function editor:draw()
 
 	if loadPanel.visible then
 		loadPanel:draw()
+	elseif savePanel.visible then
+		savePanel:draw()
 	elseif objectPanel.visible then
 		objectPanel:draw()
 	elseif bgObjectPanel.visible then
@@ -961,6 +987,9 @@ function editor.setToolTip( tip )
 end
 
 function editor.textinput( letter )
+	if editor.activeInputPanel and editor.activeInputPanel.visible then
+		editor.activeInputPanel:textinput( letter )
+	end
 end
 
 function editor.testMapAttempt()
@@ -1050,6 +1079,44 @@ end
 
 function editor.closeFileList()
 	loadPanel.visible = false
+end
+
+function editor.saveFileStart()
+	savePanel:clearAll()
+
+	savePanel:addClickable( savePanel.width - 8, savePanel.height - 8, editor.closeSaveFilePanel,
+		"LEDeleteOff",
+		"LEDeleteOn",
+		"LEDeleteHover",
+		"Cancel", nil, nil, "escape", true )
+	savePanel:addClickable( savePanel.width - 18, savePanel.height - 8,
+		function()
+			editor.saveFileAttempt( map.name .. ".dat" )
+			editor.closeSaveFilePanel()
+		end,
+		"LEAcceptOff",
+		"LEAcceptOn",
+		"LEAcceptHover",
+		"Cancel", nil, nil, "return", true )
+
+
+	savePanel:addLabel( 4, 4, "Level name:" )
+	savePanel:addLabel( 4, 16, "Short description:" )
+
+	local setMapName = function( txt )
+		map.name = txt or ""	
+	end
+	local setMapDescription = function( txt )
+		map.description = txt or ""	
+	end
+	savePanel:addInputBox( 6, 8, savePanel.width - 12, 1, map.name or "", setMapName, 30 )
+	savePanel:addInputBox( 6, 20, savePanel.width - 12, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
+
+	savePanel.visible = true
+end
+
+function editor.closeSaveFilePanel()
+	savePanel.visible = false
 end
 
 function editor.saveFileAttempt( fileName, testFile )
