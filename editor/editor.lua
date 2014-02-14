@@ -179,7 +179,7 @@ end
 				'LEObjectOff',
 				'LEObjectOn',
 				'LEObjectHover',
-				"Stamp Tool: Select and place background objects.", nil,nil,KEY_STAMP,true )
+				"Object tool: Select and place foreground objects.", nil,nil,KEY_STAMP,true )
 	x = x +10
 	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
 				'LEStampOff',
