@@ -1110,8 +1110,8 @@ function editor.saveFileStart()
 		map.description = txt or ""	
 	end
 	local chars = "[0-9a-zA-Z%-]"
-	savePanel:addInputBox( 6, 8, savePanel.width - 12, 1, map.name or "", setMapName, 30, chars )
-	savePanel:addInputBox( 6, 20, savePanel.width - 12, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
+	savePanel:addInputBox( 6, 9, savePanel.width - 12, 1, map.name or "", setMapName, 30, chars )
+	savePanel:addInputBox( 6, 21, savePanel.width - 12, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
 
 	savePanel.visible = true
 end
@@ -1158,6 +1158,10 @@ function editor.saveFileNow( fileName, testFile )
 		local content = FILE_HEADER
 
 		content = content .. map:dimensionsToString() .. "\n"
+
+		content = content .. "Description:\n"
+		content = content .. map:descriptionToString()
+		content = content .. "endDescription\n\n"
 		
 		content = content .. "Background:\n"
 		content = content .. map:backgroundToString()

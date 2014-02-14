@@ -1163,6 +1163,7 @@ function EditorMap:loadFromFile( fullName )
 	if str then
 
 		local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
+		local description = str:match("Description:\n(.-)endDescription\n")
 		--local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
 		--local minY, maxY = -math.floor(dimY/2), math.floor(dimY/2)
 		local minX, maxX = 0, tonumber(dimX)
@@ -1194,7 +1195,8 @@ function EditorMap:loadFromFile( fullName )
 		map.minY, map.maxY = minY+1, maxY
 		map.width = map.maxX - map.minX
 		map.height = map.maxY - map.minY
-		map.name = mapName or ""
+		map.name = string.lower(mapName or "" )
+		map.description = string.lower(description or "" )
 
 		local matchName
 		local y = 0
@@ -1314,6 +1316,13 @@ end
 
 function EditorMap:dimensionsToString()
 	return "Dimensions: " .. self.maxX - self.minX+1 .. "," .. self.maxY - self.minY+1 .. "\n"
+end
+
+function EditorMap:descriptionToString()
+	-- force to lowercase: This makes sure that the keywords cannot be found, because they all
+	-- have uppercase letters.
+	self.description = string.lower(self.description)
+	return self.description or "" .. "\n"
 end
 
 function EditorMap:backgroundToString()
