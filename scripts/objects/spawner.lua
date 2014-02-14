@@ -10,6 +10,9 @@ Spawner = object:New({
 		Visualizer:New('spawnerbar'),
 		Visualizer:New('spawnerfront'),
 	},
+	properties = {
+		direction = newCycleProperty({"left", "right"},nil),
+	}
 })
 
 function Spawner:setAcceleration(dt)
@@ -31,4 +34,11 @@ function Spawner:postStep(dt)
 	self.vis[2].relX = -0.45+0.5*self.vis[2].sx
 end
 
-SpawnerLeft = Spawner:New({left = true})
+--SpawnerLeft = Spawner:New({left = true})
+function Spawner:applyOptions()
+	if self.direction == "left" then
+		self.left = true
+	else
+		self.left = false
+	end
+end

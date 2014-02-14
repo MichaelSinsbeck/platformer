@@ -1321,7 +1321,7 @@ end
 function EditorMap:descriptionToString()
 	-- force to lowercase: This makes sure that the keywords cannot be found, because they all
 	-- have uppercase letters.
-	self.description = string.lower(self.description)
+	self.description = string.lower(self.description or "" )
 	return self.description or "" .. "\n"
 end
 
