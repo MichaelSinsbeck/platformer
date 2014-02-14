@@ -3,6 +3,8 @@ Panel.__index = Panel
 local backgroundColor = {44,90,160,150} -- color of box content
 local PADDING = 3
 
+local ALLOWED_CHARS = "[0-9a-zA-Z\n ?!%.]"
+
 function Panel:new( x, y, width, height, highlightSelected )
 	local o = {}
 	setmetatable(o, self)
@@ -141,8 +143,14 @@ function Panel:draw()
 		love.graphics.rectangle("fill", input.x*Camera.scale, input.y*Camera.scale,
 									input.width*Camera.scale, input.height*Camera.scale )
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.printf( input.front .. input.back, input.x*Camera.scale, input.y*Camera.scale,
-									input.width*Camera.scale )
+		--love.graphics.printf( input.front .. input.back, input.x*Camera.scale, input.y*Camera.scale,
+		--							input.width*Camera.scale )
+		for k2, l in ipairs( input.wrappedText ) do
+			if k2 > input.lines then break end
+
+			love.graphics.print(l, input.x*Camera.scale,
+								input.y*Camera.scale + (k2-1)*fontSmall:getHeight() )
+		end
 	end
 
 	for k, button in ipairs( self.pages[0] ) do
@@ -319,10 +327,12 @@ function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters )
 		x = x + self.x,
 		y = y + self.y,
 		width = width,
+		pixelWidth = width*Camera.scale,
 		height = lines*fontSmall:getHeight()/Camera.scale,
 		txt = txt or "",
 		front = txt or "",
 		back = "",
+		wrappedText = wrap( txt or "", width*Camera.scale ),
 		lines = lines,
 		maxLetters = maxLetters or math.huge,
 		returnEvent = returnEvent,
@@ -330,12 +340,26 @@ function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters )
 	table.insert( self.inputBoxes, new )
 end
 
+-- Add the letter to the currently active text.
 function Panel:textinput( letter )
+	if letter:find( ALLOWED_CHARS ) then
 	letter = string.lower(letter)
 	if self.activeInput then
 		if self.activeInput.maxLetters > #self.activeInput.txt then
+			local prevFront, prevWrapped = self.activeInput.front, self.activeInput.wrappedText
 			self.activeInput.front = self.activeInput.front .. letter
+			self.activeInput.wrappedText =
+					wrap( self.activeInput.front .. self.activeInput.back,
+					self.activeInput.pixelWidth )
+
+			-- Don't allow more than 'lines' lines. If number is greater with the newly added char,
+			-- reset to previous.
+			if #self.activeInput.wrappedText > self.activeInput.lines then
+				self.activeInput.front = prevFront
+				self.activeInput.wrappedText = prevWrapped
+			end
 		end
+	end
 	end
 end
 
@@ -352,16 +376,19 @@ function Panel:keypressed( key )
 			if len > 0 then
 				inp.front = inp.front:sub(1, len-1)
 			end
+			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
 		elseif key == "escape" then
 			inp.front = inp.txt
 			inp.back = ""
 			stop = true
+			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
 		elseif key == "return" then
 			inp.txt = inp.front .. inp.back
 			stop = true
 			if inp.returnEvent then
 				inp.returnEvent( inp.txt )
 			end
+			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
 		elseif key == "left" then
 			local len = #inp.front
 
@@ -380,6 +407,7 @@ function Panel:keypressed( key )
 			if len > 0 then
 				inp.back = inp.back:sub(2,len)
 			end
+			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
 		elseif key == "home" then
 			inp.back = inp.front .. inp.back
 			inp.front = ""
@@ -396,6 +424,7 @@ function Panel:keypressed( key )
 			if inp.returnEvent then
 				inp.returnEvent( inp.txt )
 			end
+			inp.wrappedText = wrap( inp.front .. inp.back, inp.pixelWidth )
 		end
 
 		if stop then
@@ -409,5 +438,92 @@ function Panel:keypressed( key )
 		end
 	end
 end
+function wrap( plain, width )
+	local lines = {}
+	plain = plain .. "\n"
+	for line in plain:gmatch( "([^\n]-\n)" ) do
+		table.insert( lines, line )
+	end
+
+	local wLines = {}	-- lines that have been wrapped
+	local shortLine
+	local restLine
+	local word = "[^ ]* "	-- not space followed by space
+	local tmpLine
+	local letter = "[%z\1-\127\194-\244][\128-\191]*"
+
+	for k, line in ipairs(lines) do
+		if fontSmall:getWidth( line ) <= width then
+			table.insert( wLines, line )
+		else
+			restLine = line .. " " -- start with full line
+			while #restLine > 0 do
+				local i = 1
+				local breakingCondition = false
+				tmpLine = nil
+				shortLine = nil
+				repeat		-- look for spaces!
+					tmpLine = restLine:match( word:rep(i) )
+					if tmpLine then
+						if fontSmall:getWidth(tmpLine) > width then
+							breakingCondition = true
+						else
+							shortLine = tmpLine
+						end
+					else
+						breakingCondition = true
+					end
+					i = i + 1
+				until breakingCondition
+				if not shortLine then -- if there weren't enough spaces then:
+					breakingCondition = false
+					i = 1
+					repeat			-- ... look for letters:
+						tmpLine = restLine:match( letter:rep(i) )
+						if tmpLine then
+							if fontSmall:getWidth(tmpLine) > width then
+								breakingCondition = true
+							else
+								shortLine = tmpLine
+							end
+						else
+							breakingCondition = true
+						end
+						i = i + 1
+					until breakingCondition
+				end
+				table.insert( wLines, shortLine )
+				restLine = restLine:sub( #shortLine+1 )
+			end
+		end
+	end
+
+	local trueWidth = 0
+	local w = 0
+	for k, l in pairs( wLines ) do
+		w = fontSmall:getWidth(l)
+		if w > trueWidth then
+			trueWidth = w
+		end
+	end
+
+	return wLines, trueWidth
+end
+ 
+function getCharPos( wrappedLines, num )
+	local i = 0
+	local x, y = 0,0
+	for k, l in ipairs( wrappedLines ) do
+		if i + #l >= num then
+			num = num - i
+			x = fontSmall:getWidth( l:sub(1, num) )
+			y = k*fontSmall:getHeight()
+		else
+			i = i + #l
+		end
+	end
+	return x, y
+end
+
 
 return Panel
