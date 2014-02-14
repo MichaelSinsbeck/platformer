@@ -1138,6 +1138,15 @@ end
 -- same file name. To do that, call saveFileAttempt instead.
 function editor.saveFileNow( fileName, testFile )
 	fileName = fileName or "bkup.dat"
+
+	print( fileName, fileName:gsub(" ", ""))
+
+	if #fileName:match("(.*).dat"):gsub(" ", "") == 0 then
+		print("Warning: Empty file name!")
+		msgBox:new("Warning: Cannot save!\nFilename must not be empty.", function() end )
+		return
+	end
+
 	local fullName = "mylevels/" .. fileName
 	if testFile then
 		fullName = "test.dat"

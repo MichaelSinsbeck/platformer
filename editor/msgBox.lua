@@ -7,17 +7,17 @@ function msgBox:new( msg, eventAccept, eventDecline )
 	msgBox.msg = string.lower(msg)
 
 	msgBox.eventAccept = function()
+		msgBox:delete() -- must be called before event, in case event creates new message box!
 		if eventAccept then
 			eventAccept()
 		end
-		msgBox:delete()
 	end
 
 	msgBox.eventDecline = function()
+		msgBox:delete() -- must be called before event, in case event creates new message box!
 		if eventDecline then
 			eventDecline()
 		end
-		msgBox:delete()
 	end
 
 	local width = love.graphics.getWidth()/3/Camera.scale
