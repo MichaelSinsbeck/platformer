@@ -1109,7 +1109,8 @@ function editor.saveFileStart()
 	local setMapDescription = function( txt )
 		map.description = txt or ""	
 	end
-	savePanel:addInputBox( 6, 8, savePanel.width - 12, 1, map.name or "", setMapName, 30 )
+	local chars = "[0-9a-zA-Z%-]"
+	savePanel:addInputBox( 6, 8, savePanel.width - 12, 1, map.name or "", setMapName, 30, chars )
 	savePanel:addInputBox( 6, 20, savePanel.width - 12, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
 
 	savePanel.visible = true

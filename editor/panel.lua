@@ -3,7 +3,7 @@ Panel.__index = Panel
 local backgroundColor = {44,90,160,150} -- color of box content
 local PADDING = 3
 
-local ALLOWED_CHARS = "[0-9a-zA-Z\n ?!%.]"
+local ALLOWED_CHARS = "[0-9a-zA-Z%- ?!%.]"
 
 function Panel:new( x, y, width, height, highlightSelected )
 	local o = {}
@@ -322,7 +322,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 	self.properties[ name ] = property
 end
 
-function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters )
+function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters, allowedChars )
 	local new = {
 		x = x + self.x,
 		y = y + self.y,
@@ -336,15 +336,16 @@ function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters )
 		lines = lines,
 		maxLetters = maxLetters or math.huge,
 		returnEvent = returnEvent,
+		allowedChars = allowedChars,
 	}
 	table.insert( self.inputBoxes, new )
 end
 
 -- Add the letter to the currently active text.
 function Panel:textinput( letter )
-	if letter:find( ALLOWED_CHARS ) then
-	letter = string.lower(letter)
 	if self.activeInput then
+		if letter:find( self.activeInput.allowedChars or ALLOWED_CHARS ) then
+		letter = string.lower(letter)
 		if self.activeInput.maxLetters > #self.activeInput.txt then
 			local prevFront, prevWrapped = self.activeInput.front, self.activeInput.wrappedText
 			self.activeInput.front = self.activeInput.front .. letter
@@ -416,11 +417,12 @@ function Panel:keypressed( key )
 			inp.back = ""
 		elseif key == "tab" then
 			inp.txt = inp.front .. inp.back
-			if love.keyboard.isDown("lshift", "rshift") then
+			--[[if love.keyboard.isDown("lshift", "rshift") then
 				jump = "backward"
 			else
 				jump = "forward"
-			end
+			end]]
+			stop = true
 			if inp.returnEvent then
 				inp.returnEvent( inp.txt )
 			end
@@ -428,11 +430,11 @@ function Panel:keypressed( key )
 		end
 
 		if stop then
-			self.activeInputBox = nil
+			self.activeInput = nil
 			editor.activeInputPanel = nil
 			return "stop"
 		elseif jump then
-			self.activeInputBox = nil
+			self.activeInput = nil
 			editor.activeInputPanel = nil
 			return jump
 		end
