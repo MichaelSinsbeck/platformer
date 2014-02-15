@@ -70,8 +70,6 @@ function EditorMap:new( backgroundList )
 
 	o.name = ""
 
-	o.currentLineID = 0
-
 	return o
 end
 

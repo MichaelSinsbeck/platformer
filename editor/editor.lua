@@ -423,7 +423,6 @@ function editor.createObjectPanel()
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.objectList ) do
 		if obj.vis[1] then
-			print(obj.name)
 			local event = function()
 				editor.currentObject = obj
 				objectPanel.visible = false
@@ -442,7 +441,6 @@ function editor.createObjectPanel()
 			end
 
 			objectPanel:addClickableObject( x, y, event, obj, obj.name, page )
-			print(x,y, #objectPanel.pages[1])
 
 			x = x + obj.width/8 + PADDING
 		end
@@ -1063,9 +1061,7 @@ function editor.loadFileList()
 
 	local x, y = 10,12
 	for k, v in ipairs(list) do
-		print(k, v)
 		if v:match("(.*%.dat)$") then
-			print("match")
 			loadPanel:addClickableLabel( x, y,
 				function()
 					editor.loadFile( v )
@@ -1140,8 +1136,6 @@ end
 -- same file name. To do that, call saveFileAttempt instead.
 function editor.saveFileNow( fileName, testFile )
 	fileName = fileName or "bkup.dat"
-
-	print( fileName, fileName:gsub(" ", ""))
 
 	if #fileName:match("(.*).dat"):gsub(" ", "") == 0 then
 		print("Warning: Empty file name!")
