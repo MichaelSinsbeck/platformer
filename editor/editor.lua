@@ -34,7 +34,6 @@ local savePanel
 
 local panelsWithShortcuts
 
-
 local KEY_CLOSE = "escape"
 local KEY_STAMP = "s"
 local KEY_PEN = "d"
@@ -871,6 +870,7 @@ function editor:draw()
 	map:drawForeground()
 
 	map:drawObjects()
+	map:drawLines()
 
 	map:drawBoundings()
 

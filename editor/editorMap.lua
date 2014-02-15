@@ -52,6 +52,7 @@ function EditorMap:new( backgroundList )
 
 	o.bgList = {}	-- list of background objects
 	o.objectList = {}	-- list of objects
+	o.lines = {}
 	--[[
 	for x = 0, o.MAP_SIZE-1 do
 		o.groundArray[x] = {}
@@ -68,6 +69,8 @@ function EditorMap:new( backgroundList )
 	o.yStart = 1
 
 	o.name = ""
+
+	o.currentLineID = 0
 
 	return o
 end
@@ -770,6 +773,11 @@ function EditorMap:addObject( tileX, tileY, objName )
 	newObject:init()
 	newObject.name = objName
 
+	-- only allow one object at the same position!
+	if newObject.vis[1] then
+		self:removeObjectAt( tileX, tileY )
+	end
+		
 	-- for drawing:
 	local nx = tileX + 0.5
 	local ny = tileY + 1 - newObject.semiheight
@@ -794,20 +802,8 @@ function EditorMap:addObject( tileX, tileY, objName )
 	-- for drawing borders in editor:
 	newObject.editorX = newObject.x*self.tileSize - newObject.width*0.5
 	newObject.editorY = newObject.y*self.tileSize - newObject.height*0.5
-	
 
 	if newObject.vis[1] then
-		-- only allow one object at the same position!
-		local toRemove = {}
-		for k, obj in pairs( self.objectList ) do
-			if obj.tileX == newObject.tileX and obj.tileY == newObject.tileY then
-				table.insert( toRemove, k )
-			end
-		end
-		for i, k in pairs( toRemove ) do
-			table.remove( self.objectList, k )
-		end
-
 		if newObject.tileX < self.minX or newObject.tileX > self.maxX or
 			newObject.tileY < self.minY or newObject.tileY > self.maxY then
 			self.minX = math.min(self.minX, newObject.tileX)
@@ -844,7 +840,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 			line:init()
 			line.x, line.y = self.openLineHook.x, self.openLineHook.y
 			line.x2, line.y2 = newObject.x, newObject.y
-			table.insert( self.objectList, line )
+			table.insert( self.lines, line )
 			
 			-- each line hook should remember where the line ends (i.e. the other line hook):
 			newObject.partner = self.openLineHook
@@ -855,6 +851,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 			self.openLineHook.line = line
 
 			self.openLineHook = nil
+
 		end
 	end
 
@@ -873,6 +870,38 @@ function EditorMap:addObject( tileX, tileY, objName )
 	end]]
 end
 
+function EditorMap:removeObjectPartner( partner )
+	for k, obj in pairs(self.objectList) do
+		if obj == partner then
+			table.remove( self.objectList, k )
+			break
+		end
+	end
+end
+function EditorMap:removeLine( line )
+	for i, l in ipairs( self.lines ) do
+		if l == line then
+			table.remove( self.lines, i )
+			break
+		end
+	end
+end
+
+function EditorMap:removeObject( objToRemove )
+	if objToRemove.partner then
+		self:removeObjectPartner( objToRemove.partner )
+	end
+	if objToRemove.line then
+		self:removeLine( objToRemove.line )
+	end
+	for k, obj in pairs(self.objectList) do
+		if obj == objToRemove then
+			table.remove( self.objectList, k )
+			break
+		end
+	end
+end
+
 function EditorMap:removeObjectAt( tileX, tileY )
 	-- Go through the list backwards and delete the first object found
 	-- which is hit by the click:
@@ -885,7 +914,8 @@ function EditorMap:removeObjectAt( tileX, tileY )
 			self.backgroundBatch:set( ID, 0,0,0,0,0 )
 			table.insert( self.bgEmptyIDs, ID )
 			end]]
-			table.remove(self.objectList, k)
+			--table.remove(self.objectList, k)
+			self:removeObject( obj )
 			return true		-- only remove the one!
 		end
 	end
@@ -893,14 +923,23 @@ end
 
 function EditorMap:removeSelectedObject()
 	if self.selectedObject then
-		for k, obj in pairs(self.objectList) do
-			if obj == self.selectedObject then
-				table.remove( self.objectList, k )
-				break
-			end
-		end
+		self:removeObject( self.selectedObject )
 		self.selectedObject.selected = false
 		self.selectedObject = nil
+	end
+end
+
+
+function EditorMap:findObjectAt( tileX, tileY )
+	-- Go through the list backwards and select first object found
+	for k = #self.objectList, 1, -1 do
+		obj = self.objectList[k]
+		if obj.vis[1] then
+			if tileX >= obj.tileX and tileY >= obj.tileY and
+				tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+				return obj
+			end
+		end
 	end
 end
 
@@ -909,22 +948,15 @@ function EditorMap:selectObjectAt( tileX, tileY )
 	-- unselect previously selected objects:
 	self:selectNoObject()
 
-	-- Go through the list backwards and select first object found
-	local obj
-	for k = #self.objectList, 1, -1 do
-		obj = self.objectList[k]
-		if obj.vis[1] then
-			if tileX >= obj.tileX and tileY >= obj.tileY and
-				tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+	local obj = self:findObjectAt( tileX, tileY )
+	if obj then
 				self.selectedObject = obj
 				obj.selected = true
 				obj.oX = tileX - obj.x
 				obj.oY = tileY - obj.y
+			end
 
 				return obj
-			end
-		end
-	end
 end
 
 function EditorMap:selectNoObject()
@@ -936,6 +968,9 @@ end
 
 function EditorMap:dragObject( tileX, tileY )
 	if self.selectedObject then
+		if self:findObjectAt( tileX, tileY ) then
+			return false
+		end
 		local obj = self.selectedObject
 
 		obj.x = tileX - obj.oX
@@ -958,7 +993,6 @@ function EditorMap:dragObject( tileX, tileY )
 			self:updateBorder()
 		end
 
-		print( obj.name, self.line, self.partner )
 		if obj.name == "lineHook" and obj.line and obj.partner then
 			obj.line.x = obj.x
 			obj.line.y = obj.y
@@ -1146,6 +1180,14 @@ function EditorMap:drawObjects()
 		love.graphics.rectangle( "line", x, y, width, height)
 	end
 end
+
+function EditorMap:drawLines()
+	for k, obj in ipairs( self.lines ) do
+		--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+		obj:draw()
+	end
+end
+
 
 function EditorMap:drawGround()
 	love.graphics.draw( self.groundBatch, 0, 0 )	
@@ -1508,6 +1550,11 @@ function EditorMap:start(p)
 			newObj:update(0)
 			spriteEngine:insert(newObj)
 		end
+	end
+	for i, obj in ipairs(self.lines) do
+			local newObj = obj:New()
+			newObj:update(0)
+			spriteEngine:insert(newObj)
 	end
 	--[[
 	for i = 1,#self.lineList do
