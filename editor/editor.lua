@@ -873,7 +873,6 @@ function editor:draw()
 	map:drawBoundings()
 
 	if self.mouseOnCanvas then
-
 		love.graphics.setColor(0,0,0,128)
 		local rX = math.floor(wX/(tileSize))*tileSize
 		local rY = math.floor(wY/(tileSize))*tileSize
@@ -883,6 +882,11 @@ function editor:draw()
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
 			local w, h = self.currentObject.width, self.currentObject.height
 			self.currentObject.vis[1]:draw( rX + w*0.5, rY + h*0.5, true )
+			if self.currentObject.name == "lineHook" and map.openLineHook then
+				love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale,
+					(map.openLineHook.tileX*8+4)*Camera.scale,
+					(map.openLineHook.tileY*8+4)*Camera.scale )
+			end
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )

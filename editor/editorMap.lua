@@ -88,7 +88,6 @@ function EditorMap:updateGroundTile( x, y, noMoreRecursion )
 end
 
 function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
-	
 	if not self.groundArray[x] then
 		self.groundArray[x] = {}
 	end
