@@ -71,7 +71,11 @@ function Object:init()
 	new:init()
 	table.insert( list, new )
 	
-	new = spriteFactory("line")
+	new = spriteFactory("light")
+	new:init()
+	table.insert( list, new )
+
+	new = spriteFactory("lamp")
 	new:init()
 	table.insert( list, new )
 

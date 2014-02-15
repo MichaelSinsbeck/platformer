@@ -424,6 +424,7 @@ function editor.createObjectPanel()
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.objectList ) do
 		if obj.vis[1] then
+			print(obj.name)
 			local event = function()
 				editor.currentObject = obj
 				objectPanel.visible = false
@@ -432,16 +433,17 @@ function editor.createObjectPanel()
 			-- Is this object higher than the others of this row?
 			maxY = math.max( obj.height, maxY )
 
-			if x + obj.width > panelWidth then
+			if x + obj.width/8 > panelWidth then
+
 				-- add the maximum height of the obejcts in this row, then continue:
-				y = y + maxY*8 + PADDING
+				y = y + maxY/8 + PADDING
 				x = PADDING
 
 				maxY = -math.huge
 			end
 
 			objectPanel:addClickableObject( x, y, event, obj, obj.name, page )
-
+			print(x,y, #objectPanel.pages[1])
 
 			x = x + obj.width/8 + PADDING
 		end
