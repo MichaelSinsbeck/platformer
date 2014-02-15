@@ -34,7 +34,6 @@ local savePanel
 
 local panelsWithShortcuts
 
-
 local KEY_CLOSE = "escape"
 local KEY_STAMP = "s"
 local KEY_PEN = "d"
@@ -424,7 +423,6 @@ function editor.createObjectPanel()
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.objectList ) do
 		if obj.vis[1] then
-			print(obj.name)
 			local event = function()
 				editor.currentObject = obj
 				objectPanel.visible = false
@@ -443,7 +441,6 @@ function editor.createObjectPanel()
 			end
 
 			objectPanel:addClickableObject( x, y, event, obj, obj.name, page )
-			print(x,y, #objectPanel.pages[1])
 
 			x = x + obj.width/8 + PADDING
 		end
@@ -871,11 +868,11 @@ function editor:draw()
 	map:drawForeground()
 
 	map:drawObjects()
+	map:drawLines()
 
 	map:drawBoundings()
 
 	if self.mouseOnCanvas then
-
 		love.graphics.setColor(0,0,0,128)
 		local rX = math.floor(wX/(tileSize))*tileSize
 		local rY = math.floor(wY/(tileSize))*tileSize
@@ -885,6 +882,11 @@ function editor:draw()
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
 			local w, h = self.currentObject.width, self.currentObject.height
 			self.currentObject.vis[1]:draw( rX + w*0.5, rY + h*0.5, true )
+			if self.currentObject.name == "lineHook" and map.openLineHook then
+				love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale,
+					(map.openLineHook.tileX*8+4)*Camera.scale,
+					(map.openLineHook.tileY*8+4)*Camera.scale )
+			end
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
@@ -1063,9 +1065,7 @@ function editor.loadFileList()
 
 	local x, y = 10,12
 	for k, v in ipairs(list) do
-		print(k, v)
 		if v:match("(.*%.dat)$") then
-			print("match")
 			loadPanel:addClickableLabel( x, y,
 				function()
 					editor.loadFile( v )
@@ -1140,8 +1140,6 @@ end
 -- same file name. To do that, call saveFileAttempt instead.
 function editor.saveFileNow( fileName, testFile )
 	fileName = fileName or "bkup.dat"
-
-	print( fileName, fileName:gsub(" ", ""))
 
 	if #fileName:match("(.*).dat"):gsub(" ", "") == 0 then
 		print("Warning: Empty file name!")

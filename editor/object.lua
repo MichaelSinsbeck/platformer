@@ -79,6 +79,10 @@ function Object:init()
 	new:init()
 	table.insert( list, new )
 
+	new = spriteFactory("lineHook")
+	new:init()
+	table.insert( list, new )
+
 	return list, properties
 end
 
