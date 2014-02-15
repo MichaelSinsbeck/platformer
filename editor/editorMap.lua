@@ -834,6 +834,30 @@ function EditorMap:addObject( tileX, tileY, objName )
 	--	newObject.properties = {}
 	end
 
+	if objName == "lineHook" then
+		if not self.openLineHook then
+			-- This line hook has found no partner, so remember it for future line hooks:
+			self.openLineHook = newObject
+		else
+			-- found a partner, so create new line between the two:	
+			local line = spriteFactory( "line" )
+			line:init()
+			line.x, line.y = self.openLineHook.x, self.openLineHook.y
+			line.x2, line.y2 = newObject.x, newObject.y
+			table.insert( self.objectList, line )
+			
+			-- each line hook should remember where the line ends (i.e. the other line hook):
+			newObject.partner = self.openLineHook
+			self.openLineHook.partner = newObject
+
+			-- both should remember the line they're connected to:
+			newObject.line = line
+			self.openLineHook.line = line
+
+			self.openLineHook = nil
+		end
+	end
+
 	table.insert( self.objectList, newObject )
 
 	return newObject
@@ -932,6 +956,14 @@ function EditorMap:dragObject( tileX, tileY )
 			self.minY = math.min(self.minY, obj.tileY)
 			self.maxY = math.max(self.maxY, obj.maxY)
 			self:updateBorder()
+		end
+
+		print( obj.name, self.line, self.partner )
+		if obj.name == "lineHook" and obj.line and obj.partner then
+			obj.line.x = obj.x
+			obj.line.y = obj.y
+			obj.line.x2 = obj.partner.x
+			obj.line.y2 = obj.partner.y
 		end
 		return true
 	end
@@ -1376,7 +1408,7 @@ function EditorMap:objectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.objectList) do
-		if obj.name ~= "spikey" then
+		if obj.name ~= "spikey" and obj.name ~= "line" then
 			str = str .. "Obj:" .. obj.name .. "\n"
 			str = str .. "\tx:" .. obj.tileX - self.minX .. "\n"
 			str = str .. "\ty:" .. obj.tileY - self.minY .. "\n"
@@ -1471,10 +1503,13 @@ function EditorMap:start(p)
 		end
 		local newObject = constructor:New({x = nx, y = ny})
 		]]
-		local newObj = obj:New()
-		newObj:update(0)
-		spriteEngine:insert(newObj)
+		if obj.name ~= "lineHook" then
+			local newObj = obj:New()
+			newObj:update(0)
+			spriteEngine:insert(newObj)
+		end
 	end
+	--[[
 	for i = 1,#self.lineList do
 		local newObject = Line:New({
 			x = self.lineList[i].x,
@@ -1483,7 +1518,7 @@ function EditorMap:start(p)
 			y2 = self.lineList[i].y2,
 		})
 		spriteEngine:insert(newObject)
-	end
+	end]]
 
 	if USE_SHADOWS then
 		local list = {}

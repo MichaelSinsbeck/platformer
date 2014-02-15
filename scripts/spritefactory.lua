@@ -12,6 +12,7 @@ require 'scripts/objects.explosion'
 require 'scripts/objects.bandana'
 require 'scripts/objects.poff'
 require 'scripts/objects.line'
+require 'scripts/objects.lineHook'
 require 'scripts/objects.particle'
 require 'scripts/objects.windmill'
 require 'scripts/objects.button'
@@ -133,6 +134,10 @@ function spriteFactory(name,opts)
 		new = Light:New(opts)    
 	elseif name == 'lamp' then
 		new = Lamp:New(opts)    
+	elseif name == 'line' then
+		new = Line:New(opts)    
+	elseif name == 'lineHook' then
+		new = LineHook:New(opts)    
 	end
 	if new then
 		new.name = name
