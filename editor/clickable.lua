@@ -168,7 +168,6 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 	o.active = "off"
 
 	return o
-
 end
 
 function Clickable:draw()
@@ -182,6 +181,9 @@ function Clickable:draw()
 		end
 		for k = 1, #self.vis do
 			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)
+		end
+		if DEBUG then
+			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
 		end
 	elseif self.batch then
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
@@ -225,7 +227,9 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 						self.event()
 					end
 					self.active = "click"
-					self:setAnim(self.imgOn)
+					if self.imgOn then
+						self:setAnim(self.imgOn)
+					end
 					return true
 				end
 			else

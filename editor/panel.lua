@@ -3,6 +3,7 @@ Panel.__index = Panel
 local backgroundColor = {44,90,160,150} -- color of box content
 local PADDING = 3
 
+-- chars which, by default, can by typed into input boxes:
 local ALLOWED_CHARS = "[0-9a-zA-Z%- ?!%.]"
 
 function Panel:new( x, y, width, height, highlightSelected )

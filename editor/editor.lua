@@ -142,10 +142,10 @@ function editor.createPropertiesPanel()
 	end
 end
 
-	-- called when editor is to be started:
-	function editor.start()
-		print("Starting editor..." )
-		mode = "editor"
+-- called when editor is to be started:
+function editor.start()
+	print("Starting editor..." )
+	mode = "editor"
 
 	-- make sure to return to level after testing map!
 	editor.active = true
@@ -332,7 +332,6 @@ end
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
 
-
 	local panelX = love.graphics.getWidth()/Camera.scale - 40
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 23 - 14
 	propertiesPanel = Panel:new( panelX, 10,  39, panelHeight )
@@ -441,7 +440,6 @@ function editor.createObjectPanel()
 			end
 
 			objectPanel:addClickableObject( x, y, event, obj, obj.name, page )
-
 			x = x + obj.width/8 + PADDING
 		end
 	end
