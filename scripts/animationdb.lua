@@ -411,6 +411,9 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('spawnerback','spawner',{2},{1e6})
 	AnimationDB:addAni('spawnerbar','spawner',{3},{1e6})
 	
+	AnimationDB:loadImage('lineHook.png','lineHook',tileSize,tileSize)
+	AnimationDB:addAni('lineHook'  ,'lineHook',{1},{1e6})
+	
 	AnimationDB:loadImage('button.png','editorButton',tileSize,tileSize, "editor", true)
 	AnimationDB:addAni('LEGround1Off'  ,'editorButton',{1},{1e6})
 	AnimationDB:addAni('LEGround1Hover','editorButton',{2},{1e6})

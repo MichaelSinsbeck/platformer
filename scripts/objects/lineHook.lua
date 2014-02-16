@@ -2,7 +2,7 @@ LineHook = object:New({
 	--ID = 0,
   	layout = 'center',
 	vis = {
-		Visualizer:New('whiteLineSlide'),
+		Visualizer:New('lineHook'),
 	}
 })
 --[[
