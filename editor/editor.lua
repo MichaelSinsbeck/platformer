@@ -186,8 +186,7 @@ function editor.start()
 				'LEStampHover',
 				"Stamp Tool: Select and place background objects.", nil,nil,KEY_BGSTAMP,true )
 	x = x +5
-	x = x +10
-	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
+	x = x +10 toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
@@ -395,7 +394,8 @@ function editor.createBgObjectPanel()
 
 		if x + bBox.maxX*8 > panelWidth then
 			-- add the maximum height of the obejcts in this row, then continue:
-			y = y + maxY*8 + PADDING
+			--y = y + maxY*8 + PADDING
+			page = page +1
 			x = PADDING
 
 			maxY = -math.huge
@@ -588,6 +588,12 @@ function editor:update( dt )
 	end
 	if msgBox.active then
 		msgBox:update( dt )
+	end
+	if objectPanel.visible then
+		objectPanel:update( dt )
+	end
+	if bgObjectPanel.visible then
+		bgObjectPanel:update( dt )
 	end
 end
 
@@ -1054,14 +1060,15 @@ function editor.loadFileList()
 	
 	loadPanel:clearAll()
 
-	loadPanel:addClickable( loadPanel.width - 8, loadPanel.height - 8, editor.closeFileList,
+	loadPanel:addClickable( loadPanel.width - 8, 8, editor.closeFileList,
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
 		"Cancel", nil, nil, "escape", true )
 	loadPanel:addLabel( 4, 4, "Load file:" )
 
-	local x, y = 10,12
+	local x, y = 13,12
+	local page = 1
 	for k, v in ipairs(list) do
 		if v:match("(.*%.dat)$") then
 			loadPanel:addClickableLabel( x, y,
@@ -1069,8 +1076,12 @@ function editor.loadFileList()
 					editor.loadFile( v )
 					loadPanel.visible = false
 				end,
-				loadPanel.width - 24, v )
+				loadPanel.width - 26, v, page )
 			y = y + 6
+			if y > loadPanel.height - 10 then
+				y = 12
+				page = page + 1
+			end
 		end
 	end
 

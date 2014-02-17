@@ -48,11 +48,48 @@ function Panel:addLabel( x, y, text )
 	table.insert( self.labels, l )
 end
 
+function Panel:addNextButton( pageNumber )
+	local ev = function()
+		self.selectedPage = pageNumber + 1
+	end
+	local c = Clickable:new( self.x + self.width - 8, self.y + self.height - 8, ev,
+			'LERightOff',
+			'LERightOn',
+			'LERightHover',
+			"Go to next page", nil, "right", true )
+	table.insert( self.pages[pageNumber], c )
+end
+
+function Panel:addPrevButton( pageNumber )
+	local ev = function()
+		self.selectedPage = pageNumber - 1
+	end
+	local c = Clickable:new( self.x + 8, self.y + self.height - 8, ev,
+			'LELeftOff',
+			'LELeftOn',
+			'LELeftHover',
+			"Go to previous page", nil, "left", true )
+	table.insert( self.pages[pageNumber], c )
+end
+
+function Panel:addPageButtons( page )
+		if self.pages[page-1] and page > 1 then
+			self:addNextButton( page-1 )
+			self:addPrevButton( page )
+		end
+		if self.pages[page+1] then
+			self:addNextButton( page )
+			self:addPrevButton( page+1 )
+		end
+	end
+
 function Panel:addClickableLabel( x, y, event, width, text, page )
 	local c = Clickable:newLabel( x+self.x, y+self.y, event, width, text )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
+		-- Add buttons to next and previous pages:
+		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
 end
@@ -63,6 +100,8 @@ function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
+		-- Add buttons to next and previous pages:
+		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
 end
@@ -72,6 +111,8 @@ function Panel:addClickableObject( x, y, event, obj, toolTip, page, centered )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
+		-- Add buttons to next and previous pages:
+		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
 end
@@ -81,6 +122,8 @@ function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, pa
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
+		-- Add buttons to next and previous pages:
+		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
 end
