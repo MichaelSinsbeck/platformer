@@ -165,6 +165,10 @@ function menu.initMain()
 	y = -10
 	
 	menu:addBox(x-17,y-4,40,60)
+
+	-- debug:
+	mBambooBox = bambooBox:new( "", 100, 50 )
+	mBambooBox2 = bambooBox:new( "", 100, 50 )
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
@@ -850,6 +854,10 @@ end
 
 function menu:update(dt)
 	menuPlayer.vis:update(dt/2)
+
+	-- debug:
+	mBambooBox:update(dt)
+	mBambooBox2:update(dt)
 	
 	local factor = math.min(1, 3*dt)
 	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
@@ -986,6 +994,8 @@ function menu:draw()
 		end
 		love.graphics.line( element.x1*Camera.scale, element.y1*Camera.scale, element.x2*Camera.scale, element.y2 *Camera.scale)
 	end
+
+
 	love.graphics.setColor(255,255,255)
 	for k, element in pairs(menuImages) do
 		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale, alpha )
@@ -1077,6 +1087,10 @@ function menu:draw()
 	end
 
 	controlKeys:draw("menu")
+
+	-- debug:
+	mBambooBox:draw( 20, 20 )
+	mBambooBox2:draw( 20, 100 )
 end
 
 

@@ -13,6 +13,7 @@ function loading.update()
 
 	if loading.step == 0 then
 		menu = require("scripts/menu")
+		bambooBox = require("scripts/bambooBox")
 		
 		-- loads all scripts and puts the necessary values into the global
 		-- environment:
@@ -42,6 +43,7 @@ function loading.update()
 		loading.msg = "menu"
 	elseif loading.step == 4 then
 		menu:init()	-- must be called after AnimationDB:loadAll()
+		bambooBox:init()
 		loading.msg = "shaders"
 	elseif loading.step == 5 then	
 		if USE_SHADERS then
