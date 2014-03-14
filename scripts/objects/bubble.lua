@@ -1,5 +1,5 @@
-Bubble = object:New({
-	tag = 'bubble',
+local Bubble = object:New({
+	tag = 'Bubble',
   marginx = 0.9,
   marginy = 0.9,
   animation = 'bubble',
@@ -14,3 +14,5 @@ function Bubble:setAcceleration(dt)
     self:kill()
 	end
 end
+
+return Bubble

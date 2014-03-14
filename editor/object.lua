@@ -5,29 +5,37 @@ function Object:init()
 	local list = {}
 	local properties = {}
 
-	local new
 
-	new = spriteFactory("player")
+	for name, class in pairs(objectClasses) do
+		local new = class:New()
+		if new.isInEditor then
+			new:init()
+			table.insert( list, new)
+		end
+	end
+	
+--[[
+	new = spriteFactory("Player")
 	new:init()
 	table.insert( list, new )
 
-	new = spriteFactory("exit")
+	new = spriteFactory("Exit")
 	new:init()
 	table.insert( list, new )
 	
-	new = spriteFactory("spikey")
+	new = spriteFactory("Spikey")
 	new:init()
 	table.insert( list, new )
 
-	new = spriteFactory("bouncer")
+	new = spriteFactory("Bouncer")
 	new:init()
 	table.insert( list, new )
 
-	new = spriteFactory("cannon")
+	new = spriteFactory("Cannon")
 	new:init()
 	table.insert( list, new )
 
-	new = spriteFactory("button")
+	new = spriteFactory("Button")
 	new:init()
 	table.insert( list, new )
 
@@ -81,7 +89,7 @@ function Object:init()
 
 	new = spriteFactory("lineHook")
 	new:init()
-	table.insert( list, new )
+	table.insert( list, new )]]
 
 	return list, properties
 end

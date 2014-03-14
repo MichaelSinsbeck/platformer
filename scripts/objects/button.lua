@@ -1,8 +1,8 @@
-Button = object:New({
-	tag = 'button',
+local Button = object:New({
+	tag = 'Button',
   marginx = 0.5,
   marginy = 0.3,
-
+  isInEditor = true,
   timer2 = 0,
   vis = {
 		Visualizer:New('button'),
@@ -80,3 +80,4 @@ function Button:postStep(dt)
 	end
 end
 
+return Button

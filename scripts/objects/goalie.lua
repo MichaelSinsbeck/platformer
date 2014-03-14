@@ -1,11 +1,12 @@
-Goalie = object:New({
-	tag = 'goalie',
+local Goalie = object:New({
+	tag = 'Goalie',
   maxSpeed = 20,
   acc = 50,
   xSensing = 7, --how far can he see?
   ySensing = 20,
 	marginx = 0.4,
   marginy = 0.65,
+  isInEditor = true,
   vis = {
 		Visualizer:New('goalie'),
   },
@@ -50,3 +51,5 @@ function Goalie:setAcceleration(dt)
     Meat:spawn(p.x,p.y,self.vx,self.vy,12)
   end
 end
+
+return Goalie

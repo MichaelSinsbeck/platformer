@@ -1,4 +1,5 @@
-Line = object:New({	
+local Line = object:New({	
+	tag = 'Line',
 	x = 0,
 	y = 0,
 	x2 = 10,
@@ -64,3 +65,5 @@ function Line:update(dt)
 	end
 	self.distanceOld = distance
 end
+
+return Line

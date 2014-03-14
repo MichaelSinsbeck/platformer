@@ -1,5 +1,5 @@
-Emitter = object:New({
-	tag = 'emitter',
+local Emitter = object:New({
+	tag = 'Emitter',
   emissionTimer = 0,
   rate = .3,
   semiheight = .5,
@@ -16,7 +16,9 @@ function Emitter:postStep(dt)
 			local newX = self.x + math.random() - 0.5
 			local newY = self.y + 0.5
 			local newAni = 'wind' .. math.random(1,3)
-			local newDot = Winddot:New({x=newX,y=newY,vis = {Visualizer:New(newAni)}})
+			local newDot = spriteFactory('Winddot',{x=newX,y=newY,vis = {Visualizer:New(newAni)}})
 			spriteEngine:insert(newDot)		
 	end
 end
+
+return Emitter

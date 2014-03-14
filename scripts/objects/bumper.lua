@@ -1,8 +1,9 @@
-Bumper = object:New({
-	tag = 'bumper',
+local Bumper = object:New({
+	tag = 'Bumper',
   targetv = 23,
   marginx = 0.8,
   marginy = 0.8,
+  isInEditor = true,
   layout = 'center',
   vis = {
 		Visualizer:New('bumper'),
@@ -27,3 +28,5 @@ function Bumper:postStep(dt)
 		self.vis[1].sy = .8
 	end
 end
+
+return Bumper

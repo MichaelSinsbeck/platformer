@@ -1,4 +1,4 @@
-Bungee = object:New({	
+local Bungee = object:New({	
 	tag = 'Bungee',
 	marginx = 0.1,
   marginy = 0.1,
@@ -190,3 +190,5 @@ end
 function Bungee:disconnect()
 	self:kill()
 end
+
+return Bungee

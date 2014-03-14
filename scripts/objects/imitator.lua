@@ -1,8 +1,9 @@
-Imitator = object:New({
+local Imitator = object:New({
 	tag = 'Imitator',
 	--animation = 'imitatorStand',
   marginx = 0.3,
   marginy = 0.6,
+  isInEditor = true,
   
 	axStand = 48.5, --40,--35, -- acceleration, when button is pressed
   axFly = 48.5, --40,--35,
@@ -111,3 +112,5 @@ function Imitator:unjump()
 		end
 	end
 end
+
+return Imitator

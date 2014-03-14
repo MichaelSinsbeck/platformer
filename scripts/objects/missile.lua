@@ -1,5 +1,5 @@
-Missile = object:New({
-	tag = 'missile',
+local Missile = object:New({
+	tag = 'Missile',
   vx = 1,
   vy = 1,
   maxspeed = 25,--18,--30,
@@ -39,7 +39,7 @@ function Missile:setAcceleration(dt)
 		self.poffTimer = self.poffTimer + (0.75+0.5*math.random())*self.poffRate -- slightly randomize ejection rate
 		local vx,vy = -0.03*self.vx,-0.03*self.vy
 		local angle = math.random()*math.pi*2
-		local newPoff = Poff:New({x = self.x,y=self.y,vis = {Visualizer:New('poff',{angle=angle})},vx = vx, vy=vy})
+		local newPoff = spriteFactory('Poff',{x = self.x,y=self.y,vis = {Visualizer:New('poff',{angle=angle})},vx = vx, vy=vy})
 		spriteEngine:insert(newPoff)
   end
 end
@@ -69,7 +69,7 @@ function Missile:detonate()
 		spriteEngine:DoAll('explode',args)
 
 		-- generate Explosion
-		local newExplo = Explosion:New({x=self.x,y=self.y, vis = {Visualizer:New('explosionExplode',{angle=2*math.pi*math.random()})}   })
+		local newExplo = spriteFactory('Explosion',{x=self.x,y=self.y, vis = {Visualizer:New('explosionExplode',{angle=2*math.pi*math.random()})}   })
 		spriteEngine:insert(newExplo)
 		
 		if self.collisionResult % 2 == 1 then self.vx = math.min(self.vx,0) end --collision right
@@ -90,7 +90,7 @@ function Missile:detonate()
 			local vy = sin*self.spreadSpeed*magnitude+baseVy
 			
 			local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
-			local newParticle = Particle:New({x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed})
+			local newParticle = spriteFactory('Particle',{x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed})
 			spriteEngine:insert(newParticle)
 		end
 		
@@ -100,3 +100,5 @@ function Missile:detonate()
 		self:kill()
 	end
 end
+
+return Missile

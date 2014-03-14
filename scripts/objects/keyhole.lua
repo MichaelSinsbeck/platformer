@@ -1,8 +1,16 @@
-Keyhole = Door:New({
-	tag = 'keyhole',
+local Keyhole = object:New({
+	tag = 'Keyhole',
+  marginx = 0.8,
+  marginy = 0.8,
+  isInEditor = true,
+  status = 'passive',
+  openTime = 0.05,	
 	solid = true,	
 	vis = {Visualizer:New('keyhole')},
 })
+
+function Keyhole:setAcceleration(dt)
+end
 
 function Keyhole:activate(args)
 end
@@ -22,3 +30,11 @@ function Keyhole:postStep(dt)
 		self:die()
 	end
 end
+
+function Keyhole:die()
+	myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
+	self:kill()
+	myMap:queueShadowUpdate()
+end
+
+return Keyhole

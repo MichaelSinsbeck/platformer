@@ -1,5 +1,5 @@
-Runner = object:New({
-	tag = 'runner',
+local Runner = object:New({
+	tag = 'Runner',
   maxSpeed = 19,
   acc = 25,--17,
   xSensing = 20, --how far can he see?
@@ -11,6 +11,7 @@ Runner = object:New({
   },
   marginx = 0.7,
   marginy = 0.6,
+  isInEditor = true,
 })
 
 function Runner:setAcceleration(dt)
@@ -61,3 +62,5 @@ function Runner:setAcceleration(dt)
     Meat:spawn(p.x,p.y,self.vx,self.vy,12)
   end  
 end
+
+return Runner

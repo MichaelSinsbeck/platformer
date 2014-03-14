@@ -1,5 +1,5 @@
 -- make the base class global
-require 'scripts/objects.object'
+object = require 'scripts/objects.object'
 
 -- insert all other object classes into a local table
 local objectClasses = {
@@ -27,7 +27,7 @@ Bubble = require 'scripts/objects.bubble',
 Crumbleblock = require 'scripts/objects.crumbleblock',
 Glassblock = require 'scripts/objects.glassblock',
 Fixedcannon = require 'scripts/objects.fixedcannon',
-Butterfly = require 'scripts/objects.butterfly',
+-- Butterfly = require 'scripts/objects.butterfly',
 Meat = require 'scripts/objects.meat',
 Exit = require 'scripts/objects.exit',
 Bungee = require 'scripts/objects.bungee',
@@ -38,10 +38,10 @@ Bumper = require 'scripts/objects.bumper',
 Clubber = require 'scripts/objects.clubber',
 Light = require 'scripts/objects.light',
 Bonus = require 'scripts/objects.bonus',
-Input = require 'scripts/objects.input',
+--Input = require 'scripts/objects.input',
 Walker = require 'scripts/objects.walker',
-Walkerhorz = require 'scripts/objects.walkerhorz',
-Walkervert = require 'scripts/objects.walkervert',
+-- Walkerhorz = require 'scripts/objects.walkerhorz',
+-- Walkervert = require 'scripts/objects.walkervert',
 Spawner = require 'scripts/objects.spawner',
 }
 
@@ -56,6 +56,16 @@ function initAll()
 	end
 end
 
+function spriteFactory(name,opts)
+	if objectClasses[name] then
+		local new = objectClasses[name]:New(opts)
+		if new.init then
+			new:init()
+		end
+		return new
+	end
+end
+--[[
 function spriteFactory(name,opts)
 	local new
 	if name == 'runner' then
@@ -99,4 +109,5 @@ function spriteFactory(name,opts)
 		new.name = name
 	end
 	return new
-end
+end]]
+return objectClasses

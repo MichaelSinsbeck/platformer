@@ -1,4 +1,4 @@
-Walker = object:New({
+local Walker = object:New({
 	tag = 'Walker',
 	speed = 1.6,
 	vx = 1.6,
@@ -6,6 +6,7 @@ Walker = object:New({
 	vis = {Visualizer:New('prewalker')},
   marginx = 0.6,
   marginy = 0.6,
+  isInEditor = true,
   period = 0.5, -- should be (0.8/speed)
   direction = 1, -- put -1 for left
 })
@@ -117,6 +118,8 @@ function Walker:wake()
 	self.vx = self.speed * self.direction
 end
 
-WalkerLeft = Walker:New({
+return Walker
+
+--[[WalkerLeft = Walker:New({
   direction = -1,
-})
+})]]

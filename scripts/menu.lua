@@ -385,7 +385,7 @@ function menu.startGame( lvl )
 		initAll()
 		
 		-- Creating Player
-		p = spriteFactory('player')
+		p = spriteFactory('Player')
 		--p = Player:New()
 		--spriteEngine:insert(p)
 
@@ -397,7 +397,7 @@ function menu.startGame( lvl )
 		--myMap = Map:LoadFromFile( Campaign[Campaign.current] )
 		--myMap = Map:LoadFromFile( Campaign[Campaign.current] , 1 ) -- *only for demo*
 		myMap = Map:loadFromFile( lvl )
-  		levelEnd:reset()		-- resets the counters of all deaths etc
+		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start(p)
 		
 		config.setValue( "level", lvl )

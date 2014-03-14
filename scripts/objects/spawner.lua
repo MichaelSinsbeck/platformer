@@ -1,8 +1,9 @@
-Spawner = object:New({
+local Spawner = object:New({
 	tag = 'Spawner',
   firerate = 3, -- in seconds
   marginx = .8,
   marginy = .8,
+  isInEditor = true,
   timer = 3,
   solid = true,
   vis = {
@@ -42,3 +43,5 @@ function Spawner:applyOptions()
 		self.left = false
 	end
 end
+
+return Spawner

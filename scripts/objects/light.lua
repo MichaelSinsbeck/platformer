@@ -1,5 +1,5 @@
-Light = object:New({
-	tag = 'light',
+local Light = object:New({
+	tag = 'Light',
 	layout = 'center',
   marginx = 0.4,
   marginy = 0.4,
@@ -78,3 +78,5 @@ function Lamp:switch(newState)
 		self:setAnim('',false,2)
 	end
 end
+
+return Light

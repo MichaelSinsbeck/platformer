@@ -1,5 +1,6 @@
-Crumbleblock = object:New({
-	tag = 'crumbleblock',
+local Crumbleblock = object:New({
+	tag = 'Crumbleblock',
+  isInEditor = true,
   --marginx = 0.8,
   --marginy = 0.8,
   marginx = 2,
@@ -42,7 +43,7 @@ function Crumbleblock:postStep(dt)
 				local x, y = self.x + vis.relX, self.y + vis.relY
 				local vx = (math.random()*2-1)*self.spreadSpeed
 				local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
-				local newParticle = Particle:New({x=x,y=y,vx = vx,vy = 0,rotSpeed = rotSpeed,vis = {Visualizer:New(vis.animation)} })
+				local newParticle = spriteFactory('Particle',{x=x,y=y,vx = vx,vy = 0,rotSpeed = rotSpeed,vis = {Visualizer:New(vis.animation)}})
 				spriteEngine:insert(newParticle)
 			  self.vis[i] = nil
 			end
@@ -70,3 +71,5 @@ function Crumbleblock:postStep(dt)
 		end--]]
 	end
 end
+
+return Crumbleblock

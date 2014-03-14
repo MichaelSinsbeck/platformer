@@ -1,5 +1,5 @@
-Particle = object:New({
-	tag = 'particle',
+local Particle = object:New({
+	tag = 'Particle',
   marginx = 0.4,
   marginy = 0.4,
   --animation = 'particle',
@@ -27,3 +27,5 @@ function Particle:setAcceleration(dt)
     self:kill()
 	end
 end
+
+return Particle

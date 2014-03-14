@@ -1258,7 +1258,7 @@ function EditorMap:loadFromFile( fullName )
 		end
 		local objList = {}
 		for k,b in pairs(editor.objectList) do
-			objList[b.name] = b
+			objList[b.tag] = b
 		end
 
 		map = EditorMap:new( editor.backgroundList )
@@ -1339,7 +1339,7 @@ function EditorMap:loadFromFile( fullName )
 			end
 		end
 
-		for obj in objects:gmatch( "(Obj:.-endObj)\n" ) do
+		for obj in objects:gmatch( "(Obj:.-endObj)\n" ) do			
 			objType = obj:match( "Obj:(.-)\n")
 			x = obj:match( "x:(.-)\n")
 			y = obj:match( "y:(.-)\n")
@@ -1356,7 +1356,7 @@ function EditorMap:loadFromFile( fullName )
 				end
 			end
 
-			if objType == "player" then
+			if objType == "Player" then
 				map.xStart = x + 1
 				map.yStart = y + 1
 			end
@@ -1519,7 +1519,7 @@ function EditorMap:start(p)
 	Camera:jumpTo(p.x,p.y)
 
 	for i, obj in ipairs(self.objectList) do
-		if obj.name == "player" then
+		if obj.name == "Player" then
 			table.remove( self.objectList, i )
 			break
 		end
@@ -1542,7 +1542,7 @@ function EditorMap:start(p)
 		end
 		local newObject = constructor:New({x = nx, y = ny})
 		]]
-		if obj.name ~= "lineHook" then
+		if obj.name ~= "LineHook" then
 			local newObj = obj:New()
 			newObj:update(0)
 			spriteEngine:insert(newObj)
@@ -1602,7 +1602,7 @@ function EditorMap:collisionTest(x,y,direction,tag)
 
 	--print ('collisionTest with direction '..direction..' and tag ' .. tag .. ', CollisionNr: '..collisionNumber)	
 
-	if tag == 'player' then -- player does not collide with spikes
+	if tag == 'Player' then -- player does not collide with spikes
 		if direction == 'down' then -- down collides with 1 and 2
 			if collisionNumber == 1 or collisionNumber == 2 then
 				return true

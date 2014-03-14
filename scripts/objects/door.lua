@@ -1,7 +1,8 @@
-Door = object:New({
+local Door = object:New({
 	tag = 'Door',
   marginx = 0.8,
   marginy = 0.8,
+  isInEditor = true,
   status = 'passive',
   openTime = 0.05,
   solid = true,
@@ -37,3 +38,5 @@ function Door:die()
 	self:kill()
 	myMap:queueShadowUpdate()
 end
+
+return Door

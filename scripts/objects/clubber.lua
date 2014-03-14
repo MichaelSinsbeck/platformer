@@ -1,5 +1,5 @@
-Clubber = object:New({
-	tag = 'clubber',
+local Clubber = object:New({
+	tag = 'Clubber',
   speed = 2,
   xSensing = 20, --how far can he see?
   ySensing = 7,
@@ -10,6 +10,7 @@ Clubber = object:New({
   },
   marginx = 0.6,
   marginy = 0.8,
+  isInEditor = true,
   radius = 1,
   targetv = 23,
   distmin = 0.5,
@@ -68,3 +69,5 @@ function Clubber:postStep(dt)
 		self.vis[2].sx = 1
 	end
 end
+
+return Clubber

@@ -83,7 +83,7 @@ function game:update(dt)
   if p.y > myMap.height+2 and not p.dead then
 	p.dead = true
 	levelEnd:addDeath("death_fall")
-	Meat:spawn(p.x,p.y-1,0,0)
+	objectClasses.Meat:spawn(p.x,p.y-1,0,0)
   end
   
   if recorder then

@@ -669,7 +669,7 @@ function editor:mousepressed( button, x, y )
 			elseif self.currentTool == "bgObject" and self.currentBgObject then
 				map:addBgObject( tileX-1, tileY-1, self.currentBgObject )
 			elseif self.currentTool == "object" and self.currentObject then
-				map:addObject( tileX, tileY, self.currentObject.name )
+				map:addObject( tileX, tileY, self.currentObject.tag )
 				--editor.setTool("edit")
 			elseif self.currentTool == "edit" then
 				map:selectNoObject()
@@ -1003,9 +1003,9 @@ end
 function editor.testMapAttempt()
 	local foundPlayer, foundFlag
 	for k, obj in ipairs( map.objectList ) do
-		if obj.name == "player" then
+		if obj.tag == "Player" then
 			foundPlayer = true
-		elseif obj.name == "exit" then
+		elseif obj.tag == "Exit" then
 			foundFlag = true
 		end
 	end

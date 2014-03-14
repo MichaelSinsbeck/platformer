@@ -1,5 +1,5 @@
-Launcher = object:New({
-	tag = 'Shuriken Launcher',
+local Launcher = object:New({
+	tag = 'Launcher',
   radius2 = 20^2,
   firerate = 0.2,--.5, -- in seconds
   rotating = true,
@@ -7,6 +7,7 @@ Launcher = object:New({
   velocity = 15,
   marginx = .8,
   marginy = .8,
+  isInEditor = true,
   vis = {
 		Visualizer:New('launcher',{angle = -0.5*math.pi}),
 		Visualizer:New('launcherSon'),
@@ -27,10 +28,12 @@ function Launcher:setAcceleration(dt)
 			local vx = -self.velocity*math.cos(self.vis[1].angle)
 			local vy = -self.velocity*math.sin(self.vis[1].angle)
 			local newAngle = math.random()*math.pi*2
-			local newShuriken = Shuriken:New({x=self.x,y=self.y,vx=vx,vy=vy,vis={Visualizer:New('shuriken',{angle=newAngle})} })
+			local newShuriken = spriteFactory('Shuriken',{x=self.x,y=self.y,vx=vx,vy=vy,vis={Visualizer:New('shuriken',{angle=newAngle})} })
 			spriteEngine:insert(newShuriken)
 			self.timeleft = self.firerate
     end
   end
   self.vis[2].angle = self.vis[2].angle + 5*dt
 end
+
+return Launcher

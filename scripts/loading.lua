@@ -23,11 +23,12 @@ function loading.update()
 
 		require 'scripts/utility'
 		require 'scripts/game'
-		require 'scripts/spritefactory'
+		--require 'scripts/spritefactory'
 		Map = require 'editor/editorMap'
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
 		require 'scripts/bridge'
+		objectClasses = require 'scripts/objectclasses'
 		
 		loading.msg = "camera"
 	elseif loading.step == 1 then

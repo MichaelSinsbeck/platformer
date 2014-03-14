@@ -1,5 +1,6 @@
-Windmill = object:New({
-	tag = 'windmill',
+local Windmill = object:New({
+	tag = 'Windmill',
+  isInEditor = true,
   --animation = 'windmillwing',
   marginx = 0,
   marginy = 0,
@@ -30,3 +31,5 @@ function Windmill:draw()
 		math.floor(self.ox),math.floor(self.oy))
 	end
 end
+
+return Windmill

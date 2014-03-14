@@ -1,5 +1,5 @@
-Spikey = object:New({
-	tag = 'spikey',
+local Spikey = object:New({
+	tag = 'Spikey',
   semiheight = 0.5,
   semiwidth = 0.5,
 })
@@ -11,3 +11,5 @@ function Spikey:setAcceleration(dt)
     Meat:spawn(p.oldx,p.oldy,self.vx,self.vy,12)
   end  
 end
+
+return Spikey

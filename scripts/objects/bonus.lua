@@ -1,7 +1,8 @@
-Bonus = object:New({
-	tag = 'bonus',
+local Bonus = object:New({
+	tag = 'Bonus',
   marginx = .8,
   marginy = .8,
+  isInEditor = true,
   vis = {
 		Visualizer:New('starBandana'),
 		Visualizer:New('chickenleg'),
@@ -16,3 +17,5 @@ function Bonus:setAcceleration(dt)
 		self:kill()
   end
 end
+
+return Bonus

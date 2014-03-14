@@ -1,5 +1,5 @@
-Explosion = object:New({
-	tag = 'explosion',
+local Explosion = object:New({
+	tag = 'Explosion',
   marginx = 0.4,
   marginy = 0.4,
   vis = {Visualizer:New('explosionExplode'),},
@@ -12,3 +12,5 @@ function Explosion:setAcceleration(dt)
     self:kill()
 	end
 end
+
+return Explosion

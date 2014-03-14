@@ -1,7 +1,8 @@
-Bandana = object:New({
-	tag = 'bandana',
+local Bandana = object:New({
+	tag = 'Bandana',
   marginx = .8,
   marginy = .8,
+  isInEditor = true,
   vis = {
 		Visualizer:New('starBandana'),
 		Visualizer:New('whiteBandana'),
@@ -26,7 +27,8 @@ function Bandana:setAcceleration(dt)
   end
 end
 
-Bandana.blue = Bandana:New({color = 'blue', vis = {Visualizer:New('starBandana'),	Visualizer:New('blueBandana'),},})
+return Bandana
+--[[Bandana.blue = Bandana:New({color = 'blue', vis = {Visualizer:New('starBandana'),	Visualizer:New('blueBandana'),},})
 Bandana.white = Bandana:New({color = 'white', vis = {Visualizer:New('starBandana'),	Visualizer:New('whiteBandana'),},})
 Bandana.green = Bandana:New({color = 'green', vis = {Visualizer:New('starBandana'),	Visualizer:New('greenBandana'),},})
-Bandana.red = Bandana:New({color = 'red', vis = {Visualizer:New('starBandana'),	Visualizer:New('redBandana'),},})
+Bandana.red = Bandana:New({color = 'red', vis = {Visualizer:New('starBandana'),	Visualizer:New('redBandana'),},})]]

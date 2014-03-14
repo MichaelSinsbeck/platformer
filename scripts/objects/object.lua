@@ -1,7 +1,7 @@
 require 'scripts/animationdb'
 require 'scripts/visualizer'
 
-object = {
+local object = {
 tag = 'object',
 x = 0,y = 0,
 vx = 0, vy = 0,
@@ -307,3 +307,5 @@ function object:setProperty( name, value )
 		end
 	end]]
 end
+
+return object

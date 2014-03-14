@@ -1,5 +1,5 @@
-Shuriken = object:New({
-	tag = 'bullet',
+local Shuriken = object:New({
+	tag = 'Shuriken',
   vx = 1,
   vy = 1,
   z = -1,
@@ -19,7 +19,7 @@ function Shuriken:setAcceleration(dt)
 	if self:touchPlayer() and self.vis[1].animation == 'shuriken' and not p.dead then
     p.dead = true
     levelEnd:addDeath("death_shuriken")
-    Meat:spawn(self.x,self.y,self.vx,self.vy,12)
+    objectClasses.Meat:spawn(self.x,self.y,self.vx,self.vy,12)
   end
   if self.vis[1].animation == 'shurikenDead' then
     self.vis[1].alpha = math.min(1, self.lifetime-self.vis[1].timer)*255
@@ -37,3 +37,5 @@ function Shuriken:postStep(dt)
 		self.rotationVelocity = 0
   end
 end
+
+return Shuriken

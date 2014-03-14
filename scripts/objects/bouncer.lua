@@ -1,8 +1,9 @@
-Bouncer = object:New({
-	tag = 'bouncer',
+local Bouncer = object:New({
+	tag = 'Bouncer',
   targetvy = -23,
   marginx = 0.8,
   marginy = 0.2,
+  isInEditor = true,
   vis = {
 		Visualizer:New('bouncer',{frame = 2}),
   }, 
@@ -41,3 +42,5 @@ function Bouncer:postStep(dt)
 		end
   end
 end
+
+return Bouncer

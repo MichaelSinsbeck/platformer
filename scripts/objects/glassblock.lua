@@ -1,7 +1,8 @@
-Glassblock = object:New({
-	tag = 'glassblock',
+local Glassblock = object:New({
+	tag = 'Glassblock',
   marginx = 0.8,
   marginy = 0.8,
+  isInEditor = true,
   solid = true,
   spreadSpeed = 8,  -- For explosion
   particleRotSpeed = 5, -- For explosion
@@ -26,9 +27,11 @@ function Glassblock:explode(args)
 				
 				local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
 				local animation = 'glass' .. math.random(1,4)
-				local newParticle = Particle:New({x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed,vis = {Visualizer:New(animation)} })
+				local newParticle = spriteFactory('Particle',{x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed,vis = {Visualizer:New(animation)} })
 				spriteEngine:insert(newParticle)
 			end
 		self:kill()
 	end
 end
+
+return Glassblock

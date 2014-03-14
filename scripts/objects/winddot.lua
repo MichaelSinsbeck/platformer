@@ -1,10 +1,10 @@
-Winddot = object:New({
-	tag = 'winddot',
+local Winddot = object:New({
+	tag = 'Winddot',
   marginx = 0,
   marginy = 1,
 	--animation = 'wind1',
 	vx = 0,
-	vy = Player.windMaxSpeed,
+	vy = -20, -- should be the same value as in player.lua
 	vis = {Visualizer:New('wind1')},
 })
 
@@ -25,3 +25,5 @@ if thisTile~=4 or self.collisionResult > 0 then
 		self:kill()
 	end
 end
+
+return Winddot

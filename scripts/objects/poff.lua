@@ -1,4 +1,4 @@
-Poff = object:New({
+local Poff = object:New({
 	tag = 'Poff',
   marginx = 0.4,
   marginy = 0.4,
@@ -12,3 +12,5 @@ function Poff:setAcceleration(dt)
     self:kill()
 	end
 end
+
+return Poff

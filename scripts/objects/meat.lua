@@ -1,10 +1,12 @@
-Meat = Particle:New({
+local Meat = object:New({
 	tag = 'Meat',
-  marginx = 0.1,
-  marginy = 0.1,
+  marginx = 0.3,
+  marginy = 0.3,
   lifetime = 5,
   spreadSpeed = 15,
   rotSpeed = 1,
+	angle = 0,
+  rotating = true,
   vis = {Visualizer:New('meat1')},
 })
 
@@ -44,16 +46,18 @@ function Meat:postStep(dt)
 end
 
 function Meat:spawn(x,y,vx,vy,number)
-local number = number or 12
-for i=1,number do
-	local angle, magnitude = math.pi*2*math.random(), 0.5+math.random()*0.5
-	local cos,sin = math.cos(angle),math.sin(angle)
-	local vx = cos*self.spreadSpeed*magnitude+0.7*vx
-	local vy = sin*self.spreadSpeed*magnitude+0.7*vy
-	local lifetime = self.lifetime * 0.8+ 0.4*math.random()
-	local animation = 'meat' .. math.random(1,4)
-	local rotSpeed = self.rotSpeed * (math.random()*2-1)
-	local newPiece = Meat:New({x=x,y=y,vx = vx,vy = vy,vis={Visualizer:New(animation)},rotSpeed = rotSpeed,lifetime = lifetime})
-	spriteEngine:insert(newPiece)
+	local number = number or 12
+	for i=1,number do
+		local angle, magnitude = math.pi*2*math.random(), 0.5+math.random()*0.5
+		local cos,sin = math.cos(angle),math.sin(angle)
+		local vx = cos*self.spreadSpeed*magnitude+0.7*vx
+		local vy = sin*self.spreadSpeed*magnitude+0.7*vy
+		local lifetime = self.lifetime * 0.8+ 0.4*math.random()
+		local animation = 'meat' .. math.random(1,4)
+		local rotSpeed = self.rotSpeed * (math.random()*2-1)
+		local newPiece = self:New({x=x,y=y,vx = vx,vy = vy,vis={Visualizer:New(animation)},rotSpeed = rotSpeed,lifetime = lifetime})
+		spriteEngine:insert(newPiece)
+	end
 end
-end
+
+return Meat

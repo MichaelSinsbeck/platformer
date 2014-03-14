@@ -1,11 +1,15 @@
-LineHook = object:New({
+local LineHook = object:New({
 	--ID = 0,
-  	layout = 'center',
+	tag = 'LineHook',
+	layout = 'center',
+  isInEditor = true,
 	vis = {
-		Visualizer:New('lineHook'),
+	Visualizer:New('lineHook'),
 	}
 })
 --[[
 function LineHook:setID( new )
 	self.ID = new
 end]]
+
+return LineHook

@@ -1,7 +1,8 @@
-Appearblock = object:New({
-	tag = 'appearblock',
+local Appearblock = object:New({
+	tag = 'Appearblock',
   marginx = 0.8,
   marginy = 0.8,
+  isInEditor = true,
   vis = {Visualizer:New('redBlockPassable')},
 	properties = {
 		state = newCycleProperty({'passable','solid'}, {"passable", "solid"}),
@@ -92,3 +93,4 @@ tag = 'Disappearblock',
 state = 'there',
 vis = {Visualizer:New('appearBlockThere')},	
 })]]
+return Appearblock

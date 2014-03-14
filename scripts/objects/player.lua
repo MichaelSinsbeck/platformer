@@ -1,6 +1,6 @@
-
-Player = object:New({
-	tag = 'player',
+local Player = object:New({
+	tag = 'Player',
+  isInEditor = true,
   x = 0,
   y = 0,
   vx = 0,
@@ -509,3 +509,5 @@ function Player:disconnect()
 		self.anchor = nil
 	end
 end
+
+return Player

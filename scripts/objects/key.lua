@@ -1,7 +1,8 @@
-Key = object:New({
-	tag = 'key',
+local Key = object:New({
+	tag = 'Key',
   marginx = .8,
   marginy = .8,
+  isInEditor = true,
   vis = {
 		Visualizer:New('starBandana'),
 		Visualizer:New('key'),
@@ -17,3 +18,5 @@ function Key:setAcceleration(dt)
 		self:kill()
   end
 end
+
+return Key

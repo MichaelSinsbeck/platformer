@@ -1,7 +1,8 @@
-Exit = object:New({
-	tag = 'exit',
+local Exit = object:New({
+	tag = 'Exit',
   marginx = 0.3,
   marginy = 0.6,
+  isInEditor = true,
   vis = {Visualizer:New( 'exit'),},
 })
 
@@ -13,3 +14,5 @@ function Exit:postStep(dt)
 		game.won = true
 	end
 end
+
+return Exit
