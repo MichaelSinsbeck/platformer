@@ -18,7 +18,7 @@ function loading.update()
 		-- loads all scripts and puts the necessary values into the global
 		-- environment:
 		keys = require("scripts/keys")
-		require("scripts/misc")
+		--require("scripts/misc")
 		shaders = require("scripts/shaders")
 
 		require 'scripts/utility'

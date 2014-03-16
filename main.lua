@@ -124,6 +124,13 @@ function love.keypressed( key, repeated )
 		print('Curr:' .. Campaign.current)
 		print('Last:' .. Campaign.last)
 	end
+	
+	if key == 'u' then -- print all global variables
+		for k,v in pairs(_G) do
+			print(k .. ': ' .. type(v))
+		end
+	end
+	
 	if menu.transitionActive and menu.transitionPercentage < 50 then return end
 	
 	if keys.currentlyAssigning then

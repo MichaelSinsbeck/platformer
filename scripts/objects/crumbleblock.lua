@@ -22,7 +22,7 @@ local Crumbleblock = object:New({
 				 Visualizer:New('crumble8',{relY = 0,    relX = .25}),
 				 Visualizer:New('crumble9',{relY = .25, relX = .25}),	},
 	properties = {
-		lifetime = newProperty({.5 , 1, 1.5, 2, 2.5, 3},nil,2)
+		lifetime = utility.newProperty({.5 , 1, 1.5, 2, 2.5, 3},nil,2)
 	},  
 })
 

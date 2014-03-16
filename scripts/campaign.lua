@@ -104,8 +104,8 @@ function Campaign:saveState()
 		--print("saving new last level:", self[self.current])
 		config.setValue( "lastLevel", self[self.current])
 	else
-		local curIndex = tableFind(self, self[self.current]) 
-		local lastIndex = tableFind(self, lastLevel)
+		local curIndex = utility.tableFind(self, self[self.current]) 
+		local lastIndex = utility.tableFind(self, lastLevel)
 		--print("curIndex, lastIndex", curIndex, lastIndex, #lastLevel, #self[self.current])
 		if curIndex and lastIndex and curIndex > lastIndex then
 			config.setValue( "lastLevel", self[self.current])

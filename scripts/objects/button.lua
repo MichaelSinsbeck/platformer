@@ -10,8 +10,8 @@ local Button = object:New({
 		--Visualizer:New('waitbar',{relY = -0.6})
   },
 	properties = {
-		color = newCycleProperty({'red','blue','green','yellow'}),
-		lifetime = newProperty({1,2,3,4,5,6,7,8,9,10}),
+		color = utility.newCycleProperty({'red','blue','green','yellow'}),
+		lifetime = utility.newProperty({1,2,3,4,5,6,7,8,9,10}),
 	},    
 })
 

@@ -87,7 +87,7 @@ end
 -- Idea: "borders" lets caller choose which borders should be set (left, right, up, down).
 -- Not used yet.
 function Box:new( borders, width, height )
-	b = {}
+	local b = {}
 	setmetatable(b, self)
 	b.width = width or 32
 	b.height = height or 32

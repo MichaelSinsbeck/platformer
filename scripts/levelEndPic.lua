@@ -2,7 +2,7 @@
 local tileSize = 48 -- fallback
 local slotHeight = 5	-- height of each slot (in screen space)
 
-Pic = {}
+local Pic = {}
 Pic.__index = Pic
 
 
@@ -371,3 +371,4 @@ function Pic:draw()
 	love.graphics.setColor(255,255,255)
 end
 
+return Pic

@@ -8,7 +8,7 @@ local Bandana = object:New({
 		Visualizer:New('whiteBandana'),
   },
 	properties = {
-		color = newCycleProperty({'white','blue','red'})
+		color = utility.newCycleProperty({'white','blue','red'})
 	},  
 })
 

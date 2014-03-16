@@ -1,0 +1,79 @@
+
+shadows
+BambooBox
+editor
+Campaign
+game
+
+
+
+-- getImageForPad
+
+selectButton (function) -> local to menu?
+loading
+bridge
+object
+keys
+
+Panel
+
+objectClasses
+Camera
+
+timer -> game.timer?
+debug
+menuPlayer -> menu.menuPlayer or menu.cursor?
+recorderTimer -> make a class for the recorder?
+screenshots -> move to recorder
+Map
+recorder
+DEBUG
+paused
+nameForKey
+spriteFactory
+fontLarge -> make a font table font.large and font.small
+initAll -> move to objectClasses
+fullscreenCanvas -> bundle with "shaders"
+
+levelEnd
+msgBox
+arg
+spriteEngine
+utility -> should stay
+Visualizer
+shaders
+setfenv
+config
+getAnimationForPad
+getfenv
+getImageForKey
+setmetatable
+pairs
+getAnimationForKey
+getmetatable
+settings
+error
+menu
+loadfile
+dofile
+type
+USE_SHADERS
+USE_SHADOWS
+AnimationDB
+os
+loadstring
+controlKeys
+collectgarbage
+math
+next
+mode
+require
+table
+_G
+select
+profiler
+unpack
+loadFont
+fontSmall
+ipairs
+

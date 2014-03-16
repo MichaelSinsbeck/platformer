@@ -40,7 +40,7 @@ function Light:switch(newState)
 	end
 end
 
-Torch = Light:New({
+--[[Torch = Light:New({
 	tag = 'torch',
   vis = {
 		Visualizer:New('flame'),
@@ -77,6 +77,6 @@ function Lamp:switch(newState)
 		self:setAnim('lamp',false,1)
 		self:setAnim('',false,2)
 	end
-end
+end]]
 
 return Light

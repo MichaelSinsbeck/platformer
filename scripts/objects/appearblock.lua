@@ -5,8 +5,8 @@ local Appearblock = object:New({
   isInEditor = true,
   vis = {Visualizer:New('redBlockPassable')},
 	properties = {
-		state = newCycleProperty({'passable','solid'}, {"passable", "solid"}),
-		color = newCycleProperty({'red','blue','green','yellow'}),
+		state = utility.newCycleProperty({'passable','solid'}, {"passable", "solid"}),
+		color = utility.newCycleProperty({'red','blue','green','yellow'}),
 	},  
 })
 

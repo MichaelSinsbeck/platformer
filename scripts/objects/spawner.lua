@@ -12,7 +12,7 @@ local Spawner = object:New({
 		Visualizer:New('spawnerfront'),
 	},
 	properties = {
-		direction = newCycleProperty({"left", "right"},nil),
+		direction = utility.newCycleProperty({"left", "right"},nil),
 	}
 })
 

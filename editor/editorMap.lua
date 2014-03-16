@@ -1515,7 +1515,7 @@ function EditorMap:start(p)
 	p:update(0)
 	p.dead = nil
 	--mode = 'intro'
-	timer = 0
+	--timer = 0
 	Camera:jumpTo(p.x,p.y)
 
 	for i, obj in ipairs(self.objectList) do
@@ -1633,7 +1633,7 @@ function EditorMap:collisionTest(x,y,direction,tag)
 	end
 end
 
-function lineOfSight(x1,y1,x2,y2)
+function EditorMap:lineOfSight(x1,y1,x2,y2)
 	-- Determines if a straight line between two points collides with the map
 	local fx1,fy1,fx2,fy2 = math.floor(x1),math.floor(y1),math.floor(x2),math.floor(y2)
 	local dx,dy = fx1-fx2,fy1-fy2
@@ -1649,7 +1649,7 @@ function lineOfSight(x1,y1,x2,y2)
 
 	if fx1 == fx2 then
 		for yy = fy1,fy2,sy do
-			if myMap.collision[fx1] and ok(myMap.collision[fx1][yy]) then
+			if self.collision[fx1] and ok(self.collision[fx1][yy]) then
 				local yReturn = yy + 0.5 - 0.5*sy
 				local xReturn = x1 + (yReturn-y1)/(y2-y1)*(x2-x1)
 				return false,xReturn,yReturn
@@ -1660,7 +1660,7 @@ function lineOfSight(x1,y1,x2,y2)
 
 	if fy1 == fy2 then
 		for xx = fx1,fx2,sx do
-			if myMap.collision[xx] and myMap.collision[xx][fy1] then
+			if self.collision[xx] and self.collision[xx][fy1] then
 				local xReturn = xx + 0.5 - 0.5*sx
 				local yReturn = y1 + (xReturn-x1)/(x2-x1)*(y2-y1)
 				return false,xReturn,yReturn
@@ -1675,7 +1675,7 @@ function lineOfSight(x1,y1,x2,y2)
 		local m = (x2-x1)/(y2-y1)
 		local xx2 = math.floor(m*(fy1+math.max(0, sy))-m*y1+x1)
 		for xx = fx1,xx2,sx do
-			if myMap.collision[xx] and ok(myMap.collision[xx][fy1]) then
+			if self.collision[xx] and ok(self.collision[xx][fy1]) then
 				local xReturn = xx + 0.5 - 0.5*sx
 				local yReturn = y1 + (xReturn-x1)/m
 				return false,xReturn,yReturn
@@ -1685,7 +1685,7 @@ function lineOfSight(x1,y1,x2,y2)
 			local xx1 = math.floor(m*(yy+math.max(0,-sy))-m*y1+x1)
 			local xx2 = math.floor(m*(yy+math.max(0, sy))-m*y1+x1)
 			for xx = xx1,xx2,sx do
-				if myMap.collision[xx] and ok(myMap.collision[xx][yy]) then
+				if self.collision[xx] and ok(self.collision[xx][yy]) then
 					if xx == xx1 then -- collision from above or below
 						local yReturn = yy + 0.5 - 0.5*sy
 						local xReturn = x1 + (yReturn-y1)*m
@@ -1700,7 +1700,7 @@ function lineOfSight(x1,y1,x2,y2)
 		end
 		local xx1 = math.floor(m*(fy2+math.max(0, -sy))-m*y1+x1)
 		for xx = xx1,fx2,sx do
-			if myMap.collision[xx] and ok(myMap.collision[xx][fy2]) then
+			if self.collision[xx] and ok(self.collision[xx][fy2]) then
 				if xx == xx1 then -- collision from above or below
 					local yReturn = fy2 + 0.5 - 0.5*sy
 					local xReturn = x1 + (yReturn-y1)*m
@@ -1718,7 +1718,7 @@ function lineOfSight(x1,y1,x2,y2)
 		local yy2 = math.floor(m*(fx1+math.max(0, sx))-m*x1+y1)
 		if myMap.collision[fx1] then
 			for yy = fy1,yy2,sy do
-				if ok(myMap.collision[fx1][yy]) then
+				if ok(self.collision[fx1][yy]) then
 					local yReturn = yy + 0.5 - 0.5*sy
 					local xReturn = x1 + (yReturn-y1)/m
 					return false,xReturn,yReturn
@@ -1726,11 +1726,11 @@ function lineOfSight(x1,y1,x2,y2)
 			end
 		end
 		for xx = fx1+sx,fx2-sx,sx do
-			if myMap.collision[xx] then
+			if self.collision[xx] then
 				local yy1 = math.floor(m*(xx+math.max(0,-sx))-m*x1+y1)
 				local yy2 = math.floor(m*(xx+math.max(0, sx))-m*x1+y1)
 				for yy = yy1,yy2,sy do
-					if ok(myMap.collision[xx][yy]) then
+					if ok(self.collision[xx][yy]) then
 						if yy == yy1 then -- collision from above or below
 							local xReturn = xx + 0.5 - 0.5*sx
 							local yReturn = y1 + (xReturn-x1)*m
@@ -1745,9 +1745,9 @@ function lineOfSight(x1,y1,x2,y2)
 			end
 		end
 		local yy1 = math.floor(m*(fx2+math.max(0, -sx))-m*x1+y1)
-		if myMap.collision[fx2] then
+		if self.collision[fx2] then
 			for yy = yy1,fy2,sy do
-				if ok(myMap.collision[fx2][yy]) then
+				if ok(self.collision[fx2][yy]) then
 					if yy == yy1 then -- collision from above or below
 						local xReturn = fx2 + 0.5 - 0.5*sx
 						local yReturn = y1 + (xReturn-x1)*m
@@ -1775,7 +1775,7 @@ function EditorMap:raycast(x,y,vx,vy,dist)
 	local xTarget = x + dist * vx
 	local yTarget = y + dist * vy
 
-	return lineOfSight(x,y,xTarget,yTarget)
+	return self:lineOfSight(x,y,xTarget,yTarget)
 
 end
 

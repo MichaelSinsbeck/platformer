@@ -213,6 +213,15 @@ function menu.setPlayerPosition( x, y )
 	end
 end
 
+local function scrollWorldMap()	--called when a button on world map is selected
+	menu.xTarget = math.floor((selButton.x)/dWorld)*dWorld+75 -- set Camera position
+	Campaign.worldNumber = math.floor(selButton.x/dWorld)+1 -- calculate worldNumber
+	
+	-- Create function which will set ninja coordinates. Then call that function:
+	local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
+	--menuPlayer.vis:setAni("whiteWalk")
+	func()
+end
 -- creates world map menu:
 function menu.initWorldMap()
 	
@@ -334,16 +343,6 @@ function menu.initWorldMap()
 	-- set camera position
 	menu.xTarget = math.floor((selButton.x)/dWorld)*dWorld+75
 	menu.xCamera = menu.xTarget
-end
-
-function scrollWorldMap()	--called when a button on world map is selected
-	menu.xTarget = math.floor((selButton.x)/dWorld)*dWorld+75 -- set Camera position
-	Campaign.worldNumber = math.floor(selButton.x/dWorld)+1 -- calculate worldNumber
-	
-	-- Create function which will set ninja coordinates. Then call that function:
-	local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
-	--menuPlayer.vis:setAni("whiteWalk")
-	func()
 end
 
 -- remove one menu-image and add one button, called when new world is reached

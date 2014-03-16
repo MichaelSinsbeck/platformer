@@ -7,14 +7,13 @@
 
 local editor = {}
 
-Clickable = require("editor/clickable")
 Panel = require("editor/panel")
-EditorMap = require("editor/editorMap")
-Ground = require("editor/ground")
-Background = require("editor/background")
-BgObject = require("editor/bgObject")
-Object = require("editor/object")
-EditorCam = require("editor/editorCam")
+local EditorMap = require("editor/editorMap")
+local Ground = require("editor/ground")
+local Background = require("editor/background")
+local BgObject = require("editor/bgObject")
+-- Object = require("editor/object")
+local EditorCam = require("editor/editorCam")
 require("editor/msgBox")
 
 local map = nil
@@ -76,7 +75,19 @@ function editor.init()
 
 	editor.groundList = Ground:init()
 	editor.bgObjectList = BgObject:init()
-	editor.objectList, editor.objectProperties = Object:init()
+	editor.objectList = {}
+	for name, class in pairs(objectClasses) do
+		local new = class:New()
+		if new.isInEditor then
+			new:init()
+			table.insert(editor.objectList, new)
+		end
+	end
+
+	editor.objectProperties = {}
+	
+	
+	--editor.objectList, editor.objectProperties = Object:init()
 	editor.backgroundList = Background:init()
 
 	editor.toolTip = {

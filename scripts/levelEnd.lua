@@ -1,5 +1,5 @@
 -- pictures for level end display:
-require("scripts/levelEndPic")
+local Pic = require("scripts/levelEndPic")
 
 levelEnd = {
 	levels = {}

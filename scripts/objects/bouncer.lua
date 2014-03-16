@@ -8,8 +8,8 @@ local Bouncer = object:New({
 		Visualizer:New('bouncer',{frame = 2}),
   }, 
   properties = {
-		angle = newCycleProperty({-1,0,1,2},{'up', 'right', 'down', 'left'}),
-		strength = newProperty({15,23,30},{'weak','medium','strong'},2),
+		angle = utility.newCycleProperty({-1,0,1,2},{'up', 'right', 'down', 'left'}),
+		strength = utility.newProperty({15,23,30},{'weak','medium','strong'},2),
   }, 
 })
 

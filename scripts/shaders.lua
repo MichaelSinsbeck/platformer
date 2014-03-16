@@ -6,7 +6,7 @@ local deathEffect = {
 
 local renderedToCanvas = false
 
-function textFromFile( file )
+local function textFromFile( file )
 	local t = love.filesystem.read("scripts/shaders/" .. file)
 	--local f = assert(io.open("scripts/shaders/" .. file, "r"))
 	--local t = f:read("*all")
