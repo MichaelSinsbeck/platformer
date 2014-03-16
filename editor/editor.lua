@@ -144,6 +144,7 @@ end
 
 -- called when editor is to be started:
 function editor.start()
+	editor.init()
 	print("Starting editor..." )
 	mode = "editor"
 

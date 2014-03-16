@@ -66,7 +66,7 @@ function loading.update()
 		loading.msg = "editor"
 	elseif loading.step == 9 then
 		editor = require("editor/editor")
-		editor.init()
+		-- editor.init()
 		loading.msg = "menu"
 	elseif loading.step == 10 then
 		menu.initMain()
