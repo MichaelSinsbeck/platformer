@@ -11,7 +11,7 @@
 local Box = {}
 Box.__index = Box
 
-local IDEAL_RECT_SIZE = 40
+local RECT_SIZE = 8
 local fabric_IMG, bamboo_IMG
 
 local bamboo_quads_hor = {}
@@ -104,14 +104,13 @@ function Box:new( borders, width, height )
 	b.pixelHeight = b.height*Camera.scale
 	b.pixelWidth = b.width*Camera.scale
 
-	-- devide plane into rectangles, which are as close as possible to
-	-- IDEAL_RECT_SIZE in size.
-	local numX = math.max(math.ceil(b.pixelWidth/IDEAL_RECT_SIZE), 1)
-	local numY = math.max(math.ceil(b.pixelHeight/IDEAL_RECT_SIZE), 1)
-	local rectWidth = b.pixelWidth/numX
-	local rectHeight = b.pixelHeight/numY
-	local relWidth = rectWidth/fabric_IMG:getWidth()
-	local relHeight = rectWidth/fabric_IMG:getHeight()
+	-- devide plane into rectangles, which are as close as possible to RECT_SIZE
+	b.rectWidth = RECT_SIZE*Camera.scale
+	b.rectHeight = RECT_SIZE*Camera.scale
+	local numX = math.max((b.pixelWidth-8*Camera.scale)/b.rectWidth, 1)
+	local numY = math.max((b.pixelHeight-8*Camera.scale)/b.rectHeight, 1)
+	local relWidth = b.rectWidth/fabric_IMG:getWidth()
+	local relHeight = b.rectHeight/fabric_IMG:getHeight()
 
 	local randOffsetX = math.random()
 	local randOffsetY = math.random()
@@ -119,39 +118,43 @@ function Box:new( borders, width, height )
 	local verts = {}
 
 	-- create matrix of vertevies:
-	for x = 1, numX do
+	local posX, posY, relPosX, relPosY
+	for x = 1, numX+1 do
 		verts[x] = {}
-		for y = 1, numY do
+		posX = (x-1)*b.rectWidth
+		relPosX = (x-1)*relWidth + randOffsetX
+		for y = 1, numY+1 do
+			posY = (y-1)*b.rectHeight
+			relPosY = (y-1)*relHeight + randOffsetY
+
 			verts[x][y] = {}
 			verts[x][y].current = {
-				(x-1)*rectWidth, (y-1)*rectHeight,
-				(x-1)*relWidth + randOffsetX, (y-1)*relHeight + randOffsetY,
+				posX, posY,
+				relPosX, relPosY,
 			}
 			-- save an original version for future manipulation:
 			verts[x][y].original = {
-				(x-1)*rectWidth, (y-1)*rectHeight,
-				(x-1)*relWidth + randOffsetX, (y-1)*relHeight + randOffsetY,
+				posX, posY,
+				relPosX, relPosY,
 			}
 		end
 	end
 	b.verts = verts
-	b.rectWidth = rectWidth
-	b.rectHeight = rectHeight
 
 	-- create a linear list of the vertecies as used by a mesh:
 	b.vertList = {}
 	local i = 1
 	local dir = 1	-- go back and forth from left to right
-	for y = 1, numY-1 do
+	for y = 1, numY do
 		if dir == 1 then
-			for x = 1, numX do
+			for x = 1, numX+1 do
 				b.vertList[i] = verts[x][y].current
 				i = i + 1
 				b.vertList[i] = verts[x][y+1].current
 				i = i + 1
 			end
 		else
-			for x = numX, 1, -1 do
+			for x = numX+1, 1, -1 do
 				b.vertList[i] = verts[x][y].current
 				i = i + 1
 				b.vertList[i] = verts[x][y+1].current
@@ -162,6 +165,7 @@ function Box:new( borders, width, height )
 	end
 	
 	b.mesh = love.graphics.newMesh( b.vertList, fabric_IMG, "strip" )
+	-- b.mesh2 = love.graphics.newMesh( b.vertList, fabric_IMG, "points" )
 
 	-- random starting time for animation:
 	b.t = math.random(1000)
@@ -228,6 +232,7 @@ function Box:update( dt )
 	end
 
 	self.mesh:setVertices( self.vertList )
+	-- self.mesh2:setVertices( self.vertList )
 end
 
 function Box:draw( x, y )

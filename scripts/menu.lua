@@ -123,6 +123,10 @@ function menu:init()
 	  menu.bandanas[#menu.bandanas+1] = newLine
 	end
 
+	-- resize any bamboo Boxes if necessary:
+	for k, element in pairs(menuBoxes) do
+		element.box = BambooBox:new( "", element.box.width, element.box.height )
+	end
 end
 
 function menu:getImage( imgName )
@@ -621,7 +625,7 @@ end
 
 function menu:addBox(left,top,width,height)
 	--table.insert(menuBoxes, menu:generateBox(left,top,width,height))
-	table.insert( menuBoxes, {x = left, y = top, box = bambooBox:new( "", width, height ) } )
+	table.insert( menuBoxes, { x = left, y = top, box = BambooBox:new( "", width, height ) } )
 end
 
 -- changes scales of Logs, if existant
@@ -633,7 +637,6 @@ function menu:easeLogs(t)
 			log.vis.sx = self.easing(tEase)
 			log.vis.sy = log.vis.sx
 		end
-		
 	end
 end
 

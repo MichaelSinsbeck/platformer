@@ -31,7 +31,7 @@ function Panel:new( x, y, width, height, highlightSelected )
 	o.visible = true
 
 	if o.width > 0 and o.height > 0 then
-		o.box = bambooBox:new( "", width, height )
+		o.box = BambooBox:new( "", width, height )
 	end
 
 	o.timer = 0

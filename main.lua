@@ -107,9 +107,10 @@ function love.draw()
 		if menu.curLevelName then
 			menu:drawLevelName()
 		end
-		
 		if DEBUG then
-			love.graphics.print("FPS: " .. love.timer.getFPS(), 10, 20)
+			love.graphics.setFont(fontSmall)
+			love.graphics.print("fps: " .. love.timer.getFPS(), 10, 20)
+			love.graphics.print("cam scale: " .. Camera.scale, 10, 55 )
 		end
 	end
 end
