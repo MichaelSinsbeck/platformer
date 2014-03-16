@@ -109,7 +109,7 @@ function settings.init()
 	x = x + 25
 	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", menu.startTransition(keys.initGamepad), nil )
 
-	menu:addBox(-25,-4,50,30)
+	menu:addBox(-33,-7,64,32)
 
 	selectButton(startButton)
 end

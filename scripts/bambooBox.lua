@@ -30,6 +30,7 @@ local bamboo_s_quads_end_top = {}
 local bamboo_s_quads_end_bottom = {}
 
 -- Call this function every time the resolution changes!
+-- Additionally each box has to be recreated after a resolution change
 function Box:init()
 	local prefix = Camera.scale * 8
 	fabric_IMG = love.graphics.newImage("images/menu/"..prefix.."fabric.png")
