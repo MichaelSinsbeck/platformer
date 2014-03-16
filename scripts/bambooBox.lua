@@ -101,15 +101,15 @@ function Box:new( borders, width, height )
 	b.width = math.ceil(b.width/16)*16
 	b.height = math.ceil(b.height/16)*16
 
-	local pixelHeight = b.height*Camera.scale
-	local pixelWidth = b.width*Camera.scale
+	b.pixelHeight = b.height*Camera.scale
+	b.pixelWidth = b.width*Camera.scale
 
 	-- devide plane into rectangles, which are as close as possible to
 	-- IDEAL_RECT_SIZE in size.
-	local numX = math.max(math.ceil(pixelWidth/IDEAL_RECT_SIZE), 1)
-	local numY = math.max(math.ceil(pixelHeight/IDEAL_RECT_SIZE), 1)
-	local rectWidth = pixelWidth/numX
-	local rectHeight = pixelHeight/numY
+	local numX = math.max(math.ceil(b.pixelWidth/IDEAL_RECT_SIZE), 1)
+	local numY = math.max(math.ceil(b.pixelHeight/IDEAL_RECT_SIZE), 1)
+	local rectWidth = b.pixelWidth/numX
+	local rectHeight = b.pixelHeight/numY
 	local relWidth = rectWidth/fabric_IMG:getWidth()
 	local relHeight = rectWidth/fabric_IMG:getHeight()
 
@@ -233,6 +233,10 @@ end
 function Box:draw( x, y )
 	love.graphics.draw( self.mesh, (x+4)*Camera.scale, (y+4)*Camera.scale )
 	love.graphics.draw( self.batch, x*Camera.scale, y*Camera.scale )
+end
+
+function Box:collisionCheck( x, y )
+	return x < self.pixelWidth and y < self.pixelHeight and x > 0 and y > 0
 end
 
 return Box

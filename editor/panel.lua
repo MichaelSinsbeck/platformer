@@ -31,7 +31,7 @@ function Panel:new( x, y, width, height, highlightSelected )
 	o.visible = true
 
 	if o.width > 0 and o.height > 0 then
-		o.box = menu:generateBox( 0, 0, o.width, o.height, boxFactor)
+		o.box = bambooBox:new( "", width, height )
 	end
 
 	o.timer = 0
@@ -52,7 +52,7 @@ function Panel:addNextButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber + 1
 	end
-	local c = Clickable:new( self.x + self.width - 8, self.y + self.height - 8, ev,
+	local c = Clickable:new( self.x + self.width - 16, self.y + self.height - 16, ev,
 			'LERightOff',
 			'LERightOn',
 			'LERightHover',
@@ -64,7 +64,7 @@ function Panel:addPrevButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber - 1
 	end
-	local c = Clickable:new( self.x + 8, self.y + self.height - 8, ev,
+	local c = Clickable:new( self.x + 16, self.y + self.height - 16, ev,
 			'LELeftOff',
 			'LELeftOn',
 			'LELeftHover',
@@ -141,8 +141,10 @@ end
 
 function Panel:draw()
 
+	love.graphics.setColor(255,255,255,255)
 	if self.box then
-		love.graphics.push()
+		self.box:draw( self.x, self.y )
+		--[[love.graphics.push()
 		love.graphics.translate( self.x*Camera.scale, self.y*Camera.scale )
 		-- draw the background box:
 		-- scale box coordinates according to scale
@@ -161,7 +163,7 @@ function Panel:draw()
 		love.graphics.setColor(0,0,0)
 		love.graphics.line(scaled)
 
-		love.graphics.pop()
+		love.graphics.pop()]]--
 	end
 
 	love.graphics.setColor(255,255,255,255)
@@ -170,14 +172,13 @@ function Panel:draw()
 		love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
-
 		love.graphics.setColor(255,255,255,20)
 		love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
 						25*Camera.scale, 4*Camera.scale)
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
 		local displayName = p.names[p.obj[k]] or p.obj[k]
-		love.graphics.print( displayName, (p.x+6)*Camera.scale, (p.y+5)*Camera.scale )
+		love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
 	end
 
 	for k, input in ipairs( self.inputBoxes ) do
@@ -241,6 +242,9 @@ function Panel:update( dt )
 			end
 		end
 	end
+	if self.box then
+		self.box:update( dt )
+	end
 end
 
 function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
@@ -292,10 +296,12 @@ end
 
 
 function Panel:collisionCheck( x, y )
-	return x/Camera.scale > self.x and
+	--[[return x/Camera.scale > self.x and
 	y/Camera.scale > self.y and
 	x/Camera.scale < self.x + self.width and
-					y/Camera.scale < self.y + self.height
+					y/Camera.scale < self.y + self.height]]
+	if self.box then return self.box:collisionCheck( x-self.x*Camera.scale, y-self.y*Camera.scale ) end
+	return false
 end
 
 function Panel:disselectAll()
