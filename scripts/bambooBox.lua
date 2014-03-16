@@ -139,16 +139,15 @@ function Box:new( borders, width, height )
 	end
 
 	-- add corners:
-	b.batch:add( bamboo_quads_end_left[ math.random( #bamboo_quads_end_left ) ], 0, 0 )
-	b.batch:add( bamboo_quads_end_left[ math.random( #bamboo_quads_end_left ) ], 0, (b.height-8)*Camera.scale )
-	b.batch:add( bamboo_quads_end_right[ math.random( #bamboo_quads_end_right ) ], (b.width-16)*Camera.scale, 0 )
-	b.batch:add( bamboo_quads_end_right[ math.random( #bamboo_quads_end_right ) ], (b.width-16)*Camera.scale, (b.height-8)*Camera.scale )
-
 	b.batch:add( bamboo_quads_end_top[ math.random( #bamboo_quads_end_top ) ], 0, 0 )
 	b.batch:add( bamboo_quads_end_top[ math.random( #bamboo_quads_end_top ) ], (b.width-8)*Camera.scale, 0 )
 	b.batch:add( bamboo_quads_end_bottom[ math.random( #bamboo_quads_end_bottom ) ], 0, (b.height-16)*Camera.scale )
 	b.batch:add( bamboo_quads_end_bottom[ math.random( #bamboo_quads_end_bottom ) ], (b.width-8)*Camera.scale, (b.height-16)*Camera.scale )
 
+	b.batch:add( bamboo_quads_end_left[ math.random( #bamboo_quads_end_left ) ], 0, 0 )
+	b.batch:add( bamboo_quads_end_left[ math.random( #bamboo_quads_end_left ) ], 0, (b.height-8)*Camera.scale )
+	b.batch:add( bamboo_quads_end_right[ math.random( #bamboo_quads_end_right ) ], (b.width-16)*Camera.scale, 0 )
+	b.batch:add( bamboo_quads_end_right[ math.random( #bamboo_quads_end_right ) ], (b.width-16)*Camera.scale, (b.height-8)*Camera.scale )
 
 	return b
 end

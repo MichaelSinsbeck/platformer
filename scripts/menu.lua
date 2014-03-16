@@ -165,10 +165,6 @@ function menu.initMain()
 	y = -10
 	
 	menu:addBox(x-17,y-4,40,60)
-
-	-- debug:
-	mBambooBox = bambooBox:new( "", 100, 50 )
-	mBambooBox2 = bambooBox:new( "", 100, 50 )
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
@@ -624,7 +620,8 @@ function menu:generateBox(left,top,width,height,boxFactor)
 end
 
 function menu:addBox(left,top,width,height)
-	table.insert(menuBoxes, menu:generateBox(left,top,width,height))
+	--table.insert(menuBoxes, menu:generateBox(left,top,width,height))
+	table.insert( menuBoxes, {x = left, y = top, box = bambooBox:new( "", width, height ) } )
 end
 
 -- changes scales of Logs, if existant
@@ -855,10 +852,6 @@ end
 function menu:update(dt)
 	menuPlayer.vis:update(dt/2)
 
-	-- debug:
-	mBambooBox:update(dt)
-	mBambooBox2:update(dt)
-	
 	local factor = math.min(1, 3*dt)
 	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
 	
@@ -919,6 +912,10 @@ function menu:update(dt)
 			end
 		end
 	end
+
+	for k, element in pairs(menuBoxes) do
+		element.box:update(dt)
+	end
 end
 
 ---------------------------------------------------------
@@ -966,6 +963,10 @@ function menu:draw()
 	
 	-- draw boxes:
 	for k,element in pairs(menuBoxes) do
+		element.box:draw( element.x, element.y )
+	end
+	--[[
+	for k,element in pairs(menuBoxes) do
 		-- scale box coordinates according to scale
 		local scaled = {}
 		for i = 1,#element.points do
@@ -982,8 +983,7 @@ function menu:draw()
 			element.height*Camera.scale)
 		love.graphics.setColor(0,0,0)
 		love.graphics.line(scaled)
-	end
-	
+	end ]]--
 	
 	love.graphics.setLineWidth(Camera.scale*0.4)
 	for k, element in pairs(menuLines) do
@@ -1088,9 +1088,6 @@ function menu:draw()
 
 	controlKeys:draw("menu")
 
-	-- debug:
-	mBambooBox:draw( 20, 20 )
-	mBambooBox2:draw( 20, 100 )
 end
 
 
