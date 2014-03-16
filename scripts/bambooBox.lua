@@ -11,6 +11,13 @@ local bamboo_quads_end_left = {}
 local bamboo_quads_end_right = {}
 local bamboo_quads_end_top = {}
 local bamboo_quads_end_bottom = {}
+local bamboo_s_quads_hor = {}
+local bamboo_s_quads_vert = {}
+local bamboo_s_quads_left = {}
+local bamboo_s_quads_end_left = {}
+local bamboo_s_quads_end_right = {}
+local bamboo_s_quads_end_top = {}
+local bamboo_s_quads_end_bottom = {}
 
 -- Call this function every time the resolution changes!
 function Box:init()
@@ -41,6 +48,29 @@ function Box:init()
 	bamboo_quads_end_top[2] = love.graphics.newQuad( prefix*5, prefix*2, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
 	bamboo_quads_end_bottom[1] = love.graphics.newQuad( prefix*6, prefix*2, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
 	bamboo_quads_end_bottom[2] = love.graphics.newQuad( prefix*7, prefix*2, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+
+	-- shadows for borders:
+	bamboo_s_quads_hor[1] = love.graphics.newQuad( 0, 0+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth()+prefix*4, bamboo_IMG:getHeight() )
+	bamboo_s_quads_hor[2] = love.graphics.newQuad( prefix*2, 0+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_hor[3] = love.graphics.newQuad( prefix*4, 0+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_hor[4] = love.graphics.newQuad( prefix*6, 0+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+
+	bamboo_s_quads_vert[1] = love.graphics.newQuad( 0, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_vert[2] = love.graphics.newQuad( prefix, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_vert[3] = love.graphics.newQuad( prefix*2, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_vert[4] = love.graphics.newQuad( prefix*3, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+
+	-- shadows for corners:
+	bamboo_s_quads_end_left[1] = love.graphics.newQuad( 0, prefix+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_end_left[2] = love.graphics.newQuad( prefix*2, prefix+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_end_right[1] = love.graphics.newQuad( prefix*4, prefix+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_end_right[2] = love.graphics.newQuad( prefix*6, prefix+prefix*4, prefix*2, prefix, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+
+	bamboo_s_quads_end_top[1] = love.graphics.newQuad( prefix*4, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_end_top[2] = love.graphics.newQuad( prefix*5, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_end_bottom[1] = love.graphics.newQuad( prefix*6, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+	bamboo_s_quads_end_bottom[2] = love.graphics.newQuad( prefix*7, prefix*2+prefix*4, prefix, prefix*2, bamboo_IMG:getWidth(), bamboo_IMG:getHeight() )
+
 end
 
 -- Idea: "borders" lets caller choose which borders should be set (left, right, up, down).
@@ -127,13 +157,27 @@ function Box:new( borders, width, height )
 
 	-- Add the borders:	
 	b.batch = love.graphics.newSpriteBatch( bamboo_IMG )
+	--shadow top right:
+	b.batch:add( bamboo_s_quads_end_top[ math.random( #bamboo_s_quads_end_top ) ], (b.width-8)*Camera.scale, 0 )
+	--shadow bottom right:
+	b.batch:add( bamboo_s_quads_end_bottom[ math.random( #bamboo_s_quads_end_bottom ) ], (b.width-8)*Camera.scale, (b.height-16)*Camera.scale )
+	-- shadow top left:
+	b.batch:add( bamboo_s_quads_end_left[ math.random( #bamboo_s_quads_end_left ) ], 0, 0 )
+	-- shadow top right:
+	b.batch:add( bamboo_s_quads_end_right[ math.random( #bamboo_s_quads_end_right ) ], (b.width-16)*Camera.scale, 0 )
 
 	local tileSize = 8*Camera.scale
 	for x = 16, b.width-32, 16 do
+		-- shadow:
+		b.batch:add( bamboo_s_quads_hor[ math.random( #bamboo_s_quads_hor ) ], x*Camera.scale, 0 )
+		-- bamboo:
 		b.batch:add( bamboo_quads_hor[ math.random( #bamboo_quads_hor ) ], x*Camera.scale, 0 )
 		b.batch:add( bamboo_quads_hor[ math.random( #bamboo_quads_hor ) ], x*Camera.scale, (b.height - 8)*Camera.scale )
 	end
 	for y = 16, b.height-32, 16 do
+		-- shadow:
+		b.batch:add( bamboo_s_quads_vert[ math.random( #bamboo_s_quads_vert ) ], (b.width - 8)*Camera.scale, y*Camera.scale )
+		-- bamboo:
 		b.batch:add( bamboo_quads_vert[ math.random( #bamboo_quads_vert ) ], 0, y*Camera.scale )
 		b.batch:add( bamboo_quads_vert[ math.random( #bamboo_quads_vert ) ], (b.width - 8)*Camera.scale, y*Camera.scale )
 	end
