@@ -212,16 +212,18 @@ function Box:update( dt )
 
 	local xMin, yMin, dist		-- stores distance to the nearest border
 	local numX, numY = #self.verts or 1, #self.verts[1] or 1
-	local distort
+	local distortX, distortY
 	for x = 1, numX do
 		xMin = math.min( x-1, numX - x )/numX
 		for y = 1, numY do
 			yMin = math.min( y-1, numY - y )/numY
 			dist = math.min( xMin, yMin )
-			distort = math.sin( self.t + x ) + 0.75*math.cos( self.t*0.5 + y )
+			distortX = 0.5*math.sin( self.t + x ) + 0.5*math.cos( self.t*0.5 + y )
+			distortY = 0.5*math.sin( self.t*0.5 + y + x )
 			
 			-- modify some of the vertice's coordinates:
-			self.verts[x][y].current[1] = self.verts[x][y].original[1] + self.rectWidth*dist*distort
+			self.verts[x][y].current[1] = self.verts[x][y].original[1] + self.rectWidth*dist*distortX
+			self.verts[x][y].current[2] = self.verts[x][y].original[2] + self.rectWidth*dist*distortY
 		end
 	end
 
