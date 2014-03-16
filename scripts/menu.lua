@@ -164,7 +164,7 @@ function menu.initMain()
 	--x = -52
 	y = -10
 	
-	menu:addBox(x-17,y-4,40,60)
+	menu:addBox(x-20,y-4,40,60)
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
@@ -621,7 +621,7 @@ end
 
 function menu:addBox(left,top,width,height)
 	--table.insert(menuBoxes, menu:generateBox(left,top,width,height))
-	table.insert( menuBoxes, {x = left, y = top, box = bambooBox:new( "", width, height ) } )
+	table.insert( menuBoxes, {x = left-8, y = top-8, box = bambooBox:new( "", width+16, height+16 ) } )
 end
 
 -- changes scales of Logs, if existant

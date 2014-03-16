@@ -1,3 +1,13 @@
+--------------------------------------------------------------------------
+-- Bamboo Box class:
+--------------------------------------------------------------------------
+-- Each box consists of a background, borders and a shadow line for the
+-- borders. The background can be moved ("waving in the wind") by calling
+-- box:update(dt) each frame.
+-- The borders are 8 units thick - so draw anything that should be on the
+-- boxes with a mimumum offset of 8x8, otherwise it will overlap with the
+-- borders and look weird.
+
 local Box = {}
 Box.__index = Box
 
