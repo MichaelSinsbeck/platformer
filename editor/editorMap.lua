@@ -1297,7 +1297,7 @@ function EditorMap:loadFromFile( fullName )
 								map.collisionSrc[x][y] = 2
 							elseif matchName == "1" or matchName == "2" then	-- spikes
 								map.collisionSrc[x][y] = 3
-								map:addObject( x, y, "spikey" ) -- +1 because collision map starts at 0
+								map:addObject( x, y, "Spikey" ) -- +1 because collision map starts at 0
 							else
 								map.collisionSrc[x][y] = 1		-- normal wall
 							end
@@ -1447,7 +1447,7 @@ function EditorMap:objectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.objectList) do
-		if obj.name ~= "spikey" and obj.name ~= "line" then
+		if obj.name ~= "Spikey" and obj.name ~= "line" then
 			str = str .. "Obj:" .. obj.name .. "\n"
 			str = str .. "\tx:" .. obj.tileX - self.minX .. "\n"
 			str = str .. "\ty:" .. obj.tileY - self.minY .. "\n"
