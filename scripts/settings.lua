@@ -1,5 +1,8 @@
 
-local settings = {}
+local settings = {
+	useShadows = true,
+	useShaders = true,
+}
 
 --settings.fullscreen = false
 
@@ -112,6 +115,22 @@ function settings.init()
 	menu:addBox(-33,-7,64,32)
 
 	selectButton(startButton)
+end
+
+function settings:getShadowsEnabled()
+	return self.useShadows
+end
+
+function settings:setShadowsEnabled( bool )
+	self.useShadows = bool
+end
+
+function settings:getShadersEnabled()
+	return self.useShaders
+end
+
+function settings:setShadersEnabled( bool )
+	self.useShaders = bool
 end
 
 return settings

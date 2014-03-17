@@ -45,7 +45,7 @@ function loading.update()
 		BambooBox:init()
 		loading.msg = "shaders"
 	elseif loading.step == 5 then	
-		if USE_SHADERS then
+		if settings:getShadersEnabled() then
 			shaders.load()
 		end
 		loading.msg = "campaign"

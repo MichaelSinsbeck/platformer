@@ -12,7 +12,7 @@ function game:draw()
 
 	myMap:drawBackground()
 
-	if USE_SHADOWS and shadows:getNumLights() > 0 then
+	if settings:getShadowsEnabled() and shadows:getNumLights() > 0 then
 		love.graphics.push()
 		love.graphics.translate( -myMap.tileSize, -myMap.tileSize )
 		shadows:draw()

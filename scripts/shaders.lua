@@ -23,7 +23,7 @@ function shaders:load()
 	else
 		print("\t\t...not supported!")
 		print("Disabling shaders")
-		USE_SHADERS = false
+		settings:setShadersEnabled( false )
 		return
 	end
 	
@@ -33,7 +33,7 @@ function shaders:load()
 	else
 		print("\t\t...not supported!")
 		print("Disabling shaders")
-		USE_SHADERS = false
+		settings:setShadersEnabled( false )
 		return
 	end
 	
@@ -43,7 +43,7 @@ function shaders:load()
 	else
 		print("\t\t...not supported!")
 		print("Disabling shaders")
-		USE_SHADERS = false
+		settings:setShadersEnabled( false )
 		return
 	end
 
@@ -68,7 +68,7 @@ function shaders:getDeathEffect()
 end
 
 function shaders:update( dt )
-	if USE_SHADOWS and shadows.needsShadowUpdate then
+	if settings:getShadowsEnabled() and shadows.needsShadowUpdate then
 		if myMap then
 			myMap:updateShadows()
 		end
@@ -76,7 +76,7 @@ function shaders:update( dt )
 end
 
 function shaders:draw()
-	if USE_SHADERS then
+	if settings:getShadersEnabled() then
 		renderedToCanvas = false
 		if menu.transitionActive or deathEffect.active then
 			renderedToCanvas = true
@@ -91,7 +91,7 @@ function shaders:draw()
 end
 
 function shaders:stop()
-	if USE_SHADERS then
+	if settings:getShadersEnabled() then
 		if renderedToCanvas then
 			love.graphics.setCanvas()
 			shaders.fullscreen:send( "percentage", menu.transitionPercentage )

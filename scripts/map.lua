@@ -232,7 +232,7 @@ function Map:start(p)
 		spriteEngine:insert(newObject)
 	end
 
-	if USE_SHADOWS then
+	if settings:getShadowsEnabled() then
 		local list = {}
 		spriteEngine:DoAll('collectLights',list)
 		self:initShadows()
