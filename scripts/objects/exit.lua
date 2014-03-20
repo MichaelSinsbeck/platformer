@@ -3,6 +3,7 @@ local Exit = object:New({
   marginx = 0.3,
   marginy = 0.6,
   isInEditor = true,
+  unique = true,		-- only allow one per map
   vis = {Visualizer:New( 'exit'),},
 })
 

@@ -766,9 +766,20 @@ end
 function EditorMap:addObject( tileX, tileY, objName )
 	--local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
 	--local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
+	--
+	--
 	local newObject = spriteFactory( objName )
 	newObject:init()
-	newObject.name = objName
+	--newObject.name = objName
+
+	-- Some objects are only allowed to be on the maps once!
+	if newObject.unique then
+		for k, obj in pairs( self.objectList ) do
+			if obj.tag == newObject.tag then
+				self:removeObject( obj )
+			end
+		end
+	end
 
 	-- only allow one object at the same position!
 	if newObject.vis[1] then
@@ -990,7 +1001,7 @@ function EditorMap:dragObject( tileX, tileY )
 			self:updateBorder()
 		end
 
-		if obj.name == "lineHook" and obj.line and obj.partner then
+		if obj.tag == "LineHook" and obj.line and obj.partner then
 			obj.line.x = obj.x
 			obj.line.y = obj.y
 			obj.line.x2 = obj.partner.x
@@ -1434,7 +1445,7 @@ function EditorMap:backgroundObjectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.bgList) do
-		str = str .. "Obj:" .. obj.objType.name .. "\n"
+		str = str .. "Obj:" .. obj.objType.tag .. "\n"
 		str = str .. "x:" .. obj.x - self.minX .. "\n"
 		str = str .. "y:" .. obj.y - self.minY .. "\n"
 		str = str .. "endObj\n"
@@ -1447,8 +1458,8 @@ function EditorMap:objectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.objectList) do
-		if obj.name ~= "Spikey" and obj.name ~= "line" then
-			str = str .. "Obj:" .. obj.name .. "\n"
+		if obj.tag ~= "Spikey" and obj.tag ~= "Line" then
+			str = str .. "Obj:" .. obj.tag .. "\n"
 			str = str .. "\tx:" .. obj.tileX - self.minX .. "\n"
 			str = str .. "\ty:" .. obj.tileY - self.minY .. "\n"
 			if obj.properties then
@@ -1519,7 +1530,7 @@ function EditorMap:start(p)
 	Camera:jumpTo(p.x,p.y)
 
 	for i, obj in ipairs(self.objectList) do
-		if obj.name == "Player" then
+		if obj.tag == "Player" then
 			table.remove( self.objectList, i )
 			break
 		end
@@ -1542,7 +1553,7 @@ function EditorMap:start(p)
 		end
 		local newObject = constructor:New({x = nx, y = ny})
 		]]
-		if obj.name ~= "LineHook" then
+		if obj.tag ~= "LineHook" then
 			local newObj = obj:New()
 			newObj:update(0)
 			spriteEngine:insert(newObj)

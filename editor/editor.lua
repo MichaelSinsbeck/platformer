@@ -415,7 +415,7 @@ function editor.createBgObjectPanel()
 			maxY = -math.huge
 		end
 
-		bgObjectPanel:addBatchClickable( x, y, event, obj.batch, bBox.maxX*8, bBox.maxY*8, obj.name, page )
+		bgObjectPanel:addBatchClickable( x, y, event, obj.batch, bBox.maxX*8, bBox.maxY*8, obj.tag, page )
 
 		x = x + bBox.maxX*8 + PADDING
 	end
@@ -453,7 +453,7 @@ function editor.createObjectPanel()
 				maxY = -math.huge
 			end
 
-			objectPanel:addClickableObject( x, y, event, obj, obj.name, page )
+			objectPanel:addClickableObject( x, y, event, obj, obj.tag, page )
 			x = x + obj.width/8 + PADDING
 		end
 	end
@@ -909,7 +909,7 @@ function editor:draw()
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
 			local w, h = self.currentObject.width, self.currentObject.height
 			self.currentObject.vis[1]:draw( rX + w*0.5, rY + h*0.5, true )
-			if self.currentObject.name == "lineHook" and map.openLineHook then
+			if self.currentObject.tag == "LineHook" and map.openLineHook then
 				love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale,
 					(map.openLineHook.tileX*8+4)*Camera.scale,
 					(map.openLineHook.tileY*8+4)*Camera.scale )
