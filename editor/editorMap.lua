@@ -1172,7 +1172,7 @@ function EditorMap:drawObjects()
 			width,height = math.max(30,obj.width), math.max(30,obj.height) 
 		end
 	end
-	love.graphics.setColor(255,255,255)
+	--love.graphics.setColor(255,255,255)
 	if x then
 		love.graphics.rectangle( "line", x, y, width, height)
 	end

@@ -72,7 +72,7 @@ function object:draw()
 		for i = 1,#self.vis do
 			self.vis[i]:draw(
 				(self.x*8*Camera.scale*Camera.zoom)/Camera.zoom,
-				(self.y*8*Camera.scale*Camera.zoom)/Camera.zoom)
+				(self.y*8*Camera.scale*Camera.zoom)/Camera.zoom, true )
 		end
 	end
 end
@@ -80,7 +80,7 @@ end
 function object:drawInEditor()
 	if self.vis then
 		for i = 1, #self.vis do
-			self.vis[i]:draw( self.x, self.y )
+			self.vis[i]:draw( self.x, self.y, true )
 		end
 	end
 end

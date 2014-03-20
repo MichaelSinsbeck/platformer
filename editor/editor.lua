@@ -879,8 +879,17 @@ function editor:draw()
 	cy = math.floor(cy/tileSize)*tileSize
 	love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
 
+
+	love.graphics.setColor( 255, 255, 255, 255 )
+	if self.currentTool == "object" or self.currentTool == "pen" then
+		love.graphics.setColor( 120, 120, 120, 255 )
+	end
 	map:drawBackground()
 
+	love.graphics.setColor( 255, 255, 255, 255 )
+	if self.currentTool == "bgObject" or self.currentTool == "bgPen" then
+		love.graphics.setColor( 120, 120, 120, 255 )
+	end
 	map:drawGround()
 
 	map:drawForeground()
