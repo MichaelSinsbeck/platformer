@@ -383,7 +383,8 @@ end
 
 function editor.createBgObjectPanel()
 
-	local PADDING = 4
+	local PADDING = 1
+	local BORDER_PADDING = 10
 
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 32
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
@@ -391,7 +392,7 @@ function editor.createBgObjectPanel()
 	bgObjectPanel = Panel:new( 16, 16, panelWidth, panelHeight )
 	bgObjectPanel.visible = false
 
-	local x, y = PADDING, PADDING
+	local x, y = BORDER_PADDING, BORDER_PADDING --PADDING, PADDING
 	local page = 1
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.bgObjectList ) do
@@ -408,9 +409,12 @@ function editor.createBgObjectPanel()
 
 		if x + bBox.maxX*8 > panelWidth then
 			-- add the maximum height of the obejcts in this row, then continue:
-			--y = y + maxY*8 + PADDING
-			page = page +1
-			x = PADDING
+			y = y + maxY*8 + PADDING
+			if y + bBox.maxY*8 + 8 > panelHeight then
+				y = BORDER_PADDING
+				page = page +1
+			end
+			x = BORDER_PADDING
 
 			maxY = -math.huge
 		end
@@ -423,7 +427,8 @@ end
 
 function editor.createObjectPanel()
 
-	local PADDING = 10
+	local PADDING = 3
+	local BORDER_PADDING = 10
 
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 64
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
@@ -431,7 +436,7 @@ function editor.createObjectPanel()
 	objectPanel = Panel:new( 32, 16, panelWidth, panelHeight )
 	objectPanel.visible = false
 
-	local x, y = PADDING, PADDING
+	local x, y = BORDER_PADDING, BORDER_PADDING
 	local page = 1
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.objectList ) do
@@ -444,14 +449,18 @@ function editor.createObjectPanel()
 			-- Is this object higher than the others of this row?
 			maxY = math.max( obj.height, maxY )
 
-			if x + obj.width/8 > panelWidth then
-
+			if x + obj.width/8 + 8 > panelWidth then
 				-- add the maximum height of the obejcts in this row, then continue:
 				y = y + maxY/8 + PADDING
-				x = PADDING
+				if y + obj.height/8 + 8 > panelHeight then
+					y = BORDER_PADDING
+					page = page + 1
+				end
+				x = BORDER_PADDING
 
 				maxY = -math.huge
 			end
+
 
 			objectPanel:addClickableObject( x, y, event, obj, obj.tag, page )
 			x = x + obj.width/8 + PADDING

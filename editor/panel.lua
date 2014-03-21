@@ -133,7 +133,7 @@ function Panel:addNextButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber + 1
 	end
-	local c = Clickable:new( self.x + self.width - 16, self.y + self.height - 16, ev,
+	local c = Clickable:new( self.x + self.width - 16, self.y + self.height - 9, ev,
 			'LERightOff',
 			'LERightOn',
 			'LERightHover',
@@ -145,7 +145,7 @@ function Panel:addPrevButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber - 1
 	end
-	local c = Clickable:new( self.x + 16, self.y + self.height - 16, ev,
+	local c = Clickable:new( self.x + 16, self.y + self.height - 9, ev,
 			'LELeftOff',
 			'LELeftOn',
 			'LELeftHover',
