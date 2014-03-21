@@ -1445,7 +1445,7 @@ function EditorMap:backgroundObjectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.bgList) do
-		str = str .. "Obj:" .. obj.objType.tag .. "\n"
+		str = str .. "Obj:" .. obj.objType.name .. "\n"
 		str = str .. "x:" .. obj.x - self.minX .. "\n"
 		str = str .. "y:" .. obj.y - self.minY .. "\n"
 		str = str .. "endObj\n"

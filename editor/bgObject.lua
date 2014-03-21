@@ -214,7 +214,7 @@ function BgObject:init()
 	local list = {}
 	local coords, img, name
 
-	print("Loading objects:")
+	print("Loading predefined backgound objects:")
 
 	files = love.filesystem.getDirectoryItems("editor/bgObjects/")
 	for i, file in ipairs(files) do
@@ -223,6 +223,22 @@ function BgObject:init()
 			print("\t...", name)
 			img, coords = dofile( "editor/bgObjects/" .. file )
 			new = BgObject:new( name, img, coords)
+			table.insert( list, new )
+		end
+	end
+
+	local img = editor.images["background1"]
+	local numX = img:getWidth()/Camera.scale/8
+	local numY = img:getHeight()/Camera.scale/8
+
+	print("Loading " .. numX*numY .. " tiles for background objects:")
+
+	for x = 1, numX do
+		for y = 1, numY do
+			new = BgObject:new( tostring(numX*numY), "background1",
+				{	-- just one coordinate:
+					{tileX=x-1, tileY=y-1, x=0,y=0}
+				} )
 			table.insert( list, new )
 		end
 	end
