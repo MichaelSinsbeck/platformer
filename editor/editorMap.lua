@@ -298,7 +298,7 @@ end
 
 function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 	
-	print("set:", background, background.name)
+	--print("set:", background, background.name)
 	
 	if not self.backgroundArray[x] then
 		self.backgroundArray[x] = {}
@@ -329,7 +329,6 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 	-- set the new ground type:
 	self.backgroundArray[x][y].gType = background
 
-	print(x, y, background)
 
 	if updateSurrounding then
 		--print("left:")

@@ -554,7 +554,7 @@ function editor:update( dt )
 						function(x, y) map:eraseGroundTile(x, y, true ) end )
 					else
 						map:line( tileX, tileY,
-						self.lastTileX, self.lastTileY, true,
+						self.lastTileX, self.lastTileY, false,
 						function(x, y) map:eraseBackgroundTile(x, y, true ) end )
 					end
 				else
@@ -675,7 +675,7 @@ function editor:mousepressed( button, x, y )
 				if self.shift and self.lastClickX and self.lastClickY then
 					-- draw a line
 					map:line( tileX, tileY,
-						self.lastClickX, self.lastClickY, true,
+						self.lastClickX, self.lastClickY, false,
 						function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
 				elseif self.ctrl then
 					map:startFillBackground( tileX, tileY, "set", self.currentBackground )
@@ -776,7 +776,7 @@ function editor:mousepressed( button, x, y )
 				if self.shift and self.lastClickX and self.lastClickY then
 					-- draw a line
 					map:line( tileX, tileY,
-					self.lastClickX, self.lastClickY, true,
+					self.lastClickX, self.lastClickY, false,
 					function(x, y) map:eraseBackgroundTile(x, y, true ) end, true )
 				elseif self.ctrl then
 					-- fill the area

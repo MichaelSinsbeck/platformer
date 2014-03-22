@@ -263,9 +263,9 @@ function Background:setSingleTile( cm )
 	self.tiles.single = self:coordsToQuad( cm )
 
 	local tmp = ""
-	tmp = self.diff .. self.diff .. self.diff ..
+	tmp = DONT_CARE .. self.diff .. DONT_CARE ..
 		self.diff .. self.diff ..
-		self.diff .. self.diff .. self.diff
+		DONT_CARE .. self.diff .. DONT_CARE
 	self.matchStrings.single = tmp
 end
 
