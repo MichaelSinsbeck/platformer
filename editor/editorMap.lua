@@ -285,6 +285,9 @@ end]]
 ---------------------------------------------------
 
 function EditorMap:updateBackgroundTile( x, y )
+
+	if not self.backgroundArray[x] or not self.backgroundArray[x][y] then return end
+	
 	local data = {
 		command = "updateBg",
 		x = x,
@@ -294,8 +297,8 @@ function EditorMap:updateBackgroundTile( x, y )
 end
 
 function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
-
-	--print("set:", background, background.name)
+	
+	print("set:", background, background.name)
 	
 	if not self.backgroundArray[x] then
 		self.backgroundArray[x] = {}
@@ -304,7 +307,7 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 		self.backgroundArray[x][y] = { batchID = {} }
 	end
 
-	--self:updateBackgroundTile( x-1, y )
+	self:updateBackgroundTile( x, y )
 
 	-- fill all tile layers below mine:
 	local quad = background.tiles.cm
@@ -325,6 +328,8 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 	end
 	-- set the new ground type:
 	self.backgroundArray[x][y].gType = background
+
+	print(x, y, background)
 
 	if updateSurrounding then
 		--print("left:")
@@ -347,6 +352,7 @@ end
 
 function EditorMap:updateBackgroundTileNow( x, y, forceNoTransition )
 	--if updateSurrounding then print("---------------") end
+	--
 	--
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
 
@@ -399,9 +405,9 @@ function EditorMap:updateBackgroundTileNow( x, y, forceNoTransition )
 				quad, x*self.tileSize, y*self.tileSize )
 			end
 
-		elseif bg == background then
-			self:eraseBackgroundTile( x, y, true )
-			return
+		--elseif bg == background then
+			--self:eraseBackgroundTile( x, y, true )
+			--return
 		end
 
 		if bg == background then

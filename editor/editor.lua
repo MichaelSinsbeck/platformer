@@ -58,7 +58,6 @@ function editor.init()
 
 	local prefix = Camera.scale * 8
 	editor.images.tilesetGround = love.graphics.newImage( "images/tilesets/" .. prefix .. "grounds.png" )
-	--editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "background1.png" )
 	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "backgrounds.png" )
 	editor.images.cell = love.graphics.newImage( "images/editor/" .. prefix .. "cell.png")
 	editor.images.cell:setWrap('repeat', 'repeat')
@@ -526,21 +525,22 @@ function editor:update( dt )
 						function(x, y) 
 							map:setGroundTile(x, y, self.currentGround, true ) end )
 					else	-- bgPen
-						local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
-						local sX, sY = math.floor(self.lastTileX-0.5), math.floor(self.lastTileY-0.5)
-						map:line( tX+1, tY+1,
-						sX+1, sY+1, true,
+						--local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+						--local sX, sY = math.floor(self.lastTileX-0.5), math.floor(self.lastTileY-0.5)
+						map:line( tileX, tileY,
+						self.lastTileX, self.lastTileY, false,
 						function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
 					end
 				else
 					if self.currentTool == "pen" then
 						map:setGroundTile( tileX, tileY, self.currentGround, true )
 					else 	-- bgPen
-						local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
-						map:setBackgroundTile( tX, tY, self.currentBackground, true )
-						map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
-						map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
-						map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
+						--local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+						--map:setBackgroundTile( tX, tY, self.currentBackground, true )
+						--map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
+						--map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
+						--map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
+						map:setBackgroundTile( tileX, tileY, self.currentBackground, true )
 					end
 				end
 			end
@@ -682,11 +682,11 @@ function editor:mousepressed( button, x, y )
 				else
 					self.drawing = true
 
-					local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
-					map:setBackgroundTile( tX, tY, self.currentBackground, true )
-					map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
-					map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
-					map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
+					--local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+					map:setBackgroundTile( tileX, tileY, self.currentBackground, true )
+					--map:setBackgroundTile( tX+1, tY, self.currentBackground, true )
+					--map:setBackgroundTile( tX, tY+1, self.currentBackground, true )
+					--map:setBackgroundTile( tX+1, tY+1, self.currentBackground, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "bgObject" and self.currentBgObject then
@@ -786,11 +786,12 @@ function editor:mousepressed( button, x, y )
 					-- start erasing
 					self.erasing = true
 					-- force to erase one tile:
-					local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
+					--[[local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
 					map:eraseBackgroundTile( tX, tY, true )
 					map:eraseBackgroundTile( tX+1, tY, true )
 					map:eraseBackgroundTile( tX, tY+1, true )
-					map:eraseBackgroundTile( tX+1, tY+1, true )
+					map:eraseBackgroundTile( tX+1, tY+1, true )]]
+					map:eraseBackgroundTile( tileX, tileY, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
 			elseif self.currentTool == "object" or self.currentTool == "bgObject" then
@@ -930,13 +931,13 @@ function editor:draw()
 				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
 			end
 		elseif self.currentTool == "bgPen" then
-			local tX = math.floor(rX - tileSize/2) - tileSize*0.3
-			local tY = math.floor(rY - tileSize/2) - tileSize*0.3
+			--local tX = math.floor(rX - tileSize/2) - tileSize*0.3
+			--local tY = math.floor(rY - tileSize/2) - tileSize*0.3
 			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
 			else
-			love.graphics.rectangle( 'fill', tX, tY, tileSize*1.6, tileSize*1.6 )
-		end
+				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
+			end
 		end
 
 		-- draw the line:

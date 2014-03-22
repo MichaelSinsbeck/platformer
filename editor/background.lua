@@ -111,8 +111,8 @@ function Background:setThickTiles( lt, ct, rt, lm, cm, rm, lb, cb, rb )
 
 	-- create the matching strings for the new tiles:
 	local l = ""
-	l = DONT_CARE .. DONT_CARE .. DONT_CARE	-- line above
-	l = l .. DONT_CARE .. self.similar	-- left and right
+	l = DONT_CARE .. self.diff .. DONT_CARE	-- line above
+	l = l .. self.diff .. self.similar	-- left and right
 	l = l .. DONT_CARE .. self.similar .. self.similar		-- line below
 	self.matchStrings2.lt = l	-- match AFTER diagonals.
 
@@ -121,8 +121,8 @@ function Background:setThickTiles( lt, ct, rt, lm, cm, rm, lb, cb, rb )
 	l = l .. self.similar .. self.similar .. self.similar		-- line below
 	self.matchStrings.ct = l
 
-	l = DONT_CARE .. DONT_CARE .. DONT_CARE	-- line above
-	l = l .. self.similar .. DONT_CARE	-- left and right
+	l = DONT_CARE .. self.diff .. DONT_CARE	-- line above
+	l = l .. self.similar .. self.diff	-- left and right
 	l = l .. self.similar .. self.similar .. DONT_CARE		-- line below
 	self.matchStrings2.rt = l	-- match AFTER diagonals.
 
@@ -142,8 +142,8 @@ function Background:setThickTiles( lt, ct, rt, lm, cm, rm, lb, cb, rb )
 	self.matchStrings.rm = l
 
 	l = DONT_CARE .. self.similar .. self.similar	-- line above
-	l = l .. DONT_CARE .. self.similar	-- left and right
-	l = l .. DONT_CARE .. DONT_CARE .. DONT_CARE		-- line below
+	l = l .. self.diff .. self.similar	-- left and right
+	l = l .. DONT_CARE .. self.diff .. DONT_CARE		-- line below
 	self.matchStrings2.lb = l 	-- match AFTER diagonals!
 
 	l = self.similar .. self.similar .. self.similar	-- line above
@@ -152,8 +152,8 @@ function Background:setThickTiles( lt, ct, rt, lm, cm, rm, lb, cb, rb )
 	self.matchStrings.cb = l
 
 	l = self.similar .. self.similar .. DONT_CARE	-- line above
-	l = l .. self.similar .. DONT_CARE	-- left and right
-	l = l .. DONT_CARE .. DONT_CARE .. DONT_CARE		-- line below
+	l = l .. self.similar .. self.diff	-- left and right
+	l = l .. DONT_CARE .. self.diff .. DONT_CARE		-- line below
 	self.matchStrings2.rb = l		-- match AFTER diagonals!
 
 end
@@ -217,19 +217,19 @@ function Background:setHorizontalLine( l, c, r )
 
 	-- create the matching strings for the new tiles:
 	local tmp = ""
-	tmp = self.diff .. self.diff .. self.diff	-- line above
+	tmp = DONT_CARE .. self.diff .. DONT_CARE	-- line above
 	tmp = tmp .. self.diff .. self.similar	-- left and right
-	tmp = tmp .. self.diff .. self.diff .. self.diff		-- line below
+	tmp = tmp .. DONT_CARE .. self.diff .. DONT_CARE		-- line below
 	self.matchStrings.l = tmp
 	
-	tmp = self.diff .. self.diff .. self.diff	-- line above
+	tmp = DONT_CARE .. self.diff .. DONT_CARE	-- line above
 	tmp = tmp .. self.similar .. self.similar	-- left and right
-	tmp = tmp .. self.diff .. self.diff .. self.diff		-- line below
+	tmp = tmp .. DONT_CARE .. self.diff .. DONT_CARE		-- line below
 	self.matchStrings.c = tmp
 	
-	tmp = self.diff .. self.diff .. self.diff	-- line above
+	tmp = DONT_CARE .. self.diff .. DONT_CARE	-- line above
 	tmp = tmp .. self.similar .. self.diff	-- left and right
-	tmp = tmp .. self.diff .. self.diff .. self.diff		-- line below
+	tmp = tmp .. DONT_CARE .. self.diff .. DONT_CARE		-- line below
 	self.matchStrings.r = tmp
 	
 end
@@ -242,19 +242,19 @@ function Background:setVerticalLine( t, m, b )
 
 	-- create the matching strings for the new tiles:
 	local tmp = ""
-	tmp = self.diff .. self.diff .. self.diff	-- line above
+	tmp = DONT_CARE .. self.diff .. DONT_CARE	-- line above
 	tmp = tmp .. self.diff .. self.diff	-- left and right
-	tmp = tmp .. self.diff .. self.similar .. self.diff		-- line below
+	tmp = tmp .. DONT_CARE .. self.similar .. DONT_CARE		-- line below
 	self.matchStrings.t = tmp
 	
-	tmp = self.diff .. self.similar .. self.diff	-- line above
+	tmp = DONT_CARE .. self.similar .. DONT_CARE	-- line above
 	tmp = tmp .. self.diff .. self.diff	-- left and right
-	tmp = tmp .. self.diff .. self.similar .. self.diff		-- line below
+	tmp = tmp .. DONT_CARE .. self.similar .. DONT_CARE		-- line below
 	self.matchStrings.m = tmp
 	
-	tmp = self.diff .. self.similar .. self.diff	-- line above
+	tmp = DONT_CARE .. self.similar .. DONT_CARE	-- line above
 	tmp = tmp .. self.diff .. self.diff	-- left and right
-	tmp = tmp .. self.diff .. self.diff .. self.diff		-- line below
+	tmp = tmp .. DONT_CARE .. self.diff .. DONT_CARE		-- line below
 	self.matchStrings.b = tmp
 	
 end
@@ -267,6 +267,16 @@ function Background:setSingleTile( cm )
 		self.diff .. self.diff ..
 		self.diff .. self.diff .. self.diff
 	self.matchStrings.single = tmp
+end
+
+function Background:setManual( coordinates, lt, t, rt, l, r, lb, b, rb, coords )
+	local name = coordinates[1] .. "x" .. coordinates[2]
+	self.tiles[name] = self:coordsToQuad( coordinates )
+
+	local tmp = ""
+	tmp = lt .. t .. rt .. l .. r .. lb .. b .. rb
+
+	self.matchStrings[name] = tmp
 end
 
 -- allowed values for the arguments:
@@ -360,7 +370,7 @@ function Background:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 
 	local foundDir
 
-	--print("Matching:", mStr)
+	--print("Matching against:", mStr)
 
 	--[[
 	-- First, check for transitions for this neighbourhood:
@@ -415,20 +425,148 @@ end
 function Background:init()
 	local list = {}
 	local new = Background:new("concreteBg", 'c' )
-	new:addSimilar('s')
-	new:addSimilar('d')
-	new:setThickTiles( {0,0}, {1,0}, {2,0},
-						{0,1}, {1,1}, {2,1},
-						{0,2}, {1,2}, {2,2})
-	new:setCorners( {3,0}, {4,0},
-					{3,1}, {4,1})
-	new:setDiagonal( {3,2}, {4,2} )
+	--new:addSimilar('s')
+	--new:addSimilar('d')
+	new:setThickTiles( {0,1}, {1,1}, {2,1},
+						{0,2}, {1,2}, {2,2},
+						{0,3}, {1,3}, {2,3})
+	--new:setCorners( {3,0}, {4,0},
+					--{3,1}, {4,1})
+	--new:setDiagonal( {3,2}, {4,2} )
+	new:setSingleTile( {3,0} )
+	new:setHorizontalLine( {0,0}, {1,0}, {2,0} )
+	new:setVerticalLine( {3,1}, {3,2}, {3,3} )
+	new:setManual( {4,0},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {5,0},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {6,0},
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {7,0},
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {4,1},
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.similar )
+	new:setManual( {5,1},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {6,1},
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.similar, new.similar, DONT_CARE )
+	new:setManual( {7,1},		-- cross
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {4,2},
+				DONT_CARE, new.similar, new.similar,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {5,2},
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {6,2},
+				new.similar, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {7,2}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {7,3}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {0,4}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {1,4}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {2,4}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {3,4}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {4,4}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {5,4}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {6,4}, 
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {7,4}, 
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {0,5}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {1,5}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {2,5}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {4,3}, 
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {5,3}, 
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {6,3}, 
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {3,5}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {4,5}, 
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {5,5}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {6,5}, 
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+
 
 	table.insert( list, new )
 
 
 	new = Background:new("soilBg", 's' )
-	new:addSimilar('d')
+	--new:addSimilar('d')
 	new:setThickTiles( {0,3}, {1,3}, {2,3},
 						{0,4}, {1,4}, {2,4},
 						{0,5}, {1,5}, {2,5})
@@ -447,7 +585,6 @@ function Background:init()
 	new:setDiagonal( {3,8}, {4,8} )
 
 	table.insert( list, new )
-
 
 	return list
 end
