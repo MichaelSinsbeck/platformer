@@ -12,16 +12,57 @@
 -- the tile map, x and y give the rendering position.
 -- x and y MUST start at 0 for the lowest tiles, tileX and tileY are relative
 -- to the upper left corner of the corresponding tilesheet.
+--
+local CATEGORY_HOUSES = "houses"
+local CATEGORY_MISC = "misc"
+local CATEGORY_GARDEN = "garden"
+local CATEGORY_STATUES = "statues"
+local CATEGORY_TREES = "trees"
+
+local categories = {}
+categories[CATEGORY_HOUSES] = {
+	roof = [[7x5, 7x6, 1x7, 2x7, 3x7, 4x7, 5x7, 6x7, 7x7,
+			1x8, 2x8, 3x8, 4x8, 5x8, 6x8, 7x8,
+			3x9, 4x9, 5x9, 1x11, 2x11,
+			3x14, 4x14, 5x14, 6x14, 7x15,
+			0x15, 1x15, 2x15, 3x15, 4x15,
+			2x16, 3x16, 4x16, 5x16, 6x16, 7x16
+			3x17, 4x17, 5x17, 6x17,
+			0x27, 1x27,
+			]],
+	wall = [[2x9, 6x9, 7x9,
+			3x10, 4x10, 5x10, 6x10, 7x10,
+			3x11, 4x11, 5x11, 6x11, 7x11,
+			5x12, 6x12, 7x12
+			5x13, 6x13, 7x13
+			1x14, 2x14, 0x12, 0x11
+			]],
+	door = [[0x9, 0x10,
+			1x12, 2x12, 3x12, 4x12,
+			1x13, 2x13, 3x13, 4x13,
+			]],
+	rope = [[1x9, 1x10,]],
+	wall_water = [[0x21, 1x21, 2x21,]],
+	other = [[2x10]],
+}
+categories[CATEGORY_GARDEN] = {
+	fences = [[2x17,
+			0x18, 1x18, 2x18, 3x19, 4x18, 5x18, 6x18, 7x18,
+			3x22,]],
+	plants = [[0x22, 1x22, 2x22, 4x32, 4x33,
+			0x32, 1x32, 0x22, 1x33, 0x34, 1x34,
+			]],
+	other = [[4x22, 5x30, 6x30, 7x30 ]],
+}
 
 local BgObject = {}
 BgObject.__index = BgObject
 
-function BgObject:new( name, tileset, tileList, sorted )
+function BgObject:new( name, tileset, tileList, cat_major, cat_minor )
 	local o = {}
 	setmetatable( o, self )
 
 	o.name = name or ""
-	o.sorted = false
 
 	if not editor.images[tileset] then
 		editor.images[tileset] = love.graphics.newImage( "images/tilesets/" .. Camera.scale*8 .. tileset .. ".png")
@@ -35,6 +76,12 @@ function BgObject:new( name, tileset, tileList, sorted )
 
 	o.tileArray = {}
 	o.coordsArray = {}
+
+	print(cat_major, cat_minor )
+
+	o.category_major = cat_major or CATEGORY_MISC
+	o.category_minor = cat_minor or ""
+
 	--[[o.sortedTileArray = {}
 	local minX, minY = math.huge, math.huge
 	local maxY, maxY = -math.huge, -math.huge]]
@@ -209,10 +256,31 @@ function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
 	return usedIDs, self.bBox
 end
 
+-- Sort by categories (first by major, then within
+-- the major category, sort by minor)
+local function sortBgObjectList( a, b )
+	if not b then return true end
+	if not a then return false end
+	if a.category_major ~= b.category_major then
+		if a.category_major == "misc" then
+			return false
+		elseif b.category_major == "misc" then
+			return true
+		end
+		return a.category_major < b.category_major
+	else
+		if a.category_minor ~= b.category_minor then
+			return a.category_minor < b.category_minor
+		else
+			return a.name < b.name
+			--return false
+		end
+	end
+end
 
 function BgObject:init()
 	local list = {}
-	local coords, img, name
+	local coords, img, name, category_major
 
 	print("Loading predefined backgound objects:")
 
@@ -221,8 +289,8 @@ function BgObject:init()
 		name = file:match("([^/]*).lua$")
 		if name then
 			print("\t...", name)
-			img, coords = dofile( "editor/bgObjects/" .. file )
-			new = BgObject:new( name, img, coords)
+			img, coords, category_major = dofile( "editor/bgObjects/" .. file )
+			new = BgObject:new( name, img, coords, category_major )
 			table.insert( list, new )
 		end
 	end
@@ -235,13 +303,35 @@ function BgObject:init()
 
 	for x = 1, numX do
 		for y = 1, numY do
+			local category_major = CATEGORY_MISC
+			local category_minor = ""
+			local found = false
+
+			-- Check if you can find these coordinates in any category list.
+			-- If so, then set the category of this tile to the category in
+			-- which it was found:
+			local compStr = x-1 .. "x" .. y-1
+			for cat, list in pairs(categories) do
+				for subcat, sublist in pairs( list ) do
+					if sublist:find( compStr ) then
+						found = true
+						category_major = cat
+						category_minor = subcat
+						break
+					end
+				end
+				if found then break end
+			end
+
 			new = BgObject:new( tostring(numX*numY), "background1",
 				{	-- just one coordinate:
 					{tileX=x-1, tileY=y-1, x=0,y=0}
-				} )
+				}, category_major, category_minor )
 			table.insert( list, new )
 		end
 	end
+
+	table.sort( list, sortBgObjectList )
 
 	return list
 end

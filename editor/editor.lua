@@ -394,7 +394,13 @@ function editor.createBgObjectPanel()
 	local x, y = BORDER_PADDING, BORDER_PADDING --PADDING, PADDING
 	local page = 1
 	local maxY = -math.huge
+	local currentCategory
 	for k, obj in ipairs( editor.bgObjectList ) do
+
+		if not currentCategory then
+			-- start with the first object's category:
+			currentCategory = obj.category_major
+		end
 
 		local event = function()
 			editor.currentBgObject = obj
@@ -405,6 +411,14 @@ function editor.createBgObjectPanel()
 
 		-- Is this object higher than the others of this row?
 		maxY = math.max( bBox.maxY, maxY )
+
+		if currentCategory ~= obj.category_major then
+			currentCategory = obj.category_major
+			y = BORDER_PADDING
+			page = page +1
+			x = BORDER_PADDING
+			maxY = -math.huge
+		else
 
 		if x + bBox.maxX*8 > panelWidth then
 			-- add the maximum height of the obejcts in this row, then continue:
@@ -417,6 +431,7 @@ function editor.createBgObjectPanel()
 
 			maxY = -math.huge
 		end
+	end
 
 		bgObjectPanel:addBatchClickable( x, y, event, obj.batch, bBox.maxX*8, bBox.maxY*8, obj.tag, page )
 

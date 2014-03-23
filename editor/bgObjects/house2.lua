@@ -36,4 +36,4 @@ local coords = {
 	{tileX=4,tileY=11,x=6,y=4},
 }
 
-return "background1", coords
+return "background1", coords, "houses"

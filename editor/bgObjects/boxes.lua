@@ -4,4 +4,4 @@ local coords = {
 	{tileX=5,tileY=2,x=1,y=1},
 }
 
-return "background1", coords
+return "background1", coords, "misc"

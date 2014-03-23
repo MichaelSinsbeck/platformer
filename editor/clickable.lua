@@ -187,6 +187,7 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 end
 
 function Clickable:draw()
+	love.graphics.setColor(255,255,255,255)
 	if self.vis then
 		local iW, iH = editor.images.highlight:getWidth(), editor.images.highlight:getHeight()
 		local dX, dY = (self.width-iW)*0.5, (self.height-iH)*0.5
