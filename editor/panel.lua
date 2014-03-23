@@ -293,6 +293,7 @@ function Panel:draw()
 			button:draw()
 		end
 	end
+	love.graphics.setColor(255,255,255,255)
 end
 
 function Panel:moveTo( x, y )

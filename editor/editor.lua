@@ -265,56 +265,56 @@ function editor.start()
 				'LEGround1Off',
 				'LEGround1On',
 				'LEGround1Hover',
-				"1 - draw concrete ground" )
+				"draw concrete ground", nil, nil, "1" )
 	x = x + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover',
-				"2 - draw dirt ground" )
+				"draw dirt ground", nil, nil, "2" )
 	x = x + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
 				'LEGround3Hover',
-				"3 - draw grass ground" )
+				"draw grass ground", nil, nil, "3" )
 	x = x + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
 				'LEGround4Hover',
-				"4 - draw stone ground" )
+				"draw stone ground", nil, nil, "4" )
 	x = x + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
 				'LEGround5Hover',
-				"5 - draw wood ground" )
+				"draw wood ground", nil, nil, "5" )
 	x = x + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover',
-				"6 - draw bridges" )
+				"draw bridges", nil, nil, "6" )
 	x = x + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[7] end,
 				'LESpikes1Off',
 				'LESpikes1On',
 				'LESpikes1Hover',
-				"7 - draw grey spikes" )
+				"draw grey spikes", nil, nil, "7" )
 	x = x + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[8] end,
 				'LESpikes2Off',
 				'LESpikes2On',
 				'LESpikes2Hover',
-				"8 - draw brown spikes" )
+				"draw brown spikes", nil, nil, "8" )
 
 	-- Panel for choosing the background type:
 	backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32, true )
@@ -325,21 +325,21 @@ function editor.start()
 				'LEGround1Off',
 				'LEGround1On',
 				'LEGround1Hover',
-				"1 - draw concrete background" )
+				"draw concrete background", nil, nil, "1" )
 	x = x + 10
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover',
-				"2 - draw soil background" )
+				"draw soil background", nil, nil, "2" )
 	x = x + 10
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[3] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover',
-				"3 - draw dark soil background" )
+				"draw dark soil background", nil, nil, "3" )
 
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
