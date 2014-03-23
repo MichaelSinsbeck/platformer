@@ -68,6 +68,22 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered,
 	o.maxX = o.minX + o.width
 	o.maxY = o.minY + o.height
 
+	if o.shortcut then
+		local sizeX = fontSmall:getWidth( o.shortcut:sub(1,3) ) + 6
+		local sizeY = fontSmall:getHeight() + 2
+		local offsetX = o.width*0.5 - sizeX
+		local offsetY = o.height*0.5 - sizeY
+		o.offsetX = offsetX + 3
+		o.offsetY = offsetY + 1
+
+		o.shortcutBox = {
+			offsetX -1 + math.random()*2, offsetY + math.random()*2,
+			offsetX -1 + math.random()*2 + sizeX, offsetY + math.random()*2,
+			offsetX -1 + math.random()*2 + sizeX, offsetY + math.random()*2 + sizeY,
+			offsetX -1 + math.random()*2, offsetY + math.random()*2 + sizeY,
+		}
+	end
+
 	o.event = event
 
 	self.active = "off"
@@ -199,13 +215,20 @@ function Clickable:draw()
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.text, self.textX, self.textY )
 	end
-	if self.shortcut then
+	if self.shortcutBox then
 		local shortcut = self.shortcut
 		if #shortcut > 3 then
 			shortcut = shortcut:sub(1,3)
 		end
-		offset = math.floor(0.5*fontSmall:getWidth ( shortcut ))
-		love.graphics.print(shortcut, self.x*Camera.scale-offset, (self.y+6)*Camera.scale)
+		love.graphics.push()
+		love.graphics.translate( self.x*Camera.scale, self.y*Camera.scale )
+		love.graphics.setColor(180,255,180,160)
+		love.graphics.polygon( 'fill', self.shortcutBox )
+		love.graphics.setColor(0,0,0,255)
+		love.graphics.polygon( 'line', self.shortcutBox )
+		--love.graphics.setColor(255,255,255,255)
+		love.graphics.print( shortcut, self.offsetX, self.offsetY )
+		love.graphics.pop()
 	end
 	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
 end

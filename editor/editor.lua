@@ -169,7 +169,7 @@ function editor.start()
 	local toolPanelWidth = 10*9
 	toolPanel = Panel:new( 15, love.graphics.getHeight()/Camera.scale-40,
 							 toolPanelWidth, 16, true )
-	local x,y = 20,13
+	local x,y = 20,15
 	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
 				'LEPenOn',
@@ -217,7 +217,7 @@ function editor.start()
 	menuPanel = Panel:new( love.graphics.getWidth()/Camera.scale - toolPanelWidth - 23,
 							love.graphics.getHeight()/Camera.scale-40,
 							toolPanelWidth, 16 )
-	x, y = 20, 13
+	x, y = 20, 15
 	
 	menuPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
 				'LEExitOff',
