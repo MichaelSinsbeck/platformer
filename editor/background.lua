@@ -566,23 +566,271 @@ function Background:init()
 
 
 	new = Background:new("soilBg", 's' )
-	--new:addSimilar('d')
-	new:setThickTiles( {0,3}, {1,3}, {2,3},
-						{0,4}, {1,4}, {2,4},
-						{0,5}, {1,5}, {2,5})
-	new:setCorners( {3,3}, {4,3},
-					{3,4}, {4,4})
-	new:setDiagonal( {3,5}, {4,5} )
+	new:setThickTiles( {0,7}, {1,7}, {2,7},
+						{0,8}, {1,8}, {2,8},
+						{0,9}, {1,9}, {2,9})
+	new:setSingleTile( {3,6} )
+	new:setHorizontalLine( {0,6}, {1,6}, {2,6} )
+	new:setVerticalLine( {3,7}, {3,8}, {3,9} )
+	new:setManual( {4,6},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {5,6},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {6,6},
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {7,6},
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {4,7},
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.similar )
+	new:setManual( {5,7},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {6,7},
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.similar, new.similar, DONT_CARE )
+	new:setManual( {7,7},		-- cross
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {4,8},
+				DONT_CARE, new.similar, new.similar,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {5,8},
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {6,8},
+				new.similar, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {7,8}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {7,9}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {0,10}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {1,10}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {2,10}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {3,10}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {4,10}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {5,10}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {6,10}, 
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {7,10}, 
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {0,11}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {1,11}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {2,11}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {4,9}, 
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {5,9}, 
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {6,9}, 
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {3,11}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {4,11}, 
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {5,11}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {6,11}, 
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+
 
 	table.insert( list, new )
 
 	new = Background:new("soilDarkBg", 'd' )
-	new:setThickTiles( {0,6}, {1,6}, {2,6},
-						{0,7}, {1,7}, {2,7},
-						{0,8}, {1,8}, {2,8})
-	new:setCorners( {3,6}, {4,6},
-					{3,7}, {4,7})
-	new:setDiagonal( {3,8}, {4,8} )
+	new:setThickTiles( {0,13}, {1,13}, {2,13},
+						{0,14}, {1,14}, {2,14},
+						{0,15}, {1,15}, {2,15})
+	new:setSingleTile( {3,12} )
+	new:setHorizontalLine( {0,12}, {1,12}, {2,12} )
+	new:setVerticalLine( {3,13}, {3,14}, {3,15} )
+	new:setManual( {4,12},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {5,12},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {6,12},
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {7,12},
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {4,13},
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.similar )
+	new:setManual( {5,13},
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {6,13},
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.similar, new.similar, DONT_CARE )
+	new:setManual( {7,13},		-- cross
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {4,14},
+				DONT_CARE, new.similar, new.similar,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {5,14},
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {6,14},
+				new.similar, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {7,14}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {7,15}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {0,16}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {1,16}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {2,16}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {3,16}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
+	new:setManual( {4,16}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {5,16}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {6,16}, 
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {7,16}, 
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {0,17}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.diff, new.similar,
+				DONT_CARE, new.similar, new.diff )
+	new:setManual( {1,17}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.similar,
+				new.diff, new.similar, new.diff )
+	new:setManual( {2,17}, 
+				DONT_CARE, new.diff, DONT_CARE,
+				new.similar, new.diff,
+				new.diff, new.similar, DONT_CARE )
+	new:setManual( {4,15}, 
+				DONT_CARE, new.similar, new.diff,
+				new.diff, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {5,15}, 
+				new.diff, new.similar, new.diff,
+				new.similar, new.similar,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {6,15}, 
+				new.diff, new.similar, DONT_CARE,
+				new.similar, new.diff,
+				DONT_CARE, new.diff, DONT_CARE )
+	new:setManual( {3,17}, 
+				new.diff, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {4,17}, 
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.diff, new.similar, new.similar )
+	new:setManual( {5,17}, 
+				new.similar, new.similar, new.diff,
+				new.similar, new.similar,
+				new.similar, new.similar, new.similar )
+	new:setManual( {6,17}, 
+				new.similar, new.similar, new.similar,
+				new.similar, new.similar,
+				new.similar, new.similar, new.diff )
 
 	table.insert( list, new )
 
