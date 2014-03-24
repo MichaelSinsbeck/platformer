@@ -1385,7 +1385,7 @@ function EditorMap:loadFromFile( fullName )
 		map.lineList = {}
 
 
-		-- Update all map tiles to make sure the rught
+		-- Update all map tiles to make sure the right
 		-- tile type is used. Force to update all the 
 		-- tiles that need updating
 		map:update( nil, true )
@@ -1394,7 +1394,106 @@ function EditorMap:loadFromFile( fullName )
 		print( fullName .. " not found." )
 	end
 	return map
+end
 
+function EditorMap:convert( fullName )
+
+	local groundMatch = {}
+	local CONCRETE = 1
+	local DIRT = 2
+	local GRASS = 3
+	local STONE = 4
+	local WOOD = 5
+	local BRIDGE = 6
+	local SPIKES_G = 7
+	local SPIKES_B = 8
+	-- Base tiles:
+	groundMatch[CONCRETE] = ",25,26,27,28,33,34,35,36,41,42,43,44,49,50,51,52,117,118,119,120,126,127,128,"
+	groundMatch[DIRT] = ",29,30,31,32,37,38,39,40,45,46,47,48,53,54,55,56,94,96,102,104,109,111,"
+	groundMatch[GRASS] = ",57,58,59,60,65,66,67,68,73,74,75,76,81,82,83,84,93,95,101,103,110,112,"
+	groundMatch[STONE] = ",61,62,63,64,69,70,71,72,77,78,79,80,85,86,87,88,"
+	groundMatch[WOOD] = ",89,90,91,92,97,98,99,100,105,106,107,108,113,114,115,116,"
+	groundMatch[BRIDGE] = ",7,8,13,14,15,"
+	groundMatch[SPIKES_G] = ",33,34,35,36,41,42,43,44,49,50,51,52,57,58,59,60,"
+	groundMatch[SPIKES_B] = ",37,38,39,40,45,46,47,48,53,54,55,56,61,62,63,64,"
+
+	local map = nil
+
+	local mapName = fullName:match("([^/]*).dat$")
+
+	local str = love.filesystem.read( fullName )
+
+	if str then
+
+		local dimX,dimY = str:match("mapSize((.-),(.-))\n")
+		local startX,endX = str:match("start{x=(.-),y=(.-)}\n")
+		local walls = str:match("loadWall{(.-})[^,]-}")
+		local foreground = str:match("loadFG{(.-})[^,]-}")
+
+		map = EditorMap:new( editor.backgroundList )
+		map.name = string.lower(mapName or "" )
+
+		print("------------------------")
+		print(map.name, map.description)
+		print(walls)
+
+		local y = 0
+		local x = 0
+		for line in walls:gmatch("{(.-)}") do
+			y = 0
+			for tile in line:gmatch("(%d+)") do
+				k = tonumber(tile)
+				for i = 1, 6 do
+					if groundMatch[i] and groundMatch[i]:find( "," .. tile .. "," ) then
+						map:setGroundTile( x, y, editor.groundList[i], false )
+						break
+					end
+				end
+				y = y + 1
+			end
+			x = x + 1
+		end
+	
+		x, y = 0, 0
+		for line in foreground:gmatch("{(.-)}") do
+			y = 0
+			for tile in line:gmatch("(%d+)") do
+				k = tonumber(tile)
+				for i = 7, 8 do
+					if groundMatch[i] and groundMatch[i]:find( "," .. tile .. "," ) then
+						map:setGroundTile( x, y, editor.groundList[i], false )
+						break
+					end
+				end
+				y = y + 1
+			end
+			x = x + 1
+		end
+
+		--[[print("------------------------")
+		print("Collision Map:")
+		local str
+		for y = 1, map.height do
+			str = ""
+			for x = 1, map.width do
+				if map.collisionSrc[x] and map.collisionSrc[x][y] then
+					str = str .. map.collisionSrc[x][y]
+				else
+					str = str .. "-"
+				end
+			end
+			print(str)
+		end]]
+
+		-- Update all map tiles to make sure the right
+		-- tile type is used. Force to update all the 
+		-- tiles that need updating
+		map:update( nil, true )
+		map:updateBorder()
+	else
+		print( fullName .. " not found." )
+	end
+	return map
 end
 
 -----------------------------------

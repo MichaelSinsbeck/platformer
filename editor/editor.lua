@@ -19,9 +19,7 @@ require("editor/msgBox")
 local map = nil
 local cam = nil
 
-local objectPanel
-local bgObjectPanel
-local toolPanel
+local objectPanel local bgObjectPanel local toolPanel
 local menuPanel
 local groundPanel
 local backgroundPanel
@@ -396,7 +394,6 @@ function editor.createBgObjectPanel()
 	local maxY = -math.huge
 	local currentCategory
 	for k, obj in ipairs( editor.bgObjectList ) do
-		print(k, obj.name, obj.category_major, obj.category_minor )
 
 		if not currentCategory then
 			-- start with the first object's category:
@@ -834,6 +831,11 @@ function editor:mousereleased( button, x, y )
 end
 
 function editor.keypressed( key, repeated )
+
+	if key == "f10" then
+		map = EditorMap:convert( "levels/bkup/l05.dat" )
+		return
+	end
 	if editor.activeInputPanel and editor.activeInputPanel.visible then
 		editor.activeInputPanel:keypressed( key )
 		return
