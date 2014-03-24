@@ -833,7 +833,20 @@ end
 function editor.keypressed( key, repeated )
 
 	if key == "f10" then
-		map = EditorMap:convert( "levels/bkup/l05.dat" )
+		local toConvert = {
+			"end", "end_air", "end_dirt", "end_fall", "end_spikes", "end_wall",
+		}
+		-- add levels 1 through 21:
+		for k = 1, 9 do
+			table.insert( toConvert, "l0" .. k )
+		end
+		for k = 10, 21 do
+			table.insert( toConvert, "l" .. k )
+		end
+		for k, v in ipairs( toConvert ) do
+			map = EditorMap:convert( "levels/bkup/" .. v .. ".dat" )
+			editor.saveFileNow( v .. ".dat" )
+		end
 		return
 	end
 	if editor.activeInputPanel and editor.activeInputPanel.visible then
