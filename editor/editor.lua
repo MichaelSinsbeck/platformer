@@ -396,6 +396,7 @@ function editor.createBgObjectPanel()
 	local maxY = -math.huge
 	local currentCategory
 	for k, obj in ipairs( editor.bgObjectList ) do
+		print(k, obj.name, obj.category_major, obj.category_minor )
 
 		if not currentCategory then
 			-- start with the first object's category:

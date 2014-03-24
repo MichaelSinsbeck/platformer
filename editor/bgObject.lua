@@ -323,7 +323,7 @@ function BgObject:init()
 				if found then break end
 			end
 
-			new = BgObject:new( tostring(numX*numY), "background1",
+			new = BgObject:new( x .. "x" .. y, "background1",
 				{	-- just one coordinate:
 					{tileX=x-1, tileY=y-1, x=0,y=0}
 				}, category_major, category_minor )
