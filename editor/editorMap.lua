@@ -1117,8 +1117,8 @@ function EditorMap:updateBorder()
 
 	-- update border tiles:
 	-- Brute force:
-	for x = self.minX, self.maxX do
-		for y = self.minX, self.maxX do
+	for x = self.minX, self.maxX-1 do
+		for y = self.minY, self.maxY-1 do
 			if self.backgroundArray[x] and self.backgroundArray[x][y] then
 				self:queueBackgroundTileUpdate( x, y, true )
 			end
