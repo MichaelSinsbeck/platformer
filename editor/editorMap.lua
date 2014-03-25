@@ -77,7 +77,7 @@ end
 -- Ground Manupulations (Walls the player collides with)
 -------------------------------------------------------
 
-function EditorMap:updateGroundTile( x, y, noMoreRecursion )
+function EditorMap:queueGroundTileUpdate( x, y, noMoreRecursion )
 	local data = {
 		command = "update",
 		x = x,
@@ -95,7 +95,7 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		self.groundArray[x][y] = { batchID = {} }
 	end
 
-	self:updateGroundTile( x, y )
+	self:queueGroundTileUpdate( x, y )
 	-- determine whether or not the old and new ground types are the same:
 	local oldGroundType = ""
 	local newGroundType = ""
@@ -140,18 +140,18 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 
 	if updateSurrounding then
 		--print("left:")
-		self:updateGroundTile( x-1, y )
+		self:queueGroundTileUpdate( x-1, y )
 		--print("right:")
-		self:updateGroundTile( x+1, y )
+		self:queueGroundTileUpdate( x+1, y )
 		--print("above:")
-		self:updateGroundTile( x, y-1 )
+		self:queueGroundTileUpdate( x, y-1 )
 		--print("below:")
-		self:updateGroundTile( x, y+1 )
+		self:queueGroundTileUpdate( x, y+1 )
 	end
 end
 
 
-function EditorMap:updateGroundTileNow( x, y, noMoreRecursion )
+function EditorMap:updateGroundTile( x, y, noMoreRecursion )
 	--if updateSurrounding then print("---------------") end
 	
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
@@ -218,11 +218,11 @@ function EditorMap:updateGroundTileNow( x, y, noMoreRecursion )
 		self.groundArray[x][y].transition = foundTransition
 		if self.groundArray[x-1] and self.groundArray[x-1][y] and
 			self.groundArray[x-1][y].gType then
-			self:updateGroundTile( x-1, y, true )
+			self:queueGroundTileUpdate( x-1, y, true )
 		end
 		if self.groundArray[x+1] and self.groundArray[x+1][y] and
 			self.groundArray[x+1][y].gType then
-			self:updateGroundTile( x+1, y, true )
+			self:queueGroundTileUpdate( x+1, y, true )
 		end
 	else
 		self.groundArray[x][y].transition = nil
@@ -265,13 +265,13 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 
 	if updateSurrounding then
 		--print("left:")
-		self:updateGroundTile( x-1, y )
+		self:queueGroundTileUpdate( x-1, y )
 		--print("right:")
-		self:updateGroundTile( x+1, y )
+		self:queueGroundTileUpdate( x+1, y )
 		--print("above:")
-		self:updateGroundTile( x, y-1 )
+		self:queueGroundTileUpdate( x, y-1 )
 		--print("below:")
-		self:updateGroundTile( x, y+1 )
+		self:queueGroundTileUpdate( x, y+1 )
 	end
 
 end
@@ -284,7 +284,7 @@ end]]
 -- Background walls (non-collidable):
 ---------------------------------------------------
 
-function EditorMap:updateBackgroundTile( x, y )
+function EditorMap:queueBackgroundTileUpdate( x, y )
 
 	if not self.backgroundArray[x] or not self.backgroundArray[x][y] then return end
 	
@@ -307,7 +307,7 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 		self.backgroundArray[x][y] = { batchID = {} }
 	end
 
-	self:updateBackgroundTile( x, y )
+	self:queueBackgroundTileUpdate( x, y )
 
 	-- fill all tile layers below mine:
 	local quad = background.tiles.cm
@@ -332,26 +332,25 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 
 	if updateSurrounding then
 		--print("left:")
-		self:updateBackgroundTile( x-1, y )
+		self:queueBackgroundTileUpdate( x-1, y )
 		--print("right:")
-		self:updateBackgroundTile( x+1, y )
+		self:queueBackgroundTileUpdate( x+1, y )
 		--print("above:")
-		self:updateBackgroundTile( x, y-1 )
+		self:queueBackgroundTileUpdate( x, y-1 )
 		--print("below:")
-		self:updateBackgroundTile( x, y+1 )
+		self:queueBackgroundTileUpdate( x, y+1 )
 		
 		--diagonal:
-		self:updateBackgroundTile( x-1, y-1 )
-		self:updateBackgroundTile( x+1, y-1 )
-		self:updateBackgroundTile( x+1, y+1 )
-		self:updateBackgroundTile( x-1, y+1 )
+		self:queueBackgroundTileUpdate( x-1, y-1 )
+		self:queueBackgroundTileUpdate( x+1, y-1 )
+		self:queueBackgroundTileUpdate( x+1, y+1 )
+		self:queueBackgroundTileUpdate( x-1, y+1 )
 	end
 end
 
 
-function EditorMap:updateBackgroundTileNow( x, y, forceNoTransition )
+function EditorMap:updateBackgroundTile( x, y, forceNoTransition )
 	--if updateSurrounding then print("---------------") end
-	--
 	--
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
 
@@ -447,18 +446,18 @@ function EditorMap:eraseBackgroundTile( x, y, updateSurrounding )
 	self.backgroundArray[x][y].gType = nil
 	if updateSurrounding then
 		--print("left:")
-		self:updateBackgroundTile( x-1, y )
+		self:queueBackgroundTileUpdate( x-1, y )
 		--print("right:")
-		self:updateBackgroundTile( x+1, y )
+		self:queueBackgroundTileUpdate( x+1, y )
 		--print("above:")
-		self:updateBackgroundTile( x, y-1 )
+		self:queueBackgroundTileUpdate( x, y-1 )
 		--print("below:")
-		self:updateBackgroundTile( x, y+1 )
+		self:queueBackgroundTileUpdate( x, y+1 )
 		--diagonal:
-		self:updateBackgroundTile( x-1, y-1 )
-		self:updateBackgroundTile( x-1, y+1 )
-		self:updateBackgroundTile( x+1, y-1 )
-		self:updateBackgroundTile( x+1, y+1 )
+		self:queueBackgroundTileUpdate( x-1, y-1 )
+		self:queueBackgroundTileUpdate( x-1, y+1 )
+		self:queueBackgroundTileUpdate( x+1, y-1 )
+		self:queueBackgroundTileUpdate( x+1, y+1 )
 	end
 end
 
@@ -1227,12 +1226,12 @@ function EditorMap:update( dt, forceUpdateAll )
 		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
 				self.groundArray[data.x][data.y].gType then
-				self:updateGroundTileNow( data.x, data.y, data.noMoreRecursion )
+				self:updateGroundTile( data.x, data.y, data.noMoreRecursion )
 			end
 		elseif data.command == "updateBg" then
 			if self.backgroundArray[data.x] and self.backgroundArray[data.x][data.y] and
 				self.backgroundArray[data.x][data.y].gType then
-				self:updateBackgroundTileNow( data.x, data.y )
+				self:updateBackgroundTile( data.x, data.y )
 			end
 		end
 		table.remove( self.tilesToModify, 1 )
