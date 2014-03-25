@@ -186,6 +186,21 @@ function EditorMap:updateGroundTile( x, y, noMoreRecursion )
 		end
 	end
 
+	-- account for map borders:
+	if x <= self.minX then
+		l = ground
+	end
+	if x >= self.maxX-1 then
+		r = ground
+	end
+	if y <= self.minY then
+		t = ground
+	end
+	if y >= self.maxY-1 then
+		b = ground
+	end
+
+
 	-- get the quad for the current tile which depends on the surrounding ground types:
 	local quad, foundTransition = ground:getQuad( l, r, t, b, nil,nil,nil,nil, forbiddenTransitions )
 	
@@ -357,7 +372,7 @@ function EditorMap:updateBackgroundTile( x, y, forceNoTransition )
 	local background = self.backgroundArray[x][y].gType
 
 	-- load the surrounding ground types:
-	local l,r,b,t,lt,rt,lb,rb = nil,nil,nil,nil
+	local l,r,b,t,lt,rt,lb,rb
 	if self.backgroundArray[x-1] then
 		if self.backgroundArray[x-1][y] then
 			l = self.backgroundArray[x-1][y].gType
@@ -385,6 +400,28 @@ function EditorMap:updateBackgroundTile( x, y, forceNoTransition )
 	end
 	if self.backgroundArray[x][y+1] then
 		b = self.backgroundArray[x][y+1].gType
+	end
+
+	-- account for map borders:
+	if x <= self.minX then
+		l = background
+		lt = background
+		lb = background
+	end
+	if x >= self.maxX-1 then
+		r = background
+		rt = background
+		rb = background
+	end
+	if y <= self.minY then
+		t = background
+		lt = background
+		rt = background
+	end
+	if y >= self.maxY-1 then
+		b = background
+		lb = background
+		rb = background
 	end
 
 	local quad
@@ -1077,6 +1114,52 @@ function EditorMap:updateBorder()
 
 	self.borderMarkers[4].x = (self.maxX-0.7)*self.tileSize
 	self.borderMarkers[4].y = (self.maxY-1.1)*self.tileSize
+
+	-- update border tiles:
+	-- Brute force:
+	for x = self.minX, self.maxX do
+		for y = self.minX, self.maxX do
+			if self.backgroundArray[x] and self.backgroundArray[x][y] then
+				self:queueBackgroundTileUpdate( x, y, true )
+			end
+			if self.groundArray[x] and self.groundArray[x][y] then
+				self:queueGroundTileUpdate( x, y, true )
+			end
+		end
+	end
+	--[[ old method:
+	for x = self.minX, self.maxX do
+		if self.backgroundArray[x] then
+			if self.backgroundArray[x][self.minY] then
+				self:updateBackgroundTile( x, self.minY )
+			end
+			if self.backgroundArray[x][self.maxY] then
+				self:updateBackgroundTile( x, self.maxY )
+			end
+		end
+		if self.groundArray[x] then
+			if self.groundArray[x][self.minY] then
+				self:updateGroundTile( x, self.minY )
+			end
+			if self.groundArray[x][self.maxY-1] then
+				self:updateGroundTile( x, self.maxY-1 )
+			end
+		end
+	end
+	for y = self.minY, self.maxY do
+			if self.backgroundArray[self.minX] and self.backgroundArray[self.minX][y] then
+				self:updateBackgroundTile( self.minX, y )
+			end
+			if self.groundArray[self.minX] and self.groundArray[self.minX][y] then
+				self:updateGroundTile( self.minX, y )
+			end
+			if self.backgroundArray[self.maxX-1] and self.backgroundArray[self.maxX-1][y] then
+				self:updateBackgroundTile( self.maxX-1, y )
+			end
+			if self.groundArray[self.maxX-1] and self.groundArray[self.maxX-1][y] then
+				self:updateGroundTile( self.maxX-1, y )
+			end
+	end]]
 end
 
 -- check if mouse is hovering over a border marker:
