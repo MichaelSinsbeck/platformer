@@ -1,5 +1,5 @@
 InputJump = object:New({
-	tag = 'inputJump',
+	tag = 'InputJump',
 	layout = 'center',
   marginx = 0.4,
   marginy = 0.4,
@@ -13,7 +13,7 @@ function InputJump:setAcceleration(dt)
 end
 
 InputAction = object:New({
-	tag = 'inputAction',
+	tag = 'InputAction',
 	layout = 'center',
   marginx = 0.4,
   marginy = 0.4,

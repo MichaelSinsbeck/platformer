@@ -1490,6 +1490,8 @@ function EditorMap:convert( fullName )
 	local SPIKES_G = 7
 	local SPIKES_B = 8
 	-- Base tiles:
+	-- NOTE: commas at beginning an end are a quick fix to avoid matching "10," when "0,"
+	-- is what we're looking for. Instead, we match ",0,". It's a little dirty, but effective.
 	groundMatch[CONCRETE] = ",25,26,27,28,33,34,35,36,41,42,43,44,49,50,51,52,117,118,119,120,126,127,128,"
 	groundMatch[DIRT] = ",29,30,31,32,37,38,39,40,45,46,47,48,53,54,55,56,94,96,102,104,109,111,"
 	groundMatch[GRASS] = ",57,58,59,60,65,66,67,68,73,74,75,76,81,82,83,84,93,95,101,103,110,112,"
@@ -1498,6 +1500,15 @@ function EditorMap:convert( fullName )
 	groundMatch[BRIDGE] = ",7,8,13,14,15,"
 	groundMatch[SPIKES_G] = ",33,34,35,36,41,42,43,44,49,50,51,52,57,58,59,60,"
 	groundMatch[SPIKES_B] = ",37,38,39,40,45,46,47,48,53,54,55,56,61,62,63,64,"
+
+	local objectMatch = {}
+	objectMatch["Exit"] = ",2,"
+	objectMatch["Bandana"] = ",4,"
+	objectMatch["Button"] = ",17,"
+	objectMatch["Appearblock"] = ",19,"
+	objectMatch["Walker"] = ",31,32,"
+	objectMatch["Spawner"] = ",77,78,"
+	objectMatch["Bonus"] = ",14,"
 
 	local map = nil
 
@@ -1508,16 +1519,19 @@ function EditorMap:convert( fullName )
 	if str then
 
 		local dimX,dimY = str:match("mapSize((.-),(.-))\n")
-		local startX,endX = str:match("start{x=(.-),y=(.-)}\n")
+		local startX, startY = str:match("start{x=(.-),y=(.-)}")
+		--local startX, startY = str:match("start{(.-)}")
+		print("start:", startX, startY)
 		local walls = str:match("loadWall{(.-})[^,]-}")
 		local foreground = str:match("loadFG{(.-})[^,]-}")
+		local objects = str:match("loadOBJ{(.-})[^,]-}")
 
 		map = EditorMap:new( editor.backgroundList )
 		map.name = string.lower(mapName or "" )
 
 		print("------------------------")
 		print(map.name, map.description)
-		print(walls)
+		--print(walls)
 
 		local y = 0
 		local x = 0
@@ -1525,26 +1539,30 @@ function EditorMap:convert( fullName )
 			y = 0
 			for tile in line:gmatch("(%d+)") do
 				k = tonumber(tile)
-				for i = 1, 6 do
-					if groundMatch[i] and groundMatch[i]:find( "," .. tile .. "," ) then
-						map:setGroundTile( x, y, editor.groundList[i], false )
-						break
+				if k ~= 0 then
+					for i = 1, 6 do
+						if groundMatch[i] and groundMatch[i]:find( "," .. tile .. "," ) then
+							map:setGroundTile( x, y, editor.groundList[i], false )
+							break
+						end
 					end
 				end
 				y = y + 1
 			end
 			x = x + 1
 		end
-	
+
 		x, y = 0, 0
 		for line in foreground:gmatch("{(.-)}") do
 			y = 0
 			for tile in line:gmatch("(%d+)") do
 				k = tonumber(tile)
-				for i = 7, 8 do
-					if groundMatch[i] and groundMatch[i]:find( "," .. tile .. "," ) then
-						map:setGroundTile( x, y, editor.groundList[i], false )
-						break
+				if k ~= 0 then
+					for i = 7, 8 do
+						if groundMatch[i] and groundMatch[i]:find( "," .. tile .. "," ) then
+							map:setGroundTile( x, y, editor.groundList[i], false )
+							break
+						end
 					end
 				end
 				y = y + 1
@@ -1552,24 +1570,33 @@ function EditorMap:convert( fullName )
 			x = x + 1
 		end
 
-		--[[print("------------------------")
-		print("Collision Map:")
-		local str
-		for y = 1, map.height do
-			str = ""
-			for x = 1, map.width do
-				if map.collisionSrc[x] and map.collisionSrc[x][y] then
-					str = str .. map.collisionSrc[x][y]
-				else
-					str = str .. "-"
+		x, y = 0, 0
+		for line in objects:gmatch("{(.-)}") do
+			y = 0
+			for tile in line:gmatch("(%d+)") do
+				k = tonumber(tile)
+				if k ~= 0 then
+					for tag, matchList in pairs(objectMatch) do
+						if matchList:find( "," .. tile .. "," ) then
+							--print( "found", i, "at:", x, y)
+							map:addObject( x, y, tag )
+							break
+						end
+					end
 				end
+				y = y + 1
 			end
-			print(str)
-		end]]
+			x = x + 1
+		end
+
+		-- add player if found:
+		if startX and startY then
+			map:addObject( tonumber(startX)-1, tonumber(startY)-1, "Player" )
+		end
 
 		-- Update all map tiles to make sure the right
 		-- tile type is used. Force to update all the 
-		-- tiles that need updating
+		-- tiles that need updating:
 		map:update( nil, true )
 		map:updateBorder()
 	else

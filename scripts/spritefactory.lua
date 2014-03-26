@@ -138,6 +138,8 @@ function spriteFactory(name,opts)
 		new = Line:New(opts)    
 	elseif name == 'lineHook' then
 		new = LineHook:New(opts)    
+	elseif name == 'inputLeft' then
+		new = LineHook:New(opts)    
 	end
 	if new then
 		new.name = name

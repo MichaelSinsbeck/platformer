@@ -19,7 +19,9 @@ require("editor/msgBox")
 local map = nil
 local cam = nil
 
-local objectPanel local bgObjectPanel local toolPanel
+local objectPanel 
+local bgObjectPanel
+local toolPanel
 local menuPanel
 local groundPanel
 local backgroundPanel
@@ -830,10 +832,7 @@ function editor:mousereleased( button, x, y )
 	end
 end
 
-function editor.keypressed( key, repeated )
-
-	if key == "f10" then
-		local toConvert = {
+local toConvert = {
 			"end", "end_air", "end_dirt", "end_fall", "end_spikes", "end_wall",
 		}
 		-- add levels 1 through 21:
@@ -843,9 +842,23 @@ function editor.keypressed( key, repeated )
 		for k = 10, 21 do
 			table.insert( toConvert, "l" .. k )
 		end
+
+local converted = {}
+
+
+
+function editor.keypressed( key, repeated )
+
+	if key == "f10" then
+				-- DEBUG:
+		-- toConvert = {"l01"}
 		for k, v in ipairs( toConvert ) do
+			if not converted[v] then
 			map = EditorMap:convert( "levels/bkup/" .. v .. ".dat" )
 			editor.saveFileNow( v .. ".dat" )
+			converted[v] = true
+			break
+		end
 		end
 		return
 	end
