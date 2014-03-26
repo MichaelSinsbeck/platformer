@@ -5,7 +5,6 @@ local slotHeight = 5	-- height of each slot (in screen space)
 local Pic = {}
 Pic.__index = Pic
 
-
 local function generateSlots( num, width, yPos )
 	num = math.ceil(num)
 	local slots = {}
@@ -17,7 +16,6 @@ local function generateSlots( num, width, yPos )
 	end
 	return slots
 end
-
 
 local function generateCountList( num, tileSize )
 	local full5 = math.floor( num / 5 )	-- how many images should show 5 lines
@@ -332,11 +330,12 @@ function Pic:draw()
 	end
 	
 	if self.map then
+		love.graphics.setColor(255,255,255,255)
 		love.graphics.push()
 		love.graphics.translate( -(self.map.width + 2)/2*Camera.scale*8,
 		-(self.map.height + 2)/2*Camera.scale*8)
-		self.map:drawBG()
-		self.map:drawWalls()
+		self.map:drawBackground()
+		self.map:drawGround()
 		love.graphics.pop()
 	end
 

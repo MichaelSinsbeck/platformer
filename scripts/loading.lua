@@ -29,7 +29,6 @@ function loading.update()
 		require 'scripts/levelEnd'
 		require 'scripts/bridge'
 		objectClasses = require 'scripts/objectclasses'
-		
 		loading.msg = "camera"
 	elseif loading.step == 1 then
 		Camera:applyScale()
@@ -48,8 +47,12 @@ function loading.update()
 		if settings:getShadersEnabled() then
 			shaders.load()
 		end
-		loading.msg = "campaign"
+		loading.msg = "editor"
 	elseif loading.step == 6 then
+		editor = require("editor/editor")
+		editor.init()
+		loading.msg = "campaign"
+	elseif loading.step == 7 then
 		recorder = false
 		screenshots = {}
 		recorderTimer = 0
@@ -57,16 +60,12 @@ function loading.update()
 		timer = 0
 
 		Campaign:reset()
-		loading.msg = "levels"	
-	elseif loading.step == 7 then
-		levelEnd:init()
 		loading.msg = "shadows"
 	elseif loading.step == 8 then
 		shadows = require("scripts/monocle")
-		loading.msg = "editor"
+		loading.msg = "levels"
 	elseif loading.step == 9 then
-		editor = require("editor/editor")
-		-- editor.init()
+		levelEnd:init()	-- must be called AFTER requiring the editor
 		loading.msg = "menu"
 	elseif loading.step == 10 then
 		menu.initMain()

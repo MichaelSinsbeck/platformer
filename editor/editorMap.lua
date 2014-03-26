@@ -1409,7 +1409,7 @@ function EditorMap:loadFromFile( fullName )
 			end
 		end
 
-		print("------------------------")
+		--[[print("------------------------")
 		print("Collision Map:")
 		local str
 		for y = 1, map.height do
@@ -1422,7 +1422,7 @@ function EditorMap:loadFromFile( fullName )
 				end
 			end
 			print(str)
-		end
+		end]]
 
 		local objType,x,y
 		for obj in bgObjects:gmatch( "(Obj:.-endObj)\n" ) do
@@ -1518,10 +1518,9 @@ function EditorMap:convert( fullName )
 
 	if str then
 
-		local dimX,dimY = str:match("mapSize((.-),(.-))\n")
+		local dimX,dimY = str:match("mapSize((.-),(.-))")
 		local startX, startY = str:match("start{x=(.-),y=(.-)}")
 		--local startX, startY = str:match("start{(.-)}")
-		print("start:", startX, startY)
 		local walls = str:match("loadWall{(.-})[^,]-}")
 		local foreground = str:match("loadFG{(.-})[^,]-}")
 		local objects = str:match("loadOBJ{(.-})[^,]-}")
@@ -1532,11 +1531,16 @@ function EditorMap:convert( fullName )
 		print("------------------------")
 		print(map.name, map.description)
 		--print(walls)
+		--
+		map.minX = 1
+		map.minY = 1
+		map.maxX = tonumber(dimX) or 0
+		map.maxY = tonumber(dimY) or 0
 
-		local y = 0
-		local x = 0
+		local y = 1
+		local x = 1
 		for line in walls:gmatch("{(.-)}") do
-			y = 0
+			y = 1
 			for tile in line:gmatch("(%d+)") do
 				k = tonumber(tile)
 				if k ~= 0 then
@@ -1552,9 +1556,9 @@ function EditorMap:convert( fullName )
 			x = x + 1
 		end
 
-		x, y = 0, 0
+		x, y = 1, 1
 		for line in foreground:gmatch("{(.-)}") do
-			y = 0
+			y = 1
 			for tile in line:gmatch("(%d+)") do
 				k = tonumber(tile)
 				if k ~= 0 then
@@ -1570,15 +1574,14 @@ function EditorMap:convert( fullName )
 			x = x + 1
 		end
 
-		x, y = 0, 0
+		x, y = 1, 1
 		for line in objects:gmatch("{(.-)}") do
-			y = 0
+			y = 1
 			for tile in line:gmatch("(%d+)") do
 				k = tonumber(tile)
 				if k ~= 0 then
 					for tag, matchList in pairs(objectMatch) do
 						if matchList:find( "," .. tile .. "," ) then
-							--print( "found", i, "at:", x, y)
 							map:addObject( x, y, tag )
 							break
 						end
@@ -1591,7 +1594,7 @@ function EditorMap:convert( fullName )
 
 		-- add player if found:
 		if startX and startY then
-			map:addObject( tonumber(startX)-1, tonumber(startY)-1, "Player" )
+			map:addObject( tonumber(startX), tonumber(startY), "Player" )
 		end
 
 		-- Update all map tiles to make sure the right

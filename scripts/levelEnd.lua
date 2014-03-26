@@ -14,12 +14,12 @@ local STAT_TIME = 0.5
 
 function levelEnd:init()
 	-- preload all the levels which could be needed:
-	self.levels["end_fall"] = Map:loadFromFile( 'end_fall.dat' , 1 )
-	self.levels["end_wall"] = Map:loadFromFile( 'end_wall.dat' , 1 )
-	self.levels["end_dirt"] = Map:loadFromFile( 'end_dirt.dat' , 1 )
-	self.levels["end_air"] = Map:loadFromFile( 'end_air.dat' , 1 )
-	self.levels["end_spikes"] = Map:loadFromFile( 'end_spikes.dat' , 1 )
-	self.levels["end"] = Map:loadFromFile( 'end.dat' , 1 )
+	self.levels["end_fall"] = Map:loadFromFile( "levels/end_fall.dat" )
+	self.levels["end_wall"] = Map:loadFromFile( "levels/end_wall.dat" )
+	self.levels["end_dirt"] = Map:loadFromFile( "levels/end_dirt.dat" )
+	self.levels["end_air"] = Map:loadFromFile( "levels/end_air.dat" )
+	self.levels["end_spikes"] = Map:loadFromFile( "levels/end_spikes.dat" )
+	self.levels["end"] = Map:loadFromFile( "levels/end.dat" )
 end
 
 function levelEnd:reset()

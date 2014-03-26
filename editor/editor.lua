@@ -8,7 +8,7 @@
 local editor = {}
 
 Panel = require("editor/panel")
-local EditorMap = require("editor/editorMap")
+--local Map = require("editor/editorMap")
 local Ground = require("editor/ground")
 local Background = require("editor/background")
 local BgObject = require("editor/bgObject")
@@ -46,7 +46,6 @@ local KEY_OPEN = "f2"
 local KEY_SAVE = "f3"
 local KEY_QUIT = "escape"
 local KEY_TEST = "f4"
-
 
 -- called when loading game	
 function editor.init()
@@ -154,14 +153,16 @@ end
 
 -- called when editor is to be started:
 function editor.start()
+
 	editor.init()
+
 	print("Starting editor..." )
 	mode = "editor"
 
 	-- make sure to return to level after testing map!
 	editor.active = true
 
-	map = EditorMap:new( editor.backgroundList )
+	map = Map:new( editor.backgroundList )
 	cam = EditorCam:new() -- -Camera.scale*8*map.MAP_SIZE/2, -Camera.scale*8*map.MAP_SIZE/2 )
 
 	love.mouse.setVisible( true )
@@ -846,7 +847,6 @@ local toConvert = {
 local converted = {}
 
 
-
 function editor.keypressed( key, repeated )
 
 	if key == "f10" then
@@ -854,7 +854,7 @@ function editor.keypressed( key, repeated )
 		-- toConvert = {"l01"}
 		for k, v in ipairs( toConvert ) do
 			if not converted[v] then
-			map = EditorMap:convert( "levels/bkup/" .. v .. ".dat" )
+			map = Map:convert( "levels/bkup/" .. v .. ".dat" )
 			editor.saveFileNow( v .. ".dat" )
 			converted[v] = true
 			break
@@ -1110,7 +1110,7 @@ function editor.newMapAttempt()
 end
 
 function editor.newMapNow()
-	map = EditorMap:new( editor.backgroundList )
+	map = Map:new( editor.backgroundList )
 	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
 end
@@ -1276,7 +1276,7 @@ function editor.loadFile( fileName, testFile )
 	if testFile then
 		fullName = "test.dat"
 	end
-	map = EditorMap:loadFromFile( fullName ) or map
+	map = Map:loadFromFile( fullName ) or map
 	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
 end

@@ -66,8 +66,8 @@ Campaign.worldNumber = 1
 Campaign.last = 0
 
 function Campaign:reset()
-  Campaign:setLevel(1)
-  myMap = Map:loadFromFile(self[self.current])  
+  self:setLevel(1)
+  --myMap = Map:loadFromFile( "levels/" .. self[self.current])  
 end
 
 function Campaign:proceed()
@@ -79,7 +79,7 @@ function Campaign:proceed()
 		bridge:start()
 	elseif self[self.current] then
 		-- go to next level
-		myMap = Map:loadFromFile(self[self.current])
+		myMap = Map:loadFromFile( "levels/" .. self[self.current])
 		levelEnd:reset()	
 		myMap:start(p) 
 		mode = 'game'
