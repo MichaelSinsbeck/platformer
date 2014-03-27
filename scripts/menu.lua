@@ -278,7 +278,7 @@ function menu.initWorldMap()
 							'worldItemOff_IMG',
 							'worldItemOn_IMG',
 							v,
-							menu.startTransition(menu.startGame( v ), true),
+							menu.startTransition(menu.startGame( "levels/" .. v ), true),
 							scrollWorldMap )
 			if x > menu.furthestX then
 				menu.furthestX = x
@@ -357,7 +357,7 @@ function menu.AddOneWorldMap()
 		'worldItemOff_IMG',
 		'worldItemOn_IMG',
 		v,
-		menu.startTransition(menu.startGame( v ), true),
+		menu.startTransition(menu.startGame( "levels/" .. v ), true),
 		scrollWorldMap )
 	if x > menu.furthestX then
 		menu.furthestX = x
@@ -399,7 +399,7 @@ function menu.startGame( lvl )
 
 		--myMap = Map:LoadFromFile( Campaign[Campaign.current] )
 		--myMap = Map:LoadFromFile( Campaign[Campaign.current] , 1 ) -- *only for demo*
-		myMap = Map:loadFromFile( "levels/" .. lvl )
+		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start(p)
 		
