@@ -13,7 +13,6 @@
 -- Creates clickable label. The clickable area
 -- automatically fits the size of the image (plus a
 -- small padding).
-
 -- Mouse interaction:
 -- The clickable needs to be updated every frame.
 -- it will react when the mouse is within the 
@@ -222,7 +221,7 @@ function Clickable:draw()
 			shortcut = shortcut:sub(1,3)
 		end
 		love.graphics.push()
-		love.graphics.translate( self.x*Camera.scale, self.y*Camera.scale )
+		love.graphics.translate( self.x*Camera.scale, (self.y+1)*Camera.scale )
 		love.graphics.setColor(180,255,180,160)
 		love.graphics.polygon( 'fill', self.shortcutBox )
 		love.graphics.setColor(0,0,0,255)

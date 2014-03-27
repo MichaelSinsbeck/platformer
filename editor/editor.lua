@@ -1137,14 +1137,14 @@ function editor.loadFileList()
 	
 	loadPanel:clearAll()
 
-	loadPanel:addClickable( loadPanel.width - 8, 8, editor.closeFileList,
+	loadPanel:addClickable( loadPanel.width - 4, 16, editor.closeFileList,
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
 		"Cancel", nil, nil, "escape", true )
-	loadPanel:addLabel( 4, 4, "Load file:" )
+	loadPanel:addLabel( 8, 8, "Load file:" )
 
-	local x, y = 13,12
+	local x, y = 12,16
 	local page = 1
 	for k, v in ipairs(list) do
 		if v:match("(.*%.dat)$") then
@@ -1172,12 +1172,12 @@ end
 function editor.saveFileStart()
 	savePanel:clearAll()
 
-	savePanel:addClickable( savePanel.width - 8, savePanel.height - 8, editor.closeSaveFilePanel,
+	savePanel:addClickable( savePanel.width - 3, savePanel.height - 3, editor.closeSaveFilePanel,
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
 		"Cancel", nil, nil, "escape", true )
-	savePanel:addClickable( savePanel.width - 18, savePanel.height - 8,
+	savePanel:addClickable( savePanel.width - 13, savePanel.height - 3,
 		function()
 			editor.saveFileAttempt( map.name .. ".dat" )
 			editor.closeSaveFilePanel()
@@ -1187,9 +1187,8 @@ function editor.saveFileStart()
 		"LEAcceptHover",
 		"Cancel", nil, nil, "return", true )
 
-
-	savePanel:addLabel( 4, 4, "Level name:" )
-	savePanel:addLabel( 4, 16, "Short description:" )
+	savePanel:addLabel( 8, 8, "Level name:" )
+	savePanel:addLabel( 8, 20, "Short description:" )
 
 	local setMapName = function( txt )
 		map.name = txt or ""	
@@ -1198,8 +1197,8 @@ function editor.saveFileStart()
 		map.description = txt or ""	
 	end
 	local chars = "[0-9a-zA-Z%-]"
-	savePanel:addInputBox( 6, 9, savePanel.width - 12, 1, map.name or "", setMapName, 30, chars )
-	savePanel:addInputBox( 6, 21, savePanel.width - 12, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
+	savePanel:addInputBox( 10, 13, savePanel.width - 12, 1, map.name or "", setMapName, 30, chars )
+	savePanel:addInputBox( 10, 25, savePanel.width - 12, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
 
 	savePanel.visible = true
 end

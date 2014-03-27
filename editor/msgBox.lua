@@ -29,7 +29,7 @@ function msgBox:new( msg, eventAccept, eventDecline )
 	msgBox.panel = Panel:new( x, y, width, height )
 
 	msgBox.textX = (x + 8)*Camera.scale
-	msgBox.textY = (y + 6)*Camera.scale
+	msgBox.textY = (y + 8)*Camera.scale
 	msgBox.textWidth = (width-16)*Camera.scale
 
 	msgBox.panel:addClickable( 15, textHeight/Camera.scale + 16, msgBox.eventAccept,
