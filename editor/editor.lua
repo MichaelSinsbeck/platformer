@@ -855,7 +855,7 @@ function editor.keypressed( key, repeated )
 		for k, v in ipairs( toConvert ) do
 			if not converted[v] then
 			map = Map:convert( "levels/bkup/" .. v .. ".dat" )
-			editor.saveFileNow( v .. ".dat" )
+			--editor.saveFileNow( v .. ".dat" )
 			converted[v] = true
 			break
 		end
