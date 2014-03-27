@@ -524,6 +524,11 @@ function Ground:init()
 	table.insert( list, new )
 
 	new = Ground:new("bridge", 'b' )
+	new:addSimilar( 'c' )	-- similar to concrete
+	new:addSimilar( 's' )	-- similar to stone
+	new:addSimilar( 'g' )
+	new:addSimilar( 'd' )
+	new:addSimilar( 'w' )
 	new:setSingleTile( {1,10} )
 	new:setThickTiles( {0,9}, {1,10}, {1,9},
 						{0,9}, {1,10}, {1,9},
