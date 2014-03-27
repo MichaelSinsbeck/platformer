@@ -264,8 +264,8 @@ function Panel:draw()
 
 	for k, input in ipairs( self.inputBoxes ) do
 		if input == self.activeInput then
-		local cX = input.x*Camera.scale + input.curX
-		local cY = input.y*Camera.scale + input.curY
+			local cX = input.x*Camera.scale + input.curX
+			local cY = input.y*Camera.scale + input.curY
 			love.graphics.line( cX, cY - fontSmall:getHeight(), cX, cY )
 			love.graphics.setColor(255,255,255,50)
 		else
@@ -331,6 +331,18 @@ end
 
 function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 
+	if clicked then
+		if self.activeInput then
+			self.activeInput.txt = self.activeInput.front .. self.activeInput.back
+			print(self.activeInput, self.activeInput.returnEvent, self.activeInput.txt )
+			if self.activeInput.returnEvent then
+				self.activeInput.returnEvent( self.activeInput.txt )
+			end
+			self.activeInput = nil
+		end
+		editor.activeInputPanel = nil
+	end
+
 	-- this gets set to true if the click hit a clickable on this panel:
 	local hitButton = false
 	local hit
@@ -357,10 +369,8 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 			end
 		end
 	end
-
+	
 	if not hitButton and clicked then
-		self.activeInput = nil
-		editor.activeInputPanel = nil
 		local x, y = mouseX/Camera.scale, mouseY/Camera.scale
 		for k, input in ipairs( self.inputBoxes ) do
 			if input.x < x and input.y < y and

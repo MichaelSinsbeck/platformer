@@ -1192,6 +1192,7 @@ function editor.saveFileStart()
 
 	local setMapName = function( txt )
 		map.name = txt or ""	
+		print("new level name:", txt)
 	end
 	local setMapDescription = function( txt )
 		map.description = txt or ""	
@@ -1226,6 +1227,7 @@ end
 function editor.saveFileNow( fileName, testFile )
 	fileName = fileName or "bkup.dat"
 
+		print(fileName)
 	if #fileName:match("(.*).dat"):gsub(" ", "") == 0 then
 		print("Warning: Empty file name!")
 		msgBox:new("Warning: Cannot save!\nFilename must not be empty.", function() end )
