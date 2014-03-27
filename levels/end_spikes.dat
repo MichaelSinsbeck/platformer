@@ -4,42 +4,40 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 10.75,10.75
+Dimensions: 11,11
 
 Description:
 endDescription
 
 Background:
----------
----------
----------
----------
----------
----------
----------
----------
----------
+----------
+----------
+----------
+----------
+----------
+----------
+----------
+----------
+----------
+----------
 endBackground
 
 Ground:
----------
----------
----------
----------
----------
----------
----------
----------
----------
+----------
+----------
+----------
+----------
+----------
+-gc----cg-
+-gc----cg-
+-gccccccg-
+-dddddddd-
+----------
 endGround
 
 BgObjects:
 endBgObjects
 
 Objects:
-Obj:Player
-	x:1.75
-	y:1.75
-endObj
 endObjects
 
