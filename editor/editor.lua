@@ -1137,14 +1137,14 @@ function editor.loadFileList()
 	
 	loadPanel:clearAll()
 
-	loadPanel:addClickable( loadPanel.width - 4, 16, editor.closeFileList,
+	loadPanel:addClickable( loadPanel.width - 12, 12, editor.closeFileList,
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
 		"Cancel", nil, nil, "escape", true )
 	loadPanel:addLabel( 8, 8, "Load file:" )
 
-	local x, y = 12,16
+	local x, y = 14,14
 	local page = 1
 	for k, v in ipairs(list) do
 		if v:match("(.*%.dat)$") then
@@ -1153,10 +1153,10 @@ function editor.loadFileList()
 					editor.loadFile( v )
 					loadPanel.visible = false
 				end,
-				loadPanel.width - 26, v, page )
+				loadPanel.width - 34, v, page )
 			y = y + 6
-			if y > loadPanel.height - 10 then
-				y = 12
+			if y > loadPanel.height - 16 then
+				y = 14
 				page = page + 1
 			end
 		end
@@ -1172,12 +1172,12 @@ end
 function editor.saveFileStart()
 	savePanel:clearAll()
 
-	savePanel:addClickable( savePanel.width - 3, savePanel.height - 3, editor.closeSaveFilePanel,
+	savePanel:addClickable( savePanel.width - 12, savePanel.height - 12, editor.closeSaveFilePanel,
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
 		"Cancel", nil, nil, "escape", true )
-	savePanel:addClickable( savePanel.width - 13, savePanel.height - 3,
+	savePanel:addClickable( savePanel.width - 22, savePanel.height - 12,
 		function()
 			editor.saveFileAttempt( map.name .. ".dat" )
 			editor.closeSaveFilePanel()
@@ -1187,19 +1187,19 @@ function editor.saveFileStart()
 		"LEAcceptHover",
 		"Cancel", nil, nil, "return", true )
 
+
 	savePanel:addLabel( 8, 8, "Level name:" )
 	savePanel:addLabel( 8, 20, "Short description:" )
 
 	local setMapName = function( txt )
 		map.name = txt or ""	
-		print("new level name:", txt)
 	end
 	local setMapDescription = function( txt )
 		map.description = txt or ""	
 	end
 	local chars = "[0-9a-zA-Z%-]"
-	savePanel:addInputBox( 10, 13, savePanel.width - 12, 1, map.name or "", setMapName, 30, chars )
-	savePanel:addInputBox( 10, 25, savePanel.width - 12, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
+	savePanel:addInputBox( 10, 13, savePanel.width - 20, 1, map.name or "", setMapName, 30, chars )
+	savePanel:addInputBox( 10, 25, savePanel.width - 20, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
 
 	savePanel.visible = true
 end
@@ -1227,7 +1227,6 @@ end
 function editor.saveFileNow( fileName, testFile )
 	fileName = fileName or "bkup.dat"
 
-		print(fileName)
 	if #fileName:match("(.*).dat"):gsub(" ", "") == 0 then
 		print("Warning: Empty file name!")
 		msgBox:new("Warning: Cannot save!\nFilename must not be empty.", function() end )

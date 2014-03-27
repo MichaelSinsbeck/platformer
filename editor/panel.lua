@@ -93,8 +93,10 @@ function Panel:new( x, y, width, height, highlightSelected )
 
 	o.x = x or 0
 	o.y = y or 0
-	o.width = width or 100
-	o.height = height or 100
+	o.width = width or 32
+	o.height = height or 32
+	o.width = math.ceil(o.width/16)*16
+	o.height = math.ceil(o.height/16)*16
 
 	-- store whether or not the selected buttons of this panel should be highlighted:
 	o.highlightSelected = highlightSelected
@@ -133,7 +135,9 @@ function Panel:addNextButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber + 1
 	end
-	local c = Clickable:new( self.x + self.width - 16, self.y + self.height - 9, ev,
+	print("new:", self.x, self.y, self.height )
+	print("\t", self.x, self.y, self.height )
+	local c = Clickable:new( self.x + self.width - 12, self.y + self.height - 9, ev,
 			'LERightOff',
 			'LERightOn',
 			'LERightHover',
@@ -145,7 +149,8 @@ function Panel:addPrevButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber - 1
 	end
-	local c = Clickable:new( self.x + 16, self.y + self.height - 9, ev,
+	print("new:", self.x, self.y, self.height )
+	local c = Clickable:new( self.x + 12, self.y + self.height - 9, ev,
 			'LELeftOff',
 			'LELeftOn',
 			'LELeftHover',
@@ -154,15 +159,15 @@ function Panel:addPrevButton( pageNumber )
 end
 
 function Panel:addPageButtons( page )
-		if self.pages[page-1] and page > 1 then
-			self:addNextButton( page-1 )
-			self:addPrevButton( page )
-		end
-		if self.pages[page+1] then
-			self:addNextButton( page )
-			self:addPrevButton( page+1 )
-		end
+	if self.pages[page-1] and page > 1 then
+		self:addNextButton( page-1 )
+		self:addPrevButton( page )
 	end
+	if self.pages[page+1] then
+		self:addNextButton( page )
+		self:addPrevButton( page+1 )
+	end
+end
 
 function Panel:addClickableLabel( x, y, event, width, text, page )
 	local c = Clickable:newLabel( x+self.x, y+self.y, event, width, text )
