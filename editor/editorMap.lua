@@ -11,8 +11,8 @@ local MIN_MAP_SIZE = 3
 -- and the actual map border. It is different for all pins, because the pins are
 -- oriented differently. Update these when changing the pin images!
 local markerOffset1 = {x=0.5, y=0.9}
-local markerOffset2 = {x=0.5, y=0.9}
-local markerOffset3 = {x=0.7, y=1.1}
+local markerOffset2 = {x=0.5, y=1.1}
+local markerOffset3 = {x=0.7, y=0.9}
 local markerOffset4 = {x=0.7, y=1.1}
 
 function EditorMap:new( backgroundList )
