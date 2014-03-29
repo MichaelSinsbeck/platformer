@@ -1375,7 +1375,7 @@ function EditorMap:drawForeground()
 	love.graphics.draw( self.spikeBatch, 0, 0 )
 end
 
-function EditorMap:drawBoundings()
+function EditorMap:drawBorder()
 	love.graphics.polygon( "line", self.border )
 	if self.draggedBorderMarker and self.tempBorder then
 		love.graphics.setColor( 150,255,150, 100 )
@@ -1513,10 +1513,14 @@ function EditorMap:loadFromFile( fullName )
 		end]]
 
 		local objType,x,y
-		for obj in bgObjects:gmatch( "(Obj:.-endObj)\n" ) do
-			objType = obj:match( "Obj:(.-)\n")
-			x = obj:match( "x:(.-)\n")
-			y = obj:match( "y:(.-)\n")
+		for line in bgObjects:gmatch("[^\r\n]+") do
+			objType, x, y = line:match( "\t(.-) (.-) (.-)$")
+
+			if not objType or not x or not y then	-- fallback to legacy:
+				objType = obj:match( "Obj:(.-)\n")
+				x = obj:match( "x:(.-)\n")
+				y = obj:match( "y:(.-)\n")
+			end
 
 			x = tonumber(x)
 			y = tonumber(y)
@@ -1749,11 +1753,9 @@ function EditorMap:backgroundObjectsToString()
 	local str = ""
 	-- Add the objects in order of appearance:
 	for k, obj in ipairs(self.bgList) do
-		str = str .. "Obj:" .. obj.objType.name .. "\n"
-		str = str .. "x:" .. obj.x - self.minX .. "\n"
-		str = str .. "y:" .. obj.y - self.minY .. "\n"
-		str = str .. "endObj\n"
-		-- TODO: add possible properties here...
+		str = str .. "\t" .. obj.objType.name ..
+					" " .. obj.x - self.minX ..
+					" " .. obj.y - self.minY .. "\n"
 	end
 	return str
 end
@@ -1772,7 +1774,6 @@ function EditorMap:objectsToString()
 				end
 			end
 			str = str .. "endObj\n"
-			-- TODO: add possible properties here...
 		end
 	end
 	return str
