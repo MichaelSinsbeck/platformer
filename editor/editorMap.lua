@@ -6,6 +6,15 @@ local MAX_FLOOD_FILL_RECURSION = 1500
 
 local MIN_MAP_SIZE = 3
 
+-- Offset for the markers in the corners of the map border (pin needles).
+-- This offset is the offset between the position where the image should be drawn
+-- and the actual map border. It is different for all pins, because the pins are
+-- oriented differently. Update these when changing the pin images!
+local markerOffset1 = {x=0.5, y=0.9}
+local markerOffset2 = {x=0.5, y=0.9}
+local markerOffset3 = {x=0.7, y=1.1}
+local markerOffset4 = {x=0.7, y=1.1}
+
 function EditorMap:new( backgroundList )
 	local o = {}
 	setmetatable( o, EditorMap )
@@ -1069,10 +1078,32 @@ end
 -- General:
 ----------------------------------------
 
-function EditorMap:updateBorder()
+function EditorMap:createBorderLine( minX, minY, maxX, maxY )	-- xD
 
-	self.border = {}
+	local border = {}
 	local padding = self.tileSize*0.25
+
+	for ang = 0, math.pi/2, math.pi/8 do
+		border[#border+1] = minX + padding - padding*math.cos(ang)		-- x
+		border[#border+1] = minY + padding - padding*math.sin(ang)		-- y
+	end
+	for ang = math.pi/2, math.pi, math.pi/8 do
+		border[#border+1] = maxX - padding - padding*math.cos(ang)		-- x
+		border[#border+1] = minY + padding - padding*math.sin(ang)		-- y
+	end
+	for ang = math.pi, 3*math.pi/2, math.pi/8 do
+		border[#border+1] = maxX - padding - padding*math.cos(ang)		-- x
+		border[#border+1] = maxY - padding - padding*math.sin(ang)		-- y
+	end
+	for ang = 3*math.pi/2, 2*math.pi, math.pi/8 do
+		border[#border+1] = minX + padding - padding*math.cos(ang)		-- x
+		border[#border+1] = maxY - padding - padding*math.sin(ang)		-- y
+	end
+
+	return border
+end
+
+function EditorMap:updateBorder()
 
 	-- correct to make minimum size true:
 	if self.minX + MIN_MAP_SIZE > self.maxX then
@@ -1086,34 +1117,19 @@ function EditorMap:updateBorder()
 	local minY = self.minY*self.tileSize
 	local maxX = self.maxX*self.tileSize
 	local maxY = self.maxY*self.tileSize
-	for ang = 0, math.pi/2, math.pi/8 do
-		self.border[#self.border+1] = minX + padding - padding*math.cos(ang)		-- x
-		self.border[#self.border+1] = minY + padding - padding*math.sin(ang)		-- y
-	end
-	for ang = math.pi/2, math.pi, math.pi/8 do
-		self.border[#self.border+1] = maxX - padding - padding*math.cos(ang)		-- x
-		self.border[#self.border+1] = minY + padding - padding*math.sin(ang)		-- y
-	end
-	for ang = math.pi, 3*math.pi/2, math.pi/8 do
-		self.border[#self.border+1] = maxX - padding - padding*math.cos(ang)		-- x
-		self.border[#self.border+1] = maxY - padding - padding*math.sin(ang)		-- y
-	end
-	for ang = 3*math.pi/2, 2*math.pi, math.pi/8 do
-		self.border[#self.border+1] = minX + padding - padding*math.cos(ang)		-- x
-		self.border[#self.border+1] = maxY - padding - padding*math.sin(ang)		-- y
-	end
+	self.border = self:createBorderLine( minX, minY, maxX, maxY )
 
-	self.borderMarkers[1].x = (self.minX-0.5)*self.tileSize
-	self.borderMarkers[1].y = (self.minY-0.9)*self.tileSize
+	self.borderMarkers[1].x = (self.minX-markerOffset1.x)*self.tileSize
+	self.borderMarkers[1].y = (self.minY-markerOffset1.y)*self.tileSize
 
-	self.borderMarkers[2].x = (self.minX-0.5)*self.tileSize
-	self.borderMarkers[2].y = (self.maxY-1.1)*self.tileSize
+	self.borderMarkers[2].x = (self.minX-markerOffset2.x)*self.tileSize
+	self.borderMarkers[2].y = (self.maxY-markerOffset2.y)*self.tileSize
 
-	self.borderMarkers[3].x = (self.maxX-0.7)*self.tileSize
-	self.borderMarkers[3].y = (self.minY-0.9)*self.tileSize
+	self.borderMarkers[3].x = (self.maxX-markerOffset3.x)*self.tileSize
+	self.borderMarkers[3].y = (self.minY-markerOffset3.y)*self.tileSize
 
-	self.borderMarkers[4].x = (self.maxX-0.7)*self.tileSize
-	self.borderMarkers[4].y = (self.maxY-1.1)*self.tileSize
+	self.borderMarkers[4].x = (self.maxX-markerOffset4.x)*self.tileSize
+	self.borderMarkers[4].y = (self.maxY-markerOffset4.y)*self.tileSize
 
 	-- update border tiles:
 	-- Brute force:
@@ -1196,22 +1212,89 @@ function EditorMap:dragBorderMarker( x, y )
 	if self.draggedBorderMarker then
 		self.draggedBorderMarker.x = x - self.draggedBorderMarker.oX
 		self.draggedBorderMarker.y = y - self.draggedBorderMarker.oY
+
+		local minX, minY, maxX, maxY = self.minX, self.minY, self.maxX, self.maxY
+		if self.draggedBorderMarker == self.borderMarkers[1] then	-- top left
+			minX = math.ceil( self.draggedBorderMarker.x/self.tileSize+markerOffset1.x - 0.5 )
+			minY = math.ceil( self.draggedBorderMarker.y/self.tileSize+markerOffset1.y - 0.5 )
+			if minX > maxX - 3 then
+				minX = maxX - 3
+			end
+			if minY > maxY - 3 then
+				minY = maxY - 3
+			end
+		elseif self.draggedBorderMarker == self.borderMarkers[2] then	-- bottom left
+			minX = math.ceil( self.draggedBorderMarker.x/self.tileSize+markerOffset2.x - 0.5 )
+			maxY = math.ceil( self.draggedBorderMarker.y/self.tileSize+markerOffset2.y - 0.5 )
+			if minX > maxX - 3 then
+				minX = maxX - 3
+			end
+			if maxY < minY + 3 then
+				maxY = minY + 3
+			end
+		elseif self.draggedBorderMarker == self.borderMarkers[3] then
+			maxX = math.ceil( self.draggedBorderMarker.x/self.tileSize+markerOffset3.x - 0.5 )
+			minY = math.ceil( self.draggedBorderMarker.y/self.tileSize+markerOffset3.y - 0.5 )
+			if maxX < minX + 3 then
+				maxX = minX + 3
+			end
+			if minY > maxY - 3 then
+				minY = maxY - 3
+			end
+		elseif self.draggedBorderMarker == self.borderMarkers[4] then
+			maxX = math.ceil( self.draggedBorderMarker.x/self.tileSize+markerOffset4.x - 0.5 )
+			maxY = math.ceil( self.draggedBorderMarker.y/self.tileSize+markerOffset4.y - 0.5 )
+			if maxX < minX + 3 then
+				maxX = minX + 3
+			end
+			if maxY < minY + 3 then
+				maxY = minY + 3
+			end
+		end
+
+
+		self.tempBorder = self:createBorderLine( minX*self.tileSize, minY*self.tileSize,
+												maxX*self.tileSize, maxY*self.tileSize )
 	end
 end
 
 function EditorMap:dropBorderMarker()
 	if self.draggedBorderMarker == self.borderMarkers[1] then	-- top left
-		self.minX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
-		self.minY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
+		self.minX = math.ceil(self.draggedBorderMarker.x/self.tileSize+markerOffset1.x-0.5)
+		self.minY = math.ceil(self.draggedBorderMarker.y/self.tileSize+markerOffset1.x-0.5)
+		if self.minX > self.maxX - 3 then
+			self.minX = self.maxX - 3
+		end
+		if self.minY > self.maxY - 3 then
+			self.minY = self.maxY - 3
+		end
 	elseif self.draggedBorderMarker == self.borderMarkers[2] then	-- bottom left
-		self.minX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
-		self.maxY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
-	elseif self.draggedBorderMarker == self.borderMarkers[3] then	-- bottom left
-		self.maxX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
-		self.minY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
-	elseif self.draggedBorderMarker == self.borderMarkers[4] then	-- bottom left
-		self.maxX = math.ceil(self.draggedBorderMarker.x/self.tileSize+0.5)
-		self.maxY = math.ceil(self.draggedBorderMarker.y/self.tileSize+0.5)
+		self.minX = math.ceil(self.draggedBorderMarker.x/self.tileSize+markerOffset2.x-0.5)
+		self.maxY = math.ceil(self.draggedBorderMarker.y/self.tileSize+markerOffset2.y-0.5)
+		if self.minX > self.maxX - 3 then
+			self.minX = self.maxX - 3
+		end
+		if self.maxY < self.minY + 3 then
+			self.maxY = self.minY + 3
+		end
+	elseif self.draggedBorderMarker == self.borderMarkers[3] then
+		self.maxX = math.ceil(self.draggedBorderMarker.x/self.tileSize+markerOffset3.x-0.5)
+		self.minY = math.ceil(self.draggedBorderMarker.y/self.tileSize+markerOffset3.y-0.5)
+		if self.maxX < self.minX + 3 then
+			self.maxX = self.minX + 3
+		end
+		if self.minY > self.maxY - 3 then
+			self.minY = self.maxY - 3
+		end
+	elseif self.draggedBorderMarker == self.borderMarkers[4] then
+		self.maxX = math.ceil(self.draggedBorderMarker.x/self.tileSize+markerOffset4.x-0.5)
+		self.maxY = math.ceil(self.draggedBorderMarker.y/self.tileSize+markerOffset4.y-0.5)
+		if self.maxX < self.minX + 3 then
+			self.maxX = self.minX + 3
+		end
+		if self.maxY < self.minY + 3 then
+			self.maxY = self.minY + 3
+		end
 	end
 	self:updateBorder()
 	self.draggedBorderMarker = nil
@@ -1294,6 +1377,11 @@ end
 
 function EditorMap:drawBoundings()
 	love.graphics.polygon( "line", self.border )
+	if self.draggedBorderMarker and self.tempBorder then
+		love.graphics.setColor( 150,255,150, 100 )
+		love.graphics.polygon( "line", self.tempBorder )
+		love.graphics.setColor( 255,255,255, 255 )
+	end
 	for i = 1, 4 do
 		love.graphics.draw( self.borderMarkers[i].img, self.borderMarkers[i].x,
 			self.borderMarkers[i].y )

@@ -1,9 +1,6 @@
 -------------------------------------
 -- Level-editor main interface:
 -------------------------------------
--- load
--- save
--- upload
 
 local editor = {}
 
