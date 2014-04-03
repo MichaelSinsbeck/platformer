@@ -141,7 +141,7 @@ function Panel:addNextButton( pageNumber )
 			'LERightOff',
 			'LERightOn',
 			'LERightHover',
-			"Go to next page", nil, nil, true )
+			"Go to next page", nil, true )
 	table.insert( self.pages[pageNumber], c )
 end
 
@@ -154,7 +154,7 @@ function Panel:addPrevButton( pageNumber )
 			'LELeftOff',
 			'LELeftOn',
 			'LELeftHover',
-			"Go to previous page", nil, nil, true )
+			"Go to previous page", nil, true )
 	table.insert( self.pages[pageNumber], c )
 end
 
@@ -180,9 +180,9 @@ function Panel:addClickableLabel( x, y, event, width, text, page )
 	table.insert( self.pages[page], c )
 end
 
-function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, centered, shortcut, useMesh)
+function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, shortcut, useMesh)
 	local c = Clickable:new( x+self.x, y+self.y, event,
-						imgOff, imgOn, imgHover, toolTip, centered, shortcut, useMesh )
+						imgOff, imgOn, imgHover, toolTip, shortcut, useMesh )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
@@ -192,8 +192,8 @@ function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page
 	table.insert( self.pages[page], c )
 end
 
-function Panel:addClickableObject( x, y, event, obj, toolTip, page, centered )
-	local c = Clickable:newFromObject( x+self.x, y+self.y, event, obj, toolTip, centered )
+function Panel:addClickableObject( x, y, event, obj, toolTip, page )
+	local c = Clickable:newFromObject( x+self.x, y+self.y, event, obj, toolTip )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
@@ -203,8 +203,8 @@ function Panel:addClickableObject( x, y, event, obj, toolTip, page, centered )
 	table.insert( self.pages[page], c )
 end
 
-function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, page, centered )
-	local c = Clickable:newBatch( x+self.x, y+self.y, event, batch, width, height, toolTip, centered )
+function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, page )
+	local c = Clickable:newBatch( x+self.x, y+self.y, event, batch, width, height, toolTip )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}

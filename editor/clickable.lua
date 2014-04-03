@@ -31,7 +31,7 @@ local Clickable = {}
 Clickable.__index = Clickable
 local PADDING = 5	-- padding around labeled buttons
 
-function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered, shortcut, useMesh )
+function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut, useMesh )
 	local o = {}
 	setmetatable(o, self)
 
@@ -56,10 +56,6 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, centered,
 
 	o.x = x or 0
 	o.y = y or 0
-	if centered then
-		o.x = o.x - o.width/2
-		o.y = o.y - o.height/2
-	end
 
 	-- for collision checking:
 	o.minX = x*Camera.scale - 0.5 * o.width
@@ -186,15 +182,16 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 end
 
 function Clickable:draw()
+	if self.selected then
+		love.graphics.rectangle( "line", self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
+		--love.graphics.draw( editor.images.highlight,
+		--	(self.x)*Camera.scale-self.width/2+dX,
+		--	(self.y)*Camera.scale-self.height/2+dY)
+	end
 	love.graphics.setColor(255,255,255,255)
 	if self.vis then
 		local iW, iH = editor.images.highlight:getWidth(), editor.images.highlight:getHeight()
 		local dX, dY = (self.width-iW)*0.5, (self.height-iH)*0.5
-		if self.selected then
-			love.graphics.draw( editor.images.highlight,
-				(self.x)*Camera.scale-self.width/2+dX,
-				(self.y)*Camera.scale-self.height/2+dY)
-		end
 		for k = 1, #self.vis do
 			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)
 		end
