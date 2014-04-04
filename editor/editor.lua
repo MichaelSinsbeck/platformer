@@ -361,7 +361,7 @@ function editor.start()
 	editor.currentTool = "pen"
 	editor.currentGround = editor.groundList[1]
 	editor.currentBackground = editor.backgroundList[1]
-	editor.currentBgObject = editor.bgObjectList[1]
+	--editor.currentBgObject = editor.bgObjectList[1]
 	groundPanel.pages[0][1]:setSelected( true )
 	backgroundPanel.pages[0][1]:setSelected( true )
 
@@ -402,11 +402,6 @@ function editor.createBgObjectPanel()
 			currentCategory = obj.category_major
 		end
 
-		local event = function()
-			editor.currentBgObject = obj
-			bgObjectPanel.visible = false
-		end
-
 		local bBox = obj.bBox
 
 		-- Is this object higher than the others of this row?
@@ -419,24 +414,91 @@ function editor.createBgObjectPanel()
 			x = BORDER_PADDING
 			maxY = -math.huge
 		else
+			if x + bBox.maxX*8 > panelWidth then
+				-- add the maximum height of the obejcts in this row, then continue:
+				y = y + maxY*8 + PADDING
+				if y + bBox.maxY*8 + 8 > panelHeight then
+					y = BORDER_PADDING
+					page = page +1
+				end
+				x = BORDER_PADDING
 
-		if x + bBox.maxX*8 > panelWidth then
-			-- add the maximum height of the obejcts in this row, then continue:
-			y = y + maxY*8 + PADDING
-			if y + bBox.maxY*8 + 8 > panelHeight then
-				y = BORDER_PADDING
-				page = page +1
+				maxY = -math.huge
 			end
-			x = BORDER_PADDING
-
-			maxY = -math.huge
 		end
-	end
 
-		bgObjectPanel:addBatchClickable( x, y, event, obj.batch, bBox.maxX*8, bBox.maxY*8, obj.tag, page )
+		local event = function()
+		end
+
+		bgObjectPanel:addBatchClickable( x, y, event, obj, bBox.maxX*8, bBox.maxY*8, obj.tag, page )
 
 		x = x + bBox.maxX*8 + PADDING
 	end
+end
+
+function editor.closeBgObjectPanel()
+	bgObjectPanel.visible = false
+	local selected = bgObjectPanel:getSelected()
+	editor.currentBgObjects = {}
+	for k, p in pairs( selected ) do
+		table.insert( editor.currentBgObjects, {x=p.x, y=p.y, obj=p.obj} )
+	end
+	print("selected:", #editor.currentBgObjects )
+
+	editor.sortCurrentBgObjects()
+end
+
+-- This function calculates tile offsets for multiple selected
+-- background objects:
+function editor.sortCurrentBgObjects()
+	local found = true
+	local currentTileX, currentTileY = 0, 0
+
+	-- sort by x:
+	repeat
+		found = false
+		local minX = math.huge
+	
+		-- out of all remaining tiles, find the ones which are
+		-- furthest to the left:
+		for k, o in pairs( editor.currentBgObjects ) do
+			if not o.tileX then
+				minX = math.min( minX, o.x )
+				found = true
+			end
+		end
+		
+		-- if any remaining tiles were found, then all the ones
+		-- which have the same x value as the lowest one should
+		-- be added to the current column.
+		for k, o in pairs( editor.currentBgObjects ) do
+			if minX == o.x then
+				o.tileX = currentTileX
+			end
+		end
+		currentTileX = currentTileX + 1
+	until found == false
+
+	-- sort by y:
+	repeat
+		found = false
+		local minY = math.huge
+		
+		for k, o in pairs( editor.currentBgObjects ) do
+			if not o.tileY then
+				minY = math.min( minY, o.y )
+				found = true
+			end
+		end
+
+		for k, o in pairs( editor.currentBgObjects ) do
+			if minY == o.y then
+				o.tileY = currentTileY
+			end
+		end
+		currentTileY = currentTileY + 1
+	until found == false
+
 end
 
 function editor.createObjectPanel()
@@ -855,10 +917,14 @@ function editor:mousepressed( button, x, y )
 			end
 		elseif bgObjectPanel.visible then
 			mouseOnCanvas = false
-			if bgObjectPanel:collisionCheck(x, y) then
-				bgObjectPanel:click( x, y, button )
+			if bgObjectPanel:collisionCheck(x, y) and button == "l" then
+				bgObjectPanel:addToSelectionClick( x, y, button )
+				--[[else
+					bgObjectPanel:click( x, y, button )
+				end]]
 			else
-				bgObjectPanel.visible = false
+				--bgObjectPanel.visible = false
+				editor.closeBgObjectPanel()
 				panelRemoved = true
 			end
 		elseif objectPanel.visible then
@@ -979,9 +1045,11 @@ function editor:useTool( tileX, tileY, button )
 
 		end
 		self.lastClickX, self.lastClickY = tileX, tileY
-	elseif self.currentTool == "bgObject" and self.currentBgObject then
+	elseif self.currentTool == "bgObject" and self.currentBgObjects then
 		if button == "l" then
-			map:addBgObject( tileX, tileY, self.currentBgObject )
+			for k, v in pairs( self.currentBgObjects ) do
+				map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
+			end
 		elseif button == "r" then
 			if not map:removeObjectAt( tileX, tileY ) then
 				map:removeBgObjectAt( tileX, tileY )
@@ -1095,8 +1163,9 @@ function editor.keypressed( key, repeated )
 
 
 	if key == KEY_CLOSE and bgObjectPanel.visible then
-		bgObjectPanel.visible = false
-		editor.currentBgObject = editor.currentBgObject or editor.bgObjectList[1]
+		--bgObjectPanel.visible = false
+		editor.closeBgObjectPanel()
+		--editor.currentBgObjects = editor.currentBgObject or editor.bgObjectList[1]
 	--elseif key == KEY_PEN then
 	--	editor.setTool("pen")
 	--elseif key == KEY_STAMP then
@@ -1165,8 +1234,12 @@ function editor:draw()
 		love.graphics.setColor(0,0,0,128)
 		local rX = math.floor(wX/(tileSize))*tileSize
 		local rY = math.floor(wY/(tileSize))*tileSize
-		if self.currentBgObject and self.currentTool == "bgObject" then
-			love.graphics.draw( self.currentBgObject.batch, rX, rY)
+		if self.currentBgObjects and self.currentTool == "bgObject" then
+			for k, v in pairs(self.currentBgObjects) do
+				love.graphics.draw( v.obj.batch,
+						rX + v.tileX*tileSize,
+						rY + v.tileY*tileSize)
+			end
 		elseif self.currentObject and self.currentTool == "object" then
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
 			local w, h = self.currentObject.width, self.currentObject.height
@@ -1353,9 +1426,7 @@ function editor.loadFileList()
 	loadPanel:addLabel( 8, 8, "Load file:" )
 
 	local x, y = 14,14
-	local page = 1
-	for k, v in ipairs(list) do
-		if v:match("(.*%.dat)$") then
+	local page = 1 for k, v in ipairs(list) do if v:match("(.*%.dat)$") then
 			loadPanel:addClickableLabel( x, y,
 				function()
 					editor.loadFile( v )
@@ -1394,7 +1465,6 @@ function editor.saveFileStart()
 		"LEAcceptOn",
 		"LEAcceptHover",
 		"Cancel", nil, "return", true )
-
 
 	savePanel:addLabel( 8, 8, "Level name:" )
 	savePanel:addLabel( 8, 20, "Short description:" )

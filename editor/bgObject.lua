@@ -77,7 +77,6 @@ function BgObject:new( name, tileset, tileList, cat_major, cat_minor )
 	o.tileArray = {}
 	o.coordsArray = {}
 
-
 	o.category_major = cat_major or CATEGORY_MISC
 	o.category_minor = cat_minor or ""
 

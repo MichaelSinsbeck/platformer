@@ -203,8 +203,8 @@ function Panel:addClickableObject( x, y, event, obj, toolTip, page )
 	table.insert( self.pages[page], c )
 end
 
-function Panel:addBatchClickable( x, y, event, batch, width, height, toolTip, page )
-	local c = Clickable:newBatch( x+self.x, y+self.y, event, batch, width, height, toolTip )
+function Panel:addBatchClickable( x, y, event, obj, width, height, toolTip, page )
+	local c = Clickable:newBatch( x+self.x, y+self.y, event, obj, width, height, toolTip )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
@@ -334,7 +334,7 @@ function Panel:update( dt )
 	end
 end
 
-function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
+function Panel:click( mouseX, mouseY, clicked, msgBoxActive, addToSelection )
 
 	if clicked then
 		if self.activeInput then
@@ -351,25 +351,41 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 	-- this gets set to true if the click hit a clickable on this panel:
 	local hitButton = false
 	local hit
+	local wasSelected
 	for k,button in ipairs( self.pages[0] ) do
+		wasSelected = button.selected
+		if not addToSelection then
+			button:setSelected( false )
+		end
 		hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
 		if hit then
 			--[[if self.highlightSelected then
 				self:disselectAll()
 				button:setSelected(true)
 			end]]
+			-- clicking a selected button removes the selection:
+			if addToSelection and wasSelected then
+				button:setSelected( false )
+			end
 			hitButton = true
 		end
 	end
 	
 	if self.pages[self.selectedPage] then
 		for k,button in ipairs( self.pages[self.selectedPage] ) do
+			wasSelected = button.selected
+			if not addToSelection then
+				button:setSelected( false )
+			end
 			hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
 			if hit then
 				--[[if self.highlightSelected then
 					self:disselectAll()
 					button:setSelected(true)
 				end]]
+				if addToSelection and wasSelected then
+					button:setSelected( false )
+				end
 				hitButton = true
 			end
 		end
@@ -391,6 +407,23 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 	return hitButton
 end
 
+function Panel:addToSelectionClick( x, y, button )
+	self:click( x, y, button, nil, true )
+end
+
+function Panel:boxSelect( startX, startY, endX, endY )
+end
+
+function Panel:getSelected()
+	local sel = {}
+	for k, b in pairs(self.pages[0]) do
+		if b.selected and b.obj then table.insert( sel, b ) end
+	end
+	for k, b in pairs(self.pages[self.selectedPage]) do
+		if b.selected and b.obj then table.insert( sel, b ) end
+	end
+	return sel
+end
 
 function Panel:collisionCheck( x, y )
 	--[[return x/Camera.scale > self.x and

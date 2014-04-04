@@ -151,11 +151,14 @@ function Clickable:newLabel( x, y, event, width, text, font )
 	return o
 end
 
-function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centered )
+function Clickable:newBatch( x, y, event, obj, width, height, toolTip )
 	local o = {}
 	setmetatable(o, self)
 
-	o.batch = batch
+	o.obj = obj
+
+	o.batch = obj.batch
+
 	o.toolTip = toolTip  or ""
 
 	-- react when mouse is in the area:
@@ -163,10 +166,6 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 	
 	o.x = x or 0
 	o.y = y or 0
-	if centered then
-		o.x = o.x - o.width/2
-		o.y = o.y - o.height/2
-	end
 
 	-- for collision checking:
 	o.minX = x*Camera.scale
@@ -199,6 +198,9 @@ function Clickable:draw()
 			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
 		end
 	elseif self.batch then
+		if self.selected then
+			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
+		end
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
 	elseif self.text then
 		if self.active == "off" then
@@ -237,18 +239,17 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 			self:setAnim(self.imgOff)
 		end
 	else
-		self:setSelected(false)
 		if self:collisionCheck( mouseX, mouseY ) then
 			editor.setToolTip( self.toolTip )
 			if clicked then
 				-- new click?
 				--if self.active ~= "click" then
+					self:setSelected( true )	-- IMPORTANT! set to selected before running event!
 					-- if new click, run the event:
 					if self.event then
 						self.event()
 					end
 					self.active = "click"
-					self:setSelected( true )
 
 					--[[if self.imgOn then
 						self:setAnim(self.imgOn)
@@ -272,16 +273,17 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 	return false
 end
 
+local count = 0
+
 function Clickable:setSelected( bool )
 	self.selected = bool
 	if self.selected then
 		self:setAnim(self.imgHover)
-
-					print("selected!")
 	else
 		self:setAnim(self.imgOff)
-					print("unselected")
 	end
+	print("selected:", self.selected)
+	count = count + 1
 end
 
 function Clickable:collisionCheck( x, y )
