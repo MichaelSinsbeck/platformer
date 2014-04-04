@@ -1,7 +1,7 @@
 msgBox = {}
 
 function msgBox:new( msg, eventAccept, eventDecline )
-	--[[if msgBox.active then
+	--[[if msgBox.visible then
 		msgBox:delete()
 	end]]
 	msgBox.msg = string.lower(msg)
@@ -15,8 +15,7 @@ function msgBox:new( msg, eventAccept, eventDecline )
 
 	msgBox.eventDecline = function()
 		msgBox:delete() -- must be called before event, in case event creates new message box!
-		if eventDecline then
-			eventDecline()
+		if eventDecline then eventDecline()
 		end
 	end
 
@@ -36,15 +35,14 @@ function msgBox:new( msg, eventAccept, eventDecline )
 				'LEAcceptOff',
 				'LEAcceptOn',
 				'LEAcceptHover',
-				'Accept', nil, nil, 'return', true )
+				'Accept', nil, 'return', true )
 	msgBox.panel:addClickable( 28, textHeight/Camera.scale + 16, msgBox.eventDecline,
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
-				'Decline', nil, nil, 'escape', true )
+				'Decline', nil, 'escape', true )
 
-	msgBox.active = true
-
+	msgBox.visible = true
 end
 
 function msgBox:collisionCheck( x, y )
@@ -56,7 +54,7 @@ function msgBox:click( x, y, clicked )
 end
 
 function msgBox:delete()
-	msgBox.active = false
+	msgBox.visible = false
 end
 
 function msgBox:update( dt )

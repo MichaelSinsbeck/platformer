@@ -166,7 +166,7 @@ function editor.start()
 
 	local toolPanelWidth = 10*9
 	toolPanel = Panel:new( 15, love.graphics.getHeight()/Camera.scale-40,
-							 toolPanelWidth, 16, true )
+							 toolPanelWidth, 16 )
 	local x,y = 20,15
 	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
@@ -255,7 +255,7 @@ function editor.start()
 				
 	-- Panel for choosing the ground type:
 	local w = 160
-	groundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32, true )
+	groundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
 	x,y = 20, 13
 
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
@@ -315,7 +315,7 @@ function editor.start()
 				"draw brown spikes", nil, "8" )
 
 	-- Panel for choosing the background type:
-	backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32, true )
+	backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
 	x,y = 20, 13
 
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
@@ -362,11 +362,13 @@ function editor.start()
 	editor.currentGround = editor.groundList[1]
 	editor.currentBackground = editor.backgroundList[1]
 	editor.currentBgObject = editor.bgObjectList[1]
+	groundPanel.pages[0][1]:setSelected( true )
+	backgroundPanel.pages[0][1]:setSelected( true )
 
 	love.graphics.setPointStyle( "smooth" )
 	love.graphics.setPointSize( 6 )
 	
-	panelsWithShortcuts = {toolPanel, menuPanel, propertiesPanel}
+	panelsWithShortcuts = {toolPanel, menuPanel, propertiesPanel, groundPanel, backgroundPanel}
 
 	editor.loadFile()
 end
@@ -488,17 +490,7 @@ function editor:update( dt )
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 
-	--[[
-	if map.selectedBgObject and editBgPanel.visible then
-		local ex, ey = cam:worldToScreen( map.selectedBgObject.drawX,
-							map.selectedBgObject.drawY + map.selectedBgObject.height )
-		editBgPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
-	elseif map.selectedObject and editPanel.visible then
-		local ex, ey = cam:worldToScreen( map.selectedObject.editorX,
-							map.selectedObject.editorY + map.selectedObject.height )
-		editPanel:moveTo( ex/(Camera.scale), ey/(Camera.scale) + 3 )
-	end]]
-	local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+	local hit = ( msgBox.visible and msgBox:collisionCheck( x, y ) ) or
 				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
 				( savePanel.visible and savePanel:collisionCheck( x, y ) ) or
 				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
@@ -506,8 +498,6 @@ function editor:update( dt )
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
 				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
-				--( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
-				--( editPanel.visible and editPanel:collisionCheck(x, y) ) or
 				( propertiesPanel.visible and propertiesPanel:collisionCheck(x, y) ) or
 				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
 
@@ -527,7 +517,7 @@ function editor:update( dt )
 	self.shift = love.keyboard.isDown("lshift", "rshift")
 	self.ctrl = love.keyboard.isDown("lctrl", "rctrl")
 
-	if self.mouseOnCanvas and not msgBox.active then
+	if self.mouseOnCanvas and not msgBox.visible then
 		if self.drawing then
 			if tileX ~= self.lastTileX or tileY ~= self.lastTileY then
 				if math.abs(tileX - self.lastTileX) > 1 or
@@ -588,9 +578,9 @@ function editor:update( dt )
 			end
 		end
 		self.lastTileX, self.lastTileY = tileX, tileY
-	else
+	--else
 		-- mouse did hit a panel? Then check for a click:
-		local hit = ( msgBox.active and msgBox:click( x, y, nil ) ) or
+		--[[local hit = ( msgBox.active and msgBox:click( x, y, nil ) ) or
 			( loadPanel.visible and loadPanel:click( x, y, nil, msgBox.active ) ) or
 			( savePanel.visible and savePanel:click( x, y, nil, msgBox.active ) ) or
 			( menuPanel.visible and menuPanel:click( x, y, nil, msgBox.active ) ) or
@@ -601,7 +591,7 @@ function editor:update( dt )
 			--( editPanel.visible and editPanel:click( x, y, false) ) or 
 			( bgObjectPanel.visible and bgObjectPanel:click( x, y, nil, msgBox.active ) ) or
 			( propertiesPanel.visible and propertiesPanel:click( x, y, nil, msgBox.active ) ) or
-			( objectPanel.visible and objectPanel:click( x, y, nil, msgBox.active ) )
+			( objectPanel.visible and objectPanel:click( x, y, nil, msgBox.active ) )]]
 	end
 
 	if self.toolTip.text == "" and self.currentTool and not hit then
@@ -613,6 +603,7 @@ function editor:update( dt )
 	menuPanel:update( dt )
 	toolPanel:update( dt )
 	groundPanel:update( dt )
+	backgroundPanel:update( dt )
 	--editBgPanel:update( dt )
 	--editPanel:update( dt )
 	propertiesPanel:update( dt )
@@ -622,7 +613,7 @@ function editor:update( dt )
 	if savePanel.visible then
 		savePanel:update( dt )
 	end
-	if msgBox.active then
+	if msgBox.visible then
 		msgBox:update( dt )
 	end
 	if objectPanel.visible then
@@ -633,6 +624,7 @@ function editor:update( dt )
 	end
 end
 
+--[[
 function editor:mousepressed( button, x, y )
 	if button == "m" then
 		cam:setMouseAnchor()
@@ -644,18 +636,36 @@ function editor:mousepressed( button, x, y )
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
 		local tileY = math.floor(wY/(Camera.scale*8))
-		local hit = ( msgBox.active and msgBox:collisionCheck( x, y ) ) or
+		local preventDrawing
+
+		local hit = ( msgBox.visible and msgBox:collisionCheck( x, y ) ) or
 				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
 				( savePanel.visible and savePanel:collisionCheck( x, y ) ) or
 				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
 				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
 				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
 				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
-				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
 				--( editBgPanel.visible and editBgPanel:collisionCheck(x, y) ) or
 				--( editPanel.visible and editPanel:collisionCheck(x, y) ) or
 				( propertiesPanel.visible and propertiesPanel:collisionCheck(x, y) ) or
 				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
+
+		if bgObjectPanel.visible then
+			preventDrawing = true
+			if bgObjectPanel:collisionCheck(x, y) then
+				hit = true
+			else
+				bgObjectPanel.visible = false
+			end
+		end
+		if objectPanel.visible then
+			preventDrawing = true
+			if objectPanel:collisionCheck(x, y) then
+				hit = true
+			else
+				objectPanel.visible = false
+			end
+		end
 
 		if not hit then
 			if map:selectBorderMarker( wX, wY ) then
@@ -663,7 +673,7 @@ function editor:mousepressed( button, x, y )
 			end
 		end
 
-		local mouseOnCanvas = not hit
+		local mouseOnCanvas = (not hit) and (not preventDrawing)
 
 		if mouseOnCanvas and not msgBox.active and not loadPanel.visible and not savePanel.visible then
 			if self.currentTool == "pen" then
@@ -799,11 +809,6 @@ function editor:mousepressed( button, x, y )
 					-- start erasing
 					self.erasing = true
 					-- force to erase one tile:
-					--[[local tX, tY = math.floor(tileX-0.5), math.floor(tileY-0.5)
-					map:eraseBackgroundTile( tX, tY, true )
-					map:eraseBackgroundTile( tX+1, tY, true )
-					map:eraseBackgroundTile( tX, tY+1, true )
-					map:eraseBackgroundTile( tX+1, tY+1, true )]]
 					map:eraseBackgroundTile( tileX, tileY, true )
 				end
 				self.lastClickX, self.lastClickY = tileX, tileY
@@ -814,8 +819,208 @@ function editor:mousepressed( button, x, y )
 			end
 		end
 	end
+end]]
+
+function editor:mousepressed( button, x, y )
+	if button == "m" then
+		cam:setMouseAnchor()
+	elseif button == "wu" then
+		cam:zoomIn()
+	elseif button == "wd" then
+		cam:zoomOut()
+	elseif button == "l" or button == "r" then
+		
+		local wX, wY = cam:screenToWorld( x, y )
+		local tileX = math.floor(wX/(Camera.scale*8))
+		local tileY = math.floor(wY/(Camera.scale*8))
+
+		local mouseOnCanvas = true
+		local panelRemoved = false
+
+		-- Following panels are mutually exclusive:
+		if msgBox.visible then
+			mouseOnCanvas = false
+			if msgBox:collisionCheck(x, y) then
+				msgBox:click( x, y, button )
+			end
+		elseif loadPanel.visible then
+			mouseOnCanvas = false
+			if loadPanel:collisionCheck(x, y) then
+				loadPanel:click( x, y, button )
+			end
+		elseif savePanel.visible then
+			mouseOnCanvas = false
+			if savePanel:collisionCheck(x, y) then
+				savePanel:click( x, y, button )
+			end
+		elseif bgObjectPanel.visible then
+			mouseOnCanvas = false
+			if bgObjectPanel:collisionCheck(x, y) then
+				bgObjectPanel:click( x, y, button )
+			else
+				bgObjectPanel.visible = false
+				panelRemoved = true
+			end
+		elseif objectPanel.visible then
+			mouseOnCanvas = false
+			if objectPanel:collisionCheck(x, y) then
+				objectPanel:click( x, y, button )
+			else
+				objectPanel.visible = false
+				panelRemoved = true
+			end
+		end
+
+		if mouseOnCanvas or panelRemoved then
+			if menuPanel.visible then
+				if menuPanel:collisionCheck(x, y) then
+					menuPanel:click( x, y, button )
+					mouseOnCanvas = false
+				end
+			end
+			if toolPanel.visible then
+				if toolPanel:collisionCheck(x, y) then
+					toolPanel:click( x, y, button )
+					mouseOnCanvas = false
+				end
+			end
+			if groundPanel.visible then
+				if groundPanel:collisionCheck(x, y) then
+					groundPanel:click( x, y, button )
+					mouseOnCanvas = false
+				end
+			end
+			if backgroundPanel.visible then
+				if backgroundPanel:collisionCheck(x, y) then
+					backgroundPanel:click( x, y, button )
+					mouseOnCanvas = false
+				end
+			end
+			if propertiesPanel.visible then
+				if propertiesPanel:collisionCheck(x, y) then
+					propertiesPanel:click( x, y, button )
+					mouseOnCanvas = false
+				end
+			end
+		end
+
+		if mouseOnCanvas then
+			if map:selectBorderMarker( wX, wY ) then
+				mouseOnCanvas = false
+			end
+		end
+
+		if mouseOnCanvas then
+			self:useTool( tileX, tileY, button )
+		end
+	end
 end
 
+function editor:useTool( tileX, tileY, button )
+	if self.currentTool == "pen" then
+		if self.shift and self.lastClickX and self.lastClickY then
+			-- draw a line
+			if button == "l" then
+				map:line( tileX, tileY,
+				self.lastClickX, self.lastClickY, false,
+				function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
+			elseif button == "r" then
+				map:line( tileX, tileY,
+				self.lastClickX, self.lastClickY, false,
+				function(x, y) map:eraseGroundTile(x, y, true ) end )
+			end
+		elseif self.ctrl then
+			-- fill the area
+			if button == "l" then
+				map:startFillGround( tileX, tileY, "set", self.currentGround )
+			elseif button == "r" then
+				map:startFillGround( tileX, tileY, "erase" )
+			end
+		else
+			if button == "l" then
+				-- paint:
+				self.drawing = true
+				-- force to draw one tile:
+				map:setGroundTile( tileX, tileY, self.currentGround, true )
+			elseif button == "r" then
+				-- start erasing
+				self.erasing = true
+				-- force to erase one tile:
+				map:eraseGroundTile( tileX, tileY, true )
+			end
+		end
+		self.lastClickX, self.lastClickY = tileX, tileY
+	elseif self.currentTool == "bgPen" then
+		if self.shift and self.lastClickX and self.lastClickY then
+			-- draw a line
+			if button == "l" then
+				map:line( tileX, tileY,
+				self.lastClickX, self.lastClickY, false,
+				function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
+			elseif button == "r" then
+				map:line( tileX, tileY,
+				self.lastClickX, self.lastClickY, false,
+				function(x, y) map:eraseBackgroundTile(x, y, true ) end )
+			end
+		elseif self.ctrl then
+			if button == "l" then
+				map:startFillBackground( tileX, tileY, "set", self.currentBackground )
+			elseif button == "r" then
+				map:startFillBackground( tileX, tileY, "erase" )
+			end
+		else
+			if button == "l" then
+				self.drawing = true
+				map:setBackgroundTile( tileX, tileY, self.currentBackground, true )
+			elseif button == "r" then
+				self.erasing = true
+				map:eraseBackgroundTile( tileX, tileY, true )
+			end
+
+		end
+		self.lastClickX, self.lastClickY = tileX, tileY
+	elseif self.currentTool == "bgObject" and self.currentBgObject then
+		if button == "l" then
+			map:addBgObject( tileX, tileY, self.currentBgObject )
+		elseif button == "r" then
+			if not map:removeObjectAt( tileX, tileY ) then
+				map:removeBgObjectAt( tileX, tileY )
+			end
+		end
+	elseif self.currentTool == "object" and self.currentObject then
+		if button == "l" then
+			map:addObject( tileX, tileY, self.currentObject.tag )
+		elseif button == "r" then
+			if not map:removeObjectAt( tileX, tileY ) then
+				map:removeBgObjectAt( tileX, tileY )
+			end
+		end
+	elseif self.currentTool == "edit" then
+		if button == "l" then
+			map:selectNoObject()
+			map:selectNoBgObject()
+			propertiesPanel.visible = false
+			--editPanel.visible = false
+			--editBgPanel.visible = false
+			if map:selectObjectAt( tileX, tileY ) then
+				--editPanel.visible = true
+				self.dragging = true
+				editor.createPropertiesPanel()
+			elseif map:selectBgObjectAt( tileX, tileY ) then
+				--editBgPanel.visible = true
+				self.dragging = true
+				editor.createPropertiesPanel()
+				--else
+				--editBgPanel.visible = false
+				--editPanel.visible = false
+			end
+		elseif button == "r" then
+			if not map:removeObjectAt( tileX, tileY ) then
+				map:removeBgObjectAt( tileX, tileY )
+			end
+		end
+	end
+end
 function editor:mousereleased( button, x, y )
 	if button == "m" then
 		cam:releaseMouseAnchor()
@@ -865,7 +1070,7 @@ function editor.keypressed( key, repeated )
 	end
 
 	local panelsToCheck = panelsWithShortcuts	
-	if msgBox.active then
+	if msgBox.visible then
 		panelsToCheck = {msgBox.panel}
 	elseif loadPanel.visible then
 		panelsToCheck = {loadPanel}
@@ -878,6 +1083,10 @@ function editor.keypressed( key, repeated )
 			for k, v in pairs(panel.pages[0]) do
 				if v.shortcut and v.shortcut == key then
 					v.event()
+
+					panel:disselectAll()
+					v:setSelected( true )
+					break
 				end
 			end
 		end
@@ -957,7 +1166,7 @@ function editor:draw()
 		local rX = math.floor(wX/(tileSize))*tileSize
 		local rY = math.floor(wY/(tileSize))*tileSize
 		if self.currentBgObject and self.currentTool == "bgObject" then
-			love.graphics.draw( self.currentBgObject.batch, rX - tileSize, rY - tileSize)
+			love.graphics.draw( self.currentBgObject.batch, rX, rY)
 		elseif self.currentObject and self.currentTool == "object" then
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
 			local w, h = self.currentObject.width, self.currentObject.height
@@ -1028,7 +1237,7 @@ function editor:draw()
 		propertiesPanel:draw()
 	end
 
-	if msgBox.active then
+	if msgBox.visible then
 		msgBox:draw()
 	end
 	
@@ -1140,7 +1349,7 @@ function editor.loadFileList()
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
-		"Cancel", nil, nil, "escape", true )
+		"Cancel", nil, "escape", true )
 	loadPanel:addLabel( 8, 8, "Load file:" )
 
 	local x, y = 14,14
@@ -1175,7 +1384,7 @@ function editor.saveFileStart()
 		"LEDeleteOff",
 		"LEDeleteOn",
 		"LEDeleteHover",
-		"Cancel", nil, nil, "escape", true )
+		"Cancel", nil, "escape", true )
 	savePanel:addClickable( savePanel.width - 22, savePanel.height - 12,
 		function()
 			editor.saveFileAttempt( map.name .. ".dat" )
@@ -1184,7 +1393,7 @@ function editor.saveFileStart()
 		"LEAcceptOff",
 		"LEAcceptOn",
 		"LEAcceptHover",
-		"Cancel", nil, nil, "return", true )
+		"Cancel", nil, "return", true )
 
 
 	savePanel:addLabel( 8, 8, "Level name:" )

@@ -87,7 +87,7 @@ local function wrap( front, back, width )
 	return wLines, cursorX, cursorY
 end
 
-function Panel:new( x, y, width, height, highlightSelected )
+function Panel:new( x, y, width, height )-- highlightSelected )
 	local o = {}
 	setmetatable(o, self)
 
@@ -99,7 +99,7 @@ function Panel:new( x, y, width, height, highlightSelected )
 	o.height = math.ceil(o.height/16)*16
 
 	-- store whether or not the selected buttons of this panel should be highlighted:
-	o.highlightSelected = highlightSelected
+	--o.highlightSelected = highlightSelected
 	
 	-- page[0] always gets drawn!
 	-- Other pages only if selectedPage is set correctly.
@@ -354,10 +354,10 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 	for k,button in ipairs( self.pages[0] ) do
 		hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
 		if hit then
-			if self.highlightSelected then
+			--[[if self.highlightSelected then
 				self:disselectAll()
 				button:setSelected(true)
-			end
+			end]]
 			hitButton = true
 		end
 	end
@@ -366,10 +366,10 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 		for k,button in ipairs( self.pages[self.selectedPage] ) do
 			hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
 			if hit then
-				if self.highlightSelected then
+				--[[if self.highlightSelected then
 					self:disselectAll()
 					button:setSelected(true)
-				end
+				end]]
 				hitButton = true
 			end
 		end
@@ -461,13 +461,13 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 		'LEUpOff',
 		'LEUpOn',
 		'LEUpHover',
-		"Choose next value", nil,nil, nil, true)
+		"Choose next value", nil,nil, true)
 
 	self:addClickable( x + 30, y + 7, increase,
 		'LEDownOff',
 		'LEDownOn',
 		'LEDownHover',
-		"Choose next value", nil,nil, nil, true)
+		"Choose next value", nil,nil, true)
 	
 	property.x = x + self.x
 	property.y = y + self.y

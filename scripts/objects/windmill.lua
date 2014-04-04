@@ -24,11 +24,11 @@ end
 function Windmill:draw()
 	for i=1,self.nWings do
 		local thisAngle = self.angle + i/self.nWings*2*math.pi
-		love.graphics.draw(self.vis[1].img,
-		self.x*myMap.tileSize,
-		self.y*myMap.tileSize,
-		thisAngle,1,1,
-		math.floor(self.ox),math.floor(self.oy))
+			love.graphics.draw(self.vis[1].img,
+			self.x*myMap.tileSize,
+			self.y*myMap.tileSize,
+			thisAngle,1,1,
+			math.floor(self.ox),math.floor(self.oy))
 	end
 end
 

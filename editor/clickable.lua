@@ -182,12 +182,12 @@ function Clickable:newBatch( x, y, event, batch, width, height, toolTip, centere
 end
 
 function Clickable:draw()
-	if self.selected then
-		love.graphics.rectangle( "line", self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
+	--if self.selected then
+	--	love.graphics.rectangle( "line", self.minX, self.minY, self.width, self.height )
 		--love.graphics.draw( editor.images.highlight,
 		--	(self.x)*Camera.scale-self.width/2+dX,
 		--	(self.y)*Camera.scale-self.height/2+dY)
-	end
+	--end
 	love.graphics.setColor(255,255,255,255)
 	if self.vis then
 		local iW, iH = editor.images.highlight:getWidth(), editor.images.highlight:getHeight()
@@ -237,32 +237,35 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 			self:setAnim(self.imgOff)
 		end
 	else
+		self:setSelected(false)
 		if self:collisionCheck( mouseX, mouseY ) then
 			editor.setToolTip( self.toolTip )
 			if clicked then
 				-- new click?
-				if self.active ~= "click" then
+				--if self.active ~= "click" then
 					-- if new click, run the event:
 					if self.event then
 						self.event()
 					end
 					self.active = "click"
-					if self.imgOn then
+					self:setSelected( true )
+
+					--[[if self.imgOn then
 						self:setAnim(self.imgOn)
-					end
+					end]]
 					return true
-				end
+				--end
 			else
-				self.active = "hover"
+				--[[self.active = "hover"
 				if self.imgHover then
 					self:setAnim(self.imgHover)
-				end
+				end]]
 			end
 		else
 			self.active = "off"
-			if self.imgOff then
+			--[[if self.imgOff then
 				self:setAnim(self.imgOff)
-			end
+			end]]
 		end
 	end
 
@@ -271,11 +274,14 @@ end
 
 function Clickable:setSelected( bool )
 	self.selected = bool
-	--[[if self.selected then
-	self:setAnim(self.imgOn)
+	if self.selected then
+		self:setAnim(self.imgHover)
+
+					print("selected!")
 	else
-	self:setAnim(self.imgOff)
-	end]]--
+		self:setAnim(self.imgOff)
+					print("unselected")
+	end
 end
 
 function Clickable:collisionCheck( x, y )
