@@ -135,8 +135,6 @@ function Panel:addNextButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber + 1
 	end
-	print("new:", self.x, self.y, self.height )
-	print("\t", self.x, self.y, self.height )
 	local c = Clickable:new( self.x + self.width - 12, self.y + self.height - 9, ev,
 			'LERightOff',
 			'LERightOn',
@@ -149,7 +147,6 @@ function Panel:addPrevButton( pageNumber )
 	local ev = function()
 		self.selectedPage = pageNumber - 1
 	end
-	print("new:", self.x, self.y, self.height )
 	local c = Clickable:new( self.x + 12, self.y + self.height - 9, ev,
 			'LELeftOff',
 			'LELeftOn',
@@ -339,7 +336,6 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive, addToSelection )
 	if clicked then
 		if self.activeInput then
 			self.activeInput.txt = self.activeInput.front .. self.activeInput.back
-			print(self.activeInput, self.activeInput.returnEvent, self.activeInput.txt )
 			if self.activeInput.returnEvent then
 				self.activeInput.returnEvent( self.activeInput.txt )
 			end

@@ -40,6 +40,9 @@ function EditorMap:new( backgroundList )
 	o.backgroundArray = {}
 	o.tilesToModify = {}
 	o.tilesModifiedThisFrame = 0
+
+	o.selectedBgObjects = {}
+	o.selectedObjects = {}
 	
 	o.tileSize = Camera.scale*8
 
@@ -701,63 +704,93 @@ function EditorMap:removeBgObjectAt( tileX, tileY )
 end
 
 function EditorMap:removeSelectedBgObject()
-	if self.selectedBgObject then
+	if #self.selectedBgObjects > 0 then
 		for k, obj in pairs(self.bgList) do
-			if obj == self.selectedBgObject then
+			for i, selected in pairs(self.selectedBgObjects) do
+			if obj == selected then
 				table.remove( self.bgList, k )
 				break
 			end
 		end
-		self.selectedBgObject.selected = false
-		self.selectedBgObject = nil
+		end
+		for i, selected in pairs( self.selectedBgObjects) do
+			selected.selected = false
+		end
+		self.selectedBgObjects = {}
 	end
 end
 
 function EditorMap:selectBgObjectAt( tileX, tileY )
 
 	-- unselect previously selected objects:
-	self:selectNoBgObject()
+	-- self:selectNoBgObject()
 
 	-- Go through the list backwards and select first object found
 	local obj
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
 		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
-			self.selectedBgObject = obj
+			-- check if the object is already selected. If so, unselect it:
+			--[[for i, o in pairs( self.selectedBgObjects ) do
+				if obj == o then
+					obj.selected = false
+					table.remove( self.selectedBgObjects, i )
+					return true
+				end
+			end]]
+			table.insert( self.selectedBgObjects, obj )
+			print("selected:", #self.selectedBgObjects )
+			local wasAlreadySelected = obj.selected
 			obj.selected = true
 			obj.oX = tileX - obj.x
 			obj.oY = tileY - obj.y
-			return obj
+			return obj, wasAlreadySelected
 		end
 	end
 end
 
+function EditorMap:setBgObjectSelected( obj )
+	table.insert( self.selectedBgObjects, obj )
+	obj.selected = true
+end
+
 function EditorMap:selectNoBgObject()
-	if self.selectedBgObject then
-		self.selectedBgObject.selected = false
-		self.selectedBgObject = nil
+	if #self.selectedBgObjects > 0 then
+		for i, selected in pairs( self.selectedBgObjects ) do
+			selected.selected = false
+		end
+		self.selectedBgObjects = {}
 	end
 end
 
 function EditorMap:dragBgObject( tileX, tileY )
-	if self.selectedBgObject then
-		local obj = self.selectedBgObject
-		obj.x = tileX - obj.oX
-		obj.y = tileY - obj.oY
-		obj.maxX = obj.x + obj.tileWidth +1
-		obj.maxY = obj.y + obj.tileHeight +1
-		obj.drawX = obj.x*self.tileSize
-		obj.drawY = obj.y*self.tileSize
+	if #self.selectedBgObjects > 0 then
+		for k, obj in pairs( self.selectedBgObjects ) do
+			--local obj = self.selectedBgObject
+			obj.x = tileX - obj.oX
+			obj.y = tileY - obj.oY
+			obj.maxX = obj.x + obj.tileWidth +1
+			obj.maxY = obj.y + obj.tileHeight +1
+			obj.drawX = obj.x*self.tileSize
+			obj.drawY = obj.y*self.tileSize
 
-		if obj.x < self.minX or obj.maxX > self.maxX or
-			obj.y < self.minY or obj.maxY > self.maxY then
-			self.minX = math.min(self.minX, obj.x)
-			self.maxX = math.max(self.maxX, obj.maxX)
-			self.minY = math.min(self.minY, obj.y)
-			self.maxY = math.max(self.maxY, obj.maxY)
-			self:updateBorder()
+			if obj.x < self.minX or obj.maxX > self.maxX or
+				obj.y < self.minY or obj.maxY > self.maxY then
+				self.minX = math.min(self.minX, obj.x)
+				self.maxX = math.max(self.maxX, obj.maxX)
+				self.minY = math.min(self.minY, obj.y)
+				self.maxY = math.max(self.maxY, obj.maxY)
+				self:updateBorder()
+			end
 		end
 		return true
+	end
+end
+
+function EditorMap:setBgDragOffset( tileX, tileY )
+	for k, obj in pairs( self.selectedBgObjects ) do
+		obj.oX = tileX - obj.x
+		obj.oY = tileY - obj.y
 	end
 end
 

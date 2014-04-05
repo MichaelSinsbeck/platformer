@@ -427,8 +427,8 @@ function editor.createBgObjectPanel()
 			end
 		end
 
-		local event = function()
-		end
+		-- local event = function()
+		-- end
 
 		bgObjectPanel:addBatchClickable( x, y, event, obj, bBox.maxX*8, bBox.maxY*8, obj.tag, page )
 
@@ -443,7 +443,6 @@ function editor.closeBgObjectPanel()
 	for k, p in pairs( selected ) do
 		table.insert( editor.currentBgObjects, {x=p.x, y=p.y, obj=p.obj} )
 	end
-	print("selected:", #editor.currentBgObjects )
 
 	editor.sortCurrentBgObjects()
 end
@@ -551,6 +550,10 @@ function editor:update( dt )
 	local clicked = love.mouse.isDown("l", "r")
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
+
+	if editor.selectBox then
+		editor.selectBox.eX, editor.selectBox.eY = x, y
+	end
 
 	local hit = ( msgBox.visible and msgBox:collisionCheck( x, y ) ) or
 				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
@@ -1065,8 +1068,10 @@ function editor:useTool( tileX, tileY, button )
 		end
 	elseif self.currentTool == "edit" then
 		if button == "l" then
-			map:selectNoObject()
-			map:selectNoBgObject()
+			if not self.shift then
+				map:selectNoObject()
+				map:selectNoBgObject()
+			end
 			propertiesPanel.visible = false
 			--editPanel.visible = false
 			--editBgPanel.visible = false
@@ -1074,13 +1079,24 @@ function editor:useTool( tileX, tileY, button )
 				--editPanel.visible = true
 				self.dragging = true
 				editor.createPropertiesPanel()
-			elseif map:selectBgObjectAt( tileX, tileY ) then
-				--editBgPanel.visible = true
-				self.dragging = true
-				editor.createPropertiesPanel()
-				--else
-				--editBgPanel.visible = false
-				--editPanel.visible = false
+			else
+				local obj, wasAlreadySelected = map:selectBgObjectAt( tileX, tileY )
+				if obj then
+					--editBgPanel.visible = true
+					self.dragging = true
+					--self.dragStartX, self.dragStarty = tileX, tileY
+
+					map:setBgDragOffset( tileX, tileY )
+
+					editor.createPropertiesPanel()
+					--else
+					--editBgPanel.visible = false
+					--editPanel.visible = false
+				else
+					map:selectNoObject()
+					map:selectNoBgObject()
+					editor.startBoxSelect( love.mouse.getPosition() )
+				end
 			end
 		elseif button == "r" then
 			if not map:removeObjectAt( tileX, tileY ) then
@@ -1089,7 +1105,11 @@ function editor:useTool( tileX, tileY, button )
 		end
 	end
 end
+
 function editor:mousereleased( button, x, y )
+	if editor.selectBox then
+		editor.endBoxSelect( "notAborted" )
+	end
 	if button == "m" then
 		cam:releaseMouseAnchor()
 	elseif button == "l" then
@@ -1101,6 +1121,33 @@ function editor:mousereleased( button, x, y )
 	elseif button == "r" then
 		self.erasing = false
 	end
+end
+
+function editor.startBoxSelect( x, y )
+	editor.selectBox = {sX = x, sY = y, eX = x, eY = y}
+end
+
+function editor.endBoxSelect( aborted )
+	if aborted ~= "aborted" then
+		local wX, wY = cam:screenToWorld( editor.selectBox.sX, editor.selectBox.sY )
+		local sX = math.floor(wX/(Camera.scale*8))
+		local sY = math.floor(wY/(Camera.scale*8))
+		wX, wY = cam:screenToWorld( editor.selectBox.eX, editor.selectBox.eY )
+		local eX = math.floor(wX/(Camera.scale*8))
+		local eY = math.floor(wY/(Camera.scale*8))
+		map:selectNoObject()
+		map:selectNoBgObject()
+		local stepX, stepY = 1, 1
+		if sX > eX then stepX = -1 end
+		if sY > eY then stepY = -1 end
+		for x = sX+stepX, eX-stepX, stepX do
+			for y = sY+stepY, eY-stepY, stepY do
+				print(x, y)
+				map:selectBgObjectAt( x, y )
+			end
+		end
+	end
+	editor.selectBox = nil
 end
 
 local toConvert = {
@@ -1290,6 +1337,14 @@ function editor:draw()
 	elseif editPanel.visible then
 		editPanel:draw()
 	end]]
+	if editor.selectBox then
+		love.graphics.setColor( 255, 255, 255, 20 )
+		love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
+			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+		love.graphics.setColor( 255, 255, 255, 255 )
+		love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
+			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+	end
 
 	toolPanel:draw()
 	menuPanel:draw()
@@ -1336,6 +1391,7 @@ function editor.setTool( tool )
 	backgroundPanel.visible = false
 	if tool == "bgObject" then
 		bgObjectPanel.visible = true
+		bgObjectPanel:disselectAll()
 	elseif tool == "object" then
 		objectPanel.visible = true
 	elseif tool == "pen" then

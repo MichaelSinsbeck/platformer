@@ -282,7 +282,6 @@ function Clickable:setSelected( bool )
 	else
 		self:setAnim(self.imgOff)
 	end
-	print("selected:", self.selected)
 	count = count + 1
 end
 
