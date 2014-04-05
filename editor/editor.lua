@@ -123,7 +123,7 @@ function editor.createPropertiesPanel()
 				y = y + 16
 			end
 		end
-	elseif map.selectedBgObject then
+	elseif #map.selectedBgObjects > 0 then
 		propertiesPanel.visible = true
 		local x, y = 13, 13
 		propertiesPanel:addClickable( x, y, function() map:removeSelectedBgObject()
@@ -921,7 +921,13 @@ function editor:mousepressed( button, x, y )
 		elseif bgObjectPanel.visible then
 			mouseOnCanvas = false
 			if bgObjectPanel:collisionCheck(x, y) and button == "l" then
-				bgObjectPanel:addToSelectionClick( x, y, button )
+				-- bgObjectPanel:addToSelectionClick( x, y, button )
+				if love.keyboard.isDown( "lshift", "rshift" ) then
+					bgObjectPanel:addToSelectionClick( x, y )
+				else
+				bgObjectPanel:click( x, y, button )
+			end
+				editor.startBoxSelect( x, y )
 				--[[else
 					bgObjectPanel:click( x, y, button )
 				end]]
@@ -1107,12 +1113,12 @@ function editor:useTool( tileX, tileY, button )
 end
 
 function editor:mousereleased( button, x, y )
-	if editor.selectBox then
-		editor.endBoxSelect( "notAborted" )
-	end
 	if button == "m" then
 		cam:releaseMouseAnchor()
 	elseif button == "l" then
+		if editor.selectBox then
+			editor.endBoxSelect( "notAborted" )
+		end
 		if map.draggedBorderMarker then
 			map:dropBorderMarker()
 		end
@@ -1129,21 +1135,43 @@ end
 
 function editor.endBoxSelect( aborted )
 	if aborted ~= "aborted" then
-		local wX, wY = cam:screenToWorld( editor.selectBox.sX, editor.selectBox.sY )
-		local sX = math.floor(wX/(Camera.scale*8))
-		local sY = math.floor(wY/(Camera.scale*8))
-		wX, wY = cam:screenToWorld( editor.selectBox.eX, editor.selectBox.eY )
-		local eX = math.floor(wX/(Camera.scale*8))
-		local eY = math.floor(wY/(Camera.scale*8))
-		map:selectNoObject()
-		map:selectNoBgObject()
-		local stepX, stepY = 1, 1
-		if sX > eX then stepX = -1 end
-		if sY > eY then stepY = -1 end
-		for x = sX+stepX, eX-stepX, stepX do
-			for y = sY+stepY, eY-stepY, stepY do
-				print(x, y)
-				map:selectBgObjectAt( x, y )
+		if bgObjectPanel.visible then
+			local sX, sY = editor.selectBox.sX, editor.selectBox.sY
+			local eX, eY = editor.selectBox.eX, editor.selectBox.eY
+			local tileSize = Camera.scale*8
+
+			-- Pretend there was a "click" at multiple coordinates in the
+			-- selected area. The step between the clicks is small enough
+			-- to make sure every tile will be hit at least once:
+			local stepX = tileSize
+			local stepY = tileSize
+			if sX > eX then stepX = -tileSize end
+			if sY > eY then stepY = -tileSize end
+			for x = sX, eX, stepX do
+				for y = sY, eY, stepY do
+					bgObjectPanel:addToSelectionClick( x, y )
+				end
+			end
+		else
+			-- go through all tiles within box and try to select tiles there:
+			local wX, wY = cam:screenToWorld( editor.selectBox.sX, editor.selectBox.sY )
+			local sX = math.floor(wX/(Camera.scale*8))
+			local sY = math.floor(wY/(Camera.scale*8))
+			wX, wY = cam:screenToWorld( editor.selectBox.eX, editor.selectBox.eY )
+			local eX = math.floor(wX/(Camera.scale*8))
+			local eY = math.floor(wY/(Camera.scale*8))
+			map:selectNoObject()
+			map:selectNoBgObject()
+			local stepX, stepY = 1, 1
+			if sX > eX then stepX = -1 end
+			if sY > eY then stepY = -1 end
+			-- Only tiles which are fully IN the box area should be selected.
+			-- This is achieved by adding a 1-tile padding (the +stepX, -stepX etc.):
+			for x = sX+stepX, eX-stepX, stepX do	-- a 1 tile padding
+				for y = sY+stepY, eY-stepY, stepY do
+					print(x, y)
+					map:selectBgObjectAt( x, y )
+				end
 			end
 		end
 	end
@@ -1151,10 +1179,10 @@ function editor.endBoxSelect( aborted )
 end
 
 local toConvert = {
-			"end", "end_air", "end_dirt", "end_fall", "end_spikes", "end_wall",
-		}
-		-- add levels 1 through 21:
-		for k = 1, 9 do
+	"end", "end_air", "end_dirt", "end_fall", "end_spikes", "end_wall",
+}
+-- add levels 1 through 21:
+for k = 1, 9 do
 			table.insert( toConvert, "l0" .. k )
 		end
 		for k = 10, 21 do
@@ -1324,6 +1352,15 @@ function editor:draw()
 			love.graphics.point( sX + 4*Camera.scale, sY+4*Camera.scale )
 			love.graphics.setColor(255,255,255,255)
 		end
+
+		if editor.selectBox then
+			love.graphics.setColor( 255, 255, 255, 20 )
+			love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
+				editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+			love.graphics.setColor( 255, 255, 255, 255 )
+			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
+				editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+		end
 	end
 
 	if DEBUG then
@@ -1337,14 +1374,6 @@ function editor:draw()
 	elseif editPanel.visible then
 		editPanel:draw()
 	end]]
-	if editor.selectBox then
-		love.graphics.setColor( 255, 255, 255, 20 )
-		love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
-			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-		love.graphics.setColor( 255, 255, 255, 255 )
-		love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
-			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-	end
 
 	toolPanel:draw()
 	menuPanel:draw()
@@ -1357,6 +1386,14 @@ function editor:draw()
 		objectPanel:draw()
 	elseif bgObjectPanel.visible then
 		bgObjectPanel:draw()
+		if editor.selectBox then
+			love.graphics.setColor( 255, 255, 255, 20 )
+			love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
+			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+			love.graphics.setColor( 255, 255, 255, 255 )
+			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
+			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+		end
 	elseif groundPanel.visible then
 		groundPanel:draw()
 	elseif backgroundPanel.visible then
@@ -1369,6 +1406,8 @@ function editor:draw()
 		msgBox:draw()
 	end
 	
+
+
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
 	
 	--[[love.graphics.print(wX,10,10)

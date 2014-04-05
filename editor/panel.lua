@@ -348,44 +348,45 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive, addToSelection )
 	local hitButton = false
 	local hit
 	local wasSelected
-	for k,button in ipairs( self.pages[0] ) do
-		wasSelected = button.selected
-		if not addToSelection then
-			button:setSelected( false )
-		end
-		hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
-		if hit then
-			--[[if self.highlightSelected then
-				self:disselectAll()
-				button:setSelected(true)
-			end]]
-			-- clicking a selected button removes the selection:
-			if addToSelection and wasSelected then
-				button:setSelected( false )
-			end
-			hitButton = true
-		end
-	end
-	
-	if self.pages[self.selectedPage] then
-		for k,button in ipairs( self.pages[self.selectedPage] ) do
-			wasSelected = button.selected
-			if not addToSelection then
-				button:setSelected( false )
-			end
-			hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
-			if hit then
-				--[[if self.highlightSelected then
+
+	for i, pageNum in pairs( {0, self.selectedPage } ) do
+		if self.pages[pageNum] then
+			for k,button in ipairs( self.pages[pageNum] ) do
+				wasSelected = button.selected
+				if not addToSelection then
+					button:setSelected( false )
+				end
+				hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
+				if hit then
+					--[[if self.highlightSelected then
 					self:disselectAll()
 					button:setSelected(true)
-				end]]
+					end]]
+					-- clicking a selected button removes the selection:
+					if addToSelection and wasSelected then
+						button:setSelected( false )
+					end
+					hitButton = true
+				end
+			end
+		end
+	end
+
+	--[[if self.pages[self.selectedPage] then
+	for k,button in ipairs( self.pages[self.selectedPage] ) do
+	wasSelected = button.selected
+	if not addToSelection then
+	button:setSelected( false )
+	end
+			hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
+			if hit then
 				if addToSelection and wasSelected then
 					button:setSelected( false )
 				end
 				hitButton = true
 			end
 		end
-	end
+	end]]
 	
 	if not hitButton and clicked then
 		local x, y = mouseX/Camera.scale, mouseY/Camera.scale
@@ -403,11 +404,24 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive, addToSelection )
 	return hitButton
 end
 
-function Panel:addToSelectionClick( x, y, button )
+--[[function Panel:addToSelectionClick( x, y, button )
 	self:click( x, y, button, nil, true )
-end
+end]]
 
-function Panel:boxSelect( startX, startY, endX, endY )
+-- used in box select:
+function Panel:addToSelectionClick( x, y )
+	for i, pageNum in pairs( {0, self.selectedPage} ) do
+		if self.pages[pageNum] then
+			for k,button in ipairs( self.pages[pageNum] ) do
+				if button.obj then
+					hit = button:collisionCheck( x, y )
+					if hit then
+						button:setSelected( true )
+					end
+				end
+			end
+		end
+	end
 end
 
 function Panel:getSelected()
