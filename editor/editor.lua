@@ -1169,7 +1169,6 @@ function editor.endBoxSelect( aborted )
 			-- This is achieved by adding a 1-tile padding (the +stepX, -stepX etc.):
 			for x = sX+stepX, eX-stepX, stepX do	-- a 1 tile padding
 				for y = sY+stepY, eY-stepY, stepY do
-					print(x, y)
 					map:selectBgObjectAt( x, y )
 				end
 			end
@@ -1352,15 +1351,6 @@ function editor:draw()
 			love.graphics.point( sX + 4*Camera.scale, sY+4*Camera.scale )
 			love.graphics.setColor(255,255,255,255)
 		end
-
-		if editor.selectBox then
-			love.graphics.setColor( 255, 255, 255, 20 )
-			love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
-				editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-			love.graphics.setColor( 255, 255, 255, 255 )
-			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
-				editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-		end
 	end
 
 	if DEBUG then
@@ -1386,14 +1376,6 @@ function editor:draw()
 		objectPanel:draw()
 	elseif bgObjectPanel.visible then
 		bgObjectPanel:draw()
-		if editor.selectBox then
-			love.graphics.setColor( 255, 255, 255, 20 )
-			love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
-			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-			love.graphics.setColor( 255, 255, 255, 255 )
-			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
-			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-		end
 	elseif groundPanel.visible then
 		groundPanel:draw()
 	elseif backgroundPanel.visible then
@@ -1406,7 +1388,15 @@ function editor:draw()
 		msgBox:draw()
 	end
 	
-
+		if editor.selectBox then
+			love.graphics.setColor( 255, 255, 255, 20 )
+			love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
+			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+			love.graphics.setColor( 255, 255, 255, 255 )
+			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
+			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+		end
+	
 
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
 	

@@ -741,7 +741,6 @@ function EditorMap:selectBgObjectAt( tileX, tileY )
 			local wasAlreadySelected = obj.selected
 			if not obj.selected then
 			table.insert( self.selectedBgObjects, obj )
-			print("selected:", #self.selectedBgObjects )
 			obj.selected = true
 			obj.oX = tileX - obj.x
 			obj.oY = tileY - obj.y
