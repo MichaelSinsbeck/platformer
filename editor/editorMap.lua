@@ -720,7 +720,7 @@ function EditorMap:removeSelectedBgObject()
 	end
 end
 
-function EditorMap:selectBgObjectAt( tileX, tileY )
+function EditorMap:findBgObjectAt( tileX, tileY )
 
 	-- unselect previously selected objects:
 	-- self:selectNoBgObject()
@@ -738,19 +738,19 @@ function EditorMap:selectBgObjectAt( tileX, tileY )
 					return true
 				end
 			end]]
-			local wasAlreadySelected = obj.selected
+			--[[local wasAlreadySelected = obj.selected
 			if not obj.selected then
-			table.insert( self.selectedBgObjects, obj )
-			obj.selected = true
-			obj.oX = tileX - obj.x
-			obj.oY = tileY - obj.y
-		end
-			return obj, wasAlreadySelected
+				table.insert( self.selectedBgObjects, obj )
+				obj.selected = true
+				obj.oX = tileX - obj.x
+				obj.oY = tileY - obj.y
+			end]]
+			return obj
 		end
 	end
 end
 
-function EditorMap:setBgObjectSelected( obj )
+function EditorMap:selectBgObject( obj )
 	table.insert( self.selectedBgObjects, obj )
 	obj.selected = true
 end

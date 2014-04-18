@@ -1074,10 +1074,10 @@ function editor:useTool( tileX, tileY, button )
 		end
 	elseif self.currentTool == "edit" then
 		if button == "l" then
-			if not self.shift then
+			--[[if not self.shift then
 				map:selectNoObject()
 				map:selectNoBgObject()
-			end
+			end]]
 			propertiesPanel.visible = false
 			--editPanel.visible = false
 			--editBgPanel.visible = false
@@ -1086,10 +1086,19 @@ function editor:useTool( tileX, tileY, button )
 				self.dragging = true
 				editor.createPropertiesPanel()
 			else
-				local obj, wasAlreadySelected = map:selectBgObjectAt( tileX, tileY )
+				local obj = map:findBgObjectAt( tileX, tileY )
 				if obj then
+					if not obj.selected then
+						if not self.shift then	-- only deselect if shift not pressed
+							map:selectNoObject()
+							map:selectNoBgObject()
+						end
+						map:selectBgObject( obj )
+					end
 					--editBgPanel.visible = true
 					self.dragging = true
+					obj.oX = tileX - obj.x
+					obj.oY = tileY - obj.y
 					--self.dragStartX, self.dragStarty = tileX, tileY
 
 					map:setBgDragOffset( tileX, tileY )
@@ -1099,8 +1108,10 @@ function editor:useTool( tileX, tileY, button )
 					--editBgPanel.visible = false
 					--editPanel.visible = false
 				else
-					map:selectNoObject()
-					map:selectNoBgObject()
+					if not self.shift then	-- only deselect if shift not pressed
+						map:selectNoObject()
+						map:selectNoBgObject()
+					end
 					editor.startBoxSelect( love.mouse.getPosition() )
 				end
 			end
@@ -1169,7 +1180,10 @@ function editor.endBoxSelect( aborted )
 			-- This is achieved by adding a 1-tile padding (the +stepX, -stepX etc.):
 			for x = sX+stepX, eX-stepX, stepX do	-- a 1 tile padding
 				for y = sY+stepY, eY-stepY, stepY do
-					map:selectBgObjectAt( x, y )
+					local obj = map:findBgObjectAt( x, y )
+					if obj then
+						map:selectBgObject( obj )
+					end
 				end
 			end
 		end
