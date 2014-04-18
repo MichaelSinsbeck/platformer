@@ -126,25 +126,26 @@ function editor.createPropertiesPanel()
 	elseif #map.selectedBgObjects > 0 then
 		propertiesPanel.visible = true
 		local x, y = 13, 13
-		propertiesPanel:addClickable( x, y, function() map:removeSelectedBgObject()
+		propertiesPanel:addClickable( x, y, function() map:removeSelectedBgObjects()
 			propertiesPanel.visible = false end,
 			'LEDeleteOff',
 			'LEDeleteOn',
 			'LEDeleteHover',
 			"remove", nil, KEY_DELETE, true)
 		x = x + 10
-		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
-			'LELayerUpOff',
-			'LELayerUpOn',
-			'LELayerUpHover',
-			"move up one layer", nil, nil, true)
-		x = x + 10
-		propertiesPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
-			'LELayerDownOff',
-			'LELayerDownOn',
-			'LELayerDownHover',
-			"move down one layer", nil, nil, true)
-
+		if #map.selectedBgObjects == 1 then
+			propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
+				'LELayerUpOff',
+				'LELayerUpOn',
+				'LELayerUpHover',
+				"move up one layer", nil, nil, true)
+				x = x + 10
+			propertiesPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
+				'LELayerDownOff',
+				'LELayerDownOn',
+				'LELayerDownHover',
+				"move down one layer", nil, nil, true)
+		end
 	end
 end
 
@@ -1185,6 +1186,9 @@ function editor.endBoxSelect( aborted )
 						map:selectBgObject( obj )
 					end
 				end
+			end
+			if #map.selectedBgObjects > 0 then
+				editor.createPropertiesPanel()
 			end
 		end
 	end
