@@ -32,11 +32,12 @@ local panelsWithShortcuts
 
 local KEY_CLOSE = "escape"
 local KEY_STAMP = "s"
-local KEY_PEN = "d"
+local KEY_PEN = "g"
 local KEY_BGPEN = "b"
 local KEY_BGSTAMP = "f"
 local KEY_EDIT = "e"
 local KEY_DELETE = "delete"
+local KEY_DUPLICATE = "d"
 
 local KEY_NEW = "f1"
 local KEY_OPEN = "f2"
@@ -1352,7 +1353,8 @@ function editor.keypressed( key, repeated )
 	--		map:removeSelectedObject()
 	--	end
 	--	propertiesPanel.visible = false
-	
+	elseif key == KEY_DUPLICATE then
+		map:duplicateSelection()
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then
@@ -1371,6 +1373,8 @@ end
 function editor:draw()
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
+
+	love.graphics.setFont( fontSmall )
 
 	cam:apply()
 

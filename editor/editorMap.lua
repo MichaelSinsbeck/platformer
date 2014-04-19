@@ -688,6 +688,7 @@ function EditorMap:addBgObject( tileX, tileY, object )
 		self.maxY = math.max(self.maxY, newObject.maxY)
 		self:updateBorder()
 	end
+	return newObject
 end
 
 function EditorMap:removeBgObjectAt( tileX, tileY )
@@ -840,6 +841,22 @@ function EditorMap:bgObjectLayerDown()
 	end
 end
 
+function EditorMap:duplicateSelection()
+	local newObjects = {}
+	local new
+	for k, o in pairs( self.selectedObjects ) do
+		if o.batch then
+			newObjects[#newObjects+1] = self:addBgObject( o.x + 1, o.y + 1, o.objType )
+		else
+			newObjects[#newObjects+1] = self:addObject( o.tileX + 1, o.tileY + 1, o.tag )
+		end
+	end
+	self:selectNoObject()
+	for k, o in pairs( newObjects ) do
+		self:selectObject( o )
+	end
+end
+
 -----------------------------------------
 -- Objects (front layer)
 -----------------------------------------
@@ -885,8 +902,8 @@ function EditorMap:addObject( tileX, tileY, objName )
 	newObject.x, newObject.y = nx, ny
 
 	-- for selecting:
-	newObject.tileX = newObject.x - newObject.width/self.tileSize*0.5
-	newObject.tileY = newObject.y - newObject.height/self.tileSize*0.5
+	newObject.tileX = tileX--newObject.x - newObject.width/self.tileSize*0.5
+	newObject.tileY = tileY--newObject.y - newObject.height/self.tileSize*0.5
 	newObject.maxX = newObject.x + newObject.width/self.tileSize*0.5
 	newObject.maxY = newObject.y + newObject.height/self.tileSize*0.5
 	-- for drawing borders in editor:
@@ -1044,7 +1061,7 @@ function EditorMap:findObjectAt( tileX, tileY )
 	-- Go through the list backwards and select first object found
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
-		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX and tileY <= obj.maxY then
 			return obj
 		end
 	end
@@ -2180,92 +2197,92 @@ function EditorMap:LineList(tile,height,width)
 			y = nodeList[2*iLine-1].y,
 			x2 = nodeList[2*iLine].x,
 			y2 = nodeList[2*iLine].y})
-		end
-		return lineList
 	end
+	return lineList
+end
 
-	function EditorMap:FactoryList(tile,height,width)
+function EditorMap:FactoryList(tile,height,width)
 
-		local factoryList = {} 
-		-- find all entities, add objects to spriteEngine and replace by zero
+	local factoryList = {} 
+	-- find all entities, add objects to spriteEngine and replace by zero
 
-		local objectList ={
-			[ 2] = Exit,
-			[ 3] = Bandana.white,
-			[ 4] = Bandana.blue,
-			[ 5] = Bandana.red,
-			[ 6] = Bandana.green,    
-			[ 7] = Bouncer,
-			[ 9] = Runner,
-			[10] = Goalie, 
+	local objectList ={
+		[ 2] = Exit,
+		[ 3] = Bandana.white,
+		[ 4] = Bandana.blue,
+		[ 5] = Bandana.red,
+		[ 6] = Bandana.green,    
+		[ 7] = Bouncer,
+		[ 9] = Runner,
+		[10] = Goalie, 
 
-			[11] = Imitator,
-			[12] = Launcher,
-			[13] = Cannon,
-			[14] = Bonus,
-			[16] = Emitter,
-			[17] = Button,
-			[18] = Appearblock,
-			[19] = Disappearblock,
-			[20] = Crumbleblock,
-			[21] = Glassblock,
-			[22] = Keyhole,
-			[23] = Door,
-			[24] = Key,
-			[25] = Windmill,
-			[26] = BouncerLeft,
-			[27] = BouncerTop,
-			[28] = BouncerRight,
-			[29] = Bumper,
-			[30] = Clubber,
-			[31] = WalkerLeft,
-			[32] = Walker,
+		[11] = Imitator,
+		[12] = Launcher,
+		[13] = Cannon,
+		[14] = Bonus,
+		[16] = Emitter,
+		[17] = Button,
+		[18] = Appearblock,
+		[19] = Disappearblock,
+		[20] = Crumbleblock,
+		[21] = Glassblock,
+		[22] = Keyhole,
+		[23] = Door,
+		[24] = Key,
+		[25] = Windmill,
+		[26] = BouncerLeft,
+		[27] = BouncerTop,
+		[28] = BouncerRight,
+		[29] = Bumper,
+		[30] = Clubber,
+		[31] = WalkerLeft,
+		[32] = Walker,
 
-			[33] = Spikey,
+		[33] = Spikey,
 
-			[37] = FixedCannon1r,
-			[38] = FixedCannon2r,
-			[39] = FixedCannon3r,
-			[40] = FixedCannon4r,
-			[45] = FixedCannon1d,
-			[46] = FixedCannon2d,
-			[47] = FixedCannon3d,
-			[48] = FixedCannon4d,
-			[53] = FixedCannon1l,
-			[54] = FixedCannon2l,
-			[55] = FixedCannon3l,
-			[56] = FixedCannon4l,
-			[61] = FixedCannon1u,
-			[62] = FixedCannon2u,
-			[63] = FixedCannon3u,
-			[64] = FixedCannon4u,
+		[37] = FixedCannon1r,
+		[38] = FixedCannon2r,
+		[39] = FixedCannon3r,
+		[40] = FixedCannon4r,
+		[45] = FixedCannon1d,
+		[46] = FixedCannon2d,
+		[47] = FixedCannon3d,
+		[48] = FixedCannon4d,
+		[53] = FixedCannon1l,
+		[54] = FixedCannon2l,
+		[55] = FixedCannon3l,
+		[56] = FixedCannon4l,
+		[61] = FixedCannon1u,
+		[62] = FixedCannon2u,
+		[63] = FixedCannon3u,
+		[64] = FixedCannon4u,
 
-			[65] = Light,
-			[66] = Torch,
-			[67] = Lamp,
+		[65] = Light,
+		[66] = Torch,
+		[67] = Lamp,
 
-			[68] = InputJump,
-			[69] = InputAction,
-			[70] = InputLeft,
-			[71] = InputRight,
-			[73] = WalkerDown,
-			[74] = WalkerRight,
-			[75] = WalkerUp,
-			[76] = WalkerLeft,
-			[77] = SpawnerLeft,
-			[78] = Spawner,
-		}
+		[68] = InputJump,
+		[69] = InputAction,
+		[70] = InputLeft,
+		[71] = InputRight,
+		[73] = WalkerDown,
+		[74] = WalkerRight,
+		[75] = WalkerUp,
+		[76] = WalkerLeft,
+		[77] = SpawnerLeft,
+		[78] = Spawner,
+	}
 
-		for i=1,width do
-			for j = 1,height do
-				if objectList[tile[i][j]] then
-					local constr = objectList[tile[i][j]]
-					local newObject = {constructor = constr, x = i, y = j}
-					table.insert(factoryList,newObject)
-				end             
-			end
+	for i=1,width do
+		for j = 1,height do
+			if objectList[tile[i][j]] then
+				local constr = objectList[tile[i][j]]
+				local newObject = {constructor = constr, x = i, y = j}
+				table.insert(factoryList,newObject)
+			end             
 		end
-		return factoryList
 	end
+	return factoryList
+end
 
-	return EditorMap
+return EditorMap
