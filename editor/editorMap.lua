@@ -845,11 +845,18 @@ function EditorMap:duplicateSelection()
 	local newObjects = {}
 	local new
 	for k, o in pairs( self.selectedObjects ) do
-		if o.batch then
-			newObjects[#newObjects+1] = self:addBgObject( o.x + 1, o.y + 1, o.objType )
+		if o.isBackgroundObject then
+			new = self:addBgObject( o.x + 1, o.y + 1, o.objType )
 		else
-			newObjects[#newObjects+1] = self:addObject( o.tileX + 1, o.tileY + 1, o.tag )
+			new = self:addObject( o.tileX + 1, o.tileY + 1, o.tag )
+			if o.properties then
+			for k, p in pairs(o.properties) do
+				new:setProperty( k, o[k] ) 
+			end
 		end
+			new:applyOptions()
+		end
+		newObjects[#newObjects+1] = new
 	end
 	self:selectNoObject()
 	for k, o in pairs( newObjects ) do
@@ -865,7 +872,6 @@ function EditorMap:addObject( tileX, tileY, objName )
 
 	--local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
 	--local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
-	--
 	--
 	local newObject = spriteFactory( objName )
 	newObject:init()

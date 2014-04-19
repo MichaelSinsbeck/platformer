@@ -1355,6 +1355,7 @@ function editor.keypressed( key, repeated )
 	--	propertiesPanel.visible = false
 	elseif key == KEY_DUPLICATE then
 		map:duplicateSelection()
+		editor.createPropertiesPanel()
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then
@@ -1387,14 +1388,14 @@ function editor:draw()
 
 
 	love.graphics.setColor( 255, 255, 255, 255 )
-	if self.currentTool == "object" or self.currentTool == "pen" then
-		love.graphics.setColor( 120, 120, 120, 255 )
-	end
+	--if self.currentTool == "object" or self.currentTool == "pen" then
+	--	love.graphics.setColor( 120, 120, 120, 255 )
+	--end
 	map:drawBackground()
 
 	love.graphics.setColor( 255, 255, 255, 255 )
 	if self.currentTool == "bgObject" or self.currentTool == "bgPen" then
-		love.graphics.setColor( 120, 120, 120, 255 )
+		love.graphics.setColor( 120, 120, 120, 230 )
 	end
 	map:drawGround()
 
