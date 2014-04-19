@@ -1076,8 +1076,12 @@ function editor:useTool( tileX, tileY, button )
 				map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
 			end
 		elseif button == "r" then
-			if not map:removeObjectAt( tileX, tileY ) then
-				map:removeBgObjectAt( tileX, tileY )
+
+				local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
+				local tX = wX/(Camera.scale*8)
+				local tY = wY/(Camera.scale*8)
+			if not map:removeObjectAt( tX, tY ) then
+				map:removeBgObjectAt( tX, tY )
 			end
 		end
 	elseif self.currentTool == "object" and self.currentObjects then

@@ -910,8 +910,8 @@ function EditorMap:addObject( tileX, tileY, objName )
 	-- for selecting:
 	newObject.tileX = tileX--newObject.x - newObject.width/self.tileSize*0.5
 	newObject.tileY = tileY--newObject.y - newObject.height/self.tileSize*0.5
-	newObject.maxX = newObject.x + newObject.width/self.tileSize*0.5
-	newObject.maxY = newObject.y + newObject.height/self.tileSize*0.5
+	newObject.maxX = tileX + 1
+	newObject.maxY = tileY + 1
 	-- for drawing borders in editor:
 	newObject.editorX = newObject.x*self.tileSize - newObject.width*0.5
 	newObject.editorY = newObject.y*self.tileSize - newObject.height*0.5
@@ -1118,11 +1118,12 @@ function EditorMap:dragObject( tileX, tileY )
 		else
 			obj.x = tileX - obj.oX
 			obj.y = tileY - obj.oY
+
 			-- for selecting:
-			obj.tileX = obj.x - obj.width/self.tileSize*0.5
-			obj.tileY = obj.y - obj.height/self.tileSize*0.5
-			obj.maxX = obj.x + obj.width/self.tileSize*0.5
-			obj.maxY = obj.y + obj.height/self.tileSize*0.5
+			obj.tileX = obj.x - 0.5
+			obj.tileY = obj.y - 0.5
+			obj.maxX = obj.tileX + 1
+			obj.maxY = obj.tileY + 1
 			-- for drawing borders in editor:
 			obj.editorX = obj.x*self.tileSize - obj.width*0.5
 			obj.editorY = obj.y*self.tileSize - obj.height*0.5
