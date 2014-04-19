@@ -409,15 +409,19 @@ end
 end]]
 
 -- used in box select:
-function Panel:addToSelectionClick( x, y )
+function Panel:addToSelectionClick( x, y, shiftPressed )
 	for i, pageNum in pairs( {0, self.selectedPage} ) do
 		if self.pages[pageNum] then
 			for k,button in ipairs( self.pages[pageNum] ) do
+				hit = button:collisionCheck( x, y )
 				if button.obj then
-					hit = button:collisionCheck( x, y )
 					if hit then
-						button:setSelected( true )
+						--button:setSelected( true )
+						return button
 					end
+				end
+				if hit and button.event then
+					button.event()
 				end
 			end
 		end

@@ -923,11 +923,11 @@ function editor:mousepressed( button, x, y )
 			mouseOnCanvas = false
 			if bgObjectPanel:collisionCheck(x, y) and button == "l" then
 				-- bgObjectPanel:addToSelectionClick( x, y, button )
-				if love.keyboard.isDown( "lshift", "rshift" ) then
-					bgObjectPanel:addToSelectionClick( x, y )
-				else
-				bgObjectPanel:click( x, y, button )
-			end
+				--if love.keyboard.isDown( "lshift", "rshift" ) then
+				--	bgObjectPanel:addToSelectionClick( x, y )
+				--else
+				--bgObjectPanel:click( x, y, button )
+				--end
 				editor.startBoxSelect( x, y )
 				--[[else
 					bgObjectPanel:click( x, y, button )
@@ -1159,10 +1159,32 @@ function editor.endBoxSelect( aborted )
 			local stepY = tileSize
 			if sX > eX then stepX = -tileSize end
 			if sY > eY then stepY = -tileSize end
+			local shift = love.keyboard.isDown( "lshift", "rshift" )
+			if not shift then
+				bgObjectPanel:disselectAll()
+			end
+
+			-- Shift-clicking a single button that's already selected leads to it
+			-- being un-selected:
+			local singleButton, button
+			local numButtonsHit = 0
+			local buttonWasAlreadySelected
 			for x = sX, eX, stepX do
 				for y = sY, eY, stepY do
-					bgObjectPanel:addToSelectionClick( x, y )
+					button = bgObjectPanel:addToSelectionClick( x, y, shift )
+					if button then
+						singleButton = button
+						numButtonsHit = numButtonsHit + 1
+						if numButtonsHit == 1 then
+							buttonWasAlreadySelected = singleButton.selected
+						end
+						button:setSelected( true )
+					end
 				end
+			end
+			print(numButtonsHit, shift, buttonWasAlreadySelected )
+			if numButtonsHit == 1 and shift and buttonWasAlreadySelected then
+				singleButton:setSelected( false )
 			end
 		else
 			-- go through all tiles within box and try to select tiles there:
