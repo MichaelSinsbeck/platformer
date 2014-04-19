@@ -109,9 +109,7 @@ function editor.createPropertiesPanel()
 	if #map.selectedObjects > 0 then
 		propertiesPanel.visible = true
 		local x, y = 13, 13
-		propertiesPanel:addClickable( x, y, function() map:removeSelectedObjects()
-			map:removeSelectedBgObjects()
-			map:selectNoObject()
+		propertiesPanel:addClickable( x, y, function() map:removeAllSelected()
 			propertiesPanel.visible = false end,
 			'LEDeleteOff',
 			'LEDeleteOn',
@@ -135,9 +133,9 @@ function editor.createPropertiesPanel()
 					"move down one layer", nil, nil, true)
 			else
 				x,y = 8, 26
-				if map.selectedObjects.properties then
-					for name, p in pairs(map.selectedObjects.properties) do
-						propertiesPanel:addProperty( name, x, y, p, map.selectedObjects )
+				if map.selectedObjects[1].properties then
+					for name, p in pairs(map.selectedObjects[1].properties) do
+						propertiesPanel:addProperty( name, x, y, p, map.selectedObjects[1] )
 						y = y + 16
 					end
 				end

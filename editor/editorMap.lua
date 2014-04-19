@@ -707,18 +707,13 @@ function EditorMap:removeSelectedBgObjects()
 	if #self.selectedObjects > 0 then
 		local toRemove = {}
 		for k, obj in ipairs(self.bgList) do
-			--print( k, obj, obj.selected )
 			if obj.selected then
 				table.insert( toRemove, k )
 			end
 		end
-		--print("objects before:", #self.bgList )
 		for k = #toRemove, 1, -1 do		-- go through list backwards
-			--print( "remove:", k, toRemove[k] )
 			table.remove( self.bgList, toRemove[k] )
 		end
-		--print("objects after:", #self.bgList )
-		--self.selectedObjects = {}
 	end
 end
 
@@ -1026,7 +1021,11 @@ function EditorMap:removeSelectedObjects()
 	end
 end
 
-
+function EditorMap:removeAllSelected()
+	self:removeSelectedBgObjects()
+	self:removeSelectedObjects()
+	self.selectedObjects = {}
+end
 
 function EditorMap:findObjectAt( tileX, tileY )
 
