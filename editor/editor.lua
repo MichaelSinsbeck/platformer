@@ -360,8 +360,8 @@ function editor.start()
 	editor.currentGround = editor.groundList[1]
 	editor.currentBackground = editor.backgroundList[1]
 	--editor.currentBgObject = editor.bgObjectList[1]
-	groundPanel.pages[0][1]:setSelected( true )
-	backgroundPanel.pages[0][1]:setSelected( true )
+	--groundPanel.pages[0][1]:setSelected( true )
+	--backgroundPanel.pages[0][1]:setSelected( true )
 
 	love.graphics.setPointStyle( "smooth" )
 	love.graphics.setPointSize( 6 )

@@ -1531,6 +1531,9 @@ function EditorMap:loadFromFile( fullName )
 		end
 
 		map = EditorMap:new( editor.backgroundList )
+
+		math.randomseed( 1 )
+
 		map.minX, map.maxX = minX+1, maxX
 		map.minY, map.maxY = minY+1, maxY
 		map.width = map.maxX - map.minX
