@@ -718,7 +718,7 @@ function EditorMap:removeSelectedBgObjects()
 			table.remove( self.bgList, toRemove[k] )
 		end
 		--print("objects after:", #self.bgList )
-		self.selectedObjects = {}
+		--self.selectedObjects = {}
 	end
 end
 
@@ -1017,13 +1017,15 @@ function EditorMap:removeObjectAt( tileX, tileY )
 	end
 end
 
-function EditorMap:removeSelectedObject()
-	if self.selectedObjects then
-		self:removeObject( self.selectedObjects )
-		self.selectedObjects.selected = false
-		self.selectedObjects = nil
+function EditorMap:removeSelectedObjects()
+	for k, o in pairs( self.selectedObjects ) do
+		if not o.batch then
+			self:removeObject( o )
+			o.selected = false
+		end
 	end
 end
+
 
 
 function EditorMap:findObjectAt( tileX, tileY )
@@ -1067,7 +1069,7 @@ function EditorMap:selectObjectAt( tileX, tileY )
 				return obj
 end]]
 --[[
-function EditorMap:selectNoObject()
+function EditorMap:eelectNoObject()
 	if self.selectedObject then
 		self.selectedObject.selected = false
 		self.selectedObject = nil

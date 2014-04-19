@@ -104,55 +104,49 @@ function editor.createCellQuad()
 end
 
 function editor.createPropertiesPanel()
-	if true then
-	return
-end
 	propertiesPanel:clearAll()
 
 	if #map.selectedObjects > 0 then
 		propertiesPanel.visible = true
 		local x, y = 13, 13
-		propertiesPanel:addClickable( x, y, function() map:removeSelectedObject();
-										propertiesPanel.visible = false end,
-				'LEDeleteOff',
-				'LEDeleteOn',
-				'LEDeleteHover',
-				"remove", nil, KEY_DELETE, true)
-
-		x,y = 8, 26
-		if map.selectedObjects.properties then
-			for name, p in pairs(map.selectedObjects.properties) do
-				propertiesPanel:addProperty( name, x, y, p, map.selectedObjects )
-				y = y + 16
-			end
-		end
-	elseif #map.selectedObjects > 0 then
-		propertiesPanel.visible = true
-		local x, y = 13, 13
-		propertiesPanel:addClickable( x, y, function() map:removeSelectedBgObjects()
+		propertiesPanel:addClickable( x, y, function() map:removeSelectedObjects()
+			map:removeSelectedBgObjects()
+			map:selectNoObject()
 			propertiesPanel.visible = false end,
 			'LEDeleteOff',
 			'LEDeleteOn',
 			'LEDeleteHover',
 			"remove", nil, KEY_DELETE, true)
-		x = x + 10
+
+		
+
 		if #map.selectedObjects == 1 then
-			propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
-				'LELayerUpOff',
-				'LELayerUpOn',
-				'LELayerUpHover',
-				"move up one layer", nil, nil, true)
+			if map.selectedObjects[1].batch then
+				propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
+					'LELayerUpOff',
+					'LELayerUpOn',
+					'LELayerUpHover',
+					"move up one layer", nil, nil, true)
 				x = x + 10
-			propertiesPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
-				'LELayerDownOff',
-				'LELayerDownOn',
-				'LELayerDownHover',
-				"move down one layer", nil, nil, true)
+				propertiesPanel:addClickable( x, y, function() map:bgObjectLayerDown() end,
+					'LELayerDownOff',
+					'LELayerDownOn',
+					'LELayerDownHover',
+					"move down one layer", nil, nil, true)
+			else
+				x,y = 8, 26
+				if map.selectedObjects.properties then
+					for name, p in pairs(map.selectedObjects.properties) do
+						propertiesPanel:addProperty( name, x, y, p, map.selectedObjects )
+						y = y + 16
+					end
+				end
+			end
 		end
 	end
 end
 
--- called when editor is to be started:
+	-- called when editor is to be started:
 function editor.start()
 
 	editor.init()
