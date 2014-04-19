@@ -846,7 +846,6 @@ end
 
 function EditorMap:addObject( tileX, tileY, objName )
 
-	print("creating:", tileX, tileY)
 	--local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
 	--local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
 	--
@@ -1035,7 +1034,7 @@ function EditorMap:findObjectAt( tileX, tileY )
 		obj = self.objectList[k]
 		if obj.vis[1] then
 			if tileX >= obj.tileX and tileY >= obj.tileY and
-				tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+				tileX <= obj.maxX and tileY <= obj.maxY then
 				return obj
 			end
 		end

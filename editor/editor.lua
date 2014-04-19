@@ -120,6 +120,7 @@ function editor.createPropertiesPanel()
 
 		if #map.selectedObjects == 1 then
 			if map.selectedObjects[1].batch then
+				x,y = 13, 26
 				propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
 					'LELayerUpOff',
 					'LELayerUpOn',
@@ -1102,7 +1103,12 @@ function editor:useTool( tileX, tileY, button )
 				self.dragging = true
 				editor.createPropertiesPanel()
 			else]]
-				local obj = map:findObjectAt( tileX, tileY )
+				
+				-- overwrite the mouse position for this purpose:
+				local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
+				local tX = wX/(Camera.scale*8)
+				local tY = wY/(Camera.scale*8)
+				local obj = map:findObjectAt( tX, tY )
 				if obj then
 					if not obj.selected then
 						if not self.shift then	-- only deselect if shift not pressed
