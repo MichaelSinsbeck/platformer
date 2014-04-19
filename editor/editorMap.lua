@@ -809,10 +809,10 @@ end
 
 function EditorMap:bgObjectLayerUp()
 	-- find all objects partly covering the selected object:
-	local neighbourhood = self:neighbourhoodBgObjects( self.selectedObjects )
+	local neighbourhood = self:neighbourhoodBgObjects( self.selectedObjects[1] )
 	for i, obj in pairs( neighbourhood ) do
 		-- find the selected object in its neighbourhood:
-		if obj.obj == self.selectedObjects then
+		if obj.obj == self.selectedObjects[1] then
 			-- if there's an object in the neighbourhood which is higher than the selected
 			-- one, then switch them in the list ob background objects:
 			if neighbourhood[i+1] then
@@ -826,10 +826,10 @@ end
 
 function EditorMap:bgObjectLayerDown()
 	-- find all objects partly covering the selected object:
-	local neighbourhood = self:neighbourhoodBgObjects( self.selectedObjects )
+	local neighbourhood = self:neighbourhoodBgObjects( self.selectedObjects[1] )
 	for i, obj in pairs( neighbourhood ) do
 		-- find the selected object in its neighbourhood:
-		if obj.obj == self.selectedObjects then
+		if obj.obj == self.selectedObjects[1] then
 			-- if there's an object in the neighbourhood which is lower than the selected
 			-- one, then switch them in the list ob background objects:
 			if neighbourhood[i-1] then

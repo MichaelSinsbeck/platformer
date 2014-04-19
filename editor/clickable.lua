@@ -249,7 +249,7 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 			if clicked then
 				-- new click?
 				--if self.active ~= "click" then
-					self:setSelected( true )	-- IMPORTANT! set to selected before running event!
+					--self:setSelected( true )	-- IMPORTANT! set to selected before running event!
 					-- if new click, run the event:
 					if self.event then
 						self.event()

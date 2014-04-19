@@ -332,7 +332,7 @@ function Panel:update( dt )
 	end
 end
 
-function Panel:click( mouseX, mouseY, clicked, msgBoxActive, addToSelection )
+function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 
 	if clicked then
 		if self.activeInput then
@@ -354,9 +354,9 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive, addToSelection )
 		if self.pages[pageNum] then
 			for k,button in ipairs( self.pages[pageNum] ) do
 				wasSelected = button.selected
-				if not addToSelection then
-					button:setSelected( false )
-				end
+				--if not addToSelection then
+					--button:setSelected( false )
+				--end
 				hit = button:click( mouseX, mouseY, clicked, msgBoxActive )
 				if hit then
 					--[[if self.highlightSelected then
@@ -364,9 +364,9 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive, addToSelection )
 					button:setSelected(true)
 					end]]
 					-- clicking a selected button removes the selection:
-					if addToSelection and wasSelected then
-						button:setSelected( false )
-					end
+					--if addToSelection and wasSelected then
+					--	button:setSelected( false )
+					--end
 					hitButton = true
 				end
 			end
