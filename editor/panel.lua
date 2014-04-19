@@ -177,9 +177,10 @@ function Panel:addClickableLabel( x, y, event, width, text, page )
 	table.insert( self.pages[page], c )
 end
 
-function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, shortcut, useMesh)
+function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, shortcut, useMesh,
+	tag )
 	local c = Clickable:new( x+self.x, y+self.y, event,
-						imgOff, imgOn, imgHover, toolTip, shortcut, useMesh )
+					imgOff, imgOn, imgHover, toolTip, shortcut, useMesh, tag )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
@@ -414,15 +415,15 @@ function Panel:addToSelectionClick( x, y, shiftPressed )
 		if self.pages[pageNum] then
 			for k,button in ipairs( self.pages[pageNum] ) do
 				hit = button:collisionCheck( x, y )
-				if button.obj then
+				--if button.obj then
 					if hit then
+				if button.event then
+					button.event()
+				end
 						--button:setSelected( true )
 						return button
 					end
-				end
-				if hit and button.event then
-					button.event()
-				end
+				--end
 			end
 		end
 	end
@@ -431,10 +432,10 @@ end
 function Panel:getSelected()
 	local sel = {}
 	for k, b in pairs(self.pages[0]) do
-		if b.selected and b.obj then table.insert( sel, b ) end
+		if b.selected then table.insert( sel, b ) end
 	end
 	for k, b in pairs(self.pages[self.selectedPage]) do
-		if b.selected and b.obj then table.insert( sel, b ) end
+		if b.selected then table.insert( sel, b ) end
 	end
 	return sel
 end

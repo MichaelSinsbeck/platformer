@@ -104,9 +104,12 @@ function editor.createCellQuad()
 end
 
 function editor.createPropertiesPanel()
+	if true then
+	return
+end
 	propertiesPanel:clearAll()
 
-	if map.selectedObject then
+	if #map.selectedObjects > 0 then
 		propertiesPanel.visible = true
 		local x, y = 13, 13
 		propertiesPanel:addClickable( x, y, function() map:removeSelectedObject();
@@ -117,13 +120,13 @@ function editor.createPropertiesPanel()
 				"remove", nil, KEY_DELETE, true)
 
 		x,y = 8, 26
-		if map.selectedObject.properties then
-			for name, p in pairs(map.selectedObject.properties) do
-				propertiesPanel:addProperty( name, x, y, p, map.selectedObject )
+		if map.selectedObjects.properties then
+			for name, p in pairs(map.selectedObjects.properties) do
+				propertiesPanel:addProperty( name, x, y, p, map.selectedObjects )
 				y = y + 16
 			end
 		end
-	elseif #map.selectedBgObjects > 0 then
+	elseif #map.selectedObjects > 0 then
 		propertiesPanel.visible = true
 		local x, y = 13, 13
 		propertiesPanel:addClickable( x, y, function() map:removeSelectedBgObjects()
@@ -133,7 +136,7 @@ function editor.createPropertiesPanel()
 			'LEDeleteHover',
 			"remove", nil, KEY_DELETE, true)
 		x = x + 10
-		if #map.selectedBgObjects == 1 then
+		if #map.selectedObjects == 1 then
 			propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
 				'LELayerUpOff',
 				'LELayerUpOn',
@@ -445,15 +448,33 @@ function editor.closeBgObjectPanel()
 		table.insert( editor.currentBgObjects, {x=p.x, y=p.y, obj=p.obj} )
 	end
 
-	editor.sortCurrentBgObjects()
+	editor.sortSelectedObjects()
 end
+
+function editor.closeObjectPanel()
+	objectPanel.visible = false
+	local selected = objectPanel:getSelected()
+	editor.currentObjects = {}
+	for k, button in pairs( selected ) do
+		table.insert( editor.currentObjects, {x=button.x, y=button.y, obj=button.obj} )
+	end
+
+	editor.sortSelectedObjects()
+end
+
 
 -- This function calculates tile offsets for multiple selected
 -- background objects:
-function editor.sortCurrentBgObjects()
+function editor.sortSelectedObjects()
 	local found = true
 	local currentTileX, currentTileY = 0, 0
 
+	local t = editor.currentObjects
+	
+	if editor.tool == "object" then
+		t = editor.currentBgObjects
+	end
+	if not t then return end
 	-- sort by x:
 	repeat
 		found = false
@@ -461,7 +482,7 @@ function editor.sortCurrentBgObjects()
 	
 		-- out of all remaining tiles, find the ones which are
 		-- furthest to the left:
-		for k, o in pairs( editor.currentBgObjects ) do
+		for k, o in pairs( t ) do
 			if not o.tileX then
 				minX = math.min( minX, o.x )
 				found = true
@@ -471,7 +492,7 @@ function editor.sortCurrentBgObjects()
 		-- if any remaining tiles were found, then all the ones
 		-- which have the same x value as the lowest one should
 		-- be added to the current column.
-		for k, o in pairs( editor.currentBgObjects ) do
+		for k, o in pairs( t ) do
 			if minX == o.x then
 				o.tileX = currentTileX
 			end
@@ -484,21 +505,20 @@ function editor.sortCurrentBgObjects()
 		found = false
 		local minY = math.huge
 		
-		for k, o in pairs( editor.currentBgObjects ) do
+		for k, o in pairs( t ) do
 			if not o.tileY then
 				minY = math.min( minY, o.y )
 				found = true
 			end
 		end
 
-		for k, o in pairs( editor.currentBgObjects ) do
+		for k, o in pairs( t ) do
 			if minY == o.y then
 				o.tileY = currentTileY
 			end
 		end
 		currentTileY = currentTileY + 1
 	until found == false
-
 end
 
 function editor.createObjectPanel()
@@ -517,10 +537,10 @@ function editor.createObjectPanel()
 	local maxY = -math.huge
 	for k, obj in ipairs( editor.objectList ) do
 		if obj.vis[1] then
-			local event = function()
+			--[[local event = function()
 				editor.currentObject = obj
 				objectPanel.visible = false
-			end
+			end]]
 
 			-- Is this object higher than the others of this row?
 			maxY = math.max( obj.height, maxY )
@@ -538,7 +558,7 @@ function editor.createObjectPanel()
 			end
 
 
-			objectPanel:addClickableObject( x, y, event, obj, obj.tag, page )
+			objectPanel:addClickableObject( x, y, nil, obj, obj.tag, page )
 			x = x + obj.width/8 + PADDING
 		end
 	end
@@ -640,7 +660,7 @@ function editor:update( dt )
 		elseif self.currentTool == "edit" and self.dragging and
 			(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
 			if not map:dragObject( tileX, tileY ) then
-				map:dragBgObject( tileX, tileY )
+				--map:dragBgObject( tileX, tileY )
 			end
 		end
 		self.lastTileX, self.lastTileY = tileX, tileY
@@ -939,10 +959,12 @@ function editor:mousepressed( button, x, y )
 			end
 		elseif objectPanel.visible then
 			mouseOnCanvas = false
-			if objectPanel:collisionCheck(x, y) then
-				objectPanel:click( x, y, button )
+			if objectPanel:collisionCheck(x, y) and button == "l" then
+				--objectPanel:click( x, y, button )
+				editor.startBoxSelect( x, y )
 			else
-				objectPanel.visible = false
+				--objectPanel.visible = false
+				editor.closeObjectPanel()
 				panelRemoved = true
 			end
 		end
@@ -1065,9 +1087,11 @@ function editor:useTool( tileX, tileY, button )
 				map:removeBgObjectAt( tileX, tileY )
 			end
 		end
-	elseif self.currentTool == "object" and self.currentObject then
+	elseif self.currentTool == "object" and self.currentObjects then
 		if button == "l" then
-			map:addObject( tileX, tileY, self.currentObject.tag )
+			for k, o in pairs( self.currentObjects ) do
+				map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
+			end
 		elseif button == "r" then
 			if not map:removeObjectAt( tileX, tileY ) then
 				map:removeBgObjectAt( tileX, tileY )
@@ -1082,19 +1106,19 @@ function editor:useTool( tileX, tileY, button )
 			propertiesPanel.visible = false
 			--editPanel.visible = false
 			--editBgPanel.visible = false
-			if map:selectObjectAt( tileX, tileY ) then
+			--[[if map:selectObjectAt( tileX, tileY ) then
 				--editPanel.visible = true
 				self.dragging = true
 				editor.createPropertiesPanel()
-			else
-				local obj = map:findBgObjectAt( tileX, tileY )
+			else]]
+				local obj = map:findObjectAt( tileX, tileY )
 				if obj then
 					if not obj.selected then
 						if not self.shift then	-- only deselect if shift not pressed
 							map:selectNoObject()
-							map:selectNoBgObject()
+							--map:selectNoBgObject()
 						end
-						map:selectBgObject( obj )
+						map:selectObject( obj )
 					end
 					--editBgPanel.visible = true
 					self.dragging = true
@@ -1102,7 +1126,7 @@ function editor:useTool( tileX, tileY, button )
 					obj.oY = tileY - obj.y
 					--self.dragStartX, self.dragStarty = tileX, tileY
 
-					map:setBgDragOffset( tileX, tileY )
+					map:setDragOffset( tileX, tileY )
 
 					editor.createPropertiesPanel()
 					--else
@@ -1111,11 +1135,11 @@ function editor:useTool( tileX, tileY, button )
 				else
 					if not self.shift then	-- only deselect if shift not pressed
 						map:selectNoObject()
-						map:selectNoBgObject()
+						--map:selectNoBgObject()
 					end
 					editor.startBoxSelect( love.mouse.getPosition() )
 				end
-			end
+			--end
 		elseif button == "r" then
 			if not map:removeObjectAt( tileX, tileY ) then
 				map:removeBgObjectAt( tileX, tileY )
@@ -1147,7 +1171,46 @@ end
 
 function editor.endBoxSelect( aborted )
 	if aborted ~= "aborted" then
-		if bgObjectPanel.visible then
+		if objectPanel.visible then
+			local sX, sY = editor.selectBox.sX, editor.selectBox.sY
+			local eX, eY = editor.selectBox.eX, editor.selectBox.eY
+			local tileSize = Camera.scale*8
+
+			-- Pretend there was a "click" at multiple coordinates in the
+			-- selected area. The step between the clicks is small enough
+			-- to make sure every tile will be hit at least once:
+			local stepX = tileSize
+			local stepY = tileSize
+			if sX > eX then stepX = -tileSize end
+			if sY > eY then stepY = -tileSize end
+			local shift = love.keyboard.isDown( "lshift", "rshift" )
+			if not shift then
+				objectPanel:disselectAll()
+			end
+
+			-- Shift-clicking a single button that's already selected leads to it
+			-- being un-selected:
+			local singleButton, button
+			local numButtonsHit = 0
+			local buttonWasAlreadySelected
+			for x = sX, eX, stepX do
+				for y = sY, eY, stepY do
+					button = objectPanel:addToSelectionClick( x, y, shift )
+					if button then
+						singleButton = button
+						numButtonsHit = numButtonsHit + 1
+						if numButtonsHit == 1 then
+							buttonWasAlreadySelected = singleButton.selected
+						end
+						button:setSelected( true )
+						print("SELECTED")
+					end
+				end
+			end
+			if numButtonsHit == 1 and shift and buttonWasAlreadySelected then
+				singleButton:setSelected( false )
+			end
+		elseif bgObjectPanel.visible then
 			local sX, sY = editor.selectBox.sX, editor.selectBox.sY
 			local eX, eY = editor.selectBox.eX, editor.selectBox.eY
 			local tileSize = Camera.scale*8
@@ -1182,7 +1245,6 @@ function editor.endBoxSelect( aborted )
 					end
 				end
 			end
-			print(numButtonsHit, shift, buttonWasAlreadySelected )
 			if numButtonsHit == 1 and shift and buttonWasAlreadySelected then
 				singleButton:setSelected( false )
 			end
@@ -1194,8 +1256,11 @@ function editor.endBoxSelect( aborted )
 			wX, wY = cam:screenToWorld( editor.selectBox.eX, editor.selectBox.eY )
 			local eX = math.floor(wX/(Camera.scale*8))
 			local eY = math.floor(wY/(Camera.scale*8))
-			map:selectNoObject()
-			map:selectNoBgObject()
+			local shift = love.keyboard.isDown( "lshift", "rshift" )
+			if not shift then
+				map:selectNoObject()
+			end
+			--map:selectNoBgObject()
 			local stepX, stepY = 1, 1
 			if sX > eX then stepX = -1 end
 			if sY > eY then stepY = -1 end
@@ -1203,13 +1268,13 @@ function editor.endBoxSelect( aborted )
 			-- This is achieved by adding a 1-tile padding (the +stepX, -stepX etc.):
 			for x = sX+stepX, eX-stepX, stepX do	-- a 1 tile padding
 				for y = sY+stepY, eY-stepY, stepY do
-					local obj = map:findBgObjectAt( x, y )
+					local obj = map:findObjectAt( x, y )
 					if obj then
-						map:selectBgObject( obj )
+						map:selectObject( obj )
 					end
 				end
 			end
-			if #map.selectedBgObjects > 0 then
+			if #map.selectedObjects > 0 then
 				editor.createPropertiesPanel()
 			end
 		end
@@ -1273,8 +1338,6 @@ function editor.keypressed( key, repeated )
 			end
 		end
 	end
-
-
 
 	if key == KEY_CLOSE and bgObjectPanel.visible then
 		--bgObjectPanel.visible = false
@@ -1354,15 +1417,17 @@ function editor:draw()
 						rX + v.tileX*tileSize,
 						rY + v.tileY*tileSize)
 			end
-		elseif self.currentObject and self.currentTool == "object" then
+		elseif self.currentObjects and self.currentTool == "object" then
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
-			local w, h = self.currentObject.width, self.currentObject.height
-			self.currentObject.vis[1]:draw( rX + w*0.5, rY + h*0.5, true )
-			if self.currentObject.tag == "LineHook" and map.openLineHook then
-				love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale,
-					(map.openLineHook.tileX*8+4)*Camera.scale,
-					(map.openLineHook.tileY*8+4)*Camera.scale )
+			local offset = 0.5*tileSize
+			for k, v in pairs(self.currentObjects) do
+				v.obj.vis[1]:draw( rX + offset + v.tileX*tileSize, rY + offset + v.tileY*tileSize, true )
+				if v.obj.tag == "LineHook" and map.openLineHook then
+					love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale,
+						(map.openLineHook.tileX*8+4)*Camera.scale,
+						(map.openLineHook.tileY*8+4)*Camera.scale )
 			end
+		end
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
@@ -1448,7 +1513,7 @@ function editor:draw()
 end
 
 function editor.setTool( tool )
-	map:selectNoBgObject()
+	--map:selectNoBgObject()
 	map:selectNoObject()
 	propertiesPanel.visible = false
 	editor.currentTool = tool

@@ -95,6 +95,7 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 
 	-- Add visualizer
 	o.vis = obj.vis
+	o.obj = obj
 	o.width, o.height = -math.huge, -math.huge
 	for k = 1, #o.vis do
 		o.vis[k]:init()
@@ -197,6 +198,10 @@ function Clickable:draw()
 		if DEBUG then
 			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
 		end
+
+		if self.selected then
+			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
+		end
 	elseif self.batch then
 		if self.selected then
 			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
@@ -273,7 +278,6 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 	return false
 end
 
-local count = 0
 
 function Clickable:setSelected( bool )
 	self.selected = bool
@@ -282,7 +286,6 @@ function Clickable:setSelected( bool )
 	else
 		self:setAnim(self.imgOff)
 	end
-	count = count + 1
 end
 
 function Clickable:collisionCheck( x, y )

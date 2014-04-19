@@ -41,7 +41,7 @@ function EditorMap:new( backgroundList )
 	o.tilesToModify = {}
 	o.tilesModifiedThisFrame = 0
 
-	o.selectedBgObjects = {}
+	--o.selectedBgObjects = {}
 	o.selectedObjects = {}
 	
 	o.tileSize = Camera.scale*8
@@ -704,7 +704,7 @@ function EditorMap:removeBgObjectAt( tileX, tileY )
 end
 
 function EditorMap:removeSelectedBgObjects()
-	if #self.selectedBgObjects > 0 then
+	if #self.selectedObjects > 0 then
 		local toRemove = {}
 		for k, obj in ipairs(self.bgList) do
 			--print( k, obj, obj.selected )
@@ -718,7 +718,7 @@ function EditorMap:removeSelectedBgObjects()
 			table.remove( self.bgList, toRemove[k] )
 		end
 		--print("objects after:", #self.bgList )
-		self.selectedBgObjects = {}
+		self.selectedObjects = {}
 	end
 end
 
@@ -752,23 +752,23 @@ function EditorMap:findBgObjectAt( tileX, tileY )
 	end
 end
 
-function EditorMap:selectBgObject( obj )
-	table.insert( self.selectedBgObjects, obj )
+function EditorMap:selectObject( obj )
+	table.insert( self.selectedObjects, obj )
 	obj.selected = true
 end
 
-function EditorMap:selectNoBgObject()
-	if #self.selectedBgObjects > 0 then
-		for i, selected in pairs( self.selectedBgObjects ) do
+function EditorMap:selectNoObject()
+	if #self.selectedObjects > 0 then
+		for i, selected in pairs( self.selectedObjects ) do
 			selected.selected = false
 		end
-		self.selectedBgObjects = {}
+		self.selectedObjects = {}
 	end
 end
 
-function EditorMap:dragBgObject( tileX, tileY )
-	if #self.selectedBgObjects > 0 then
-		for k, obj in pairs( self.selectedBgObjects ) do
+function EditorMap:dragObject( tileX, tileY )
+	if #self.selectedObjects > 0 then
+		for k, obj in pairs( self.selectedObjects ) do
 			--local obj = self.selectedBgObject
 			obj.x = tileX - obj.oX
 			obj.y = tileY - obj.oY
@@ -790,8 +790,8 @@ function EditorMap:dragBgObject( tileX, tileY )
 	end
 end
 
-function EditorMap:setBgDragOffset( tileX, tileY )
-	for k, obj in pairs( self.selectedBgObjects ) do
+function EditorMap:setDragOffset( tileX, tileY )
+	for k, obj in pairs( self.selectedObjects ) do
 		obj.oX = tileX - obj.x
 		obj.oY = tileY - obj.y
 	end
@@ -813,10 +813,10 @@ end
 
 function EditorMap:bgObjectLayerUp()
 	-- find all objects partly covering the selected object:
-	local neighbourhood = self:neighbourhoodBgObjects( self.selectedBgObject )
+	local neighbourhood = self:neighbourhoodBgObjects( self.selectedObjects )
 	for i, obj in pairs( neighbourhood ) do
 		-- find the selected object in its neighbourhood:
-		if obj.obj == self.selectedBgObject then
+		if obj.obj == self.selectedObjects then
 			-- if there's an object in the neighbourhood which is higher than the selected
 			-- one, then switch them in the list ob background objects:
 			if neighbourhood[i+1] then
@@ -830,10 +830,10 @@ end
 
 function EditorMap:bgObjectLayerDown()
 	-- find all objects partly covering the selected object:
-	local neighbourhood = self:neighbourhoodBgObjects( self.selectedBgObject )
+	local neighbourhood = self:neighbourhoodBgObjects( self.selectedObjects )
 	for i, obj in pairs( neighbourhood ) do
 		-- find the selected object in its neighbourhood:
-		if obj.obj == self.selectedBgObject then
+		if obj.obj == self.selectedObjects then
 			-- if there's an object in the neighbourhood which is lower than the selected
 			-- one, then switch them in the list ob background objects:
 			if neighbourhood[i-1] then
@@ -1016,15 +1016,17 @@ function EditorMap:removeObjectAt( tileX, tileY )
 end
 
 function EditorMap:removeSelectedObject()
-	if self.selectedObject then
-		self:removeObject( self.selectedObject )
-		self.selectedObject.selected = false
-		self.selectedObject = nil
+	if self.selectedObjects then
+		self:removeObject( self.selectedObjects )
+		self.selectedObjects.selected = false
+		self.selectedObjects = nil
 	end
 end
 
 
 function EditorMap:findObjectAt( tileX, tileY )
+
+	local obj
 	-- Go through the list backwards and select first object found
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
@@ -1033,6 +1035,15 @@ function EditorMap:findObjectAt( tileX, tileY )
 				tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 				return obj
 			end
+		end
+	end
+	
+	-- If no normal object was found, check the background objects:
+	-- Go through the list backwards and select first object found
+	for k = #self.bgList, 1, -1 do
+		obj = self.bgList[k]
+		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
+			return obj
 		end
 	end
 end
@@ -1044,7 +1055,7 @@ function EditorMap:selectObjectAt( tileX, tileY )
 
 	local obj = self:findObjectAt( tileX, tileY )
 	if obj then
-				self.selectedObject = obj
+				self.selectedObjects = obj
 				obj.selected = true
 				obj.oX = tileX - obj.x
 				obj.oY = tileY - obj.y
@@ -1052,20 +1063,20 @@ function EditorMap:selectObjectAt( tileX, tileY )
 
 				return obj
 end
-
+--[[
 function EditorMap:selectNoObject()
 	if self.selectedObject then
 		self.selectedObject.selected = false
 		self.selectedObject = nil
 	end
-end
+end]]
 
 function EditorMap:dragObject( tileX, tileY )
-	if self.selectedObject then
+	if self.selectedObjects then
 		if self:findObjectAt( tileX, tileY ) then
 			return false
 		end
-		local obj = self.selectedObject
+		local obj = self.selectedObjects
 
 		obj.x = tileX - obj.oX
 		obj.y = tileY - obj.oY
@@ -1098,14 +1109,14 @@ function EditorMap:dragObject( tileX, tileY )
 end
 
 function EditorMap:setObjectProperty( property, value, obj )
-	obj = obj or self.selectedObject
+	obj = obj or self.selectedObjects
 	if obj then
 		obj.properties[property] = value
 	end
 end
 
 function EditorMap:getObjectProperty( property, obj )
-	obj = obj or self.selectedObject
+	obj = obj or self.selectedObjects
 	if obj then
 		return obj.properties[property]
 	end
