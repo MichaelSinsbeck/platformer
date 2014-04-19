@@ -1329,7 +1329,7 @@ function editor.keypressed( key, repeated )
 					v.event()
 
 					panel:disselectAll()
-					v:setSelected( true )
+					--v:setSelected( true )
 					break
 				end
 			end
