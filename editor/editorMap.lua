@@ -765,7 +765,7 @@ function EditorMap:selectNoObject()
 		self.selectedObjects = {}
 	end
 end
-
+--[[
 function EditorMap:dragObject( tileX, tileY )
 	if #self.selectedObjects > 0 then
 		for k, obj in pairs( self.selectedObjects ) do
@@ -788,7 +788,7 @@ function EditorMap:dragObject( tileX, tileY )
 		end
 		return true
 	end
-end
+end]]
 
 function EditorMap:setDragOffset( tileX, tileY )
 	for k, obj in pairs( self.selectedObjects ) do
@@ -850,6 +850,8 @@ end
 -----------------------------------------
 
 function EditorMap:addObject( tileX, tileY, objName )
+
+	print("creating:", tileX, tileY)
 	--local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
 	--local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
 	--
@@ -889,10 +891,10 @@ function EditorMap:addObject( tileX, tileY, objName )
 	newObject.x, newObject.y = nx, ny
 
 	-- for selecting:
-	newObject.tileX = tileX
-	newObject.tileY = tileY
-	newObject.maxX = tileX + newObject.width/self.tileSize
-	newObject.maxY = tileY + newObject.height/self.tileSize
+	newObject.tileX = newObject.x - newObject.width/self.tileSize*0.5
+	newObject.tileY = newObject.y - newObject.height/self.tileSize*0.5
+	newObject.maxX = newObject.x + newObject.width/self.tileSize*0.5
+	newObject.maxY = newObject.y + newObject.height/self.tileSize*0.5
 	-- for drawing borders in editor:
 	newObject.editorX = newObject.x*self.tileSize - newObject.width*0.5
 	newObject.editorY = newObject.y*self.tileSize - newObject.height*0.5
@@ -1048,6 +1050,7 @@ function EditorMap:findObjectAt( tileX, tileY )
 	end
 end
 
+--[[
 function EditorMap:selectObjectAt( tileX, tileY )
 
 	-- unselect previously selected objects:
@@ -1062,7 +1065,7 @@ function EditorMap:selectObjectAt( tileX, tileY )
 			end
 
 				return obj
-end
+end]]
 --[[
 function EditorMap:selectNoObject()
 	if self.selectedObject then
@@ -1072,39 +1075,51 @@ function EditorMap:selectNoObject()
 end]]
 
 function EditorMap:dragObject( tileX, tileY )
-	if self.selectedObjects then
-		if self:findObjectAt( tileX, tileY ) then
-			return false
-		end
-		local obj = self.selectedObjects
+	for k, obj in pairs( self.selectedObjects ) do
+		if obj.batch then
+			obj.x = tileX - obj.oX
+			obj.y = tileY - obj.oY
+			obj.maxX = obj.x + obj.tileWidth +1
+			obj.maxY = obj.y + obj.tileHeight +1
+			obj.drawX = obj.x*self.tileSize
+			obj.drawY = obj.y*self.tileSize
 
-		obj.x = tileX - obj.oX
-		obj.y = tileY - obj.oY
-		-- for selecting:
-		obj.tileX = tileX
-		obj.tileY = tileY
-		obj.maxX = tileX + obj.width/self.tileSize
-		obj.maxY = tileY + obj.height/self.tileSize
-		-- for drawing borders in editor:
-		obj.editorX = obj.x*self.tileSize - obj.width*0.5
-		obj.editorY = obj.y*self.tileSize - obj.height*0.5
+			if obj.x < self.minX or obj.maxX > self.maxX or
+				obj.y < self.minY or obj.maxY > self.maxY then
+				self.minX = math.min(self.minX, obj.x)
+				self.maxX = math.max(self.maxX, obj.maxX)
+				self.minY = math.min(self.minY, obj.y)
+				self.maxY = math.max(self.maxY, obj.maxY)
+				self:updateBorder()
+			end
+		else
+			obj.x = tileX - obj.oX
+			obj.y = tileY - obj.oY
+			-- for selecting:
+			obj.tileX = obj.x - obj.width/self.tileSize*0.5
+			obj.tileY = obj.y - obj.height/self.tileSize*0.5
+			obj.maxX = obj.x + obj.width/self.tileSize*0.5
+			obj.maxY = obj.y + obj.height/self.tileSize*0.5
+			-- for drawing borders in editor:
+			obj.editorX = obj.x*self.tileSize - obj.width*0.5
+			obj.editorY = obj.y*self.tileSize - obj.height*0.5
 
-		if obj.tileX < self.minX or obj.tileX > self.maxX or
-			obj.tileY < self.minY or obj.tileY > self.maxY then
-			self.minX = math.min(self.minX, obj.tileX)
-			self.maxX = math.max(self.maxX, obj.maxX)
-			self.minY = math.min(self.minY, obj.tileY)
-			self.maxY = math.max(self.maxY, obj.maxY)
-			self:updateBorder()
-		end
+			if obj.tileX < self.minX or obj.tileX > self.maxX or
+				obj.tileY < self.minY or obj.tileY > self.maxY then
+				self.minX = math.min(self.minX, obj.tileX)
+				self.maxX = math.max(self.maxX, obj.maxX)
+				self.minY = math.min(self.minY, obj.tileY)
+				self.maxY = math.max(self.maxY, obj.maxY)
+				self:updateBorder()
+			end
 
-		if obj.tag == "LineHook" and obj.line and obj.partner then
-			obj.line.x = obj.x
-			obj.line.y = obj.y
-			obj.line.x2 = obj.partner.x
-			obj.line.y2 = obj.partner.y
+			if obj.tag == "LineHook" and obj.line and obj.partner then
+				obj.line.x = obj.x
+				obj.line.y = obj.y
+				obj.line.x2 = obj.partner.x
+				obj.line.y2 = obj.partner.y
+			end
 		end
-		return true
 	end
 end
 
@@ -1398,12 +1413,16 @@ function EditorMap:drawObjects()
 		if obj.selected == true then
 			x,y = obj.editorX, obj.editorY
 			width,height = math.max(30,obj.width), math.max(30,obj.height) 
+			love.graphics.rectangle( "line", x, y, width, height)
 		end
+		love.graphics.setColor(255,255,255,50)
+			love.graphics.rectangle( "fill", obj.tileX*self.tileSize,
+				obj.tileY*self.tileSize,
+				obj.maxX*self.tileSize - obj.tileX*self.tileSize,
+				obj.maxY*self.tileSize - obj.tileY*self.tileSize)
+		love.graphics.setColor(255,255,255,255)
 	end
 	--love.graphics.setColor(255,255,255)
-	if x then
-		love.graphics.rectangle( "line", x, y, width, height)
-	end
 end
 
 function EditorMap:drawLines()

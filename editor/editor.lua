@@ -471,7 +471,7 @@ function editor.sortSelectedObjects()
 
 	local t = editor.currentObjects
 	
-	if editor.tool == "object" then
+	if editor.currentTool == "bgObject" then
 		t = editor.currentBgObjects
 	end
 	if not t then return end
@@ -659,9 +659,8 @@ function editor:update( dt )
 			self.drawLine = true
 		elseif self.currentTool == "edit" and self.dragging and
 			(tileX ~= self.lastTileX or tileY ~= self.lastTileY) then
-			if not map:dragObject( tileX, tileY ) then
+			map:dragObject( tileX, tileY )
 				--map:dragBgObject( tileX, tileY )
-			end
 		end
 		self.lastTileX, self.lastTileY = tileX, tileY
 	--else
@@ -1122,8 +1121,8 @@ function editor:useTool( tileX, tileY, button )
 					end
 					--editBgPanel.visible = true
 					self.dragging = true
-					obj.oX = tileX - obj.x
-					obj.oY = tileY - obj.y
+					--obj.oX = tileX - obj.x
+					--obj.oY = tileY - obj.y
 					--self.dragStartX, self.dragStarty = tileX, tileY
 
 					map:setDragOffset( tileX, tileY )
@@ -1203,7 +1202,6 @@ function editor.endBoxSelect( aborted )
 							buttonWasAlreadySelected = singleButton.selected
 						end
 						button:setSelected( true )
-						print("SELECTED")
 					end
 				end
 			end
