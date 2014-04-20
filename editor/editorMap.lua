@@ -1120,8 +1120,8 @@ function EditorMap:dragObject( tileX, tileY )
 			obj.y = tileY - obj.oY
 
 			-- for selecting:
-			obj.tileX = obj.x - 0.5
-			obj.tileY = obj.y - 0.5
+			obj.tileX = math.floor(obj.x - 0.5)
+			obj.tileY = math.floor(obj.y - 0.5)
 			obj.maxX = obj.tileX + 1
 			obj.maxY = obj.tileY + 1
 			-- for drawing borders in editor:
@@ -1411,12 +1411,14 @@ function EditorMap:drawBackground()
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		end
-		--[[love.graphics.setColor(255,0,0,150)
+		if DEBUG then
+		love.graphics.setColor(255,0,0,150)
 			love.graphics.rectangle( "fill", obj.x*self.tileSize,
 				obj.y*self.tileSize,
 				obj.maxX*self.tileSize - obj.x*self.tileSize,
 				obj.maxY*self.tileSize - obj.y*self.tileSize)
-		love.graphics.setColor(255,255,255,255)]]
+		love.graphics.setColor(255,255,255,255)
+	end
 	end
 end
 
@@ -1455,12 +1457,14 @@ function EditorMap:drawObjects()
 			love.graphics.setColor(255,255,255,255)
 			obj:draw()
 		end
-		--[[love.graphics.setColor(255,0,0,150)
+		if DEBUG then
+		love.graphics.setColor(255,0,0,150)
 			love.graphics.rectangle( "fill", obj.tileX*self.tileSize,
 				obj.tileY*self.tileSize,
 				obj.maxX*self.tileSize - obj.tileX*self.tileSize,
 				obj.maxY*self.tileSize - obj.tileY*self.tileSize)
-		love.graphics.setColor(255,255,255,255)]]
+		love.graphics.setColor(255,255,255,255)
+	end
 	end
 	--love.graphics.setColor(255,255,255)
 end
@@ -1670,11 +1674,16 @@ function EditorMap:loadFromFile( fullName )
 		map.lineList = {}
 
 
+
 		-- Update all map tiles to make sure the right
 		-- tile type is used. Force to update all the 
 		-- tiles that need updating
 		map:update( nil, true )
 		map:updateBorder()
+
+		if mode == "editor" then
+			menu:newLevelName( "loaded: " .. mapName, true )
+		end
 	else
 		print( fullName .. " not found." )
 	end

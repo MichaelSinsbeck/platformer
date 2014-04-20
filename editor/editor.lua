@@ -1474,18 +1474,26 @@ function editor:draw()
 			love.graphics.setColor( 255, 255, 255, 255 )
 			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
 			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-
-			local sX, sY = editor.selectBox.sX, editor.selectBox.sY
-			local eX, eY = editor.selectBox.eX, editor.selectBox.eY
-			local tileSize = Camera.scale*8
-
-			--[[love.graphics.setColor( 255, 125, 0, 255 )
-			for x = sX, eX, tileSize do
-				for y = sY, eY, tileSize do
-					love.graphics.point( x, y )
+			
+			if DEBUG then
+				local sX, sY = editor.selectBox.sX, editor.selectBox.sY
+				local eX, eY = editor.selectBox.eX, editor.selectBox.eY
+				local tileSize = Camera.scale*8
+				if sX > eX then
+					sX, eX = eX, sX
 				end
+				if sY > eY then
+					sY, eY = eY, sY
+				end
+
+				love.graphics.setColor( 255, 125, 0, 255 )
+				for x = sX, eX, tileSize do
+					for y = sY, eY, tileSize do
+						love.graphics.point( x, y )
+					end
+				end
+				love.graphics.setColor( 255, 255, 255, 255 )
 			end
-			love.graphics.setColor( 255, 255, 255, 255 )]]
 		end
 	
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )

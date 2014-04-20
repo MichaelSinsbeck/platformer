@@ -409,11 +409,15 @@ function menu.startGame( lvl )
 	end
 end
 
-function menu:newLevelName( txt )
+function menu:newLevelName( txt, noCampaignName )
 	local level = Campaign.current
 	local world = math.ceil(level/15)
 	local innerlvl = (level-1) % 15 + 1
-	menu.curLevelName = world .. ' - ' .. innerlvl .. ' : ' .. txt
+	if noCampaignName then
+		menu.curLevelName = txt
+	else
+		menu.curLevelName = world .. ' - ' .. innerlvl .. ' : ' .. txt
+	end
 	menu.levelNameTime = 0
 	menu.levelNameWidth = fontLarge:getWidth(menu.curLevelName)
 	menu.levelNameBox = menu:generateBox(0.5*(Camera.width-menu.levelNameWidth)-2*Camera.scale,0,menu.levelNameWidth+4*Camera.scale,fontLarge:getHeight()*1.1,1/Camera.scale)
