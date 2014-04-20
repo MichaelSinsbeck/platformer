@@ -1044,6 +1044,7 @@ function editor:useTool( tileX, tileY, button )
 			for k, v in pairs( self.currentBgObjects ) do
 				map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
 			end
+				editor.setTool("edit")
 		elseif button == "r" then
 
 				local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
@@ -1058,6 +1059,7 @@ function editor:useTool( tileX, tileY, button )
 			for k, o in pairs( self.currentObjects ) do
 				map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
 			end
+				editor.setTool("edit")
 		elseif button == "r" then
 			if not map:removeObjectAt( tileX, tileY ) then
 				map:removeBgObjectAt( tileX, tileY )
