@@ -3,6 +3,7 @@ EditorMap.__index = EditorMap
 
 local MAX_TILES_PER_FRAME = 500
 local MAX_FLOOD_FILL_RECURSION = 1500
+local MAX_NUMBER_BG_OBJECTS = 50000
 
 local MIN_MAP_SIZE = 3
 
@@ -64,7 +65,7 @@ function EditorMap:new( backgroundList )
 
 	o.bgList = {}	-- list of background objects
 	o.bgObjectSpriteBatch = love.graphics.newSpriteBatch(
-			editor.images.background1, 50000 )
+			editor.images.background1, MAX_NUMBER_BG_OBJECTS )
 	o.objectList = {}	-- list of objects
 	o.lines = {}
 	--[[
@@ -662,6 +663,10 @@ end
 ---------------------------------------
 
 function EditorMap:addBgObject( tileX, tileY, object )
+	if #self.bgList >= MAX_NUMBER_BG_OBJECTS then
+		print("Waring: Maximum number of background objects reached.")
+		return
+	end
 	local newBatch, newIDs
 	-- In editor mode: Each new background tile gets its own quad:
 	if mode == "editor" then
