@@ -306,12 +306,14 @@ function BgObject:init()
 	self:addToCategory( list["plants"], "tree4.lua", 5, 1 )
 	self:addToCategory( list["plants"], "plants.lua", 0, 5 )
 	self:addToCategory( list["plants"], "fence.lua", 0, 0 )
+	self:addToCategory( list["plants"], "haystack.lua", 10, 0 )
 	self:addToCategory( list["misc"], "wagon.lua", 10, 0 )
 	self:addToCategory( list["misc"], "well.lua", 9, 0 )
 	self:addToCategory( list["misc"], "dragon1.lua", 0, 0 )
 	self:addToCategory( list["misc"], "boxes.lua", 6, 0 )
 	self:addToCategory( list["misc"], "tools.lua", 7, 2 )
 	self:addToCategory( list["misc"], "water.lua", 12, 0 )
+	self:addToCategory( list["misc"], "pulley.lua", 16, 0 )
 	return list
 end
 
