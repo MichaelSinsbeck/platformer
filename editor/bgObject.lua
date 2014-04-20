@@ -4,8 +4,7 @@
 -- Background objects can consist of an arbitary number of tiles.
 -- Each background object knows what tilesheet its tiles are from and
 -- how to place them onto the map.
---
-
+-- 
 -- A background object can either be a single rectangle or multiple ones.
 -- The coords given through tilelist are tables containing:
 -- tileX, tileY, x, y. tileX and tileY give the coordinates of the square on
@@ -297,8 +296,9 @@ function BgObject:init()
 	list["misc"] = {}
 	self:addToCategory( list["houses"], "house1.lua", 0, 0 )
 	self:addToCategory( list["houses"], "house2.lua", 6, 0 )
-	self:addToCategory( list["houses"], "housewalls.lua", 13, 0 )
-	self:addToCategory( list["houses"], "doors.lua", 14, 2 )
+	self:addToCategory( list["houses"], "housewalls.lua", 5, 5 )
+	self:addToCategory( list["houses"], "singlehousewalls.lua", 0, 6 )
+	self:addToCategory( list["houses"], "doors.lua", 0, 4 )
 	self:addToCategory( list["plants"], "tree1.lua", 0, 1 )
 	self:addToCategory( list["plants"], "tree2.lua", 15, 1 )
 	self:addToCategory( list["plants"], "tree3.lua", 10, 1 )
@@ -310,6 +310,7 @@ function BgObject:init()
 	self:addToCategory( list["misc"], "dragon1.lua", 0, 0 )
 	self:addToCategory( list["misc"], "boxes.lua", 6, 0 )
 	self:addToCategory( list["misc"], "tools.lua", 7, 2 )
+	self:addToCategory( list["misc"], "water.lua", 12, 0 )
 	return list
 end
 
