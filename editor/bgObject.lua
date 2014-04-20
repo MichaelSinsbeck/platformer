@@ -293,18 +293,23 @@ function BgObject:init()
 	local obj, img, coords, category
 	local x, y = 1,1
 	list["houses"] = {}
-	list["trees"] = {}
+	list["plants"] = {}
 	list["misc"] = {}
 	self:addToCategory( list["houses"], "house1.lua", 0, 0 )
 	self:addToCategory( list["houses"], "house2.lua", 6, 0 )
-	self:addToCategory( list["trees"], "tree1.lua", 0, 0 )
-	self:addToCategory( list["trees"], "tree2.lua", 0, 4 )
-	self:addToCategory( list["trees"], "tree3.lua", 10, 0 )
-	self:addToCategory( list["trees"], "tree4.lua", 5, 0 )
-	self:addToCategory( list["misc"], "wagon.lua", 9, 0 )
-	self:addToCategory( list["misc"], "well.lua", 8, 0 )
+	self:addToCategory( list["houses"], "housewalls.lua", 13, 0 )
+	self:addToCategory( list["houses"], "doors.lua", 14, 2 )
+	self:addToCategory( list["plants"], "tree1.lua", 0, 1 )
+	self:addToCategory( list["plants"], "tree2.lua", 15, 1 )
+	self:addToCategory( list["plants"], "tree3.lua", 10, 1 )
+	self:addToCategory( list["plants"], "tree4.lua", 5, 1 )
+	self:addToCategory( list["plants"], "plants.lua", 0, 5 )
+	self:addToCategory( list["plants"], "fence.lua", 0, 0 )
+	self:addToCategory( list["misc"], "wagon.lua", 10, 0 )
+	self:addToCategory( list["misc"], "well.lua", 9, 0 )
 	self:addToCategory( list["misc"], "dragon1.lua", 0, 0 )
 	self:addToCategory( list["misc"], "boxes.lua", 6, 0 )
+	self:addToCategory( list["misc"], "tools.lua", 7, 2 )
 	return list
 end
 

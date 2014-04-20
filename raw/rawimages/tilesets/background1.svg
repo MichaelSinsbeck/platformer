@@ -26,11 +26,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.3877049"
-     inkscape:cx="167.39596"
-     inkscape:cy="705.42588"
+     inkscape:zoom="1.6883623"
+     inkscape:cx="184.54795"
+     inkscape:cy="449.66285"
      inkscape:document-units="px"
-     inkscape:current-layer="g9654"
+     inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:showpageshadow="true"
      inkscape:window-width="958"
@@ -26717,7 +26717,7 @@
        style="display:inline"
        clip-path="url(#clipPath9860)"
        id="g10131"
-       transform="translate(0,440.0547)">
+       transform="translate(40,440.0547)">
       <path
          style="fill:#8b5532;fill-opacity:1;stroke:#523b37;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 242.10513,-129.28819 32.70346,-1.04905 0,6.29424 -33.27221,0 z"
@@ -26843,7 +26843,8 @@
        transform="translate(160,440)">
       <g
          clip-path="url(#clipPath9842)"
-         id="g9654">
+         id="g9654"
+         transform="translate(-40,0)">
         <path
            inkscape:connector-curvature="0"
            id="path9656"
@@ -26880,13 +26881,13 @@
            sodipodi:nodetypes="ccccc"
            inkscape:connector-curvature="0"
            id="path9668"
-           d="m 118.91073,-119.13857 -37.124595,0.73859 0,5.35471 37.124595,0.36929 z"
+           d="m 218.91073,-119.13857 -37.1246,0.73859 0,5.35471 37.1246,0.36929 z"
            style="fill:#8b5532;fill-opacity:1;stroke:#523b37;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
         <path
            sodipodi:nodetypes="ccccc"
            inkscape:connector-curvature="0"
            id="path9670"
-           d="m 81.803497,-129.53764 31.896543,16.16319 -1.1278,6.08011 -30.964506,-17.12537 z"
+           d="m 181.8035,-129.53764 31.89654,16.16319 -1.1278,6.08011 -30.96451,-17.12537 z"
            style="fill:#8b5532;fill-opacity:1;stroke:#523b37;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
         <path
            sodipodi:nodetypes="ccccc"
