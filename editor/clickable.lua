@@ -281,9 +281,9 @@ end
 
 function Clickable:setSelected( bool )
 	self.selected = bool
-	if self.selected then
+	if self.selected and self.imgHover then
 		self:setAnim(self.imgHover)
-	else
+	elseif self.imgOff then
 		self:setAnim(self.imgOff)
 	end
 end

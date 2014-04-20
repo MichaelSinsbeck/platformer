@@ -1396,14 +1396,17 @@ function editor:draw()
 		elseif self.currentObjects and self.currentTool == "object" then
 			--love.graphics.draw( self.currentObject.obj, rX, rY)
 			local offset = 0.5*tileSize
-			for k, v in pairs(self.currentObjects) do
-				v.obj.vis[1]:draw( rX + offset + v.tileX*tileSize, rY + offset + v.tileY*tileSize, true )
-				if v.obj.tag == "LineHook" and map.openLineHook then
+			for k, o in pairs(self.currentObjects) do
+				--v.obj.vis[1]:draw( rX + offset + v.tileX*tileSize, rY + offset + v.tileY*tileSize, true )
+				for i, vis in ipairs( o.obj.vis ) do
+					vis:draw( rX + offset + o.tileX*tileSize, rY + offset + o.tileY*tileSize, true )
+				end
+				if o.obj.tag == "LineHook" and map.openLineHook then
 					love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale,
 						(map.openLineHook.tileX*8+4)*Camera.scale,
 						(map.openLineHook.tileY*8+4)*Camera.scale )
+				end
 			end
-		end
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
 				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
