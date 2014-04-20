@@ -82,7 +82,6 @@ function editor.init()
 
 	editor.objectProperties = {}
 	
-	
 	--editor.objectList, editor.objectProperties = Object:init()
 	editor.backgroundList = Background:init()
 
@@ -120,7 +119,7 @@ function editor.createPropertiesPanel()
 		
 
 		if #map.selectedObjects == 1 then
-			if map.selectedObjects[1].batch then
+			if map.selectedObjects[1].isBackgroundObject then
 				x,y = 13, 26
 				propertiesPanel:addClickable( x, y, function() map:bgObjectLayerUp() end,
 					'LELayerUpOff',
@@ -393,44 +392,14 @@ function editor.createBgObjectPanel()
 	local page = 1
 	local maxY = -math.huge
 	local currentCategory
-	for k, obj in ipairs( editor.bgObjectList ) do
-
-		if not currentCategory then
-			-- start with the first object's category:
-			currentCategory = obj.category_major
+	for k, category in pairs( editor.bgObjectList ) do
+		for i, obj in ipairs( category ) do
+			bgObjectPanel:addBatchClickable( 8 + (8+PADDING)*obj.panelX,
+					8 + (8+PADDING)*obj.panelY,
+					nil, obj, 8, 8, obj.tag, page )
 		end
-
-		local bBox = obj.bBox
-
-		-- Is this object higher than the others of this row?
-		maxY = math.max( bBox.maxY, maxY )
-
-		if currentCategory ~= obj.category_major then
-			currentCategory = obj.category_major
-			y = BORDER_PADDING
-			page = page +1
-			x = BORDER_PADDING
-			maxY = -math.huge
-		else
-			if x + bBox.maxX*8 > panelWidth then
-				-- add the maximum height of the obejcts in this row, then continue:
-				y = y + maxY*8 + PADDING
-				if y + bBox.maxY*8 + 8 > panelHeight then
-					y = BORDER_PADDING
-					page = page +1
-				end
-				x = BORDER_PADDING
-
-				maxY = -math.huge
-			end
-		end
-
-		-- local event = function()
-		-- end
-
-		bgObjectPanel:addBatchClickable( x, y, event, obj, bBox.maxX*8, bBox.maxY*8, obj.tag, page )
-
-		x = x + bBox.maxX*8 + PADDING
+		page = page + 1	-- own page for each category
+		--x = x + bBox.maxX*8 + PADDING
 	end
 end
 
@@ -1505,9 +1474,20 @@ function editor:draw()
 			love.graphics.setColor( 255, 255, 255, 255 )
 			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
 			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
+
+			local sX, sY = editor.selectBox.sX, editor.selectBox.sY
+			local eX, eY = editor.selectBox.eX, editor.selectBox.eY
+			local tileSize = Camera.scale*8
+
+			--[[love.graphics.setColor( 255, 125, 0, 255 )
+			for x = sX, eX, tileSize do
+				for y = sY, eY, tileSize do
+					love.graphics.point( x, y )
+				end
+			end
+			love.graphics.setColor( 255, 255, 255, 255 )]]
 		end
 	
-
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
 	
 	--[[love.graphics.print(wX,10,10)

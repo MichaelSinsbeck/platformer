@@ -664,12 +664,12 @@ function EditorMap:addBgObject( tileX, tileY, object )
 	local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
 	local newObject = {
 		ids = newIDs,
-		x = bBox.x + tileX,
-		y = bBox.y + tileY,
-		maxX = bBox.maxX + tileX,
-		maxY = bBox.maxY + tileY,
-		drawX = (bBox.x + tileX)*self.tileSize,
-		drawY = (bBox.y + tileY)*self.tileSize,
+		x = tileX,--bBox.x + tileX,
+		y = tileY,--bBox.y + tileY,
+		maxX = 1 + tileX,--bBox.maxX + tileX,
+		maxY = 1 + tileY,--bBox.maxY + tileY,
+		drawX = tileX*self.tileSize,--(bBox.x + tileX)*self.tileSize,
+		drawY = tileY*self.tileSize,--(bBox.y + tileY)*self.tileSize,
 		tileWidth = object.tileWidth,
 		tileHeight = object.tileHeight,
 		width = object.width,
@@ -677,6 +677,7 @@ function EditorMap:addBgObject( tileX, tileY, object )
 		selected = false,
 		batch = newBatch,
 		objType = object,
+		isBackgroundObject = true,
 	}
 	table.insert( self.bgList, newObject )
 
@@ -1050,14 +1051,13 @@ function EditorMap:removeAllSelected()
 end
 
 function EditorMap:findObjectAt( tileX, tileY )
-
 	local obj
 	-- Go through the list backwards and select first object found
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
 		if obj.vis[1] then
 			if tileX >= obj.tileX and tileY >= obj.tileY and
-				tileX <= obj.maxX and tileY <= obj.maxY then
+				tileX < obj.maxX and tileY < obj.maxY then
 				return obj
 			end
 		end
@@ -1099,11 +1099,11 @@ end]]
 
 function EditorMap:dragObject( tileX, tileY )
 	for k, obj in pairs( self.selectedObjects ) do
-		if obj.batch then
+		if obj.isBackgroundObject then
 			obj.x = tileX - obj.oX
 			obj.y = tileY - obj.oY
-			obj.maxX = obj.x + obj.tileWidth +1
-			obj.maxY = obj.y + obj.tileHeight +1
+			obj.maxX = obj.x + obj.tileWidth
+			obj.maxY = obj.y + obj.tileHeight
 			obj.drawX = obj.x*self.tileSize
 			obj.drawY = obj.y*self.tileSize
 
@@ -1402,10 +1402,21 @@ function EditorMap:drawBackground()
 		love.graphics.draw( self.backgroundBatch[i], 0, 0 )
 	end
 	for k, obj in ipairs( self.bgList ) do
-		love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		if obj.selected == true then
+			love.graphics.setColor(255,150,150,255)
+			love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+			love.graphics.setColor(255,255,255,255)
 			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
+		else
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 		end
+		--[[love.graphics.setColor(255,0,0,150)
+			love.graphics.rectangle( "fill", obj.x*self.tileSize,
+				obj.y*self.tileSize,
+				obj.maxX*self.tileSize - obj.x*self.tileSize,
+				obj.maxY*self.tileSize - obj.y*self.tileSize)
+		love.graphics.setColor(255,255,255,255)]]
 	end
 end
 
@@ -1432,19 +1443,24 @@ function EditorMap:drawObjects()
 	local x,y,height,width
 	for k, obj in ipairs( self.objectList ) do
 		--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
-		obj:draw()
 
 		if obj.selected == true then
+			love.graphics.setColor(255,150,150,255)
+			obj:draw()
 			x,y = obj.editorX, obj.editorY
 			width,height = math.max(30,obj.width), math.max(30,obj.height) 
+			love.graphics.setColor(255,255,255,255)
 			love.graphics.rectangle( "line", x, y, width, height)
+		else
+			love.graphics.setColor(255,255,255,255)
+			obj:draw()
 		end
-		love.graphics.setColor(255,255,255,50)
+		--[[love.graphics.setColor(255,0,0,150)
 			love.graphics.rectangle( "fill", obj.tileX*self.tileSize,
 				obj.tileY*self.tileSize,
 				obj.maxX*self.tileSize - obj.tileX*self.tileSize,
 				obj.maxY*self.tileSize - obj.tileY*self.tileSize)
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(255,255,255,255)]]
 	end
 	--love.graphics.setColor(255,255,255)
 end
@@ -1529,8 +1545,10 @@ function EditorMap:loadFromFile( fullName )
 			groundsList[b.matchName] = b
 		end
 		local bgObjList = {}
-		for k,b in pairs(editor.bgObjectList) do
-			bgObjList[b.name] = b
+		for k,category in pairs(editor.bgObjectList) do
+			for i,b in pairs( category ) do
+				bgObjList[b.name] = b
+			end
 		end
 		local objList = {}
 		for k,b in pairs(editor.objectList) do

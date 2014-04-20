@@ -58,7 +58,7 @@ categories[CATEGORY_GARDEN] = {
 local BgObject = {}
 BgObject.__index = BgObject
 
-function BgObject:new( name, tileset, tileList, cat_major, cat_minor )
+function BgObject:new( name, tileset, coords, cat_major, cat_minor )
 	local o = {}
 	setmetatable( o, self )
 
@@ -70,21 +70,21 @@ function BgObject:new( name, tileset, tileList, cat_major, cat_minor )
 
 	o.tileset = editor.images[tileset]
 
-	o.tileList = tileList
+	--o.tileList = tileList
 
-	o.quadList = {}
+	--o.quadList = {}
 
-	o.tileArray = {}
-	o.coordsArray = {}
+	--o.tileArray = {}
+	--o.coordsArray = {}
 
-	o.category_major = cat_major or CATEGORY_MISC
-	o.category_minor = cat_minor or ""
+	--o.category_major = cat_major or CATEGORY_MISC
+	--o.category_minor = cat_minor or ""
 
 	--[[o.sortedTileArray = {}
 	local minX, minY = math.huge, math.huge
 	local maxY, maxY = -math.huge, -math.huge]]
 	-- add all coords into lists:
-	for k, coords in pairs(tileList) do
+	--[[for k, coords in pairs(tileList) do
 		if not o.tileArray[coords.tileX] then
 			o.tileArray[coords.tileX] = {}
 		end
@@ -103,24 +103,28 @@ function BgObject:new( name, tileset, tileList, cat_major, cat_minor )
 		o.maxX = math.max(o.maxX, v.x)
 		o.minY = math.min(o.minY, v.y)
 		o.maxY = math.max(o.maxY, v.y)
-	end
-	o.bBox = {
+	end]]
+	--[[o.bBox = {
 		x = o.minX,
 		y = o.minY,
 		maxX = o.maxX + 1,
 		maxY = o.maxY + 1,
-	}
+	}]]
 
-	o:calculateQuads()
+	--o:calculateQuads()
+	o.quad = love.graphics.newQuad(
+			coords.tileX*Camera.scale*8, coords.tileY*Camera.scale*8,
+			Camera.scale*8, Camera.scale*8,
+			o.tileset:getWidth(), o.tileset:getHeight() )
 	
 	o.batch = love.graphics.newSpriteBatch( o.tileset )
 	o:addToBatch( o.batch, {}, 0, 0 )
 
-	o.tileWidth = (o.maxX - o.minX)
-	o.tileHeight = (o.maxY - o.minY)
+	o.tileWidth = 1--(o.maxX - o.minX)
+	o.tileHeight = 1--(o.maxY - o.minY)
 	
-	o.width = (o.tileWidth+1)*Camera.scale*8
-	o.height = (o.tileHeight+1)*Camera.scale*8
+	o.width = (o.tileWidth)*Camera.scale*8
+	o.height = (o.tileHeight)*Camera.scale*8
 
 	return o
 end
@@ -231,32 +235,30 @@ function BgObject:calculateQuads()
 end
 
 function BgObject:addToBatch( spriteBatch, emptyIDs, x, y )
-
 	local usedIDs = {}
-	local quad, xOffset, yOffset
-	for k, element in pairs(self.quadList) do
-		quad = element.quad
-		xOffset = element.coordX
-		yOffset = element.coordY
+	--local quad, xOffset, yOffset
+	--for k, element in pairs(self.quadList) do
+		--xOffset = self.coordX
+		--yOffset = self.coordY
 		local k, id
 		if emptyIDs then
 			k, id = next(emptyIDs)
 		end
 
 		if id then
-			spriteBatch:set( id, quad, (x + xOffset)*Camera.scale*8, (y + yOffset)*Camera.scale*8)
+			spriteBatch:set( id, self.quad, (x)*Camera.scale*8, (y)*Camera.scale*8)
 			table.remove(emptyIDs, k)
 		else
-			id = spriteBatch:add( quad, (x + xOffset)*Camera.scale*8, (y + yOffset)*Camera.scale*8)
+			id = spriteBatch:add( self.quad, (x)*Camera.scale*8, (y)*Camera.scale*8)
 		end
 		table.insert( usedIDs, id )
-	end
-	return usedIDs, self.bBox
+	--end
+	return usedIDs--, self.bBox
 end
 
 -- Sort by categories (first by major, then within
 -- the major category, sort by minor)
-local function sortBgObjectList( a, b )
+--[[local function sortBgObjectList( a, b )
 	if not b then return true end
 	if not a then return false end
 	if a.category_major ~= b.category_major then
@@ -274,63 +276,35 @@ local function sortBgObjectList( a, b )
 			--return false
 		end
 	end
+end]]
+
+function BgObject:addToCategory( cat, filename, x, y )
+	local img, coords = dofile( "editor/bgObjects/" .. filename )
+	for k, c in pairs( coords ) do
+		new = BgObject:new( img .. c.tileX .. "x" .. c.tileY, img, c )
+		new.panelX = x + c.x
+		new.panelY = y + c.y
+		table.insert( cat, new )
+	end
 end
 
 function BgObject:init()
 	local list = {}
-	local coords, img, name, category_major
-
-	print("Loading predefined backgound objects:")
-
-	files = love.filesystem.getDirectoryItems("editor/bgObjects/")
-	for i, file in ipairs(files) do
-		name = file:match("([^/]*).lua$")
-		if name then
-			print("\t...", name)
-			img, coords, category_major = dofile( "editor/bgObjects/" .. file )
-			new = BgObject:new( name, img, coords, category_major )
-			table.insert( list, new )
-		end
-	end
-
-	local img = editor.images["background1"]
-	local numX = img:getWidth()/Camera.scale/8
-	local numY = img:getHeight()/Camera.scale/8
-
-	print("Loading " .. numX*numY .. " tiles for background objects:")
-
-	for x = 1, numX do
-		for y = 1, numY do
-			local category_major = CATEGORY_MISC
-			local category_minor = ""
-			local found = false
-
-			-- Check if you can find these coordinates in any category list.
-			-- If so, then set the category of this tile to the category in
-			-- which it was found:
-			local compStr = x-1 .. "x" .. y-1
-			for cat, list in pairs(categories) do
-				for subcat, sublist in pairs( list ) do
-					if sublist:find( compStr ) then
-						found = true
-						category_major = cat
-						category_minor = subcat
-						break
-					end
-				end
-				if found then break end
-			end
-
-			new = BgObject:new( x .. "x" .. y, "background1",
-				{	-- just one coordinate:
-					{tileX=x-1, tileY=y-1, x=0,y=0}
-				}, category_major, category_minor )
-			table.insert( list, new )
-		end
-	end
-
-	table.sort( list, sortBgObjectList )
-
+	local obj, img, coords, category
+	local x, y = 1,1
+	list["houses"] = {}
+	list["trees"] = {}
+	list["misc"] = {}
+	self:addToCategory( list["houses"], "house1.lua", 0, 0 )
+	self:addToCategory( list["houses"], "house2.lua", 6, 0 )
+	self:addToCategory( list["trees"], "tree1.lua", 0, 0 )
+	self:addToCategory( list["trees"], "tree2.lua", 0, 4 )
+	self:addToCategory( list["trees"], "tree3.lua", 10, 0 )
+	self:addToCategory( list["trees"], "tree4.lua", 5, 0 )
+	self:addToCategory( list["misc"], "wagon.lua", 9, 0 )
+	self:addToCategory( list["misc"], "well.lua", 8, 0 )
+	self:addToCategory( list["misc"], "dragon1.lua", 0, 0 )
+	self:addToCategory( list["misc"], "boxes.lua", 6, 0 )
 	return list
 end
 
