@@ -1369,7 +1369,9 @@ function editor:draw()
 	map:drawBackground()
 
 	love.graphics.setColor( 255, 255, 255, 255 )
-	if self.currentTool == "bgObject" or self.currentTool == "bgPen" then
+	if self.currentTool == "bgObject" or
+		self.currentTool == "bgPen" or
+		self.currentTool == "edit" then
 		love.graphics.setColor( 120, 120, 120, 230 )
 	end
 	map:drawGround()
