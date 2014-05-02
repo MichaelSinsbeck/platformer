@@ -31,6 +31,7 @@ function levelEnd:reset()
 	statList["death_spikey"] = 0
 	statList["death_runner"] = 0
 	statList["death_walker"] = 0
+	statList["death_water"] = 0
 
 	statList["noDeaths"] = 0
 

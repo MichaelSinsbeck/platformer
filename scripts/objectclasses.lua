@@ -43,6 +43,8 @@ Walker = require 'scripts/objects.walker',
 -- Walkerhorz = require 'scripts/objects.walkerhorz',
 -- Walkervert = require 'scripts/objects.walkervert',
 Spawner = require 'scripts/objects.spawner',
+Water = require 'scripts/objects.water',
+Droplet = require 'scripts/objects.droplet',
 }
 
 

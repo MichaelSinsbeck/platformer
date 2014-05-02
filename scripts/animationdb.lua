@@ -356,6 +356,14 @@ function AnimationDB:loadAll()
 	AnimationDB:addAni('meatWall','meat',{5},{1e6})
 	AnimationDB:addAni('meatCorner','meat',{6},{1e6})
 	
+	AnimationDB:loadImage('droplet.png','droplet',.4*tileSize,.4*tileSize)	
+	AnimationDB:addAni('droplet1','droplet',{1},{1e6})
+	AnimationDB:addAni('droplet2','droplet',{2},{1e6})
+	AnimationDB:addAni('droplet3','droplet',{3},{1e6})
+	AnimationDB:addAni('droplet4','droplet',{4},{1e6})
+	AnimationDB:addAni('dropletWall','droplet',{5},{1e6})
+	AnimationDB:addAni('dropletCorner','droplet',{6},{1e6})	
+	
 	AnimationDB:loadImage('exit.png','exit',tileSize,tileSize)	
 	AnimationDB:addAni('exit','exit',{1,2,3,4,1,5,6},{.1,.1,.1,.1,.1,.1,.1})
 	
