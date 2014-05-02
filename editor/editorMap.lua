@@ -3,6 +3,7 @@ EditorMap.__index = EditorMap
 
 local MAX_TILES_PER_FRAME = 500
 local MAX_FLOOD_FILL_RECURSION = 1500
+local MAX_NUMBER_BG_OBJECTS = 50000
 
 local MIN_MAP_SIZE = 3
 
@@ -63,6 +64,8 @@ function EditorMap:new( backgroundList )
 	EditorMap.updateBorder(o)
 
 	o.bgList = {}	-- list of background objects
+	o.bgObjectSpriteBatch = love.graphics.newSpriteBatch(
+			editor.images.background1, MAX_NUMBER_BG_OBJECTS )
 	o.objectList = {}	-- list of objects
 	o.lines = {}
 	--[[
@@ -660,10 +663,18 @@ end
 ---------------------------------------
 
 function EditorMap:addBgObject( tileX, tileY, object )
-	local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
-	local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
+	if #self.bgList >= MAX_NUMBER_BG_OBJECTS then
+		print("Waring: Maximum number of background objects reached.")
+		return
+	end
+	local newBatch, newIDs
+	-- In editor mode: Each new background tile gets its own quad:
+	if mode == "editor" then
+		--newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
+		--newIDs = object:addToBatch( newBatch, nil, 0,0 )
 	local newObject = {
-		ids = newIDs,
+		--ids = newIDs,
+		--batch = newBatch,
 		x = tileX,--bBox.x + tileX,
 		y = tileY,--bBox.y + tileY,
 		maxX = 1 + tileX,--bBox.maxX + tileX,
@@ -675,7 +686,6 @@ function EditorMap:addBgObject( tileX, tileY, object )
 		width = object.width,
 		height = object.height,
 		selected = false,
-		batch = newBatch,
 		objType = object,
 		isBackgroundObject = true,
 	}
@@ -690,6 +700,9 @@ function EditorMap:addBgObject( tileX, tileY, object )
 		self:updateBorder()
 	end
 	return newObject
+else
+	self.bgObjectSpriteBatch:add( object.quad, tileX*self.tileSize, tileY*self.tileSize )
+end
 end
 
 function EditorMap:removeBgObjectAt( tileX, tileY )
@@ -1401,15 +1414,18 @@ function EditorMap:drawBackground()
 	for i = 1, #self.backgroundBatch do
 		love.graphics.draw( self.backgroundBatch[i], 0, 0 )
 	end
+	if mode == "editor" then
 	for k, obj in ipairs( self.bgList ) do
 		if obj.selected == true then
 			love.graphics.setColor(255,150,150,255)
-			love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+			--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+			love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
 		else
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+			--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+			love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
 		end
 		if DEBUG then
 		love.graphics.setColor(255,0,0,150)
@@ -1420,6 +1436,10 @@ function EditorMap:drawBackground()
 		love.graphics.setColor(255,255,255,255)
 	end
 	end
+else
+
+	love.graphics.draw( self.bgObjectSpriteBatch )
+end
 end
 
 function EditorMap:drawBackgroundTypes( cam )
