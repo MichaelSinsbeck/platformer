@@ -195,18 +195,13 @@ function Clickable:draw()
 		for k = 1, #self.vis do
 			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)
 		end
-		if DEBUG then
-			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
-		end
 
-		if self.selected then
-			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
-		end
 	elseif self.batch then
-		if self.selected then
-			love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
-		end
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
+		love.graphics.setColor(50,50,50)
+		love.graphics.setLineWidth(1)
+		love.graphics.rectangle("line", self.minX+.5, self.minY+.5, self.maxX - self.minX, self.maxY-self.minY)
+		
 	elseif self.text then
 		if self.active == "off" then
 			love.graphics.setColor( 255, 255, 255, 20 )
@@ -235,6 +230,15 @@ function Clickable:draw()
 		love.graphics.pop()
 	end
 	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
+end
+
+function Clickable:drawOutline()
+	if self.selected or (self.vis and DEBUG) then
+	love.graphics.setColor(255,255,255)
+		love.graphics.setLineWidth(2)	
+		love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
+	end
+	
 end
 
 function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )

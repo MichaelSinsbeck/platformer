@@ -295,6 +295,9 @@ function Panel:draw()
 		for k, button in ipairs( self.pages[self.selectedPage] ) do
 			button:draw()
 		end
+	for k, button in ipairs( self.pages[self.selectedPage] ) do
+			button:drawOutline()
+		end		
 	end
 	love.graphics.setColor(255,255,255,255)
 end
