@@ -1671,7 +1671,6 @@ function EditorMap:loadFromFile( fullName )
 				   objType == 'background10x21' or
 				   objType == 'background11x21' or
 				   objType == 'background12x21' then
-					print('Füge wasser zu: '..x .. ', ' .. y)
 					map:addObject( x+1, y+1, "Water" )
 				end
 			end
