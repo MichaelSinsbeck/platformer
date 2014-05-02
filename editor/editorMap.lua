@@ -1643,7 +1643,14 @@ function EditorMap:loadFromFile( fullName )
 				map:addBgObject( x + minX+1, y + minY+1, bgObjList[objType] )
 				
 
-				if objType == 'background10x7' then
+				if objType == 'background10x7' or
+				   objType == 'background10x8' or
+				   objType == 'background10x20' or
+				   objType == 'background11x20' or
+				   objType == 'background12x20' or
+				   objType == 'background10x21' or
+				   objType == 'background11x21' or
+				   objType == 'background12x21' then
 					print('Füge wasser zu: '..x .. ', ' .. y)
 					map:addObject( x+1, y+1, "Water" )
 				end

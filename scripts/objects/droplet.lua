@@ -51,8 +51,8 @@ function Droplet:spawn(x,y,vx,vy,number)
 	for i=1,number do
 		local angle, magnitude = math.pi*2*math.random(), 0.2+math.random()*0.8
 		local cos,sin = math.cos(angle),math.sin(angle)
-		local vx = cos*self.spreadSpeed*magnitude+0.7*vx
-		local vy = sin*self.spreadSpeed*magnitude-0.8*vy
+		local vx = cos*self.spreadSpeed*magnitude+0.5*vx
+		local vy = sin*self.spreadSpeed*magnitude-0.5*vy
 		local lifetime = self.lifetime * 0.8+ 0.4*math.random()
 		local animation = 'droplet' .. math.random(1,4)
 		local newPiece = self:New({x=x,y=y,vx = vx,vy = vy,vis={Visualizer:New(animation)},lifetime = lifetime})
