@@ -379,7 +379,7 @@ end
 
 function editor.createBgObjectPanel()
 
-	local PADDING = 1
+	local PADDING = 0
 	local BORDER_PADDING = 10
 
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 32
