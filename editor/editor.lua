@@ -162,8 +162,8 @@ function editor.start()
 	love.mouse.setVisible( true )
 
 	local toolPanelWidth = 10*9
-	toolPanel = Panel:new( 15, love.graphics.getHeight()/Camera.scale-40,
-							 toolPanelWidth, 16 )
+	toolPanel = Panel:new( -10, -7, toolPanelWidth, 16)
+	
 	local x,y = 20,15
 	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
@@ -209,9 +209,8 @@ function editor.start()
 				'LEEraserOn',
 				'LEEraserHover',
 				"Eraser - remove tiles or objects.")]]
-	menuPanel = Panel:new( love.graphics.getWidth()/Camera.scale - toolPanelWidth - 23,
-							love.graphics.getHeight()/Camera.scale-40,
-							toolPanelWidth, 16 )
+
+	menuPanel = Panel:new( -10 + toolPanelWidth - 2, -7,	toolPanelWidth, 16 )
 	x, y = 20, 15
 	
 	menuPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
@@ -252,8 +251,10 @@ function editor.start()
 				
 	-- Panel for choosing the ground type:
 	local w = 160
-	groundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
-	x,y = 20, 13
+	local h = 120
+	--groundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
+	groundPanel = Panel:new( -9, 17, 32, h )
+	x,y = 17, 16
 
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[1] end,
@@ -261,49 +262,49 @@ function editor.start()
 				'LEGround1On',
 				'LEGround1Hover',
 				"draw concrete ground", nil, "1" )
-	x = x + 10
+  y = y + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover',
 				"draw dirt ground", nil, "2" )
-	x = x + 10
+  y = y + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
 				'LEGround3Hover',
 				"draw grass ground", nil,"3" )
-	x = x + 10
+  y = y + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
 				'LEGround4Hover',
 				"draw stone ground", nil, "4" )
-	x = x + 10
+  y = y + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
 				'LEGround5Hover',
 				"draw wood ground", nil, "5" )
-	x = x + 10
+  y = y + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover',
 				"draw bridges", nil, "6" )
-	x = x + 10
+  y = y + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[7] end,
 				'LESpikes1Off',
 				'LESpikes1On',
 				'LESpikes1Hover',
 				"draw grey spikes", nil, "7" )
-	x = x + 10
+  y = y + 10
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[8] end,
 				'LESpikes2Off',
@@ -313,7 +314,8 @@ function editor.start()
 
 	-- Panel for choosing the background type:
 	backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
-	x,y = 20, 13
+	backgroundPanel = Panel:new( -9, 17, 32, h )
+	x,y = 17, 16
 
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[1] end,
@@ -321,14 +323,14 @@ function editor.start()
 				'LEGround1On',
 				'LEGround1Hover',
 				"draw concrete background", nil, "1" )
-	x = x + 10
+  y = y + 10
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover',
 				"draw soil background", nil, "2" )
-	x = x + 10
+  y = y + 10
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[3] end,
 				'LEGround2Off',
@@ -385,7 +387,7 @@ function editor.createBgObjectPanel()
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 32
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
 
-	bgObjectPanel = Panel:new( 16, 16, panelWidth, panelHeight )
+	bgObjectPanel = Panel:new( 16, 32, panelWidth, panelHeight )
 	bgObjectPanel.visible = false
 
 	local x, y = BORDER_PADDING, BORDER_PADDING --PADDING, PADDING
@@ -492,7 +494,7 @@ function editor.createObjectPanel()
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 64
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
 
-	objectPanel = Panel:new( 32, 16, panelWidth, panelHeight )
+	objectPanel = Panel:new( 32, 32, panelWidth, panelHeight )
 	objectPanel.visible = false
 
 	local x, y = BORDER_PADDING, BORDER_PADDING
