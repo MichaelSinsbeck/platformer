@@ -182,15 +182,9 @@ function Clickable:newBatch( x, y, event, obj, width, height, toolTip )
 end
 
 function Clickable:draw()
-	--if self.selected then
-	--	love.graphics.rectangle( "line", self.minX, self.minY, self.width, self.height )
-		--love.graphics.draw( editor.images.highlight,
-		--	(self.x)*Camera.scale-self.width/2+dX,
-		--	(self.y)*Camera.scale-self.height/2+dY)
-	--end
 	love.graphics.setColor(255,255,255,255)
 	if self.vis then
-		local iW, iH = editor.images.highlight:getWidth(), editor.images.highlight:getHeight()
+		local iW, iH = AnimationDB.source.highlight.image:getWidth(), AnimationDB.source.highlight.image:getHeight()
 		local dX, dY = (self.width-iW)*0.5, (self.height-iH)*0.5
 		for k = 1, #self.vis do
 			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)

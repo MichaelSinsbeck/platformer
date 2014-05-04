@@ -51,23 +51,9 @@ function editor.init()
 	-- save all user made files in here:
 	love.filesystem.createDirectory("mylevels")
 	
-	editor.images = {}
-
-	local prefix = Camera.scale * 8
-	editor.images.tilesetGround = love.graphics.newImage( "images/tilesets/" .. prefix .. "grounds.png" )
-	editor.images.tilesetBackground = love.graphics.newImage( "images/tilesets/" .. prefix .. "backgrounds.png" )
-	editor.images.cell = love.graphics.newImage( "images/editor/" .. prefix .. "cell.png")
-	editor.images.cell:setWrap('repeat', 'repeat')
-
 	local tileSize = Camera.scale * 8
 	editor.cellQuad = love.graphics.newQuad(0, 0, Camera.width+tileSize, Camera.height+tileSize, tileSize, tileSize)
-
-	editor.images.fill = love.graphics.newImage( "images/editor/" .. prefix .. "fill.png")
 	editor.fillQuad = love.graphics.newQuad(0, 0, tileSize*3, tileSize*3, tileSize*3, tileSize*3 )
-	editor.images.pinLeft= love.graphics.newImage( "images/editor/" .. prefix .. "pinLeft.png")
-	editor.images.pinRight= love.graphics.newImage( "images/editor/" .. prefix .. "pinRight.png")
-
-	editor.images.highlight = love.graphics.newImage( "images/editor/" .. prefix .. "buttonHighlight.png")
 
 	editor.groundList = Ground:init()
 	editor.bgObjectList = BgObject:init()
@@ -1361,7 +1347,7 @@ function editor:draw()
 	local cx,cy = cam:screenToWorld( 0, 0 )
 	cx = math.floor(cx/tileSize)*tileSize
 	cy = math.floor(cy/tileSize)*tileSize
-	love.graphics.draw(editor.images.cell, editor.cellQuad,cx,cy)
+	love.graphics.draw(AnimationDB.source.cell.image, editor.cellQuad,cx,cy)
 
 
 	love.graphics.setColor( 255, 255, 255, 255 )
@@ -1413,7 +1399,7 @@ function editor:draw()
 			end
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
-				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
+				love.graphics.draw( AnimationDB.source.fill.image, editor.fillQuad, rX-tileSize, rY-tileSize )
 			else
 				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
 			end
@@ -1421,7 +1407,7 @@ function editor:draw()
 			--local tX = math.floor(rX - tileSize/2) - tileSize*0.3
 			--local tY = math.floor(rY - tileSize/2) - tileSize*0.3
 			if self.ctrl then
-				love.graphics.draw( editor.images.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
+				love.graphics.draw( AnimationDB.source.fill.image, editor.fillQuad, rX-tileSize, rY-tileSize )
 			else
 				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
 			end

@@ -63,13 +63,14 @@ function Camera:applyScale()
 	AnimationDB:loadAll()
 	loadFont()
 	BambooBox:init()
-	menu:init()		-- after AnimationDB:loadAll() !
-	if myMap then -- reload Map-image, if map exists
-		myMap:loadImage()
-	end
 	if editor then
 		levelEnd:init()
-	end
+	end	
+	menu:init()		-- after AnimationDB:loadAll() !
+	--if myMap then -- reload Map-image, if map exists
+	--	myMap:loadImage()
+	--end
+
 end
 
 function Camera:setTarget()

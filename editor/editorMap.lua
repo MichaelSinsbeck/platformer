@@ -23,19 +23,17 @@ function EditorMap:new( backgroundList )
 
 	o.backgroundList = backgroundList
 
-	o.groundBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
+	o.groundBatch = love.graphics.newSpriteBatch( AnimationDB.source.tilesetGround.image,
 					o.MAP_SIZE*o.MAP_SIZE, "stream" )
 	o.backgroundBatch = {}
 	o.bgIDs = {}
 	for i,bg in pairs(backgroundList) do
-		o.backgroundBatch[i] = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
+		o.backgroundBatch[i] = love.graphics.newSpriteBatch( AnimationDB.source.tilesetBackground.image,
 						o.MAP_SIZE*o.MAP_SIZE, "stream" )
 		o.bgIDs[bg] = i
 	end
-	o.spikeBatch = love.graphics.newSpriteBatch( editor.images.tilesetGround,
+	o.spikeBatch = love.graphics.newSpriteBatch( AnimationDB.source.tilesetGround.image,
 					o.MAP_SIZE*o.MAP_SIZE, "stream" )
-	--o.backgroundBatch = love.graphics.newSpriteBatch( editor.images.tilesetBackground,
-					--100000, "dynamic" )
 
 	o.groundArray = {}
 	o.backgroundArray = {}
@@ -56,16 +54,16 @@ function EditorMap:new( backgroundList )
 
 	o.border = {}	-- the border which to draw around the map...
 	o.borderMarkers = {}
-	o.borderMarkers[1] = {x=0,y=0,img=editor.images.pinLeft}
-	o.borderMarkers[2] = {x=0,y=0,img=editor.images.pinLeft}
-	o.borderMarkers[3] = {x=0,y=0,img=editor.images.pinRight}
-	o.borderMarkers[4] = {x=0,y=0,img=editor.images.pinRight}
+	o.borderMarkers[1] = {x=0,y=0,img=AnimationDB.source.pinLeft.image}
+	o.borderMarkers[2] = {x=0,y=0,img=AnimationDB.source.pinLeft.image}
+	o.borderMarkers[3] = {x=0,y=0,img=AnimationDB.source.pinRight.image}
+	o.borderMarkers[4] = {x=0,y=0,img=AnimationDB.source.pinRight.image}
 
 	EditorMap.updateBorder(o)
 
 	o.bgList = {}	-- list of background objects
 	o.bgObjectSpriteBatch = love.graphics.newSpriteBatch(
-			editor.images.background1, MAX_NUMBER_BG_OBJECTS )
+			AnimationDB.source.background1.image, MAX_NUMBER_BG_OBJECTS )
 	o.objectList = {}	-- list of objects
 	o.lines = {}
 	--[[
@@ -1415,31 +1413,30 @@ function EditorMap:drawBackground()
 		love.graphics.draw( self.backgroundBatch[i], 0, 0 )
 	end
 	if mode == "editor" then
-	for k, obj in ipairs( self.bgList ) do
-		if obj.selected == true then
-			love.graphics.setColor(255,150,150,255)
-			--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
-			love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
-			love.graphics.setColor(255,255,255,255)
-			love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
-		else
-			love.graphics.setColor(255,255,255,255)
-			--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
-			love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
+		for k, obj in ipairs( self.bgList ) do
+			if obj.selected == true then
+				love.graphics.setColor(255,150,150,255)
+				--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+				love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
+				love.graphics.setColor(255,255,255,255)
+				love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
+			else
+				love.graphics.setColor(255,255,255,255)
+				--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
+				love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
+			end
+			if DEBUG then
+				love.graphics.setColor(255,0,0,150)
+				love.graphics.rectangle( "fill", obj.x*self.tileSize,
+					obj.y*self.tileSize,
+					obj.maxX*self.tileSize - obj.x*self.tileSize,
+					obj.maxY*self.tileSize - obj.y*self.tileSize)
+				love.graphics.setColor(255,255,255,255)
+			end
 		end
-		if DEBUG then
-		love.graphics.setColor(255,0,0,150)
-			love.graphics.rectangle( "fill", obj.x*self.tileSize,
-				obj.y*self.tileSize,
-				obj.maxX*self.tileSize - obj.x*self.tileSize,
-				obj.maxY*self.tileSize - obj.y*self.tileSize)
-		love.graphics.setColor(255,255,255,255)
+	else
+		love.graphics.draw( self.bgObjectSpriteBatch )
 	end
-	end
-else
-
-	love.graphics.draw( self.bgObjectSpriteBatch )
-end
 end
 
 function EditorMap:drawBackgroundTypes( cam )
@@ -1541,6 +1538,7 @@ end
 
 -- pass a full name including the path!
 function EditorMap:loadFromFile( fullName )
+	print('Loading Map: ' .. fullName)
 	local map = nil
 
 	local mapName = fullName:match("([^/]*).dat$")

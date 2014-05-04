@@ -63,12 +63,7 @@ function BgObject:new( name, tileset, coords, cat_major, cat_minor )
 
 	o.name = name or ""
 
-	if not editor.images[tileset] then
-		editor.images[tileset] = love.graphics.newImage( "images/tilesets/" .. Camera.scale*8 .. tileset .. ".png")
-	end
-
-	o.tileset = editor.images[tileset]
-
+	o.tileset = AnimationDB.source[tileset].image
 	--o.tileList = tileList
 
 	--o.quadList = {}
