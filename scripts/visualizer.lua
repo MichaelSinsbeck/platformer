@@ -69,12 +69,13 @@ end
 
 function Visualizer:draw(x,y, useExternalColor)
 	if self.active then
+		local img = self:getImage()
 		--print(self.img, self.currentQuad, self.text)
-		if self.img and self.currentQuad then
+		if img and self.currentQuad then
 			if not useExternalColor then
 				love.graphics.setColor(255,255,255,self.alpha)
 			end
-			love.graphics.draw(self.img, self.currentQuad,
+			love.graphics.draw(img, self.currentQuad,
 				math.floor(x+self.relX*Camera.scale*8),
 				math.floor(y+self.relY*Camera.scale*8),
 				self.angle,
@@ -85,6 +86,12 @@ function Visualizer:draw(x,y, useExternalColor)
 			love.graphics.setFont(fontSmall)
 			love.graphics.print(self.text, x+self.ox, y+self.oy)
 		end
+	end
+end
+
+function Visualizer:getImage()
+	if self.imgName then
+		return AnimationDB.image[self.imgName]
 	end
 end
 
@@ -103,10 +110,9 @@ function Visualizer:update(dt)
 				end
 			end
 			self.currentQuad = source.quads[animationData.frames[self.frame]]
-			self.img = AnimationDB.image[source.name]
-			--self.img = source.image
+			self.imgName = source.name
 		else -- if animation does not exists
-			self.img = nil
+			self.imgName = nil
 		end
   end
 end
@@ -114,8 +120,7 @@ end
 -- The following uses a mesh to draw the animation:
 function Visualizer:drawMesh(x,y, useExternalColor)
 	if self.active then
-		--print(self.img, self.currentQuad, self.text)
-		if self.img and self.currentMesh then
+		if self.currentMesh then
 			if not useExternalColor then
 				love.graphics.setColor(255,255,255,self.alpha)
 			end
@@ -148,9 +153,6 @@ function Visualizer:updateMesh(dt)
 				end
 			end
 			self.currentMesh = source.meshes[animationData.frames[self.frame]]
-			self.img = source.image
-		else -- if animation does not exists
-			self.img = nil
 		end
   end
 end

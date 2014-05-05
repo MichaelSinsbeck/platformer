@@ -23,13 +23,14 @@ function AnimationDB:loadImage(imagefilename,name,subfolder) -- loads Image into
 	image:setWrap('repeat', 'repeat')
 	self.image[name] = image
 
-	return image:getWidth(), image:getHeight()
+	return image, image:getWidth(), image:getHeight()
 end
 
 function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,generateMeshes)
-	local imageWidth, imageHeight = self:loadImage(imagefilename,name,subfolder)
+	local image, imageWidth, imageHeight = self:loadImage(imagefilename,name,subfolder)
 	local height = height or imageHeight
 	local width = width or imageWidth
+
 	self.source[name] = {}
 	self.source[name].name = name
 	--self.source[name].image = image
