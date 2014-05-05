@@ -232,17 +232,6 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('world3.png','world3','world')
 	AnimationDB:loadImage('world4.png','world4','world')
 	AnimationDB:loadImage('world5.png','world5','world')
-	--AnimationDB:loadImage('shadow.png','shadow','menu')
-
-		
-
-	--[[self.images.background1_IMG = love.graphics.newImage("images/world/"..prefix.."world1.png")
-	self.images.background2_IMG = love.graphics.newImage("images/world/"..prefix.."world2.png")
-	self.images.background3_IMG = love.graphics.newImage("images/world/"..prefix.."world3.png")
-	self.images.background4_IMG = love.graphics.newImage("images/world/"..prefix.."world4.png")
-	self.images.background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")
-	
-	self.images.shadowQuad = love.graphics.newQuad(0,0,Camera.width,Camera.height,300,1)]]
 	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player_white.png','whitePlayer',tileSize,tileSize)
@@ -305,6 +294,11 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('statVelocity.png', 'statVelocity', tileSize*2, tileSize*4 )
 	AnimationDB:loadTiledImage('statTime.png', 'statTime', tileSize*4, tileSize*2 )
 	AnimationDB:loadTiledImage('statNumberOfButtons.png', 'statNumberOfButtons', tileSize*4, tileSize*4)
+	-- credits
+	AnimationDB:loadImage('creditsDesign.png', 'creditsDesign', 'credits')
+	AnimationDB:loadImage('creditsGraphics.png', 'creditsGraphics', 'credits')
+	AnimationDB:loadImage('creditsProgramming.png', 'creditsProgramming', 'credits')
+	AnimationDB:loadImage('creditsMusic.png', 'creditsMusic', 'credits')
 end
 
 function AnimationDB:loadAnimations()

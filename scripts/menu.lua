@@ -17,16 +17,6 @@ local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the
 
 --local PADDING = 50		-- distance of buttons from edges
 
---[[local startOff, startOn
-local settingsOff, settingsOn
-local exitOff, exitOn
-local worldItemOff, worldItemOn, worldItemInactive
-local creditsOff, creditsOn 
-local background1
-local background2
-local background3
-local background4
-local background5--]]
 local dWorld = 170
 local nLogs = 8
 local distBetweenButtons = 10
@@ -38,70 +28,6 @@ local credits = require("scripts/credits")
 
 -- This function loads the images in the right scaling
 function menu:init()
-	local prefix = Camera.scale * 8
-	--[[self.images.logo = love.graphics.newImage("images/menu/"..prefix.."logo.png")
-
-	self.images.startOff = love.graphics.newImage("images/menu/"..prefix.."startOff.png")
-	self.images.startOn = love.graphics.newImage("images/menu/"..prefix.."startOn.png")
-	self.images.settingsOff = love.graphics.newImage("images/menu/"..prefix.."settingsOff.png")
-	self.images.settingsOn = love.graphics.newImage("images/menu/"..prefix.."settingsOn.png")
-	self.images.editorOff = love.graphics.newImage("images/menu/"..prefix.."editorOff.png")
-	self.images.editorOn = love.graphics.newImage("images/menu/"..prefix.."editorOn.png")
-	self.images.exitOff = love.graphics.newImage("images/menu/"..prefix.."exitOff.png")
-	self.images.exitOn = love.graphics.newImage("images/menu/"..prefix.."exitOn.png")
-	self.images.creditsOff = love.graphics.newImage("images/menu/"..prefix.."creditsOff.png")
-	self.images.creditsOn = love.graphics.newImage("images/menu/"..prefix.."creditsOn.png")
-
-	self.images.worldItemOff = love.graphics.newImage("images/menu/"..prefix.."worldItemOff.png")
-	self.images.worldItemOn = love.graphics.newImage("images/menu/"..prefix.."worldItemOn.png")
-	self.images.worldItemInactive = love.graphics.newImage("images/menu/"..prefix.."worldItemInactive.png")
-
-	self.images.background1 = love.graphics.newImage("images/world/"..prefix.."world1.png")
-	self.images.background2 = love.graphics.newImage("images/world/"..prefix.."world2.png")
-	self.images.background3 = love.graphics.newImage("images/world/"..prefix.."world3.png")
-	self.images.background4 = love.graphics.newImage("images/world/"..prefix.."world4.png")
-	self.images.background5 = love.graphics.newImage("images/world/"..prefix.."world5.png")
-	
-	self.images.shadow = love.graphics.newImage("images/menu/shadow.png") -- always 300 pixel wide.
-	self.images.shadow:setWrap('repeat','repeat')
-	self.images.shadowQuad = love.graphics.newQuad(0,0,Camera.width,Camera.height,300,1)
-	
-	self.images.keyboardOff = love.graphics.newImage("images/menu/"..prefix.."keyboardOff.png")
-	self.images.keyboardOn = love.graphics.newImage("images/menu/"..prefix.."keyboardOn.png")
-	self.images.gamepadOff = love.graphics.newImage("images/menu/"..prefix.."gamepadOff.png")
-	self.images.gamepadOn = love.graphics.newImage("images/menu/"..prefix.."gamepadOn.png")
-	
-	-- key images for keyboard:
-	self.images.keyOn = love.graphics.newImage("images/menu/"..prefix.."keyOn.png")
-	self.images.keyOff = love.graphics.newImage("images/menu/"..prefix.."keyOff.png")
-	self.images.keyLargeOn = love.graphics.newImage("images/menu/"..prefix.."keyLargeOn.png")
-	self.images.keyLargeOff = love.graphics.newImage("images/menu/"..prefix.."keyLargeOff.png")
-	
-	-- button images for gamepad:
-	self.images.gamepadA = love.graphics.newImage("images/menu/"..prefix.."gamepadA.png")
-	self.images.gamepadB = love.graphics.newImage("images/menu/"..prefix.."gamepadB.png")
-	self.images.gamepadX = love.graphics.newImage("images/menu/"..prefix.."gamepadX.png")
-	self.images.gamepadY = love.graphics.newImage("images/menu/"..prefix.."gamepadY.png")
-	
-	self.images.gamepadUp = love.graphics.newImage("images/menu/"..prefix.."gamepadUp.png")
-	self.images.gamepadDown = love.graphics.newImage("images/menu/"..prefix.."gamepadDown.png")
-	self.images.gamepadRight = love.graphics.newImage("images/menu/"..prefix.."gamepadRight.png")
-	self.images.gamepadLeft = love.graphics.newImage("images/menu/"..prefix.."gamepadLeft.png")
-	
-	self.images.gamepadLB = love.graphics.newImage("images/menu/"..prefix.."gamepadLB.png")
-	self.images.gamepadRB = love.graphics.newImage("images/menu/"..prefix.."gamepadRB.png")
-	--self.images.gamepadLT = love.graphics.newImage("images/menu/"..prefix.."gamepadLT.png")
-	--self.images.gamepadRT = love.graphics.newImage("images/menu/"..prefix.."gamepadRT.png")
-	
-	self.images.gamepadStart = love.graphics.newImage("images/menu/"..prefix.."gamepadStart.png")
-	self.images.gamepadBack = love.graphics.newImage("images/menu/"..prefix.."gamepadBack.png")
-	
-	self.images.keyNone = love.graphics.newImage("images/menu/"..prefix.."keyNone.png")
-
-	self.images.restartOff = love.graphics.newImage("images/menu/"..prefix.."restartOff.png")
-	self.images.restartOn = love.graphics.newImage("images/menu/"..prefix.."restartOn.png")
-	self.images.paused = love.graphics.newImage("images/menu/"..prefix.."paused.png")]]
-
 	menu:loadTransitionImages()
 	menu.curLevelName = nil
 
