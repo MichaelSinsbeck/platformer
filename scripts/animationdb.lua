@@ -174,7 +174,7 @@ end
 function AnimationDB:clearImages()
 	self.source = {}
 	self.image = {}
-	collectgarbage()
+	--collectgarbage()
 end
 
 function AnimationDB:loadAllImages()

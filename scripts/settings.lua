@@ -38,9 +38,8 @@ function settings:setWindowSize()
 	Camera:setScale(scale)
 
 	local w, h = love.window.getDimensions()
-	
 	fullscreenCanvas = love.graphics.newCanvas(w, h)
-	
+
 	return success
 end
 
@@ -50,9 +49,12 @@ function settings:toggleFullScreen(switch)
 	else
 		self.fullscreen = switch
 	end
+
 	self:setWindowSize()
 	Camera:applyScale()
 	config.setValue("fullscreen",self.fullscreen)
+
+	collectgarbage()
 end
 
 
