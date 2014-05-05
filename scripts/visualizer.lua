@@ -103,7 +103,8 @@ function Visualizer:update(dt)
 				end
 			end
 			self.currentQuad = source.quads[animationData.frames[self.frame]]
-			self.img = source.image
+			self.img = AnimationDB.image[source.name]
+			--self.img = source.image
 		else -- if animation does not exists
 			self.img = nil
 		end

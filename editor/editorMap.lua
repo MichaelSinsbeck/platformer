@@ -23,16 +23,16 @@ function EditorMap:new( backgroundList )
 
 	o.backgroundList = backgroundList
 
-	o.groundBatch = love.graphics.newSpriteBatch( AnimationDB.source.tilesetGround.image,
+	o.groundBatch = love.graphics.newSpriteBatch( AnimationDB.image.tilesetGround,
 					o.MAP_SIZE*o.MAP_SIZE, "stream" )
 	o.backgroundBatch = {}
 	o.bgIDs = {}
 	for i,bg in pairs(backgroundList) do
-		o.backgroundBatch[i] = love.graphics.newSpriteBatch( AnimationDB.source.tilesetBackground.image,
+		o.backgroundBatch[i] = love.graphics.newSpriteBatch( AnimationDB.image.tilesetBackground,
 						o.MAP_SIZE*o.MAP_SIZE, "stream" )
 		o.bgIDs[bg] = i
 	end
-	o.spikeBatch = love.graphics.newSpriteBatch( AnimationDB.source.tilesetGround.image,
+	o.spikeBatch = love.graphics.newSpriteBatch( AnimationDB.image.tilesetGround,
 					o.MAP_SIZE*o.MAP_SIZE, "stream" )
 
 	o.groundArray = {}
@@ -54,16 +54,16 @@ function EditorMap:new( backgroundList )
 
 	o.border = {}	-- the border which to draw around the map...
 	o.borderMarkers = {}
-	o.borderMarkers[1] = {x=0,y=0,img=AnimationDB.source.pinLeft.image}
-	o.borderMarkers[2] = {x=0,y=0,img=AnimationDB.source.pinLeft.image}
-	o.borderMarkers[3] = {x=0,y=0,img=AnimationDB.source.pinRight.image}
-	o.borderMarkers[4] = {x=0,y=0,img=AnimationDB.source.pinRight.image}
+	o.borderMarkers[1] = {x=0,y=0,img=AnimationDB.image.pinLeft}
+	o.borderMarkers[2] = {x=0,y=0,img=AnimationDB.image.pinLeft}
+	o.borderMarkers[3] = {x=0,y=0,img=AnimationDB.image.pinRight}
+	o.borderMarkers[4] = {x=0,y=0,img=AnimationDB.image.pinRight}
 
 	EditorMap.updateBorder(o)
 
 	o.bgList = {}	-- list of background objects
 	o.bgObjectSpriteBatch = love.graphics.newSpriteBatch(
-			AnimationDB.source.background1.image, MAX_NUMBER_BG_OBJECTS )
+			AnimationDB.image.background1, MAX_NUMBER_BG_OBJECTS )
 	o.objectList = {}	-- list of objects
 	o.lines = {}
 	--[[

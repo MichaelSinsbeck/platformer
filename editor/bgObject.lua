@@ -63,7 +63,7 @@ function BgObject:new( name, tileset, coords, cat_major, cat_minor )
 
 	o.name = name or ""
 
-	o.tileset = AnimationDB.source[tileset].image
+	o.tileset = AnimationDB.image[tileset]
 	--o.tileList = tileList
 
 	--o.quadList = {}

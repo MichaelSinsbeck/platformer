@@ -1347,7 +1347,7 @@ function editor:draw()
 	local cx,cy = cam:screenToWorld( 0, 0 )
 	cx = math.floor(cx/tileSize)*tileSize
 	cy = math.floor(cy/tileSize)*tileSize
-	love.graphics.draw(AnimationDB.source.cell.image, editor.cellQuad,cx,cy)
+	love.graphics.draw(AnimationDB.image.cell, editor.cellQuad,cx,cy)
 
 
 	love.graphics.setColor( 255, 255, 255, 255 )
@@ -1399,7 +1399,7 @@ function editor:draw()
 			end
 		elseif self.currentTool == "pen" then
 			if self.ctrl then
-				love.graphics.draw( AnimationDB.source.fill.image, editor.fillQuad, rX-tileSize, rY-tileSize )
+				love.graphics.draw( AnimationDB.image.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
 			else
 				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
 			end
@@ -1407,7 +1407,7 @@ function editor:draw()
 			--local tX = math.floor(rX - tileSize/2) - tileSize*0.3
 			--local tY = math.floor(rY - tileSize/2) - tileSize*0.3
 			if self.ctrl then
-				love.graphics.draw( AnimationDB.source.fill.image, editor.fillQuad, rX-tileSize, rY-tileSize )
+				love.graphics.draw( AnimationDB.image.fill, editor.fillQuad, rX-tileSize, rY-tileSize )
 			else
 				love.graphics.rectangle( 'fill',rX,rY, tileSize, tileSize )
 			end

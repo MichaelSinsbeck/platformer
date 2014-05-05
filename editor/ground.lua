@@ -284,8 +284,8 @@ function Ground:coordsToQuad( coords )
 	return love.graphics.newQuad(
 		coords[1]*Camera.scale*10, coords[2]*Camera.scale*10,
 		Camera.scale*10, Camera.scale*10,
-		AnimationDB.source.tilesetGround.image:getWidth(),
-		AnimationDB.source.tilesetGround.image:getHeight())
+		AnimationDB.image.tilesetGround:getWidth(),
+		AnimationDB.image.tilesetGround:getHeight())
 end
 
 -- this returns the correct quad depending on the types of ground

@@ -1,6 +1,7 @@
 -- Animation Database
 
 AnimationDB = {
+image = {},
 source = {},
 animation = {}
 }
@@ -8,27 +9,36 @@ animation = {}
 local R = 3
 local HR = 1.5
 
-function AnimationDB:loadImage(imagefilename,name,height,width,subfolder,generateMeshes)
-	-- Load image and prepare quads (height and width are optional)
+function AnimationDB:loadImage(imagefilename,name,subfolder) -- loads Image into database and returns its size
+	if self.image[name] then
+		print('Warning: Image "'.. name .. '" already exists')
+	end
 	if subfolder then
 		imagefilename = 'images/'.. subfolder .. "/" .. Camera.scale*8 .. imagefilename
 	else
 		imagefilename = 'images/'.. Camera.scale*8 .. imagefilename
 	end
 	local image = love.graphics.newImage(imagefilename)
-	local height = height or image:getHeight()
-	local width = width or image:getWidth()
+	image:setFilter('linear','linear')
+	image:setWrap('repeat', 'repeat')
+	self.image[name] = image
+
+	return image:getWidth(), image:getHeight()
+end
+
+function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,generateMeshes)
+	local imageWidth, imageHeight = self:loadImage(imagefilename,name,subfolder)
+	local height = height or imageHeight
+	local width = width or imageWidth
 	self.source[name] = {}
-	self.source[name].image = image
-	self.source[name].image:setFilter('linear','linear')
-	self.source[name].image:setWrap('repeat', 'repeat')
+	self.source[name].name = name
+	--self.source[name].image = image
+
 	self.source[name].height = height
 	self.source[name].width = width
 	self.source[name].quads = {}
 	self.source[name].meshes = {}
   
-  local imageWidth = self.source[name].image:getWidth()
-  local imageHeight = self.source[name].image:getHeight()
 
   local tilesX, tilesY = math.floor(imageWidth/width), math.floor(imageHeight/height)
   for j = 1,tilesY do
@@ -156,103 +166,145 @@ function AnimationDB:loadAll()
 	AnimationDB:loadBackgrounds()
 	
 	AnimationDB:clearImages()	
-	AnimationDB:loadImages()
+	AnimationDB:loadAllImages()
 	AnimationDB:loadAnimations()
 end
 
 function AnimationDB:clearImages()
 	self.source = {}
+	self.image = {}
+	collectgarbage()
 end
 
-function AnimationDB:loadImages()
+function AnimationDB:loadAllImages()
 	local tileSize = Camera.scale*10
-	AnimationDB:loadImage('grounds.png','tilesetGround',nil,nil,'tilesets')
-	AnimationDB:loadImage('backgrounds.png','tilesetBackground',nil,nil,'tilesets')
-	AnimationDB:loadImage('background1.png','background1',nil,nil,'tilesets')
-	
-	AnimationDB:loadImage('cell.png','cell',nil,nil,'editor')
-	AnimationDB:loadImage('fill.png','fill',nil,nil,'editor')
-	AnimationDB:loadImage('pinLeft.png','pinLeft',nil,nil,'editor')
-	AnimationDB:loadImage('pinRight.png','pinRight',nil,nil,'editor')
-	AnimationDB:loadImage('buttonHighlight.png','highlight',nil,nil,'editor')
-	
-	--AnimationDB:loadImage('','',nil,nil,'tilesets')
+	-- tiles
+	AnimationDB:loadImage('grounds.png','tilesetGround','tilesets')
+	AnimationDB:loadImage('backgrounds.png','tilesetBackground','tilesets')
+	AnimationDB:loadImage('background1.png','background1','tilesets')
+	-- editor stuff
+	AnimationDB:loadImage('cell.png','cell','editor')
+	AnimationDB:loadImage('fill.png','fill','editor')
+	AnimationDB:loadImage('pinLeft.png','pinLeft','editor')
+	AnimationDB:loadImage('pinRight.png','pinRight','editor')
+	AnimationDB:loadImage('buttonHighlight.png','highlight','editor')
+	-- menu stuff
+	AnimationDB:loadImage('logo.png','logo','menu')
+	AnimationDB:loadImage('startOff.png','startOff','menu')
+	AnimationDB:loadImage('startOn.png','startOn','menu')
+	AnimationDB:loadImage('settingsOff.png','settingsOff','menu')
+	AnimationDB:loadImage('settingsOn.png','settingsOn','menu')
+	AnimationDB:loadImage('editorOff.png','editorOff','menu')
+	AnimationDB:loadImage('editorOn.png','editorOn','menu')
+	AnimationDB:loadImage('exitOff.png','exitOff','menu')
+	AnimationDB:loadImage('exitOn.png','exitOn','menu')
+	AnimationDB:loadImage('creditsOff.png','creditsOff','menu')
+	AnimationDB:loadImage('creditsOn.png','creditsOn','menu')
+	AnimationDB:loadImage('worldItemOff.png','worldItemOff','menu')
+	AnimationDB:loadImage('worldItemOn.png','worldItemOn','menu')
+	AnimationDB:loadImage('worldItemInactive.png','worldItemInactive','menu')
+	AnimationDB:loadImage('keyboardOff.png','keyboardOff','menu')
+	AnimationDB:loadImage('keyboardOn.png','keyboardOn','menu')
+	AnimationDB:loadImage('gamepadOff.png','gamepadOff','menu')
+	AnimationDB:loadImage('gamepadOn.png','gamepadOn','menu')
+	AnimationDB:loadImage('keyOn.png','keyOn','menu')
+	AnimationDB:loadImage('keyOff.png','keyOff','menu')
+	AnimationDB:loadImage('keyLargeOn.png','keyLargeOn','menu')
+	AnimationDB:loadImage('keyLargeOff.png','keyLargeOff','menu')
+	AnimationDB:loadImage('gamepadA.png','gamepadA','menu')
+	AnimationDB:loadImage('gamepadB.png','gamepadB','menu')
+	AnimationDB:loadImage('gamepadX.png','gamepadX','menu')
+	AnimationDB:loadImage('gamepadY.png','gamepadY','menu')
+	AnimationDB:loadImage('gamepadUp.png','gamepadUp','menu')
+	AnimationDB:loadImage('gamepadDown.png','gamepadDown','menu')
+	AnimationDB:loadImage('gamepadRight.png','gamepadRight','menu')
+	AnimationDB:loadImage('gamepadLeft.png','gamepadLeft','menu')
+	AnimationDB:loadImage('gamepadLB.png','gamepadLB','menu')
+	AnimationDB:loadImage('gamepadRB.png','gamepadRB','menu')
+	AnimationDB:loadImage('gamepadStart.png','gamepadStart','menu')
+	AnimationDB:loadImage('gamepadBack.png','gamepadBack','menu')
+	AnimationDB:loadImage('keyNone.png','keyNone','menu')
+	AnimationDB:loadImage('restartOff.png','restartOff','menu')
+	AnimationDB:loadImage('restartOn.png','restartOn','menu')
+	AnimationDB:loadImage('paused.png','paused','menu')
+	AnimationDB:loadImage('world1.png','world1','world')
+	AnimationDB:loadImage('world2.png','world2','world')
+	AnimationDB:loadImage('world3.png','world3','world')
+	AnimationDB:loadImage('world4.png','world4','world')
+	AnimationDB:loadImage('world5.png','world5','world')
+	--AnimationDB:loadImage('shadow.png','shadow','menu')
 
-	AnimationDB:loadImage('player_white.png','whitePlayer',tileSize,tileSize)
-	AnimationDB:loadImage('player_blue.png','bluePlayer',tileSize,tileSize)
-	AnimationDB:loadImage('player_red.png','redPlayer',tileSize,tileSize)
-	AnimationDB:loadImage('player_blank.png','blankPlayer',tileSize,tileSize)
-	AnimationDB:loadImage('player_green.png','greenPlayer',tileSize,tileSize)
-	AnimationDB:loadImage('imitator.png','imitator',tileSize,tileSize)
-	AnimationDB:loadImage('launcher.png','launcher',tileSize,tileSize)
-	AnimationDB:loadImage('explosion.png','explosion',tileSize,tileSize)
-	AnimationDB:loadImage('bandana.png','bandana',tileSize,tileSize)
-	AnimationDB:loadImage('poff.png','poff',tileSize*.6,tileSize*.6)
-	AnimationDB:loadImage('particle.png','particle',0.4*tileSize,0.4*tileSize)
-	AnimationDB:loadImage('shuriken.png','shuriken',tileSize,tileSize)
-	AnimationDB:loadImage('runner.png','runner',tileSize,tileSize)
-	AnimationDB:loadImage('runnermouth.png','runnerMouth')
-	AnimationDB:loadImage('bouncer.png','bouncer',tileSize,tileSize)
-	AnimationDB:loadImage('button.png','button',tileSize,tileSize)
-	AnimationDB:loadImage('waitbar.png','waitbar')
-	AnimationDB:loadImage('appearblock.png','appearBlock',tileSize,tileSize)
-	AnimationDB:loadImage('winddot.png','winddot',.6*tileSize,.2*tileSize)
-	AnimationDB:loadImage('cannon.png','cannon',tileSize,tileSize)
-	AnimationDB:loadImage('goalie.png','goalie',tileSize,tileSize)
-	AnimationDB:loadImage('launcher.png','launcher',tileSize,tileSize)
-	AnimationDB:loadImage('launcherSon.png','launcherSon',tileSize,tileSize)
-	AnimationDB:loadImage('missile.png','missile',tileSize,tileSize)
-	AnimationDB:loadImage('windmillwing.png','windmillwing')
-	AnimationDB:loadImage('crumbleblock.png','crumbleblock',tileSize,tileSize)
-	AnimationDB:loadImage('glassblock.png','glassblock',tileSize,tileSize)
-	AnimationDB:loadImage('bubble.png','bubble')
-	AnimationDB:loadImage('crumble.png','crumble',.4*tileSize,.4*tileSize)	
-	AnimationDB:loadImage('fixedcannon.png','fixedcannon')
-	AnimationDB:loadImage('butterfly.png','butterfly',.4*tileSize,.4*tileSize)
-	AnimationDB:loadImage('meat.png','meat',.4*tileSize,.4*tileSize)	
-	AnimationDB:loadImage('droplet.png','droplet',.4*tileSize,.4*tileSize)	
-	AnimationDB:loadImage('exit.png','exit',tileSize,tileSize)	
-	AnimationDB:loadImage('bungee.png','bungee',0.4*tileSize,0.4*tileSize)	
-  AnimationDB:loadImage('door.png','door',tileSize,tileSize)	
-	AnimationDB:loadImage('targetline.png','targetline')
-	AnimationDB:loadImage('bumper.png','bumper')
-	AnimationDB:loadImage('clubber.png','clubber',tileSize,tileSize)	
-	AnimationDB:loadImage('light.png','light',tileSize,tileSize)	
-	AnimationDB:loadImage('menuPlayer.png','menuPlayer',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('log.png','log')
-	AnimationDB:loadImage('walker.png','walker',tileSize,tileSize)
-	AnimationDB:loadImage('spawner.png','spawner',tileSize,tileSize)
-	AnimationDB:loadImage('lineHook.png','lineHook',tileSize,tileSize)
-	AnimationDB:loadImage('button.png','editorButton',tileSize,tileSize, "editor", true)
-	AnimationDB:loadImage('buttonProperties.png','editorButtonProperties',tileSize*0.5,tileSize*0.5, "editor", true )
-	AnimationDB:loadImage('buttonPages.png','editorButtonPages',tileSize*0.5,tileSize, "editor", true)
-	AnimationDB:loadImage('keyOn.png','keyboardSmall',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('keyLargeOn.png','keyboardLarge',tileSize,tileSize*2, "menu")
-	AnimationDB:loadImage('gamepadA.png','gamepadA',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadB.png','gamepadB',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadBack.png','gamepadBack',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadDown.png','gamepadDown',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadLB.png','gamepadLB',tileSize,tileSize*2, "menu")
-	AnimationDB:loadImage('gamepadLeft.png','gamepadLeft',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadRB.png','gamepadRB',tileSize,tileSize*2, "menu")
-	AnimationDB:loadImage('gamepadRight.png','gamepadRight',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadStart.png','gamepadStart',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadUp.png','gamepadUp',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadY.png','gamepadY',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('gamepadX.png','gamepadX',tileSize,tileSize, "menu")
-	AnimationDB:loadImage('listCount.png','listCount',tileSize,tileSize)
-	AnimationDB:loadImage('deaths.png','deaths',tileSize*2,tileSize*2)
-	AnimationDB:loadImage('statIdle.png', 'statIdle', tileSize*2, tileSize*3 )
-	AnimationDB:loadImage('statNoDeath1.png', 'statNoDeath1', tileSize*3, tileSize*3)
-	AnimationDB:loadImage('statNoDeath2.png', 'statNoDeath2', tileSize*3, tileSize*3)
-	AnimationDB:loadImage('statHighestJump.png', 'statHighestJump', tileSize*4, tileSize*2)
-	AnimationDB:loadImage('statLongestJump.png', 'statLongestJump', tileSize*2, tileSize*2 )
-	AnimationDB:loadImage('statTimeInAir.png', 'statTimeInAir', tileSize*2, tileSize*3 )
-	AnimationDB:loadImage('statNumberOfJumps.png', 'statNumberOfJumps', tileSize*2, tileSize*2 )
-	AnimationDB:loadImage('statWallHang.png', 'statWallHang', tileSize*2, tileSize*2 )
-	AnimationDB:loadImage('statVelocity.png', 'statVelocity', tileSize*2, tileSize*4 )
-	AnimationDB:loadImage('statTime.png', 'statTime', tileSize*4, tileSize*2 )
-	AnimationDB:loadImage('statNumberOfButtons.png', 'statNumberOfButtons', tileSize*4, tileSize*4)
+		
+
+	--[[self.images.background1_IMG = love.graphics.newImage("images/world/"..prefix.."world1.png")
+	self.images.background2_IMG = love.graphics.newImage("images/world/"..prefix.."world2.png")
+	self.images.background3_IMG = love.graphics.newImage("images/world/"..prefix.."world3.png")
+	self.images.background4_IMG = love.graphics.newImage("images/world/"..prefix.."world4.png")
+	self.images.background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")
+	
+	self.images.shadowQuad = love.graphics.newQuad(0,0,Camera.width,Camera.height,300,1)]]
+	
+	-- ingame stuff
+	AnimationDB:loadTiledImage('player_white.png','whitePlayer',tileSize,tileSize)
+	AnimationDB:loadTiledImage('player_blue.png','bluePlayer',tileSize,tileSize)
+	AnimationDB:loadTiledImage('player_red.png','redPlayer',tileSize,tileSize)
+	AnimationDB:loadTiledImage('player_blank.png','blankPlayer',tileSize,tileSize)
+	AnimationDB:loadTiledImage('player_green.png','greenPlayer',tileSize,tileSize)
+	AnimationDB:loadTiledImage('imitator.png','imitator',tileSize,tileSize)
+	AnimationDB:loadTiledImage('explosion.png','explosion',tileSize,tileSize)
+	AnimationDB:loadTiledImage('bandana.png','bandana',tileSize,tileSize)
+	AnimationDB:loadTiledImage('poff.png','poff',tileSize*.6,tileSize*.6)
+	AnimationDB:loadTiledImage('particle.png','particle',0.4*tileSize,0.4*tileSize)
+	AnimationDB:loadTiledImage('shuriken.png','shuriken',tileSize,tileSize)
+	AnimationDB:loadTiledImage('runner.png','runner',tileSize,tileSize)
+	AnimationDB:loadTiledImage('runnermouth.png','runnerMouth')
+	AnimationDB:loadTiledImage('bouncer.png','bouncer',tileSize,tileSize)
+	AnimationDB:loadTiledImage('button.png','button',tileSize,tileSize)
+	AnimationDB:loadTiledImage('waitbar.png','waitbar')
+	AnimationDB:loadTiledImage('appearblock.png','appearBlock',tileSize,tileSize)
+	AnimationDB:loadTiledImage('winddot.png','winddot',.6*tileSize,.2*tileSize)
+	AnimationDB:loadTiledImage('cannon.png','cannon',tileSize,tileSize)
+	AnimationDB:loadTiledImage('goalie.png','goalie',tileSize,tileSize)
+	AnimationDB:loadTiledImage('launcher.png','launcher',tileSize,tileSize)
+	AnimationDB:loadTiledImage('launcherSon.png','launcherSon',tileSize,tileSize)
+	AnimationDB:loadTiledImage('missile.png','missile',tileSize,tileSize)
+	AnimationDB:loadTiledImage('windmillwing.png','windmillwing')
+	AnimationDB:loadTiledImage('crumbleblock.png','crumbleblock',tileSize,tileSize)
+	AnimationDB:loadTiledImage('glassblock.png','glassblock',tileSize,tileSize)
+	AnimationDB:loadTiledImage('bubble.png','bubble')
+	AnimationDB:loadTiledImage('crumble.png','crumble',.4*tileSize,.4*tileSize)	
+	AnimationDB:loadTiledImage('fixedcannon.png','fixedcannon')
+	AnimationDB:loadTiledImage('butterfly.png','butterfly',.4*tileSize,.4*tileSize)
+	AnimationDB:loadTiledImage('meat.png','meat',.4*tileSize,.4*tileSize)	
+	AnimationDB:loadTiledImage('droplet.png','droplet',.4*tileSize,.4*tileSize)	
+	AnimationDB:loadTiledImage('exit.png','exit',tileSize,tileSize)	
+	AnimationDB:loadTiledImage('bungee.png','bungee',0.4*tileSize,0.4*tileSize)	
+  AnimationDB:loadTiledImage('door.png','door',tileSize,tileSize)	
+	AnimationDB:loadTiledImage('targetline.png','targetline')
+	AnimationDB:loadTiledImage('bumper.png','bumper')
+	AnimationDB:loadTiledImage('clubber.png','clubber',tileSize,tileSize)	
+	AnimationDB:loadTiledImage('light.png','light',tileSize,tileSize)	
+	AnimationDB:loadTiledImage('menuPlayer.png','menuPlayer',tileSize,tileSize, "menu")
+	AnimationDB:loadTiledImage('log.png','log')
+	AnimationDB:loadTiledImage('walker.png','walker',tileSize,tileSize)
+	AnimationDB:loadTiledImage('spawner.png','spawner',tileSize,tileSize)
+	AnimationDB:loadTiledImage('lineHook.png','lineHook',tileSize,tileSize)
+	AnimationDB:loadTiledImage('button.png','editorButton',tileSize,tileSize, "editor", true)
+	AnimationDB:loadTiledImage('buttonProperties.png','editorButtonProperties',tileSize*0.5,tileSize*0.5, "editor", true )
+	AnimationDB:loadTiledImage('buttonPages.png','editorButtonPages',tileSize*0.5,tileSize, "editor", true)
+	AnimationDB:loadTiledImage('listCount.png','listCount',tileSize,tileSize)
+	AnimationDB:loadTiledImage('deaths.png','deaths',tileSize*2,tileSize*2)
+	AnimationDB:loadTiledImage('statIdle.png', 'statIdle', tileSize*2, tileSize*3 )
+	AnimationDB:loadTiledImage('statNoDeath1.png', 'statNoDeath1', tileSize*3, tileSize*3)
+	AnimationDB:loadTiledImage('statNoDeath2.png', 'statNoDeath2', tileSize*3, tileSize*3)
+	AnimationDB:loadTiledImage('statHighestJump.png', 'statHighestJump', tileSize*4, tileSize*2)
+	AnimationDB:loadTiledImage('statLongestJump.png', 'statLongestJump', tileSize*2, tileSize*2 )
+	AnimationDB:loadTiledImage('statTimeInAir.png', 'statTimeInAir', tileSize*2, tileSize*3 )
+	AnimationDB:loadTiledImage('statNumberOfJumps.png', 'statNumberOfJumps', tileSize*2, tileSize*2 )
+	AnimationDB:loadTiledImage('statWallHang.png', 'statWallHang', tileSize*2, tileSize*2 )
+	AnimationDB:loadTiledImage('statVelocity.png', 'statVelocity', tileSize*2, tileSize*4 )
+	AnimationDB:loadTiledImage('statTime.png', 'statTime', tileSize*4, tileSize*2 )
+	AnimationDB:loadTiledImage('statNumberOfButtons.png', 'statNumberOfButtons', tileSize*4, tileSize*4)
 end
 
 function AnimationDB:loadAnimations()

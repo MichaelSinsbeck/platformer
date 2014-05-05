@@ -185,7 +185,7 @@ end
 
 function getImageForKey( str, font )
 	if str == "" then
-		return "keyNone_IMG", "keyNone_IMG"
+		return "keyNone", "keyNone"
 	end
 
 	if str == " " then str = "space" end
@@ -193,10 +193,10 @@ function getImageForKey( str, font )
 	if str == "down" then str = "B" end
 	if str == "left" then str = "C" end
 	if str == "right" then str = "D" end
-	if #str > 1 then --font:getWidth(str) > menu.images.keyOn_IMG:getWidth()/2 then
-		return "keyLargeOff_IMG", "keyLargeOn_IMG"
+	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
+		return "keyLargeOff", "keyLargeOn"
 	end
-	return "keyOff_IMG", "keyOn_IMG"
+	return "keyOff", "keyOn"
 end
 
 function getAnimationForKey( str )
@@ -205,7 +205,7 @@ function getAnimationForKey( str )
 	if str == "down" then str = "B" end
 	if str == "left" then str = "C" end
 	if str == "right" then str = "D" end
-	if #str > 1 then --font:getWidth(str) > menu.images.keyOn_IMG:getWidth()/2 then
+	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyboardLarge"
 	end
 	return "keyboardSmall"
@@ -213,31 +213,31 @@ end
 
 function getImageForPad( str )
 	if str == "1" then
-		return "gamepadA_IMG","gamepadA_IMG"
+		return "gamepadA","gamepadA"
 	elseif str == "2" then
-		return "gamepadB_IMG","gamepadB_IMG"
+		return "gamepadB","gamepadB"
 	elseif str == "3" then
-		return "gamepadX_IMG","gamepadX_IMG"
+		return "gamepadX","gamepadX"
 	elseif str == "4" then
-		return "gamepadY_IMG","gamepadY_IMG"
+		return "gamepadY","gamepadY"
 	elseif str == "5" then
-		return "gamepadLB_IMG","gamepadLB_IMG"
+		return "gamepadLB","gamepadLB"
 	elseif str == "6" then
-		return "gamepadRB_IMG","gamepadRB_IMG"
+		return "gamepadRB","gamepadRB"
 	elseif str == "u" then
-		return "gamepadUp_IMG","gamepadUp_IMG"
+		return "gamepadUp","gamepadUp"
 	elseif str == "d" then
-		return "gamepadDown_IMG","gamepadDown_IMG"
+		return "gamepadDown","gamepadDown"
 	elseif str == "l" then
-		return "gamepadLeft_IMG","gamepadLeft_IMG"
+		return "gamepadLeft","gamepadLeft"
 	elseif str == "r" then
-		return "gamepadRight_IMG","gamepadRight_IMG"
+		return "gamepadRight","gamepadRight"
 	elseif str == "8" then
-		return "gamepadStart_IMG","gamepadStart_IMG"
+		return "gamepadStart","gamepadStart"
 	elseif str == "7" then
-		return "gamepadBack_IMG","gamepadBack_IMG"
+		return "gamepadBack","gamepadBack"
 	else
-		return "keyNone_IMG","keyNone_IMG"
+		return "keyNone","keyNone"
 	end
 end
 

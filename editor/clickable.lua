@@ -184,7 +184,7 @@ end
 function Clickable:draw()
 	love.graphics.setColor(255,255,255,255)
 	if self.vis then
-		local iW, iH = AnimationDB.source.highlight.image:getWidth(), AnimationDB.source.highlight.image:getHeight()
+		local iW, iH = AnimationDB.image.highlight:getWidth(), AnimationDB.image.highlight:getHeight()
 		local dX, dY = (self.width-iW)*0.5, (self.height-iH)*0.5
 		for k = 1, #self.vis do
 			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)

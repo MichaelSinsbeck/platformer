@@ -17,16 +17,16 @@ local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the
 
 --local PADDING = 50		-- distance of buttons from edges
 
-local startOff_IMG, startOn_IMG
-local settingsOff_IMG, settingsOn_IMG
-local exitOff_IMG, exitOn_IMG
-local worldItemOff_IMG, worldItemOn_IMG, worldItemInactive_IMG
-local creditsOff_IMG, creditsOn_IMG 
-local background1_IMG
-local background2_IMG
-local background3_IMG
-local background4_IMG
-local background5_IMG
+--[[local startOff, startOn
+local settingsOff, settingsOn
+local exitOff, exitOn
+local worldItemOff, worldItemOn, worldItemInactive
+local creditsOff, creditsOn 
+local background1
+local background2
+local background3
+local background4
+local background5--]]
 local dWorld = 170
 local nLogs = 8
 local distBetweenButtons = 10
@@ -39,68 +39,68 @@ local credits = require("scripts/credits")
 -- This function loads the images in the right scaling
 function menu:init()
 	local prefix = Camera.scale * 8
-	self.images.logo_IMG = love.graphics.newImage("images/menu/"..prefix.."logo.png")
+	--[[self.images.logo = love.graphics.newImage("images/menu/"..prefix.."logo.png")
 
-	self.images.startOff_IMG = love.graphics.newImage("images/menu/"..prefix.."startOff.png")
-	self.images.startOn_IMG = love.graphics.newImage("images/menu/"..prefix.."startOn.png")
-	self.images.settingsOff_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOff.png")
-	self.images.settingsOn_IMG = love.graphics.newImage("images/menu/"..prefix.."settingsOn.png")
-	self.images.editorOff_IMG = love.graphics.newImage("images/menu/"..prefix.."editorOff.png")
-	self.images.editorOn_IMG = love.graphics.newImage("images/menu/"..prefix.."editorOn.png")
-	self.images.exitOff_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOff.png")
-	self.images.exitOn_IMG = love.graphics.newImage("images/menu/"..prefix.."exitOn.png")
-	self.images.creditsOff_IMG = love.graphics.newImage("images/menu/"..prefix.."creditsOff.png")
-	self.images.creditsOn_IMG = love.graphics.newImage("images/menu/"..prefix.."creditsOn.png")
+	self.images.startOff = love.graphics.newImage("images/menu/"..prefix.."startOff.png")
+	self.images.startOn = love.graphics.newImage("images/menu/"..prefix.."startOn.png")
+	self.images.settingsOff = love.graphics.newImage("images/menu/"..prefix.."settingsOff.png")
+	self.images.settingsOn = love.graphics.newImage("images/menu/"..prefix.."settingsOn.png")
+	self.images.editorOff = love.graphics.newImage("images/menu/"..prefix.."editorOff.png")
+	self.images.editorOn = love.graphics.newImage("images/menu/"..prefix.."editorOn.png")
+	self.images.exitOff = love.graphics.newImage("images/menu/"..prefix.."exitOff.png")
+	self.images.exitOn = love.graphics.newImage("images/menu/"..prefix.."exitOn.png")
+	self.images.creditsOff = love.graphics.newImage("images/menu/"..prefix.."creditsOff.png")
+	self.images.creditsOn = love.graphics.newImage("images/menu/"..prefix.."creditsOn.png")
 
-	self.images.worldItemOff_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOff.png")
-	self.images.worldItemOn_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemOn.png")
-	self.images.worldItemInactive_IMG = love.graphics.newImage("images/menu/"..prefix.."worldItemInactive.png")
+	self.images.worldItemOff = love.graphics.newImage("images/menu/"..prefix.."worldItemOff.png")
+	self.images.worldItemOn = love.graphics.newImage("images/menu/"..prefix.."worldItemOn.png")
+	self.images.worldItemInactive = love.graphics.newImage("images/menu/"..prefix.."worldItemInactive.png")
 
-	self.images.background1_IMG = love.graphics.newImage("images/world/"..prefix.."world1.png")
-	self.images.background2_IMG = love.graphics.newImage("images/world/"..prefix.."world2.png")
-	self.images.background3_IMG = love.graphics.newImage("images/world/"..prefix.."world3.png")
-	self.images.background4_IMG = love.graphics.newImage("images/world/"..prefix.."world4.png")
-	self.images.background5_IMG = love.graphics.newImage("images/world/"..prefix.."world5.png")
+	self.images.background1 = love.graphics.newImage("images/world/"..prefix.."world1.png")
+	self.images.background2 = love.graphics.newImage("images/world/"..prefix.."world2.png")
+	self.images.background3 = love.graphics.newImage("images/world/"..prefix.."world3.png")
+	self.images.background4 = love.graphics.newImage("images/world/"..prefix.."world4.png")
+	self.images.background5 = love.graphics.newImage("images/world/"..prefix.."world5.png")
 	
 	self.images.shadow = love.graphics.newImage("images/menu/shadow.png") -- always 300 pixel wide.
 	self.images.shadow:setWrap('repeat','repeat')
 	self.images.shadowQuad = love.graphics.newQuad(0,0,Camera.width,Camera.height,300,1)
 	
-	self.images.keyboardOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyboardOff.png")
-	self.images.keyboardOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyboardOn.png")
-	self.images.gamepadOff_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOff.png")
-	self.images.gamepadOn_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadOn.png")
+	self.images.keyboardOff = love.graphics.newImage("images/menu/"..prefix.."keyboardOff.png")
+	self.images.keyboardOn = love.graphics.newImage("images/menu/"..prefix.."keyboardOn.png")
+	self.images.gamepadOff = love.graphics.newImage("images/menu/"..prefix.."gamepadOff.png")
+	self.images.gamepadOn = love.graphics.newImage("images/menu/"..prefix.."gamepadOn.png")
 	
 	-- key images for keyboard:
-	self.images.keyOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyOn.png")
-	self.images.keyOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyOff.png")
-	self.images.keyLargeOn_IMG = love.graphics.newImage("images/menu/"..prefix.."keyLargeOn.png")
-	self.images.keyLargeOff_IMG = love.graphics.newImage("images/menu/"..prefix.."keyLargeOff.png")
+	self.images.keyOn = love.graphics.newImage("images/menu/"..prefix.."keyOn.png")
+	self.images.keyOff = love.graphics.newImage("images/menu/"..prefix.."keyOff.png")
+	self.images.keyLargeOn = love.graphics.newImage("images/menu/"..prefix.."keyLargeOn.png")
+	self.images.keyLargeOff = love.graphics.newImage("images/menu/"..prefix.."keyLargeOff.png")
 	
 	-- button images for gamepad:
-	self.images.gamepadA_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadA.png")
-	self.images.gamepadB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadB.png")
-	self.images.gamepadX_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadX.png")
-	self.images.gamepadY_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadY.png")
+	self.images.gamepadA = love.graphics.newImage("images/menu/"..prefix.."gamepadA.png")
+	self.images.gamepadB = love.graphics.newImage("images/menu/"..prefix.."gamepadB.png")
+	self.images.gamepadX = love.graphics.newImage("images/menu/"..prefix.."gamepadX.png")
+	self.images.gamepadY = love.graphics.newImage("images/menu/"..prefix.."gamepadY.png")
 	
-	self.images.gamepadUp_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadUp.png")
-	self.images.gamepadDown_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadDown.png")
-	self.images.gamepadRight_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRight.png")
-	self.images.gamepadLeft_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLeft.png")
+	self.images.gamepadUp = love.graphics.newImage("images/menu/"..prefix.."gamepadUp.png")
+	self.images.gamepadDown = love.graphics.newImage("images/menu/"..prefix.."gamepadDown.png")
+	self.images.gamepadRight = love.graphics.newImage("images/menu/"..prefix.."gamepadRight.png")
+	self.images.gamepadLeft = love.graphics.newImage("images/menu/"..prefix.."gamepadLeft.png")
 	
-	self.images.gamepadLB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLB.png")
-	self.images.gamepadRB_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRB.png")
-	--self.images.gamepadLT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadLT.png")
-	--self.images.gamepadRT_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadRT.png")
+	self.images.gamepadLB = love.graphics.newImage("images/menu/"..prefix.."gamepadLB.png")
+	self.images.gamepadRB = love.graphics.newImage("images/menu/"..prefix.."gamepadRB.png")
+	--self.images.gamepadLT = love.graphics.newImage("images/menu/"..prefix.."gamepadLT.png")
+	--self.images.gamepadRT = love.graphics.newImage("images/menu/"..prefix.."gamepadRT.png")
 	
-	self.images.gamepadStart_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadStart.png")
-	self.images.gamepadBack_IMG = love.graphics.newImage("images/menu/"..prefix.."gamepadBack.png")
+	self.images.gamepadStart = love.graphics.newImage("images/menu/"..prefix.."gamepadStart.png")
+	self.images.gamepadBack = love.graphics.newImage("images/menu/"..prefix.."gamepadBack.png")
 	
-	self.images.keyNone_IMG = love.graphics.newImage("images/menu/"..prefix.."keyNone.png")
+	self.images.keyNone = love.graphics.newImage("images/menu/"..prefix.."keyNone.png")
 
-	self.images.restartOff_IMG = love.graphics.newImage("images/menu/"..prefix.."restartOff.png")
-	self.images.restartOn_IMG = love.graphics.newImage("images/menu/"..prefix.."restartOn.png")
-	self.images.paused_IMG = love.graphics.newImage("images/menu/"..prefix.."paused.png")
+	self.images.restartOff = love.graphics.newImage("images/menu/"..prefix.."restartOff.png")
+	self.images.restartOn = love.graphics.newImage("images/menu/"..prefix.."restartOn.png")
+	self.images.paused = love.graphics.newImage("images/menu/"..prefix.."paused.png")]]
 
 	menu:loadTransitionImages()
 	menu.curLevelName = nil
@@ -130,7 +130,7 @@ function menu:init()
 end
 
 function menu:getImage( imgName )
-	return self.images[imgName]
+	return AnimationDB.image[imgName]
 end
 
 function menu.clear()
@@ -171,30 +171,30 @@ function menu.initMain()
 	menu:addBox(x-21,y-7,48,64)
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
+	local startButton = menu:addButton( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
 	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'settingsOff_IMG', 'settingsOn_IMG', "settings", menu.startTransition(settings.init, false), actionHover )
+	menu:addButton( x, y, 'settingsOff', 'settingsOn', "settings", menu.startTransition(settings.init, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'editorOff_IMG', 'editorOn_IMG', "level editor", menu.startTransition( editor.start, true), actionHover )
+	menu:addButton( x, y, 'editorOff', 'editorOn', "level editor", menu.startTransition( editor.start, true), actionHover )
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'creditsOff_IMG', 'creditsOn_IMG', "credits", menu.startTransition(menu.startCredits, false), actionHover )
+	menu:addButton( x, y, 'creditsOff', 'creditsOn', "credits", menu.startTransition(menu.startCredits, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'exitOff_IMG', 'exitOn_IMG', "exit", menu.startTransition(love.event.quit), actionHover )
+	menu:addButton( x, y, 'exitOff', 'exitOn', "exit", menu.startTransition(love.event.quit), actionHover )
 
 	
 	-- add main logo:
 	x = - 85
 	y = - 78
-	table.insert(menuImages, {typ="img", img='logo_IMG', x=x, y=y})
+	table.insert(menuImages, {typ="img", img='logo', x=x, y=y})
 	
 
 	-- start of with the start button selected:
@@ -236,19 +236,19 @@ function menu.initWorldMap()
 	x = -5
 	y = -30
 	
-	table.insert(menuBackgrounds, {typ="img", img='background1_IMG', x=x, y=y})
+	table.insert(menuBackgrounds, {typ="img", img='world1', x=x, y=y})
 	
 	x = x + dWorld
-	table.insert(menuBackgrounds, {typ="img", img='background2_IMG', x=x, y=y})
+	table.insert(menuBackgrounds, {typ="img", img='world2', x=x, y=y})
 	
 	x = x + dWorld
-	table.insert(menuBackgrounds, {typ="img", img='background3_IMG', x=x, y=y})
+	table.insert(menuBackgrounds, {typ="img", img='world3', x=x, y=y})
 	
 	x = x + dWorld
-	table.insert(menuBackgrounds, {typ="img", img='background4_IMG', x=x, y=y})
+	table.insert(menuBackgrounds, {typ="img", img='world4', x=x, y=y})
 	
 	x = x + dWorld
-	table.insert(menuBackgrounds, {typ="img", img='background5_IMG', x=x, y=y})	
+	table.insert(menuBackgrounds, {typ="img", img='world5', x=x, y=y})	
 
 	-- find out the last level that was beaten:
 	local currentLevel = config.getValue("level")
@@ -275,8 +275,8 @@ function menu.initWorldMap()
 		-- add buttons until the current level is found:
 		if not lastLevelFound then
 			curButton = menu:addButton( x, y,
-							'worldItemOff_IMG',
-							'worldItemOn_IMG',
+							'worldItemOff',
+							'worldItemOn',
 							v,
 							menu.startTransition(menu.startGame( "levels/" .. v ), true),
 							scrollWorldMap )
@@ -284,7 +284,7 @@ function menu.initWorldMap()
 				menu.furthestX = x
 			end
 		else
-			table.insert(menuImages, {typ="img", img='worldItemInactive_IMG', x=x, y=y})
+			table.insert(menuImages, {typ="img", img='worldItemInactive', x=x, y=y})
 		end
 
 		if prevX and prevY then
@@ -354,8 +354,8 @@ function menu.AddOneWorldMap()
 	local y = 0
 	
 	menu:addButton( x, y,
-		'worldItemOff_IMG',
-		'worldItemOn_IMG',
+		'worldItemOff',
+		'worldItemOn',
 		v,
 		menu.startTransition(menu.startGame( "levels/" .. v ), true),
 		scrollWorldMap )
@@ -483,8 +483,8 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 				timer = 0,
 				angle = 0,
 			}
-	new.ox = self.images[imgOff]:getWidth()*0.5/Camera.scale
-	new.oy = self.images[imgOff]:getHeight()*0.5/Camera.scale
+	new.ox = AnimationDB.image[imgOff]:getWidth()*0.5/Camera.scale
+	new.oy = AnimationDB.image[imgOff]:getHeight()*0.5/Camera.scale
 	table.insert(buttons, new)
 
 	return new
@@ -537,12 +537,12 @@ function menu:addButtonLabeled( x,y,imgOff,imgOn,name,action,actionHover,label,f
 				font=font,
 				label=label
 			}
-	--new.ox = self.images[imgOff]:getWidth()*0.5/Camera.scale
-	--new.oy = self.images[imgOff]:getHeight()*0.5/Camera.scale
+	--new.ox = AnimationDB.image[imgOff]:getWidth()*0.5/Camera.scale
+	--new.oy = AnimationDB.image[imgOff]:getHeight()*0.5/Camera.scale
 	new.ox = 0
 	new.oy = 0
 	
-	new.labelX = (self.images[imgOff]:getWidth() - _G[font]:getWidth(label))*0.5/Camera.scale
+	new.labelX = (AnimationDB.image[imgOff]:getWidth() - _G[font]:getWidth(label))*0.5/Camera.scale
 	table.insert(buttons, new)
 
 	return new
@@ -562,7 +562,7 @@ function menu:changeButtonImage( name, imageOff, imageOn )
 			b.imgOff = imageOff or b.imgOff
 			b.imgOn = imageOn or b.imgOn
 			if b.label then
-				b.labelX = (self.images[b.imgOff]:getWidth()
+				b.labelX = (AnimationDB.image[b.imgOff]:getWidth()
 						- _G[b.font]:getWidth(b.label))*0.5/Camera.scale
 			end
 			break
@@ -574,7 +574,7 @@ function menu:changeButtonLabel( name, label )
 	for k, b in pairs(buttons) do
 		if b.name == name then
 			b.label = label
-			b.labelX = (self.images[b.imgOff]:getWidth()
+			b.labelX = (AnimationDB.image[b.imgOff]:getWidth()
 						- _G[b.font]:getWidth(b.label))*0.5/Camera.scale
 			break
 		end
@@ -953,7 +953,7 @@ function menu:draw()
 				love.graphics.setPixelEffect( shaders.grayScale )
 			end
 		end]]--
-		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale )
+		love.graphics.draw( AnimationDB.image[element.img], element.x*Camera.scale, element.y*Camera.scale )
 		--love.graphics.setPixelEffect( )
 	end
 	
@@ -1004,7 +1004,7 @@ function menu:draw()
 
 	love.graphics.setColor(255,255,255)
 	for k, element in pairs(menuImages) do
-		love.graphics.draw( self.images[element.img], element.x*Camera.scale, element.y*Camera.scale, alpha )
+		love.graphics.draw( AnimationDB.image[element.img], element.x*Camera.scale, element.y*Camera.scale, alpha )
 	end
 	
 	for k, button in pairs(buttons) do
@@ -1018,7 +1018,7 @@ function menu:draw()
 				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
 								(button.y+button.oy+yShift)*Camera.scale)
 			else
-				love.graphics.draw( self.images[button.imgOn], 
+				love.graphics.draw( AnimationDB.image[button.imgOn], 
 					(button.x+button.ox+xShift)*Camera.scale, 
 					(button.y+button.oy+yShift)*Camera.scale, 
 					angle, xScale, yScale, 
@@ -1030,7 +1030,7 @@ function menu:draw()
 				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
 								(button.y+button.oy+yShift)*Camera.scale)
 			else
-				love.graphics.draw( self.images[button.imgOff], 
+				love.graphics.draw( AnimationDB.image[button.imgOff], 
 					(button.x+button.ox+xShift)*Camera.scale, 
 					(button.y+button.oy+yShift)*Camera.scale, 
 					angle, xScale, yScale, 
@@ -1121,7 +1121,7 @@ function menu.initPauseMenu()
 	y = 0
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	local startButton = menu:addButton( x, y, 'startOff_IMG', 'startOn_IMG', "continue",menu.endPauseMenu, actionHover )
+	local startButton = menu:addButton( x, y, 'startOff', 'startOn', "continue",menu.endPauseMenu, actionHover )
 	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
@@ -1131,17 +1131,17 @@ function menu.initPauseMenu()
 		myMap:start(p)
 		mode = "game" 
 	end
-	menu:addButton( x, y, 'restartOff_IMG', 'restartOn_IMG', "restart level", menu.startTransition(restartEvent, false), actionHover )
+	menu:addButton( x, y, 'restartOff', 'restartOn', "restart level", menu.startTransition(restartEvent, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'exitOff_IMG', 'exitOn_IMG', "leave", menu.startTransition(menu.initWorldMap, true), actionHover )
+	menu:addButton( x, y, 'exitOff', 'exitOn', "leave", menu.startTransition(menu.initWorldMap, true), actionHover )
 
 	
 	-- add main logo:
 	x = - 35
 	y = - 78
-	table.insert(menuImages, {typ="img", img='paused_IMG', x=x, y=y})
+	table.insert(menuImages, {typ="img", img='paused', x=x, y=y})
 	
 	menu:addBox(-20,-4,40,40)
 
