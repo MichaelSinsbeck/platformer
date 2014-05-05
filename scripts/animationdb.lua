@@ -394,7 +394,9 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('runnerMouth','runnerMouth',{1},{1e6})
 
-	AnimationDB:addAni('bouncer','bouncer',{2,1},{0.1,1e6})
+	AnimationDB:addAni('strongBouncer','bouncer',{2,1},{0.1,1e6})
+	AnimationDB:addAni('mediumBouncer','bouncer',{4,3},{0.1,1e6})
+	AnimationDB:addAni('weakBouncer','bouncer',{6,5},{0.1,1e6})
 
 	AnimationDB:addAni('button','button',{1},{1e6})
 	AnimationDB:addAni('buttonPressed','button',{3},{1e6})

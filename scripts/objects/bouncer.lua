@@ -5,7 +5,7 @@ local Bouncer = object:New({
   marginy = 0.2,
   isInEditor = true,
   vis = {
-		Visualizer:New('bouncer',{frame = 2}),
+		Visualizer:New('weakBouncer',{frame = 2}),
   }, 
   properties = {
 		angle = utility.newCycleProperty({-1,0,1,2},{'up', 'right', 'down', 'left'}),
@@ -23,6 +23,8 @@ function Bouncer:applyOptions()
 	self.x = tileX+0.5-.375*math.cos(self.angle*0.5*math.pi)
 	self.y = tileY+0.5-.375*math.sin(self.angle*0.5*math.pi)
 	self.vis[1].angle = self.angle*0.5*math.pi+0.5*math.pi
+	local s = self.properties.strength.names[self.strength]
+	self:setAnim(s..'Bouncer',true)
 end
 
 function Bouncer:setAcceleration(dt)
