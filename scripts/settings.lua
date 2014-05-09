@@ -109,10 +109,10 @@ function settings.init()
 	menu.setPlayerPosition( 0, 15 )()
 	menuPlayer.vis.sx = -1
 	
-	local startButton = menu:addButton( x, y, 'keyboardOff_IMG', 'keyboardOn_IMG', "keyboard", menu.startTransition(keys.initKeyboard), nil)
+	local startButton = menu:addButton( x, y, 'keyboardOff', 'keyboardOn', "keyboard", menu.startTransition(keys.initKeyboard), nil)
 	
 	x = x + 25
-	menu:addButton( x, y, 'gamepadOff_IMG', 'gamepadOn_IMG', "gamepad", menu.startTransition(keys.initGamepad), nil )
+	menu:addButton( x, y, 'gamepadOff', 'gamepadOn', "gamepad", menu.startTransition(keys.initGamepad), nil )
 
 	menu:addBox(-33,-7,64,32)
 
