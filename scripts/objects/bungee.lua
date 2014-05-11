@@ -2,7 +2,6 @@ local Bungee = object:New({
 	tag = 'Bungee',
 	marginx = 0.1,
   marginy = 0.1,
-  speed = 50,
   maxLength = 10,
   minLength = 0.5,
   status = 'fly',

@@ -28,7 +28,7 @@ local Player = object:New({
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
   windMaxSpeed = -20,
-  --animation = 'whiteStand',
+	bungeeSpeed = 50, -- speed of rope shooting
   marginx = 0.3,
   marginy = 0.6,
   linePointx = 0,
@@ -496,6 +496,14 @@ function Player:postStep(dt)
 	else
 		self.vis[2].active = false
 	end
+end
+
+function Player:throwBungee()
+	--game:checkControls()
+	local vx = self.bungeeSpeed * math.cos(self.vis[2].angle)
+	local vy = self.bungeeSpeed * math.sin(self.vis[2].angle)
+	local newBungee = objectClasses.Bungee:New({x=self.x, y=self.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=self.vis[2].angle})} })
+	spriteEngine:insert(newBungee)	
 end
 
 function Player:connect(anchor)
