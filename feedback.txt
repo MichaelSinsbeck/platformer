@@ -1,0 +1,82 @@
+Player bewegung
+- I2,I13 player too fast
+- I3 gleiten mit bandana zu schnell in x richtung
+- I5,I6,I10 slide zu stark (wie auf eis)
+
+Level design
+- I4 level 2 kein Inhalt am Anfang
+- I4 Level am Anfang zu einfach
+- Mündlich: Schwierigkeitskurve nicht stetig (zwischendrin sind einige levels zu schwer, dann wieder einfach)
+- I5 wartezeiten in level 1-10 zu lang (bei walker gegner)
+- I7 die walker nerven irgendwann
+- I8,I9 bin zu oft gestorben/ komplett von vorne starten ist frustrierend (checkpoints)
+- I13 level sollten einen flow haben, also ohne anhalten oder warten zu durchlaufen sein.
+
+Gameplay features
+- I8, S8 habe kein Schwert
+- I10 Warum habe ich das blaue Bandana nicht immer?
+- M7 Unklar, dass man das Bandana mehrmals benutzen kann
+- S2,S4 Wünscht sich double jump, vielleicht nur einmal benutzbar?
+- S3 wünscht sich gegner, die an wänden hoch und runterlaufen
+- S5 Smokebomb teleporting enemies
+- S5,S8 hiding in shadow (passing enemies without taking damage)
+- S5 Samurai enemies
+- S6 Ninja rope
+- S6 temporary invisibility
+- S9 Gegner, die spontan aus dem Boden schießen
+- S10 Möglichkeit, Gegner zu töten
+- AO6 Unlockable costumes
+
+Level end
+- I2 awards (level end) take too much time to uncover
+- AF8 nicht verstanden, was "survived" heißt. (umbenennen in "no death"?)
+- AF9 Butten animation im level end screen zu langsam, hätte  beinahe nicht den Stein gesehen.
+
+Sound
+- I3 Sound fehlt
+
+Grafik
+- I5,I10,I11 spikes sehen nicht gefährlich genug aus und sind schlecht sichtbar
+- I11, Spalte K: Unterschied Vordergrund/Hintergrund soll klarer sein
+- L10 Drachenstatue ist verwirrend (vordergrund?)
+- O2,O5 Lila Monster passen farblich nicht
+- O3,P4 Hintergrund (Parallax) passt farblich nicht
+- P3 Schattierungen in "Idle for"-Grafik sehen gut aus. Das sollte mehr verwendet werden.
+- P6 kleine details kommen gut an (zwinkern der figur), bitte mehr davon
+- P8 Das design sollte insgesamt stärker Asiatisch sein
+- T6 ähnliches optisches design am Ende einer Welt und am Anfang der nächsten Welt
+
+Interface/Menu
+- M3 Vermisse einen Timer im Interface (ingame)
+- M10 Symbole im Hauptmenü reichen nicht, besser Wörter
+- M13 Requests a replay button
+- AC8 zugang zum optionsmenü aus dem Level heraus
+- AC10 Box im Menü sollte einen (Text)titel haben, im control-menu z.B. "Ninja controls" und "Menu controls"
+- AD13 die buttons im menü sollten den Text direkt an sich haben (statt unten)
+- Verwende SPACE als standard sprung taste
+
+Sonstiges
+- P9 Schafe wären toll
+
+Splattereffekt
+- Q10 Option zum abschalten des Splattereffekts
+- Q10 option zum erhalten der Splatterflecken über den Spielverlauf
+
+Transition effekt
+- AD10 Die Menüübergangssequenz (silouette) ist unlogisch, weil bereits ein ninja im Bild ist. Statt dessen sollte der ninja im menü größer werden.
+- AP4 Menüübergangssequenz sieht billig aus
+
+Worldmapo
+- AG3,AG5 Worldmap sollte nicht so strikt auf einer linie liegen.
+- AG6 bilder der einzelnen welten sollten verbessert werden (vor allem die Spikes unten dran)
+- AG10 es soll einfach sein, schnell zwischen den einzelnen Levels zu wechseln (nicht 100 mal nach rechts drücken)
+
+
+
+
+
+
+
+
+
+
