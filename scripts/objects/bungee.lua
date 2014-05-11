@@ -6,7 +6,7 @@ local Bungee = object:New({
   minLength = 0.5,
   status = 'fly',
   nNodes = 20,
-  friction = 5,
+  friction = 2, --5
   vis = {Visualizer:New('bungee')},
   tx = 0,
   ty = 0,
@@ -38,13 +38,9 @@ function Bungee:draw()
 		math.floor(p.y*myMap.tileSize))
 	else
 		--love.graphics.line(self.nodes)
-		for i=1,self.nNodes do
-			love.graphics.line(
-				self.nodesX[i-1]*myMap.tileSize,
-				self.nodesY[i-1]*myMap.tileSize,
-				self.nodesX[i]*myMap.tileSize,
-				self.nodesY[i]*myMap.tileSize)
-		end
+		local curve = love.math.newBezierCurve(self.nodes)
+		local nodesToDraw = curve:render()
+		love.graphics.line(nodesToDraw)
 	end
 	
 	love.graphics.setColor(r,g,b,a)
