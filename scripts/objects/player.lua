@@ -452,9 +452,6 @@ function Player:postStep(dt)
 		else
 			self:setAnim(prefix..'LineMove')
 		end
-	elseif self.status == 'hooked' then
-		print('hooked')
-		self:setAnim(prefix..'Hooked')
 	end
 
 	-- Check for changes in statistics and record them
