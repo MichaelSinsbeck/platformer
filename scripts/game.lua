@@ -122,7 +122,7 @@ function game.keypressed(key)
 
 
 	if key == keys.ACTION and p.bandana == "red" then
-		Bungee:throw()
+		p:throwBungee()
 	end
 	if key == keys.NEXTMAP then
 		Campaign:proceed()

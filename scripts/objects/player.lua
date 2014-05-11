@@ -192,11 +192,9 @@ function Player:setAcceleration(dt)
 	elseif self.status == 'leftwall'  and axControl < 0 then
 			-- Movement to the left is possible
 			self.vx = math.max(axControl*dt,-self.walkSpeed)
-			self.status = 'fly'
 	elseif self.status == 'rightwall' and axControl > 0 then
 			-- Movement to the right is possible
 			self.vx = math.min(self.vx+axControl*dt,self.walkSpeed)
-			self.status = 'fly'
 	end
 	
   if self.status == 'stand' and self.vy ~=0 then self.status = 'fly'  end	
@@ -267,8 +265,8 @@ function Player:collision(dt)
   elseif self.vx < 0 then -- Bewegung nach links
     -- Eckpunkte wechseln Zelle?
     if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
-			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'right',self.tag) or
-				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
+			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'left',self.tag) or
+				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'left',self.tag) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
         if self.status ~= 'online' then
 			self.status = 'leftwall'
@@ -301,8 +299,27 @@ function Player:collision(dt)
         self.status = 'stand'
       end
     end
-  end  
-
+  end
+  
+  -- Attach to a wall, from every status but 'stand', if position is correct.
+  if self.status ~= 'stand' then
+		if utility.isInteger(self.newX-self.semiwidth) then -- if aligned with the left
+			if myMap:collisionTest(math.floor(self.newX-self.semiwidth)-1,math.floor(self.newY-self.semiheight),'left',self.tag) or
+				 myMap:collisionTest(math.floor(self.newX-self.semiwidth)-1,math.ceil(self.newY+self.semiheight)-1,'left',self.tag) then
+				self.status = 'leftwall'
+			else
+				self.status = 'fly'
+			end
+		elseif utility.isInteger(self.newX+self.semiwidth) then
+			if myMap:collisionTest(math.floor(self.newX+self.semiwidth),math.floor(self.newY-self.semiheight),'right',self.tag) or
+				 myMap:collisionTest(math.floor(self.newX+self.semiwidth),math.ceil(self.newY+self.semiheight)-1,'right',self.tag) then
+				self.status = 'rightwall'
+			else
+				self.status = 'fly'
+			end
+		end
+	end
+	--[[
   -- if vertically the player changes the tile, then possibly
   -- he sticks on the wall.
   -- check: After vertical movement, is the wall still there?
@@ -323,7 +340,7 @@ function Player:collision(dt)
 	  else
 	    self.status = 'fly'
 		end
-	end
+	end--]]
   
   -- Extra treatment for wall stuff
   if self.status == 'leftwall' then
@@ -436,6 +453,7 @@ function Player:postStep(dt)
 			self:setAnim(prefix..'LineMove')
 		end
 	elseif self.status == 'hooked' then
+		print('hooked')
 		self:setAnim(prefix..'Hooked')
 	end
 

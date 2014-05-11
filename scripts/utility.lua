@@ -89,3 +89,7 @@ function utility.tablePrintBooleans( tbl )
 		print(str)
 	end
 end
+
+function utility.isInteger(number)
+	return number == math.floor(number)
+end
