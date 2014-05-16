@@ -1303,22 +1303,50 @@ function editor.keypressed( key, repeated )
 		--bgObjectPanel.visible = false
 		editor.closeBgObjectPanel()
 		--editor.currentBgObjects = editor.currentBgObject or editor.bgObjectList[1]
-	--elseif key == KEY_PEN then
-	--	editor.setTool("pen")
-	--elseif key == KEY_STAMP then
-	--	editor.setTool("bgObject")
-	--elseif key == KEY_TEST then
-	--	editor.testMapAttempt()
-	--elseif key == KEY_DELETE then
-	--	if map.selectedBgObject then
-	--		map:removeSelectedBgObject()
-	--	elseif map.selectedObject then
-	--		map:removeSelectedObject()
-	--	end
-	--	propertiesPanel.visible = false
+		--elseif key == KEY_PEN then
+		--	editor.setTool("pen")
+		--elseif key == KEY_STAMP then
+		--	editor.setTool("bgObject")
+		--elseif key == KEY_TEST then
+		--	editor.testMapAttempt()
+		--elseif key == KEY_DELETE then
+		--	if map.selectedBgObject then
+		--		map:removeSelectedBgObject()
+		--	elseif map.selectedObject then
+		--		map:removeSelectedObject()
+		--	end
+		--	propertiesPanel.visible = false
 	elseif key == KEY_DUPLICATE then
-		map:duplicateSelection()
-		editor.createPropertiesPanel()
+		--map:duplicateSelection()
+		--editor.createPropertiesPanel()
+		local noBg, bg = false, false
+		for k, v in pairs( map.selectedObjects ) do
+			if v.isBackgroundObject then
+				bg = true
+			else
+				noBg = true
+			end
+		end
+		if noBg and bg then
+			print("Select either background objects or foreground objects to duplicate - not both!")
+		else
+			if bg then
+				editor.currentBgObjects = {}
+				for k, v in pairs( map.selectedObjects ) do
+					print(k, v)
+					table.insert( editor.currentBgObjects, {x=v.x, y=v.y, obj=v.objType} )
+				end
+				editor.currentTool = "bgObject"
+			else
+				editor.currentObjects = {}
+				for k, v in pairs( map.selectedObjects ) do
+					table.insert( editor.currentObjects, {x=v.x, y=v.y, obj=v} )
+				end
+				editor.currentTool = "object"
+			end
+			editor.sortSelectedObjects()
+			map:selectNoObject()
+		end
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then

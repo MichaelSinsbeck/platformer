@@ -60,5 +60,5 @@ function createVertices(i,scrollX)
 		vertices[count] = {x,yBase-yFactor*i*love.math.noise(x/200/i+scrollX*i,i+.2),0,0,color[i][1],color[i][2],color[i][3],255};
 		vertices[count+1] = {x,600,0,0,color[i][1],color[i][2],color[i][3],255};
 	end
-return vertices
+	return vertices
 end

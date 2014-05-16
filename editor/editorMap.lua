@@ -761,8 +761,10 @@ function EditorMap:findBgObjectAt( tileX, tileY )
 end
 
 function EditorMap:selectObject( obj )
-	table.insert( self.selectedObjects, obj )
-	obj.selected = true
+	if not obj.selected then
+		table.insert( self.selectedObjects, obj )
+		obj.selected = true
+	end
 end
 
 function EditorMap:selectNoObject()
