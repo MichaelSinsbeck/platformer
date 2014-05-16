@@ -1029,24 +1029,23 @@ function editor:useTool( tileX, tileY, button )
 		self.lastClickX, self.lastClickY = tileX, tileY
 	elseif self.currentTool == "bgObject" and self.currentBgObjects then
 		if button == "l" then
-				editor.setTool("edit")
+			editor.setTool("edit")
 			local new
 			for k, v in pairs( self.currentBgObjects ) do
 				new = map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
 				map:selectObject(new)
 			end
 		elseif button == "r" then
-
-				local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
-				local tX = wX/(Camera.scale*8)
-				local tY = wY/(Camera.scale*8)
+			local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
+			local tX = wX/(Camera.scale*8)
+			local tY = wY/(Camera.scale*8)
 			if not map:removeObjectAt( tX, tY ) then
 				map:removeBgObjectAt( tX, tY )
 			end
 		end
 	elseif self.currentTool == "object" and self.currentObjects then
 		if button == "l" then
-				editor.setTool("edit")
+			editor.setTool("edit")
 			local new
 			for k, o in pairs( self.currentObjects ) do
 				new = map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
@@ -1134,20 +1133,41 @@ function editor.startBoxSelect( x, y )
 	editor.selectBox = {sX = x, sY = y, eX = x, eY = y}
 end
 
+function editor.createBoxSelectPoints( step, sX, sY, eX, eY )
+	list = {}
+	local sX, sY = sX or editor.selectBox.sX, sY or editor.selectBox.sY
+	local eX, eY = eX or editor.selectBox.eX, eY or editor.selectBox.eY
+	local stepX, stepY = step, step
+	if sX > eX then stepX = -step end
+	if sY > eY then stepY = -step end
+
+	for x = sX, eX, stepX do
+		for y = sY, eY, stepY do
+			table.insert( list, {x = x, y = y} )
+		end
+	end
+	-- make sure to add last lines as well:
+	for x = sX, eX, stepX do
+		table.insert( list, {x = x, y = eY} )
+	end
+	for y = sY, eY, stepY do
+		table.insert( list, {x = eX, y = y} )
+	end
+	table.insert( list, {x = eX, y = eY} )
+	return list
+end
+
 function editor.endBoxSelect( aborted )
 	if aborted ~= "aborted" then
 		if objectPanel.visible then
-			local sX, sY = editor.selectBox.sX, editor.selectBox.sY
-			local eX, eY = editor.selectBox.eX, editor.selectBox.eY
+			--local sX, sY = editor.selectBox.sX, editor.selectBox.sY
+			--local eX, eY = editor.selectBox.eX, editor.selectBox.eY
 			local tileSize = Camera.scale*8
+			local points = editor.createBoxSelectPoints( tileSize )
 
 			-- Pretend there was a "click" at multiple coordinates in the
 			-- selected area. The step between the clicks is small enough
 			-- to make sure every tile will be hit at least once:
-			local stepX = tileSize
-			local stepY = tileSize
-			if sX > eX then stepX = -tileSize end
-			if sY > eY then stepY = -tileSize end
 			local shift = love.keyboard.isDown( "lshift", "rshift" )
 			if not shift then
 				objectPanel:disselectAll()
@@ -1158,9 +1178,8 @@ function editor.endBoxSelect( aborted )
 			local singleButton, button
 			local numButtonsHit = 0
 			local buttonWasAlreadySelected
-			for x = sX, eX, stepX do
-				for y = sY, eY, stepY do
-					button = objectPanel:addToSelectionClick( x, y, shift )
+			for k, p in pairs(points) do
+					button = objectPanel:addToSelectionClick( p.x, p.y, shift )
 					if button then
 						singleButton = button
 						numButtonsHit = numButtonsHit + 1
@@ -1170,22 +1189,17 @@ function editor.endBoxSelect( aborted )
 						button:setSelected( true )
 					end
 				end
-			end
+
 			if numButtonsHit == 1 and shift and buttonWasAlreadySelected then
 				singleButton:setSelected( false )
 			end
 		elseif bgObjectPanel.visible then
-			local sX, sY = editor.selectBox.sX, editor.selectBox.sY
-			local eX, eY = editor.selectBox.eX, editor.selectBox.eY
 			local tileSize = Camera.scale*8
+			local points = editor.createBoxSelectPoints( tileSize )
 
 			-- Pretend there was a "click" at multiple coordinates in the
 			-- selected area. The step between the clicks is small enough
 			-- to make sure every tile will be hit at least once:
-			local stepX = tileSize
-			local stepY = tileSize
-			if sX > eX then stepX = -tileSize end
-			if sY > eY then stepY = -tileSize end
 			local shift = love.keyboard.isDown( "lshift", "rshift" )
 			if not shift then
 				bgObjectPanel:disselectAll()
@@ -1196,9 +1210,8 @@ function editor.endBoxSelect( aborted )
 			local singleButton, button
 			local numButtonsHit = 0
 			local buttonWasAlreadySelected
-			for x = sX, eX, stepX do
-				for y = sY, eY, stepY do
-					button = bgObjectPanel:addToSelectionClick( x, y, shift )
+			for k, p in pairs( points ) do
+					button = bgObjectPanel:addToSelectionClick( p.x, p.y, shift )
 					if button then
 						singleButton = button
 						numButtonsHit = numButtonsHit + 1
@@ -1207,8 +1220,8 @@ function editor.endBoxSelect( aborted )
 						end
 						button:setSelected( true )
 					end
-				end
 			end
+
 			if numButtonsHit == 1 and shift and buttonWasAlreadySelected then
 				singleButton:setSelected( false )
 			end
@@ -1224,18 +1237,14 @@ function editor.endBoxSelect( aborted )
 			if not shift then
 				map:selectNoObject()
 			end
+			local points = editor.createBoxSelectPoints( 1, sX, sY, eX, eY )
 			--map:selectNoBgObject()
-			local stepX, stepY = 1, 1
-			if sX > eX then stepX = -1 end
-			if sY > eY then stepY = -1 end
 			-- Only tiles which are fully IN the box area should be selected.
 			-- This is achieved by adding a 1-tile padding (the +stepX, -stepX etc.):
-			for x = sX+stepX, eX-stepX, stepX do	-- a 1 tile padding
-				for y = sY+stepY, eY-stepY, stepY do
-					local obj = map:findObjectAt( x, y )
-					if obj then
-						map:selectObject( obj )
-					end
+			for k, p in pairs( points ) do
+				local obj = map:findObjectAt( p.x, p.y )
+				if obj then
+					map:selectObject( obj )
 				end
 			end
 			if #map.selectedObjects > 0 then
@@ -1503,22 +1512,13 @@ function editor:draw()
 			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
 			
 			if DEBUG then
-				local sX, sY = editor.selectBox.sX, editor.selectBox.sY
-				local eX, eY = editor.selectBox.eX, editor.selectBox.eY
 				local tileSize = Camera.scale*8
-				if sX > eX then
-					sX, eX = eX, sX
-				end
-				if sY > eY then
-					sY, eY = eY, sY
-				end
+				local points = editor.createBoxSelectPoints( tileSize )
 
 				love.graphics.setColor( 255, 125, 0, 255 )
-				for x = sX, eX, tileSize do
-					for y = sY, eY, tileSize do
-						love.graphics.point( x, y )
+				for k, p in pairs( points ) do
+						love.graphics.point( p.x, p.y )
 					end
-				end
 				love.graphics.setColor( 255, 255, 255, 255 )
 			end
 		end
