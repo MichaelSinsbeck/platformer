@@ -1029,10 +1029,12 @@ function editor:useTool( tileX, tileY, button )
 		self.lastClickX, self.lastClickY = tileX, tileY
 	elseif self.currentTool == "bgObject" and self.currentBgObjects then
 		if button == "l" then
-			for k, v in pairs( self.currentBgObjects ) do
-				map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
-			end
 				editor.setTool("edit")
+			local new
+			for k, v in pairs( self.currentBgObjects ) do
+				new = map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
+				map:selectObject(new)
+			end
 		elseif button == "r" then
 
 				local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
@@ -1044,10 +1046,12 @@ function editor:useTool( tileX, tileY, button )
 		end
 	elseif self.currentTool == "object" and self.currentObjects then
 		if button == "l" then
-			for k, o in pairs( self.currentObjects ) do
-				map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
-			end
 				editor.setTool("edit")
+			local new
+			for k, o in pairs( self.currentObjects ) do
+				new = map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
+				map:selectObject(new)
+			end
 		elseif button == "r" then
 			if not map:removeObjectAt( tileX, tileY ) then
 				map:removeBgObjectAt( tileX, tileY )
