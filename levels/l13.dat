@@ -86,21 +86,21 @@ cc------cc--------------------------cc--c
 cc------cc------------------------------c
 cc------cc------------------------------c
 cccc11--cc---cc------------------cccccccc
-cccccc--c1---1c111111111111111111cccccccc
-cccccc--c1---1ccccccccccccccccccccccccccc
-cccc----c1---1---------------------------
-cccc----c1---1---------------------------
-cccc--ccc1---1---------------------------
-cccc--ccc1---1---------------------------
+cccccc--c1---cc111111111111111111cccccccc
+cccccc--c1---cccccccccccccccccccccccccccc
 cccc----c1-------------------------------
---------c1-------------------------------
---------c1-------------------------------
-------ccc1-------------------------------
-------ccc1-------------------------------
-ccccccccc1---------------------------cccc
-ccccccccc1---------------------------cccc
-ccccccccc1---------------------------cccc
-cccccccccc111111111111111111111111111cccc
+cccc----c1-------------------------------
+cccc--ccc1-------------------------------
+cccc--ccc1-------------------------------
+cccc----c1-------------ccccc-------------
+--------c11111111111111111cc-------------
+--------cccccccccccccccccccc-------------
+------cccccccccccccccccccccc-------------
+------cccccccccccccccccccccc-------------
+cccccccccccccccccccccccccccc111111111cccc
+ccccccccccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccccccccccc
 endGround
 
 BgObjects:
@@ -110,13 +110,13 @@ Objects:
 Obj:Appearblock
 	x:4
 	y:34
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:5
 	y:34
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Button
@@ -128,70 +128,40 @@ endObj
 Obj:Appearblock
 	x:10
 	y:28
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:10
-	y:40
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=green
 endObj
 Obj:Bandana
 	x:11
 	y:12
-	p:color=white
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:11
 	y:28
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:11
-	y:40
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=green
 endObj
 Obj:Appearblock
 	x:12
 	y:28
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:12
-	y:40
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=green
 endObj
 Obj:Button
 	x:13
 	y:27
 	p:lifetime=1
-	p:color=red
+	p:color=green
 endObj
 Obj:Appearblock
 	x:18
 	y:16
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:19
-	y:16
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:20
-	y:16
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Button
-	x:22
+	x:32
 	y:21
 	p:lifetime=1
 	p:color=red
@@ -199,20 +169,20 @@ endObj
 Obj:Appearblock
 	x:34
 	y:22
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:35
 	y:22
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Button
 	x:38
 	y:15
 	p:lifetime=1
-	p:color=red
+	p:color=blue
 endObj
 Obj:Exit
 	x:39
@@ -221,6 +191,66 @@ endObj
 Obj:Player
 	x:2
 	y:39
+endObj
+Obj:Appearblock
+	x:30
+	y:16
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:29
+	y:16
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:28
+	y:16
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:19
+	y:16
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:20
+	y:16
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:21
+	y:16
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:31
+	y:16
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:10
+	y:34
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:11
+	y:34
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:12
+	y:34
+	p:state=solid
+	p:color=green
 endObj
 endObjects
 

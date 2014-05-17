@@ -96,25 +96,25 @@ Objects:
 Obj:Appearblock
 	x:15
 	y:3
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Button
 	x:16
 	y:2
 	p:lifetime=1
-	p:color=red
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:16
 	y:3
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:17
 	y:3
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Button
@@ -126,32 +126,32 @@ endObj
 Obj:Appearblock
 	x:26
 	y:6
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:26
 	y:7
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:26
 	y:33
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:26
 	y:34
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:26
 	y:35
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Exit
 	x:29

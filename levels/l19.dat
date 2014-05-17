@@ -46,11 +46,11 @@ dddddddddd-----------ddddd----------------dd
 dddddddddd----dd------dddd---d-------------d
 dddddddddd---dddd-------dd---d--------------
 dddddddddd---dddd--------d---d--------------
-dddddd-ddd---dddd----------------------ddddd
-d------------dddd-----------------------dddd
+dddddd-ddd---dddd------------d---------ddddd
+d------------ddddbb---------------------dddd
 -------------ddd---------------------------d
--------------dd-----------ddd---------------
------ddd-----dd-------ddddddd---------------
+-------------dd---ddddddddddd---------------
+-----ddd-----dd---ddddddddddd---------------
 dddddddddd---dd---ddddddddddd---------------
 dddddddddd---dd---ddddddddddd---------------
 endGround
@@ -62,7 +62,7 @@ Objects:
 Obj:Spawner
 	x:6
 	y:13
-	p:direction=left
+	p:direction=right
 endObj
 Obj:Spawner
 	x:28
@@ -72,7 +72,7 @@ endObj
 Obj:Spawner
 	x:31
 	y:4
-	p:direction=left
+	p:direction=right
 endObj
 Obj:Exit
 	x:42

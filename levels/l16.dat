@@ -62,7 +62,7 @@ Objects:
 Obj:Bandana
 	x:19
 	y:11
-	p:color=white
+	p:color=blue
 endObj
 Obj:Exit
 	x:86

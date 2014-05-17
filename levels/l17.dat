@@ -40,19 +40,19 @@ Ground:
 --sg---------------------------d
 --sg---------------------------d
 --sg--ddd----------------d-----d
---sg--ddgddddddddddddddddd-----d
+--sg--dddddddddddddddddddd-----d
 --sg--ddddddddd----------------d
 --sg--d-------d----------------d
 --sg--d-------d----------------d
 --sg--d-------d--d-------------d
 --sg-------d--d--dd--------ddddd
-sdggdddddddd--d--dgddddddddggd--
+sdgddddddddd--d--dddddddddddgd--
 ssg-----------d--dddddddddddd---
 --------------d-----------------
 -----------dddd-----------------
 ddddd------dddd-----------------
-gdddgdddddddggd---dddddddddddddd
-gggggggggggggggdddgggggggggggggg
+gdddddddddddggd---dddddddddddddd
+ggggggggggggggdddddggggggggggggg
 endGround
 
 BgObjects:

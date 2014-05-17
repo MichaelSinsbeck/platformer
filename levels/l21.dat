@@ -48,10 +48,10 @@ Ground:
 ------------------------------------------------------------
 ------------------------------------------------------------
 ----------------------------------1-------------------------
+----------------------------ccc---1--ccccc------------------
 ----------------------------------1-------------------------
 ----------------------------------1-------------------------
-----------------------------------1-------------------------
--------------------ccccccc--------1-------------------------
+-------------------ccccccc--------1---------cccccc----------
 ------------------cc-----1--------1-------------------------
 ------------------c---------------1-------------------------
 ----------------------------------1-------------------------
@@ -66,7 +66,7 @@ Ground:
 -------------------2--------------------------------------dd
 --------------ccc--2--------ccc---------------------------dd
 -------------------2--------ccc---------------------------dd
--------------sssssdddssssssdddddssddddd2------------------dd
+-------------ssssssddsssssssdddssssssss2------------------dd
 ssssssssssssddd--------------------ssss2------------------dd
 sssssssssssssdd--------------------ssss2------------------dd
 sssssssssssssddddddddddddddddddd---ssss2------------------dd
@@ -90,49 +90,49 @@ endObj
 Obj:Appearblock
 	x:26
 	y:14
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:27
 	y:14
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:31
 	y:14
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:32
 	y:14
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:32
 	y:25
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:33
 	y:14
-	p:state=passable
-	p:color=red
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:33
 	y:25
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:34
 	y:25
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Button
@@ -144,8 +144,8 @@ endObj
 Obj:Button
 	x:49
 	y:29
-	p:lifetime=1
-	p:color=red
+	p:lifetime=2
+	p:color=blue
 endObj
 Obj:Exit
 	x:57
@@ -154,6 +154,42 @@ endObj
 Obj:Player
 	x:8
 	y:21
+endObj
+Obj:Appearblock
+	x:46
+	y:18
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:47
+	y:18
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:48
+	y:18
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:49
+	y:18
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:50
+	y:18
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:45
+	y:18
+	p:state=passable
+	p:color=blue
 endObj
 endObjects
 
