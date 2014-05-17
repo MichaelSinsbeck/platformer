@@ -353,23 +353,23 @@ function editor.start()
 
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[1] end,
-				'LEGround1Off',
-				'LEGround1On',
-				'LEGround1Hover',
+				'LEBGround1Off',
+				'LEBGround1On',
+				'LEBGround1Hover',
 				"draw concrete background", nil, "1" )
   y = y + 10
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[2] end,
-				'LEGround2Off',
-				'LEGround2On',
-				'LEGround2Hover',
+				'LEBGround2Off',
+				'LEBGround2On',
+				'LEBGround2Hover',
 				"draw soil background", nil, "2" )
   y = y + 10
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[3] end,
-				'LEGround2Off',
-				'LEGround2On',
-				'LEGround2Hover',
+				'LEBGround2Off',
+				'LEBGround2On',
+				'LEBGround2Hover',
 				"draw dark soil background", nil, "3" )
 
 	editor.createBgObjectPanel()
