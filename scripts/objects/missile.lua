@@ -51,7 +51,7 @@ function Missile:postStep(dt)
 		self:detonate()
     p.dead = true
     levelEnd:addDeath("death_missile")
-    Meat:spawn(self.x,self.y,self.vx,self.vy)
+    objectClasses.Meat:spawn(self.x,self.y,self.vx,self.vy)
   end
 
   if self.collisionResult > 0 then

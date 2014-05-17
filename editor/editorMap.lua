@@ -670,37 +670,37 @@ function EditorMap:addBgObject( tileX, tileY, object )
 	if mode == "editor" then
 		--newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
 		--newIDs = object:addToBatch( newBatch, nil, 0,0 )
-	local newObject = {
-		--ids = newIDs,
-		--batch = newBatch,
-		x = tileX,--bBox.x + tileX,
-		y = tileY,--bBox.y + tileY,
-		maxX = 1 + tileX,--bBox.maxX + tileX,
-		maxY = 1 + tileY,--bBox.maxY + tileY,
-		drawX = tileX*self.tileSize,--(bBox.x + tileX)*self.tileSize,
-		drawY = tileY*self.tileSize,--(bBox.y + tileY)*self.tileSize,
-		tileWidth = object.tileWidth,
-		tileHeight = object.tileHeight,
-		width = object.width,
-		height = object.height,
-		selected = false,
-		objType = object,
-		isBackgroundObject = true,
-	}
-	table.insert( self.bgList, newObject )
+		local newObject = {
+			--ids = newIDs,
+			--batch = newBatch,
+			x = tileX,--bBox.x + tileX,
+			y = tileY,--bBox.y + tileY,
+			maxX = 1 + tileX,--bBox.maxX + tileX,
+			maxY = 1 + tileY,--bBox.maxY + tileY,
+			drawX = tileX*self.tileSize,--(bBox.x + tileX)*self.tileSize,
+			drawY = tileY*self.tileSize,--(bBox.y + tileY)*self.tileSize,
+			tileWidth = object.tileWidth,
+			tileHeight = object.tileHeight,
+			width = object.width,
+			height = object.height,
+			selected = false,
+			objType = object,
+			isBackgroundObject = true,
+		}
+		table.insert( self.bgList, newObject )
 
-	if newObject.x < self.minX or newObject.maxX > self.maxX or
-		newObject.y < self.minY or newObject.maxY > self.maxY then
-		self.minX = math.min(self.minX, newObject.x)
-		self.maxX = math.max(self.maxX, newObject.maxX)
-		self.minY = math.min(self.minY, newObject.y)
-		self.maxY = math.max(self.maxY, newObject.maxY)
-		self:updateBorder()
+		if newObject.x < self.minX or newObject.maxX > self.maxX or
+			newObject.y < self.minY or newObject.maxY > self.maxY then
+			self.minX = math.min(self.minX, newObject.x)
+			self.maxX = math.max(self.maxX, newObject.maxX)
+			self.minY = math.min(self.minY, newObject.y)
+			self.maxY = math.max(self.maxY, newObject.maxY)
+			self:updateBorder()
+		end
+		return newObject
+	else
+		self.bgObjectSpriteBatch:add( object.quad, tileX*self.tileSize, tileY*self.tileSize )
 	end
-	return newObject
-else
-	self.bgObjectSpriteBatch:add( object.quad, tileX*self.tileSize, tileY*self.tileSize )
-end
 end
 
 function EditorMap:removeBgObjectAt( tileX, tileY )
@@ -742,18 +742,18 @@ function EditorMap:findBgObjectAt( tileX, tileY )
 		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX-1 and tileY <= obj.maxY-1 then
 			-- check if the object is already selected. If so, unselect it:
 			--[[for i, o in pairs( self.selectedBgObjects ) do
-				if obj == o then
-					obj.selected = false
-					table.remove( self.selectedBgObjects, i )
-					return true
-				end
+			if obj == o then
+			obj.selected = false
+			table.remove( self.selectedBgObjects, i )
+			return true
+			end
 			end]]
 			--[[local wasAlreadySelected = obj.selected
 			if not obj.selected then
-				table.insert( self.selectedBgObjects, obj )
-				obj.selected = true
-				obj.oX = tileX - obj.x
-				obj.oY = tileY - obj.y
+			table.insert( self.selectedBgObjects, obj )
+			obj.selected = true
+			obj.oX = tileX - obj.x
+			obj.oY = tileY - obj.y
 			end]]
 			return obj
 		end
@@ -777,27 +777,27 @@ function EditorMap:selectNoObject()
 end
 --[[
 function EditorMap:dragObject( tileX, tileY )
-	if #self.selectedObjects > 0 then
-		for k, obj in pairs( self.selectedObjects ) do
-			--local obj = self.selectedBgObject
-			obj.x = tileX - obj.oX
-			obj.y = tileY - obj.oY
-			obj.maxX = obj.x + obj.tileWidth +1
-			obj.maxY = obj.y + obj.tileHeight +1
-			obj.drawX = obj.x*self.tileSize
-			obj.drawY = obj.y*self.tileSize
+if #self.selectedObjects > 0 then
+for k, obj in pairs( self.selectedObjects ) do
+--local obj = self.selectedBgObject
+obj.x = tileX - obj.oX
+obj.y = tileY - obj.oY
+obj.maxX = obj.x + obj.tileWidth +1
+obj.maxY = obj.y + obj.tileHeight +1
+obj.drawX = obj.x*self.tileSize
+obj.drawY = obj.y*self.tileSize
 
-			if obj.x < self.minX or obj.maxX > self.maxX or
-				obj.y < self.minY or obj.maxY > self.maxY then
-				self.minX = math.min(self.minX, obj.x)
-				self.maxX = math.max(self.maxX, obj.maxX)
-				self.minY = math.min(self.minY, obj.y)
-				self.maxY = math.max(self.maxY, obj.maxY)
-				self:updateBorder()
-			end
-		end
-		return true
-	end
+if obj.x < self.minX or obj.maxX > self.maxX or
+obj.y < self.minY or obj.maxY > self.maxY then
+self.minX = math.min(self.minX, obj.x)
+self.maxX = math.max(self.maxX, obj.maxX)
+self.minY = math.min(self.minY, obj.y)
+self.maxY = math.max(self.maxY, obj.maxY)
+self:updateBorder()
+end
+end
+return true
+end
 end]]
 
 function EditorMap:setDragOffset( tileX, tileY )
