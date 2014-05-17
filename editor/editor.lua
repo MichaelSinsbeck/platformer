@@ -1029,11 +1029,18 @@ function editor:useTool( tileX, tileY, button )
 		self.lastClickX, self.lastClickY = tileX, tileY
 	elseif self.currentTool == "bgObject" and self.currentBgObjects then
 		if button == "l" then
-			editor.setTool("edit")
+			if not love.keyboard.isDown("lctrl", "rctrl") then
+				editor.setTool("edit")
+			end
 			local new
 			for k, v in pairs( self.currentBgObjects ) do
 				new = map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
-				map:selectObject(new)
+				if not love.keyboard.isDown("lctrl", "rctrl") then
+					map:selectObject(new)
+				end
+			end
+			if not love.keyboard.isDown("lctrl", "rctrl") then
+				editor.createPropertiesPanel()
 			end
 		elseif button == "r" then
 			local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
@@ -1045,11 +1052,18 @@ function editor:useTool( tileX, tileY, button )
 		end
 	elseif self.currentTool == "object" and self.currentObjects then
 		if button == "l" then
+			if not love.keyboard.isDown("lctrl", "rctrl") then
 			editor.setTool("edit")
+		end
 			local new
 			for k, o in pairs( self.currentObjects ) do
 				new = map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
+			if not love.keyboard.isDown("lctrl", "rctrl") then
 				map:selectObject(new)
+			end
+			end
+			if not love.keyboard.isDown("lctrl", "rctrl") then
+				editor.createPropertiesPanel()
 			end
 		elseif button == "r" then
 			if not map:removeObjectAt( tileX, tileY ) then
@@ -1349,13 +1363,17 @@ function editor.keypressed( key, repeated )
 					print(k, v)
 					table.insert( editor.currentBgObjects, {x=v.x, y=v.y, obj=v.objType} )
 				end
-				editor.currentTool = "bgObject"
+				--editor.currentTool = "bgObject"
+				editor.setTool( "bgObject" )
+				bgObjectPanel.visible = false
 			else
 				editor.currentObjects = {}
 				for k, v in pairs( map.selectedObjects ) do
 					table.insert( editor.currentObjects, {x=v.x, y=v.y, obj=v} )
 				end
-				editor.currentTool = "object"
+				--editor.currentTool = "object"
+				editor.setTool( "object" )
+				objectPanel.visible = false
 			end
 			editor.sortSelectedObjects()
 			map:selectNoObject()

@@ -1080,7 +1080,7 @@ function EditorMap:findObjectAt( tileX, tileY )
 	-- Go through the list backwards and select first object found
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
-		if tileX >= obj.x and tileY >= obj.y and tileX <= obj.maxX and tileY <= obj.maxY then
+		if tileX >= obj.x and tileY >= obj.y and tileX < obj.maxX and tileY < obj.maxY then
 			return obj
 		end
 	end
