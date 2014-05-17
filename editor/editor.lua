@@ -406,7 +406,7 @@ function editor.createBgObjectPanel()
 		"LEAcceptOff",
 		"LEAcceptOn",
 		"LEAcceptHover",
-		"Accept selection", 0, "return", true )
+		"Accept selection", 0, KEY_BGSTAMP, true )
 					
 end
 
@@ -539,7 +539,7 @@ function editor.createObjectPanel()
 		"LEAcceptOff",
 		"LEAcceptOn",
 		"LEAcceptHover",
-		"Accept selection", 0, "return", true )
+		"Accept selection", 0, KEY_STAMP, true )
 end
 
 -- called as long as editor is running:
