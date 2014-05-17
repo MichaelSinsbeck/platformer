@@ -214,6 +214,7 @@ function Clickable:draw()
 			shortcut = shortcut:sub(1,3)
 		end
 		love.graphics.push()
+		--love.graphics.setLineWidth(2)	
 		love.graphics.translate( self.x*Camera.scale, (self.y+1)*Camera.scale )
 		love.graphics.setColor(180,255,180,160)
 		love.graphics.polygon( 'fill', self.shortcutBox )
@@ -228,11 +229,10 @@ end
 
 function Clickable:drawOutline()
 	if self.selected or (self.vis and DEBUG) then
-	love.graphics.setColor(255,255,255)
+		love.graphics.setColor(255,255,255)
 		love.graphics.setLineWidth(2)	
 		love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
 	end
-	
 end
 
 function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )

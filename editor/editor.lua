@@ -400,6 +400,14 @@ function editor.createBgObjectPanel()
 		page = page + 1	-- own page for each category
 		--x = x + bBox.maxX*8 + PADDING
 	end
+
+	-- Add "end" button
+	bgObjectPanel:addClickable( panelWidth - 13, panelHeight - 18, editor.closeBgObjectPanel,
+		"LEAcceptOff",
+		"LEAcceptOn",
+		"LEAcceptHover",
+		"Accept selection", 0, "return", true )
+					
 end
 
 function editor.closeBgObjectPanel()
@@ -407,6 +415,7 @@ function editor.closeBgObjectPanel()
 	local selected = bgObjectPanel:getSelected()
 	editor.currentBgObjects = {}
 	for k, p in pairs( selected ) do
+		print("selection", p.obj )
 		table.insert( editor.currentBgObjects, {x=p.x, y=p.y, obj=p.obj} )
 	end
 
@@ -524,6 +533,13 @@ function editor.createObjectPanel()
 			x = x + obj.width/8 + PADDING
 		end
 	end
+
+	-- Add "end" button
+	objectPanel:addClickable( panelWidth - 13, panelHeight - 18, editor.closeObjectPanel,
+		"LEAcceptOff",
+		"LEAcceptOn",
+		"LEAcceptHover",
+		"Accept selection", 0, "return", true )
 end
 
 -- called as long as editor is running:
@@ -1193,11 +1209,9 @@ function editor.endBoxSelect( aborted )
 			-- Pretend there was a "click" at multiple coordinates in the
 			-- selected area. The step between the clicks is small enough
 			-- to make sure every tile will be hit at least once:
-			local shift = love.keyboard.isDown( "lshift", "rshift" )
-			if not shift then
-				objectPanel:disselectAll()
-			end
 
+			local hitButtonList = {}
+			local eventButtonList = {}
 			-- Shift-clicking a single button that's already selected leads to it
 			-- being un-selected:
 			local singleButton, button
@@ -1211,13 +1225,31 @@ function editor.endBoxSelect( aborted )
 						if numButtonsHit == 1 then
 							buttonWasAlreadySelected = singleButton.selected
 						end
-						button:setSelected( true )
+						--button:setSelected( true )
+						if button.obj then	-- only selct buttons that represent an object
+							table.insert( hitButtonList, button )
+						elseif button.event then
+							table.insert( eventButtonList, button )
+						end
 					end
 				end
 
+			-- to prevent events from being executed too early or too often, run them now:
+			for k, b in pairs( eventButtonList ) do
+				b.event( )
+			end
+			-- Must be called AFTER running the events:
+			local shift = love.keyboard.isDown( "lshift", "rshift" )
+			if not shift then
+				objectPanel:disselectAll()
+			end
 			if numButtonsHit == 1 and shift and buttonWasAlreadySelected then
 				singleButton:setSelected( false )
-			end
+			else
+				for k, b in pairs( hitButtonList ) do
+					b:setSelected( true )
+				end
+		end
 		elseif bgObjectPanel.visible then
 			local tileSize = Camera.scale*8
 			local points = editor.createBoxSelectPoints( tileSize )
@@ -1225,11 +1257,9 @@ function editor.endBoxSelect( aborted )
 			-- Pretend there was a "click" at multiple coordinates in the
 			-- selected area. The step between the clicks is small enough
 			-- to make sure every tile will be hit at least once:
-			local shift = love.keyboard.isDown( "lshift", "rshift" )
-			if not shift then
-				bgObjectPanel:disselectAll()
-			end
 
+			local hitButtonList = {}
+			local eventButtonList = {}
 			-- Shift-clicking a single button that's already selected leads to it
 			-- being un-selected:
 			local singleButton, button
@@ -1243,12 +1273,30 @@ function editor.endBoxSelect( aborted )
 						if numButtonsHit == 1 then
 							buttonWasAlreadySelected = singleButton.selected
 						end
-						button:setSelected( true )
+						if button.obj then	-- only selct buttons that represent a bgObject
+							--button:setSelected( true )
+							table.insert( hitButtonList, button )
+						elseif button.event then
+			table.insert( eventButtonList, button )
+						end
 					end
 			end
-
+	
+			-- to prevent events from being executed too early or too often, run them now:
+			for k, b in pairs( eventButtonList ) do
+				b.event( )
+			end
+			-- must be called AFTER running the events:
+			local shift = love.keyboard.isDown( "lshift", "rshift" )
+			if not shift then
+				bgObjectPanel:disselectAll()
+			end
 			if numButtonsHit == 1 and shift and buttonWasAlreadySelected then
 				singleButton:setSelected( false )
+			else
+				for k, b in pairs( hitButtonList ) do
+					b:setSelected( true )
+				end
 			end
 		else
 			-- go through all tiles within box and try to select tiles there:
@@ -1409,6 +1457,7 @@ function editor:draw()
 	local wX, wY = cam:screenToWorld( x, y )
 
 	love.graphics.setFont( fontSmall )
+	--love.graphics.setLineWidth(2)
 
 	cam:apply()
 
@@ -1703,7 +1752,7 @@ function editor.saveFileStart()
 		"LEAcceptOff",
 		"LEAcceptOn",
 		"LEAcceptHover",
-		"Cancel", nil, "return", true )
+		"Accept", nil, "return", true )
 
 	savePanel:addLabel( 8, 8, "Level name:" )
 	savePanel:addLabel( 8, 20, "Short description:" )

@@ -418,15 +418,13 @@ function Panel:addToSelectionClick( x, y, shiftPressed )
 		if self.pages[pageNum] then
 			for k,button in ipairs( self.pages[pageNum] ) do
 				hit = button:collisionCheck( x, y )
-				--if button.obj then
 					if hit then
-				if button.event then
-					button.event()
-				end
-						--button:setSelected( true )
+				--if button.event then
+			--		button.event()
+			--	end
+					print("hit")
 						return button
-					end
-				--end
+				end
 			end
 		end
 	end
