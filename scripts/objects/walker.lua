@@ -8,7 +8,10 @@ local Walker = object:New({
   marginy = 0.6,
   isInEditor = true,
   period = 0.5, -- should be (0.8/speed)
-  direction = 1, -- put -1 for left
+  --direction = 1, -- put -1 for left
+	properties = {
+		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
+	}  
 })
 
 function Walker:postStep(dt)
