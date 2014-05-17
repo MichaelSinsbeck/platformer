@@ -214,7 +214,7 @@ function Clickable:draw()
 			shortcut = shortcut:sub(1,3)
 		end
 		love.graphics.push()
-		--love.graphics.setLineWidth(2)	
+		love.graphics.setLineWidth(2)	
 		love.graphics.translate( self.x*Camera.scale, (self.y+1)*Camera.scale )
 		love.graphics.setColor(180,255,180,160)
 		love.graphics.polygon( 'fill', self.shortcutBox )
