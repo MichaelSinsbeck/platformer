@@ -101,7 +101,6 @@ function editor.createPropertiesPanel()
 			'LEDeleteOn',
 			'LEDeleteHover',
 			"remove", nil, KEY_DELETE, true)
-
 		
 
 		if #map.selectedObjects == 1 then
@@ -165,13 +164,25 @@ function editor.start()
 				"Draw Tool: Draw tiles onto the background.", nil,KEY_BGPEN,true )
 	x = x + 5
 	x = x + 10
-	toolPanel:addClickable( x, y, function() editor.setTool("object") end,
+	toolPanel:addClickable( x, y, function()
+					if objectPanel.visible then
+						editor.closeObjectPanel()
+					else
+						editor.setTool("object")
+					end
+				end,
 				'LEObjectOff',
 				'LEObjectOn',
 				'LEObjectHover',
 				"Object tool: Select and place foreground objects.", nil,KEY_STAMP,true )
 	x = x +10
-	toolPanel:addClickable( x, y, function() editor.setTool("bgObject") end,
+	toolPanel:addClickable( x, y, function()
+					if bgObjectPanel.visible then
+						editor.closeBgObjectPanel()
+					else
+						editor.setTool("bgObject")
+					end
+				end,
 				'LEStampOff',
 				'LEStampOn',
 				'LEStampHover',
