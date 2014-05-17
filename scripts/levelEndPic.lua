@@ -288,7 +288,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posY = tileSize*(-1.2)
 	elseif statType == "noDeaths" then
 
-		newPic.title = "survived"
+		newPic.title = "no deaths"
 		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statNoDeath' .. math.random(2) )
 		newPic.visBG[1]:init()
