@@ -43,6 +43,7 @@ local KEY_NEW = "f1"
 local KEY_OPEN = "f2"
 local KEY_SAVE = "f3"
 local KEY_QUIT = "escape"
+local KEY_MENU = "escape"
 local KEY_TEST = "f4"
 
 -- called when loading game	
@@ -130,7 +131,7 @@ function editor.createPropertiesPanel()
 	end
 end
 
-	-- called when editor is to be started:
+-- called when editor is to be started:
 function editor.start()
 
 	editor.init()
@@ -146,24 +147,26 @@ function editor.start()
 
 	love.mouse.setVisible( true )
 
-	local toolPanelWidth = 10*9
-	toolPanel = Panel:new( -10, -7, toolPanelWidth, 16)
+	local toolPanelHeight = 10*9
+	toolPanel = Panel:new( 0, 16, 16, toolPanelHeight)
 	
-	local x,y = 20,15
+	local x,y = 16,16
 	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				"Draw Tool: Draw tiles onto the canvas.", nil, KEY_PEN,true )
-	x = x + 5
-	x = x + 10
+	--x = x + 5
+	--x = x + 10
+	y = y + 12
 	toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				"Draw Tool: Draw tiles onto the background.", nil,KEY_BGPEN,true )
-	x = x + 5
-	x = x + 10
+	--x = x + 5
+	--x = x + 10
+	y = y + 12
 	toolPanel:addClickable( x, y, function()
 					if objectPanel.visible then
 						editor.closeObjectPanel()
@@ -175,7 +178,8 @@ function editor.start()
 				'LEObjectOn',
 				'LEObjectHover',
 				"Object tool: Select and place foreground objects.", nil,KEY_STAMP,true )
-	x = x +10
+	--x = x +10
+	y = y + 12
 	toolPanel:addClickable( x, y, function()
 					if bgObjectPanel.visible then
 						editor.closeBgObjectPanel()
@@ -187,13 +191,27 @@ function editor.start()
 				'LEStampOn',
 				'LEStampHover',
 				"Stamp Tool: Select and place background objects.", nil,KEY_BGSTAMP,true )
-	x = x +5
-	x = x +10 toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
+	--x = x +5
+	--x = x +10
+	y = y + 12
+	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.",nil,KEY_EDIT,true )
-	x = x +10
+				"Edit objects",nil,KEY_EDIT,true )
+	y = y + 16
+	toolPanel:addClickable( x, y,
+				function()
+					menuPanel.visible = true
+					bgObjectPanel.visible = false
+					objectPanel.visible = false
+					savePanel.visible = false
+					loadPanel.visible = false
+				end,
+				'LEMenuOff',
+				'LEMenuOn',
+				'LEMenuHover',
+				"Editor menu",nil,KEY_MENU,true )
 	--[[
 	toolPanel:addClickable( x, y, function() editor.setTool("editBg") end,
 				'LEEditOff',
@@ -207,51 +225,68 @@ function editor.start()
 				'LEEraserHover',
 				"Eraser - remove tiles or objects.")]]
 
-	menuPanel = Panel:new( -10 + toolPanelWidth - 2, -7,	toolPanelWidth, 16 )
-	x, y = 20, 15
+	--menuPanel = Panel:new( -10 + toolPanelWidth - 2, -7,	toolPanelWidth, 16 )
 	
+	local menuWidth, menuHeight = 16*3, 64
+	menuPanel = Panel:new( (love.graphics.getWidth()/Camera.scale - menuWidth)/2,
+					(love.graphics.getHeight()/Camera.scale - menuHeight)/2,
+					menuWidth, menuHeight )
+	menuPanel.visible = false
+	x, y = 18, 16
+	menuPanel:addClickable( x, y,
+				function()
+					menuPanel.visible = false
+					editor.testMapAttempt()
+				end,
+				'LEPlayOff',
+				'LEPlayOn',
+				'LEPlayHover',
+				"Test the map",nil, KEY_TEST, true )
+	x = x + 12
+	menuPanel:addClickable( x, y,
+				function()
+					menuPanel.visible = false
+					editor.newMapAttempt()
+				end,
+				'LENewOff',
+				'LENewOn',
+				'LENewHover',
+				"New map" , nil, KEY_NEW, true )
+	y = y + 16
+	x = 18
+	menuPanel:addClickable( x, y,
+				function()
+					menuPanel.visible = false
+					editor.loadFileList()
+				end,
+				'LEOpenOff',
+				'LEOpenOn',
+				'LEOpenHover',
+				"Load another map.", nil, KEY_OPEN, true )
+	x = x + 12
+	menuPanel:addClickable( x, y,
+				function()
+					menuPanel.visible = false
+					editor.saveFileStart()
+				end,
+				'LESaveOff',
+				'LESaveOn',
+				'LESaveHover',
+				"Save the map.", nil, KEY_SAVE, true )
+	y = y + 16
+	x = 24
 	menuPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
 				'LEExitOff',
 				'LEExitOn',
 				'LEExitHover',
-				"Close editor and return to main menu.", nil,KEY_QUIT,true )
-				
-	x = x + 10
-	x = x + 5
-
-	menuPanel:addClickable( x, y, function() editor.newMapAttempt() end,
-				'LENewOff',
-				'LENewOn',
-				'LENewHover',
-				"New map" , nil,KEY_NEW,true )
-	x = x + 10
-	x = x + 5
-	menuPanel:addClickable( x, y, function() editor.loadFileList() end,
-				'LEOpenOff',
-				'LEOpenOn',
-				'LEOpenHover',
-				"Load another map.", nil,KEY_OPEN,true )
-	x = x + 10
-	menuPanel:addClickable( x, y, function() editor.saveFileStart() end,
-				'LESaveOff',
-				'LESaveOn',
-				'LESaveHover',
-				"Save the map.", nil,KEY_SAVE,true )
-	x = x + 10
-	x = x + 5
-
-	menuPanel:addClickable( x, y, function() editor.testMapAttempt() end,
-				'LEPlayOff',
-				'LEPlayOn',
-				'LEPlayHover',
-				KEY_TEST .. " - Test the map",nil,KEY_TEST,true )
+				"Close editor and return to main menu.", nil, KEY_QUIT, true )
 				
 	-- Panel for choosing the ground type:
-	local w = 160
-	local h = 120
+	local w = 32
+	local h = 8*10 + 2*16
 	--groundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
-	groundPanel = Panel:new( -9, 17, 32, h )
-	x,y = 17, 16
+	groundPanel = Panel:new( love.graphics.getWidth()/Camera.scale - w, 17, w, h )
+	x,y = 16, 16
 
 	groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										editor.currentGround = editor.groundList[1] end,
@@ -310,9 +345,11 @@ function editor.start()
 				"draw brown spikes", nil, "8" )
 
 	-- Panel for choosing the background type:
-	backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
-	backgroundPanel = Panel:new( -9, 17, 32, h )
-	x,y = 17, 16
+	--backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
+	--backgroundPanel = Panel:new( -9, 17, 32, h )
+	h = 3*10 + 2*16
+	backgroundPanel = Panel:new( love.graphics.getWidth()/Camera.scale - w, 17, w, h )
+	x,y = 16, 16
 
 	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
 										editor.currentBackground = editor.backgroundList[1] end,
@@ -364,7 +401,7 @@ function editor.start()
 	love.graphics.setPointStyle( "smooth" )
 	love.graphics.setPointSize( 6 )
 	
-	panelsWithShortcuts = {toolPanel, menuPanel, propertiesPanel, groundPanel, backgroundPanel}
+	panelsWithShortcuts = {toolPanel, propertiesPanel, groundPanel, backgroundPanel}
 
 	editor.loadFile()
 end
@@ -384,7 +421,10 @@ function editor.createBgObjectPanel()
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 32
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
 
-	bgObjectPanel = Panel:new( 16, 32, panelWidth, panelHeight )
+	bgObjectPanel = Panel:new(-- 0, 16, panelWidth, panelHeight )
+		(love.graphics.getWidth()/Camera.scale-panelWidth)*0.5,
+		(love.graphics.getHeight()/Camera.scale-panelHeight)*0.5,
+		panelWidth, panelHeight )
 	bgObjectPanel.visible = false
 
 	local x, y = BORDER_PADDING, BORDER_PADDING --PADDING, PADDING
@@ -500,7 +540,10 @@ function editor.createObjectPanel()
 	local panelWidth = love.graphics.getWidth()/Camera.scale - 64
 	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
 
-	objectPanel = Panel:new( 32, 32, panelWidth, panelHeight )
+	objectPanel = Panel:new(
+		(love.graphics.getWidth()/Camera.scale-panelWidth)*0.5,
+		(love.graphics.getHeight()/Camera.scale-panelHeight)*0.5,
+		panelWidth, panelHeight )
 	objectPanel.visible = false
 
 	local x, y = BORDER_PADDING, BORDER_PADDING
@@ -663,13 +706,21 @@ function editor:update( dt )
 
 	map:update( dt )
 
-	menuPanel:update( dt )
 	toolPanel:update( dt )
-	groundPanel:update( dt )
-	backgroundPanel:update( dt )
+	if groundPanel.visible then
+		groundPanel:update( dt )
+	end
+	if backgroundPanel.visible then
+		backgroundPanel:update( dt )
+	end
 	--editBgPanel:update( dt )
 	--editPanel:update( dt )
-	propertiesPanel:update( dt )
+	if propertiesPanel.visible then
+		propertiesPanel:update( dt )
+	end
+	if menuPanel.visible then
+		menuPanel:update( dt )
+	end
 	if loadPanel.visible then
 		loadPanel:update( dt )
 	end
@@ -915,6 +966,13 @@ function editor:mousepressed( button, x, y )
 			mouseOnCanvas = false
 			if savePanel:collisionCheck(x, y) then
 				savePanel:click( x, y, button )
+			end
+		elseif menuPanel.visible then
+			mouseOnCanvas = false
+			if menuPanel:collisionCheck(x, y) then
+				menuPanel:click( x, y, button )
+			else
+				menuPanel.visible = false
 			end
 		elseif bgObjectPanel.visible then
 			mouseOnCanvas = false
@@ -1369,6 +1427,8 @@ function editor.keypressed( key, repeated )
 		panelsToCheck = {loadPanel}
 	elseif savePanel.visible then
 		panelsToCheck = {savePanel}
+	elseif menuPanel.visible then
+		panelsToCheck = {menuPanel}
 	end
 		
 	for i, panel in pairs(panelsToCheck) do
@@ -1559,7 +1619,9 @@ function editor:draw()
 	end]]
 
 	toolPanel:draw()
-	menuPanel:draw()
+	if menuPanel.visible then
+		menuPanel:draw()
+	end
 
 	if loadPanel.visible then
 		loadPanel:draw()
