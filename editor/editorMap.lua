@@ -1505,6 +1505,7 @@ function EditorMap:drawForeground()
 end
 
 function EditorMap:drawBorder()
+	love.graphics.setLineWidth(2)	
 	love.graphics.polygon( "line", self.border )
 	if self.draggedBorderMarker and self.tempBorder then
 		love.graphics.setColor( 150,255,150, 100 )
