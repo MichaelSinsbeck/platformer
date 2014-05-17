@@ -4,6 +4,8 @@ local deathEffect = {
 	percentage = 0,
 }
 
+local backgroundBaseColor = {0.21, 0.34, 0.435, 1.0}
+
 local renderedToCanvas = false
 
 local function textFromFile( file )
@@ -50,6 +52,11 @@ function shaders:load()
 	--shaders.grayScale = love.graphics.newPixelEffect( textFromFile ("grayscale.glsl") )
 	--shaders.fadeToBlack = love.graphics.newPixelEffect( textFromFile ("fadeToBlack.glsl") )
 	shaders.fullscreen = love.graphics.newShader( "scripts/shaders/fullscreen.glsl" )
+	shaders.background = love.graphics.newShader( "scripts/shaders/background.glsl" )
+	shaders.background:send( "baseCol", backgroundBaseColor )
+	shaders.backgroundCanvas = love.graphics.newCanvas(
+								love.graphics.getWidth(),
+								love.graphics.getHeight() )
 	print("Shaders loaded.")
 end
 
@@ -110,5 +117,23 @@ function shaders:stop()
 		end
 	end
 end
+
+local rememberShader, rememberCanvas
+function shaders:startBackground()
+	rememberShader = love.graphics.getShader()
+	rememberCanvas = love.graphics.getCanvas()
+	shaders.backgroundCanvas:clear()
+	love.graphics.setShader( shaders.background )
+	love.graphics.setCanvas( shaders.backgroundCanvas )
+end
+function shaders:endBackground( posX, posY )
+	love.graphics.setShader( rememberShader )
+	love.graphics.setCanvas( rememberCanvas )
+	love.graphics.push()
+	love.graphics.origin()
+	love.graphics.draw( shaders.backgroundCanvas )
+	love.graphics.pop()
+end
+
 
 return shaders

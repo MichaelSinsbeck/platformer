@@ -45,6 +45,7 @@ function EditorMap:new( backgroundList )
 	
 	o.tileSize = Camera.scale*8
 
+
 	o.minX = 1
 	o.maxX = 30
 	o.minY = 1
@@ -1411,6 +1412,9 @@ function EditorMap:drawGrid()
 end
 
 function EditorMap:drawBackground()
+	if settings:getShadersEnabled() then
+		shaders:startBackground()
+	end
 	for i = 1, #self.backgroundBatch do
 		love.graphics.draw( self.backgroundBatch[i], 0, 0 )
 	end
@@ -1438,6 +1442,9 @@ function EditorMap:drawBackground()
 		end
 	else
 		love.graphics.draw( self.bgObjectSpriteBatch )
+	end
+	if settings:getShadersEnabled() then
+		shaders:endBackground()
 	end
 end
 
@@ -2051,8 +2058,9 @@ function EditorMap:start(p)
 end
 
 function EditorMap:drawParallax(world)
-	local world = world or Campaign.worldNumber
-	love.graphics.draw(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
+	love.graphics.setBackgroundColor(66, 109, 170)
+	--local world = world or Campaign.worldNumber
+	--love.graphics.draw(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
 end
 
 function EditorMap:collisionTest(x,y,direction,tag)
