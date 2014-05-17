@@ -34,24 +34,24 @@ endBackground
 
 Ground:
 dddddddddddddddddddddddddddddddddddd------------------------
-dddddddddddddddddddddddddddddddddddddd----------cccccccccccc
-ddddddddddddddddddddddddddddddddddddddddddddddddc-----------
-ddddddddddddddddddddddddddddddddddddddddddddddddc-----------
-ddddddddddddddddddddddddddddddddddddddddddddddddd-----------
+dddddddddddddddddddddddddddddddddddddd--------------cccccccc
+ddddddddddddddddddddddddddddddddddddddddddddddddddddd-------
+dddddddddddddddddddddddddddddddddddddddddddddddddddd--------
+ddddddddddddddddddddddddddddddddddddddddddddddddddd---------
 ddddddddddddddddddddddddddddddddddddddddddddddddd-----------
 dddddddddddddddddddddddddddddd------------------------cccccc
-dddddddddddddddddddddddddddddd-----------------------dcccccc
-ddddddddddddddddddddddddddddddddd--dd-----------ddddddcccccc
-ddddddddddddddddddddddddddddddddd--dd22222222222ddddddcccccc
+dddddddddddddddddddddddddddddd------------------------cccccc
+ddddddddddddddddddddddddddddddddd--dd-------s-------ddcccccc
+ddddddddddddddddddddd--------dddd--dd2222222s2222222ddcccccc
 ddddddddddddddddddddd--------------dddddddddddddddddddcccccc
-----ddddddddddddddddd--------------dddddddddddddddddddcccccc
+----ddddddddddddddddd--dddd--------dddddddddddddddddddcccccc
 ------ddddddddddddddd--------------dddddddddddddddddddcccccc
 -------------------dd--------------dddddddddddddddddddcccccc
 -------------------dd--dddddddddddddddddddddddddddddddcccccc
-ddddddddd----------dd--dddddddddddddddddddddddddddddddcccccc
-ddddddd------------dd--dddddddddddddddddddddddddddddddcccccc
-dddddd-----------------dddddddddddddddddddddddddddddddcccccc
-dddddd-----------------dddddddddddddddddddddddddddddddcccccc
+-------------------dd--dddddddddddddddddddddddddddddddcccccc
+---------ddd-------dd--dddddddddddddddddddddddddddddddcccccc
+-----------------------dddddddddddddddddddddddddddddddcccccc
+-----------------------dddddddddddddddddddddddddddddddcccccc
 ddddddddddddddddddddddddddddddddddddddddddddddddddddddcccccc
 endGround
 
@@ -60,34 +60,34 @@ endBgObjects
 
 Objects:
 Obj:Button
-	x:7
-	y:18
+	x:10
+	y:15
 	p:lifetime=1
 	p:color=red
 endObj
 Obj:Appearblock
 	x:19
 	y:17
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:19
 	y:18
-	p:state=passable
+	p:state=solid
 	p:color=red
 endObj
 Obj:Button
-	x:25
+	x:24
 	y:13
-	p:lifetime=1
-	p:color=red
+	p:lifetime=2
+	p:color=blue
 endObj
 Obj:Button
 	x:31
 	y:7
-	p:lifetime=1
-	p:color=red
+	p:lifetime=2
+	p:color=green
 endObj
 Obj:Exit
 	x:57
@@ -95,7 +95,127 @@ Obj:Exit
 endObj
 Obj:Player
 	x:2
-	y:14
+	y:18
+endObj
+Obj:Appearblock
+	x:29
+	y:10
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:29
+	y:11
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:29
+	y:12
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:29
+	y:13
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:37
+	y:8
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:38
+	y:8
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:39
+	y:8
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:40
+	y:8
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:41
+	y:8
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:42
+	y:8
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:45
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:46
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:47
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:26
+	y:12
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:26
+	y:13
+	p:state=passable
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:48
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:49
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:50
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:51
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:43
+	y:8
+	p:state=passable
+	p:color=green
 endObj
 endObjects
 
