@@ -1615,7 +1615,7 @@ function EditorMap:loadFromFile( fullName )
 		local order = {'b','c','d','g','s','w','1','2'}
 		
 		for tileCounter, currentTile in ipairs(order) do
-		y = 0
+			y = 0
 			for line in ground:gmatch("(.-)\n") do
 				for x = 1, #line do
 					map.collisionSrc[x] = map.collisionSrc[x] or {}
@@ -1664,21 +1664,23 @@ function EditorMap:loadFromFile( fullName )
 				x = obj:match( "x:(.-)\n")
 				y = obj:match( "y:(.-)\n")
 			end
+			if objType:find("background") then	-- fallback 2
+				objType = objType:sub(11, 11) .. "_" .. objType:sub(12)
+			end
 
 			x = tonumber(x)
 			y = tonumber(y)
 			if bgObjList[objType] then
 				map:addBgObject( x + minX+1, y + minY+1, bgObjList[objType] )
-				
 
-				if objType == 'background10x7' or
-				   objType == 'background10x8' or
-				   objType == 'background10x20' or
-				   objType == 'background11x20' or
-				   objType == 'background12x20' or
-				   objType == 'background10x21' or
-				   objType == 'background11x21' or
-				   objType == 'background12x21' then
+				if objType == '1_0x7' or
+				   objType == '1_0x8' or
+				   objType == '1_0x20' or
+				   objType == '1_1x20' or
+				   objType == '1_2x20' or
+				   objType == '1_0x21' or
+				   objType == '1_1x21' or
+				   objType == '1_2x21' then
 					map:addObject( x+1, y+1, "Water" )
 				end
 			end

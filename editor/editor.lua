@@ -1853,7 +1853,7 @@ end
 -- Note: the following does NOT prompt if there's an existing file of the
 -- same file name. To do that, call saveFileAttempt instead.
 function editor.saveFileNow( fileName, testFile )
-	fileName = fileName or "bkup.dat"
+	fileName = fileName or "bkup/bkup.dat"
 
 	if #fileName:match("(.*).dat"):gsub(" ", "") == 0 then
 		print("Warning: Empty file name!")

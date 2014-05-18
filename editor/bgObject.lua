@@ -274,8 +274,9 @@ end]]
 
 function BgObject:addToCategory( cat, filename, x, y )
 	local img, coords = dofile( "editor/bgObjects/" .. filename )
+	local imgID = img:sub( 11 )
 	for k, c in pairs( coords ) do
-		new = BgObject:new( img .. c.tileX .. "x" .. c.tileY, img, c )
+		new = BgObject:new( imgID .. "_" .. c.tileX .. "x" .. c.tileY, img, c )
 		new.panelX = x + c.x
 		new.panelY = y + c.y
 		table.insert( cat, new )
