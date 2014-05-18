@@ -102,7 +102,6 @@ function editor.createPropertiesPanel()
 			'LEDeleteOn',
 			'LEDeleteHover',
 			"remove", nil, KEY_DELETE, true)
-		
 
 		if #map.selectedObjects == 1 then
 			if map.selectedObjects[1].isBackgroundObject then
@@ -147,7 +146,7 @@ function editor.start()
 
 	love.mouse.setVisible( true )
 
-	local toolPanelHeight = 10*9
+	local toolPanelHeight = 10*10
 	toolPanel = Panel:new( 0, 16, 16, toolPanelHeight)
 	
 	local x,y = 16,16
@@ -200,6 +199,18 @@ function editor.start()
 				'LEEditHover',
 				"Edit objects",nil,KEY_EDIT,true )
 	y = y + 16
+
+	toolPanel:addClickable( x, y,
+				function()
+					menuPanel.visible = false
+					editor.testMapAttempt()
+				end,
+				'LEPlayOff',
+				'LEPlayOn',
+				'LEPlayHover',
+				"Test the map",nil, KEY_TEST, true )
+
+	y = y + 16
 	toolPanel:addClickable( x, y,
 				function()
 					menuPanel.visible = true
@@ -232,17 +243,7 @@ function editor.start()
 					(love.graphics.getHeight()/Camera.scale - menuHeight)/2,
 					menuWidth, menuHeight )
 	menuPanel.visible = false
-	x, y = 18, 16
-	menuPanel:addClickable( x, y,
-				function()
-					menuPanel.visible = false
-					editor.testMapAttempt()
-				end,
-				'LEPlayOff',
-				'LEPlayOn',
-				'LEPlayHover',
-				"Test the map",nil, KEY_TEST, true )
-	x = x + 12
+	x, y = 24, 16
 	menuPanel:addClickable( x, y,
 				function()
 					menuPanel.visible = false
