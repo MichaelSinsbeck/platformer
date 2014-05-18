@@ -1720,6 +1720,11 @@ function EditorMap:loadFromFile( fullName )
 		-- tiles that need updating
 		map:update( nil, true )
 		map:updateBorder()
+		
+		print(mode)
+		if mode == "game" or mode == "levelEnd" then
+			map:generateParallax()
+		end
 
 		if mode == "editor" then
 			menu:newLevelName( "loaded: " .. mapName, true )
@@ -1728,6 +1733,108 @@ function EditorMap:loadFromFile( fullName )
 		print( fullName .. " not found." )
 	end
 	return map
+end
+
+function EditorMap:generateParallax()
+	print('generating parallax background')
+	local nLayers = 5
+	wLevel = self.width
+	hLevel = self.height
+	wScreen = Camera.width
+	hScreen = Camera.height
+	
+	colorFront = {54,88,111}
+	colorBack = {170,190,210}	
+	self.layer = {}
+	for i = nLayers,1,-1 do
+		self.layer[#self.layer+1] = self:generateLayer(i+1, self.tileSize, self.width, self.height, Camera.width,Camera.height, colorFront,colorBack)
+	end
+
+
+	--colorSky = {66,109,170}
+end
+
+function EditorMap:generateLayer(distance,tileSize,wLevel,hLevel,wScreen,hScreen,colorFront,colorBack)
+-- generate mesh and polygon for one layer of parallax background
+	local scale = 1/distance
+	-- account for very small levels (with black frame)
+	wScreen = math.min(wScreen,wLevel*tileSize)
+	hScreen = math.min(hScreen,hLevel*tileSize)
+	
+	local dx = tileSize * scale
+	local w = math.ceil(wScreen/dx + (wLevel-wScreen/tileSize))
+	local h = math.ceil(hScreen/dx + (hLevel-hScreen/tileSize))
+	
+	-- color mixing
+	local weight = 2/distance
+	local color = {colorFront[1] * weight+colorBack[1]*(1-weight),
+								 colorFront[2] * weight+colorBack[2]*(1-weight),
+	 							 colorFront[3] * weight+colorBack[3]*(1-weight)	}
+	 							 
+	local weight = 1/(1/(weight)+2)
+	local color2 = {colorFront[1] * weight+colorBack[1]*(1-weight),
+								 colorFront[2] * weight+colorBack[2]*(1-weight),
+	 							 colorFront[3] * weight+colorBack[3]*(1-weight)	}		 							 
+	
+	-- generate height profile
+	local height = {}
+	local xFactor,yFactor = .08,7
+	for i=1,w do
+		height[i] = math.floor(love.math.noise(i*xFactor,distance)*yFactor+0.5*h-15)
+		height[i] = math.max(0,height[i])
+	end
+	
+	-- generate polygon line	
+	local polygon = {-1,-1,-1,height[1]}
+	for i = 2,w do
+		local idx = #polygon
+			polygon[idx+1] = (i-1)
+			polygon[idx+2] = height[i-1]
+		if height[i-1] ~= height[i] then			
+			polygon[idx+3] = i-1
+			polygon[idx+4] = height[i]
+		end
+	end
+	polygon[#polygon+1] = w+1
+	polygon[#polygon+1] = height[w]	
+	polygon[#polygon+1] = w+1
+	polygon[#polygon+1] = -1	
+	
+	local sigma = .15
+	for i=1,#polygon do
+		polygon[i] = polygon[i] + (love.math.random() - love.math.random())*sigma
+		polygon[i] = polygon[i]*dx
+	end	
+	
+	-- find min y value
+	local minY = math.huge
+	local maxY = -math.huge
+	for i = 2,#polygon,2 do
+		polygon[i] = dx * h - polygon[i]
+		minY = math.min(polygon[i],minY)
+		maxY = math.max(polygon[i],maxY)		
+	end
+
+	local triangles = love.math.triangulate(polygon)
+
+	-- generate mesh
+	local vertices = {}
+	for _,t in ipairs(triangles) do
+		local x,y = {},{}
+		x[1],y[1],x[2],y[2],x[3],y[3] = t[1], t[2], t[3], t[4], t[5], t[6]
+		for i = 1,3 do
+			local w = (y[i]-minY)/(maxY-minY)
+			local r = (1-w)*color[1] + w*color2[1]
+			local g = (1-w)*color[2] + w*color2[2]
+			local b = (1-w)*color[3] + w*color2[3]						
+			local v = {x[i],y[i],0,0,r,g,b,255}
+			vertices[#vertices+1] = v
+		end	
+	end
+	
+	local mesh = love.graphics.newMesh(vertices,nil,'triangles')		
+
+	return {polygon = polygon, mesh = mesh, distance = distance,color = color}
 end
 
 function EditorMap:convert( fullName )
@@ -2059,6 +2166,21 @@ end
 
 function EditorMap:drawParallax(world)
 	love.graphics.setBackgroundColor(66, 109, 170)
+
+	love.graphics.setColor(255,255,255)
+	for i,thisLayer in ipairs(self.layer) do
+		local distance = thisLayer.distance
+		
+		love.graphics.push()
+		love.graphics.translate(Camera.xWorld/distance,Camera.yWorld/distance)
+
+		love.graphics.draw(thisLayer.mesh)
+		love.graphics.setColor(thisLayer.color)			
+		love.graphics.polygon('line',thisLayer.polygon)
+		love.graphics.pop()
+	end	
+	love.graphics.setColor(255,255,255)
+	
 	--local world = world or Campaign.worldNumber
 	--love.graphics.draw(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
 end
