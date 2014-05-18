@@ -1747,14 +1747,14 @@ function EditorMap:generateParallax()
 	colorBack = {170,190,210}	
 	self.layer = {}
 	for i = nLayers,1,-1 do
-		self.layer[#self.layer+1] = self:generateLayer(i+1, self.tileSize, self.width, self.height, Camera.width,Camera.height, colorFront,colorBack)
+		self.layer[#self.layer+1] = self:generateLayer(i+1, self.tileSize, self.width, self.height, Camera.width,Camera.height, colorFront,colorBack,true)
 	end
 
 
 	--colorSky = {66,109,170}
 end
 
-function EditorMap:generateLayer(distance,tileSize,wLevel,hLevel,wScreen,hScreen,colorFront,colorBack)
+function EditorMap:generateLayer(distance,tileSize,wLevel,hLevel,wScreen,hScreen,colorFront,colorBack, isSmooth)
 -- generate mesh and polygon for one layer of parallax background
 	local scale = 1/distance
 	-- account for very small levels (with black frame)
@@ -1780,7 +1780,10 @@ function EditorMap:generateLayer(distance,tileSize,wLevel,hLevel,wScreen,hScreen
 	local height = {}
 	local xFactor,yFactor = .08,7
 	for i=1,w do
-		height[i] = math.floor(love.math.noise(i*xFactor,distance)*yFactor+0.5*h-15)
+		height[i] = love.math.noise(i*xFactor,distance)*yFactor+0.5*h-15
+		if not isSmooth then
+		 height[i] = math.floor(height[i])
+		end
 		height[i] = math.max(0,height[i])
 	end
 	
@@ -1790,7 +1793,7 @@ function EditorMap:generateLayer(distance,tileSize,wLevel,hLevel,wScreen,hScreen
 		local idx = #polygon
 			polygon[idx+1] = (i-1)
 			polygon[idx+2] = height[i-1]
-		if height[i-1] ~= height[i] then			
+		if height[i-1] ~= height[i] and not isSmooth then			
 			polygon[idx+3] = i-1
 			polygon[idx+4] = height[i]
 		end
