@@ -617,14 +617,13 @@ function editor:update( dt )
 		if loadPanel.visible then
 			hit = true
 			loadPanel:collisionCheck( x, y )
-		end
-		if savePanel.visible then
+		elseif savePanel.visible then
 			hit = true
 			savePanel:collisionCheck( x, y )
-		end
-		if menuPanel.visible then
-			hit = hit or menuPanel:collisionCheck( x, y )
-		end
+		elseif menuPanel.visible then
+			menuPanel:collisionCheck( x, y )
+			hit = true
+		else
 		if toolPanel.visible then
 			hit = hit or toolPanel:collisionCheck( x, y )
 		end
@@ -643,6 +642,7 @@ function editor:update( dt )
 		if objectPanel.visible then
 			hit = hit or objectPanel:collisionCheck(x, y)
 		end
+	end
 	end
 
 	if map.draggedBorderMarker then
