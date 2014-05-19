@@ -1772,6 +1772,8 @@ function editor.loadFileListAttempt()
 	if map and map.unsavedChanges then
 		msgBox:new( "There are unsaved changes. Are you sure you want to load another map?",
 			editor.loadFileList, nil )
+	else
+		editor.loadFileList()
 	end
 end
 
