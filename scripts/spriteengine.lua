@@ -40,10 +40,10 @@ function spriteEngine:kill()
     if thisObject.dead then
 			table.remove(self.objects,i)
 		elseif thisObject.tag ~= 'Player' and
-		  (thisObject.x < 0 or
-		   thisObject.x > myMap.width +2 or
-		   thisObject.y < 0 or
-		   thisObject.y > myMap.height+2) then
+		  (thisObject.x < -1 or
+		   thisObject.x > myMap.width +3 or
+		   thisObject.y < -1 or
+		   thisObject.y > myMap.height+3) then
 		  table.remove(self.objects,i)
     end
   end
