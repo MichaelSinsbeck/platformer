@@ -154,7 +154,7 @@ function editor.start()
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				"Draw Tool: Draw tiles onto the canvas.", nil, KEY_PEN,true )
+				"Draw Tool: Draw tiles onto the canvas", nil, KEY_PEN,true )
 	--x = x + 5
 	--x = x + 10
 	y = y + 12
@@ -162,7 +162,7 @@ function editor.start()
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				"Background tile tool: Draw tiles onto the background.", nil,KEY_BGPEN,true )
+				"Background tile tool: Draw tiles onto the background", nil,KEY_BGPEN,true )
 	--x = x + 5
 	--x = x + 10
 	y = y + 12
@@ -176,7 +176,7 @@ function editor.start()
 				'LEObjectOff',
 				'LEObjectOn',
 				'LEObjectHover',
-				"Object tool: Select and place foreground objects.", nil,KEY_STAMP,true )
+				"Object tool: Select and place foreground objects", nil,KEY_STAMP,true )
 	--x = x +10
 	y = y + 12
 	toolPanel:addClickable( x, y, function()
@@ -189,7 +189,7 @@ function editor.start()
 				'LEStampOff',
 				'LEStampOn',
 				'LEStampHover',
-				"Background object tool: Select and place background objects.", nil,KEY_BGSTAMP,true )
+				"Background object tool: Select and place background objects", nil,KEY_BGSTAMP,true )
 	--x = x +5
 	--x = x +10
 	y = y + 12
@@ -197,7 +197,7 @@ function editor.start()
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
-				"Edit Tool: Select, move and edit object properties.",nil,KEY_EDIT,true )
+				"Edit Tool: Select, move and edit object properties",nil,KEY_EDIT,true )
 	y = y + 16
 
 	toolPanel:addClickable( x, y,
@@ -1466,20 +1466,30 @@ function editor.keypressed( key, repeated )
 		panelsToCheck = {savePanel}
 	elseif menuPanel.visible then
 		panelsToCheck = {menuPanel}
+	elseif bgObjectPanel.visible then
+		panelsToCheck = {bgObjectPanel}
+	elseif objectPanel.visible then
+		panelsToCheck = {objectPanel}
 	end
-		
+	
+	local found = false
 	for i, panel in pairs(panelsToCheck) do
 		if panel.visible then
-			for k, v in pairs(panel.pages[0]) do
-				if v.shortcut and v.shortcut == key then
-					v.event()
+			for i, p in pairs(panel.pages) do
+				for k, b in pairs(p) do
+					if b.shortcut and b.shortcut == key then
+						b.event()
 
-					panel:disselectAll()
-					--v:setSelected( true )
-					break
+						panel:disselectAll()
+						--v:setSelected( true )
+						found = true
+					end
+					if found then break end
 				end
+				if found then break end
 			end
 		end
+		if found then break end
 	end
 
 	if key == KEY_CLOSE and bgObjectPanel.visible then
@@ -1499,6 +1509,8 @@ function editor.keypressed( key, repeated )
 		--		map:removeSelectedObject()
 		--	end
 		--	propertiesPanel.visible = false
+	elseif key == KEY_CLOSE and objectPanel.visible then
+		editor.closeObjectPanel()
 	elseif key == KEY_DUPLICATE then
 		--map:duplicateSelection()
 		--editor.createPropertiesPanel()

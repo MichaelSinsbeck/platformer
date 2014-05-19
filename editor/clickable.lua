@@ -41,6 +41,7 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 	o.centered = centered
 	o.toolTip = toolTip  or ""
 	o.shortcut = shortcut
+	o.shortcutText = nameForKey(shortcut)
 
 	-- Add visualizer
 	o.vis = {}
@@ -64,7 +65,7 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 	o.maxY = o.minY + o.height
 
 	if o.shortcut then
-		local sizeX = fontSmall:getWidth( o.shortcut:sub(1,3) ) + 6
+		local sizeX = fontSmall:getWidth( o.shortcutText:sub(1,3) ) + 6
 		local sizeY = fontSmall:getHeight() + 2
 		local offsetX = o.width*0.5 - sizeX
 		local offsetY = o.height*0.5 - sizeY
@@ -209,7 +210,7 @@ function Clickable:draw()
 		love.graphics.print( self.text, self.textX, self.textY )
 	end
 	if self.shortcutBox then
-		local shortcut = self.shortcut
+		local shortcut = self.shortcutText
 		if #shortcut > 3 then
 			shortcut = shortcut:sub(1,3)
 		end

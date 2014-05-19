@@ -139,7 +139,7 @@ function Panel:addNextButton( pageNumber )
 			'LERightOff',
 			'LERightOn',
 			'LERightHover',
-			"Go to next page", nil, true )
+			"Go to next page", "right", true )
 	table.insert( self.pages[pageNumber], c )
 end
 
@@ -151,7 +151,7 @@ function Panel:addPrevButton( pageNumber )
 			'LELeftOff',
 			'LELeftOn',
 			'LELeftHover',
-			"Go to previous page", nil, true )
+			"Go to previous page", "left", true )
 	table.insert( self.pages[pageNumber], c )
 end
 
