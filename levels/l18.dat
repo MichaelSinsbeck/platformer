@@ -62,38 +62,47 @@ Objects:
 Obj:Walker
 	x:6
 	y:5
+	p:direction=-1
 endObj
 Obj:Walker
 	x:7
 	y:5
+	p:direction=-1
 endObj
 Obj:Walker
 	x:8
 	y:5
+	p:direction=-1
 endObj
 Obj:Walker
 	x:8
 	y:7
+	p:direction=-1
 endObj
 Obj:Walker
 	x:9
 	y:7
+	p:direction=-1
 endObj
 Obj:Walker
 	x:15
 	y:11
+	p:direction=-1
 endObj
 Obj:Walker
 	x:16
 	y:5
+	p:direction=-1
 endObj
 Obj:Walker
 	x:17
 	y:18
+	p:direction=1
 endObj
 Obj:Walker
 	x:24
 	y:5
+	p:direction=1
 endObj
 Obj:Exit
 	x:32
