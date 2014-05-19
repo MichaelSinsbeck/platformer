@@ -204,7 +204,7 @@ function menu.initWorldMap()
 							'worldItemOff',
 							'worldItemOn',
 							v,
-							menu.startTransition(menu.startGame( "levels/" .. v ), true),
+							menu.startTransition(menu.startCampaignLevel( k ), true),
 							scrollWorldMap )
 			if x > menu.furthestX then
 				menu.furthestX = x
@@ -298,40 +298,33 @@ end
 -- which will start the given level:
 ---------------------------------------------------------
 
-function menu.startGame( lvl )
-	--[[
-	local lvlNum = 1
-
-	-- lvl is the filename, so find the corresponding index
-	for k, v in ipairs(Campaign) do
-		if v == lvl then
-			lvlNum = k
-			break
-		end
-	end]]
-
-	return function ()
+function menu.startCampaignLevel( lvlNum )
+	local lvl = "levels/" .. Campaign[lvlNum]
+	return function()
 		initAll()
-		
-		-- Creating Player
+		Campaign.current = lvlNum		
 		p = spriteFactory('Player')
-		--p = Player:New()
-		--spriteEngine:insert(p)
-
 		mode = 'game'
 		gravity = 22
-
 		--Campaign.current = lvlNum
-
-		--myMap = Map:LoadFromFile( Campaign[Campaign.current] )
-		--myMap = Map:LoadFromFile( Campaign[Campaign.current] , 1 ) -- *only for demo*
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start(p)
-		
 		config.setValue( "level", lvl )
+	end
+end
 
-		--menu:newLevelName( Campaign.names[ lvl ] or lvl )
+function menu.startGame( lvl )
+	return function ()
+		initAll()
+		p = spriteFactory('Player')
+		mode = 'game'
+		gravity = 22
+		--Campaign.current = lvlNum
+		myMap = Map:loadFromFile( lvl )
+		levelEnd:reset()		-- resets the counters of all deaths etc
+		myMap:start(p)		
+		config.setValue( "level", lvl )
 	end
 end
 
