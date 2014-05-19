@@ -162,6 +162,9 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 		--print("below:")
 		self:queueGroundTileUpdate( x, y+1 )
 	end
+
+	self.unsavedChanges = true
+
 end
 
 
@@ -303,6 +306,7 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 		self:queueGroundTileUpdate( x, y+1 )
 	end
 
+	self.unsavedChanges = true
 end
 --[[
 function EditorMap:eraseGroundTileNow( x, y, updateSurrounding )
@@ -375,6 +379,7 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 		self:queueBackgroundTileUpdate( x+1, y+1 )
 		self:queueBackgroundTileUpdate( x-1, y+1 )
 	end
+	self.unsavedChanges = true
 end
 
 
@@ -510,6 +515,7 @@ function EditorMap:eraseBackgroundTile( x, y, updateSurrounding )
 		self:queueBackgroundTileUpdate( x+1, y-1 )
 		self:queueBackgroundTileUpdate( x+1, y+1 )
 	end
+	self.unsavedChanges = true
 end
 
 --------------------------------------------------
@@ -666,6 +672,7 @@ function EditorMap:addBgObject( tileX, tileY, object )
 		print("Waring: Maximum number of background objects reached.")
 		return
 	end
+	self.unsavedChanges = true
 	local newBatch, newIDs
 	-- In editor mode: Each new background tile gets its own quad:
 	if mode == "editor" then
@@ -715,6 +722,7 @@ function EditorMap:removeBgObjectAt( tileX, tileY )
 			return true	-- only remove the one!
 		end
 	end
+	self.unsavedChanges = true
 end
 
 function EditorMap:removeSelectedBgObjects()
@@ -837,6 +845,7 @@ function EditorMap:bgObjectLayerUp()
 			break
 		end
 	end
+	self.unsavedChanges = true
 end
 
 function EditorMap:bgObjectLayerDown()
@@ -854,6 +863,7 @@ function EditorMap:bgObjectLayerDown()
 			break
 		end
 	end
+	self.unsavedChanges = true
 end
 
 function EditorMap:duplicateSelection()
@@ -985,6 +995,7 @@ function EditorMap:addObject( tileX, tileY, objName )
 
 	table.insert( self.objectList, newObject )
 
+	self.unsavedChanges = true
 	return newObject
 
 	--[[
@@ -1028,6 +1039,7 @@ function EditorMap:removeObject( objToRemove )
 			break
 		end
 	end
+	self.unsavedChanges = true
 end
 
 function EditorMap:removeObjectAt( tileX, tileY )
@@ -1159,6 +1171,7 @@ function EditorMap:dragObject( tileX, tileY )
 			end
 		end
 	end
+	self.unsavedChanges = true
 end
 
 function EditorMap:setObjectProperty( property, value, obj )
@@ -1166,6 +1179,7 @@ function EditorMap:setObjectProperty( property, value, obj )
 	if obj then
 		obj.properties[property] = value
 	end
+	self.unsavedChanges = true
 end
 
 function EditorMap:getObjectProperty( property, obj )
@@ -1398,6 +1412,7 @@ function EditorMap:dropBorderMarker()
 	end
 	self:updateBorder()
 	self.draggedBorderMarker = nil
+	self.unsavedChanges = true
 end
 
 function EditorMap:drawGrid()
@@ -1734,6 +1749,10 @@ function EditorMap:loadFromFile( fullName )
 	else
 		print( fullName .. " not found." )
 	end
+
+	-- After adding all those tiles, the editor will think the map has been changed.
+	-- Correct that:
+	map.unsavedChanges = false
 	return map
 end
 

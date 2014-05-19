@@ -258,7 +258,7 @@ function editor.start()
 	menuPanel:addClickable( x, y,
 				function()
 					menuPanel.visible = false
-					editor.loadFileList()
+					editor.loadFileListAttempt()
 				end,
 				'LEOpenOff',
 				'LEOpenOn',
@@ -276,7 +276,7 @@ function editor.start()
 				"Save the map.", nil, KEY_SAVE, true )
 	y = y + 16
 	x = 24
-	menuPanel:addClickable( x, y, menu.startTransition( menu.initMain, true ),
+	menuPanel:addClickable( x, y, editor.closeAttempt,
 				'LEExitOff',
 				'LEExitOn',
 				'LEExitHover',
@@ -1737,8 +1737,12 @@ function editor.testMapNow()
 end
 
 function editor.newMapAttempt()
+	if map and map.unsavedChanges then
 	msgBox:new( "Create new map?\nAnswering yes will destroy all changes for the current map.",
 				editor.newMapNow, nil )
+	else
+		editor.newMapNow()
+	end
 end
 
 function editor.newMapNow()
@@ -1763,7 +1767,14 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 ]]
---
+
+function editor.loadFileListAttempt()
+	if map and map.unsavedChanges then
+		msgBox:new( "There are unsaved changes. Are you sure you want to load another map?",
+			editor.loadFileList, nil )
+	end
+end
+
 function editor.loadFileList()
 	local list = love.filesystem.getDirectoryItems( "mylevels/")
 	
@@ -1897,6 +1908,13 @@ function editor.saveFileNow( fileName, testFile )
 	else
 		print("\tError: no map!")
 	end
+
+	-- Mark all changes as saved, but only if this is NOT just a test save. A test save is only
+	-- done when playtesting the map - the saved file can't be restored by the user, so this is
+	-- not considered a proper save.
+	if fullName ~= "test.dat" then
+		map.unsavedChanges = false
+	end
 end
 
 
@@ -1908,6 +1926,24 @@ function editor.loadFile( fileName, testFile )
 	map = Map:loadFromFile( fullName ) or map
 	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
+end
+
+------------------------------------------------------------------------
+-- Handle exiting the editor:
+------------------------------------------------------------------------
+
+function editor.closeAttempt()
+	if map and map.unsavedChanges then
+		menuPanel.visible = false
+		msgBox:new( "There are unsaved changes. Are you sure you want to quit?",
+				editor.closeNow, nil )
+	else
+		editor.closeNow()
+	end
+end
+
+function editor.closeNow()
+	menu.startTransition( menu.initMain, true )()
 end
 
 return editor
