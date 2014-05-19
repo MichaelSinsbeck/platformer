@@ -49,7 +49,7 @@ local KEY_TEST = "f4"
 -- called when loading game	
 function editor.init()
 
-	-- save all user made files in here:
+	-- save all files made by this user into the mylevels folder:
 	love.filesystem.createDirectory("mylevels")
 	
 	local tileSize = Camera.scale * 8
@@ -80,7 +80,7 @@ function editor.init()
 	editor.toolsToolTips = {}
 	editor.toolsToolTips["pen"] = "left mouse: draw, right mouse: erase, shift: draw straight line, ctrl: flood fill"
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
-	editor.toolsToolTips["bgObject"] = "left mouse: add current background object, right mouse: delete object"
+	editor.toolsToolTips["bgObject"] = "left mouse: add current background object"
 	editor.toolsToolTips["edit"] = "left mouse: select object, left + drag: move object"
 end
 
@@ -162,7 +162,7 @@ function editor.start()
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
-				"Draw Tool: Draw tiles onto the background.", nil,KEY_BGPEN,true )
+				"Background tile tool: Draw tiles onto the background.", nil,KEY_BGPEN,true )
 	--x = x + 5
 	--x = x + 10
 	y = y + 12
@@ -189,7 +189,7 @@ function editor.start()
 				'LEStampOff',
 				'LEStampOn',
 				'LEStampHover',
-				"Stamp Tool: Select and place background objects.", nil,KEY_BGSTAMP,true )
+				"Background object tool: Select and place background objects.", nil,KEY_BGSTAMP,true )
 	--x = x +5
 	--x = x +10
 	y = y + 12
@@ -197,7 +197,7 @@ function editor.start()
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
-				"Edit objects",nil,KEY_EDIT,true )
+				"Edit Tool: Select, move and edit object properties.",nil,KEY_EDIT,true )
 	y = y + 16
 
 	toolPanel:addClickable( x, y,
@@ -263,7 +263,7 @@ function editor.start()
 				'LEOpenOff',
 				'LEOpenOn',
 				'LEOpenHover',
-				"Load another map.", nil, KEY_OPEN, true )
+				"Load another map", nil, KEY_OPEN, true )
 	x = x + 12
 	menuPanel:addClickable( x, y,
 				function()
@@ -273,14 +273,14 @@ function editor.start()
 				'LESaveOff',
 				'LESaveOn',
 				'LESaveHover',
-				"Save the map.", nil, KEY_SAVE, true )
+				"Save the map", nil, KEY_SAVE, true )
 	y = y + 16
 	x = 24
 	menuPanel:addClickable( x, y, editor.closeAttempt,
 				'LEExitOff',
 				'LEExitOn',
 				'LEExitHover',
-				"Close editor and return to main menu.", nil, KEY_QUIT, true )
+				"Close editor and return to main menu", nil, KEY_QUIT, true )
 				
 	-- Panel for choosing the ground type:
 	local w = 32
@@ -598,16 +598,52 @@ function editor:update( dt )
 		editor.selectBox.eX, editor.selectBox.eY = x, y
 	end
 
-	local hit = ( msgBox.visible and msgBox:collisionCheck( x, y ) ) or
-				( loadPanel.visible and loadPanel:collisionCheck( x, y ) ) or
-				( savePanel.visible and savePanel:collisionCheck( x, y ) ) or
-				( menuPanel.visible and menuPanel:collisionCheck( x, y ) ) or
-				( toolPanel.visible and toolPanel:collisionCheck( x, y ) ) or
-				( groundPanel.visible and groundPanel:collisionCheck( x, y ) ) or
-				( backgroundPanel.visible and backgroundPanel:collisionCheck( x, y ) ) or
-				( bgObjectPanel.visible and bgObjectPanel:collisionCheck(x, y) ) or
-				( propertiesPanel.visible and propertiesPanel:collisionCheck(x, y) ) or
-				( objectPanel.visible and objectPanel:collisionCheck(x, y) )
+	if msgBox.visible then msgBox:unhighlightAll() end
+	if loadPanel.visible then loadPanel:unhighlightAll() end
+	if savePanel.visible then savePanel:unhighlightAll() end
+	if menuPanel.visible then menuPanel:unhighlightAll() end
+	if bgObjectPanel.visible then bgObjectPanel:unhighlightAll() end
+	if objectPanel.visible then objectPanel:unhighlightAll() end
+	if toolPanel.visible then toolPanel:unhighlightAll() end
+	if groundPanel.visible then groundPanel:unhighlightAll() end
+	if backgroundPanel.visible then backgroundPanel:unhighlightAll() end
+	if propertiesPanel.visible then propertiesPanel:unhighlightAll() end
+
+	local hit = false
+	if msgBox.visible then
+		hit = true
+		msgBox:collisionCheck( x, y )
+	else
+		if loadPanel.visible then
+			hit = true
+			loadPanel:collisionCheck( x, y )
+		end
+		if savePanel.visible then
+			hit = true
+			savePanel:collisionCheck( x, y )
+		end
+		if menuPanel.visible then
+			hit = hit or menuPanel:collisionCheck( x, y )
+		end
+		if toolPanel.visible then
+			hit = hit or toolPanel:collisionCheck( x, y )
+		end
+		if groundPanel.visible then
+			hit = hit or groundPanel:collisionCheck( x, y )
+		end
+		if backgroundPanel.visible then
+			hit = hit or backgroundPanel:collisionCheck( x, y )
+		end
+		if bgObjectPanel.visible then
+			hit = hit or bgObjectPanel:collisionCheck(x, y)
+		end
+		if propertiesPanel.visible then
+			hit = hit or propertiesPanel:collisionCheck(x, y)
+		end
+		if objectPanel.visible then
+			hit = hit or objectPanel:collisionCheck(x, y)
+		end
+	end
 
 	if map.draggedBorderMarker then
 		map:dragBorderMarker( wX, wY )

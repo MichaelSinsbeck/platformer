@@ -67,3 +67,6 @@ function msgBox:draw()
 	love.graphics.printf( msgBox.msg, msgBox.textX, msgBox.textY, msgBox.textWidth )
 end
 
+function msgBox:unhighlightAll()
+	msgBox.panel:unhighlightAll()
+end

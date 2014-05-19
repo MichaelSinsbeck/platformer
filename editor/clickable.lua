@@ -257,7 +257,6 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 					--[[if self.imgOn then
 						self:setAnim(self.imgOn)
 					end]]
-					return true
 				--end
 			else
 				--[[self.active = "hover"
@@ -265,6 +264,7 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 					self:setAnim(self.imgHover)
 				end]]
 			end
+			return true
 		else
 			self.active = "off"
 			--[[if self.imgOff then
@@ -276,6 +276,17 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 	return false
 end
 
+function Clickable:highlight()
+		if self.imgHover then
+			self:setAnim(self.imgHover)
+		end
+end
+
+function Clickable:unhighlight()
+		if self.imgOff then
+			self:setAnim(self.imgOff)
+		end
+end
 
 function Clickable:setSelected( bool )
 	self.selected = bool

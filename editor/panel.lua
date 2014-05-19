@@ -446,8 +446,35 @@ function Panel:collisionCheck( x, y )
 	y/Camera.scale > self.y and
 	x/Camera.scale < self.x + self.width and
 					y/Camera.scale < self.y + self.height]]
-	if self.box then return self.box:collisionCheck( x-self.x*Camera.scale, y-self.y*Camera.scale ) end
+	if self.box then
+		local hit = self.box:collisionCheck( x-self.x*Camera.scale, y-self.y*Camera.scale )
+		if hit then
+			for i, pageNum in pairs( {0, self.selectedPage } ) do
+				if self.pages[pageNum] then
+					for k,button in ipairs( self.pages[pageNum] ) do
+						if button:collisionCheck( x, y ) then
+							button:highlight()
+						end
+					end
+				end
+			end
+		end
+		return hit
+	end
 	return false
+end
+
+function Panel:highlight( buttonName )
+end
+
+function Panel:unhighlightAll( )
+	for i, pageNum in pairs( {0, self.selectedPage } ) do
+		if self.pages[pageNum] then
+			for k,button in ipairs( self.pages[pageNum] ) do
+				button:unhighlight()
+			end
+		end
+	end
 end
 
 function Panel:disselectAll()
@@ -551,23 +578,23 @@ function Panel:textinput( letter )
 	if self.activeInput then
 		local inp = self.activeInput
 		if letter:find( inp.allowedChars or ALLOWED_CHARS ) then
-		letter = string.lower(letter)
-		if inp.maxLetters > #inp.txt then
-			local prevFront, prevWrapped = inp.front, inp.wrappedText
-			local prevX, prevY = inp.curX, inp.curY
-			inp.front = inp.front .. letter
-			inp.wrappedText,inp.curX,inp.curY =
-					wrap( inp.front, inp.back, inp.pixelWidth )
+			letter = string.lower(letter)
+			if inp.maxLetters > #inp.txt then
+				local prevFront, prevWrapped = inp.front, inp.wrappedText
+				local prevX, prevY = inp.curX, inp.curY
+				inp.front = inp.front .. letter
+				inp.wrappedText,inp.curX,inp.curY =
+				wrap( inp.front, inp.back, inp.pixelWidth )
 
-			-- Don't allow more than 'lines' lines. If number is greater with the newly added char,
-			-- reset to previous.
-			if #inp.wrappedText > inp.lines then
-				inp.front = prevFront
-				inp.wrappedText = prevWrapped
-				inp.curX, inp.curY = prevX, prevY
+				-- Don't allow more than 'lines' lines. If number is greater with the newly added char,
+				-- reset to previous.
+				if #inp.wrappedText > inp.lines then
+					inp.front = prevFront
+					inp.wrappedText = prevWrapped
+					inp.curX, inp.curY = prevX, prevY
+				end
 			end
 		end
-	end
 	end
 end
 
