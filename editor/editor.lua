@@ -146,9 +146,9 @@ function editor.createPropertiesPanel()
 		if not noBg or not bg then
 			propertiesPanel:addClickable( 16, propertiesPanelHeight - 16,
 				editor.duplicateSelection,
-				'LELayerDownOff',
-				'LELayerDownOn',
-				'LELayerDownHover',
+				'LEDuplicateOff',
+				'LEDuplicateOn',
+				'LEDuplicateHover',
 				"Duplicate selection", nil, KEY_DUPLICATE, true)
 		end
 	end
