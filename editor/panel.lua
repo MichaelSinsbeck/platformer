@@ -175,6 +175,7 @@ function Panel:addClickableLabel( x, y, event, width, text, page )
 		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
+	return c
 end
 
 function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, shortcut, useMesh,
@@ -188,6 +189,7 @@ function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page
 		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
+	return c
 end
 
 function Panel:addClickableObject( x, y, event, obj, toolTip, page )
@@ -199,6 +201,7 @@ function Panel:addClickableObject( x, y, event, obj, toolTip, page )
 		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
+	return c
 end
 
 function Panel:addBatchClickable( x, y, event, obj, width, height, toolTip, page )
@@ -210,6 +213,7 @@ function Panel:addBatchClickable( x, y, event, obj, width, height, toolTip, page
 		self:addPageButtons( page )
 	end
 	table.insert( self.pages[page], c )
+	return c
 end
 
 function Panel:clearAll()
@@ -344,6 +348,14 @@ function Panel:unPreviewAll()
 	for i, page in pairs( self.pages ) do
 		for k, button in ipairs( page ) do
 			button:setSelectionPreview(false)
+		end
+	end
+end
+
+function Panel:deactivateAll()
+	for i, page in pairs( self.pages ) do
+		for k, button in ipairs( page ) do
+			button:setActive(false)
 		end
 	end
 end
@@ -689,5 +701,6 @@ function Panel:keypressed( key )
 		end
 	end
 end
+
 
 return Panel

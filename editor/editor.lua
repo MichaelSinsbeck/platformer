@@ -28,6 +28,10 @@ local propertiesPanel
 local loadPanel
 local savePanel
 
+local toolButtons = {}
+local groundButtons = {}
+local backgroundButtons = {}
+
 local panelsWithShortcuts
 
 local KEY_CLOSE = "escape"
@@ -68,6 +72,7 @@ function editor.init()
 	end
 
 	editor.objectProperties = {}
+
 	
 	--editor.objectList, editor.objectProperties = Object:init()
 	editor.backgroundList = Background:init()
@@ -146,27 +151,32 @@ function editor.start()
 
 	love.mouse.setVisible( true )
 
+	toolButtons = {}
+
 	local toolPanelHeight = 10*10
 	toolPanel = Panel:new( 0, 16, 16, toolPanelHeight)
 	
 	local x,y = 16,16
-	toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
+	local b
+	b = toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				"Draw Tool: Draw tiles onto the canvas", nil, KEY_PEN,true )
+	toolButtons["pen"] = b
 	--x = x + 5
 	--x = x + 10
 	y = y + 12
-	toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
+	b = toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				"Background tile tool: Draw tiles onto the background", nil,KEY_BGPEN,true )
+	toolButtons["bgPen"] = b
 	--x = x + 5
 	--x = x + 10
 	y = y + 12
-	toolPanel:addClickable( x, y, function()
+	b = toolPanel:addClickable( x, y, function()
 					if objectPanel.visible then
 						editor.closeObjectPanel()
 					else
@@ -177,9 +187,10 @@ function editor.start()
 				'LEObjectOn',
 				'LEObjectHover',
 				"Object tool: Select and place foreground objects", nil,KEY_STAMP,true )
+	toolButtons["object"] = b
 	--x = x +10
 	y = y + 12
-	toolPanel:addClickable( x, y, function()
+	b = toolPanel:addClickable( x, y, function()
 					if bgObjectPanel.visible then
 						editor.closeBgObjectPanel()
 					else
@@ -190,15 +201,17 @@ function editor.start()
 				'LEStampOn',
 				'LEStampHover',
 				"Background object tool: Select and place background objects", nil,KEY_BGSTAMP,true )
+	toolButtons["bgObject"] = b
 	--x = x +5
 	--x = x +10
 	y = y + 12
-	toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
+	b = toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
 				'LEEditOn',
 				'LEEditHover',
 				"Edit Tool: Select, move and edit object properties",nil,KEY_EDIT,true )
 	y = y + 16
+	toolButtons["edit"] = b
 
 	toolPanel:addClickable( x, y,
 				function()
@@ -289,61 +302,85 @@ function editor.start()
 	groundPanel = Panel:new( love.graphics.getWidth()/Camera.scale - w, 17, w, h )
 	x,y = 16, 16
 
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[1]:setActive(true)
 										editor.currentGround = editor.groundList[1] end,
 				'LEGround1Off',
 				'LEGround1On',
 				'LEGround1Hover',
 				"draw concrete ground", nil, "1" )
+	groundButtons[1] = b
   y = y + 10
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[2]:setActive(true)
 										editor.currentGround = editor.groundList[2] end,
 				'LEGround2Off',
 				'LEGround2On',
 				'LEGround2Hover',
 				"draw dirt ground", nil, "2" )
+	groundButtons[2] = b
   y = y + 10
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[3]:setActive(true)
 										editor.currentGround = editor.groundList[3] end,
 				'LEGround3Off',
 				'LEGround3On',
 				'LEGround3Hover',
 				"draw grass ground", nil,"3" )
+	groundButtons[3] = b
   y = y + 10
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[4]:setActive(true)
 										editor.currentGround = editor.groundList[4] end,
 				'LEGround4Off',
 				'LEGround4On',
 				'LEGround4Hover',
 				"draw stone ground", nil, "4" )
+	groundButtons[4] = b
   y = y + 10
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[5]:setActive(true)
 										editor.currentGround = editor.groundList[5] end,
 				'LEGround5Off',
 				'LEGround5On',
 				'LEGround5Hover',
 				"draw wood ground", nil, "5" )
+	groundButtons[5] = b
   y = y + 10
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[6]:setActive(true)
 										editor.currentGround = editor.groundList[6] end,
 				'LEGround6Off',
 				'LEGround6On',
 				'LEGround6Hover',
 				"draw bridges", nil, "6" )
+	groundButtons[6] = b
   y = y + 10
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[7]:setActive(true)
 										editor.currentGround = editor.groundList[7] end,
 				'LESpikes1Off',
 				'LESpikes1On',
 				'LESpikes1Hover',
 				"draw grey spikes", nil, "7" )
+	groundButtons[7] = b
   y = y + 10
-	groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[8]:setActive(true)
 										editor.currentGround = editor.groundList[8] end,
 				'LESpikes2Off',
 				'LESpikes2On',
 				'LESpikes2Hover',
 				"draw brown spikes", nil, "8" )
+	groundButtons[8] = b
 
 	-- Panel for choosing the background type:
 	--backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
@@ -352,26 +389,35 @@ function editor.start()
 	backgroundPanel = Panel:new( love.graphics.getWidth()/Camera.scale - w, 17, w, h )
 	x,y = 16, 16
 
-	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+										backgroundPanel:deactivateAll()
+										backgroundButtons[1]:setActive(true)
 										editor.currentBackground = editor.backgroundList[1] end,
 				'LEBGround1Off',
 				'LEBGround1On',
 				'LEBGround1Hover',
 				"draw concrete background", nil, "1" )
+	backgroundButtons[1] = b
   y = y + 10
-	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+										backgroundPanel:deactivateAll()
+										backgroundButtons[2]:setActive(true)
 										editor.currentBackground = editor.backgroundList[2] end,
 				'LEBGround2Off',
 				'LEBGround2On',
 				'LEBGround2Hover',
 				"draw soil background", nil, "2" )
+	backgroundButtons[2] = b
   y = y + 10
-	backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+										backgroundPanel:deactivateAll()
+										backgroundButtons[3]:setActive(true)
 										editor.currentBackground = editor.backgroundList[3] end,
 				'LEBGround2Off',
 				'LEBGround2On',
 				'LEBGround2Hover',
 				"draw dark soil background", nil, "3" )
+	backgroundButtons[3] = b
 
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
@@ -392,9 +438,13 @@ function editor.start()
 	
 	-- available tools:
 	-- "pen", "bgObject"
-	editor.currentTool = "pen"
+	editor.setTool("pen")
 	editor.currentGround = editor.groundList[1]
 	editor.currentBackground = editor.backgroundList[1]
+	backgroundPanel:deactivateAll()
+	backgroundButtons[1]:setActive(true)
+	groundPanel:deactivateAll()
+	groundButtons[1]:setActive(true)
 	--editor.currentBgObject = editor.bgObjectList[1]
 	--groundPanel.pages[0][1]:setSelected( true )
 	--backgroundPanel.pages[0][1]:setSelected( true )
@@ -1498,9 +1548,9 @@ function editor.keypressed( key, repeated )
 	elseif menuPanel.visible then
 		panelsToCheck = {menuPanel}
 	elseif bgObjectPanel.visible then
-		panelsToCheck = {bgObjectPanel}
+		panelsToCheck = {bgObjectPanel, toolPanel}
 	elseif objectPanel.visible then
-		panelsToCheck = {objectPanel}
+		panelsToCheck = {objectPanel, toolPanel}
 	end
 	
 	local found = false
@@ -1763,6 +1813,7 @@ function editor.setTool( tool )
 	--editBgPanel.visible = false
 	groundPanel.visible = false
 	backgroundPanel.visible = false
+	toolPanel:deactivateAll()
 	if tool == "bgObject" then
 		bgObjectPanel.visible = true
 		bgObjectPanel:disselectAll()
@@ -1772,6 +1823,10 @@ function editor.setTool( tool )
 		groundPanel.visible = true
 	elseif tool == "bgPen" then
 		backgroundPanel.visible = true
+	end
+
+	if toolButtons[tool] then
+		toolButtons[tool]:setActive( true )
 	end
 end
 

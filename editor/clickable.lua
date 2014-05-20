@@ -82,7 +82,7 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 
 	o.event = event
 
-	self.active = "off"
+	self.active = false
 
 	return o
 end
@@ -122,7 +122,7 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 
 	o.event = event
 
-	self.active = "off"
+	self.active = false
 
 	return o
 end
@@ -149,7 +149,7 @@ function Clickable:newLabel( x, y, event, width, text, font )
 
 	o.event = event
 
-	o.active = "off"
+	o.active = false
 	return o
 end
 
@@ -177,7 +177,7 @@ function Clickable:newBatch( x, y, event, obj, width, height, toolTip )
 
  	o.event = event
 
-	o.active = "off"
+	o.active = false
 
 	return o
 end
@@ -198,13 +198,13 @@ function Clickable:draw()
 		love.graphics.rectangle("line", self.minX+.5, self.minY+.5, self.maxX - self.minX, self.maxY-self.minY)
 		
 	elseif self.text then
-		if self.active == "off" then
+		--[[if self.active == "off" then
 			love.graphics.setColor( 255, 255, 255, 20 )
 		elseif self.active == "hover" then
 			love.graphics.setColor( 255, 255, 255, 60 )
 		else
 			love.graphics.setColor( 255, 255, 255, 100 )
-		end
+		end]]
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.text, self.textX, self.textY )
@@ -245,7 +245,6 @@ end
 
 function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 	if msgBoxActive then
-		self.active = "off"
 		if self.imgOff then
 			self:setAnim(self.imgOff)
 		end
@@ -260,7 +259,6 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 					if self.event then
 						self.event()
 					end
-					self.active = "click"
 
 					--[[if self.imgOn then
 						self:setAnim(self.imgOn)
@@ -274,7 +272,6 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 			end
 			return true
 		else
-			self.active = "off"
 			--[[if self.imgOff then
 				self:setAnim(self.imgOff)
 			end]]
@@ -285,23 +282,29 @@ function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
 end
 
 function Clickable:highlight()
-		if self.imgHover then
-			self:setAnim(self.imgHover)
-		end
+	if self.imgHover then
+		self:setAnim(self.imgHover)
+	end
 end
 
 function Clickable:unhighlight()
-		if self.imgOff then
-			self:setAnim(self.imgOff)
-		end
+	if self.active == true and self.imgOn then
+		self:setAnim(self.imgOn)
+	else
+		self:setAnim(self.imgOff)
+	end
 end
 
 function Clickable:setSelected( bool )
 	self.selected = bool
 	if self.selected and self.imgHover then
 		self:setAnim(self.imgHover)
-	elseif self.imgOff then
-		self:setAnim(self.imgOff)
+	else
+		if self.active == true and self.imgOn then
+			self:setAnim(self.imgOn)
+		else
+			self:setAnim(self.imgOff)
+		end
 	end
 end
 
@@ -324,5 +327,19 @@ function Clickable:setAnim(name,continue) -- Go to specified animation and reset
 	end
 end
 
+function Clickable:setActive( bool )
+	if self.active ~= bool then
+		self.active = bool
+		if self.active then
+			if self.imgOn then
+				self:setAnim(self.imgOn)
+			end
+		else
+			if self.imgOff then
+				self:setAnim(self.imgOff)
+			end
+		end
+	end
+end
 
 return Clickable
