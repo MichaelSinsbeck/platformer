@@ -866,6 +866,7 @@ function EditorMap:bgObjectLayerDown()
 	self.unsavedChanges = true
 end
 
+--[[
 function EditorMap:duplicateSelection()
 	local newObjects = {}
 	local new
@@ -884,10 +885,12 @@ function EditorMap:duplicateSelection()
 		newObjects[#newObjects+1] = new
 	end
 	self:selectNoObject()
-	for k, o in pairs( newObjects ) do
-		self:selectObject( o )
+	-- Select in backward order. Important incase another duplicate is done,
+	-- Otherwise object layers will be reversed (bottom object will be on top):
+	for k = #newObjects, 1, -1 do
+		self:selectObject( newObjects[k] )
 	end
-end
+end]]
 
 -----------------------------------------
 -- Objects (front layer)
@@ -1076,15 +1079,20 @@ function EditorMap:removeAllSelected()
 	self.selectedObjects = {}
 end
 
-function EditorMap:findObjectAt( tileX, tileY )
+function EditorMap:findObjectAt( tileX, tileY, singleObjectOnly )
 	local obj
+	local list = {}
 	-- Go through the list backwards and select first object found
 	for k = #self.objectList, 1, -1 do
 		obj = self.objectList[k]
 		if obj.vis[1] then
 			if tileX >= obj.tileX and tileY >= obj.tileY and
 				tileX < obj.maxX and tileY < obj.maxY then
-				return obj
+				--return obj
+				table.insert( list, obj )
+				if singleObjectOnly then
+					return list
+				end
 			end
 		end
 	end
@@ -1094,9 +1102,14 @@ function EditorMap:findObjectAt( tileX, tileY )
 	for k = #self.bgList, 1, -1 do
 		obj = self.bgList[k]
 		if tileX >= obj.x and tileY >= obj.y and tileX < obj.maxX and tileY < obj.maxY then
-			return obj
+			--return obj
+			table.insert( list, obj )
+				if singleObjectOnly then
+					return list
+				end
 		end
 	end
+	return list
 end
 
 --[[

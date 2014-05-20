@@ -1254,14 +1254,16 @@ function editor:useTool( tileX, tileY, button )
 			if not love.keyboard.isDown("lctrl", "rctrl") then
 				editor.setTool("edit")
 			end
-			local new
-			for k, v in pairs( self.currentBgObjects ) do
-				new = map:addBgObject( tileX + v.tileX, tileY + v.tileY, v.obj )
-				if not love.keyboard.isDown("lctrl", "rctrl") then
-					map:selectObject(new)
-				end
+			local new, o = {}, nil
+			--for k, v in pairs( self.currentBgObjects ) do
+			for k = #self.currentBgObjects, 1, -1 do	-- add bottom up!
+				o = self.currentBgObjects[k]
+				new[#new+1] = map:addBgObject( tileX + o.tileX, tileY + o.tileY, o.obj )
 			end
 			if not love.keyboard.isDown("lctrl", "rctrl") then
+				for i = #new, 1, -1 do		-- select in forward order
+					map:selectObject(new[i])
+				end
 				editor.createPropertiesPanel()
 			end
 		elseif button == "r" then
@@ -1275,16 +1277,18 @@ function editor:useTool( tileX, tileY, button )
 	elseif self.currentTool == "object" and self.currentObjects then
 		if button == "l" then
 			if not love.keyboard.isDown("lctrl", "rctrl") then
-			editor.setTool("edit")
-		end
-			local new
-			for k, o in pairs( self.currentObjects ) do
-				new = map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
-			if not love.keyboard.isDown("lctrl", "rctrl") then
-				map:selectObject(new)
+				editor.setTool("edit")
 			end
+			local new, o = {}, nil
+			--for k, o in pairs( self.currentObjects ) do
+			for k = #self.currentObjects, 1, -1 do			-- add from the bottom up!
+				o = self.currentObjects[k]
+				new[#new+1] = map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
 			end
 			if not love.keyboard.isDown("lctrl", "rctrl") then
+				for i = #new, 1, -1 do		-- select in forward order
+					map:selectObject(new[i])
+				end
 				editor.createPropertiesPanel()
 			end
 		elseif button == "r" then
@@ -1311,14 +1315,16 @@ function editor:useTool( tileX, tileY, button )
 				local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
 				local tX = wX/(Camera.scale*8)
 				local tY = wY/(Camera.scale*8)
-				local obj = map:findObjectAt( tX, tY )
-				if obj then
-					if not obj.selected then
-						if not self.shift then	-- only deselect if shift not pressed
-							map:selectNoObject()
-							--map:selectNoBgObject()
+				local list = map:findObjectAt( tX, tY, true )
+				if #list > 0 then
+					for k, obj in pairs(list) do
+						if not obj.selected then
+							if not self.shift then	-- only deselect if shift not pressed
+								map:selectNoObject()
+								--map:selectNoBgObject()
+							end
+							map:selectObject( obj )
 						end
-						map:selectObject( obj )
 					end
 					--editBgPanel.visible = true
 					self.dragging = true
@@ -1363,7 +1369,6 @@ function editor.duplicateSelection()
 		if bg then
 			editor.currentBgObjects = {}
 			for k, v in pairs( map.selectedObjects ) do
-				print(k, v)
 				table.insert( editor.currentBgObjects, {x=v.x, y=v.y, obj=v.objType} )
 			end
 			--editor.currentTool = "bgObject"
@@ -1545,9 +1550,11 @@ function editor.endBoxSelect( aborted )
 			-- Only tiles which are fully IN the box area should be selected.
 			-- This is achieved by adding a 1-tile padding (the +stepX, -stepX etc.):
 			for k, p in pairs( points ) do
-				local obj = map:findObjectAt( p.x, p.y )
-				if obj then
-					map:selectObject( obj )
+				local list = map:findObjectAt( p.x, p.y )
+				if #list > 0 then
+					for i, obj in pairs(list) do
+						map:selectObject( obj )
+					end
 				end
 			end
 			if #map.selectedObjects > 0 then
