@@ -298,6 +298,10 @@ function Panel:draw()
 	for k, button in ipairs( self.pages[self.selectedPage] ) do
 			button:drawOutline()
 		end		
+		-- draw preview outline ontop of already selected outline:
+	for k, button in ipairs( self.pages[self.selectedPage] ) do
+			button:drawPreviewOutline()
+		end		
 	end
 	love.graphics.setColor(255,255,255,255)
 end
@@ -335,8 +339,16 @@ function Panel:update( dt )
 	end
 end
 
-function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
+-- Removes the "selection preview" box from all buttons:
+function Panel:unPreviewAll()
+	for i, page in pairs( self.pages ) do
+		for k, button in ipairs( page ) do
+			button:setSelectionPreview(false)
+		end
+	end
+end
 
+function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 	if clicked then
 		if self.activeInput then
 			self.activeInput.txt = self.activeInput.front .. self.activeInput.back
@@ -418,12 +430,11 @@ function Panel:addToSelectionClick( x, y, shiftPressed )
 		if self.pages[pageNum] then
 			for k,button in ipairs( self.pages[pageNum] ) do
 				hit = button:collisionCheck( x, y )
-					if hit then
-				--if button.event then
-			--		button.event()
-			--	end
-					print("hit")
-						return button
+				if hit then
+					--if button.event then
+					--		button.event()
+					--	end
+					return button
 				end
 			end
 		end

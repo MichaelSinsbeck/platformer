@@ -594,8 +594,39 @@ function editor:update( dt )
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 
+	if objectPanel.visible then
+		objectPanel:unPreviewAll()
+	elseif bgObjectPanel.visible then
+		bgObjectPanel:unPreviewAll()
+	end
+
 	if editor.selectBox then
 		editor.selectBox.eX, editor.selectBox.eY = x, y
+		-- Highlight buttons which are under the selection box:
+		if objectPanel.visible then
+			-- Pretend there was a "click" at multiple coordinates in the
+			-- selected area. The step between the clicks is small enough
+			-- to make sure every tile will be hit at least once:
+			local points = editor.createBoxSelectPoints( Camera.scale*8 )
+			for k, p in pairs(points) do
+				button = objectPanel:addToSelectionClick( p.x, p.y, false )
+				if button then
+					if button.obj then	-- only selct buttons that represent an object
+						button:setSelectionPreview(true)
+					end
+				end
+			end
+		elseif bgObjectPanel.visible then
+			local points = editor.createBoxSelectPoints( Camera.scale*8 )
+			for k, p in pairs(points) do
+				button = bgObjectPanel:addToSelectionClick( p.x, p.y, false )
+				if button then
+					if button.obj then	-- only selct buttons that represent an object
+						button:setSelectionPreview(true)
+					end
+				end
+			end
+		end
 	end
 
 	if msgBox.visible then msgBox:unhighlightAll() end
@@ -624,25 +655,25 @@ function editor:update( dt )
 			menuPanel:collisionCheck( x, y )
 			hit = true
 		else
-		if toolPanel.visible then
-			hit = hit or toolPanel:collisionCheck( x, y )
+			if toolPanel.visible then
+				hit = hit or toolPanel:collisionCheck( x, y )
+			end
+			if groundPanel.visible then
+				hit = hit or groundPanel:collisionCheck( x, y )
+			end
+			if backgroundPanel.visible then
+				hit = hit or backgroundPanel:collisionCheck( x, y )
+			end
+			if bgObjectPanel.visible then
+				hit = hit or bgObjectPanel:collisionCheck(x, y)
+			end
+			if propertiesPanel.visible then
+				hit = hit or propertiesPanel:collisionCheck(x, y)
+			end
+			if objectPanel.visible then
+				hit = hit or objectPanel:collisionCheck(x, y)
+			end
 		end
-		if groundPanel.visible then
-			hit = hit or groundPanel:collisionCheck( x, y )
-		end
-		if backgroundPanel.visible then
-			hit = hit or backgroundPanel:collisionCheck( x, y )
-		end
-		if bgObjectPanel.visible then
-			hit = hit or bgObjectPanel:collisionCheck(x, y)
-		end
-		if propertiesPanel.visible then
-			hit = hit or propertiesPanel:collisionCheck(x, y)
-		end
-		if objectPanel.visible then
-			hit = hit or objectPanel:collisionCheck(x, y)
-		end
-	end
 	end
 
 	if map.draggedBorderMarker then

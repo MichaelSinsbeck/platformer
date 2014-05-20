@@ -228,11 +228,18 @@ function Clickable:draw()
 	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
 end
 
+function Clickable:drawPreviewOutline()
+	if self.selectionPreview then
+		love.graphics.setColor(255,255,200, 75)
+		love.graphics.setLineWidth(3)	
+		love.graphics.rectangle("fill", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
+	end
+end
 function Clickable:drawOutline()
 	if self.selected or (self.vis and DEBUG) then
-		love.graphics.setColor(255,255,255)
+		love.graphics.setColor(140,255,140,100)
 		love.graphics.setLineWidth(2)	
-		love.graphics.rectangle("line", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
+		love.graphics.rectangle("fill", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
 	end
 end
 
@@ -297,6 +304,11 @@ function Clickable:setSelected( bool )
 		self:setAnim(self.imgOff)
 	end
 end
+
+function Clickable:setSelectionPreview( bool )
+	self.selectionPreview = bool
+end
+
 
 function Clickable:collisionCheck( x, y )
 	return x > self.minX and y > self.minY and x < self.maxX and y < self.maxY
