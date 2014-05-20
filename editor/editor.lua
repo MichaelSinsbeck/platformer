@@ -32,6 +32,8 @@ local toolButtons = {}
 local groundButtons = {}
 local backgroundButtons = {}
 
+local propertiesPanelHeight
+
 local panelsWithShortcuts
 
 local KEY_CLOSE = "escape"
@@ -131,6 +133,23 @@ function editor.createPropertiesPanel()
 					end
 				end
 			end
+		end
+
+		local noBg, bg = false, false
+		for k, v in pairs( map.selectedObjects ) do
+			if v.isBackgroundObject then
+				bg = true
+			else
+				noBg = true
+			end
+		end
+		if not noBg or not bg then
+			propertiesPanel:addClickable( 16, propertiesPanelHeight - 16,
+				editor.duplicateSelection,
+				'LELayerDownOff',
+				'LELayerDownOn',
+				'LELayerDownHover',
+				"Duplicate selection", nil, KEY_DUPLICATE, true)
 		end
 	end
 end
@@ -423,8 +442,8 @@ function editor.start()
 	editor.createObjectPanel()
 
 	local panelX = love.graphics.getWidth()/Camera.scale - 64
-	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
-	propertiesPanel = Panel:new( panelX, 16, 48, panelHeight )
+	propertiesPanelHeight = love.graphics.getHeight()/Camera.scale - 64
+	propertiesPanel = Panel:new( panelX, 16, 48, propertiesPanelHeight )
 	propertiesPanel.visible = false
 
 	local x = love.graphics.getWidth()/3/Camera.scale
@@ -1329,6 +1348,41 @@ function editor:useTool( tileX, tileY, button )
 	end
 end
 
+function editor.duplicateSelection()
+	local noBg, bg = false, false
+	for k, v in pairs( map.selectedObjects ) do
+		if v.isBackgroundObject then
+			bg = true
+		else
+			noBg = true
+		end
+	end
+	if noBg and bg then
+		print("Select either background objects or foreground objects to duplicate - not both!")
+	else
+		if bg then
+			editor.currentBgObjects = {}
+			for k, v in pairs( map.selectedObjects ) do
+				print(k, v)
+				table.insert( editor.currentBgObjects, {x=v.x, y=v.y, obj=v.objType} )
+			end
+			--editor.currentTool = "bgObject"
+			editor.setTool( "bgObject" )
+			bgObjectPanel.visible = false
+		else
+			editor.currentObjects = {}
+			for k, v in pairs( map.selectedObjects ) do
+				table.insert( editor.currentObjects, {x=v.x, y=v.y, obj=v} )
+			end
+			--editor.currentTool = "object"
+			editor.setTool( "object" )
+			objectPanel.visible = false
+		end
+		editor.sortSelectedObjects()
+		map:selectNoObject()
+	end
+end
+
 function editor:mousereleased( button, x, y )
 	if button == "m" then
 		cam:releaseMouseAnchor()
@@ -1592,41 +1646,10 @@ function editor.keypressed( key, repeated )
 		--	propertiesPanel.visible = false
 	elseif key == KEY_CLOSE and objectPanel.visible then
 		editor.closeObjectPanel()
-	elseif key == KEY_DUPLICATE then
+	--elseif key == KEY_DUPLICATE then
 		--map:duplicateSelection()
 		--editor.createPropertiesPanel()
-		local noBg, bg = false, false
-		for k, v in pairs( map.selectedObjects ) do
-			if v.isBackgroundObject then
-				bg = true
-			else
-				noBg = true
-			end
-		end
-		if noBg and bg then
-			print("Select either background objects or foreground objects to duplicate - not both!")
-		else
-			if bg then
-				editor.currentBgObjects = {}
-				for k, v in pairs( map.selectedObjects ) do
-					print(k, v)
-					table.insert( editor.currentBgObjects, {x=v.x, y=v.y, obj=v.objType} )
-				end
-				--editor.currentTool = "bgObject"
-				editor.setTool( "bgObject" )
-				bgObjectPanel.visible = false
-			else
-				editor.currentObjects = {}
-				for k, v in pairs( map.selectedObjects ) do
-					table.insert( editor.currentObjects, {x=v.x, y=v.y, obj=v} )
-				end
-				--editor.currentTool = "object"
-				editor.setTool( "object" )
-				objectPanel.visible = false
-			end
-			editor.sortSelectedObjects()
-			map:selectNoObject()
-		end
+	--editor.duplicateSelection()
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then
@@ -1640,6 +1663,7 @@ function editor.keypressed( key, repeated )
 		end
 	end
 end
+
 
 -- called as long as editor is running:
 function editor:draw()

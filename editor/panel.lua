@@ -487,9 +487,6 @@ function Panel:collisionCheck( x, y )
 	return false
 end
 
-function Panel:highlight( buttonName )
-end
-
 function Panel:unhighlightAll( )
 	for i, pageNum in pairs( {0, self.selectedPage } ) do
 		if self.pages[pageNum] then
