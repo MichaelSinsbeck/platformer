@@ -87,7 +87,7 @@ function editor.init()
 	editor.toolsToolTips = {}
 	editor.toolsToolTips["pen"] = "left mouse: draw, right mouse: erase, shift: draw straight line, ctrl: flood fill"
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
-	editor.toolsToolTips["bgObject"] = "left mouse: add current background object"
+	editor.toolsToolTips["bgObject"] = "left mouse: add current background object, ctrl to add multiple times"
 	editor.toolsToolTips["edit"] = "left mouse: select object, left + drag: move object"
 end
 
@@ -525,7 +525,6 @@ function editor.closeBgObjectPanel()
 	local selected = bgObjectPanel:getSelected()
 	editor.currentBgObjects = {}
 	for k, p in pairs( selected ) do
-		print("selection", p.obj )
 		table.insert( editor.currentBgObjects, {x=p.x, y=p.y, obj=p.obj} )
 	end
 
@@ -1817,6 +1816,7 @@ function editor:draw()
 			end
 		end
 	
+	love.graphics.setFont( fontSmall )
 	love.graphics.print( self.toolTip.text, self.toolTip.x, self.toolTip.y )
 	
 	--[[love.graphics.print(wX,10,10)
@@ -1857,8 +1857,8 @@ end
 function editor.setToolTip( tip )
 	tip = tip or ""
 	editor.toolTip.text = string.lower(tip)
-	editor.toolTip.x = (love.graphics.getWidth() - love.graphics.getFont():getWidth( tip ))/2
-	editor.toolTip.y = love.graphics.getHeight() - love.graphics.getFont():getHeight() - 10
+	editor.toolTip.x = (love.graphics.getWidth() - fontSmall:getWidth( editor.toolTip.text ))/2
+	editor.toolTip.y = love.graphics.getHeight() - fontSmall:getHeight() - 10
 end
 
 function editor.textinput( letter )
