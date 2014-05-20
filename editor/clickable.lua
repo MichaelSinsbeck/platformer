@@ -285,6 +285,9 @@ function Clickable:highlight()
 	if self.imgHover then
 		self:setAnim(self.imgHover)
 	end
+	if self.toolTip then
+		editor.setToolTip(self.toolTip)
+	end
 end
 
 function Clickable:unhighlight()
