@@ -1609,16 +1609,18 @@ function editor.keypressed( key, repeated )
 	local found = false
 	for i, panel in pairs(panelsToCheck) do
 		if panel.visible then
-			for i, p in pairs(panel.pages) do
-				for k, b in pairs(p) do
-					if b.shortcut and b.shortcut == key then
-						b.event()
+			for i, pageNum in pairs( {0, panel.selectedPage } ) do
+				if panel.pages[pageNum] then
+					for k, b in pairs(panel.pages[pageNum]) do
+						if b.shortcut and b.shortcut == key then
+							b.event()
 
-						panel:disselectAll()
-						--v:setSelected( true )
-						found = true
+							panel:disselectAll()
+							--v:setSelected( true )
+							found = true
+						end
+						if found then break end
 					end
-					if found then break end
 				end
 				if found then break end
 			end
