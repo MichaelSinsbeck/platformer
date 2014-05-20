@@ -441,9 +441,10 @@ function editor.start()
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
 
-	local panelX = love.graphics.getWidth()/Camera.scale - 64
+	w = 48
+	local panelX = love.graphics.getWidth()/Camera.scale - w
 	propertiesPanelHeight = love.graphics.getHeight()/Camera.scale - 64
-	propertiesPanel = Panel:new( panelX, 16, 48, propertiesPanelHeight )
+	propertiesPanel = Panel:new( panelX, 17, w, propertiesPanelHeight )
 	propertiesPanel.visible = false
 
 	local x = love.graphics.getWidth()/3/Camera.scale
