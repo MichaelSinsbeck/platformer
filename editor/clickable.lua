@@ -82,7 +82,8 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 
 	o.event = event
 
-	self.active = false
+	o.active = false
+	o.highlighted = false
 
 	return o
 end
@@ -122,7 +123,8 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 
 	o.event = event
 
-	self.active = false
+	o.active = false
+	o.highlighted = false
 
 	return o
 end
@@ -150,6 +152,8 @@ function Clickable:newLabel( x, y, event, width, text, font )
 	o.event = event
 
 	o.active = false
+	o.highlighted = false
+
 	return o
 end
 
@@ -178,6 +182,7 @@ function Clickable:newBatch( x, y, event, obj, width, height, toolTip )
  	o.event = event
 
 	o.active = false
+	o.highlighted = false
 
 	return o
 end
@@ -198,13 +203,11 @@ function Clickable:draw()
 		love.graphics.rectangle("line", self.minX+.5, self.minY+.5, self.maxX - self.minX, self.maxY-self.minY)
 		
 	elseif self.text then
-		--[[if self.active == "off" then
-			love.graphics.setColor( 255, 255, 255, 20 )
-		elseif self.active == "hover" then
+		if self.highlighted then
 			love.graphics.setColor( 255, 255, 255, 60 )
 		else
-			love.graphics.setColor( 255, 255, 255, 100 )
-		end]]
+			love.graphics.setColor( 255, 255, 255, 20 )
+		end
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.text, self.textX, self.textY )
@@ -288,6 +291,7 @@ function Clickable:highlight()
 	if self.toolTip then
 		editor.setToolTip(self.toolTip)
 	end
+	self.highlighted = true
 end
 
 function Clickable:unhighlight()
@@ -296,6 +300,7 @@ function Clickable:unhighlight()
 	else
 		self:setAnim(self.imgOff)
 	end
+	self.highlighted = false
 end
 
 function Clickable:setSelected( bool )
