@@ -1112,6 +1112,57 @@ function EditorMap:findObjectAt( tileX, tileY, singleObjectOnly )
 	return list
 end
 
+function EditorMap:findObjectsInRegion( startX, startY, endX, endY )
+	local list = {}
+	for k = #self.objectList, 1, -1 do
+		obj = self.objectList[k]
+		if obj.vis[1] then
+			if startX <= obj.tileX and startY <= obj.tileY and
+				endX > obj.maxX and endY > obj.maxY then
+				table.insert( list, obj )
+			end
+		end
+	end
+	for k = #self.bgList, 1, -1 do
+		obj = self.bgList[k]
+		if startX <= obj.x and startY <= obj.y and
+				endX > obj.maxX and endY > obj.maxY then
+			table.insert( list, obj )
+		end
+	end
+	return list
+end
+
+function EditorMap:highlightAllInRegion( startX, startY, endX, endY )
+	for k = #self.objectList, 1, -1 do
+		obj = self.objectList[k]
+		if obj.vis[1] then
+			if startX <= obj.tileX and startY <= obj.tileY and
+				endX > obj.maxX and endY > obj.maxY then
+				obj.previewSelectionHighlight = true
+			end
+		end
+	end
+	for k = #self.bgList, 1, -1 do
+		obj = self.bgList[k]
+		if startX <= obj.x and startY <= obj.y and
+				endX > obj.maxX and endY > obj.maxY then
+				obj.previewSelectionHighlight = true
+		end
+	end
+end
+
+function EditorMap:unPreviewAll()
+	for k = #self.objectList, 1, -1 do
+		self.objectList[k].previewSelectionHighlight = false
+	end
+	for k = #self.bgList, 1, -1 do
+		obj = self.bgList[k]
+		self.bgList[k].previewSelectionHighlight = false
+	end
+	return list
+end
+
 --[[
 function EditorMap:selectObjectAt( tileX, tileY )
 
@@ -1446,18 +1497,28 @@ function EditorMap:drawBackground()
 	for i = 1, #self.backgroundBatch do
 		love.graphics.draw( self.backgroundBatch[i], 0, 0 )
 	end
+	love.graphics.setColor(255,255,255,255)
 	if mode == "editor" then
 		for k, obj in ipairs( self.bgList ) do
+			love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
+		end
+	else
+		love.graphics.draw( self.bgObjectSpriteBatch )
+	end
+	if settings:getShadersEnabled() then
+		shaders:endBackground()
+	end
+	if mode == "editor" then
+		love.graphics.setLineWidth(2)
+		for k, obj in ipairs( self.bgList ) do
 			if obj.selected == true then
-				love.graphics.setColor(255,150,150,255)
-				--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
-				love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
+				love.graphics.setColor(100,255,100,100)
+				love.graphics.rectangle( "fill", obj.drawX, obj.drawY, obj.width, obj.height )
+			end
+			if obj.previewSelectionHighlight then
+				love.graphics.setColor(255,255,200, 75)
+				love.graphics.rectangle( "fill", obj.drawX, obj.drawY, obj.width, obj.height )
 				love.graphics.setColor(255,255,255,255)
-				love.graphics.rectangle( "line", obj.drawX, obj.drawY, obj.width, obj.height )
-			else
-				love.graphics.setColor(255,255,255,255)
-				--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
-				love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
 			end
 			if DEBUG then
 				love.graphics.setColor(255,0,0,150)
@@ -1468,11 +1529,6 @@ function EditorMap:drawBackground()
 				love.graphics.setColor(255,255,255,255)
 			end
 		end
-	else
-		love.graphics.draw( self.bgObjectSpriteBatch )
-	end
-	if settings:getShadersEnabled() then
-		shaders:endBackground()
 	end
 end
 
@@ -1503,13 +1559,17 @@ function EditorMap:drawObjects()
 		if obj.selected == true then
 			love.graphics.setColor(255,150,150,255)
 			obj:draw()
-			x,y = obj.editorX, obj.editorY
 			width,height = math.max(30,obj.width), math.max(30,obj.height) 
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.rectangle( "line", x, y, width, height)
+			love.graphics.rectangle( "line", obj.editorX, obj.editorY, width, height)
 		else
 			love.graphics.setColor(255,255,255,255)
 			obj:draw()
+		end
+		if obj.previewSelectionHighlight then
+			love.graphics.setColor(255,255,255,100)
+			width,height = math.max(30,obj.width), math.max(30,obj.height) 
+			love.graphics.rectangle( "fill", obj.editorX, obj.editorY, width, height)
 		end
 		if DEBUG then
 		love.graphics.setColor(255,0,0,150)

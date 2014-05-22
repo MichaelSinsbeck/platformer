@@ -670,33 +670,9 @@ function editor:update( dt )
 	end
 
 	if editor.selectBox then
-		editor.selectBox.eX, editor.selectBox.eY = x, y
-		-- Highlight buttons which are under the selection box:
-		if objectPanel.visible then
-			-- Pretend there was a "click" at multiple coordinates in the
-			-- selected area. The step between the clicks is small enough
-			-- to make sure every tile will be hit at least once:
-			local points = editor.createBoxSelectPoints( Camera.scale*8 )
-			for k, p in pairs(points) do
-				button = objectPanel:addToSelectionClick( p.x, p.y, false )
-				if button then
-					if button.obj then	-- only selct buttons that represent an object
-						button:setSelectionPreview(true)
-					end
-				end
-			end
-		elseif bgObjectPanel.visible then
-			local points = editor.createBoxSelectPoints( Camera.scale*8 )
-			for k, p in pairs(points) do
-				button = bgObjectPanel:addToSelectionClick( p.x, p.y, false )
-				if button then
-					if button.obj then	-- only selct buttons that represent an object
-						button:setSelectionPreview(true)
-					end
-				end
-			end
-		end
+		map:unPreviewAll()		-- removes box selection highlight
 	end
+
 
 	if msgBox.visible then msgBox:unhighlightAll() end
 	if loadPanel.visible then loadPanel:unhighlightAll() end
@@ -835,6 +811,51 @@ function editor:update( dt )
 			( bgObjectPanel.visible and bgObjectPanel:click( x, y, nil, msgBox.active ) ) or
 			( propertiesPanel.visible and propertiesPanel:click( x, y, nil, msgBox.active ) ) or
 			( objectPanel.visible and objectPanel:click( x, y, nil, msgBox.active ) )]]
+
+	end
+	if editor.selectBox then
+		editor.selectBox.eX, editor.selectBox.eY = x, y
+		-- Highlight buttons which are under the selection box:
+		if objectPanel.visible then
+			-- Pretend there was a "click" at multiple coordinates in the
+			-- selected area. The step between the clicks is small enough
+			-- to make sure every tile will be hit at least once:
+			local points = editor.createBoxSelectPoints( Camera.scale*8 )
+			for k, p in pairs(points) do
+				button = objectPanel:addToSelectionClick( p.x, p.y, false )
+				if button then
+					if button.obj then	-- only selct buttons that represent an object
+						button:setSelectionPreview(true)
+					end
+				end
+			end
+		elseif bgObjectPanel.visible then
+			local points = editor.createBoxSelectPoints( Camera.scale*8 )
+			for k, p in pairs(points) do
+				button = bgObjectPanel:addToSelectionClick( p.x, p.y, false )
+				if button then
+					if button.obj then	-- only selct buttons that represent an object
+						button:setSelectionPreview(true)
+					end
+				end
+			end
+		elseif self.mouseOnCanvas then
+			local wX, wY = cam:screenToWorld( editor.selectBox.sX, editor.selectBox.sY )
+			local sX = math.floor(wX/(Camera.scale*8))
+			local sY = math.floor(wY/(Camera.scale*8))
+			wX, wY = cam:screenToWorld( editor.selectBox.eX, editor.selectBox.eY )
+			local eX = math.floor(wX/(Camera.scale*8))
+			local eY = math.floor(wY/(Camera.scale*8))
+
+			if eX < sX then
+				eX, sX = sX, eX
+			end
+			if eY < sY then
+				eY, sY = sY, eY
+			end
+			-- Almost the same as findObjectsInRegion, but slightly faster:
+			map:highlightAllInRegion( sX, sY, eX+2, eY+2 )
+		end
 	end
 
 	if self.toolTip.text == "" and self.currentTool and not hit then
@@ -1484,7 +1505,7 @@ function editor.endBoxSelect( aborted )
 				for k, b in pairs( hitButtonList ) do
 					b:setSelected( true )
 				end
-		end
+			end
 		elseif bgObjectPanel.visible then
 			local tileSize = Camera.scale*8
 			local points = editor.createBoxSelectPoints( tileSize )
@@ -1533,7 +1554,8 @@ function editor.endBoxSelect( aborted )
 					b:setSelected( true )
 				end
 			end
-		else
+		else		-- edit tiles
+
 			-- go through all tiles within box and try to select tiles there:
 			local wX, wY = cam:screenToWorld( editor.selectBox.sX, editor.selectBox.sY )
 			local sX = math.floor(wX/(Camera.scale*8))
@@ -1545,24 +1567,38 @@ function editor.endBoxSelect( aborted )
 			if not shift then
 				map:selectNoObject()
 			end
-			local points = editor.createBoxSelectPoints( 1, sX, sY, eX, eY )
-			--map:selectNoBgObject()
+			--local points = editor.createBoxSelectPoints( 1, sX, sY, eX, eY )
+			--
 			-- Only tiles which are fully IN the box area should be selected.
 			-- This is achieved by adding a 1-tile padding (the +stepX, -stepX etc.):
-			for k, p in pairs( points ) do
+			--[[for k, p in pairs( points ) do
 				local list = map:findObjectAt( p.x, p.y )
 				if #list > 0 then
 					for i, obj in pairs(list) do
 						map:selectObject( obj )
 					end
 				end
+			end]]
+			
+			if eX < sX then
+				eX, sX = sX, eX
 			end
+			if eY < sY then
+				eY, sY = sY, eY
+			end
+
+			local list = map:findObjectsInRegion( sX, sY, eX+2, eY+2 )
+			for i, obj in pairs(list) do
+				map:selectObject( obj )
+			end
+
 			if #map.selectedObjects > 0 then
 				editor.createPropertiesPanel()
 			end
 		end
 	end
 	editor.selectBox = nil
+	map:unPreviewAll()		-- removes box selection highlight
 end
 
 local toConvert = {

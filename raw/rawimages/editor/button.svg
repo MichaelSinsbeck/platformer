@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="186.88596"
-     inkscape:cy="175.83671"
+     inkscape:zoom="1"
+     inkscape:cx="333.21799"
+     inkscape:cy="304.7598"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g5109"
      showgrid="true"
      inkscape:showpageshadow="true"
      inkscape:window-width="1916"
@@ -2883,5 +2883,7 @@
        d="m 281.35511,862.20901 0,5.59325 -5.72643,0 0,5.75216 5.72643,0 0,5.56147 5.92277,0 0,-5.56147 5.72643,0 0,-5.75216 -5.72643,0 0,-5.59325 -5.92277,0 z"
        id="path4994"
        inkscape:connector-curvature="0" />
+    <g
+       id="g5109" />
   </g>
 </svg>
