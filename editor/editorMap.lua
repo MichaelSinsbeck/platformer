@@ -1559,17 +1559,19 @@ function EditorMap:drawObjects()
 		if obj.selected == true then
 			love.graphics.setColor(255,150,150,255)
 			obj:draw()
-			width,height = math.max(30,obj.width), math.max(30,obj.height) 
+			--width,height = math.max(30,obj.width), math.max(30,obj.height) 
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.rectangle( "line", obj.editorX, obj.editorY, width, height)
+			--love.graphics.rectangle( "line", obj.editorX, obj.editorY, width, height)
+			love.graphics.rectangle( "line", obj.tileX*self.tileSize, obj.tileY*self.tileSize, self.tileSize, self.tileSize)
 		else
 			love.graphics.setColor(255,255,255,255)
 			obj:draw()
 		end
 		if obj.previewSelectionHighlight then
 			love.graphics.setColor(255,255,255,100)
-			width,height = math.max(30,obj.width), math.max(30,obj.height) 
-			love.graphics.rectangle( "fill", obj.editorX, obj.editorY, width, height)
+			--width,height = math.max(30,obj.width), math.max(30,obj.height) 
+			--love.graphics.rectangle( "fill", obj.editorX, obj.editorY, width, height)
+			love.graphics.rectangle( "fill", obj.tileX*self.tileSize, obj.tileY*self.tileSize, self.tileSize, self.tileSize)
 		end
 		if DEBUG then
 		love.graphics.setColor(255,0,0,150)
