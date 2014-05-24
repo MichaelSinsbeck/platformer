@@ -11,6 +11,7 @@ local Background = require("editor/background")
 local BgObject = require("editor/bgObject")
 -- Object = require("editor/object")
 local EditorCam = require("editor/editorCam")
+
 require("editor/msgBox")
 
 local map = nil

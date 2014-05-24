@@ -33,7 +33,7 @@ function upload.sendFile( url, filename, levelname, creator )
 
     local result, respcode, respheaders, respstatus = http.request {
         method = "POST",
-        url = "http://www.germanunkol.de/bandana/userlevels/upload.php",
+        url = url,--"http://www.germanunkol.de/bandana/userlevels/upload.php",
         source = ltn12.source.string(data),
         headers = {
             ["content-type"] = "text/plain",
@@ -47,6 +47,9 @@ function upload.sendFile( url, filename, levelname, creator )
 	print( table.concat( response ))
 end
 
-upload.sendFile( "asds", "/home/micha/.local/share/love/bandana/mylevels/climb.dat", "climb", "germanunkol" )
+-- Debug only:
+upload.sendFile( "http://www.germanunkol.de/bandana/userlevels/upload.php",
+				"/home/micha/.local/share/love/bandana/mylevels/climb.dat",
+				"climb", "germanunkol" )
 
 return upload

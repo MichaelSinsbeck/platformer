@@ -7,6 +7,8 @@ profiler = require("scripts/profiler")
 require 'scripts/camera'
 require 'scripts/font'
 
+threadInterface = require("scripts/threadInterface")
+
 mode = 'menu'	-- must be global
 paused = false
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
@@ -32,6 +34,8 @@ function love.load(args)
 			print("Enabled shadows")
 		end
 	end
+
+	threadInterface.new( "test", "", nil, nil ) 
 end
 
 function love.update( dt )
@@ -66,6 +70,8 @@ function love.update( dt )
 		
 		shaders:update( dt )
 	end
+
+	threadInterface.update( dt )
 	--print(love.joystick.getHat(1,1), love.joystick.getHat(1,2), love.joystick.getHat(1,3))
 end
 
