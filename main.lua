@@ -35,7 +35,15 @@ function love.load(args)
 		end
 	end
 
-	threadInterface.new( "test", "", nil, nil ) 
+	--[[threadInterface.new( "upload",	-- thread name (only used for printing debug messages)
+		"scripts/levelsharing/upload.lua",	-- thread script
+		"uploadFile",	-- function to call (inside script)
+		nil, nil,	-- callback events when done
+		-- the following are arguments passed to the function:
+		"http://www.germanunkol.de/bandana/userlevels/upload.php",
+		"/home/micha/.local/share/love/bandana/mylevels/cavin2.dat",
+		"cavin", "germanunkol")
+		]]
 end
 
 function love.update( dt )

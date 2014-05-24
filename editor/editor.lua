@@ -45,6 +45,7 @@ local KEY_BGSTAMP = "f"
 local KEY_EDIT = "e"
 local KEY_DELETE = "delete"
 local KEY_DUPLICATE = "d"
+local KEY_UPLOAD = "u"
 
 local KEY_NEW = "f1"
 local KEY_OPEN = "f2"
@@ -276,7 +277,7 @@ function editor.start()
 					(love.graphics.getHeight()/Camera.scale - menuHeight)/2,
 					menuWidth, menuHeight )
 	menuPanel.visible = false
-	x, y = 24, 16
+	x, y = 18, 16
 	menuPanel:addClickable( x, y,
 				function()
 					menuPanel.visible = false
@@ -286,6 +287,15 @@ function editor.start()
 				'LENewOn',
 				'LENewHover',
 				"New map" , nil, KEY_NEW, true )
+	x = x + 12
+	menuPanel:addClickable( x, y,
+				function()
+					editor.uploadNow()
+				end,
+				'LENewOff',
+				'LENewOn',
+				'LENewHover',
+				"Upload level" , nil, KEY_UPLOAD, true )
 	y = y + 16
 	x = 18
 	menuPanel:addClickable( x, y,
@@ -2133,6 +2143,28 @@ function editor.loadFile( fileName, testFile )
 	map = Map:loadFromFile( fullName ) or map
 	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
+end
+
+
+------------------------------------------------------------------------
+-- Handle uploading:
+------------------------------------------------------------------------
+
+function editor.uploadNow()
+	if not map then return end
+	if not map.name then return end
+
+	local filename = love.filesystem.getSaveDirectory()
+	filename = filename .. "/mylevels/" .. map.name .. ".dat"
+
+	threadInterface.new( "upload",	-- thread name (only used for printing debug messages)
+		"scripts/levelsharing/upload.lua",	-- thread script
+		"uploadFile",	-- function to call (inside script)
+		nil, nil,	-- callback events when done
+		-- the following are arguments passed to the function:
+		"http://www.germanunkol.de/bandana/userlevels/upload.php",
+		filename,
+		map.name, map.creator or "anonymous")
 end
 
 ------------------------------------------------------------------------

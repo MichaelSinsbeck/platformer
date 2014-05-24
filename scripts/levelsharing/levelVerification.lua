@@ -29,8 +29,10 @@ end
 
 -- If command line arguments are given, then use those:
 -- (Otherwise, wait for someone to call the checkFile function.
-if arg[1] then
+if args then
+if args[1] then
 	return levelVerification.checkFile( arg[1] )
+end
 end
 
 return levelVerification

@@ -7,7 +7,7 @@ local threadList = {}
 
 -- Creates a new thread, starts it and adds it to the 
 -- list of threads:
-function threadInterface.new( name, script, eventSuccess, eventFail )
+function threadInterface.new( name, script, functionName, eventSuccess, eventFail, ... )
 	local t = {}
 	t.thread = love.thread.newThread( "scripts/thread.lua" )
 	t.statusChannel = love.thread.newChannel()	-- used for sending data out of the thread
@@ -19,7 +19,7 @@ function threadInterface.new( name, script, eventSuccess, eventFail )
 	table.insert( threadList, t )
 
 	-- start the thread and pass the relevant data to it as you do so:
-	t.thread:start( t.statusChannel, t.printChannel )
+	t.thread:start( t.statusChannel, t.printChannel, script, functionName, unpack({...}) )
 end
 
 -- Check for new messages and errors on all active threads
@@ -35,15 +35,19 @@ function threadInterface.update( dt )
 			local msg = t.printChannel:pop()
 			print( "Thread " .. t.name .. ": " .. msg )
 		end
+
+		-- Check if the script has finished:
 		local status = t.statusChannel:pop()
 		if status then
 			if status == "success" then
+				print( "Thread " .. t.name .. " returned successfully!" )
 				if t.eventSuccess then
 					t.eventSuccess()
 				end
 				table.insert( toRemove, i )
 			end
-			if status == "success" then
+			if status == "fail" then
+				print( "Thread " .. t.name .. " failed!" )
 				if t.eventFail then
 					t.eventFail()
 				end

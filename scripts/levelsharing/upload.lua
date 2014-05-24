@@ -9,9 +9,7 @@ local ltn12 = require("ltn12")	-- for sinks into which the result will be stored
 
 local levelVerification = require("scripts/levelsharing/levelVerification")
 
-local upload = {}
-
-function upload.sendFile( url, filename, levelname, creator )
+function uploadFile( url, filename, levelname, creator )
 	local success, err = levelVerification.checkFile( filename )
 	if not success then
 		print("Could not upload File: " .. err )
@@ -48,8 +46,8 @@ function upload.sendFile( url, filename, levelname, creator )
 end
 
 -- Debug only:
-upload.sendFile( "http://www.germanunkol.de/bandana/userlevels/upload.php",
+--[[uploadFile( "http://www.germanunkol.de/bandana/userlevels/upload.php",
 				"/home/micha/.local/share/love/bandana/mylevels/climb.dat",
-				"climb", "germanunkol" )
+				"climb", "germanunkol" )]]
 
 return upload
