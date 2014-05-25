@@ -140,7 +140,7 @@ function love.keypressed( key, repeated )
 		print('Last:' .. Campaign.last)
 	end
 	
-	if key == 'u' then -- print all global variables
+	if key == 'f6' then -- print all global variables
 		for k,v in pairs(_G) do
 			print(k .. ': ' .. type(v))
 		end

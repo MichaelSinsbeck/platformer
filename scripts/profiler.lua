@@ -4,7 +4,6 @@ local profiler = {}
 
 profiler.data = {}
 
-
 function profiler:register(key, value)
 	if not self.data[key] then
 		self.data[key] = {value = 0, calls = 0}
