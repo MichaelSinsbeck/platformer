@@ -38,11 +38,15 @@ function uploadFile( url, filename, levelname, author )
         },
         sink = ltn12.sink.table(response)
     }
-	print("Sent: '", data:sub(1, 50) .. "...'" )
 
-	print( "response:", result, respcode, respheaders, respstatus )
-	print( table.concat( response ))
+	--print( "response:", result, respcode, respheaders, respstatus )
+	responseStr = table.concat( response )
+	print( "Reply from server:\n----------\n" .. table.concat( response ) .. "----------" )
 	if result then
+		if responseStr:find("Error in level file.") then
+			local errorStr = responseStr:match("Error:(.-)\n")
+			return false, "Server found error in file:\n" .. errorStr
+		end
 		return true
 	else
 		return false, "Check your connection!"

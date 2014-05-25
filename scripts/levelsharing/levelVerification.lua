@@ -110,9 +110,16 @@ end
 
 -- If command line arguments are given, then use those:
 -- (Otherwise, wait for someone to call the checkFile function.)
-if args then
-	if args[1] then
-		return levelVerification.checkFile( arg[1] )
+-- In case of command-line usage, return a boolean showing if it worked or not.
+if arg then
+	print( "File:", string.match( arg[1], "([^/]*)$") )
+	local result, msg = levelVerification.checkFile( arg[1] )
+	if result == false then
+		print("\tError:", msg)
+		return false
+	else
+		print("\tPassed.")
+		return true
 	end
 end
 

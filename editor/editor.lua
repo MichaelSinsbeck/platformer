@@ -474,6 +474,7 @@ function editor.start()
 	y = love.graphics.getHeight()/Camera.scale - 32 - 8
 	uploadStatusPanel = Panel:new( x, y, 96, 32 )
 	uploadStatusPanel.visible = false
+	editor.uploadInProgress = false
 	
 	-- available tools:
 	-- "pen", "bgObject"
@@ -2185,6 +2186,13 @@ end
 ------------------------------------------------------------------------
 
 function editor.attemptUpload()
+
+	if editor.uploadInProgress then
+		msgBox:new( "Another upload is in progress. Wait for it to finish.",
+				nil, nil )
+		return
+	end
+
 	if not map then
 		msgBox:new( "No map present.",
 				nil, nil )
@@ -2220,6 +2228,8 @@ function editor.startUploadNow()
 	if not map.name then return end
 	if not map.author then return end
 
+	editor.uploadInProgress = true
+
 	uploadStatusPanel:clearAll()
 	uploadStatusPanel:addLabel( 16, 8, "Uploading level file:" )
 	uploadStatusPanel:addLabel( 16, 12, map.name )
@@ -2241,20 +2251,26 @@ function editor.startUploadNow()
 end
 
 function editor.uploadSuccess()
-	uploadStatusPanel:clearAll()
-	uploadStatusPanel:addLabel( 12, 8, "Successfully uploaded!")
-	uploadStatusPanel:addLabel( 12, 12, "Map is now awaiting\nauthorization.")
-	uploadStatusTimer = 5
+	if uploadStatusPanel then
+		uploadStatusPanel:clearAll()
+		uploadStatusPanel:addLabel( 12, 8, "Successfully uploaded!")
+		uploadStatusPanel:addLabel( 12, 12, "Map is now awaiting\nauthorization.")
+		uploadStatusTimer = 5
+	end
+	editor.uploadInProgress = false
 end
 
 function editor.uploadFailed( reason )
-	uploadStatusPanel:clearAll()
-	uploadStatusPanel:addLabel( 16, 8, "Failed to upload." )
-	--uploadStatusPanel:addLabel( 16, 16, "Check your connection." )
-	if reason then
-		uploadStatusPanel:addLabel( 16, 16, reason )
+	if uploadStatusPanel then
+		uploadStatusPanel:clearAll()
+		uploadStatusPanel:addLabel( 16, 8, "Failed to upload." )
+		--uploadStatusPanel:addLabel( 16, 16, "Check your connection." )
+		if reason then
+			uploadStatusPanel:addLabel( 16, 16, reason )
+		end
+		uploadStatusTimer = 5
 	end
-	uploadStatusTimer = 5
+	editor.uploadInProgress = false
 end
 
 ------------------------------------------------------------------------
