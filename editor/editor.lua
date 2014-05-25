@@ -298,7 +298,7 @@ function editor.start()
 				'LENewOff',
 				'LENewOn',
 				'LENewHover',
-				"Upload level" , nil, KEY_UPLOAD, true )
+				"Share level online" , nil, KEY_UPLOAD, true )
 	y = y + 16
 	x = 18
 	menuPanel:addClickable( x, y,
@@ -2203,6 +2203,12 @@ function editor.attemptUpload()
 		return
 	end
 
+	if map.unsavedChanges then
+		msgBox:new( "Unsaved changes present. You need to save the level before you can upload. Save now?",
+			editor.saveFileStart, nil )
+		return
+	end
+
 	editor.startUploadNow()
 end
 
@@ -2236,7 +2242,8 @@ end
 
 function editor.uploadSuccess()
 	uploadStatusPanel:clearAll()
-	uploadStatusPanel:addLabel( 16, 8, "Successfully uploaded." )
+	uploadStatusPanel:addLabel( 12, 8, "Successfully uploaded!")
+	uploadStatusPanel:addLabel( 12, 12, "Map is now awaiting\nauthorization.")
 	uploadStatusTimer = 5
 end
 
