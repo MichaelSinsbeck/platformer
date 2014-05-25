@@ -1648,7 +1648,6 @@ function EditorMap:loadFromFile( fullName )
 	local str = love.filesystem.read( fullName )
 
 	if str then
-
 		local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
 		local author = str:match("Author: (.-)\n")
 		local description = str:match("Description:\n(.-)\n?endDescription\n")

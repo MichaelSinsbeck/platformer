@@ -12,7 +12,7 @@ local levelVerification = require("scripts/levelsharing/levelVerification")
 function uploadFile( url, filename, levelname, author )
 	local success, err = levelVerification.checkFile( filename )
 	if not success then
-		print("Could not upload File: " .. err )
+		return false, err
 	end
 
 	local f = assert(io.open(filename, "r"))
@@ -45,7 +45,7 @@ function uploadFile( url, filename, levelname, author )
 	if result then
 		return true
 	else
-		return false
+		return false, "Check your connection!"
 	end
 end
 

@@ -30,6 +30,9 @@ function threadInterface.update( dt )
 		if err then
 			print( "Error in thread: " .. t.name .. "\n\t" .. err )
 			table.insert( toRemove, i )
+			if t.eventFail then
+				t.eventFail()
+			end
 		end
 		while t.printChannel:peek() do
 			local msg = t.printChannel:pop()
@@ -48,8 +51,10 @@ function threadInterface.update( dt )
 			end
 			if status == "failed" then
 				print( "Thread " .. t.name .. " failed!" )
+				local reason = t.statusChannel:demand()		-- expects reason if failed.
+				print( "reason:", reason )
 				if t.eventFail then
-					t.eventFail()
+					t.eventFail( reason )
 				end
 				table.insert( toRemove, i )
 			end

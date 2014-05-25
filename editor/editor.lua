@@ -1972,7 +1972,7 @@ end
 
 function editor.newMapAttempt()
 	if map and map.unsavedChanges then
-	msgBox:new( "Create new map?\nAnswering yes will destroy all changes for the current map.",
+	msgBox:new( "Create new map?\nAnswering yes will destroy all unsaved changes for the current map.",
 				editor.newMapNow, nil )
 	else
 		editor.newMapNow()
@@ -2247,10 +2247,13 @@ function editor.uploadSuccess()
 	uploadStatusTimer = 5
 end
 
-function editor.uploadFailed()
+function editor.uploadFailed( reason )
 	uploadStatusPanel:clearAll()
 	uploadStatusPanel:addLabel( 16, 8, "Failed to upload." )
-	uploadStatusPanel:addLabel( 16, 16, "Check your connection." )
+	--uploadStatusPanel:addLabel( 16, 16, "Check your connection." )
+	if reason then
+		uploadStatusPanel:addLabel( 16, 16, reason )
+	end
 	uploadStatusTimer = 5
 end
 
@@ -2262,7 +2265,7 @@ function editor.closeAttempt()
 	if map and map.unsavedChanges then
 		menuPanel.visible = false
 		msgBox:new( "There are unsaved changes. Are you sure you want to quit?",
-				editor.closeNow, nil )
+			editor.closeNow, nil )
 	else
 		editor.closeNow()
 	end
