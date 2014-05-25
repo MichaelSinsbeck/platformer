@@ -28,6 +28,8 @@ local backgroundPanel
 local propertiesPanel
 local loadPanel
 local savePanel
+local uploadStatusPanel
+local uploadStatusTimer = 0
 
 local toolButtons = {}
 local groundButtons = {}
@@ -290,7 +292,8 @@ function editor.start()
 	x = x + 12
 	menuPanel:addClickable( x, y,
 				function()
-					editor.uploadNow()
+					menuPanel.visible = false
+					editor.attemptUpload()
 				end,
 				'LENewOff',
 				'LENewOn',
@@ -466,6 +469,11 @@ function editor.start()
 	loadPanel.visible = false
 	savePanel = Panel:new( x, y, panelWidth, panelHeight )
 	savePanel.visible = false
+
+	x = love.graphics.getWidth()/Camera.scale/2 - 48
+	y = love.graphics.getHeight()/Camera.scale - 32 - 8
+	uploadStatusPanel = Panel:new( x, y, 96, 32 )
+	uploadStatusPanel.visible = false
 	
 	-- available tools:
 	-- "pen", "bgObject"
@@ -904,6 +912,14 @@ function editor:update( dt )
 	end
 	if bgObjectPanel.visible then
 		bgObjectPanel:update( dt )
+	end
+
+	-- Count down upload status timer and if it goes below zero, disable the status panel:
+	if uploadStatusTimer > 0 then
+		uploadStatusTimer = uploadStatusTimer - dt
+		if uploadStatusTimer <= 0 then
+			uploadStatusPanel.visible = false
+		end
 	end
 end
 
@@ -1832,6 +1848,9 @@ function editor:draw()
 	if menuPanel.visible then
 		menuPanel:draw()
 	end
+	if uploadStatusPanel.visible then
+		uploadStatusPanel:draw()
+	end
 
 	if loadPanel.visible then
 		loadPanel:draw()
@@ -2046,8 +2065,12 @@ function editor.saveFileStart()
 		"Accept", nil, "return", true )
 
 	savePanel:addLabel( 8, 8, "Level name:" )
-	savePanel:addLabel( 8, 20, "Short description:" )
+	savePanel:addLabel( 8, 20, "Author:" )
+	savePanel:addLabel( 8, 32, "Short description:" )
 
+	local setMapAuthor = function( txt )
+		map.author = txt or ""
+	end
 	local setMapName = function( txt )
 		map.name = txt or ""	
 	end
@@ -2056,7 +2079,8 @@ function editor.saveFileStart()
 	end
 	local chars = "[0-9a-zA-Z%-]"
 	savePanel:addInputBox( 10, 13, savePanel.width - 20, 1, map.name or "", setMapName, 30, chars )
-	savePanel:addInputBox( 10, 25, savePanel.width - 20, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
+	savePanel:addInputBox( 10, 25, savePanel.width - 20, 1, map.author or "", setMapAuthor, 30, chars )
+	savePanel:addInputBox( 10, 37, savePanel.width - 20, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
 
 	savePanel.visible = true
 end
@@ -2086,7 +2110,13 @@ function editor.saveFileNow( fileName, testFile )
 
 	if #fileName:match("(.*).dat"):gsub(" ", "") == 0 then
 		print("Warning: Empty file name!")
-		msgBox:new("Warning: Cannot save!\nFilename must not be empty.", function() end )
+		msgBox:new("Warning: Cannot save!\nFilename must not be empty.", editor.saveFileStart )
+		return
+	end
+
+	if (not map.author or #map.author:gsub(" ", "") == 0) and not testFile then
+		print("Warning: Empty author name!")
+		msgBox:new("Warning: Cannot save!\nAuthor name must not be empty.", editor.saveFileStart )
 		return
 	end
 
@@ -2101,10 +2131,11 @@ function editor.saveFileNow( fileName, testFile )
 		local content = FILE_HEADER
 
 		content = content .. map:dimensionsToString() .. "\n"
+		content = content .. "Author: " .. (map.author or "anonymous") .. "\n"
 
 		content = content .. "Description:\n"
 		content = content .. map:descriptionToString()
-		content = content .. "endDescription\n\n"
+		content = content .. "\nendDescription\n\n"
 		
 		content = content .. "Background:\n"
 		content = content .. map:backgroundToString()
@@ -2125,6 +2156,9 @@ function editor.saveFileNow( fileName, testFile )
 	else
 		print("\tError: no map!")
 	end
+
+	-- remember the author name for future levels:
+	config.setValue("author", map.author)
 
 	-- Mark all changes as saved, but only if this is NOT just a test save. A test save is only
 	-- done when playtesting the map - the saved file can't be restored by the user, so this is
@@ -2150,9 +2184,42 @@ end
 -- Handle uploading:
 ------------------------------------------------------------------------
 
-function editor.uploadNow()
+function editor.attemptUpload()
+	if not map then
+		msgBox:new( "No map present.",
+				nil, nil )
+		return
+	end
+
+	if not map.name then
+		msgBox:new( "Map has to be saved first. Save now?",
+			editor.saveFileStart, nil )
+		return
+	end
+
+	if not map.author or map.author == "" then
+		msgBox:new( "Map has no author. Add one now?",
+			editor.saveFileStart, nil )
+		return
+	end
+
+	editor.startUploadNow()
+end
+
+-- The following will not warn the user if anything's wrong with the level,
+-- so don't call it directly. Call attemptUploadNow instead.
+function editor.startUploadNow()
+	print("Attempting upload:")
 	if not map then return end
 	if not map.name then return end
+	if not map.author then return end
+
+	uploadStatusPanel:clearAll()
+	uploadStatusPanel:addLabel( 16, 8, "Uploading level file:" )
+	uploadStatusPanel:addLabel( 16, 12, map.name )
+	uploadStatusPanel:addLabel( 16, 16, "by " .. map.author )
+	uploadStatusPanel.visible = true
+	uploadStatusTimer = -1
 
 	local filename = love.filesystem.getSaveDirectory()
 	filename = filename .. "/mylevels/" .. map.name .. ".dat"
@@ -2160,11 +2227,24 @@ function editor.uploadNow()
 	threadInterface.new( "upload",	-- thread name (only used for printing debug messages)
 		"scripts/levelsharing/upload.lua",	-- thread script
 		"uploadFile",	-- function to call (inside script)
-		nil, nil,	-- callback events when done
+		editor.uploadSuccess, editor.uploadFailed,	-- callback events when done
 		-- the following are arguments passed to the function:
 		"http://www.germanunkol.de/bandana/userlevels/upload.php",
 		filename,
-		map.name, map.creator or "anonymous")
+		map.name, map.author or "anonymous")
+end
+
+function editor.uploadSuccess()
+	uploadStatusPanel:clearAll()
+	uploadStatusPanel:addLabel( 16, 8, "Successfully uploaded." )
+	uploadStatusTimer = 5
+end
+
+function editor.uploadFailed()
+	uploadStatusPanel:clearAll()
+	uploadStatusPanel:addLabel( 16, 8, "Failed to upload." )
+	uploadStatusPanel:addLabel( 16, 16, "Check your connection." )
+	uploadStatusTimer = 5
 end
 
 ------------------------------------------------------------------------

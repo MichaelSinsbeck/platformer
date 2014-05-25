@@ -9,7 +9,7 @@ local ltn12 = require("ltn12")	-- for sinks into which the result will be stored
 
 local levelVerification = require("scripts/levelsharing/levelVerification")
 
-function uploadFile( url, filename, levelname, creator )
+function uploadFile( url, filename, levelname, author )
 	local success, err = levelVerification.checkFile( filename )
 	if not success then
 		print("Could not upload File: " .. err )
@@ -19,10 +19,9 @@ function uploadFile( url, filename, levelname, creator )
 	local data = f:read("*all")
 
 	levelname = levelname or "testlevel"
-	creator = creator or "anonymous"
+	author = author or "anonymous"
 
-	--data = "Name: " .. levelname .. "\nCreator: " .. creator .. "\n" .. data
-	data = "Name: " .. levelname .. "\nCreator: " .. creator .. "\n" .. data
+	data = "Name: " .. levelname .. "\nCreator: " .. author .. "\n" .. data
 
 	--data = "test"
 	--data = "anid=&protocol=1&"
@@ -40,9 +39,14 @@ function uploadFile( url, filename, levelname, creator )
         sink = ltn12.sink.table(response)
     }
 	print("Sent: '", data:sub(1, 50) .. "...'" )
-	
+
 	print( "response:", result, respcode, respheaders, respstatus )
 	print( table.concat( response ))
+	if result then
+		return true
+	else
+		return false
+	end
 end
 
 -- Debug only:

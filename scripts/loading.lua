@@ -1,6 +1,4 @@
 
-
-
 local loading = {
 	step = -1,
 	msg = "scripts",

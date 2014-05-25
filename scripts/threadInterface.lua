@@ -46,7 +46,7 @@ function threadInterface.update( dt )
 				end
 				table.insert( toRemove, i )
 			end
-			if status == "fail" then
+			if status == "failed" then
 				print( "Thread " .. t.name .. " failed!" )
 				if t.eventFail then
 					t.eventFail()

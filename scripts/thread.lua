@@ -19,6 +19,11 @@ dofile(scriptFile)
 --end
 
 -- Execute the function. Since it has been loaded and is global, it should now be in _G:
-_G[functionName]( args[5], args[6], args[7], args[8], args[9] )
+local result = _G[functionName]( args[5], args[6], args[7], args[8], args[9] )
 
-statusChannel:push("success")
+if result then
+	statusChannel:push("success")
+else
+	statusChannel:push("failed")
+end
+

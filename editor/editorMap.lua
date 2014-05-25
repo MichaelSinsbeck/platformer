@@ -84,6 +84,8 @@ function EditorMap:new( backgroundList )
 
 	o.name = ""
 
+	o.author = config.getValue( "author" ) or ""
+
 	return o
 end
 
@@ -1648,7 +1650,8 @@ function EditorMap:loadFromFile( fullName )
 	if str then
 
 		local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
-		local description = str:match("Description:\n(.-)endDescription\n")
+		local author = str:match("Author: (.-)\n")
+		local description = str:match("Description:\n(.-)\n?endDescription\n")
 		--local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
 		--local minY, maxY = -math.floor(dimY/2), math.floor(dimY/2)
 		local minX, maxX = 0, tonumber(dimX)
@@ -1687,6 +1690,7 @@ function EditorMap:loadFromFile( fullName )
 		map.height = map.maxY - map.minY
 		map.name = string.lower(mapName or "" )
 		map.description = string.lower(description or "" )
+		map.author = author or ""
 
 		local matchName
 		local y = 0
