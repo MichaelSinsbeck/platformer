@@ -2208,13 +2208,13 @@ function editor.attemptUpload()
 
 	if not map.name then
 		msgBox:new( "Map has to be saved first. Save now?",
-			editor.saveFileStart, nil )
+			function() editor.saveFileStart( editor.attemptUpload ) end, nil )
 		return
 	end
 
 	if not map.author or map.author == "" then
 		msgBox:new( "Map has no author. Add one now?",
-			editor.saveFileStart, nil )
+			function() editor.saveFileStart( editor.attemptUpload ) end, nil )
 		return
 	end
 

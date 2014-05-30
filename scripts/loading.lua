@@ -10,6 +10,9 @@ local loading = {
 function loading.update()
 
 	if loading.step == 0 then
+		
+		love.filesystem.createDirectory("userlevels")
+
 		menu = require("scripts/menu")
 		BambooBox = require("scripts/bambooBox")
 		

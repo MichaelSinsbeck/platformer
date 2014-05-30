@@ -10,11 +10,17 @@ function Userlevel:new( levelname, author, authorized )
 	o.levelname = levelname
 	o.author = author
 
+	o.downloaded = false
+
 	-- construct the file name as it must be on the server:
 	if o.authorized then
 		o.filename = "userlevels/authorized/" .. author .. "/" .. levelname .. ".dat"
 	else
 		o.filename = "userlevels/unauthorized/" .. author .. "/" .. levelname .. ".dat"
+	end
+
+	if love.filesystem.exists( o.filename ) then
+		o.downloaded = true
 	end
 
 	return o
@@ -29,18 +35,33 @@ function Userlevel:download()
 		menu:setStatusMsg( "Failed to download: " .. self.levelname )
 	end
 	menu:setStatusMsg( "Downloading level " .. self.levelname, -1)
+	threadInterface.new( self.levelname, "scripts/levelsharing/download.lua", "getLevel",
+						returnEvent, failedEvent, self.levelname, self.author, self.authorized )
 end
 
 function Userlevel:getIsDownloaded()
-	return love.filesystem.exists( self.filename )
+	return self.downloaded
 end
 
 function Userlevel:finishedDownloading( data )
+	if self.authorized then
+		love.filesystem.createDirectory("userlevels/authorized/" .. self.author )
+	else
+		love.filesystem.createDirectory("userlevels/unauthorized/" .. self.author )
+	end
 	love.filesystem.write( self.filename, data )
+	menu:setStatusMsg( self.levelname .. " can now be played.", 5)
+	self.downloaded = true
 end
 
 function Userlevel:loadDescription()
 
+end
+
+function Userlevel:play()
+	if not self.downloaded then return end
+
+	menu.startTransition( menu.startGame( self.filename ), false )()
 end
 
 return Userlevel
