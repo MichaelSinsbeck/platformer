@@ -407,8 +407,7 @@ function menu:userlevelsLoaded( data )
 		local y = -love.graphics.getHeight()/2/Camera.scale + 1
 		local lastauthor
 		for line in data:gmatch("([^\n]-)\n") do
-			print("line", line)
-			local author, levelname = line:match("(.*)\t(.*)")
+			local author, levelname = line:match("(.*)\t(.*)%.dat")
 			if author ~= lastauthor then
 				menu:addText( x, y+10*i, i, author )
 				lastauthor = author
