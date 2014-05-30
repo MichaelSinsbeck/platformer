@@ -94,7 +94,7 @@ function menu.initMain()
 	--x = -52
 	y = -10
 	
-	menu:addBox(x-21,y-7,48,64)
+	menu:addBox(x-21,y-7,48, 80 )
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
@@ -102,7 +102,7 @@ function menu.initMain()
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'settingsOff', 'settingsOn', "settings", menu.startTransition(settings.init, false), actionHover )
+	menu:addButton( x, y, 'settingsOff', 'settingsOn', "settings", menu.startTransition( settings.init, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -110,7 +110,11 @@ function menu.initMain()
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'creditsOff', 'creditsOn', "credits", menu.startTransition(menu.startCredits, false), actionHover )
+	menu:addButton( x, y, 'editorOff', 'editorOn', "user levels", menu.startTransition( menu.startUserlevels, true), actionHover )
+	y = y + 10
+
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
+	menu:addButton( x, y, 'creditsOff', 'creditsOn', "credits", menu.startTransition( menu.startCredits, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -386,11 +390,40 @@ function menu:startCredits()
 end
 
 ---------------------------------------------------------
--- adds a new button to the list of buttons and then returns the new button
+-- Userlevels submenu:
+---------------------------------------------------------
+
+function menu:startUserlevels()
+	menu:clear()	-- remove anything that was previously on the menu
+	menu.state = "userlevels"
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+						function(data) menu:userlevelsLoaded(data) end, nil, "unauthorized" )
+end
+
+function menu:userlevelsLoaded( data )
+	if menu.state == "userlevels" then	-- if I'm still in the correct state
+		local i = 1
+		local x = -love.graphics.getWidth()/2/Camera.scale + 1
+		local y = -love.graphics.getHeight()/2/Camera.scale + 1
+		local lastauthor
+		for line in data:gmatch("([^\n]-)\n") do
+			print("line", line)
+			local author, levelname = line:match("(.*)\t(.*)")
+			if author ~= lastauthor then
+				menu:addText( x, y+10*i, i, author )
+				lastauthor = author
+			end
+			menu:addText( 0, y+10*i, i+1, levelname )
+			i = i + 2
+		end
+	end
+end
+
+---------------------------------------------------------
+-- Adds a new button to the list of buttons and then returns the new button
 ---------------------------------------------------------
 
 function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
-	
 	local new = {x=x,
 				y=y,
 				selected=selected,
@@ -409,7 +442,6 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 	return new
 end
 function menu:addButtonAnimated( x,y,imgOff,imgOn,name,action,actionHover, scaleX, scaleY )
-	
 	local new = {x=x,
 				y=y,
 				selected=selected,
@@ -763,12 +795,13 @@ function menu:keypressed( key, unicode )
 					keys:exitSubMenu()
 				elseif menu.state == "pause" then
 					menu:endPauseMenu()
+				elseif menu.state == "userlevels" then
+					menu.startTransition(menu.initMain, false)()
 				end
 			end
 		end
 	end
 end
-
 
 ---------------------------------------------------------
 -- Animate ninja and buttons:

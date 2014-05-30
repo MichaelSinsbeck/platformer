@@ -12,17 +12,21 @@ local args = {...}
 
 statusChannel = args[1]
 printChannel = args[2] -- should be global!
-scriptFile = args[3] -- should be global!
-functionName = args[4]
+resultsChannel = args[3] -- should be global!
+scriptFile = args[4] -- should be global!
+functionName = args[5]
 
 -- Load the given script.
 dofile(scriptFile)
 
 -- Execute the function. Since it has been loaded and is global, it should now be in _G:
-local result, msg = _G[functionName]( args[5], args[6], args[7], args[8], args[9] )
+local result, msg = _G[functionName]( args[6], args[7], args[8], args[9], args[10] )
 
 
 if result then
+	if msg then
+		resultsChannel:push( msg )
+	end
 	statusChannel:push("success")
 else
 	statusChannel:push("failed")
