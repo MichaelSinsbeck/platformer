@@ -297,9 +297,9 @@ function editor.start()
 					menuPanel.visible = false
 					editor.attemptUpload()
 				end,
-				'LENewOff',
-				'LENewOn',
-				'LENewHover',
+				'LEUploadOff',
+				'LEUploadOn',
+				'LEUploadHover',
 				"Share level online" , nil, KEY_UPLOAD, true )
 	y = y + 16
 	x = 18
