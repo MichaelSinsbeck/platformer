@@ -287,7 +287,7 @@ function BgObject:init()
 	local list = {}
 	local obj, img, coords, category
 	local x, y = 1,1
-	list["houses"] = {}
+	--[[list["houses"] = {}
 	list["plants"] = {}
 	list["misc"] = {}
 	self:addToCategory( list["houses"], "house1.lua", 0, 0 )
@@ -314,7 +314,54 @@ function BgObject:init()
 	self:addToCategory( list["misc"], "boxes.lua", 6, 0 )
 	self:addToCategory( list["misc"], "tools.lua", 7, 2 )
 	self:addToCategory( list["misc"], "water.lua", 12, 0 )
-	self:addToCategory( list["misc"], "pulley.lua", 16, 0 )
+	self:addToCategory( list["misc"], "pulley.lua", 16, 0 )]]
+
+list["misc"] = {}
+list["statues"] = {}
+list["houses"] = {}
+list["garden"] = {}
+list["trees"] = {}
+list["plants"] = {}
+self:addToCategory( list["statues"], "dragon1.lua", 0,0)
+self:addToCategory( list["statues"], "dragon2.lua", 6,0)
+self:addToCategory( list["statues"], "fish.lua", 12,0)
+self:addToCategory( list["statues"], "cat.lua", 14,0)
+self:addToCategory( list["misc"], "water.lua", 0,0)
+self:addToCategory( list["misc"], "boxes.lua", 4,0)
+self:addToCategory( list["misc"], "wagon.lua", 7,0)
+self:addToCategory( list["misc"], "well.lua", 9,0)
+self:addToCategory( list["misc"], "lamps.lua", 11,0)
+self:addToCategory( list["misc"], "origami.lua", 14,0)
+self:addToCategory( list["trees"], "tree5.lua", 0,0)
+self:addToCategory( list["trees"], "tree4.lua", 8,0)
+self:addToCategory( list["trees"], "tree3.lua", 13,0)
+self:addToCategory( list["trees"], "gate.lua", 18,0)
+self:addToCategory( list["trees"], "tree2.lua", 0,4)
+self:addToCategory( list["trees"], "tree1.lua", 5,4)
+self:addToCategory( list["trees"], "tree6.lua", 12,4)
+self:addToCategory( list["trees"], "tree7.lua", 17,4)
+self:addToCategory( list["houses"], "house2.lua", 0,0)
+self:addToCategory( list["houses"], "house1.lua", 8,0)
+self:addToCategory( list["houses"], "housewalls.lua", 14,2)
+self:addToCategory( list["houses"], "doors.lua", 15,0)
+self:addToCategory( list["houses"], "roof1.lua", 7,4)
+self:addToCategory( list["houses"], "singlehousewalls.lua", 12,4)
+self:addToCategory( list["houses"], "roof3.lua", 0,5)
+self:addToCategory( list["houses"], "roof4.lua", 0,6)
+self:addToCategory( list["houses"], "roof5.lua", 17,4)
+self:addToCategory( list["houses"], "roof2.lua", 17,5)
+self:addToCategory( list["houses"], "roof6.lua", 7,6)
+self:addToCategory( list["houses"], "pulley.lua", 20,0)
+self:addToCategory( list["plants"], "plants.lua", 0,0)
+self:addToCategory( list["plants"], "stone3.lua", 5,0)
+self:addToCategory( list["plants"], "stone2.lua", 7,0)
+self:addToCategory( list["plants"], "stone1.lua", 9,0)
+self:addToCategory( list["plants"], "stone4.lua", 11,0)
+self:addToCategory( list["plants"], "stone5.lua", 13,0)
+self:addToCategory( list["garden"], "fence.lua", 0,0)
+self:addToCategory( list["garden"], "tools.lua", 10,0)
+self:addToCategory( list["garden"], "haystack.lua", 15,0)
+
 	return list
 end
 
