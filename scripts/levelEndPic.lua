@@ -61,7 +61,7 @@ function Pic:new( x, y, statType, num )
 	print(statType)
 					
 	if statType == "death_fall" then
-		newPic.title = "falls"
+		newPic.title = "Falls"
 		local width = tileSize
 		local randomWidth = tileSize/4
 		-- generate positions so that they overlap, but each position is unique:
@@ -113,7 +113,7 @@ function Pic:new( x, y, statType, num )
 		
 		newPic.list = generateCountList( num, tileSize )
 	elseif statType == "death_spikey" then
-		newPic.title = "pierced"
+		newPic.title = "Pierced"
 		local width = tileSize*1.4
 		local randomWidth = tileSize/4
 		-- generate positions so that they overlap, but each position is unique:
@@ -163,7 +163,7 @@ function Pic:new( x, y, statType, num )
 		
 		newPic.list = generateCountList( num, tileSize )
 	elseif statType == "death_walker" then
-		newPic.title = "collision"
+		newPic.title = "Collision"
 		local width = tileSize*2.5
 		local randomWidth = tileSize/3
 		-- generate positions so that they overlap, but each position is unique:
@@ -213,7 +213,7 @@ function Pic:new( x, y, statType, num )
 		
 		newPic.list = generateCountList( num, tileSize )
 	elseif statType == "timeInAir" then
-		newPic.title = "time in air:"
+		newPic.title = "Time in Air:"
 		newPic.subTitle = num .. " s"
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visFG[1] = Visualizer:New( 'statTimeInAir' )
@@ -221,7 +221,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visFG[1].posX = -tileSize/4
 		newPic.visFG[1].posY = -tileSize*1.5
 	elseif statType == "farthestJump" then
-		newPic.title = "longest jump:"
+		newPic.title = "Longest Jump:"
 		newPic.subTitle = num .. " m"
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statLongestJump' )
@@ -229,7 +229,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posX = -tileSize/2
 		newPic.visBG[1].posY = -tileSize*1.5
 	elseif statType == "numberOfButtons" then
-		newPic.title = "buttons:"
+		newPic.title = "Buttons:"
 		newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statNumberOfButtons' )
@@ -237,7 +237,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = tileSize*0.55
 	elseif statType == "numberOfJumps" then
-		newPic.title = "jumps:"
+		newPic.title = "Jumps:"
 		newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )
 		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statNumberOfJumps' )
@@ -245,7 +245,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = tileSize*(-1.1)
 	elseif statType == "highestJump" then
-		newPic.title = "highest jump:"
+		newPic.title = "Highest Jump:"
 		newPic.subTitle = num .. " m"
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statHighestJump' )
@@ -253,7 +253,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = tileSize*0.7
 	elseif statType == "fastestVelocity" then
-		newPic.title = "max speed:"
+		newPic.title = "Max Speed:"
 		newPic.subTitle = num .. " m/s"
 		newPic.map = levelEnd.levels["end_dirt"]
 		newPic.visBG[1] = Visualizer:New( 'statVelocity' )
@@ -261,7 +261,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posX = -tileSize*2
 		newPic.visBG[1].posY = -tileSize*0.8
 	elseif statType == "distWalked" then
-		newPic.title = "walked:"
+		newPic.title = "Walked:"
 		newPic.subTitle = num .. " m" 
 		newPic.map = levelEnd.levels["end_dirt"]
 		newPic.visBG[1] = Visualizer:New( 'statVelocity' )
@@ -270,7 +270,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posY = -tileSize*0.8
 	elseif statType == "longestWallHang" then
 
-		newPic.title = "longest wall hang"
+		newPic.title = "Longest Wall Hang"
 		newPic.subTitle = num .. " s"
 		newPic.map = levelEnd.levels["end_wall"]
 		newPic.visFG[1] = Visualizer:New( 'statWallHang' )
@@ -279,7 +279,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visFG[1].posY = tileSize*0.4
 	elseif statType == "idleTime" then
 
-		newPic.title = "idle for:"
+		newPic.title = "Idle for:"
 		newPic.subTitle = num .. " s"
 		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statIdle' )
@@ -288,14 +288,14 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posY = tileSize*(-1.2)
 	elseif statType == "noDeaths" then
 
-		newPic.title = "no deaths"
+		newPic.title = "No Deaths"
 		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statNoDeath' .. math.random(2) )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = tileSize*(-1.8)
 	elseif statType == "time" then
-		newPic.title = "level time"
+		newPic.title = "Level Time"
 		newPic.subTitle = num .. " s"
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statTime' )
