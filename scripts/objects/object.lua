@@ -37,11 +37,11 @@ function object:init()
   self.marginx = self.marginx or 1
   self.marginy = self.marginy or 1
   
-  self.width, self.height = 0,0
+  --self.width, self.height = 0,0
 
   if self.vis then
 		if self.vis[1] then
-			self.width, self.height = self.vis[1]:getSize()
+			--self.width, self.height = self.vis[1]:getSize()
 
 			local name = AnimationDB.animation[self.vis[1].animation].source
 			self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/(Camera.scale*8)*self.marginx
@@ -310,6 +310,22 @@ function object:setProperty( name, value )
 			end
 		end
 	end]]
+end
+
+function object:getImageSize()
+	if self.vis then
+		return self.vis[1]:getSize()
+	else
+		return self.semiwidth*2*(Camera.scale*8), self.semiheight*2*(Camera.scale*8)
+	end
+end
+
+function object:getPreviewSize()
+	if self.preview then
+		return self.preview:getSize()
+	else
+		return self:getImageSize()
+	end
 end
 
 return object

@@ -943,8 +943,8 @@ function EditorMap:addObject( tileX, tileY, objName )
 	newObject.maxX = tileX + 1
 	newObject.maxY = tileY + 1
 	-- for drawing borders in editor:
-	newObject.editorX = newObject.x*self.tileSize - newObject.width*0.5
-	newObject.editorY = newObject.y*self.tileSize - newObject.height*0.5
+	newObject.editorX = newObject.x*self.tileSize - newObject.semiwidth
+	newObject.editorY = newObject.y*self.tileSize - newObject.semiheight
 
 	if newObject.vis[1] then
 		if newObject.tileX < self.minX or newObject.tileX > self.maxX or
