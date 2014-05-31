@@ -30,29 +30,29 @@ function loading.update()
 		require 'scripts/levelEnd'
 		require 'scripts/bridge'
 		objectClasses = require 'scripts/objectclasses'
-		loading.msg = "camera"
+		loading.msg = "Camera"
 	elseif loading.step == 1 then
 		Camera:applyScale()
-		loading.msg = "keyboard setup"
+		loading.msg = "Keyboard Setup"
 	elseif loading.step == 2 then
 		keys.load()
-		loading.msg = "gamepad setup"
+		loading.msg = "Gamepad Setup"
 	elseif loading.step == 3 then
 		keys.loadGamepad()
-		loading.msg = "menu"
+		loading.msg = "Menu"
 	elseif loading.step == 4 then
 		menu:init()	-- must be called after AnimationDB:loadAll()
 		BambooBox:init()
-		loading.msg = "shaders"
+		loading.msg = "Shaders"
 	elseif loading.step == 5 then	
 		if settings:getShadersEnabled() then
 			shaders.load()
 		end
-		loading.msg = "editor"
+		loading.msg = "Editor"
 	elseif loading.step == 6 then
 		editor = require("editor/editor")
 		editor.init()
-		loading.msg = "campaign"
+		loading.msg = "Campaign"
 	elseif loading.step == 7 then
 		recorder = false
 		screenshots = {}
@@ -61,13 +61,13 @@ function loading.update()
 		timer = 0
 
 		Campaign:reset()
-		loading.msg = "shadows"
+		loading.msg = "Shadows"
 	elseif loading.step == 8 then
 		shadows = require("scripts/monocle")
-		loading.msg = "levels"
+		loading.msg = "Levels"
 	elseif loading.step == 9 then
 		levelEnd:init()	-- must be called AFTER requiring the editor
-		loading.msg = "menu"
+		loading.msg = "Menu"
 	elseif loading.step == 10 then
 		menu.initMain()
 		-- temporary
@@ -80,7 +80,7 @@ end
 function loading.draw()
 	--os.execute("sleep .5")
 	love.graphics.setColor(255,255,255,255)
-	local str = "loading: " .. loading.msg
+	local str = "Loading: " .. loading.msg
 	--print(str)
 	
 	love.graphics.setColor(150,150,150)
@@ -89,7 +89,7 @@ function loading.draw()
 	
 	love.graphics.setColor(44,90,160)
 	love.graphics.setFont(fontLarge)
-	love.graphics.printf('loading', 0, 0.5*love.graphics.getHeight(), love.graphics.getWidth(), 'center')
+	love.graphics.printf('Loading', 0, 0.5*love.graphics.getHeight(), love.graphics.getWidth(), 'center')
 end
 
 function loading.preload()

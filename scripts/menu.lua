@@ -13,7 +13,7 @@ local menuTexts = {}
 local menuBoxes = {}
 local menuLogs = {}
 local selButton
-local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the junkyard'}
+local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
 
 local userlevels = {}
 
@@ -103,28 +103,28 @@ function menu.initMain()
 	menu:addBox(x-21,y-7,48, 80 )
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	local startButton = menu:addButton( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
+	local startButton = menu:addButton( x, y, 'startOff', 'startOn', "Start", menu.startTransition(menu.initWorldMap, true), actionHover )
 	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'settingsOff', 'settingsOn', "settings", menu.startTransition( settings.init, false), actionHover )
+	menu:addButton( x, y, 'settingsOff', 'settingsOn', "Settings", menu.startTransition( settings.init, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'editorOff', 'editorOn', "level editor", menu.startTransition( editor.start, true), actionHover )
+	menu:addButton( x, y, 'editorOff', 'editorOn', "Level Editor", menu.startTransition( editor.start, true), actionHover )
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'downloadOff', 'downloadOn', "user levels", menu.startTransition( menu.startUserlevels, true), actionHover )
+	menu:addButton( x, y, 'downloadOff', 'downloadOn', "User Levels", menu.startTransition( menu.startUserlevels, true), actionHover )
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'creditsOff', 'creditsOn', "credits", menu.startTransition( menu.startCredits, false), actionHover )
+	menu:addButton( x, y, 'creditsOff', 'creditsOn', "Credits", menu.startTransition( menu.startCredits, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'exitOff', 'exitOn', "exit", menu.startTransition(love.event.quit), actionHover )
+	menu:addButton( x, y, 'exitOff', 'exitOn', "Exit", menu.startTransition(love.event.quit), actionHover )
 
 	-- add main logo:
 	x = - 85
@@ -498,7 +498,7 @@ end
 function menu:addButtonLabeled( x,y,imgOff,imgOn,name,action,actionHover,label,font )
 	
 	if label == " " then
-		label = "space"
+		label = "Space"
 	end
 	
 	local new = {x=x,
@@ -866,15 +866,15 @@ function menu:update(dt)
 			if button.animated then
 				button.vis:update(dt)
 			else
-				if button.name == "settings" then
+				if button.name == "Settings" then
 					button.timer = button.timer + dt
 					button.angle = button.timer * 5
-				elseif button.name == "start" or button.name == "continue" then
+				elseif button.name == "Start" or button.name == "Continue" then
 					button.timer = button.timer + dt
 					button.xShift = 1-2*math.abs(math.sin(5*button.timer))
 					button.yScale = 1-0.1*math.abs(math.cos(5*button.timer))
 					button.xScale = 1/button.yScale
-				elseif button.name == "credits" then
+				elseif button.name == "Credits" then
 					button.timer = button.timer + dt
 					--button.xScale = 1-0.1*math.abs(math.cos(6*button.timer))
 					--button.xScale = 1-2*math.abs(math.sin(6*button.timer))
@@ -882,17 +882,17 @@ function menu:update(dt)
 					button.yScale = button.xScale
 					button.angle = 0.2*math.sin(- button.timer * 6)
 					button.yShift = 1-2*math.abs(math.sin(6*button.timer))
-				elseif button.name == "exit" or button.name == "leave" then
+				elseif button.name == "Exit" or button.name == "Leave" then
 					button.timer = button.timer + dt
 					button.yShift = 1-2*math.abs(math.sin(5*button.timer))
 					button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
 					button.yScale = 1/button.xScale
-				elseif button.name == "level editor" then
+				elseif button.name == "Level Editor" then
 					button.timer = button.timer + dt
 					button.yShift = -1*math.abs(math.sin(5*button.timer))
 					button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
 					button.yScale = 1/button.xScale
-				elseif button.name == "user levels" then
+				elseif button.name == "User Levels" then
 					button.timer = button.timer + dt
 					button.yShift = -0.4*math.sin(5*button.timer)
 					button.xShift = -button.yShift
