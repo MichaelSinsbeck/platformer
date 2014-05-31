@@ -8,6 +8,7 @@ local Windmill = object:New({
 	angle = 0,
 	ox = 12,
 	oy = 98,
+	z = 2,
 	semiheight = 0.5,
 	semiwidth = 0.5,
 	properties = {
