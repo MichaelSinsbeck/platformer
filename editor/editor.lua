@@ -1334,7 +1334,18 @@ function editor:useTool( tileX, tileY, button )
 			--for k, o in pairs( self.currentObjects ) do
 			for k = #self.currentObjects, 1, -1 do			-- add from the bottom up!
 				o = self.currentObjects[k]
-				new[#new+1] = map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
+				local newObject = map:addObject( tileX + o.tileX, tileY + o.tileY, o.obj.tag )
+				if editor.propertiesClipboard and editor.propertiesClipboard[k] then
+					-- For each property...
+					if newObject.properties then
+						for name, p in pairs( newObject.properties ) do
+							-- ... copy the value over from the 'parent' object (the duplicated one):
+							newObject:setProperty( name, editor.propertiesClipboard[k][name] )
+						end
+						newObject:applyOptions()
+					end
+				end
+				new[#new+1] = newObject
 			end
 			if not love.keyboard.isDown("lctrl", "rctrl") then
 				for i = #new, 1, -1 do		-- select in forward order
@@ -1419,20 +1430,26 @@ function editor.duplicateSelection()
 	else
 		if bg then
 			editor.currentBgObjects = {}
-			for k, v in pairs( map.selectedObjects ) do
+			for k, v in ipairs( map.selectedObjects ) do
 				table.insert( editor.currentBgObjects, {x=v.x, y=v.y, obj=v.objType} )
 			end
 			--editor.currentTool = "bgObject"
 			editor.setTool( "bgObject" )
 			bgObjectPanel.visible = false
 		else
+			local tmpList = {}
 			editor.currentObjects = {}
-			for k, v in pairs( map.selectedObjects ) do
+			for k, v in ipairs( map.selectedObjects ) do
 				table.insert( editor.currentObjects, {x=v.x, y=v.y, obj=v} )
+				tmpList[k] = v
 			end
 			--editor.currentTool = "object"
 			editor.setTool( "object" )
 			objectPanel.visible = false
+
+			-- function "setTool" clears the property clipboard, so set it after calling
+			-- that function:
+			editor.propertiesClipboard = tmpList
 		end
 		editor.sortSelectedObjects()
 		map:selectNoObject()
@@ -1922,6 +1939,10 @@ function editor.setTool( tool )
 		bgObjectPanel:disselectAll()
 	elseif tool == "object" then
 		objectPanel.visible = true
+		-- Important: If there were porperties to be copied (happend during object duplication)
+		-- then forget about them here. Otherwise the properties might be copied to new objects,
+		-- which we don't want.
+		editor.propertiesClipboard = nil
 	elseif tool == "pen" then
 		groundPanel.visible = true
 	elseif tool == "bgPen" then
@@ -1931,6 +1952,7 @@ function editor.setTool( tool )
 	if toolButtons[tool] then
 		toolButtons[tool]:setActive( true )
 	end
+	
 end
 
 function editor.setToolTip( tip )
