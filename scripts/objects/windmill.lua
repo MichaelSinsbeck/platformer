@@ -6,27 +6,29 @@ local Windmill = object:New({
   marginy = 0,
 	rotating = true,
 	angle = 0,
-	vRot = .5,
-	nWings = 7,
 	ox = 12,
 	oy = 98,
 	semiheight = 0.5,
 	semiwidth = 0.5,
+	properties = {
+		wings = utility.newProperty({5,6,7,8},nil,3),
+		speed = utility.newProperty({0,.2,.5,2},{'stopped','slow','medium','fast'},3),
+	},
 	vis = {Visualizer:New('windmillwing')},
 })
 
 function Windmill:setAcceleration(dt)
-	self.angle = (self.angle + self.vRot * dt)%(2*math.pi)
+	self.angle = (self.angle + self.speed * dt)%(2*math.pi)
 	self.ox = Camera.scale/5*12
 	self.oy = Camera.scale/5*98
 end
 
 function Windmill:draw()
-	for i=1,self.nWings do
-		local thisAngle = self.angle + i/self.nWings*2*math.pi
-			love.graphics.draw(self.vis[1].img,
-			self.x*myMap.tileSize,
-			self.y*myMap.tileSize,
+	for i=1,self.wings do
+		local thisAngle = self.angle + i/self.wings*2*math.pi
+			love.graphics.draw(self.vis[1]:getImage(),
+			self.x*8*Camera.scale,
+			self.y*8*Camera.scale,
 			thisAngle,1,1,
 			math.floor(self.ox),math.floor(self.oy))
 	end
