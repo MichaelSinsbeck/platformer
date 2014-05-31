@@ -4,7 +4,8 @@ local deathEffect = {
 	percentage = 0,
 }
 
-local backgroundBaseColor = {0.21, 0.34, 0.435, 1.0}
+--local backgroundBaseColor = {0.21, 0.34, 0.435, 1.0}
+local backgroundBaseColor = {0.31, 0.44, 0.535, 1.0}
 
 local renderedToCanvas = false
 
