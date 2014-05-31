@@ -42,6 +42,7 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 	o.toolTip = toolTip  or ""
 	o.shortcut = shortcut
 	o.shortcutText = nameForKey(shortcut)
+	o.hasHighligh = true
 
 	-- Add visualizer
 	o.vis = {}
@@ -94,6 +95,7 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	
 	o.centered = centered
 	o.toolTip = toolTip  or ""
+	o.hasHighligh = false
 
 	-- Add visualizer
 	o.vis = {}
@@ -112,9 +114,6 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 		local w, h = o.vis[k]:getSize()
 		o.width, o.height = math.max(o.width, w), math.max(o.height, h)
 	end
-	
-	--o.width = imgOff:getWidth()
-	--o.height = imgOff:getHeight()
 
 	o.x = (x or 0) + o.width*0.5/Camera.scale
 	o.y = (y or 0) + o.height*0.5/Camera.scale
@@ -305,7 +304,7 @@ end
 function Clickable:unhighlight()
 	if self.active == true and self.imgOn then
 		self:setAnim(self.imgOn)
-	else
+	elseif self.imgOff then
 		self:setAnim(self.imgOff)
 	end
 	self.highlighted = false
@@ -335,7 +334,7 @@ end
 
 function Clickable:setAnim(name,continue) -- Go to specified animation and reset, if not already there
 	-- this only needs to be done for the normal buttons, which only have a single visualizer:
-	if self.vis and #self.vis == 1 and self.vis[1].animation ~= name then
+	if self.vis and self.vis[1].animation ~= name then
 		self.vis[1].animation = name
 		if not continue then
 			self.vis[1]:reset()
