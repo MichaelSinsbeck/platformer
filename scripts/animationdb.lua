@@ -26,6 +26,7 @@ function AnimationDB:loadImage(imagefilename,name,subfolder) -- loads Image into
 	return image, image:getWidth(), image:getHeight()
 end
 
+-- Loads an image (as in loadImage) and creates quads according to tile size
 function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,generateMeshes)
 	local image, imageWidth, imageHeight = self:loadImage(imagefilename,name,subfolder)
 	local height = height or imageHeight
@@ -259,6 +260,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('launcherSon.png','launcherSon',tileSize,tileSize)
 	AnimationDB:loadTiledImage('missile.png','missile',tileSize,tileSize)
 	AnimationDB:loadTiledImage('windmillwing.png','windmillwing')
+	AnimationDB:loadTiledImage('windmillpreview.png','windmillpreview')
 	AnimationDB:loadTiledImage('crumbleblock.png','crumbleblock',tileSize,tileSize)
 	AnimationDB:loadTiledImage('glassblock.png','glassblock',tileSize,tileSize)
 	AnimationDB:loadTiledImage('bubble.png','bubble')
@@ -431,6 +433,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('missile','missile',{1},{1e6})
 
 	AnimationDB:addAni('windmillwing','windmillwing',{1},{1e6})
+	AnimationDB:addAni('windmillpreview','windmillpreview',{1},{1e6})	
 	
 	AnimationDB:addAni('crumbleblock','crumbleblock',{1},{1e6})
 	

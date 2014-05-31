@@ -181,7 +181,7 @@ endObj
 Obj:Button
 	x:38
 	y:15
-	p:lifetime=1
+	p:lifetime=2
 	p:color=blue
 endObj
 Obj:Exit

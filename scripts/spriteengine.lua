@@ -33,6 +33,10 @@ function spriteEngine:empty()
   self.objects = {}
 end
 
+function spriteEngine:sort()
+	table.sort(self.objects, function(a,b) return a.z>b.z end)
+end
+
 function spriteEngine:kill()
 -- erase 'dead' objects
   for i = #self.objects,1,-1 do

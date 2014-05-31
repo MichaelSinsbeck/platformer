@@ -85,6 +85,8 @@ function Visualizer:draw(x,y, useExternalColor)
 			love.graphics.setColor(0,0,0, self.alpha)
 			love.graphics.setFont(fontSmall)
 			love.graphics.print(self.text, x+self.ox, y+self.oy)
+		else
+			print('Nothing to draw here')
 		end
 	end
 end

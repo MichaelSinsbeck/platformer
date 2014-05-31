@@ -2238,6 +2238,7 @@ function EditorMap:start(p)
 			newObj:update(0)
 			spriteEngine:insert(newObj)
 	end
+	spriteEngine:sort()
 	--[[
 	for i = 1,#self.lineList do
 		local newObject = Line:New({

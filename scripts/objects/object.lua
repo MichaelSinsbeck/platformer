@@ -6,6 +6,7 @@ tag = 'object',
 x = 0,y = 0,
 vx = 0, vy = 0,
 newX = 0, newY = 0,
+z = 0,
 collisionResult = false,
 flipped = false,
 vis = {},
@@ -50,6 +51,9 @@ function object:init()
 		for i = 1,#self.vis do
 			self.vis[i]:init()
 		end
+	end
+	if self.preview then
+		self.preview:init()
 	end
 	self.semiwidth = self.semiwidth or 0.5
 	self.semiheight = self.semiheight or 0.5
