@@ -12,6 +12,9 @@ local coords = {
 
 	{tileX=4,tileY=32,x=2,y=1},
 	{tileX=4,tileY=33,x=2,y=2},
+
+	-- mushroom:
+	{tileX=4,tileY=1,x=3,y=1},
 }
 
 return "background1", coords
