@@ -314,7 +314,7 @@ function Clickable:setSelected( bool )
 	else
 		if self.active == true and self.imgOn then
 			self:setAnim(self.imgOn)
-		else
+		elseif self.imgOff then
 			self:setAnim(self.imgOff)
 		end
 	end
