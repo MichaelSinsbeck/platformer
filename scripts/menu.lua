@@ -15,6 +15,8 @@ local menuLogs = {}
 local selButton
 local worldNames = {'the village', 'the forest', 'in the wall', 'on paper', 'the junkyard'}
 
+local userlevels = {}
+
 --local PADDING = 50		-- distance of buttons from edges
 
 local dWorld = 170
@@ -24,10 +26,14 @@ local levelsPerWorld = 15
 local distBetweenWorlds = dWorld-levelsPerWorld*distBetweenButtons
 
 menuPlayer = {}
-local credits = require("scripts/credits")
+local credits
+local Userlevel
 
 -- This function loads the images in the right scaling
 function menu:init()
+	credits = require("scripts/credits")
+	Userlevel = require("scripts/levelsharing/userlevel")
+
 	menu:loadTransitionImages()
 	menu.curLevelName = nil
 
@@ -41,12 +47,12 @@ function menu:init()
 	menu.bandanas = {}
 	for i = 0,4 do
 		local newLine = {}
-	  for x = 0,1280,10 do
-	    local y = math.sin(math.pi*x/150)
-	    newLine[#newLine+1] = x+math.random()-math.random()
+		for x = 0,1280,10 do
+			local y = math.sin(math.pi*x/150)
+			newLine[#newLine+1] = x+math.random()-math.random()
 			newLine[#newLine+1] = -2*Camera.scale*y+(i+.5)*Camera.scale*40+math.random()-math.random()
-	  end
-	  menu.bandanas[#menu.bandanas+1] = newLine
+		end
+		menu.bandanas[#menu.bandanas+1] = newLine
 	end
 
 	-- resize any bamboo Boxes if necessary:
@@ -94,7 +100,7 @@ function menu.initMain()
 	--x = -52
 	y = -10
 	
-	menu:addBox(x-21,y-7,48,64)
+	menu:addBox(x-21,y-7,48, 80 )
 	
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap, true), actionHover )
@@ -102,7 +108,7 @@ function menu.initMain()
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'settingsOff', 'settingsOn', "settings", menu.startTransition(settings.init, false), actionHover )
+	menu:addButton( x, y, 'settingsOff', 'settingsOn', "settings", menu.startTransition( settings.init, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -110,7 +116,11 @@ function menu.initMain()
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'creditsOff', 'creditsOn', "credits", menu.startTransition(menu.startCredits, false), actionHover )
+	menu:addButton( x, y, 'editorOff', 'editorOn', "user levels", menu.startTransition( menu.startUserlevels, true), actionHover )
+	y = y + 10
+
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
+	menu:addButton( x, y, 'creditsOff', 'creditsOn', "credits", menu.startTransition( menu.startCredits, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -386,11 +396,61 @@ function menu:startCredits()
 end
 
 ---------------------------------------------------------
--- adds a new button to the list of buttons and then returns the new button
+-- Userlevels submenu:
+---------------------------------------------------------
+
+function menu:startUserlevels()
+	menu:clear()	-- remove anything that was previously on the menu
+	menu.state = "userlevels"
+
+	userlevels = {}
+
+	--[[threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+						function(data) menu:userlevelsLoaded(data, "authorized") end,
+						nil, "authorized" )]]
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+						function(data) menu:userlevelsLoaded(data, "unauthorized") end,
+						nil, "unauthorized" )
+end
+
+function menu:userlevelsLoaded( data, authorizationLevel )
+	if menu.state == "userlevels" then	-- if I'm still in the correct state
+		local i = 1
+		local x = -love.graphics.getWidth()/2/Camera.scale + 1
+		local y = -love.graphics.getHeight()/2/Camera.scale + 1
+		local lastauthor
+		for line in data:gmatch("([^\n]-)\n") do
+			local author, levelname = line:match("(.*)\t(.*)%.dat")
+			if author ~= lastauthor then
+				--menu:addText( x, y+10*i, i, author )
+				lastauthor = author
+			end
+			--menu:addText( 0, y+10*i, i+1, levelname )
+			i = i + 2
+			
+			local level = Userlevel:new( levelname, author, authorizationLevel == "authorized" )
+			table.insert( userlevels, level )
+
+		end
+	end
+end
+
+function menu:drawUserlevels()
+	love.graphics.print( "press number to download. press again to play.", 10, 40 )
+	for i, level in pairs( userlevels ) do
+		if level:getIsDownloaded() then
+			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author, 10, 50 + i*25 )
+		else
+			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author .. " (download)", 10, 50 + i*25 )
+		end
+	end
+end
+
+---------------------------------------------------------
+-- Adds a new button to the list of buttons and then returns the new button
 ---------------------------------------------------------
 
 function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
-	
 	local new = {x=x,
 				y=y,
 				selected=selected,
@@ -409,7 +469,6 @@ function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 	return new
 end
 function menu:addButtonAnimated( x,y,imgOff,imgOn,name,action,actionHover, scaleX, scaleY )
-	
 	local new = {x=x,
 				y=y,
 				selected=selected,
@@ -740,17 +799,17 @@ function menu:keypressed( key, unicode )
 	if menu.state == "credits" then	--any key in credits screen returns to main screen.
 		menu.startTransition(menu.initMain, false)()
 	else
-		if key == keys.UP or key == "w" or key == keys.PAD.UP then
+		if key == keys.UP or key == "w" or (key == keys.PAD.UP and love.joystick.getJoystickCount() > 0) then
 			menu:selectAbove()
-		elseif key == keys.DOWN or key == "s" or key == keys.PAD.DOWN then
+		elseif key == keys.DOWN or key == "s" or (key == keys.PAD.DOWN and love.joystick.getJoystickCount() > 0) then
 			menu:selectBelow()
-		elseif key == keys.LEFT or key == "a" or key == keys.PAD.LEFT then
+		elseif key == keys.LEFT or key == "a" or (key == keys.PAD.LEFT and love.joystick.getJoystickCount() > 0) then
 			menu:selectLeft()
-		elseif key == keys.RIGHT or key == "d" or key == keys.PAD.RIGHT then
+		elseif key == keys.RIGHT or key == "d" or (key == keys.PAD.RIGHT and love.joystick.getJoystickCount() > 0) then
 			menu:selectRight()
-		elseif key == keys.CHOOSE or key == " " or key == keys.PAD.CHOOSE then
+		elseif key == keys.CHOOSE or key == " " or (key == keys.PAD.CHOOSE and love.joystick.getJoystickCount() > 0) then
 			menu:execute()
-		elseif key == keys.BACK or key == keys.PAD.BACK then
+		elseif key == keys.BACK or (key == keys.PAD.BACK and love.joystick.getJoystickCount() > 0) then
 			if menu.state == "main" then
 				menu.startTransition(love.event.quit, false)()
 			else
@@ -763,12 +822,26 @@ function menu:keypressed( key, unicode )
 					keys:exitSubMenu()
 				elseif menu.state == "pause" then
 					menu:endPauseMenu()
+				elseif menu.state == "userlevels" then
+					menu.startTransition(menu.initMain, false)()
+				end
+			end
+		elseif menu.state == "userlevels" then
+			if tonumber(key) then
+				local i = tonumber(key)
+				if i >= 0 and i <=9 then
+					if userlevels[i] then
+						if userlevels[i]:getIsDownloaded() then
+							userlevels[i]:play()
+						else
+							userlevels[i]:download()
+						end
+					end
 				end
 			end
 		end
 	end
 end
-
 
 ---------------------------------------------------------
 -- Animate ninja and buttons:
@@ -840,6 +913,15 @@ function menu:update(dt)
 
 	for k, element in pairs(menuBoxes) do
 		element.box:update(dt)
+	end
+
+	if menu.statusMsg then
+		if menu.statusMsgCountdown > 0 then
+			menu.statusMsgCountdown = menu.statusMsgCountdown - dt
+			if menu.statusMsgCountdown <= 0 then
+				menu.statusMsg = nil
+			end
+		end
 	end
 end
 
@@ -1011,8 +1093,16 @@ function menu:draw()
 		love.graphics.setColor(255,255,255)	
 	end
 
-	controlKeys:draw("menu")
+	if menu.state == "userlevels" then
+		menu:drawUserlevels()
+		if menu.statusMsg then
+			love.graphics.print( menu.statusMsg,
+				(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
+				10)
+		end
+	end
 
+	controlKeys:draw("menu")
 end
 
 
@@ -1250,6 +1340,11 @@ end
 
 function menu:getSelected()
 	return selButton
+end
+
+function menu:setStatusMsg( msg, countdown ) 
+	menu.statusMsg = string.lower(msg)
+	menu.statusMsgCountdown = countdown
 end
 
 return menu

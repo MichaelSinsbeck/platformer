@@ -29,7 +29,9 @@ local propertiesPanel
 local loadPanel
 local savePanel
 local uploadStatusPanel
+
 local uploadStatusTimer = 0
+local savePanelCallbackEvent
 
 local toolButtons = {}
 local groundButtons = {}
@@ -2047,7 +2049,7 @@ function editor.closeFileList()
 	loadPanel.visible = false
 end
 
-function editor.saveFileStart()
+function editor.saveFileStart( callbackEvent )
 	savePanel:clearAll()
 
 	savePanel:addClickable( savePanel.width - 12, savePanel.height - 12, editor.closeSaveFilePanel,
@@ -2082,6 +2084,8 @@ function editor.saveFileStart()
 	savePanel:addInputBox( 10, 13, savePanel.width - 20, 1, map.name or "", setMapName, 30, chars )
 	savePanel:addInputBox( 10, 25, savePanel.width - 20, 1, map.author or "", setMapAuthor, 30, chars )
 	savePanel:addInputBox( 10, 37, savePanel.width - 20, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )
+
+	savePanelCallbackEvent = callbackEvent
 
 	savePanel.visible = true
 end
@@ -2166,6 +2170,9 @@ function editor.saveFileNow( fileName, testFile )
 	-- not considered a proper save.
 	if fullName ~= "test.dat" then
 		map.unsavedChanges = false
+		if savePanelCallbackEvent then
+			savePanelCallbackEvent()
+		end
 	end
 end
 
@@ -2201,19 +2208,19 @@ function editor.attemptUpload()
 
 	if not map.name then
 		msgBox:new( "Map has to be saved first. Save now?",
-			editor.saveFileStart, nil )
+			function() editor.saveFileStart( editor.attemptUpload ) end, nil )
 		return
 	end
 
 	if not map.author or map.author == "" then
 		msgBox:new( "Map has no author. Add one now?",
-			editor.saveFileStart, nil )
+			function() editor.saveFileStart( editor.attemptUpload ) end, nil )
 		return
 	end
 
 	if map.unsavedChanges then
 		msgBox:new( "Unsaved changes present. You need to save the level before you can upload. Save now?",
-			editor.saveFileStart, nil )
+			function() editor.saveFileStart( editor.attemptUpload ) end, nil )
 		return
 	end
 

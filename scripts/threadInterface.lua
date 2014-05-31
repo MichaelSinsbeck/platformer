@@ -12,6 +12,7 @@ function threadInterface.new( name, script, functionName, eventSuccess, eventFai
 	t.thread = love.thread.newThread( "scripts/thread.lua" )
 	t.statusChannel = love.thread.newChannel()	-- used for sending data out of the thread
 	t.printChannel = love.thread.newChannel() -- used for receiving prints from inside the thread
+	t.resultsChannel = love.thread.newChannel() -- used for receiving results 
 	t.name = name
 	t.eventSuccess = eventSuccess
 	t.eventFail = eventFail
@@ -19,7 +20,8 @@ function threadInterface.new( name, script, functionName, eventSuccess, eventFai
 	table.insert( threadList, t )
 
 	-- start the thread and pass the relevant data to it as you do so:
-	t.thread:start( t.statusChannel, t.printChannel, script, functionName, unpack({...}) )
+	t.thread:start( t.statusChannel, t.printChannel, t.resultsChannel,
+					script, functionName, unpack({...}) )
 end
 
 -- Check for new messages and errors on all active threads
@@ -44,8 +46,12 @@ function threadInterface.update( dt )
 		if status then
 			if status == "success" then
 				print( "Thread " .. t.name .. " returned successfully!" )
+				-- If there is a result, then it's now in the results Channel, because
+				-- the results channel is always filled before the status gets set to 
+				-- success (see thread.lua)
+				local data = t.resultsChannel:pop()
 				if t.eventSuccess then
-					t.eventSuccess()
+					t.eventSuccess( data )
 				end
 				table.insert( toRemove, i )
 			end

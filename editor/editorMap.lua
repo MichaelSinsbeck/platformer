@@ -2477,7 +2477,6 @@ function EditorMap:raycast(x,y,vx,vy,dist)
 	local yTarget = y + dist * vy
 
 	return self:lineOfSight(x,y,xTarget,yTarget)
-
 end
 
 function EditorMap:LineList(tile,height,width)
