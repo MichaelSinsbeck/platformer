@@ -116,7 +116,7 @@ function menu.initMain()
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'editorOff', 'editorOn', "user levels", menu.startTransition( menu.startUserlevels, true), actionHover )
+	menu:addButton( x, y, 'downloadOff', 'downloadOn', "user levels", menu.startTransition( menu.startUserlevels, true), actionHover )
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -126,12 +126,10 @@ function menu.initMain()
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'exitOff', 'exitOn', "exit", menu.startTransition(love.event.quit), actionHover )
 
-	
 	-- add main logo:
 	x = - 85
 	y = - 78
 	table.insert(menuImages, {typ="img", img='logo', x=x, y=y})
-	
 
 	-- start of with the start button selected:
 	selectButton(startButton)
@@ -894,7 +892,12 @@ function menu:update(dt)
 					button.yShift = -1*math.abs(math.sin(5*button.timer))
 					button.xScale = 1-0.05*math.abs(math.cos(5*button.timer))
 					button.yScale = 1/button.xScale
-					button.yScale = 1/button.xScale
+				elseif button.name == "user levels" then
+					button.timer = button.timer + dt
+					button.yShift = -0.4*math.sin(5*button.timer)
+					button.xShift = -button.yShift
+					button.xScale = 1+0.1*math.abs(math.cos(5*button.timer))
+					button.yScale = button.xScale
 				elseif button.name == "keyboard" then
 					button.timer = button.timer + dt
 					button.xScale = 1-0.1*math.abs(math.cos(5*button.timer))
