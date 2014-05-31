@@ -96,7 +96,15 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	o.toolTip = toolTip  or ""
 
 	-- Add visualizer
-	o.vis = obj.vis
+	o.vis = {}
+	if obj.preview then
+		o.vis[1] = obj.preview:copy()
+	else
+		for k,v in ipairs(obj.vis) do
+			o.vis[k] = v:copy()
+		end	
+	end
+	
 	o.obj = obj
 	o.width, o.height = -math.huge, -math.huge
 	for k = 1, #o.vis do

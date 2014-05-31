@@ -51,6 +51,9 @@ function object:init()
 			self.vis[i]:init()
 		end
 	end
+	if self.preview then
+		self.preview:init()
+	end
 	self.semiwidth = self.semiwidth or 0.5
 	self.semiheight = self.semiheight or 0.5
 	

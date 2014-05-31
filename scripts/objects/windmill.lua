@@ -15,6 +15,7 @@ local Windmill = object:New({
 		speed = utility.newProperty({0,.2,.5,2},{'stopped','slow','medium','fast'},3),
 	},
 	vis = {Visualizer:New('windmillwing')},
+	preview = Visualizer:New('windmillpreview'),	
 })
 
 function Windmill:setAcceleration(dt)

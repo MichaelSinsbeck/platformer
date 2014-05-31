@@ -1796,8 +1796,12 @@ function editor:draw()
 			local offset = 0.5*tileSize
 			for k, o in pairs(self.currentObjects) do
 				--v.obj.vis[1]:draw( rX + offset + v.tileX*tileSize, rY + offset + v.tileY*tileSize, true )
-				for i, vis in ipairs( o.obj.vis ) do
-					vis:draw( rX + offset + o.tileX*tileSize, rY + offset + o.tileY*tileSize, true )
+				if o.obj.preview then
+					o.obj.preview:draw( rX + offset + o.tileX*tileSize, rY + offset + o.tileY*tileSize, true )
+				else
+					for i, vis in ipairs( o.obj.vis ) do
+						vis:draw( rX + offset + o.tileX*tileSize, rY + offset + o.tileY*tileSize, true )
+					end
 				end
 				if o.obj.tag == "LineHook" and map.openLineHook then
 					love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale,
