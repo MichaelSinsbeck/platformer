@@ -52,9 +52,6 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 		o.vis[1]:useMesh()
 	end
 	o.width, o.height = o.vis[1]:getSize()
-	
-	--o.width = imgOff:getWidth()
-	--o.height = imgOff:getHeight()
 
 	o.x = x or 0
 	o.y = y or 0

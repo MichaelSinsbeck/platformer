@@ -1217,8 +1217,9 @@ function EditorMap:dragObject( tileX, tileY )
 			obj.maxX = obj.tileX + 1
 			obj.maxY = obj.tileY + 1
 			-- for drawing borders in editor:
-			obj.editorX = obj.x*self.tileSize - obj.width*0.5
-			obj.editorY = obj.y*self.tileSize - obj.height*0.5
+			local width,height = obj:getImageSize()
+			obj.editorX = obj.x*self.tileSize - width*0.5
+			obj.editorY = obj.y*self.tileSize - height*0.5
 
 			if obj.tileX < self.minX or obj.tileX > self.maxX or
 				obj.tileY < self.minY or obj.tileY > self.maxY then
