@@ -169,15 +169,17 @@ function nameForKey( key )
 	if key == " " then
 		return "space"
 	elseif key == "up" then
-		return "A"
+		return "["
 	elseif key == "down" then
-		return "B"
+		return "]"
 	elseif key == "left" then
-		return "C"
+		return "<"
 	elseif key == "right" then
-		return "D"
+		return ">"
 	elseif key == "backspace" then
 		return "bspace"
+	elseif key == "return" then
+		return "@"
 	else
 		return key
 	end
