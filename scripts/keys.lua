@@ -197,6 +197,8 @@ function getImageForKey( str, font )
 	if str == "down" then str = "B" end
 	if str == "left" then str = "C" end
 	if str == "right" then str = "D" end
+	if str == "escape" then str = "^" end
+	if str == "return" then str = "@" end
 	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyLargeOff", "keyLargeOn"
 	end
