@@ -44,7 +44,6 @@ function Button:postStep(dt)
 	local touched = false
 	if self:touchPlayer() then 
 		touched = true
-		print('touching Player')
 	else
 		for k,v in pairs(spriteEngine.objects) do
 			local dx,dy = v.x-self.x,v.y-self.y
