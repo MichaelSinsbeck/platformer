@@ -180,6 +180,8 @@ function nameForKey( key )
 		return "bspace"
 	elseif key == "return" then
 		return "@"
+	elseif key == "escape" then
+		return "^"		
 	else
 		return key
 	end
