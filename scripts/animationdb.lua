@@ -282,6 +282,8 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('log.png','log')
 	AnimationDB:loadTiledImage('walker.png','walker',tileSize,tileSize)
 	AnimationDB:loadTiledImage('spawner.png','spawner',tileSize,tileSize)
+	AnimationDB:loadTiledImage('rock.png','rock',tileSize,tileSize)	
+	
 	AnimationDB:loadTiledImage('lineHook.png','lineHook',tileSize,tileSize)
 	AnimationDB:loadTiledImage('button.png','editorButton',tileSize,tileSize, "editor", true)
 	AnimationDB:loadTiledImage('buttonProperties.png','editorButtonProperties',tileSize*0.5,tileSize*0.5, "editor", true )
@@ -387,6 +389,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 
 	AnimationDB:addAni('particle','particle',{1},{1e6})
+	AnimationDB:addAni('rock','rock',{1},{1e6})
 
 	AnimationDB:addAni('shurikenDead','shuriken',{2},{1e6})
 	AnimationDB:addAni('shuriken','shuriken',{1},{1e6})

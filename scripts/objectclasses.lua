@@ -46,6 +46,7 @@ Walker = require 'scripts/objects.walker',
 Spawner = require 'scripts/objects.spawner',
 Water = require 'scripts/objects.water',
 Droplet = require 'scripts/objects.droplet',
+Rock = require 'scripts/objects.rock',
 }
 
 

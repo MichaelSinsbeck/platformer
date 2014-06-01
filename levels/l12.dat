@@ -6,7 +6,9 @@ subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 Dimensions: 33,38
 
+Author: 
 Description:
+
 endDescription
 
 Background:
@@ -101,8 +103,8 @@ Obj:Appearblock
 endObj
 Obj:Button
 	x:16
-	y:2
-	p:lifetime=1
+	y:35
+	p:lifetime=0
 	p:color=blue
 endObj
 Obj:Appearblock
@@ -160,6 +162,10 @@ endObj
 Obj:Player
 	x:5
 	y:35
+endObj
+Obj:Rock
+	x:16
+	y:2
 endObj
 endObjects
 
