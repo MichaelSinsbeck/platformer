@@ -68,7 +68,7 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 		local offsetX = o.width*0.5 - sizeX
 		local offsetY = o.height*0.5 - sizeY
 		o.offsetX = offsetX + 3
-		o.offsetY = offsetY + 1
+		o.offsetY = offsetY + 5
 
 		o.shortcutBox = {
 			offsetX -1 + math.random()*2, offsetY + math.random()*2,
