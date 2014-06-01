@@ -89,6 +89,7 @@ function menu.initMain()
 
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "main"
+	menu.currentlyPlayingUserlevels = false
 
 	editor.active = false
 
@@ -116,7 +117,7 @@ function menu.initMain()
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'downloadOff', 'downloadOn', "User Levels", menu.startTransition( menu.startUserlevels, true), actionHover )
+	menu:addButton( x, y, 'downloadOff', 'downloadOn', "User Levels", menu.startTransition( menu.initUserlevels, true), actionHover )
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -397,9 +398,10 @@ end
 -- Userlevels submenu:
 ---------------------------------------------------------
 
-function menu:startUserlevels()
+function menu:initUserlevels()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "userlevels"
+	menu.currentlyPlayingUserlevels = true
 
 	userlevels = {}
 
@@ -1145,9 +1147,16 @@ function menu.initPauseMenu()
 	end
 	menu:addButton( x, y, 'restartOff', 'restartOn', "restart level", menu.startTransition(restartEvent, false), actionHover )
 	y = y + 10
-	
+
+	local closeEvent = function()
+		if menu.currentlyPlayingUserlevels then
+			menu.startTransition(menu.initUserlevels, true)()
+		else
+			menu.startTransition(menu.initWorldMap, true)()
+		end
+	end
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'exitOff', 'exitOn', "leave", menu.startTransition(menu.initWorldMap, true), actionHover )
+	menu:addButton( x, y, 'exitOff', 'exitOn', "leave", closeEvent, actionHover )
 
 	
 	-- add main logo:

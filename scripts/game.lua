@@ -116,7 +116,11 @@ function game.keypressed(key)
 		if key == keys.CHOOSE then
 			menu.startTransition( function() myMap:start(p) end )()
 		elseif key == keys.BACK then
-			menu.startTransition( menu.initWorldMap, true )()
+			if menu.currentlyPlayingUserlevels then
+				menu.startTransition( menu.initUserlevels, true )()
+			else
+				menu.startTransition( menu.initWorldMap, true )()
+			end
 		end
 	end  
 
@@ -166,7 +170,12 @@ function game.joystickpressed(joystick, button)
 		if button == keys.PAD.CHOOSE then
 			menu.startTransition( function() myMap:start(p) end )()
 		elseif button == keys.PAD.BACK then
-			menu.startTransition( menu.initWorldMap, true )()
+			--menu.startTransition( menu.initWorldMap, true )()
+			if menu.currentlyPlayingUserlevels then
+				menu.startTransition( menu.initUserlevels, true )()
+			else
+				menu.startTransition( menu.initWorldMap, true )()
+			end
 		end
 	end  
 
