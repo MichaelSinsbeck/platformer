@@ -899,7 +899,7 @@ end]]
 -----------------------------------------
 
 function EditorMap:addObject( tileX, tileY, objName )
-
+	print(objName)
 	--local newBatch = love.graphics.newSpriteBatch( object.tileset, 100, "static" )
 	--local newIDs, bBox = object:addToBatch( newBatch, nil, 0,0 )
 	--
@@ -973,13 +973,14 @@ function EditorMap:addObject( tileX, tileY, objName )
 	--	newObject.properties = {}
 	end
 
-	if objName == "lineHook" then
+	if objName == "LineHook" then
+	print('Found lineHook')
 		if not self.openLineHook then
 			-- This line hook has found no partner, so remember it for future line hooks:
 			self.openLineHook = newObject
 		else
 			-- found a partner, so create new line between the two:	
-			local line = spriteFactory( "line" )
+			local line = spriteFactory( "Line" )
 			line:init()
 			line.x, line.y = self.openLineHook.x, self.openLineHook.y
 			line.x2, line.y2 = newObject.x, newObject.y
