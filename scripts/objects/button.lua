@@ -44,10 +44,11 @@ function Button:postStep(dt)
 	local touched = false
 	if self:touchPlayer() then 
 		touched = true
+		print('touching Player')
 	else
 		for k,v in pairs(spriteEngine.objects) do
 			local dx,dy = v.x-self.x,v.y-self.y
-			if v.tag == 'Imitator' or v.tag == 'Walker' or v.tag == 'Rock' and
+			if (v.tag == 'Imitator' or v.tag == 'Walker' or v.tag == 'Rock') and
 				 math.abs(dx) < self.semiheight+v.semiheight and
 				 math.abs(dy) < self.semiwidth +v.semiwidth then
 				touched = true
@@ -61,31 +62,26 @@ function Button:postStep(dt)
 		self.timer2 = self.lifetime
 		self.state = 'pressed'
 		spriteEngine:DoAll('buttonPress',self.color)
-		--self:setAnim('buttonPressed')
 		
 	elseif self.state == 'pressed' and not touched then
 
 		self.state = 'released'
-		--self:setAnim('buttonReleased')
 		
 	elseif self.state == 'released' then
 
 		if touched then
 			self.timer2 = self.lifetime
 			self.state = 'pressed'
-			--self.setAnim('buttonPressed')
 		else
 			self.timer2 = self.timer2-dt
 			if self.timer2 < 0 then
 				self.state = 'waiting'
-				--self:setAnim('button')
 				spriteEngine:DoAll('buttonPress',self.color)
 				self.timer2 = 0
 			end
 		end
 
 	end
-	--print(self.state)
 	
 	if self.state == 'pressed' then
 		self:setAnim('buttonPressed')
@@ -95,39 +91,6 @@ function Button:postStep(dt)
 		self:setAnim('button')
 	end
 	
-	--[[if not touched then
-		self.timer2 = self.timer2 -dt
-	else
-		self.timer2 = self.lifetime
-	end
-	
-	if self.timer2 > 0 then
-		self.timer2 = self.timer2-dt
-		if touched then
-			self.timer2 = self.lifetime
-		end
-	end]]
-	
-	--if self.timer2 < 0 then
-	--	self.timer2 = 0 
-	--	spriteEngine:DoAll('buttonPress',self.color)		
-	--end
-	
-	--if self.timer2 == 0 and touched then
-	--[[if not self.lastTouched and touched then	
-		self.timer2 = self.lifetime
-		spriteEngine:DoAll('buttonPress',self.color)
-		levelEnd:registerButtonPress()
-	end--]]
-
-	--[[if touched then
-		self:setAnim('buttonPressed')
-	elseif self.timer2 > 0 then
-		self:setAnim('buttonReleased')
-	else
-		self:setAnim('button')
-	end
-	self.lastTouched = touched--]]
 end
 
 return Button
