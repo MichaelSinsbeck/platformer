@@ -7,6 +7,9 @@ local MAX_NUMBER_BG_OBJECTS = 50000
 
 local MIN_MAP_SIZE = 3
 
+--local defaultBackgroundColor = {0.21*255, 0.34*255, 0.435*255, 1.0*255}
+local defaultBackgroundColor = {80, 80, 1128, 255}
+
 -- Offset for the markers in the corners of the map border (pin needles).
 -- This offset is the offset between the position where the image should be drawn
 -- and the actual map border. It is different for all pins, because the pins are
@@ -85,6 +88,8 @@ function EditorMap:new( backgroundList )
 	o.name = ""
 
 	o.author = config.getValue( "author" ) or ""
+
+	o:setBackgroundColor( defaultBackgroundColor )
 
 	return o
 end
@@ -1493,13 +1498,13 @@ function EditorMap:drawGrid()
 end
 
 function EditorMap:drawBackground()
-	if settings:getShadersEnabled() then
+	--[[if settings:getShadersEnabled() then
 		shaders:startBackground()
-	end
+	end]]
+	love.graphics.setColor( self.backgroundColor )
 	for i = 1, #self.backgroundBatch do
 		love.graphics.draw( self.backgroundBatch[i], 0, 0 )
 	end
-	love.graphics.setColor(255,255,255,255)
 	if mode == "editor" then
 		for k, obj in ipairs( self.bgList ) do
 			love.graphics.draw( obj.objType.tileset, obj.objType.quad, obj.drawX, obj.drawY )
@@ -1507,9 +1512,10 @@ function EditorMap:drawBackground()
 	else
 		love.graphics.draw( self.bgObjectSpriteBatch )
 	end
-	if settings:getShadersEnabled() then
+	love.graphics.setColor( 255,255,255,255 )
+	--[[if settings:getShadersEnabled() then
 		shaders:endBackground()
-	end
+	end]]
 	if mode == "editor" then
 		love.graphics.setLineWidth(2)
 		for k, obj in ipairs( self.bgList ) do
@@ -2501,6 +2507,10 @@ function EditorMap:LineList(tile,height,width)
 			y2 = nodeList[2*iLine].y})
 	end
 	return lineList
+end
+
+function EditorMap:setBackgroundColor( col )
+	self.backgroundColor = col
 end
 
 return EditorMap
