@@ -397,7 +397,6 @@ end
 ---------------------------------------------------------
 -- Userlevels submenu:
 ---------------------------------------------------------
-
 function menu:initUserlevels()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "userlevels"
@@ -411,6 +410,10 @@ function menu:initUserlevels()
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 						function(data) menu:userlevelsLoaded(data, "unauthorized") end,
 						nil, "unauthorized" )
+	local width = love.graphics.getWidth()/Camera.scale - 16
+	local height = love.graphics.getHeight()/Camera.scale - 32
+
+	menu:addBox( -width/2, -height/2 - 8, width, height )
 end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
