@@ -238,10 +238,34 @@ end
 function Box:draw( x, y )
 	love.graphics.draw( self.mesh, (x+4)*Camera.scale, (y+4)*Camera.scale )
 	love.graphics.draw( self.batch, x*Camera.scale, y*Camera.scale )
+	if self.isList then
+		love.graphics.setColor( 50,20,0, 20 )
+		for i, line in pairs( self.lines ) do
+			love.graphics.rectangle( "fill", (x+line.x)*Camera.scale, (y+line.y)*Camera.scale, line.w*Camera.scale, line.h*Camera.scale )
+		end
+	end
 end
 
 function Box:collisionCheck( x, y )
 	return x < self.pixelWidth and y < self.pixelHeight and x > 0 and y > 0
+end
+
+-- Adds vertical bars to the box:
+function Box:turnIntoList( lineHeight )
+	self.isList = true
+	self.lineHeight = lineHeight
+	self.lines = {}
+	print("...", self.height, lineHeight, self.height/lineHeight )
+	for i = 1, (self.height-16)/lineHeight, 2 do
+			local newLine = {
+				x = 8,
+				y = 8 + i*lineHeight,
+				w = self.width - 16,
+				h = lineHeight
+			}
+			table.insert( self.lines, newLine )
+			print(i)
+	end
 end
 
 return Box

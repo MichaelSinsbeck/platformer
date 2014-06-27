@@ -4,6 +4,7 @@ local menu = {active = false, text = '',images = {}, bandanas = {}}
 
 local TRANSITION_SPEED = 50
 local LEVEL_NAME_DISPL_TIME = 4
+local LIST_ENTRY_HEIGHT = 8
 
 local buttons = {}
 local menuLines = {}
@@ -16,6 +17,7 @@ local selButton
 local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
 
 local userlevels = {}
+local userlevelList
 
 --local PADDING = 50		-- distance of buttons from edges
 
@@ -74,6 +76,7 @@ function menu.clear()
 	menuTexts = {}
 	menuBoxes = {}
 	menuLogs = {}	
+	userlevelList = nil
 end
 
 ---------------------------------------------------------
@@ -413,7 +416,8 @@ function menu:initUserlevels()
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
-	menu:addBox( -width/2, -height/2 - 8, width, height )
+	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
+	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT )		-- Add list background (bars)
 end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
@@ -442,9 +446,9 @@ function menu:drawUserlevels()
 	love.graphics.print( "press number to download. press again to play.", 10, 40 )
 	for i, level in pairs( userlevels ) do
 		if level:getIsDownloaded() then
-			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author, 10, 50 + i*25 )
+			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author, (userlevelList.x+12)*Camera.scale, (2 + userlevelList.y + LIST_ENTRY_HEIGHT*i)*Camera.scale )
 		else
-			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author .. " (download)", 10, 50 + i*25 )
+			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author .. " (download)", (userlevelList.x+12)*Camera.scale, ( 2 + userlevelList.y + LIST_ENTRY_HEIGHT*i)*Camera.scale )
 		end
 	end
 end
@@ -609,7 +613,9 @@ end
 
 function menu:addBox(left,top,width,height)
 	--table.insert(menuBoxes, menu:generateBox(left,top,width,height))
-	table.insert( menuBoxes, { x = left, y = top, box = BambooBox:new( "", width, height ) } )
+	local newBox = { x = left, y = top, box = BambooBox:new( "", width, height ) }
+	table.insert( menuBoxes, newBox )
+	return newBox
 end
 
 -- changes scales of Logs, if existant
@@ -647,7 +653,6 @@ function menu:selectAbove()
 		selectButton(buttons[#buttons])
 		return
 	end
-
 
 	-- sort list. Check which button is closest to the
 	-- position 10 pixel to the top of the current button
@@ -1072,6 +1077,15 @@ function menu:draw()
 			(text.x)*Camera.scale, 
 			(text.y)*Camera.scale)
 	end
+
+	if menu.state == "userlevels" then
+		menu:drawUserlevels()
+		if menu.statusMsg then
+			love.graphics.print( menu.statusMsg,
+				(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
+				10)
+		end
+	end
 	
 	love.graphics.pop()
 
@@ -1101,14 +1115,6 @@ function menu:draw()
 		love.graphics.setColor(255,255,255)	
 	end
 
-	if menu.state == "userlevels" then
-		menu:drawUserlevels()
-		if menu.statusMsg then
-			love.graphics.print( menu.statusMsg,
-				(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
-				10)
-		end
-	end
 
 	controlKeys:draw("menu")
 end
