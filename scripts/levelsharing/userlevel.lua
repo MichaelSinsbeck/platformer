@@ -15,12 +15,6 @@ function Userlevel:new( levelname, author, authorized )
 	o.ratingDifficulty = love.math.random( 5 )
 	o.ratingFun = love.math.random( 5 )
 
-	local visName = 'stars' .. o.ratingFun
-	o.ratingFunVis = Visualizer:New( visName )
-	o.ratingFunVis:init()
-	visName = 'stars' .. o.ratingDifficulty
-	o.ratingDifficultyVis = Visualizer:New( visName )
-	o.ratingDifficultyVis:init()
 
 	-- construct the file name as it must be on the server:
 	if o.authorized then
@@ -31,6 +25,20 @@ function Userlevel:new( levelname, author, authorized )
 
 	if love.filesystem.exists( o.filename ) then
 		o.downloaded = true
+	end
+
+	local visName = 'stars' .. o.ratingFun
+	o.ratingFunVis = Visualizer:New( visName )
+	o.ratingFunVis:init()
+	visName = 'stars' .. o.ratingDifficulty
+	o.ratingDifficultyVis = Visualizer:New( visName )
+	o.ratingDifficultyVis:init()
+
+	o.statusVis = Visualizer:New( "userlevelDownload" )
+	o.statusVis:init()
+	if o.downloaded then
+		o.statusVis:setAni( "userlevelPlay" )
+		o.statusVis:update(0)
 	end
 
 	return o
@@ -46,7 +54,10 @@ function Userlevel:download()
 	end
 	menu:setStatusMsg( "Downloading level " .. self.levelname, -1)
 	threadInterface.new( self.levelname, "scripts/levelsharing/download.lua", "getLevel",
-						returnEvent, failedEvent, self.levelname, self.author, self.authorized )
+			returnEvent, failedEvent, self.levelname, self.author, self.authorized )
+
+	self.statusVis:setAni( "userlevelBusy" )
+	self.statusVis:update(0)
 end
 
 function Userlevel:getIsDownloaded()
@@ -62,6 +73,9 @@ function Userlevel:finishedDownloading( data )
 	love.filesystem.write( self.filename, data )
 	menu:setStatusMsg( self.levelname .. " can now be played.", 5)
 	self.downloaded = true
+
+		self.statusVis:setAni( "userlevelPlay" )
+		self.statusVis:update(0)
 end
 
 function Userlevel:loadDescription()

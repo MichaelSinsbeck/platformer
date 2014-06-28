@@ -400,6 +400,8 @@ end
 ---------------------------------------------------------
 -- Userlevels submenu:
 ---------------------------------------------------------
+-- Can download, sort and display a list of all online maps by users.
+
 function menu:initUserlevels()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "userlevels"
@@ -437,7 +439,6 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 			
 			local level = Userlevel:new( levelname, author, authorizationLevel == "authorized" )
 			table.insert( userlevels, level )
-
 		end
 	end
 end
@@ -450,17 +451,19 @@ function menu:drawUserlevels()
 		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*i)*Camera.scale
 		x = (userlevelList.x + 12)*Camera.scale
 
-			love.graphics.print( i .. ": " .. level.levelname, x, y )
-			x = x + (userlevelList.w)*0.2*Camera.scale
-			love.graphics.print( level.author, x, y )
-			x = x + (userlevelList.w)*0.3*Camera.scale
-			level.ratingFunVis:draw( x, y )
-			x = x + (userlevelList.w)*0.2*Camera.scale
-			level.ratingDifficultyVis:draw( x, y )
+		-- draw indicator showing if level is ready to play or needs to be downloaded first:
+		level.statusVis:draw( x, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+		x = x + 8*Camera.scale
+		love.graphics.print( i .. ": " .. level.levelname, x, y )
+		x = x + (userlevelList.w)*0.2*Camera.scale
+		love.graphics.print( level.author, x, y )
+		x = x + (userlevelList.w)*0.3*Camera.scale
+		level.ratingFunVis:draw( x, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+		x = x + (userlevelList.w)*0.2*Camera.scale
+		level.ratingDifficultyVis:draw( x, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 
 		if level:getIsDownloaded() then
 		end
-		
 
 	end
 end

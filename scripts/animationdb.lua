@@ -48,7 +48,6 @@ function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,ge
       self.source[name].quads[i+(j-1)*math.floor(imageWidth/width)] = 
         love.graphics.newQuad((i-1)*(width),(j-1)*(height), width, height,
         imageWidth,imageHeight)
-		if name == "stars" then print("\t", #self.source[name].quads ) end
 
 		if generateMeshes then
 			local verts = {}
@@ -238,6 +237,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('world4.png','world4','world')
 	AnimationDB:loadImage('world5.png','world5','world')
 	AnimationDB:loadTiledImage('stars.png','stars', tileSize, 3*tileSize, 'menu')
+	AnimationDB:loadTiledImage('userlevelState.png','userlevelStates', tileSize, tileSize, 'menu')
 	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player_white.png','whitePlayer',tileSize,tileSize)
@@ -657,6 +657,9 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('stars3','stars',{4},{1e6})
 	AnimationDB:addAni('stars4','stars',{5},{1e6})
 	AnimationDB:addAni('stars5','stars',{6},{1e6})
+	AnimationDB:addAni('userlevelDownload','userlevelStates',{1},{1e6})
+	AnimationDB:addAni('userlevelPlay','userlevelStates',{2},{1e6})
+	AnimationDB:addAni('userlevelBusy','userlevelStates',{3},{1e6})
 		
 	AnimationDB:addAni('listCount1','listCount',{1},{1e6})
 	AnimationDB:addAni('listCount2','listCount',{2},{1e6})
