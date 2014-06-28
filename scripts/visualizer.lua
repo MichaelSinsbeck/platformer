@@ -70,7 +70,6 @@ end
 function Visualizer:draw(x,y, useExternalColor)
 	if self.active then
 		local img = self:getImage()
-		--print(self.img, self.currentQuad, self.text)
 		if img and self.currentQuad then
 			if not useExternalColor then
 				love.graphics.setColor(255,255,255,self.alpha)

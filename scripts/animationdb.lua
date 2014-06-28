@@ -48,6 +48,7 @@ function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,ge
       self.source[name].quads[i+(j-1)*math.floor(imageWidth/width)] = 
         love.graphics.newQuad((i-1)*(width),(j-1)*(height), width, height,
         imageWidth,imageHeight)
+		if name == "stars" then print("\t", #self.source[name].quads ) end
 
 		if generateMeshes then
 			local verts = {}
@@ -236,6 +237,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('world3.png','world3','world')
 	AnimationDB:loadImage('world4.png','world4','world')
 	AnimationDB:loadImage('world5.png','world5','world')
+	AnimationDB:loadTiledImage('stars.png','stars', tileSize, 3*tileSize, 'menu')
 	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player_white.png','whitePlayer',tileSize,tileSize)
@@ -273,7 +275,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('droplet.png','droplet',.4*tileSize,.4*tileSize)	
 	AnimationDB:loadTiledImage('exit.png','exit',tileSize,tileSize)	
 	AnimationDB:loadTiledImage('bungee.png','bungee',0.4*tileSize,0.4*tileSize)	
-  AnimationDB:loadTiledImage('door.png','door',tileSize,tileSize)	
+	AnimationDB:loadTiledImage('door.png','door',tileSize,tileSize)	
 	AnimationDB:loadTiledImage('targetline.png','targetline')
 	AnimationDB:loadTiledImage('bumper.png','bumper')
 	AnimationDB:loadTiledImage('clubber.png','clubber',tileSize,tileSize)	
@@ -511,7 +513,6 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('lamp','light',{5},{1e6})
 	AnimationDB:addAni('lamplight','light',{10},{1e6})
 	
-	
 	AnimationDB:addAni('lookWhite','menuPlayer',{1},{1e6})
 	AnimationDB:addAni('moveUpWhite','menuPlayer',{6,7,8,9,10,9,8,7,},{.01,.02,.03,.06,.1,.06,.03,.02})
 	AnimationDB:addAni('moveDownWhite','menuPlayer',{11,12,13,14,15,14,13,12},{.01,.02,.03,.06,.1,.06,.03,.02})
@@ -649,6 +650,13 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('gamepadUp','gamepadUp',{1},{1e6})
 	AnimationDB:addAni('gamepadY','gamepadY',{1},{1e6})
 	AnimationDB:addAni('gamepadX','gamepadX',{1},{1e6})
+
+	AnimationDB:addAni('stars0','stars',{1},{1e6})
+	AnimationDB:addAni('stars1','stars',{2},{1e6})
+	AnimationDB:addAni('stars2','stars',{3},{1e6})
+	AnimationDB:addAni('stars3','stars',{4},{1e6})
+	AnimationDB:addAni('stars4','stars',{5},{1e6})
+	AnimationDB:addAni('stars5','stars',{6},{1e6})
 		
 	AnimationDB:addAni('listCount1','listCount',{1},{1e6})
 	AnimationDB:addAni('listCount2','listCount',{2},{1e6})
@@ -692,6 +700,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('statNumberOfButtons','statNumberOfButtons',
 	{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,16,18,19,18,19,20,21,22,21,22,21,22,21,22,21,22,23,24,25,26,27,28,29,30,31},
 	{1.5,.3,.03,.04,.06,.04,.03,.1,.9,.08,.05,.05,.08,.05,.2,1,.2,.5,.1,.1,.1,.1,.05,.2,.1,.3,.1,.2,.2,.1,.2,.1,.1,1,.03,.03,.03,.03,.9,.01,.9,1e6})
+
 end
 
 

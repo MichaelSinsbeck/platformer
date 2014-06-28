@@ -444,12 +444,24 @@ end
 
 function menu:drawUserlevels()
 	love.graphics.print( "press number to download. press again to play.", 10, 40 )
+	local y,x
 	for i, level in pairs( userlevels ) do
+
+		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*i)*Camera.scale
+		x = (userlevelList.x + 12)*Camera.scale
+
+			love.graphics.print( i .. ": " .. level.levelname, x, y )
+			x = x + (userlevelList.w)*0.2*Camera.scale
+			love.graphics.print( level.author, x, y )
+			x = x + (userlevelList.w)*0.3*Camera.scale
+			level.ratingFunVis:draw( x, y )
+			x = x + (userlevelList.w)*0.2*Camera.scale
+			level.ratingDifficultyVis:draw( x, y )
+
 		if level:getIsDownloaded() then
-			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author, (userlevelList.x+12)*Camera.scale, (2 + userlevelList.y + LIST_ENTRY_HEIGHT*i)*Camera.scale )
-		else
-			love.graphics.print( i .. ": " .. level.levelname .. " - " ..  level.author .. " (download)", (userlevelList.x+12)*Camera.scale, ( 2 + userlevelList.y + LIST_ENTRY_HEIGHT*i)*Camera.scale )
 		end
+		
+
 	end
 end
 
@@ -613,7 +625,7 @@ end
 
 function menu:addBox(left,top,width,height)
 	--table.insert(menuBoxes, menu:generateBox(left,top,width,height))
-	local newBox = { x = left, y = top, box = BambooBox:new( "", width, height ) }
+	local newBox = { x = left, y = top, w = width, h = height, box = BambooBox:new( "", width, height ) }
 	table.insert( menuBoxes, newBox )
 	return newBox
 end
@@ -856,7 +868,11 @@ end
 ---------------------------------------------------------
 
 function menu:update(dt)
-	menuPlayer.vis:update(dt/2)
+	if menu.state == "main" or menu.state == "worldMap" or
+		menu.state == "settings" or menu.state == "keyboard" 
+		or menu.state == "gamepad" or menu.state == "pause" then
+		menuPlayer.vis:update(dt/2)
+	end
 
 	local factor = math.min(1, 3*dt)
 	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
@@ -1115,11 +1131,8 @@ function menu:draw()
 		love.graphics.setColor(255,255,255)	
 	end
 
-
 	controlKeys:draw("menu")
 end
-
-
 
 -----------------------------------------------------------
 -- Pause Menu:

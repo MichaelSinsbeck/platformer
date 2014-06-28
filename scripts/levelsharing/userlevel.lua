@@ -12,6 +12,16 @@ function Userlevel:new( levelname, author, authorized )
 
 	o.downloaded = false
 
+	o.ratingDifficulty = love.math.random( 5 )
+	o.ratingFun = love.math.random( 5 )
+
+	local visName = 'stars' .. o.ratingFun
+	o.ratingFunVis = Visualizer:New( visName )
+	o.ratingFunVis:init()
+	visName = 'stars' .. o.ratingDifficulty
+	o.ratingDifficultyVis = Visualizer:New( visName )
+	o.ratingDifficultyVis:init()
+
 	-- construct the file name as it must be on the server:
 	if o.authorized then
 		o.filename = "userlevels/authorized/" .. author .. "/" .. levelname .. ".dat"
