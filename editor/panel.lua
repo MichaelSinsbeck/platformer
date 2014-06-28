@@ -338,9 +338,9 @@ function Panel:update( dt )
 			end
 		end
 	end
-	if self.box then
+	--[[if self.box then
 		self.box:update( dt )
-	end
+	end]]
 end
 
 -- Removes the "selection preview" box from all buttons:

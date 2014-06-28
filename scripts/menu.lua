@@ -924,9 +924,9 @@ function menu:update(dt)
 		end
 	end
 
-	for k, element in pairs(menuBoxes) do
+	--[[for k, element in pairs(menuBoxes) do
 		element.box:update(dt)
-	end
+	end]]
 
 	if menu.statusMsg then
 		if menu.statusMsgCountdown > 0 then
