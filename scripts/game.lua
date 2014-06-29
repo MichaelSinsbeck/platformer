@@ -1,4 +1,5 @@
 require 'scripts/spriteengine'
+local gui = require('scripts/gui')
 
 game = {
 	deathtimer = 0,
@@ -28,6 +29,7 @@ function game:draw()
 	
 	Camera:free()
 
+	gui.draw()
 	if recorderTimer > 1/30 then
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())

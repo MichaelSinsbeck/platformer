@@ -239,6 +239,9 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('stars.png','stars', tileSize, 3*tileSize, 'menu')
 	AnimationDB:loadTiledImage('userlevelState.png','userlevelStates', tileSize, tileSize, 'menu')
 	
+	-- gui stuff
+	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
+	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player_white.png','whitePlayer',tileSize,tileSize)
 	AnimationDB:loadTiledImage('player_blue.png','bluePlayer',tileSize,tileSize)
@@ -322,7 +325,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('whiteLineMove','whitePlayer',{16,17,18,17},{0.08,0.04,0.08,0.04})
 	AnimationDB:addAni('whiteLineHang','whitePlayer',{19},{1e6})
 	AnimationDB:addAni('whiteDead','whitePlayer',{24},{1e6})
-	AnimationDB:addAni('whiteDoubleJump','whitePlayer',{5,10,15,20,25,7},{.08,.08,.15,.08,.08,1e6})
+	--AnimationDB:addAni('whiteDoubleJump','whitePlayer',{5,10,15,20,25,7},{.08,.08,.15,.08,.08,1e6})
+	AnimationDB:addAni('whiteDoubleJump','whitePlayer',{8,7,6},{.1,.1,1e6})
 
 	AnimationDB:addAni('blueRun','bluePlayer',{3,1,2,1},{.08,.04,.08,.04})
 	AnimationDB:addAni('blueWalk','bluePlayer',{18,17,19,17},{.08,.04,.08,.04})
@@ -388,6 +392,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('blueBandana','bandana',{4},{1e6})
 	AnimationDB:addAni('redBandana','bandana',{5},{1e6})
 	AnimationDB:addAni('chickenleg','bandana',{6},{1e6})
+	AnimationDB:addAni('bean','bandana',{7},{1e6})
 
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 
@@ -534,6 +539,11 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('spawnerback','spawner',{2},{1e6})
 	AnimationDB:addAni('spawnerbar','spawner',{3},{1e6})
 	
+	-- gui stuff
+	AnimationDB:addAni('guiBeanFull','bean',{1},{1e6})
+	AnimationDB:addAni('guiBeanEmpty','bean',{2},{1e6})
+	
+	-- editor stuff
 	AnimationDB:addAni('lineHook'  ,'lineHook',{1},{1e6})
 	
 	AnimationDB:addAni('LEGround1Off'  ,'editorButton',{1},{1e6})
