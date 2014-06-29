@@ -124,6 +124,12 @@ function Player:dash()
 		
 	-- find new position
 	local newX = self.x + self.dashDistance * direction
+	
+	-- Constraint to level bounds
+	newX = math.max(newX,1+self.semiwidth)
+	newX = math.min(newX,myMap.width+1-self.semiwidth)
+	
+	-- Check collision with map
 	if myMap:collisionRectangleTest(newX,self.y,self.semiwidth,self.semiheight,self.tag) then
 		if direction > 0 then
 			newX = math.floor( newX+self.semiwidth)-self.semiwidth
@@ -142,6 +148,7 @@ function Player:dash()
 		until ok
 	end
 	
+
 	-- if position is different, generate smoke and teleport
 	if self.x ~= newX then
 		local ratio = (newX-self.x)/self.dashDistance
