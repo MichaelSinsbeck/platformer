@@ -419,7 +419,8 @@ function menu:initUserlevels()
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
-	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT )		-- Add list background (bars)
+	-- Add background to list (horizontal bars). Start on second row:
+	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
 end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
@@ -444,26 +445,41 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 end
 
 function menu:drawUserlevels()
-	love.graphics.print( "press number to download. press again to play.", 10, 40 )
-	local y,x
+	--love.graphics.print( "press number to download. press again to play.", 10, 40 )
+	local y = (userlevelList.y + LIST_ENTRY_HEIGHT*1)*Camera.scale
+	local x = (userlevelList.x + 8)*Camera.scale
+
+	local xStatus = (userlevelList.x + 8)*Camera.scale
+	local xLevelname = (userlevelList.x + 16)*Camera.scale
+	local xAuthor = (userlevelList.x + 0.2*userlevelList.w)*Camera.scale
+	local xFun = (userlevelList.x + 0.4*userlevelList.w)*Camera.scale
+	local xDifficulty = (userlevelList.x + 0.6*userlevelList.w)*Camera.scale
+	local xEnd = (userlevelList.x + userlevelList.w - 8)*Camera.scale
+	
+	-- draw headers:
+	love.graphics.setColor( 30,0,0,75 )
+	love.graphics.rectangle( "fill", xLevelname, y, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xAuthor, y, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xFun, y, xDifficulty - xFun - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xDifficulty, y, xEnd - xDifficulty - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+
+	love.graphics.setColor( 255,255,255,255 )
+	--love.graphics.setColor( 0,0,0,255 )
+	love.graphics.print( "Level", xLevelname + 2*Camera.scale, y + 2*Camera.scale )
+	love.graphics.print( "Author", xAuthor + 2*Camera.scale, y + 2*Camera.scale )
+	love.graphics.print( "Fun", xFun + 2*Camera.scale, y + 2*Camera.scale )
+	love.graphics.print( "Difficulty", xDifficulty + 2*Camera.scale, y + 2*Camera.scale )
+	
 	for i, level in pairs( userlevels ) do
 
-		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*i)*Camera.scale
-		x = (userlevelList.x + 12)*Camera.scale
+		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*(i+1))*Camera.scale
 
 		-- draw indicator showing if level is ready to play or needs to be downloaded first:
-		level.statusVis:draw( x, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-		x = x + 8*Camera.scale
-		love.graphics.print( i .. ": " .. level.levelname, x, y )
-		x = x + (userlevelList.w)*0.2*Camera.scale
-		love.graphics.print( level.author, x, y )
-		x = x + (userlevelList.w)*0.3*Camera.scale
-		level.ratingFunVis:draw( x, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-		x = x + (userlevelList.w)*0.2*Camera.scale
-		level.ratingDifficultyVis:draw( x, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-
-		if level:getIsDownloaded() then
-		end
+		level.statusVis:draw( xStatus + 4*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+		love.graphics.print( i .. ": " .. level.levelname, xLevelname, y )
+		love.graphics.print( level.author, xAuthor, y )
+		level.ratingFunVis:draw( xFun + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+		level.ratingDifficultyVis:draw( xDifficulty + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 
 	end
 end

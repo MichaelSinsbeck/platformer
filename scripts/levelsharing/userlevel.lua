@@ -45,6 +45,9 @@ function Userlevel:new( levelname, author, authorized )
 end
 
 function Userlevel:download()
+
+	if self.currentlyDownloading then return end
+
 	local returnEvent = function( data )
 		self:finishedDownloading( data )
 	end
@@ -58,6 +61,8 @@ function Userlevel:download()
 
 	self.statusVis:setAni( "userlevelBusy" )
 	self.statusVis:update(0)
+
+	self.currentlyDownloading = true
 end
 
 function Userlevel:getIsDownloaded()
@@ -73,6 +78,7 @@ function Userlevel:finishedDownloading( data )
 	love.filesystem.write( self.filename, data )
 	menu:setStatusMsg( self.levelname .. " can now be played.", 5)
 	self.downloaded = true
+	self.currentlyDownloading = false
 
 		self.statusVis:setAni( "userlevelPlay" )
 		self.statusVis:update(0)
