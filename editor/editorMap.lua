@@ -2203,6 +2203,7 @@ function EditorMap:start(p)
 	p:flip(false)
 	p.anchor = nil
 	p.hookAngle = nil
+	p.canDash = true
 	p:update(0)
 	p.dead = nil
 	--mode = 'intro'
@@ -2292,6 +2293,26 @@ function EditorMap:drawParallax(world)
 	
 	--local world = world or Campaign.worldNumber
 	--love.graphics.draw(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
+end
+
+function EditorMap:collisionRectangleTest(x,y,semiwidth,semiheight,tag)
+	local minx = math.floor(x-semiwidth)
+	local maxx = math.ceil(x+semiwidth-1)
+	local miny = math.floor(y-semiheight)
+	local maxy = math.ceil(y+semiheight-1)
+	for xx = minx,maxx do
+		if self.collision[xx] then
+			for yy = miny,maxy do
+				local collisionNumber = self.collision[xx][yy]
+				if collisionNumber then
+					if collisionNumber == 1 or (collisionNumber == 3 and tag ~= 'Player') then
+						return true
+					end
+				end
+			end
+		end
+	end
+	return false
 end
 
 function EditorMap:collisionTest(x,y,direction,tag)

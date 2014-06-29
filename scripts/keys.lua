@@ -18,6 +18,7 @@ local keyTypes = {
 	"DOWN",
 	"JUMP",
 	"ACTION",
+	"DASH",
 	"CHOOSE",
 	"BACK",
 	"PAUSE",
@@ -40,6 +41,7 @@ function keys.setDefaults()
 
 	keys.JUMP = 'a'
 	keys.ACTION = 's'
+	keys.DASH = 'd'
 
 	keys.CHOOSE = 'return'
 	keys.BACK = 'escape'
@@ -61,6 +63,7 @@ function keys.setDefaults()
 
 	keys.PAD.JUMP = '1'
 	keys.PAD.ACTION = '2'
+	keys.PAD.DASH = '4'
 
 	keys.PAD.CHOOSE = '1'
 	keys.PAD.BACK = '2'

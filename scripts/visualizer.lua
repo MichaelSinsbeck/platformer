@@ -71,8 +71,11 @@ function Visualizer:draw(x,y, useExternalColor)
 	if self.active then
 		local img = self:getImage()
 		if img and self.currentQuad then
+			local r,g,b = love.graphics.getColor()
 			if not useExternalColor then
 				love.graphics.setColor(255,255,255,self.alpha)
+			else
+				love.graphics.setColor(r,g,b,self.alpha)
 			end
 			love.graphics.draw(img, self.currentQuad,
 				math.floor(x+self.relX*Camera.scale*8),
@@ -80,6 +83,7 @@ function Visualizer:draw(x,y, useExternalColor)
 				self.angle,
 				self.sx,self.sy,
 				self.ox*Camera.scale,self.oy*Camera.scale)
+			love.graphics.setColor(r,g,b)
 		elseif self.text then
 			love.graphics.setColor(0,0,0, self.alpha)
 			love.graphics.setFont(fontSmall)

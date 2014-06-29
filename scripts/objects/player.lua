@@ -25,6 +25,8 @@ local Player = object:New({
   unjumpSpeed = 6,
   jumpsLeft = 0,
   maxJumps = 1, -- number of jumps, put 1 for normal and 2 for doublejump
+  dashDistance = 4, -- number of tiles to dash
+  canDash = true,
   canGlide = true,
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
@@ -107,6 +109,51 @@ function Player:unjump()
 			end
 		end
 	end
+end
+
+function Player:dash()
+	if not self.canDash then
+		return
+	end
+	-- determine direction
+	game:checkControls()
+	local direction = 0
+	if game.isLeft then direction = direction - 1 end
+	if game.isRight then direction = direction + 1 end
+	if direction == 0 then direction = self.vis[1].sx end
+		
+	-- find new position
+	local newX = self.x + self.dashDistance * direction
+	if myMap:collisionRectangleTest(newX,self.y,self.semiwidth,self.semiheight,self.tag) then
+		if direction > 0 then
+			newX = math.floor( newX+self.semiwidth)-self.semiwidth
+		else
+			newX = math.ceil ( newX-self.semiwidth)+self.semiwidth
+		end
+		
+		local ok
+		repeat
+			if myMap:collisionRectangleTest(newX,self.y,self.semiwidth,self.semiheight,self.tag) then
+				ok = false
+				newX = newX - direction
+			else
+				ok = true
+			end
+		until ok
+	end
+	
+	-- if position is different, generate smoke and teleport
+	if self.x ~= newX then
+		local newSmoke = spriteFactory('Smoke',{x=self.x,y=self.y})
+		spriteEngine:insert(newSmoke)
+		self.vis[1].alpha = 0
+		
+		self.x = newX
+		self.status = 'fly'
+		self.canDash = false
+	end
+
+
 end
 
 function Player:setAcceleration(dt)
@@ -379,9 +426,10 @@ function Player:collision(dt)
 end
 
 function Player:postStep(dt)
-  
   -- Set animation
   -- Flip character left/right, if left or right is pressed
+  self.vis[1].alpha = math.min(self.vis[1].alpha + 1000*dt,255)
+  
 	local control = 0
 	if game.isLeft then control = control -1 end
 	if game.isRight then control = control +1 end
@@ -389,13 +437,6 @@ function Player:postStep(dt)
 	if not (self.status == 'fly' and self.anchor and self.anchor.y < self.y and self.anchor:relativeLength() < .3) then
 		if control > 0 then self:flip(false) end
 		if control < 0 then self:flip(true) end
-	end
-
-  
-  if self.bandana == 'green' and game.isAction then
-    self.vis[1].alpha = math.max(self.vis[1].alpha - 2500*dt,20)
-  else
-		self.vis[1].alpha = math.min(self.vis[1].alpha + 2500*dt,255)
 	end
 	
 	self.vis[1].angle = 0

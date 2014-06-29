@@ -51,6 +51,8 @@ function game:checkControls()
 		or keys.getGamepadIsDown( nil, keys.PAD.JUMP )
 	self.isAction = love.keyboard.isDown( keys.ACTION )
 		or keys.getGamepadIsDown( nil, keys.PAD.ACTION )
+	self.isDash = love.keyboard.isDown( keys.DASH )
+	  or keys.getGamepadIsDown( nil, keys.PAD.DASH )
 	--print(keys.PAD_JUMP, tonumber(keys.PAD_JUMP), love.joystick.isDown(1, tonumber(keys.PAD_JUMP)))
 	--print(self.isJump)
 end
@@ -112,6 +114,9 @@ function game.keypressed(key)
 	end
 	if key == keys.JUMP then
 		spriteEngine:DoAll('jump')
+	end
+	if key == keys.DASH then
+		spriteEngine:DoAll('dash')
 	end
 	
 	if p.dead then
