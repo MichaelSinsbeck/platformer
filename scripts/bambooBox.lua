@@ -251,12 +251,12 @@ function Box:collisionCheck( x, y )
 end
 
 -- Adds vertical bars to the box:
-function Box:turnIntoList( lineHeight )
+function Box:turnIntoList( lineHeight, startOnLine )
 	self.isList = true
 	self.lineHeight = lineHeight
 	self.lines = {}
-	print("...", self.height, lineHeight, self.height/lineHeight )
-	for i = 1, (self.height-16)/lineHeight, 2 do
+	local start = startOnLine or 1
+	for i = start, (self.height-16)/lineHeight, 2 do
 			local newLine = {
 				x = 8,
 				y = 8 + i*lineHeight,
@@ -264,7 +264,6 @@ function Box:turnIntoList( lineHeight )
 				h = lineHeight
 			}
 			table.insert( self.lines, newLine )
-			print(i)
 	end
 end
 
