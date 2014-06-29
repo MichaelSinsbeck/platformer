@@ -2,7 +2,7 @@ local Smoke = object:New({
 	tag = 'Smoke',
   marginx = 0.4,
   marginy = 0.4,
-  vis = {Visualizer:New('smoke'),},
+  vis = {Visualizer:New('smoke')},
 })
 
 function Smoke:setAcceleration(dt)

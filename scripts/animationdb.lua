@@ -289,6 +289,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('walker.png','walker',tileSize,tileSize)
 	AnimationDB:loadTiledImage('spawner.png','spawner',tileSize,tileSize)
 	AnimationDB:loadTiledImage('rock.png','rock',tileSize,tileSize)	
+	AnimationDB:loadTiledImage('woosh.png','woosh')	
 	
 	AnimationDB:loadTiledImage('lineHook.png','lineHook',tileSize,tileSize)
 	AnimationDB:loadTiledImage('button.png','editorButton',tileSize,tileSize, "editor", true)
@@ -397,6 +398,7 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 	AnimationDB:addAni('smoke','smoke',{1,2,3,4,5,5},{.1,.1,.15,.15,.1,1e6})
+	AnimationDB:addAni('woosh','woosh',{1},{1e6})
 
 	AnimationDB:addAni('particle','particle',{1},{1e6})
 	AnimationDB:addAni('rock','rock',{1},{1e6})

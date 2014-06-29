@@ -144,15 +144,26 @@ function Player:dash()
 	
 	-- if position is different, generate smoke and teleport
 	if self.x ~= newX then
+		local ratio = (newX-self.x)/self.dashDistance
 		local newSmoke = spriteFactory('Smoke',{x=self.x,y=self.y})
 		spriteEngine:insert(newSmoke)
+		self.vis[1].alpha = 0
+		
+		local newWoosh = spriteFactory('Woosh',{x=0.5*(self.x+newX),y=self.y})
+		newWoosh.vis[1].sx = ratio
+		newWoosh.vis[1].alpha = 150
+		spriteEngine:insert(newWoosh)
+		
 		self.vis[1].alpha = 0
 		
 		self.x = newX
 		self.status = 'fly'
 		self.canDash = false
+		
+		if self.vx*direction < 0 then
+			self.vx = 0
+		end
 	end
-
 
 end
 
