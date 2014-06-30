@@ -2213,6 +2213,7 @@ function EditorMap:start()
 			p = newObj
 			newObj:update(0)	
 			spriteEngine:insert(newObj)
+			break
 		end
 	end	
 	
