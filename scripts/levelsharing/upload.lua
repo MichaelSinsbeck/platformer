@@ -43,9 +43,9 @@ function uploadFile( url, filename, levelname, author )
 	responseStr = table.concat( response )
 	print( "Reply from server:\n----------\n" .. table.concat( response ) .. "----------" )
 	if result then
-		if responseStr:find("Error in level file.") then
+		if responseStr:find("Error") then
 			local errorStr = responseStr:match("Error:(.-)\n")
-			return false, "Server found error in file:\n" .. errorStr
+			return false, "Server replied:\n" .. errorStr
 		end
 		return true
 	else
