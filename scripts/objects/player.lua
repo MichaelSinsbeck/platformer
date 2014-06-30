@@ -50,6 +50,9 @@ local Player = object:New({
 		Visualizer:New('whiteStand'),
 		Visualizer:New('targetline',{active = false})
   },
+  --properties = {
+	--	jumpSpeed = utility.newCycleProperty({-13,-20}),
+  --},   
   })
 
 function Player:jump()
@@ -299,8 +302,8 @@ function Player:collision(dt)
 	end
 	
 	-- velocity is only needed for determining sign, so /dt is omitted
-	self.vx = self.newX - self.x
-	self.vy = self.newY - self.y
+	local vx = self.newX - self.x
+	local vy = self.newY - self.y
 
 	if self.status == 'online' then
 		local dx,dy = self.newX+p.linePointx-self.line.x, self.newY+p.linePointy-self.line.y
@@ -318,7 +321,7 @@ function Player:collision(dt)
   -- Remember about floor and ceil:
   -- When upper bound is checked, use ceil (and maybe -1)
   -- When lower bound is checked, use floor
-  if self.vx > 0 then -- Bewegung nach rechts
+  if vx > 0 then -- Bewegung nach rechts
     -- haben die rechten Eckpunkte die Zelle gewechselt?
     if math.ceil(self.x+self.semiwidth) ~= math.ceil(self.newX+self.semiwidth) then
       -- Kollision in neuen Feldern?
@@ -328,7 +331,7 @@ function Player:collision(dt)
 				if self.status ~= 'online' then self.status = 'rightwall' end
       end
     end
-  elseif self.vx < 0 then -- Bewegung nach links
+  elseif vx < 0 then -- Bewegung nach links
     -- Eckpunkte wechseln Zelle?
     if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'left',self.tag) or
@@ -345,7 +348,7 @@ function Player:collision(dt)
   -- vertical movements
   local verticalChange = false -- Flag, if player changed tile vertically
   
-  if self.vy < 0 then -- rising
+  if vy < 0 then -- rising
     if math.floor(self.y-self.semiheight) ~= math.floor(self.newY-self.semiheight) then
 			verticalChange = true
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.newY-self.semiheight),'up',self.tag) or
@@ -355,7 +358,7 @@ function Player:collision(dt)
       end
     end
     
-  elseif self.vy > 0 then -- falling
+  elseif vy > 0 then -- falling
     if math.ceil(self.y+self.semiheight) ~= math.ceil(self.newY+self.semiheight) then
 			verticalChange = true
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.newY+self.semiheight)-1,'down',self.tag) or
