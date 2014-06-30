@@ -2175,7 +2175,7 @@ end
 function EditorMap:addLight( x, y )
 end
 
-function EditorMap:start(p)
+function EditorMap:start()
 
 	game.deathtimer = 0
 	shaders:resetDeathEffect()
@@ -2186,11 +2186,8 @@ function EditorMap:start(p)
 
 	-- empty spriteEngine and add player
 	spriteEngine:empty()
-	spriteEngine:insert(p)
-	if p.originalSemiwidth and p.originalSemiheight then
-		p:resize(p.originalSemiwidth, p.originalSemiheight)
-	end
-	p.x = self.xStart+0.5
+
+	--[[p.x = self.xStart+0.5
 	p.y = self.yStart+1-p.semiheight
 	p.newX = p.x
 	p.newY = p.y
@@ -2207,39 +2204,29 @@ function EditorMap:start(p)
 	p:update(0)
 	p.dead = nil
 	--mode = 'intro'
-	--timer = 0
-	Camera:jumpTo(p.x,p.y)
-
+	--timer = 0--]]
+	
+	p = nil
 	for i, obj in ipairs(self.objectList) do
 		if obj.tag == "Player" then
-			table.remove( self.objectList, i )
+			local newObj = obj:New()
+			p = newObj
+			newObj:update(0)	
+			spriteEngine:insert(newObj)
 			break
 		end
-	end
-
+	end	
+	
 	for i, obj in ipairs(self.objectList) do
-		--[[local constructor = self.factoryList[i].constructor
-		local nx = self.factoryList[i].x +0.5
-		local ny = self.factoryList[i].y +1 - constructor.semiheight
-		if constructor.layout == "top" then
-			ny = self.factoryList[i].y + constructor.semiheight
-		elseif constructor.layout == "left" then
-			nx = self.factoryList[i].x + constructor.semiwidth
-			ny = self.factoryList[i].y + 0.5
-		elseif constructor.layout == "right" then
-			nx = self.factoryList[i].x + 1 - constructor.semiwidth
-			ny = self.factoryList[i].y + 0.5
-		elseif constructor.layout == "center" then
-			ny = self.factoryList[i].y + 0.5
-		end
-		local newObject = constructor:New({x = nx, y = ny})
-		]]
-		if obj.tag ~= "LineHook" then
+		if obj.tag ~= "LineHook" and obj.tag ~= "Player" then
 			local newObj = obj:New()
+
 			newObj:update(0)
 			spriteEngine:insert(newObj)
 		end
 	end
+	Camera:jumpTo(p.x,p.y)
+	
 	for i, obj in ipairs(self.lines) do
 			local newObj = obj:New()
 			newObj:update(0)

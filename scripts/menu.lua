@@ -315,13 +315,13 @@ function menu.startCampaignLevel( lvlNum )
 	return function()
 		initAll()
 		Campaign.current = lvlNum		
-		p = spriteFactory('Player')
+		--p = spriteFactory('Player')
 		mode = 'game'
 		gravity = 22
 		--Campaign.current = lvlNum
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
-		myMap:start(p)
+		myMap:start()
 		config.setValue( "level", lvl )
 	end
 end
@@ -329,13 +329,13 @@ end
 function menu.startGame( lvl )
 	return function ()
 		initAll()
-		p = spriteFactory('Player')
+		--p = spriteFactory('Player')
 		mode = 'game'
 		gravity = 22
 		--Campaign.current = lvlNum
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
-		myMap:start(p)		
+		myMap:start()		
 		config.setValue( "level", lvl )
 	end
 end

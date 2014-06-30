@@ -459,7 +459,7 @@ function editor.start()
 
 	w = 48
 	local panelX = love.graphics.getWidth()/Camera.scale - w
-	propertiesPanelHeight = love.graphics.getHeight()/Camera.scale - 64
+	propertiesPanelHeight = love.graphics.getHeight()/Camera.scale - 32
 	propertiesPanel = Panel:new( panelX, 17, w, propertiesPanelHeight )
 	propertiesPanel.visible = false
 
