@@ -32,6 +32,7 @@ function levelEnd:reset()
 	statList["death_runner"] = 0
 	statList["death_walker"] = 0
 	statList["death_water"] = 0
+	statList["death_medusa"] = 0
 
 	statList["noDeaths"] = 0
 
@@ -135,7 +136,7 @@ function levelEnd:display( )	-- called when level is won:
 		statList["death_shuriken"] + statList["death_goalie"] +
 		statList["death_imitator"] + statList["death_missile"] +
 		statList["death_spikey"] + statList["death_runner"] +
-		statList["death_walker"]
+		statList["death_walker"] + statList["death_medusa"]
 		print(deaths, "deaths")
 
 	if deaths == 0 then
