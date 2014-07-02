@@ -1,64 +1,23 @@
 Campaign = {
-	'l01.dat', -- world 1
-	'l02.dat',
-	'l03.dat',
-	'l04.dat',	
-	'l05.dat',
-	'l06.dat', 
-	'l09.dat', -- blue bandana
-	'l16.dat',
-	'l17.dat', -- cave
-	'l18.dat',
-	'l19.dat',
-	'l20.dat',
-	'l13.dat',
-	'l21.dat',
-	'l12.dat',	
-	'l22.dat',
-	--[[
-	-- world 2
-	'n11.dat',
-	'n12.dat',
-	'n5.dat',
-	'n24.dat',	
-	'n6.dat',
-	'n7.dat',
-	'n8.dat',
-	'n9.dat',
-	'n14.dat',
-	'n17.dat',	
-	'n18.dat',
-	'n16.dat',
-	'n20.dat',
-	'n19.dat',
-	'n21.dat',
-	'n23.dat',
-	'n27.dat',
-	'n26.dat',
-	'n28.dat',
-	'n25.dat',
-	'n22.dat',
-	'n29.dat',
-	'n31.dat',
-	'n30.dat',
-	'n32.dat',
-	'n33.dat',
-	'n34.dat', -- button
-	'n35.dat',
-	'n36.dat',
-	'n37.dat', -- imitator
-	'n39.dat',
-	'n40.dat',	
-	'n41.dat', -- wind
-	'n42.dat', -- breaking block
-	'n44.dat', -- glass tutorial
-	'n43.dat', -- glass long level			
-	'n45.dat', -- fixed cannon	
-	'n50.dat', -- welcome castle
-	'n49.dat', -- hook intro
-	'n47.dat', -- leap of faith, hook
-	'n48.dat', -- more hook
-	'n46.dat',	]]
+	'1-01.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
+	'1-06.dat',	'1-07.dat',	'1-08.dat',	'1-09.dat',	'1-10.dat',
+	'1-11.dat',	'1-12.dat',	'1-13.dat',	'1-14.dat',	'1-15.dat',
+	
+	'2-01.dat',	'2-02.dat',	'2-03.dat',	'2-04.dat',	'2-05.dat',
+	'2-06.dat', '2-07.dat',	'2-08.dat',	'2-09.dat',	'2-10.dat',
+	'2-11.dat',	'2-12.dat',	'2-13.dat',	'2-14.dat',	'2-15.dat',
+	
+	'3-01.dat',	'3-02.dat',	'3-03.dat',	'3-04.dat',	'3-05.dat',
+	'3-06.dat', '3-07.dat',	'3-08.dat',	'3-09.dat',	'3-10.dat',
+	'3-11.dat',	'3-12.dat',	'3-13.dat',	'3-14.dat',	'3-15.dat',
+	
+	'4-01.dat',	'4-02.dat',	'4-03.dat',	'4-04.dat',	'4-05.dat',
+	'4-06.dat', '4-07.dat',	'4-08.dat',	'4-09.dat',	'4-10.dat',
+	'4-11.dat',	'4-12.dat',	'4-13.dat',	'4-14.dat',	'4-15.dat',
+	
+	'5-01.dat',	'5-02.dat',	'5-03.dat',	'5-04.dat',	'5-05.dat',
+	'5-06.dat', '5-07.dat',	'5-08.dat',	'5-09.dat',	'5-10.dat',
+	'5-11.dat',	'5-12.dat',	'5-13.dat',	'5-14.dat',	'5-15.dat',
 	}
 
 Campaign.current = 0
@@ -177,26 +136,26 @@ Campaign.names['n48.dat'] = 'floorless' -- more hook
 Campaign.names['n49.dat'] = 'hooks law' -- hook intro
 Campaign.names['n50.dat'] = 'welcome castle' -- hook intro
 
-Campaign.names['l01.dat'] = 'Welcome'
-Campaign.names['l02.dat'] = 'Windmill'
-Campaign.names['l03.dat'] = 'The Tower'
-Campaign.names['l04.dat'] = 'The Cellar'
-Campaign.names['l05.dat'] = 'Deadly Gardens'
-Campaign.names['l06.dat'] = 'Advanced Jumping'
 Campaign.names['l07.dat'] = 'It Moves'
 Campaign.names['l08.dat'] = 'Crunch'
-Campaign.names['l09.dat'] = 'Leap of Faith'
 Campaign.names['l10.dat'] = 'Bowel'
 Campaign.names['l11.dat'] = 'Push the Button'
-Campaign.names['l12.dat'] = 'House of the Many Spikes'
-Campaign.names['l13.dat'] = 'Back and Forth'
 Campaign.names['l14.dat'] = 'Where is the Ground'
 Campaign.names['l15.dat'] = 'Bullet Hell'
-Campaign.names['l16.dat'] = 'Broken Bridge'
-Campaign.names['l17.dat'] = 'They See Me Walkin'
-Campaign.names['l18.dat'] = 'Too Little Space'
-Campaign.names['l19.dat'] = 'One Drop'
-Campaign.names['l20.dat'] = 'Push the Button'
-Campaign.names['l21.dat'] = 'Companion'
 Campaign.names['l22.dat'] = 'The End'
 
+Campaign.names['1-01.dat'] = 'Welcome'
+Campaign.names['1-02.dat'] = 'Windmill'
+Campaign.names['1-03.dat'] = 'The Tower'
+Campaign.names['1-04.dat'] = 'The Cellar'
+Campaign.names['1-05.dat'] = 'Deadly Gardens'
+Campaign.names['1-06.dat'] = 'Advanced Jumping'
+Campaign.names['1-07.dat'] = 'Leap of Faith'
+Campaign.names['1-08.dat'] = 'Broken Bridge'
+Campaign.names['1-09.dat'] = 'They See Me Walkin'
+Campaign.names['1-10.dat'] = 'Too Little Space'
+Campaign.names['1-11.dat'] = 'One Drop'
+Campaign.names['1-12.dat'] = 'Push the Button'
+Campaign.names['1-13.dat'] = 'Back and Forth'
+Campaign.names['1-14.dat'] = 'Companion'
+Campaign.names['1-15.dat'] = 'House of the Many Spikes'
