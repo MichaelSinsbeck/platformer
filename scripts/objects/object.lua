@@ -292,24 +292,12 @@ end]]
 end]]
 
 function object:setProperty( name, value )
-	--print("setting:", name, value)
-	
 	-- convert value to number, if it is one
 	if tonumber(value) then value = tonumber(value) end
 	
-	if self[name] then
+	if self[name] ~= nil then
 		self[name] = value
 	end
-
-	--[[if self.properties[name] then
-		for i, v in ipairs( self.properties[name].values ) do
-			if tostring(v) == tostring(value) then
-				--print("\tmatch!")
-				self.properties[name].current = i
-				break
-			end
-		end
-	end]]
 end
 
 function object:getImageSize()

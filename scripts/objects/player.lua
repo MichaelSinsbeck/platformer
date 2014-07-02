@@ -50,9 +50,12 @@ local Player = object:New({
 		Visualizer:New('whiteStand'),
 		Visualizer:New('targetline',{active = false})
   },
-  --properties = {
-	--	jumpSpeed = utility.newCycleProperty({-13,-20}),
-  --},   
+  properties = {
+		canWalljump  = utility.newCycleProperty({true,false},{'true','false'}),
+		canParachute = utility.newCycleProperty({true,false},{'true','false'}),
+		canTeleport  = utility.newCycleProperty({true,false},{'true','false'}),
+		canHook      = utility.newCycleProperty({true,false},{'true','false'}),
+  },   
   })
 
 function Player:jump()
