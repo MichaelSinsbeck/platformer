@@ -1796,6 +1796,8 @@ function EditorMap:loadFromFile( fullName )
 				local newObject = map:addObject( x + minX + 1, y + minY + 1, objType )
 				if newObject then
 					for property, value in obj:gmatch("p:(.-)=(.-)\n")do
+						if value == "true" then value = true end
+						if value == "false" then value = false end
 						newObject:setProperty( property, value )
 					end
 					newObject:applyOptions()
@@ -2145,7 +2147,11 @@ function EditorMap:objectsToString()
 			str = str .. "\ty:" .. obj.tileY - self.minY .. "\n"
 			if obj.properties then
 				for name, p in pairs( obj.properties ) do
-					str = str .. "\tp:" .. name .. "=" ..  obj[name] .. "\n"
+					local value = obj[name]
+					if type(value) == 'boolean' then
+						value = tostring(value)
+					end
+					str = str .. "\tp:" .. name .. "=" ..  value .. "\n"
 				end
 			end
 			str = str .. "endObj\n"
