@@ -26,8 +26,9 @@ local Player = object:New({
   jumpsLeft = 0,
   maxJumps = 1, -- number of jumps, put 1 for normal and 2 for doublejump
   dashDistance = 4, -- number of tiles to dash
-  canDash = true,
-  canGlide = true,
+  dashTimer = 0,
+  dashDelay = 0.6,
+  isGliding = false,
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
   windMaxSpeed = -20,
@@ -68,6 +69,8 @@ function Player:jump()
     self.vy = self.jumpSpeed
     self.jumpsLeft = self.jumpsLeft - 1
     self.canUnJump = true
+  elseif self.status == 'fly' then
+		self.isGliding = true
   elseif self.status == 'leftwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -118,7 +121,7 @@ function Player:unjump()
 end
 
 function Player:dash()
-	if not self.canDash then
+	if self.dashTimer > 0 or not self.canTeleport then
 		return
 	end
 	-- determine direction
@@ -171,7 +174,7 @@ function Player:dash()
 		
 		self.x = newX
 		self.status = 'fly'
-		self.canDash = false
+		self.dashTimer = self.dashDelay
 		
 		if self.vx*direction < 0 then
 			self.vx = 0
@@ -183,8 +186,7 @@ end
 function Player:setAcceleration(dt)
   -- read controls
 	game:checkControls()
-	
-	self.visible = not (self.bandana == 'green' and game.isAction)
+
 	
 	-- drop down from line
 	if self.status == 'online' and game.isDown then
@@ -200,7 +202,10 @@ function Player:setAcceleration(dt)
 	end
 	
   -- Gliding
-  if self.status == 'fly' and self.bandana == 'blue' and game.isAction then
+  if not game.isJump then
+		self.isGliding = false
+  end
+  if self.status == 'fly' and self.isGliding then
 		if self.vy > self.windMaxSpeed and
 		   myMap.collision[math.floor(self.x)] and
 		   myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then --wind
@@ -244,7 +249,7 @@ function Player:setAcceleration(dt)
 	
 -- Accelerate if player is not faster than maximum speed anyway
 	if self.status == 'fly' and self.anchor and self.anchor.y < self.y and self.anchor:relativeLength() < .3 then
-		-- player is 'hanging' on red bandana, so only accelerate tangential
+		-- player is 'hanging' on grabbling hook, so only accelerate tangential
 		local cosine = math.cos(self.vis[1].angle)
 		local sine = math.sin(self.vis[1].angle)
 		self.vx = self.vx + .5*axControl*cosine*dt*cosine
@@ -450,9 +455,12 @@ function Player:collision(dt)
 end
 
 function Player:postStep(dt)
-  -- Set animation
-  -- Flip character left/right, if left or right is pressed
+
   self.vis[1].alpha = math.min(self.vis[1].alpha + 1000*dt,255)
+  self.dashTimer = math.max(self.dashTimer-dt,0)
+  
+  -- Set animation
+  -- Flip character left/right, if left or right is pressed  
   
 	local control = 0
 	if game.isLeft then control = control -1 end
@@ -470,12 +478,12 @@ function Player:postStep(dt)
 	if self.status == 'fly' then
 		if self.anchor and self.anchor:relativeLength() < .3 and self.anchor.y < self.y then
 			local dx,dy = self.x-self.anchor.x,self.y-self.anchor.y
-			if self.vis[1].animation ~= 'redHooked' then
-				self:setAnim('redHooked')
+			if self.vis[1].animation ~= 'blankHooked' then
+				self:setAnim('blankHooked')
 				self:flip(dx>0)
 			end
 			self.vis[1].angle = math.atan2(-dx,dy)
-		elseif game.isAction and self.bandana == 'blue' then
+		elseif self.isGliding then
 			if self.vy > 0 or myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then
 				self:setAnim(prefix..'Gliding')
 			else 
@@ -564,7 +572,7 @@ function Player:postStep(dt)
 		self.vis[1].sx = 1
 	end
 	-- insert targetline if necessary
-	if self.bandana == 'red' and not self.anchor then
+	if self.canHook and not self.anchor then
 		self.vis[2].active = true
 		self.vis[2].ox = - 5
 		if game.isUp then 

@@ -132,7 +132,7 @@ function game.keypressed(key)
 	end  
 
 
-	if key == keys.ACTION and p.bandana == "red" then
+	if key == keys.ACTION and p.canHook then
 		p:throwBungee()
 	end
 	if key == keys.NEXTMAP then
