@@ -180,6 +180,9 @@ function Player:dash()
 			self.vx = 0
 		end
 	end
+	
+	-- disconnect from rope, if existant
+	spriteEngine:DoAll('disconnect')
 
 end
 
