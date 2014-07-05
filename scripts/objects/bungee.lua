@@ -4,6 +4,7 @@ local Bungee = object:New({
   marginy = 0.1,
   maxLength = 10,
   minLength = 0.5,
+  lifetime = 5,
   status = 'fly',
   nNodes = 20,
   friction = 2, --5
@@ -26,10 +27,14 @@ function Bungee:collision()
 end
 
 function Bungee:draw()
-	object.draw(self)
-	love.graphics.setLineWidth(Camera.scale*0.4)
 	local r, g, b, a = love.graphics.getColor()	
-	love.graphics.setColor(212,0,0)
+	
+	local thisAlpha = math.min(5*255*self.lifetime/Bungee.lifetime,255)
+	self.vis[1].alpha = thisAlpha
+	object.draw(self)
+	
+	love.graphics.setLineWidth(Camera.scale*0.4)
+	love.graphics.setColor(212,0,0,thisAlpha)
 	if self.status == 'fly' then
 	love.graphics.line(
 		math.floor(self.x*myMap.tileSize),
@@ -37,7 +42,6 @@ function Bungee:draw()
 		math.floor(p.x*myMap.tileSize),
 		math.floor(p.y*myMap.tileSize))
 	else
-		--love.graphics.line(self.nodes)
 		local curve = love.math.newBezierCurve(self.nodes)
 		local nodesToDraw = curve:render()
 		love.graphics.line(nodesToDraw)
@@ -49,7 +53,7 @@ end
 function Bungee:postStep(dt)
 	if self.status == 'fly' then
 
-		if self.collisionResult then	-- Collision
+		if self.collisionResult and not self.dead and self.status ~= 'fall' then	-- Collision
 			self.vx, self.vy = 0,0
 			p:connect(self)
 			self.status = 'fix'
@@ -60,6 +64,7 @@ function Bungee:postStep(dt)
 			self.nodesVx = {}
 			self.nodesVy = {}
 			self.nodes = {}
+			-- create nodes (linear)
 			for i = 0,self.nNodes do
 				self.nodesX[i] = p.x + (self.x-p.x)*i/self.nNodes
 				self.nodesY[i] = p.y + (self.y-p.y)*i/self.nNodes
@@ -67,7 +72,7 @@ function Bungee:postStep(dt)
 				self.nodesVy[i] = 0
 				self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
 				self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
-			end			
+			end	
 		end
 	
 		-- check for maximum length
@@ -82,7 +87,7 @@ function Bungee:postStep(dt)
 	if self.nodesX and self.nodesY then
 		-- advance according to velocity
 		--local factor = 1-math.min(dt,1)
-		for i=1,self.nNodes-1 do
+		for i=0,self.nNodes-1 do
 			--gravity
 			self.nodesVy[i] = self.nodesVy[i] + gravity * dt
 			--damping
@@ -103,8 +108,12 @@ function Bungee:postStep(dt)
 		local segmentLength = 0.95*self.length/self.nNodes --dirty hack for line visualization
 		local dx,dy = 0,0
 		local dist = 0
-		nx[0] ,ny[0]  = p.x,p.y
-		nx[self.nNodes],ny[self.nNodes] = self.x,self.y
+		if self.status == 'fix' then
+			nx[0] ,ny[0]  = p.x,p.y
+		end
+		if self.status ~= 'fall' then
+			nx[self.nNodes],ny[self.nNodes] = self.x,self.y
+		end
 		for iteration = 1,25 do
 			-- forth
 			for i = 1,self.nNodes do
@@ -113,7 +122,7 @@ function Bungee:postStep(dt)
 				dist = math.sqrt(dx*dx+dy*dy)
 				local factor = segmentLength/dist
 				if factor < 1 then --or factor > 2 then
-					if i == 1 then
+					if i == 1 and self.status == 'fix' then
 						nx[i] = nx[i-1] + dx*factor
 						ny[i] = ny[i-1] + dy*factor
 					elseif i == self.nNodes then
@@ -134,7 +143,7 @@ function Bungee:postStep(dt)
 				dist = math.sqrt(dx*dx+dy*dy)
 				local factor = segmentLength/dist
 				if factor < 1 then --or factor > 2 then
-					if i == 1 then
+					if i == 1 and self.status == 'fix' then
 						nx[i] = nx[i-1] + dx*factor
 						ny[i] = ny[i-1] + dy*factor
 					elseif i == self.nNodes then
@@ -151,20 +160,30 @@ function Bungee:postStep(dt)
 		end
 
 
-		for i = 1,self.nNodes-1 do
+		for i = 0,self.nNodes-1 do
 			-- reevaluate new velocity and accept new values
 			self.nodesVx[i] = (self.nodesNewX[i] - self.nodesX[i])/dt
 			self.nodesVy[i] = (self.nodesNewY[i] - self.nodesY[i])/dt
 			self.nodesX[i] = self.nodesNewX[i]
 			self.nodesY[i] = self.nodesNewY[i]		
 		end
-		self.nodesX[0] = p.x
-		self.nodesY[0] = p.y
+		if self.status == 'fix' then
+			self.nodesX[0] = p.x
+			self.nodesY[0] = p.y
+		end
+		
 
 		for i = 0,#self.nodesX do
 			-- insert node coordinates in list
 			self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
 			self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
+		end
+  end
+  
+  if self.status == 'dangle' then
+		self.lifetime = self.lifetime - dt
+		if self.lifetime < 0 then
+			self:kill()
 		end
   end
 end
@@ -183,7 +202,29 @@ function Bungee:throw()
 end
 
 function Bungee:disconnect()
-	self:kill()
+	if self.status == 'fly' then
+		self:kill()
+		--[[self.status = 'fall'
+		self.length = utility.pyth(self.x-p.x,self.y-p.y)+0.1
+		self.nodesX = {}
+		self.nodesY = {}
+		self.nodesNewX = {}
+		self.nodesNewY = {}		
+		self.nodesVx = {}
+		self.nodesVy = {}
+		self.nodes = {}
+		-- create nodes (linear)
+		for i = 0,self.nNodes do
+			self.nodesX[i] = p.x + (self.x-p.x)*i/self.nNodes
+			self.nodesY[i] = p.y + (self.y-p.y)*i/self.nNodes
+			self.nodesVx[i] = self.vx
+			self.nodesVy[i] = self.vy
+			self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
+			self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
+		end	--]]
+	else
+		self.status = 'dangle'
+	end
 end
 
 return Bungee
