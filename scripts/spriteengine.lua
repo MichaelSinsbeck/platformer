@@ -1,22 +1,31 @@
 require 'scripts/objects.object'
 
 spriteEngine = {
-objects = {}
+objects = {},
+queue = {}
 }
 
 function spriteEngine:insert(newObject,pos)
-  if newObject.init then
-	  newObject:init()
+	table.insert(self.queue,{obj = newObject, pos = pos})
+end
+
+function spriteEngine:addQueue()
+	for k,v in pairs(self.queue) do
+		local newObject = v.obj
+		local pos = v.pos
+		if newObject.init then
+			newObject:init()
+		end
+		if newObject.preInsert then
+			newObject:preInsert()
+		end
+		if pos then
+			table.insert(self.objects,pos,newObject)
+		else
+			table.insert(self.objects,newObject)
+		end
 	end
-	if newObject.preInsert then
-		newObject:preInsert()
-	end
-	if pos then
-		table.insert(self.objects,pos,newObject)
-	else
-		table.insert(self.objects,newObject)
-	end
-  --table.sort(self.objects, function(a,b) return a.z < b.z end)
+	self.queue = {}
 end
 
 function spriteEngine:update(dt)
@@ -26,6 +35,7 @@ function spriteEngine:update(dt)
     end
   end
   self:kill()
+  self:addQueue()
 end
 
 function spriteEngine:draw()
