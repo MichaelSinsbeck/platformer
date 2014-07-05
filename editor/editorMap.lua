@@ -82,8 +82,8 @@ function EditorMap:new( backgroundList )
 		end
 	end]]
 
-	o.xStart = 1
-	o.yStart = 1
+	--o.xStart = 1
+	--o.yStart = 1
 
 	o.name = ""
 
@@ -1804,10 +1804,10 @@ function EditorMap:loadFromFile( fullName )
 				end
 			end
 
-			if objType == "Player" then
+			--[[if objType == "Player" then
 				map.xStart = x + 1
 				map.yStart = y + 1
-			end
+			end]]
 			
 		end
 
