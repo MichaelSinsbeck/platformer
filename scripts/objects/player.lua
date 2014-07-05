@@ -69,7 +69,7 @@ function Player:jump()
     self.vy = self.jumpSpeed
     self.jumpsLeft = self.jumpsLeft - 1
     self.canUnJump = true
-  elseif self.status == 'fly' then
+  elseif self.status == 'fly' and self.canParachute then
 		self.isGliding = true
   elseif self.status == 'leftwall' then
     self.vy = self.walljumpSpeedy
@@ -195,14 +195,15 @@ function Player:setAcceleration(dt)
 	end
 		
   -- Acceleration down
-  if self.status == 'fly' or self.status == 'online' or self.anchor then
-		self.vy = self.vy + gravity*dt
+  if self.status == 'leftwall' or self.status == 'rightwall' then
+		self.vy = self.vy + self.wallgravity * dt
 	else
-		self.vy = self.vy + self.wallgravity*dt
-	end
+		self.vy = self.vy + gravity * dt
+  end
 	
   -- Gliding
   if not game.isJump then
+		-- set back to false (setting to true is done in keypressed)
 		self.isGliding = false
   end
   if self.status == 'fly' and self.isGliding then
@@ -299,6 +300,7 @@ function Player:collision(dt)
 			self.newX = self.anchor.x + dx*(self.anchor.length/dist)
 			self.newY = self.anchor.y + dy*(self.anchor.length/dist)
 			
+			-- player is pulled away from wall by rope
 			if (self.status == 'leftwall' and dx*(factor-1) > 0) or
 				 (self.status == 'rightwall' and dx*(factor-1) < 0) then
 				self.status = 'fly'
@@ -440,6 +442,10 @@ function Player:collision(dt)
   if self.walltime > self.releasetime then
     self.status = 'fly'
     self.walltime = 0
+  end
+  
+  if not self.canWalljump and (self.status == 'leftwall' or self.status == 'rightwall') then
+		self.status = 'fly'
   end
   
   if self.status == 'stand' or self.status == 'leftwall' or self.status == 'rightwall' then
