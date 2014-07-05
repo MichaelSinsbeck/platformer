@@ -105,12 +105,7 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	end
 	
 	o.obj = obj
-	o.width, o.height = -math.huge, -math.huge
-	for k = 1, #o.vis do
-		o.vis[k]:init()
-		local w, h = o.vis[k]:getSize()
-		o.width, o.height = math.max(o.width, w), math.max(o.height, h)
-	end
+	o.width, o.height = obj:getPreviewSize()
 
 	o.x = (x or 0) + o.width*0.5/Camera.scale
 	o.y = (y or 0) + o.height*0.5/Camera.scale

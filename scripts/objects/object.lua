@@ -312,7 +312,10 @@ function object:getPreviewSize()
 	if self.preview then
 		return self.preview:getSize()
 	else
-		return self:getImageSize()
+		local sizeX,sizeY = self:getImageSize()
+		print(self.tag)
+		print('size x: '.. self.marginx * sizeX .. ', size y: ' .. self.marginy*sizeY)
+		return self.marginx * sizeX, self.marginy * sizeY
 	end
 end
 

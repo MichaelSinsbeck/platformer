@@ -43,32 +43,16 @@ function Crumbleblock:postStep(dt)
 				local x, y = self.x + vis.relX, self.y + vis.relY
 				local vx = (math.random()*2-1)*self.spreadSpeed
 				local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
+				local lifetime = 0.4 + 0.4*math.random()
 				local newParticle = spriteFactory('Particle',{x=x,y=y,vx = vx,vy = 0,rotSpeed = rotSpeed,vis = {Visualizer:New(vis.animation)}})
 				spriteEngine:insert(newParticle)
 			  self.vis[i] = nil
 			end
 		end
-		--self.vis[1].alpha = 120+125*math.max(1-self.vis[1].timer/self.lifetime,0)
-		--[[
-		if self.vis[1].timer > self.lifetime then
+		if #self.vis == 0 then
 			myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
-			myMap:queueShadowUpdate()
 			self:kill()
-			for i = 1,6 do -- spawn 6 particles
-				local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3
-				
-				local vx = math.cos(angle)*self.spreadSpeed*magnitude
-				local vy = (math.sin(angle)-0)*self.spreadSpeed*magnitude
-				--local vx = 0
-				--local vy = 0
-				local x,y = self.x + math.random()-0.5, self.y+math.random()-0.5
-				
-				local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
-				local animation = 'crumble' .. math.random(1,12)
-				local newParticle = Particle:New({x=x,y=y,vx = vx,vy = vy,rotSpeed = rotSpeed,vis = {Visualizer:New(animation)} })
-				spriteEngine:insert(newParticle)
-			end
-		end--]]
+		end
 	end
 end
 

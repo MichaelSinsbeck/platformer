@@ -641,6 +641,15 @@ function editor.createObjectPanel()
 	local x, y = BORDER_PADDING, BORDER_PADDING
 	local page = 1
 	local maxY = -math.huge
+	local scale = Camera.scale
+	local dx,dy = -math.huge, -math.huge
+	for k, obj in ipairs( editor.objectList ) do
+		if obj.vis[1] then
+		local w,h = obj:getPreviewSize()
+		dx = math.max(dx,w/scale)
+		dy = math.max(dy,h/scale)
+		end
+	end
 	for k, obj in ipairs( editor.objectList ) do
 		if obj.vis[1] then
 			local width, height = obj:getPreviewSize()
@@ -650,12 +659,24 @@ function editor.createObjectPanel()
 			end]]
 
 			-- Is this object higher than the others of this row?
-			maxY = math.max( height, maxY )
+			if x + dx + 8 > panelWidth then
+				y = y + dy + PADDING
+				if y + dy + 8 > panelHeight then
+					y = BORDER_PADDING
+					page = page + 1
+				end
+				x = BORDER_PADDING
+			end
+			
+			objectPanel:addClickableObject( x, y, nil, obj, obj.tag, page )
+			x = x + dx + PADDING
+						
+			--[[maxY = math.max( height, maxY )
 
-			if x + width/8 + 8 > panelWidth then
+			if x + width/scale + 8 > panelWidth then
 				-- add the maximum height of the obejcts in this row, then continue:
-				y = y + maxY/8 + PADDING
-				if y + height/8 + 8 > panelHeight then
+				y = y + maxY/scale + PADDING
+				if y + height/scale + 8 > panelHeight then
 					y = BORDER_PADDING
 					page = page + 1
 				end
@@ -665,8 +686,8 @@ function editor.createObjectPanel()
 			end
 			
 			--print(obj.tag .. ': ' .. obj:getPreviewSize())
-			objectPanel:addClickableObject( x, y, nil, obj, obj.tag, page )
-			x = x + width/8 + PADDING
+			objectPanel:addClickableObject( x + 0.5*width/scale, y, nil, obj, obj.tag, page )
+			x = x + width/scale + PADDING]]
 		end
 	end
 
