@@ -193,6 +193,7 @@ end
 
 function object:setAnim(name,continue,vis) -- Go to specified animation and reset, if not already there
 	local vis = vis or 1
+
 	if self.vis and self.vis[vis].animation ~= name then
 	  self.vis[vis].animation = name
 	  if not continue then

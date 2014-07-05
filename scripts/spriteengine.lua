@@ -4,11 +4,18 @@ spriteEngine = {
 objects = {}
 }
 
-function spriteEngine:insert(newObject)
+function spriteEngine:insert(newObject,pos)
   if newObject.init then
 	  newObject:init()
 	end
-  table.insert(self.objects,newObject)
+	if newObject.preInsert then
+		newObject:preInsert()
+	end
+	if pos then
+		table.insert(self.objects,pos,newObject)
+	else
+		table.insert(self.objects,newObject)
+	end
   --table.sort(self.objects, function(a,b) return a.z < b.z end)
 end
 

@@ -9,22 +9,31 @@ local Crumbleblock = object:New({
   solid = true,
   spreadSpeed = 2,  -- For explosion
   particleRotSpeed = 5, -- For explosion
-  deathtime = 0.1, -- time from frist crumbling till end
-  nCrumbs = 9,
+  deathtime = 0.8, -- time from frist crumbling till end
+  nCrumbs = 16,
   --vis = {Visualizer:New('crumbleblock')},
-  vis = {Visualizer:New('crumble1',{relY = -.25, relX = -.25}),
-				 Visualizer:New('crumble2',{relY = 0,    relX = -.25}),
-				 Visualizer:New('crumble3',{relY = .25, relX = -.25}),
-				 Visualizer:New('crumble4',{relY = -.25, relX = 0}),
-				 Visualizer:New('crumble5',{relY = 0,    relX = 0}),
-				 Visualizer:New('crumble6',{relY = .25, relX = 0}),
-				 Visualizer:New('crumble7',{relY = -.25, relX = .25}),
-				 Visualizer:New('crumble8',{relY = 0,    relX = .25}),
-				 Visualizer:New('crumble9',{relY = .25, relX = .25}),	},
+  vis = {}, -- see below, definition in loop
 	properties = {
 		lifetime = utility.newProperty({.5 , 1, 1.5, 2, 2.5, 3},nil,2)
 	},  
 })
+
+for i=0,3 do
+	for j =0,3 do
+	Crumbleblock.vis[i+4*j+1] = Visualizer:New('crumble1',{relY = i*0.25-0.375,relX = j*0.25-0.375})
+	end
+end
+ 
+function Crumbleblock:preInsert()
+	for i = 1,#self.vis-1 do
+		j = love.math.random(i,#self.vis)
+		self.vis[i],self.vis[j] = self.vis[j],self.vis[i]
+	end	
+	for i = 1,#self.vis do
+		local thisAnimation = 'crumble' .. math.random(1,12)
+		self:setAnim(thisAnimation,false,i)
+	end
+end
 
 function Crumbleblock:setAcceleration(dt)
 end
@@ -35,6 +44,7 @@ function Crumbleblock:postStep(dt)
 		math.abs(self.y-p.y) <= self.semiheight+p.semiheight then
 		self.state = 'wait'
 		self.vis[1].timer = 0
+		
 	elseif self.state == 'wait' then
 		for i = #self.vis,1,-1 do
 			local vis = self.vis[i]
@@ -45,7 +55,8 @@ function Crumbleblock:postStep(dt)
 				local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
 				local lifetime = 0.4 + 0.4*math.random()
 				local newParticle = spriteFactory('Particle',{x=x,y=y,vx = vx,vy = 0,rotSpeed = rotSpeed,vis = {Visualizer:New(vis.animation)}})
-				spriteEngine:insert(newParticle)
+				newParticle.vis[1].angle = vis.angle
+				spriteEngine:insert(newParticle,2)
 			  self.vis[i] = nil
 			end
 		end
