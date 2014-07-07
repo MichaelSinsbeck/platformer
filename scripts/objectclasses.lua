@@ -45,13 +45,12 @@ Light = require 'scripts/objects.light',
 Bonus = require 'scripts/objects.bonus',
 --Input = require 'scripts/objects.input',
 Walker = require 'scripts/objects.walker',
--- Walkerhorz = require 'scripts/objects.walkerhorz',
--- Walkervert = require 'scripts/objects.walkervert',
 Spawner = require 'scripts/objects.spawner',
 Water = require 'scripts/objects.water',
 Droplet = require 'scripts/objects.droplet',
 Rock = require 'scripts/objects.rock',
 Bean = require 'scripts/objects.bean',
+FlameRotator = require 'scripts/objects.flameRotator',
 }
 
 

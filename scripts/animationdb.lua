@@ -292,6 +292,11 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('woosh.png','woosh')
 	AnimationDB:loadTiledImage('medusa.png','medusa')
 	AnimationDB:loadTiledImage('medusaSpawner.png','medusaSpawner',tileSize,tileSize)
+	AnimationDB:loadTiledImage('flameRotator.png','flameRotator')
+	AnimationDB:loadTiledImage('miniFlame.png','miniFlame')
+	
+	-- for prototyping - remove later
+	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
 	
 	AnimationDB:loadTiledImage('lineHook.png','lineHook',tileSize,tileSize)
 	AnimationDB:loadTiledImage('button.png','editorButton',tileSize,tileSize, "editor", true)
@@ -318,6 +323,13 @@ function AnimationDB:loadAllImages()
 end
 
 function AnimationDB:loadAnimations()
+	
+	-- for prototyping - remove later	
+	AnimationDB:addAni('placeholder08','placeholder',{1},{1e6})
+	AnimationDB:addAni('placeholder06','placeholder',{2},{1e6})
+	AnimationDB:addAni('placeholder04','placeholder',{3},{1e6})
+	AnimationDB:addAni('placeholder02','placeholder',{4},{1e6})
+
 	AnimationDB:addAni('whiteRun','whitePlayer',{3,1,2,1},{.08,.04,.08,.04})
 	AnimationDB:addAni('whiteWalk','whitePlayer',{22,21,23,21},{.08,.04,.08,.04})
 	AnimationDB:addAni('whiteJump','whitePlayer',{6},{1e6})
@@ -401,6 +413,9 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 	AnimationDB:addAni('smoke','smoke',{1,2,3,4,5,5},{.1,.1,.15,.15,.1,1e6})
 	AnimationDB:addAni('woosh','woosh',{1},{1e6})
+	
+	AnimationDB:addAni('flameRotator','flameRotator',{1},{1e6})
+	AnimationDB:addAni('miniFlame','miniFlame',{1},{1e6})
 
 	AnimationDB:addAni('particle','particle',{1},{1e6})
 	AnimationDB:addAni('rock','rock',{1},{1e6})
