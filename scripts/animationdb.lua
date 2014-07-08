@@ -293,7 +293,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('medusa.png','medusa')
 	AnimationDB:loadTiledImage('medusaSpawner.png','medusaSpawner',tileSize,tileSize)
 	AnimationDB:loadTiledImage('flameRotator.png','flameRotator')
-	AnimationDB:loadTiledImage('miniFlame.png','miniFlame')
+	AnimationDB:loadTiledImage('miniFlame.png','miniFlame',0.4*tileSize,0.4*tileSize)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -416,6 +416,10 @@ function AnimationDB:loadAnimations()
 	
 	AnimationDB:addAni('flameRotator','flameRotator',{1},{1e6})
 	AnimationDB:addAni('miniFlame','miniFlame',{1},{1e6})
+	AnimationDB:addAni('vine1','miniFlame',{2},{1e6})
+	AnimationDB:addAni('vine2','miniFlame',{3},{1e6})
+	AnimationDB:addAni('vine3','miniFlame',{4},{1e6})
+	AnimationDB:addAni('vineEnd','miniFlame',{5},{1e6})
 
 	AnimationDB:addAni('particle','particle',{1},{1e6})
 	AnimationDB:addAni('rock','rock',{1},{1e6})

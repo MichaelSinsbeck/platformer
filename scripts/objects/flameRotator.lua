@@ -38,12 +38,18 @@ function FlameRotator:applyOptions()
 		if iArm > 1 then
 			rStart = math.max(1,rStart)
 		end
-		for r = self.rInner,self.rOuter do
-			local newVis = Visualizer:New('miniFlame')
+		for r = rStart,self.rOuter do
+			local animation = 'vine'..math.random(1,3)
+			if r == self.rOuter then
+				animation = 'vineEnd'
+			end
+			--animation = 'miniFlame'
+			local newVis = Visualizer:New(animation)
 			local sin,cos = math.sin(thisAngle), math.cos(thisAngle)
-			newVis.relX = 0.5 * r * cos
-			newVis.relY = 0.5 * r * sin
+			newVis.relX = 0.49 * r * cos
+			newVis.relY = 0.49 * r * sin
 			newVis.sx = sx
+			newVis.angle = thisAngle
 			newVis:init()
 			self.vis[#self.vis+1] = newVis
 		end
@@ -67,11 +73,16 @@ function FlameRotator:postStep(dt)
 
 	for iArm = 1,self.nArms do
 		local thisAngle = (iArm-1)/self.nArms * 2 * math.pi
-		for r = self.rInner,self.rOuter do
+		local rStart = self.rInner
+		if iArm > 1 then
+			rStart = math.max(1,rStart)
+		end
+		for r = rStart,self.rOuter do
 			local sin,cos = math.sin(self.angle + thisAngle), math.cos(self.angle + thisAngle)
-			self.vis[count].relX = 0.5 * r * cos
-			self.vis[count].relY = 0.5 * r * sin
-			self.vis[count].angle = self.ballAngle+r
+			self.vis[count].relX = 0.49 * r * cos
+			self.vis[count].relY = 0.49 * r * sin
+			--self.vis[count].angle = self.ballAngle+r
+			self.vis[count].angle = self.angle+thisAngle
 			count = count + 1
 		end
 	end
