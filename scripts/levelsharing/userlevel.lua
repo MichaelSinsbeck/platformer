@@ -41,6 +41,13 @@ function Userlevel:new( levelname, author, authorized )
 		o.statusVis:update(0)
 	end
 
+	o.authorizationVis = Visualizer:New( "authorizationFalse" )
+	o.authorizationVis:init()
+	if o.authorized then
+		o.authorizationVis:setAni( "authorizationTrue" )
+		o.authorizationVis:update(0)
+	end
+
 	return o
 end
 

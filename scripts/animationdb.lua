@@ -238,6 +238,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('world5.png','world5','world')
 	AnimationDB:loadTiledImage('stars.png','stars', tileSize, 3*tileSize, 'menu')
 	AnimationDB:loadTiledImage('userlevelState.png','userlevelStates', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('authorizationState.png','authorizationState', tileSize, tileSize, 'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
@@ -698,6 +699,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('userlevelDownload','userlevelStates',{1},{1e6})
 	AnimationDB:addAni('userlevelPlay','userlevelStates',{2},{1e6})
 	AnimationDB:addAni('userlevelBusy','userlevelStates',{3},{1e6})
+	AnimationDB:addAni('authorizationFalse','authorizationState', {1}, {1e6} )
+	AnimationDB:addAni('authorizationTrue','authorizationState', {2}, {1e6} )
 		
 	AnimationDB:addAni('listCount1','listCount',{1},{1e6})
 	AnimationDB:addAni('listCount2','listCount',{2},{1e6})

@@ -415,6 +415,9 @@ function menu:initUserlevels()
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 						function(data) menu:userlevelsLoaded(data, "unauthorized") end,
 						nil, "unauthorized" )
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+						function(data) menu:userlevelsLoaded(data, "authorized") end,
+						nil, "authorized" )
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
@@ -454,6 +457,7 @@ function menu:drawUserlevels()
 	local xAuthor = (userlevelList.x + 0.2*userlevelList.w)*Camera.scale
 	local xFun = (userlevelList.x + 0.4*userlevelList.w)*Camera.scale
 	local xDifficulty = (userlevelList.x + 0.6*userlevelList.w)*Camera.scale
+	local xAuthorized = (userlevelList.x + 0.85*userlevelList.w)*Camera.scale
 	local xEnd = (userlevelList.x + userlevelList.w - 8)*Camera.scale
 	
 	-- draw headers:
@@ -461,7 +465,8 @@ function menu:drawUserlevels()
 	love.graphics.rectangle( "fill", xLevelname, y, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xAuthor, y, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xFun, y, xDifficulty - xFun - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
-	love.graphics.rectangle( "fill", xDifficulty, y, xEnd - xDifficulty - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xDifficulty, y, xAuthorized - xDifficulty - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xAuthorized, y, xEnd - xAuthorized - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 
 	love.graphics.setColor( 255,255,255,255 )
 	--love.graphics.setColor( 0,0,0,255 )
@@ -469,6 +474,7 @@ function menu:drawUserlevels()
 	love.graphics.print( "Author", xAuthor + 2*Camera.scale, y + 2*Camera.scale )
 	love.graphics.print( "Fun", xFun + 2*Camera.scale, y + 2*Camera.scale )
 	love.graphics.print( "Difficulty", xDifficulty + 2*Camera.scale, y + 2*Camera.scale )
+	love.graphics.print( "Authorized", xAuthorized + 2*Camera.scale, y + 2*Camera.scale )
 	
 	for i, level in pairs( userlevels ) do
 
@@ -480,6 +486,7 @@ function menu:drawUserlevels()
 		love.graphics.print( level.author, xAuthor, y )
 		level.ratingFunVis:draw( xFun + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.ratingDifficultyVis:draw( xDifficulty + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 
 	end
 end
