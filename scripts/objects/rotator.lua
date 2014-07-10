@@ -1,5 +1,5 @@
-local FlameRotator = object:New({
-	tag = 'FlameRotator',
+local Rotator = object:New({
+	tag = 'Rotator',
   targetv = 23,
   marginx = 0.8,
   marginy = 0.8,
@@ -19,7 +19,7 @@ local FlameRotator = object:New({
   ballSpeed = 7.23,
 })
 	
-function FlameRotator:applyOptions()
+function Rotator:applyOptions()
 	-- empty list of visualizers
 	for i = 2,#self.vis do
 		self.vis[i] = nil
@@ -57,10 +57,10 @@ function FlameRotator:applyOptions()
 
 end
 
-function FlameRotator:setAcceleration(dt)
+function Rotator:setAcceleration(dt)
 end
 
-function FlameRotator:postStep(dt)
+function Rotator:postStep(dt)
 	self.angle = (self.angle + self.speed * dt)%(2*math.pi)
 	local sx
 	if self.speed >= 0 then
@@ -108,5 +108,4 @@ function FlameRotator:postStep(dt)
 
 end
 
-
-return FlameRotator
+return Rotator

@@ -50,7 +50,7 @@ Water = require 'scripts/objects.water',
 Droplet = require 'scripts/objects.droplet',
 Rock = require 'scripts/objects.rock',
 Bean = require 'scripts/objects.bean',
-FlameRotator = require 'scripts/objects.flameRotator',
+Rotator = require 'scripts/objects.rotator',
 }
 
 
