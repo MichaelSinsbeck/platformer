@@ -7,18 +7,16 @@ local FlameRotator = object:New({
   solid = true,
   layout = 'center',
   vis = {
-		Visualizer:New('flameRotator'),
+		Visualizer:New('rotatorBlock'),
   }, 
 	properties = {
 		nArms = utility.newProperty({1,2,3,4,5}),
-		rInner = utility.newProperty({0,1,2,3,4,5,6,7,8,9,10}),
+		rInner = utility.newProperty({1,2,3,4,5,6,7,8,9,10}),
 		rOuter = utility.newProperty({1,2,3,4,5,6,7,8,9,10}),
 		speed = utility.newProperty({-4,-3,-2,-1,0,1,2,3,4}),
 		angle = utility.newCycleProperty({0,0.25*math.pi,0.5*math.pi,0.75*math.pi,math.pi,1.25*math.pi,1.5*math.pi,1.75*math.pi},{0,1,2,3,4,5,6,7}),
 	},
-  ballAngle = 0,
-  ballSpeed = 7.1,
-  
+  ballSpeed = 7.23,
 })
 	
 function FlameRotator:applyOptions()
@@ -26,34 +24,37 @@ function FlameRotator:applyOptions()
 	for i = 2,#self.vis do
 		self.vis[i] = nil
 	end
-	local sx
-	if self.speed >= 0 then
-		sx = 1
-	else
-		sx = -1
-	end
+
+	-- three Arms
 	for iArm = 1,self.nArms do
 		local thisAngle = iArm/self.nArms * 2 * math.pi+self.angle
-		local rStart = self.rInner
-		if iArm > 1 then
-			rStart = math.max(1,rStart)
-		end
-		for r = rStart,self.rOuter do
-			local animation = 'vine'..math.random(1,3)
-			if r == self.rOuter then
-				animation = 'vineEnd'
-			end
-			--animation = 'miniFlame'
-			local newVis = Visualizer:New(animation)
+		local newVis = Visualizer:New('rotatorStick')
+		newVis.angle = thisAngle
+		newVis:init()
+		newVis.ox = 1
+		newVis.sx = self.rOuter * 0.6
+		self.vis[#self.vis+1] = newVis		
+	end
+	
+	-- Cap
+	local newVis = Visualizer:New('rotatorCap')	
+	newVis:init()
+	self.vis[#self.vis+1] = newVis
+	
+	-- Shurikens
+	for iArm = 1,self.nArms do
+		local thisAngle = iArm/self.nArms * 2 * math.pi+self.angle
+		for r = self.rInner,self.rOuter do
+			local newVis = Visualizer:New('shuriken')
 			local sin,cos = math.sin(thisAngle), math.cos(thisAngle)
-			newVis.relX = 0.49 * r * cos
-			newVis.relY = 0.49 * r * sin
-			newVis.sx = sx
-			newVis.angle = thisAngle
+			newVis.relX = 0.6* (r-0.1) * cos
+			newVis.relY = 0.6* (r-0.1) * sin
+			newVis.angle = thisAngle + r^2
 			newVis:init()
 			self.vis[#self.vis+1] = newVis
 		end
 	end
+
 end
 
 function FlameRotator:setAcceleration(dt)
@@ -67,31 +68,31 @@ function FlameRotator:postStep(dt)
 	else
 		sx = -1
 	end
-	
-	self.ballAngle = (self.ballAngle - sx * self.ballSpeed * dt)%(2*math.pi)
-	count = 2
 
+	local count = 2
 	for iArm = 1,self.nArms do
 		local thisAngle = (iArm-1)/self.nArms * 2 * math.pi
-		local rStart = self.rInner
-		if iArm > 1 then
-			rStart = math.max(1,rStart)
-		end
-		for r = rStart,self.rOuter do
+		self.vis[count].angle = thisAngle + self.angle
+		count = count + 1
+	end
+	count = count + 1 -- skip cap
+	for iArm = 1,self.nArms do
+		local thisAngle = (iArm-1)/self.nArms * 2 * math.pi
+		for r = self.rInner,self.rOuter do
 			local sin,cos = math.sin(self.angle + thisAngle), math.cos(self.angle + thisAngle)
-			self.vis[count].relX = 0.49 * r * cos
-			self.vis[count].relY = 0.49 * r * sin
-			--self.vis[count].angle = self.ballAngle+r
-			self.vis[count].angle = self.angle+thisAngle
+			self.vis[count].relX = 0.6* (r-0.1) * cos
+			self.vis[count].relY = 0.6* (r-0.1) * sin
+			self.vis[count].angle = self.vis[count].angle - sx * self.ballSpeed * dt
 			count = count + 1
 		end
 	end
+	
 	-- check collision with player
 	-- determine arm closest to player
 	local dx,dy = p.x-self.x, p.y-self.y
 
 	local dist2 = dx^2+dy^2
-	if not p.dead and dist2 < (0.5*(self.rOuter+.8))^2 and dist2 > (0.5*(self.rInner-.8))^2 then
+	if not p.dead and dist2 < (0.6*(self.rOuter+0.8))^2 and dist2 > (0.6*(self.rInner-0.8))^2 then
 		dist2 = math.sqrt(dist2)
 		local pAngle = math.atan2(dy,dx)
 		local iSegment = math.floor((pAngle-self.angle)/(2*math.pi/self.nArms)+0.5)%self.nArms+1
