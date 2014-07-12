@@ -429,7 +429,6 @@ function menu:initUserlevels()
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
 
 	local chooseLevel = function()
-		print("starting:", menu.selectedUserlevel)
 		if userlevels[menu.selectedUserlevel] then
 			if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
 				userlevels[menu.selectedUserlevel]:play()
@@ -440,33 +439,49 @@ function menu:initUserlevels()
 	end
 
 	local buttonCenter = menu:addButton( 0, 0, "startOff", "startOn", "Choose", chooseLevel, nil )
+	buttonCenter.invisible = true
 
 	local moveUp = function()
 		selectButton( buttonCenter )
 		menu.selectedUserlevel = math.max( 1, menu.selectedUserlevel - 1 )
 
-		menu:updateTextForCurrentUserlevel()
+		menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 
 		if menu.selectedUserlevel < menu.firstDisplayedUserlevel then
 			menu.firstDisplayedUserlevel = menu.selectedUserlevel
 		end
+
+		local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
+		local x = (userlevelList.x + 10)
+		menu.setPlayerPosition( x, y )()
+
 	end
 	local moveDown = function()
 		selectButton( buttonCenter )
 		menu.selectedUserlevel = math.min( #userlevels, menu.selectedUserlevel + 1 )
 
-		menu:updateTextForCurrentUserlevel()
+		menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 
 		if menu.selectedUserlevel - menu.firstDisplayedUserlevel + 1> menu.displayedUserlevels then
-			print(menu.firstDisplayedUserlevel, menu.selectedUserlevel, menu.displayedUserlevels )
 			menu.firstDisplayedUserlevel = menu.selectedUserlevel - menu.displayedUserlevels + 1
 		end
+
+		local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
+		local x = (userlevelList.x + 10)
+		menu.setPlayerPosition( x, y )()
+
 	end
 	local buttonUp = menu:addButton( 0, -10, "startOff", "startOn", "up", nil, moveUp )
 	local buttonDown = menu:addButton( 0, 10, "startOff", "startOn", "down", nil, moveDown )
+	buttonUp.invisible = true
+	buttonDown.invisible = true
 
 	selectButton( buttonCenter )
-	menu:updateTextForCurrentUserlevel()
+	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+
+	local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
+	local x = (userlevelList.x + 10)
+	menu.setPlayerPosition( x, y )()
 
 	-- Add background to list (horizontal bars). Start on second row:
 	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
@@ -493,8 +508,8 @@ function menu:drawUserlevels()
 	local y = (userlevelList.y + LIST_ENTRY_HEIGHT*1)*Camera.scale
 	local x = (userlevelList.x + 8)*Camera.scale
 
-	local xStatus = (userlevelList.x + 8)*Camera.scale
-	local xLevelname = (userlevelList.x + 16)*Camera.scale
+	local xStatus = (userlevelList.x + 12)*Camera.scale
+	local xLevelname = (userlevelList.x + 22)*Camera.scale
 	local xAuthor = (userlevelList.x + 0.2*userlevelList.w)*Camera.scale
 	local xFun = (userlevelList.x + 0.4*userlevelList.w)*Camera.scale
 	local xDifficulty = (userlevelList.x + 0.6*userlevelList.w)*Camera.scale
@@ -503,8 +518,8 @@ function menu:drawUserlevels()
 	
 	-- draw headers:
 	love.graphics.setColor( 30,0,0,75 )
-	love.graphics.rectangle( "fill", xLevelname, y, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
-	love.graphics.rectangle( "fill", xAuthor, y, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xLevelname - 8, y, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xAuthor - 8, y, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xFun, y, xDifficulty - xFun - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xDifficulty, y, xAuthorized - xDifficulty - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xAuthorized, y, xEnd - xAuthorized - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
@@ -1080,7 +1095,7 @@ function menu:update(dt)
 	if menu.state == "main" or menu.state == "worldMap"
 		or menu.state == "settings" or menu.state == "keyboard" 
 		or menu.state == "gamepad" or menu.state == "pause"
-		or menu.state == "rating" then
+		or menu.state == "userlevels" or menu.state == "rating" then
 			menuPlayer.vis:update(dt/2)
 	end
 
@@ -1295,7 +1310,7 @@ function menu:draw()
 	if menu.state == "main" or menu.state == "worldMap" or
 		menu.state == "settings" or menu.state == "keyboard" or
 		menu.state == "gamepad" or menu.state == "pause" or
-		menu.state == "rating" then
+		menu.state == "userlevels" or menu.state == "rating" then
 			menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
 	end
 

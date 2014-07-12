@@ -89,7 +89,7 @@ function Userlevel:finishedDownloading( data )
 	self.statusVis:setAni( "userlevelPlay" )
 	self.statusVis:update(0)
 
-	menu:updateTextForCurrentUserlevel()
+	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 
 end
 
