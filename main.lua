@@ -131,6 +131,15 @@ function love.draw()
 end
 
 function love.keypressed( key, repeated )
+
+	if repeated then
+		-- only let the menu receive multiple keypresses
+		if mode == 'menu' then
+			menu:keypressed( key, repeated )
+		end
+		return
+	end
+
 	if key == 'r' then
 		profiler:report()
 	elseif key == 't' then

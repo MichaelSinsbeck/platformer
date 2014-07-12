@@ -482,6 +482,7 @@ function menu:initUserlevels()
 	local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
 	local x = (userlevelList.x + 10)
 	menu.setPlayerPosition( x, y )()
+	menuPlayer.vis.sx = 1
 
 	-- Add background to list (horizontal bars). Start on second row:
 	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
