@@ -409,6 +409,9 @@ function menu:initUserlevels()
 	menu.state = "userlevels"
 	menu.currentlyPlayingUserlevels = true
 
+	menu.selectedUserlevel = 1
+	menu.firstDisplayedUserlevel = 1
+
 	userlevels = {}
 
 	--[[threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
@@ -424,8 +427,38 @@ function menu:initUserlevels()
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
+
+	local buttonCenter = menu:addButton( 0, 0, "startOff", "startOn", "Choose", nil, nil )
+
+	local moveUp = function()
+		selectButton( buttonCenter )
+		menu.selectedUserlevel = math.max( 1, menu.selectedUserlevel - 1 )
+		menu.text = menu.selectedUserlevel
+		if menu.selectedUserlevel < menu.firstDisplayedUserlevel then
+			menu.firstDisplayedUserlevel = menu.selectedUserlevel
+		end
+		print(menu.firstDisplayedUserlevel)
+	end
+	local moveDown = function()
+		selectButton( buttonCenter )
+		menu.selectedUserlevel = math.min( #userlevels, menu.selectedUserlevel + 1 )
+		menu.text = menu.selectedUserlevel
+
+		if menu.selectedUserlevel - menu.firstDisplayedUserlevel > menu.displayedUserlevels then
+			print(menu.firstDisplayedUserlevel, menu.selectedUserlevel, menu.displayedUserlevels )
+			menu.firstDisplayedUserlevel = menu.selectedUserlevel - menu.displayedUserlevels
+		end
+		print(menu.firstDisplayedUserlevel)
+	end
+	local buttonUp = menu:addButton( 0, -10, "startOff", "startOn", i, nil, moveUp )
+	local buttonDown = menu:addButton( 0, 10, "startOff", "startOn", i, nil, moveDown )
+
+	selectButton( buttonCenter )
+
 	-- Add background to list (horizontal bars). Start on second row:
 	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
+
+	menu.displayedUserlevels = (userlevelList.box.height-16)/(LIST_ENTRY_HEIGHT) - 1
 end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
@@ -471,9 +504,13 @@ function menu:drawUserlevels()
 	love.graphics.print( "Difficulty", xDifficulty + 2*Camera.scale, y + 2*Camera.scale )
 	love.graphics.print( "Authorized", xAuthorized + 2*Camera.scale, y + 2*Camera.scale )
 	
-	for i, level in pairs( userlevels ) do
+	--for i, level in ipairs( userlevels ) do
+	local lastDisplayedLevel = math.min( menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevels )
+	--print(#userlevels, lastDisplayedLevel, menu.displayedUserlevels, menu.firstDisplayedUserlevel )
+	for i = menu.firstDisplayedUserlevel, lastDisplayedLevel do
+		local level = userlevels[i]
 
-		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*(i+1))*Camera.scale
+		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*(i-menu.firstDisplayedUserlevel+2))*Camera.scale
 
 		-- draw indicator showing if level is ready to play or needs to be downloaded first:
 		level.statusVis:draw( xStatus + 4*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )

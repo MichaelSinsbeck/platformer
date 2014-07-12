@@ -224,7 +224,6 @@ function EditorMap:updateGroundTile( x, y, recursion )
 		b = ground
 	end
 
-
 	-- get the quad for the current tile which depends on the surrounding ground types:
 	local quad, foundTransition = ground:getQuad( l, r, t, b, nil,nil,nil,nil, forbiddenTransitions )
 	
@@ -256,21 +255,23 @@ function EditorMap:updateGroundTile( x, y, recursion )
 	if foundTransition and recursion > 0 then
 
 		self.groundArray[x][y].transition = foundTransition
-		if self.groundArray[x-1] and self.groundArray[x-1][y] and
-			self.groundArray[x-1][y].gType then
-			-- TODO: is "false" correct here? this allows recursion...
-			self:queueGroundTileUpdate( x-1, y, recursion - 1 )
-			--print("recursive update")
-		end
-		if self.groundArray[x+1] and self.groundArray[x+1][y] and
-			self.groundArray[x+1][y].gType then
-			-- TODO: is "false" correct here? this allows recursion...
-			self:queueGroundTileUpdate( x+1, y, recursion - 1 )
-			--print("recursive update")
+		if self.groundArray[x][y].prevQuad ~= quad then
+			if self.groundArray[x-1] and self.groundArray[x-1][y] and
+				self.groundArray[x-1][y].gType then
+				-- TODO: is recursion correct here? this allows recursion...
+				self:queueGroundTileUpdate( x-1, y, recursion - 1 )
+			end
+			if self.groundArray[x+1] and self.groundArray[x+1][y] and
+				self.groundArray[x+1][y].gType then
+				-- TODO: is recursion correct here? this allows recursion...
+				self:queueGroundTileUpdate( x+1, y, recursion - 1 )
+			end
 		end
 	else
 		self.groundArray[x][y].transition = nil
 	end
+
+	self.groundArray[x][y].prevQuad = quad
 
 	-- update border:
 	if x < self.minX or x+1 > self.maxX or y < self.minY or y+1 > self.maxY then
@@ -394,7 +395,6 @@ function EditorMap:setBackgroundTile( x, y, background, updateSurrounding )
 	end
 	self.unsavedChanges = true
 end
-
 
 function EditorMap:updateBackgroundTile( x, y, forceNoTransition )
 	--if updateSurrounding then print("---------------") end
