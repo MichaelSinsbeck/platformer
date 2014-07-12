@@ -43,6 +43,7 @@ function loading.update()
 	elseif loading.step == 4 then
 		menu:init()	-- must be called after AnimationDB:loadAll()
 		BambooBox:init()
+		love.keyboard.setKeyRepeat( true )
 		loading.msg = "Shaders"
 	elseif loading.step == 5 then	
 		if settings:getShadersEnabled() then

@@ -409,6 +409,9 @@ function menu:initUserlevels()
 	menu.state = "userlevels"
 	menu.currentlyPlayingUserlevels = true
 
+	menu.selectedUserlevel = 1
+	menu.firstDisplayedUserlevel = 1
+
 	userlevels = {}
 
 	--[[threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
@@ -424,8 +427,67 @@ function menu:initUserlevels()
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
+
+	local chooseLevel = function()
+		if userlevels[menu.selectedUserlevel] then
+			if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
+				userlevels[menu.selectedUserlevel]:play()
+			else
+				userlevels[menu.selectedUserlevel]:download()
+			end
+		end
+	end
+
+	local buttonCenter = menu:addButton( 0, 0, "startOff", "startOn", "Choose", chooseLevel, nil )
+	buttonCenter.invisible = true
+
+	local moveUp = function()
+		selectButton( buttonCenter )
+		menu.selectedUserlevel = math.max( 1, menu.selectedUserlevel - 1 )
+
+		menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+
+		if menu.selectedUserlevel < menu.firstDisplayedUserlevel then
+			menu.firstDisplayedUserlevel = menu.selectedUserlevel
+		end
+
+		local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
+		local x = (userlevelList.x + 10)
+		menu.setPlayerPosition( x, y )()
+
+	end
+	local moveDown = function()
+		selectButton( buttonCenter )
+		menu.selectedUserlevel = math.min( #userlevels, menu.selectedUserlevel + 1 )
+
+		menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+
+		if menu.selectedUserlevel - menu.firstDisplayedUserlevel + 1> menu.displayedUserlevels then
+			menu.firstDisplayedUserlevel = menu.selectedUserlevel - menu.displayedUserlevels + 1
+		end
+
+		local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
+		local x = (userlevelList.x + 10)
+		menu.setPlayerPosition( x, y )()
+
+	end
+	local buttonUp = menu:addButton( 0, -10, "startOff", "startOn", "up", nil, moveUp )
+	local buttonDown = menu:addButton( 0, 10, "startOff", "startOn", "down", nil, moveDown )
+	buttonUp.invisible = true
+	buttonDown.invisible = true
+
+	selectButton( buttonCenter )
+	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+
+	local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
+	local x = (userlevelList.x + 10)
+	menu.setPlayerPosition( x, y )()
+	menuPlayer.vis.sx = 1
+
 	-- Add background to list (horizontal bars). Start on second row:
 	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
+
+	menu.displayedUserlevels = (userlevelList.box.height-16)/(LIST_ENTRY_HEIGHT) - 1
 end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
@@ -440,6 +502,7 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 			end
 		end
 	end
+	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 end
 
 function menu:drawUserlevels()
@@ -447,18 +510,18 @@ function menu:drawUserlevels()
 	local y = (userlevelList.y + LIST_ENTRY_HEIGHT*1)*Camera.scale
 	local x = (userlevelList.x + 8)*Camera.scale
 
-	local xStatus = (userlevelList.x + 8)*Camera.scale
-	local xLevelname = (userlevelList.x + 16)*Camera.scale
-	local xAuthor = (userlevelList.x + 0.2*userlevelList.w)*Camera.scale
-	local xFun = (userlevelList.x + 0.4*userlevelList.w)*Camera.scale
-	local xDifficulty = (userlevelList.x + 0.6*userlevelList.w)*Camera.scale
+	local xStatus = (userlevelList.x + 12)*Camera.scale
+	local xLevelname = (userlevelList.x + 22)*Camera.scale
+	local xAuthor = (userlevelList.x + 0.3*userlevelList.w)*Camera.scale
+	local xFun = (userlevelList.x + 0.85*userlevelList.w - 2*32)*Camera.scale
+	local xDifficulty = (userlevelList.x + 0.85*userlevelList.w - 32)*Camera.scale
 	local xAuthorized = (userlevelList.x + 0.85*userlevelList.w)*Camera.scale
 	local xEnd = (userlevelList.x + userlevelList.w - 8)*Camera.scale
 	
 	-- draw headers:
 	love.graphics.setColor( 30,0,0,75 )
-	love.graphics.rectangle( "fill", xLevelname, y, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
-	love.graphics.rectangle( "fill", xAuthor, y, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xLevelname - 8, y, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xAuthor - 8, y, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xFun, y, xDifficulty - xFun - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xDifficulty, y, xAuthorized - xDifficulty - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xAuthorized, y, xEnd - xAuthorized - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
@@ -471,9 +534,13 @@ function menu:drawUserlevels()
 	love.graphics.print( "Difficulty", xDifficulty + 2*Camera.scale, y + 2*Camera.scale )
 	love.graphics.print( "Authorized", xAuthorized + 2*Camera.scale, y + 2*Camera.scale )
 	
-	for i, level in pairs( userlevels ) do
+	--for i, level in ipairs( userlevels ) do
+	local lastDisplayedLevel = math.min( menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevels )
+	--print(#userlevels, lastDisplayedLevel, menu.displayedUserlevels, menu.firstDisplayedUserlevel )
+	for i = menu.firstDisplayedUserlevel, lastDisplayedLevel do
+		local level = userlevels[i]
 
-		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*(i+1))*Camera.scale
+		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*(i-menu.firstDisplayedUserlevel+2))*Camera.scale
 
 		-- draw indicator showing if level is ready to play or needs to be downloaded first:
 		level.statusVis:draw( xStatus + 4*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
@@ -483,6 +550,18 @@ function menu:drawUserlevels()
 		level.ratingDifficultyVis:draw( xDifficulty + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 
+	end
+end
+
+function menu:updateTextForCurrentUserlevel()
+	if not userlevels or not menu.selectedUserlevel then return end
+
+	if userlevels[menu.selectedUserlevel] then
+		if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
+			menu.text = "Play '" .. userlevels[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
+		else
+			menu.text = "Download '" .. userlevels[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
+		end
 	end
 end
 
@@ -1018,7 +1097,7 @@ function menu:update(dt)
 	if menu.state == "main" or menu.state == "worldMap"
 		or menu.state == "settings" or menu.state == "keyboard" 
 		or menu.state == "gamepad" or menu.state == "pause"
-		or menu.state == "rating" then
+		or menu.state == "userlevels" or menu.state == "rating" then
 			menuPlayer.vis:update(dt/2)
 	end
 
@@ -1233,7 +1312,7 @@ function menu:draw()
 	if menu.state == "main" or menu.state == "worldMap" or
 		menu.state == "settings" or menu.state == "keyboard" or
 		menu.state == "gamepad" or menu.state == "pause" or
-		menu.state == "rating" then
+		menu.state == "userlevels" or menu.state == "rating" then
 			menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
 	end
 
@@ -1513,6 +1592,7 @@ function selectButton(button)
 		if selButton.animated then
 			selButton.vis:setAni( selButton.animationOff )
 		end
+		selButton.selected = false
 	end
 
 	selButton = button
