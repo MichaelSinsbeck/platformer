@@ -254,14 +254,15 @@ function EditorMap:updateGroundTile( x, y, noMoreRecursion )
 	end
 
 	if foundTransition and not noMoreRecursion then
+
 		self.groundArray[x][y].transition = foundTransition
 		if self.groundArray[x-1] and self.groundArray[x-1][y] and
 			self.groundArray[x-1][y].gType then
-			self:queueGroundTileUpdate( x-1, y, true )
+			self:queueGroundTileUpdate( x-1, y, false )
 		end
 		if self.groundArray[x+1] and self.groundArray[x+1][y] and
 			self.groundArray[x+1][y].gType then
-			self:queueGroundTileUpdate( x+1, y, true )
+			self:queueGroundTileUpdate( x+1, y, false )
 		end
 	else
 		self.groundArray[x][y].transition = nil
