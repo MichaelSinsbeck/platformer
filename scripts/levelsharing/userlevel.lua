@@ -61,7 +61,7 @@ function Userlevel:download()
 		print("Couldn't download " .. self.filename .. ". Reason: " .. msg )
 		menu:setStatusMsg( "Failed to download: " .. self.levelname )
 	end
-	menu:setStatusMsg( "Downloading level " .. self.levelname, -1)
+	--menu:setStatusMsg( "Downloading level " .. self.levelname, -1)
 	threadInterface.new( self.levelname, "scripts/levelsharing/download.lua", "getLevel",
 			returnEvent, failedEvent, self.levelname, self.author, self.authorized )
 
@@ -82,7 +82,7 @@ function Userlevel:finishedDownloading( data )
 		love.filesystem.createDirectory("userlevels/unauthorized/" .. self.author )
 	end
 	love.filesystem.write( self.filename, data )
-	menu:setStatusMsg( self.levelname .. " can now be played.", 5)
+	--menu:setStatusMsg( self.levelname .. " can now be played.", 5)
 	self.downloaded = true
 	self.currentlyDownloading = false
 
