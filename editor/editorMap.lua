@@ -1791,6 +1791,8 @@ function EditorMap:loadFromFile( fullName )
 			end
 		end
 
+		local playerFound = false
+
 		for obj in objects:gmatch( "(Obj:.-endObj)\n" ) do			
 			objType = obj:match( "Obj:(.-)\n")
 			x = obj:match( "x:(.-)\n")
@@ -1814,7 +1816,22 @@ function EditorMap:loadFromFile( fullName )
 				map.xStart = x + 1
 				map.yStart = y + 1
 			end]]
-			
+			if objType == "Player" then
+				playerFound = true
+			end
+		end
+
+		if not playerFound then
+			for x = map.minX, map.maxX-1 do
+				for y = map.minY, map.maxY-1 do
+					if map.collisionSrc[x] and not map.collisionSrc[x][y] then
+						newObject = map:addObject( x, y, "Player" )
+						playerFound = true
+						break
+					end
+				end
+				if playerFound then break end
+			end
 		end
 
 		-- Postprocess
@@ -1822,15 +1839,12 @@ function EditorMap:loadFromFile( fullName )
 		--map.lineList = map:LineList(o.tileOBJ,o.height,o.width)
 		map.lineList = {}
 
-
-
 		-- Update all map tiles to make sure the right
 		-- tile type is used. Force to update all the 
 		-- tiles that need updating
 		map:update( nil, true )
 		map:updateBorder()
 		
-		print(mode)
 		if mode == "game" or mode == "levelEnd" then
 			map:generateParallax()
 		end
