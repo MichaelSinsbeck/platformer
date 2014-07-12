@@ -430,21 +430,14 @@ end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
 	if menu.state == "userlevels" then	-- if I'm still in the correct state
-		local i = 1
 		local x = -love.graphics.getWidth()/2/Camera.scale + 1
 		local y = -love.graphics.getHeight()/2/Camera.scale + 1
-		local lastauthor
 		for line in data:gmatch("([^\n]-)\n") do
-			local author, levelname = line:match("(.*)\t(.*)%.dat")
-			if author ~= lastauthor then
-				--menu:addText( x, y+10*i, i, author )
-				lastauthor = author
+			local author, levelname, ratingFun, ratingDifficulty = line:match("(.*)\t(.*)\t.*\t(.*)\t(.*)")
+			if author and levelname and ratingFun and ratingDifficulty then
+				local level = Userlevel:new( levelname, author, ratingFun, ratingDifficulty, authorizationLevel == "authorized" )
+				table.insert( userlevels, level )
 			end
-			--menu:addText( 0, y+10*i, i+1, levelname )
-			i = i + 2
-			
-			local level = Userlevel:new( levelname, author, authorizationLevel == "authorized" )
-			table.insert( userlevels, level )
 		end
 	end
 end
@@ -556,7 +549,11 @@ function menu.initRatingMenu()
 
 		-- ChooseFunction is called when a button is chosen (i.e. enter is pressed) -> save the rating
 		local chooseFunction = function()
-			menu.sendRating( levelrating.ratingFun, levelrating.ratingDifficulty, "", "" )
+			local name, author = "unknown", "anonymous"
+			if myMap then
+				name, author = myMap.name, myMap.author
+			end
+			menu.sendRating( name, author, levelrating.ratingFun, levelrating.ratingDifficulty )
 			menu.endRatingMenu()
 		end
 		
@@ -597,8 +594,17 @@ function menu.endRatingMenu()
 end
 
 
-function menu.sendRating( ratingFun, ratingDifficulty, levelAuthor, levelName )
+function menu.sendRating( levelname, author, ratingFun, ratingDifficulty )
+	threadInterface.new( "rate", "scripts/levelsharing/rate.lua",
+		"rate", menu.ratingResult, menu.ratingResult,
+		levelname, author, ratingFun, ratingDifficulty )
+end
 
+function menu.ratingResult( result )
+	-- Important! when this function is called, the menu might already be closed.
+	-- So just print info to console:
+	print("Server's rating response:")
+	print("\t" ..result:gsub("\n", "\n\t"))	-- indent response
 end
 
 ---------------------------------------------------------

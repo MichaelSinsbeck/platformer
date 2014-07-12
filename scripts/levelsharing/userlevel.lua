@@ -3,7 +3,7 @@
 local Userlevel = {}
 Userlevel.__index = Userlevel
 
-function Userlevel:new( levelname, author, authorized )
+function Userlevel:new( levelname, author, ratingFun, ratingDifficulty, authorized )
 	local o = {}
 	setmetatable( o, Userlevel )
 	o.authorized = authorized or false
@@ -12,9 +12,8 @@ function Userlevel:new( levelname, author, authorized )
 
 	o.downloaded = false
 
-	o.ratingDifficulty = love.math.random( 5 )
-	o.ratingFun = love.math.random( 5 )
-
+	o.ratingFun = math.floor(ratingDifficulty + 0.5)
+	o.ratingDifficulty = math.floor(ratingFun + 0.5)
 
 	-- construct the file name as it must be on the server:
 	if o.authorized then
