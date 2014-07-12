@@ -1280,9 +1280,11 @@ function menu:draw()
 		love.graphics.setColor(255,255,255)	
 	end
 
-
-
-	controlKeys:draw("menu")
+	if menu.state == "rating" then
+		controlKeys:draw("rating")
+	else
+		controlKeys:draw("menu")
+	end
 end
 
 -----------------------------------------------------------

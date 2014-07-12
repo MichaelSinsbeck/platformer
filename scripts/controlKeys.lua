@@ -5,6 +5,7 @@ local controlKeys = {}
 local death = {}
 local win = {}
 local menuControl = {}
+local rating = {}
 local toDraw
 
 function controlKeys:draw( drawMode )
@@ -17,8 +18,9 @@ function controlKeys:draw( drawMode )
 		toDraw = win
 	elseif drawMode == "menu" then
 		toDraw = menuControl
+	elseif drawMode == "rating" then
+		toDraw = rating
 	end
-	
 	
 	if mode == "menu" and menu.state == "pause" and toDraw ~= menuControl then return end
 	love.graphics.setFont( fontSmall )
@@ -46,7 +48,6 @@ function controlKeys:draw( drawMode )
 							(y-3)*Camera.scale )
 		end
 	end
-		
 end
 
 function controlKeys:setup()
@@ -110,9 +111,28 @@ function controlKeys:setup()
 		menuControl[2].x = 6
 		menuControl[2].labelX = menuControl[2].x
 		menuControl[2].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		rating = {}
+		rating[1] = {}
+		rating[1].label = "Send Rating"
+		rating[1].txt = nameForKey( keys.CHOOSE )
+		rating[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
+		rating[1].offset = (rating[1].img:getWidth() - fontSmall:getWidth(rating[1].txt))/2/Camera.scale
+		rating[1].x = (love.graphics.getWidth()-rating[1].img:getWidth())/Camera.scale - 6
+		rating[1].labelX = (rating[1].x*Camera.scale + rating[1].img:getWidth() -
+						fontSmall:getWidth(rating[1].label))/Camera.scale
+		rating[1].y = (love.graphics.getHeight())/Camera.scale - 20
+		
+		rating[2] = {}
+		rating[2].label = "Skip"
+		rating[2].txt = nameForKey( keys.BACK )
+		rating[2].img = menu:getImage(getImageForKey( keys.BACK ))
+		rating[2].offset = (rating[2].img:getWidth() - fontSmall:getWidth(rating[2].txt))/2/Camera.scale
+		rating[2].x = 6
+		rating[2].labelX = rating[2].x
+		rating[2].y = (love.graphics.getHeight())/Camera.scale - 20
 		
 	else
-		print("working")
 		death[1] = {}
 		death[1].label = "Retry"
 		--death[1].txt = nameForKey( keys.JUMP )
@@ -161,6 +181,22 @@ function controlKeys:setup()
 		menuControl[2].x = 6
 		menuControl[2].labelX = menuControl[2].x
 		menuControl[2].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		rating = {}
+		rating[1] = {}
+		rating[1].label = "Send Rating"
+		rating[1].img = menu:getImage(getImageForPad( keys.PAD.CHOOSE ))
+		rating[1].x = (love.graphics.getWidth()-rating[1].img:getWidth())/Camera.scale - 6
+		rating[1].labelX = (rating[1].x*Camera.scale + rating[1].img:getWidth() -
+						fontSmall:getWidth(rating[1].label))/Camera.scale
+		rating[1].y = (love.graphics.getHeight())/Camera.scale - 20
+		
+		rating[2] = {}
+		rating[2].label = "Skip"
+		rating[2].img = menu:getImage(getImageForPad( keys.PAD.BACK ))
+		rating[2].x = 6
+		rating[2].labelX = rating[2].x
+		rating[2].y = (love.graphics.getHeight())/Camera.scale - 20
 	end
 end
 
