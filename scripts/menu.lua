@@ -502,6 +502,7 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 			end
 		end
 	end
+	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 end
 
 function menu:drawUserlevels()
@@ -557,9 +558,9 @@ function menu:updateTextForCurrentUserlevel()
 
 	if userlevels[menu.selectedUserlevel] then
 		if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
-			menu.text = "Play " .. userlevels[menu.selectedUserlevel].levelname
+			menu.text = "Play '" .. userlevels[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
 		else
-			menu.text = "Download " .. userlevels[menu.selectedUserlevel].levelname
+			menu.text = "Download '" .. userlevels[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
 		end
 	end
 end
