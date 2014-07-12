@@ -98,12 +98,12 @@ end
 -- Ground Manupulations (Walls the player collides with)
 -------------------------------------------------------
 
-function EditorMap:queueGroundTileUpdate( x, y, noMoreRecursion )
+function EditorMap:queueGroundTileUpdate( x, y, recursion )
 	local data = {
 		command = "update",
 		x = x,
 		y = y,
-		noMoreRecursion = noMoreRecursion,
+		recursion = recursion or 1,
 	}
 	self.tilesToModify[#self.tilesToModify + 1] = data
 end
@@ -175,7 +175,7 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 end
 
 
-function EditorMap:updateGroundTile( x, y, noMoreRecursion )
+function EditorMap:updateGroundTile( x, y, recursion )
 	--if updateSurrounding then print("---------------") end
 	
 	self.tilesModifiedThisFrame = self.tilesModifiedThisFrame + 1
@@ -253,16 +253,20 @@ function EditorMap:updateGroundTile( x, y, noMoreRecursion )
 		end
 	end
 
-	if foundTransition and not noMoreRecursion then
+	if foundTransition and recursion > 0 then
 
 		self.groundArray[x][y].transition = foundTransition
 		if self.groundArray[x-1] and self.groundArray[x-1][y] and
 			self.groundArray[x-1][y].gType then
-			self:queueGroundTileUpdate( x-1, y, false )
+			-- TODO: is "false" correct here? this allows recursion...
+			self:queueGroundTileUpdate( x-1, y, recursion - 1 )
+			--print("recursive update")
 		end
 		if self.groundArray[x+1] and self.groundArray[x+1][y] and
 			self.groundArray[x+1][y].gType then
-			self:queueGroundTileUpdate( x+1, y, false )
+			-- TODO: is "false" correct here? this allows recursion...
+			self:queueGroundTileUpdate( x+1, y, recursion - 1 )
+			--print("recursive update")
 		end
 	else
 		self.groundArray[x][y].transition = nil
@@ -333,6 +337,7 @@ function EditorMap:queueBackgroundTileUpdate( x, y )
 		command = "updateBg",
 		x = x,
 		y = y,
+		recursion = 1,
 	}
 	self.tilesToModify[#self.tilesToModify + 1] = data
 end
@@ -1322,10 +1327,10 @@ function EditorMap:updateBorder()
 	for x = self.minX, self.maxX-1 do
 		for y = self.minY, self.maxY-1 do
 			if self.backgroundArray[x] and self.backgroundArray[x][y] then
-				self:queueBackgroundTileUpdate( x, y, true )
+				self:queueBackgroundTileUpdate( x, y, 1 )
 			end
 			if self.groundArray[x] and self.groundArray[x][y] then
-				self:queueGroundTileUpdate( x, y, true )
+				self:queueGroundTileUpdate( x, y, 1 )
 			end
 		end
 	end
@@ -1633,7 +1638,7 @@ function EditorMap:update( dt, forceUpdateAll )
 		if data.command == "update" then
 			if self.groundArray[data.x] and self.groundArray[data.x][data.y] and
 				self.groundArray[data.x][data.y].gType then
-				self:updateGroundTile( data.x, data.y, data.noMoreRecursion )
+				self:updateGroundTile( data.x, data.y, data.recursion )
 			end
 		elseif data.command == "updateBg" then
 			if self.backgroundArray[data.x] and self.backgroundArray[data.x][data.y] and
