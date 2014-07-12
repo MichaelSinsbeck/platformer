@@ -535,87 +535,28 @@ function Ground:init()
 						{0,9}, {1,10}, {1,9})
 	new:setHorizontalLine( {0,9}, {1,10}, {1,9} )
 	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
+
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'c', 'similar',
+			'[cdgsw]', '[cdgsw]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,10} )
+			{3,16} )
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'd', 'similar',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,10} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'g', 'similar',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,10} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			's', 'similar',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,10} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'w', 'similar',
+			'[cdgsw]', 'similar',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{0,10} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar','c',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,10} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar','d',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,10} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar','g',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,10} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar','s',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,10} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar', 'w',
+			'similar','[cdgsw]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{2,10} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, 'c',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, 'd',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, 'g',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, 's',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, 'w',
+			nil, '[cdgsw]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{0,16} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'c', nil,
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{1,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'd', nil,
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{1,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'g', nil,
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{1,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			's', nil,
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{1,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'w', nil,
+			'[cdgsw]', nil,
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{1,16} )
 
