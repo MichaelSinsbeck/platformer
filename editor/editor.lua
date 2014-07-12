@@ -496,7 +496,9 @@ function editor.start()
 	
 	panelsWithShortcuts = {toolPanel, propertiesPanel, groundPanel, backgroundPanel}
 
-	editor.loadFile()
+	--editor.loadFile()
+	cam.zoom = 1
+	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
 end
 
 function editor.resume()
