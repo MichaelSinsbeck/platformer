@@ -529,7 +529,7 @@ function Ground:init()
 	new:addSimilar( 'g' )
 	new:addSimilar( 'd' )
 	new:addSimilar( 'w' )
-	new:setSingleTile( {1,10} )
+	new:setSingleTile( {2,16} )
 	new:setThickTiles( {0,9}, {1,10}, {1,9},
 						{0,9}, {1,10}, {1,9},
 						{0,9}, {1,10}, {1,9})
@@ -576,6 +576,53 @@ function Ground:init()
 			'similar', 'w',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{2,10} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, 'c',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, 'd',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, 'g',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, 's',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, 'w',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,16} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'c', nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{1,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'd', nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{1,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'g', nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{1,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			's', nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{1,16} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'w', nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{1,16} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,16} )
 
 
 	--[[new:addTransition( "l", "concrete", {0, 10} )
