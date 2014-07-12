@@ -199,7 +199,9 @@ function levelEnd:keypressed( key, unicode )
 		if editor.active then
 			editor.resume()
 		elseif menu.currentlyPlayingUserlevels then
-			menu.startTransition(menu.initUserlevels)()	-- start the transition and fade into world map
+			--menu.startTransition(menu.initUserlevels)()
+			--menu.startTransition(menu.initRatingMenu)()
+			menu.initRatingMenu()
 		else
 			Campaign:setLevel(Campaign.current+1)
 			Campaign:saveState()
@@ -214,7 +216,9 @@ function levelEnd:keypressed( key, unicode )
 			if editor.active then
 				editor.resume()
 			elseif menu.currentlyPlayingUserlevels then
-				menu.startTransition(menu.initUserlevels)()	-- start the transition and fade into world map
+				--menu.startTransition(menu.initUserlevels)()
+				menu.initRatingMenu()
+				--menu.startTransition(menu.initRatingMenu)()
 			else
 				menu.startTransition(function () Campaign:proceed() end)()
 			end

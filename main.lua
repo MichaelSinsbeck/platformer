@@ -94,7 +94,7 @@ function love.draw()
 	
 		shaders.draw()
 	
-		if mode == 'game' or mode == 'levelEnd' or (mode == 'menu' and menu.state == 'pause') then
+		if mode == 'game' or mode == 'levelEnd' or (mode == 'menu' and (menu.state == 'pause' or menu.state == 'rating')) then
 			game:draw()
 		elseif mode == 'menu' and menu.state ~= 'pause' then
 			menu:draw()
@@ -113,7 +113,7 @@ function love.draw()
 		if not menu.transitionActive then
 			if mode == 'levelEnd' then
 				levelEnd:draw()
-			elseif mode == 'menu' and menu.state == 'pause' then	-- draw AFTER grey shader!
+			elseif mode == 'menu' and (menu.state == 'pause' or menu.state == 'rating') then	-- draw AFTER grey shader!
 				menu:draw()
 			elseif mode == 'game' and game.isDead() then
 				controlKeys:draw("death")

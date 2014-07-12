@@ -34,7 +34,6 @@ function game:draw()
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())
 	end
-	
 end
 
 function game:checkControls()

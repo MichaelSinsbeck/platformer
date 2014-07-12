@@ -13,6 +13,7 @@ local menuBackgrounds = {}
 local menuTexts = {}
 local menuBoxes = {}
 local menuLogs = {}
+local menuVisualizers = {}
 local selButton
 local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
 
@@ -76,6 +77,7 @@ function menu.clear()
 	menuTexts = {}
 	menuBoxes = {}
 	menuLogs = {}	
+	menuVisualizers = {}	
 	userlevelList = nil
 end
 
@@ -495,6 +497,114 @@ end
 -- Adds a new button to the list of buttons and then returns the new button
 ---------------------------------------------------------
 
+function menu.initRatingMenu()
+	-- REMARKS:
+	-- This menu uses 5 invisible buttons in the background. When they're selected,
+	-- the rating display (five stars) updates. When enter is pressed, the selected
+	-- values are sent to the server.
+
+	menu:clear()	-- remove anything that was previously on the menu
+	menu.state = "rating"
+	mode = 'menu'
+
+	local levelrating = {
+		ratingFun = 3,
+		ratingDifficulty = 3,
+		currentlyRating = "fun",
+	}
+
+	love.graphics.setBackgroundColor(40,40,40)
+	if not shaders:getDeathEffect() then
+		shaders:setDeathEffect( .8 )
+	end
+
+
+	menu:addText( -30, -12, nil, "Rate the level! (Esc to skip)" )
+	menu:addText( -28, -2, nil, "Boring" )
+	menu:addText( 16, -2, nil, "Fun" )
+	local visFun = Visualizer:New("stars3")
+	visFun:init()
+	table.insert( menuVisualizers, {vis = visFun, x = 0, y = 0} )
+
+	menu:addText( -25, 8, nil, "Easy" )
+	menu:addText( 16, 8, nil, "Difficult" )
+	local visDifficulty = Visualizer:New("stars3")
+	visDifficulty:init()
+	table.insert( menuVisualizers, {vis = visDifficulty, x = 0, y = 10} )
+
+	-- Start player next to fun rating:
+	menu.setPlayerPosition( -34, 0 )()
+
+	local buttons = {}
+	local x,y = -30, 40
+	x = -2
+	y = 0
+	
+	for i = 1, 5 do
+		-- HoverFunction is called when the user moves from button to button:
+		local hoverFunction = function()
+			if levelrating.currentlyRating == "fun" then
+				levelrating.ratingFun = i
+				visFun:setAni("stars" .. i)
+				visFun:update(0)
+			else -- otherwise update "difficulty" diplay;
+				levelrating.ratingDifficulty = i
+				visDifficulty:setAni("stars" .. i)
+				visDifficulty:update(0)
+			end
+		end
+
+		-- ChooseFunction is called when a button is chosen (i.e. enter is pressed) -> save the rating
+		local chooseFunction = function()
+			menu.sendRating( levelrating.ratingFun, levelrating.ratingDifficulty, "", "" )
+			menu.endRatingMenu()
+		end
+		
+		buttons[i] = menu:addButton( x + i*8, y, "startOff", "startOn", i, chooseFunction, hoverFunction )
+		buttons[i].invisible = true
+	end
+
+	local functionMoveUpDown = function()
+		if levelrating.currentlyRating == "fun" then
+			menu.setPlayerPosition( -34, 10 )()
+			levelrating.currentlyRating = "difficulty"
+			selectButton(buttons[levelrating.ratingDifficulty])		-- re-select the correct button
+		else
+			menu.setPlayerPosition( -34, 0 )()
+			levelrating.currentlyRating = "fun"
+			selectButton(buttons[levelrating.ratingFun])		-- re-select the correct button
+		end
+	end
+	local buttonAbove = menu:addButton( x + 24,  y - 10, "startOff", "startOn", i, nil, functionMoveUpDown )
+	local buttonBelow = menu:addButton( x + 24, y + 10, "startOff", "startOn", i, nil, functionMoveUpDown )
+	buttonAbove.invisible = true
+	buttonBelow.invisible = true
+
+	menu:addBox(-46,-22,84,36)
+
+	-- start of with the start button selected:
+	selectButton(buttons[3])
+	
+	menuPlayer.vis:setAni("whiteWalk")
+	menuPlayer.vis.sx = 1
+
+	menu.curLevelName = nil	-- don't display level name when entering menu
+end
+
+function menu.endRatingMenu()
+	shaders:resetDeathEffect()
+	menu.startTransition(menu.initUserlevels, true)()
+end
+
+
+function menu.sendRating( ratingFun, ratingDifficulty, levelAuthor, levelName )
+
+end
+
+---------------------------------------------------------
+-- Adds a new button to the list of buttons and then returns the new button
+---------------------------------------------------------
+
 function menu:addButton( x,y,imgOff,imgOn,name,action,actionHover )
 	local new = {x=x,
 				y=y,
@@ -572,6 +682,9 @@ function menu:addButtonLabeled( x,y,imgOff,imgOn,name,action,actionHover,label,f
 end
 
 function menu:addText( x, y, index, str )
+	if index == nil then
+		index = #menuTexts + 1
+	end
 	menuTexts[index] = {txt = str, x=x, y=y}
 end
 
@@ -868,6 +981,8 @@ function menu:keypressed( key, unicode )
 					keys:exitSubMenu()
 				elseif menu.state == "pause" then
 					menu:endPauseMenu()
+				elseif menu.state == "rating" then
+					menu.startTransition(menu.initUserlevels, false)()
 				elseif menu.state == "userlevels" then
 					menu.startTransition(menu.initMain, false)()
 				end
@@ -894,10 +1009,11 @@ end
 ---------------------------------------------------------
 
 function menu:update(dt)
-	if menu.state == "main" or menu.state == "worldMap" or
-		menu.state == "settings" or menu.state == "keyboard" 
-		or menu.state == "gamepad" or menu.state == "pause" then
-		menuPlayer.vis:update(dt/2)
+	if menu.state == "main" or menu.state == "worldMap"
+		or menu.state == "settings" or menu.state == "keyboard" 
+		or menu.state == "gamepad" or menu.state == "pause"
+		or menu.state == "rating" then
+			menuPlayer.vis:update(dt/2)
 	end
 
 	local factor = math.min(1, 3*dt)
@@ -1013,7 +1129,7 @@ function menu:draw()
 		--love.graphics.setPixelEffect( )
 	end
 	
-	-- draw logs (bridges)
+	-- draw logs (bridges) and other visualizers:
 	for k,log in ipairs(menuLogs) do
 		log.vis:draw(log.x*Camera.scale,log.y*Camera.scale)
 	end
@@ -1064,82 +1180,89 @@ function menu:draw()
 	end
 	
 	for k, button in pairs(buttons) do
-		local angle = button.angle or 0
-		local xShift = button.xShift or 0
-		local yShift = button.yShift or 0
-		local xScale = button.xScale or 1
-		local yScale = button.yScale or 1
-		if button.selected then
-			if button.animated then
-				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
-								(button.y+button.oy+yShift)*Camera.scale)
-			else
-				love.graphics.draw( AnimationDB.image[button.imgOn], 
+		if not button.invisible then
+			local angle = button.angle or 0
+			local xShift = button.xShift or 0
+			local yShift = button.yShift or 0
+			local xScale = button.xScale or 1
+			local yScale = button.yScale or 1
+			if button.selected then
+				if button.animated then
+					button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
+					(button.y+button.oy+yShift)*Camera.scale)
+				else
+					love.graphics.draw( AnimationDB.image[button.imgOn], 
 					(button.x+button.ox+xShift)*Camera.scale, 
 					(button.y+button.oy+yShift)*Camera.scale, 
 					angle, xScale, yScale, 
 					button.ox*Camera.scale, 
 					button.oy*Camera.scale)
-			end
-		else
-			if button.animated then
-				button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
-								(button.y+button.oy+yShift)*Camera.scale)
+				end
 			else
-				love.graphics.draw( AnimationDB.image[button.imgOff], 
+				if button.animated then
+					button.vis:draw((button.x+button.ox+xShift)*Camera.scale,
+					(button.y+button.oy+yShift)*Camera.scale)
+				else
+					love.graphics.draw( AnimationDB.image[button.imgOff], 
 					(button.x+button.ox+xShift)*Camera.scale, 
 					(button.y+button.oy+yShift)*Camera.scale, 
 					angle, xScale, yScale, 
 					button.ox*Camera.scale, 
 					button.oy*Camera.scale)
+				end
 			end
+			love.graphics.setColor(0,0,0,255)
+			if button.label then
+				love.graphics.setFont( _G[button.font] )
+				love.graphics.print( button.label,
+				(button.x+button.ox+xShift + button.labelX)*Camera.scale ,
+				(button.y+button.oy+yShift + 3)*Camera.scale )
+
+			end
+			love.graphics.setColor(255,255,255,255)
 		end
-		love.graphics.setColor(0,0,0,255)
-		if button.label then
-			love.graphics.setFont( _G[button.font] )
-			love.graphics.print( button.label,
-						(button.x+button.ox+xShift + button.labelX)*Camera.scale ,
-						(button.y+button.oy+yShift + 3)*Camera.scale )
-						
-		end
-		love.graphics.setColor(255,255,255,255)
 		--love.graphics.print(k, button.x, button.y )
 	end
-	
+
 	if menu.state == "main" or menu.state == "worldMap" or
-		menu.state == "settings" or menu.state == "keyboard" 
-		or menu.state == "gamepad" or menu.state == "pause" then
-		--menuPlayer:draw()
-		menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
+		menu.state == "settings" or menu.state == "keyboard" or
+		menu.state == "gamepad" or menu.state == "pause" or
+		menu.state == "rating" then
+			menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
 	end
-	
+
 	love.graphics.setFont(fontSmall)
 	for k, text in pairs(menuTexts) do
 		love.graphics.print( text.txt, 
-			(text.x)*Camera.scale, 
-			(text.y)*Camera.scale)
+		(text.x)*Camera.scale, 
+		(text.y)*Camera.scale)
 	end
 
 	if menu.state == "userlevels" then
 		menu:drawUserlevels()
 		if menu.statusMsg then
 			love.graphics.print( menu.statusMsg,
-				(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
-				10)
+			(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
+			10)
 		end
 	end
-	
+
+
+	for k,v in ipairs(menuVisualizers) do
+		v.vis:draw(v.x*Camera.scale,v.y*Camera.scale)
+	end
+
 	love.graphics.pop()
 
 	if menu.state == "worldMap" then
-	
+
 		love.graphics.setFont(fontLarge)
 		love.graphics.setColor(0,0,0)
 		love.graphics.printf(worldNames[Campaign.worldNumber], 0, love.graphics.getHeight()*0.5-Camera.scale*40, love.graphics.getWidth(), 'center')			
 		love.graphics.setColor(255,255,255)
-		
+
 	end
-	
+
 	if menu.state == "credits" then
 		credits:draw()
 	else
@@ -1156,6 +1279,8 @@ function menu:draw()
 		love.graphics.printf(displayText, 0, y, love.graphics.getWidth(), 'center')	
 		love.graphics.setColor(255,255,255)	
 	end
+
+
 
 	controlKeys:draw("menu")
 end
@@ -1181,12 +1306,12 @@ function menu.initPauseMenu()
 	local x,y
 	x = -2
 	y = 0
-	
+
 	local actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local startButton = menu:addButton( x, y, 'startOff', 'startOn', "continue",menu.endPauseMenu, actionHover )
 	--local startButton = menu:addButtonAnimated( x, y, 'startOff', 'startOn', "start", menu.startTransition(menu.initWorldMap), actionHover )
 	y = y + 10
-	
+
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	local restartEvent = function()
 		levelEnd:reset()
@@ -1206,17 +1331,17 @@ function menu.initPauseMenu()
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'exitOff', 'exitOn', "leave", closeEvent, actionHover )
 
-	
+
 	-- add main logo:
 	x = - 35
 	y = - 78
 	table.insert(menuImages, {typ="img", img='paused', x=x, y=y})
-	
+
 	menu:addBox(-20,-4,40,40)
 
 	-- start of with the start button selected:
 	selectButton(startButton)
-	
+
 	menuPlayer.vis:setAni("whiteWalk")
 	menuPlayer.vis.sx = 1
 
@@ -1241,18 +1366,18 @@ function menu.loadTransitionImages()
 	local newImage = {
 		img = img,
 		startX = 0, startY = love.graphics.getHeight(),
-		endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
-		startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
-		startR = 0, endR = .1, -- rotation
-		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
-	}
-	table.insert( transitionImages, newImage )
-	newImage = {
-		img = img,
-		startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight()/2,
-		endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
-		startSX = 0.2, startSY = 0.2, endSX = 5, endSY = 5, -- scale
-		startR = 0, endR = 0, -- rotation
+	endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+	startSX = 3, startSY = 3, endSX = 5, endSY = 5, -- scale
+	startR = 0, endR = .1, -- rotation
+	oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
+}
+table.insert( transitionImages, newImage )
+newImage = {
+	img = img,
+	startX = love.graphics.getWidth()/2, startY = love.graphics.getHeight()/2,
+endX = love.graphics.getWidth()/2, endY = love.graphics.getHeight()/2, -- position
+startSX = 0.2, startSY = 0.2, endSX = 5, endSY = 5, -- scale
+startR = 0, endR = 0, -- rotation
 		oX = img:getWidth()/2, oY = img:getHeight()/2, -- offset
 	}
 	table.insert( transitionImages, newImage )
