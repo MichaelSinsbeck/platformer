@@ -428,32 +428,45 @@ function menu:initUserlevels()
 
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
 
-	local buttonCenter = menu:addButton( 0, 0, "startOff", "startOn", "Choose", nil, nil )
+	local chooseLevel = function()
+		print("starting:", menu.selectedUserlevel)
+		if userlevels[menu.selectedUserlevel] then
+			if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
+				userlevels[menu.selectedUserlevel]:play()
+			else
+				userlevels[menu.selectedUserlevel]:download()
+			end
+		end
+	end
+
+	local buttonCenter = menu:addButton( 0, 0, "startOff", "startOn", "Choose", chooseLevel, nil )
 
 	local moveUp = function()
 		selectButton( buttonCenter )
 		menu.selectedUserlevel = math.max( 1, menu.selectedUserlevel - 1 )
-		menu.text = menu.selectedUserlevel
+
+		menu:updateTextForCurrentUserlevel()
+
 		if menu.selectedUserlevel < menu.firstDisplayedUserlevel then
 			menu.firstDisplayedUserlevel = menu.selectedUserlevel
 		end
-		print(menu.firstDisplayedUserlevel)
 	end
 	local moveDown = function()
 		selectButton( buttonCenter )
 		menu.selectedUserlevel = math.min( #userlevels, menu.selectedUserlevel + 1 )
-		menu.text = menu.selectedUserlevel
 
-		if menu.selectedUserlevel - menu.firstDisplayedUserlevel > menu.displayedUserlevels then
+		menu:updateTextForCurrentUserlevel()
+
+		if menu.selectedUserlevel - menu.firstDisplayedUserlevel + 1> menu.displayedUserlevels then
 			print(menu.firstDisplayedUserlevel, menu.selectedUserlevel, menu.displayedUserlevels )
-			menu.firstDisplayedUserlevel = menu.selectedUserlevel - menu.displayedUserlevels
+			menu.firstDisplayedUserlevel = menu.selectedUserlevel - menu.displayedUserlevels + 1
 		end
-		print(menu.firstDisplayedUserlevel)
 	end
-	local buttonUp = menu:addButton( 0, -10, "startOff", "startOn", i, nil, moveUp )
-	local buttonDown = menu:addButton( 0, 10, "startOff", "startOn", i, nil, moveDown )
+	local buttonUp = menu:addButton( 0, -10, "startOff", "startOn", "up", nil, moveUp )
+	local buttonDown = menu:addButton( 0, 10, "startOff", "startOn", "down", nil, moveDown )
 
 	selectButton( buttonCenter )
+	menu:updateTextForCurrentUserlevel()
 
 	-- Add background to list (horizontal bars). Start on second row:
 	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
@@ -520,6 +533,18 @@ function menu:drawUserlevels()
 		level.ratingDifficultyVis:draw( xDifficulty + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 
+	end
+end
+
+function menu:updateTextForCurrentUserlevel()
+	if not userlevels or not menu.selectedUserlevel then return end
+
+	if userlevels[menu.selectedUserlevel] then
+		if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
+			menu.text = "Play " .. userlevels[menu.selectedUserlevel].levelname
+		else
+			menu.text = "Download " .. userlevels[menu.selectedUserlevel].levelname
+		end
 	end
 end
 
@@ -1550,6 +1575,7 @@ function selectButton(button)
 		if selButton.animated then
 			selButton.vis:setAni( selButton.animationOff )
 		end
+		selButton.selected = false
 	end
 
 	selButton = button

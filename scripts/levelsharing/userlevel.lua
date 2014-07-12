@@ -86,8 +86,11 @@ function Userlevel:finishedDownloading( data )
 	self.downloaded = true
 	self.currentlyDownloading = false
 
-		self.statusVis:setAni( "userlevelPlay" )
-		self.statusVis:update(0)
+	self.statusVis:setAni( "userlevelPlay" )
+	self.statusVis:update(0)
+
+	menu:updateTextForCurrentUserlevel()
+
 end
 
 function Userlevel:loadDescription()
