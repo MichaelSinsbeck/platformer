@@ -4,87 +4,117 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 45,21
+Dimensions: 33,21
 
+Author: micha
 Description:
+
 endDescription
 
 Background:
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
 endBackground
 
 Ground:
-dddddddddddddddddddddddddddddddddddddddddddd
-ddddddddddddd------dddddddddddddddddddddd---
-dddddddddddd--------ddddddd--dddddddddd-----
-dddddddddddd---------ddddd----dddddddd------
-ddddddddddd----------ddddd------ddddd-------
-ddddddddddd---------dddddd-------dddd-------
-dddddddddd----------dddddd------------bbdddd
-dddddddddd----------dddddd---ddddddddd---ddd
-dddddddddd----------dddddd---------------ddd
-dddddddddd-----------ddddd----------------dd
-dddddddddd----dd------dddd---d-------------d
-dddddddddd---dddd-------dd---d--------------
-dddddddddd---dddd--------d---d--------------
-dddddd-ddd---dddd------------d---------ddddd
-d------------ddddbb---------------------dddd
--------------ddd---------------------------d
--------------dd---ddddddddddd---------------
------ddd-----dd---ddddddddddd---------------
-dddddddddd---dd---ddddddddddd---------------
-dddddddddd---dd---ddddddddddd---------------
+c-------------------------------
+c-------------------------------
+c-------------------------------
+c-------------------------------
+c----1111111111-----------------
+c----ccccccccc1-----------------
+c------------c1---------------cc
+c------------c1---------------cc
+ccccccccc----cc--c111111111111cc
+c------------ccccccccccccccccccc
+c------------cc-------cccccccccc
+------------ccc-------cccccccccc
+c--cccccccccccc-------cccccccccc
+c--cc----------bbb------------cc
+c--cc-------------------------cc
+c-------ccc--ccccccccccc-----ccc
+c------ccccccccccccccccccc-----c
+cccccccccccccccccccccccccccc---c
+cccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccc
 endGround
 
 BgObjects:
 endBgObjects
 
 Objects:
-Obj:Spawner
-	x:6
+Obj:Player
+	x:30
+	y:5
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=false
+endObj
+Obj:Fixedcannon
+	x:29
 	y:13
-	p:direction=right
+	p:angle=2
+	p:delay=0
+	p:firerate=1.6
 endObj
-Obj:Spawner
-	x:28
-	y:7
-	p:direction=left
-endObj
-Obj:Spawner
-	x:31
-	y:4
-	p:direction=right
+Obj:Fixedcannon
+	x:29
+	y:14
+	p:angle=2
+	p:delay=0
+	p:firerate=1.6
 endObj
 Obj:Exit
-	x:42
-	y:5
-endObj
-Obj:Bonus
-	x:42
-	y:12
-endObj
-Obj:Player
-	x:2
+	x:29
 	y:17
+endObj
+Obj:Fixedcannon
+	x:0
+	y:11
+	p:angle=0
+	p:delay=0
+	p:firerate=1.4
+endObj
+Obj:LineHook
+	x:30
+	y:2
+endObj
+Obj:LineHook
+	x:2
+	y:2
+endObj
+Obj:Fixedcannon
+	x:15
+	y:8
+	p:angle=-1
+	p:delay=0.2
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:16
+	y:8
+	p:angle=-1
+	p:delay=0
+	p:firerate=1.2
 endObj
 endObjects
 

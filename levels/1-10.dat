@@ -4,113 +4,158 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 36,21
+Dimensions: 34,21
 
+Author: micha
 Description:
+
 endDescription
 
 Background:
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
------------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
 endBackground
 
 Ground:
----dddddddddddddddddddddddddddddddd
----ddd-------dddddddddddddddddd----
----dd---------ddddddddddddd--------
----dd----------ddddddddddd---------
----dd------dd----------------------
----ddd-----ddd-------------dddddddd
----dddbbbbbdddddddddddddddddddddddd
----ddd-----dddddddddddddddddddddddd
----dddbbbbbd----ddddddddddddddddddd
----ddd----------ddddddddddddddddddd
----ddddddddbbbbbddddddddddddddddddd
----dddddddd-----ddddddddddddddddddd
----ddddddddbbbbbddddddddddddddddddd
-ddddddddddd--------dddddddddddddddd
-gd-----dddddddddd----dddddddddddddd
-d-------ssdddd--d----dddddddddddddd
------------sdd--ddd--dddddddddddddd
-dddddddddd-ssdb-ddd--dddddddddddddd
-dddddddd-------------dddddddddddddd
-ddddddddddddddddddddddddddddddddddd
+ccccc-ccccccccccccccccccccc------
+------------ccccccccccccccc------
+------------cc-----------cc------
+------------cc-----------cc------
+------------cc-----------cc------
+cccccccc----cc-----------cc------
+cccccccc----cc-----------cc------
+cc----------c------cc----cc------
+cc----------ccbbbbbcc----cc------
+cc---------ccc-----cc----cc------
+cc---------ccc-----cc----cc------
+cc----ccccccccbbbbbcc----cc------
+cc----cccccccc-----cc----cc------
+cc----------c------cc----cc------
+cc----------ccbbbbbcc------------
+cc-----------------cc------------
+cc-----------------cc------------
+cccccc-----cccccccccc-cc-cccccccc
+ccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccc
 endGround
 
 BgObjects:
 endBgObjects
 
 Objects:
-Obj:Walker
-	x:6
-	y:5
-	p:direction=-1
-endObj
-Obj:Walker
-	x:7
-	y:5
-	p:direction=-1
-endObj
-Obj:Walker
-	x:8
-	y:5
-	p:direction=-1
-endObj
-Obj:Walker
-	x:8
-	y:7
-	p:direction=-1
-endObj
-Obj:Walker
-	x:9
-	y:7
-	p:direction=-1
-endObj
-Obj:Walker
-	x:15
-	y:11
-	p:direction=-1
-endObj
-Obj:Walker
-	x:16
-	y:5
-	p:direction=-1
-endObj
-Obj:Walker
-	x:17
-	y:18
-	p:direction=1
-endObj
-Obj:Walker
-	x:24
-	y:5
-	p:direction=1
-endObj
-Obj:Exit
-	x:32
-	y:4
+Obj:Fixedcannon
+	x:5
+	y:0
+	p:angle=1
+	p:delay=0.2
+	p:firerate=1
 endObj
 Obj:Player
-	x:2
+	x:1
+	y:4
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=false
+endObj
+Obj:Exit
+	x:31
 	y:16
+endObj
+Obj:Fixedcannon
+	x:13
+	y:13
+	p:angle=0
+	p:delay=0.2
+	p:firerate=1.4
+endObj
+Obj:Fixedcannon
+	x:13
+	y:7
+	p:angle=0
+	p:delay=0
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:21
+	y:17
+	p:angle=-1
+	p:delay=0
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:24
+	y:17
+	p:angle=-1
+	p:delay=0.5
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:10
+	y:10
+	p:angle=2
+	p:delay=0
+	p:firerate=1.4
+endObj
+Obj:Fixedcannon
+	x:10
+	y:9
+	p:angle=2
+	p:delay=0
+	p:firerate=1.4
+endObj
+Obj:Fixedcannon
+	x:6
+	y:17
+	p:angle=-1
+	p:delay=0.6
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:7
+	y:17
+	p:angle=-1
+	p:delay=0.4
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:8
+	y:17
+	p:angle=-1
+	p:delay=0.2
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:9
+	y:17
+	p:angle=-1
+	p:delay=0
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:10
+	y:17
+	p:angle=-1
+	p:delay=0.8
+	p:firerate=1.2
 endObj
 endObjects
 
