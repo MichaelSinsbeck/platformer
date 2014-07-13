@@ -11,14 +11,14 @@ local FixedCannon = object:New({
 		Visualizer:New('fixedcannon')
 	},
 	properties = {
-		angle = utility.newCycleProperty({0, 0.5*math.pi, math.pi, -0.5*math.pi}, {'right', 'down', 'left', 'up'}),
-		firerate = utility.newProperty({.4, .6, .8, 1, 1.2, 1.4},nil,5),
-		delay = utility.newProperty({0, .2 , .4 , .6 , .8})
+		angle = utility.newCycleProperty({0, 1, 2, -1}, {'right', 'down', 'left', 'up'}),
+		firerate = utility.newProperty({.4, .6, .8, 1, 1.2, 1.4, 1.6, 1.8, 2},nil,5),
+		delay = utility.newCycleProperty({0, .1, .2, .3, .4, .5, .6, .7, .8, .9})
 	},
 })
 
 function FixedCannon:applyOptions()
-	self.vis[2].angle = self.angle
+	self.vis[2].angle = self.angle*0.5*math.pi
 	self.vis[1].timer = self.firerate*self.delay
 end
 
@@ -29,7 +29,8 @@ function FixedCannon:setAcceleration(dt)
 		self.vis[1].timer = self.vis[1].timer - self.firerate
 		local vx,vy = math.cos(self.vis[2].angle) * self.velocity, math.sin(self.vis[2].angle) * self.velocity
 		local newAngle = 6.28 * math.random()
-		local newShuriken = spriteFactory('Shuriken',{x=self.x,y=self.y,vx=vx,vy=vy,angle=newAngle})
+		local newShuriken = spriteFactory('Shuriken',{x=self.x,y=self.y,vx=vx,vy=vy})
+		newShuriken.vis[1].angle = newAngle
 		spriteEngine:insert(newShuriken)	
   end
 end
