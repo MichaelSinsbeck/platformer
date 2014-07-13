@@ -50,9 +50,9 @@ function EditorMap:new( backgroundList )
 
 
 	o.minX = 1
-	o.maxX = 30
+	o.maxX = 33
 	o.minY = 1
-	o.maxY = 16
+	o.maxY = 21
 	
 	o.width, o.height = o.maxX-o.minX+1,o.maxY-o.minY+1	-- fallback
 
