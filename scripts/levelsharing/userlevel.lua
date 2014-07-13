@@ -97,6 +97,33 @@ function Userlevel:loadDescription()
 
 end
 
+function Userlevel:authorize()
+
+
+	local visName = 'stars' .. o.ratingFun
+	o.ratingFunVis = Visualizer:New( visName )
+	o.ratingFunVis:init()
+	visName = 'stars' .. o.ratingDifficulty
+	o.ratingDifficultyVis = Visualizer:New( visName )
+	o.ratingDifficultyVis:init()
+
+	o.statusVis = Visualizer:New( "userlevelDownload" )
+	o.statusVis:init()
+	if o.downloaded then
+		o.statusVis:setAni( "userlevelPlay" )
+		o.statusVis:update(0)
+	end
+
+	o.authorizationVis = Visualizer:New( "authorizationFalse" )
+	o.authorizationVis:init()
+	if o.authorized then
+		o.authorizationVis:setAni( "authorizationTrue" )
+		o.authorizationVis:update(0)
+	end
+
+
+end
+
 function Userlevel:play()
 	if not self.downloaded then return end
 

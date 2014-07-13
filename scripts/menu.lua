@@ -18,6 +18,7 @@ local selButton
 local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
 
 local userlevels = {}
+local userlevelsByAuthor = {}
 local userlevelList
 
 --local PADDING = 50		-- distance of buttons from edges
@@ -404,6 +405,63 @@ end
 ---------------------------------------------------------
 -- Can download, sort and display a list of all online maps by users.
 
+function menu:loadDownloadedUserlevels()
+	print("Loading local userlevels:")
+	local list = love.filesystem.getDirectoryItems( "userlevels/authorized/" ) -- .. author .. "/" .. levelname .. ".dat"
+	for i, author in pairs(list) do
+		print(" ", author)
+		local levels = love.filesystem.getDirectoryItems( "userlevels/authorized/" .. author )
+		for j, levelname in pairs(levels) do
+			print("\t", levelname:sub(1,#levelname-4))
+			local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, true )
+			menu:insertUserlevelIntoList( newLevel )
+		end
+	end
+
+	list = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" ) -- .. author .. "/" .. levelname .. ".dat"
+	for i, author in pairs(list) do
+		print(" ", author)
+		local levels = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" .. author )
+		for j, levelname in pairs(levels) do
+			print("\t", levelname)
+			local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, false )
+			menu:insertUserlevelIntoList( newLevel )
+		end
+	end
+end
+
+function menu:insertUserlevelIntoList( level )
+	print("new", level.author, level.levelname)
+	if userlevelsByAuthor[level.author] and userlevelsByAuthor[level.author][level.levelname] then
+		print("\talready exitst")
+
+		local oldLevel = userlevelsByAuthor[level.author][level.levelname]
+		if not oldLevel.authorized and level.authorized then
+			local oldfilename = "userlevels/unauthorized/" .. level.author .. "/" .. level.levelname .. ".dat"
+			local newfilename = "userlevels/authorized/" .. level.author .. "/" .. level.levelname .. ".dat"
+			if love.filesystem.exists( oldfilename ) then
+				local content = love.filesystem.read( oldfilename )
+				love.filesystem.write( newfilename, content )
+				love.filesystem.remove( oldfilename )
+			end
+			love.filename = newfilename
+		end
+
+		for k, l in pairs( userlevels ) do
+			if l == oldLevel then
+				table.remove( userlevels, k )
+				break
+			end
+		end
+	end
+
+	table.insert( userlevels, level )
+	if not userlevelsByAuthor[level.author] then
+		userlevelsByAuthor[level.author] = {}
+	end
+	userlevelsByAuthor[level.author][level.levelname] = level
+end
+
 function menu:initUserlevels()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "userlevels"
@@ -413,6 +471,8 @@ function menu:initUserlevels()
 	menu.firstDisplayedUserlevel = 1
 
 	userlevels = {}
+	userlevelsByAuthor = {}
+	menu:loadDownloadedUserlevels()
 
 	--[[threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 						function(data) menu:userlevelsLoaded(data, "authorized") end,
@@ -498,7 +558,7 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 			local author, levelname, ratingFun, ratingDifficulty = line:match("(.*)\t(.*)\t.*\t(.*)\t(.*)")
 			if author and levelname and ratingFun and ratingDifficulty then
 				local level = Userlevel:new( levelname, author, ratingFun, ratingDifficulty, authorizationLevel == "authorized" )
-				table.insert( userlevels, level )
+				menu:insertUserlevelIntoList( level )
 			end
 		end
 	end
@@ -671,7 +731,6 @@ function menu.endRatingMenu()
 	shaders:resetDeathEffect()
 	menu.startTransition(menu.initUserlevels, true)()
 end
-
 
 function menu.sendRating( levelname, author, ratingFun, ratingDifficulty )
 	threadInterface.new( "rate", "scripts/levelsharing/rate.lua",
