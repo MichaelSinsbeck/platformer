@@ -29,7 +29,7 @@ function Userlevel:new( levelname, author, ratingFun, ratingDifficulty, authoriz
 	local visName = 'stars' .. o.ratingFun
 	o.ratingFunVis = Visualizer:New( visName )
 	o.ratingFunVis:init()
-	visName = 'stars' .. o.ratingDifficulty
+	visName = 'skulls' .. o.ratingDifficulty
 	o.ratingDifficultyVis = Visualizer:New( visName )
 	o.ratingDifficultyVis:init()
 
@@ -103,7 +103,7 @@ function Userlevel:authorize()
 	local visName = 'stars' .. o.ratingFun
 	o.ratingFunVis = Visualizer:New( visName )
 	o.ratingFunVis:init()
-	visName = 'stars' .. o.ratingDifficulty
+	visName = 'skulls' .. o.ratingDifficulty
 	o.ratingDifficultyVis = Visualizer:New( visName )
 	o.ratingDifficultyVis:init()
 
