@@ -67,7 +67,6 @@ function Pic:new( x, y, statType, num )
 		-- generate positions so that they overlap, but each position is unique:
 		local freeSlots = generateSlots( math.min(num/2, 6), width/2, 1.4*tileSize )
 
-
 		newPic.slots = freeSlots
 		local found = false
 		local tries = 0
@@ -111,7 +110,11 @@ function Pic:new( x, y, statType, num )
 			end
 		end
 		
-		newPic.list = generateCountList( num, tileSize )
+		if num <= 20 then
+			newPic.list = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
 	elseif statType == "death_spikey" then
 		newPic.title = "Pierced"
 		local width = tileSize*1.4
@@ -161,7 +164,11 @@ function Pic:new( x, y, statType, num )
 			end
 		end
 		
-		newPic.list = generateCountList( num, tileSize )
+		if num <= 20 then
+			newPic.list = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
 	elseif statType == "death_walker" then
 		newPic.title = "Collision"
 		local width = tileSize*2.5
@@ -211,7 +218,11 @@ function Pic:new( x, y, statType, num )
 			end
 		end
 		
-		newPic.list = generateCountList( num, tileSize )
+		if num <= 20 then
+			newPic.list = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
 	elseif statType == "timeInAir" then
 		newPic.title = "Time in Air:"
 		newPic.subTitle = num .. " s"
@@ -230,7 +241,11 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posY = -tileSize*1.5
 	elseif statType == "numberOfButtons" then
 		newPic.title = "Buttons:"
-		newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )
+		if num <= 20 then
+			newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statNumberOfButtons' )
 		newPic.visBG[1]:init()
@@ -238,7 +253,11 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posY = tileSize*0.55
 	elseif statType == "numberOfJumps" then
 		newPic.title = "Jumps:"
-		newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )
+		if num <= 20 then
+			newPic.list, newPic.listPosX, newPic.listPosY = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
 		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statNumberOfJumps' )
 		newPic.visBG[1]:init()
