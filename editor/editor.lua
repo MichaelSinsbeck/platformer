@@ -1151,9 +1151,25 @@ function editor:mousepressed( button, x, y )
 	if button == "m" then
 		cam:setMouseAnchor()
 	elseif button == "wu" then
-		cam:zoomIn()
+		if objectPanel.visible then
+			objectPanel:goToPrevPage()
+		elseif bgObjectPanel.visible then
+			bgObjectPanel:goToPrevPage()
+		elseif loadPanel.visible then
+			loadPanel:goToPrevPage()
+		else
+			cam:zoomIn()
+		end
 	elseif button == "wd" then
-		cam:zoomOut()
+		if objectPanel.visible then
+			objectPanel:goToNextPage()
+		elseif bgObjectPanel.visible then
+			bgObjectPanel:goToNextPage()
+		elseif loadPanel.visible then
+			loadPanel:goToNextPage()
+		else
+			cam:zoomOut()
+		end
 	elseif button == "l" or button == "r" then
 		
 		local wX, wY = cam:screenToWorld( x, y )

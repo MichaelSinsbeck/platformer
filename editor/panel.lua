@@ -131,9 +131,25 @@ function Panel:addLabel( x, y, text )
 	table.insert( self.labels, l )
 end
 
+function Panel:goToNextPage()
+	if self.pages[self.selectedPage + 1] then
+		self.selectedPage = self.selectedPage + 1
+	end
+end
+function Panel:goToPrevPage()
+	if self.selectedPage > 1 and self.pages[self.selectedPage - 1] then
+		self.selectedPage = self.selectedPage - 1
+	end
+end
+function Panel:goToPage( num )
+	if self.pages[num] then
+		self.selectedPage = num
+	end
+end
+
 function Panel:addNextButton( pageNumber )
 	local ev = function()
-		self.selectedPage = pageNumber + 1
+		self:goToPage( pageNumber + 1 )
 	end
 	local c = Clickable:new( self.x + self.width - 12, self.y + self.height - 9, ev,
 			'LERightOff',
@@ -145,7 +161,7 @@ end
 
 function Panel:addPrevButton( pageNumber )
 	local ev = function()
-		self.selectedPage = pageNumber - 1
+		self:goToPage( pageNumber - 1 )
 	end
 	local c = Clickable:new( self.x + 12, self.y + self.height - 9, ev,
 			'LELeftOff',
