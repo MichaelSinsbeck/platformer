@@ -1477,13 +1477,12 @@ function menu.initPauseMenu()
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'exitOff', 'exitOn', "leave", closeEvent, actionHover )
 
-
 	-- add main logo:
 	x = - 35
 	y = - 78
 	table.insert(menuImages, {typ="img", img='paused', x=x, y=y})
 
-	menu:addBox(-20,-4,40,40)
+	menu:addBox(-24,-8,40,40)
 
 	-- start of with the start button selected:
 	selectButton(startButton)
