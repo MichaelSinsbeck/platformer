@@ -701,7 +701,7 @@ function menu:showUserlevelFilters()
 		bNext.invisible = true
 
 		-- Authorized only:
-		y = y + 16
+		y = y + 8
 		local authorizedButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
 		authorizedButton.invisible = true
 		local authorizedLabel = menu:addText( x, y, nil, "Only show authorized: " .. tostring(userlevelFilters.authorizedOnly) )
@@ -716,6 +716,23 @@ function menu:showUserlevelFilters()
 		local aNext = menu:addButton( x+10, y, "startOff", "startOn", "", nil, nextAuthorizationLevel )
 		aPrev.invisible = true
 		aNext.invisible = true
+
+		-- Downloaded only:
+		y = y + 8
+		local downloadedButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
+		downloadedButton.invisible = true
+		local downloadedLabel = menu:addText( x, y, nil, "Only show downloaded: " .. tostring(userlevelFilters.downloadedOnly) )
+
+		local nextDownloaded = function()
+			selectButton(downloadedButton)
+			userlevelFilters.downloadedOnly = not userlevelFilters.downloadedOnly
+			downloadedLabel.txt = "Only show downloaded: " .. tostring(userlevelFilters.downloadedOnly)
+		end
+
+		local dPrev = menu:addButton( x-10, y, "startOff", "startOn", "", nil, nextDownloaded )
+		local dNext = menu:addButton( x+10, y, "startOff", "startOn", "", nil, nextDownloaded )
+		dPrev.invisible = true
+		dNext.invisible = true
 
 		selectButton(sortingButton)
 	end
