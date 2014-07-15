@@ -708,6 +708,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('userlevelDownload','userlevelStates',{1},{1e6})
 	AnimationDB:addAni('userlevelPlay','userlevelStates',{2},{1e6})
 	AnimationDB:addAni('userlevelBusy','userlevelStates',{3},{1e6})
+	AnimationDB:addAni('userlevelError','userlevelStates',{4},{1e6})
 	AnimationDB:addAni('authorizationFalse','authorizationState', {1}, {1e6} )
 	AnimationDB:addAni('authorizationTrue','authorizationState', {2}, {1e6} )
 		

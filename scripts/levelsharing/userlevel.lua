@@ -58,8 +58,7 @@ function Userlevel:download()
 		self:finishedDownloading( data )
 	end
 	local failedEvent = function( msg )
-		print("Couldn't download " .. self.filename .. ". Reason: " .. msg )
-		menu:setStatusMsg( "Failed to download: " .. self.levelname )
+		self:failedDownloading( msg )
 	end
 	--menu:setStatusMsg( "Downloading level " .. self.levelname, -1)
 	threadInterface.new( self.levelname, "scripts/levelsharing/download.lua", "getLevel",
@@ -90,7 +89,17 @@ function Userlevel:finishedDownloading( data )
 	self.statusVis:update(0)
 
 	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+end
+function Userlevel:failedDownloading( msg )
+	print("Couldn't download " .. self.filename .. ". Reason: " .. msg )
 
+	self.downloaded = false
+	self.currentlyDownloading = false
+
+	self.statusVis:setAni( "userlevelError" )
+	self.statusVis:update(0)
+
+	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 end
 
 function Userlevel:loadDescription()

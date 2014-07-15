@@ -22,7 +22,6 @@ dofile(scriptFile)
 -- Execute the function. Since it has been loaded and is global, it should now be in _G:
 local result, msg = _G[functionName]( args[6], args[7], args[8], args[9], args[10] )
 
-
 if result then
 	if msg then
 		resultsChannel:push( msg )

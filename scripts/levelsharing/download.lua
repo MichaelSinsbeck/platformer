@@ -18,6 +18,11 @@ function getLevel( levelname, author, authorized )
 	local response, statusCode, responseHeaders, statusLine = http.request( url )
 	print(resonse, statusCode, responseHeaders, statusLine )
 
+	if response and tonumber(statusCode) >= 400 then	-- errors like 403, 404, 504 etc:
+		print("error...")
+		return false, response
+	end
+
 	if response then
 		return true, response
 	else

@@ -406,13 +406,10 @@ end
 -- Can download, sort and display a list of all online maps by users.
 
 function menu:loadDownloadedUserlevels()
-	print("Loading local userlevels:")
 	local list = love.filesystem.getDirectoryItems( "userlevels/authorized/" ) -- .. author .. "/" .. levelname .. ".dat"
 	for i, author in pairs(list) do
-		print(" ", author)
 		local levels = love.filesystem.getDirectoryItems( "userlevels/authorized/" .. author )
 		for j, levelname in pairs(levels) do
-			print("\t", levelname:sub(1,#levelname-4))
 			local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, true )
 			menu:insertUserlevelIntoList( newLevel )
 		end
@@ -420,10 +417,8 @@ function menu:loadDownloadedUserlevels()
 
 	list = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" ) -- .. author .. "/" .. levelname .. ".dat"
 	for i, author in pairs(list) do
-		print(" ", author)
 		local levels = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" .. author )
 		for j, levelname in pairs(levels) do
-			print("\t", levelname)
 			local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, false )
 			menu:insertUserlevelIntoList( newLevel )
 		end
@@ -431,10 +426,11 @@ function menu:loadDownloadedUserlevels()
 end
 
 function menu:insertUserlevelIntoList( level )
-	print("new", level.author, level.levelname)
+	-- Use this function to insert all levels found locally and online into the list of user levels.
+	-- If a level exists twice (once online and once already downloaded) this function sets the rating
+	-- info of the local level to the rating info received from the server.
 	if userlevelsByAuthor[level.author] and userlevelsByAuthor[level.author][level.levelname] then
-		print("\talready exitst")
-
+		print( "Level " .. level.levelname .. " by " .. level.author .. " already exists locally. Updating data..." )
 		local oldLevel = userlevelsByAuthor[level.author][level.levelname]
 		if not oldLevel.authorized and level.authorized then
 			local oldfilename = "userlevels/unauthorized/" .. level.author .. "/" .. level.levelname .. ".dat"
@@ -456,6 +452,8 @@ function menu:insertUserlevelIntoList( level )
 	end
 
 	table.insert( userlevels, level )
+
+	-- Remember level in list sorted by author/levelname as well:
 	if not userlevelsByAuthor[level.author] then
 		userlevelsByAuthor[level.author] = {}
 	end
@@ -562,7 +560,14 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 			end
 		end
 	end
+	math.randomseed( os.time() )
+	local level = Userlevel:new( math.random(), math.random(), 0, 0, authorizationLevel == "authorized" )
+	menu:insertUserlevelIntoList( level )
 	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+end
+
+function menu:failedDownloadingUserlevel( level )
+	-- Called when an error occurred while downloading a level (for example, 404 - not found)
 end
 
 function menu:drawUserlevels()
