@@ -504,7 +504,15 @@ function menu:initUserlevels()
 		downloadedOnly = false,
 	}
 
-
+	local val
+	val = config.getValue( "LevelsFilterAuthorized" )
+	if val ~= nil then userlevelFilters.authorizedOnly = val end
+	val = config.getValue( "LevelsFilterDownloaded" )
+	if val ~= nil then userlevelFilters.downloadedOnly = val end
+	val = config.getValue( "LevelsSorting" )
+	if val ~= nil then
+		userlevelFilters.sorting = math.min(math.max(math.floor(tonumber(val)), 1),#sortingSchemes )
+	end
 
 	menu:loadDownloadedUserlevels()
 
@@ -759,20 +767,17 @@ function menu:applyUserlevelFilters()
 	end
 
 	userlevelsFiltered = {}
-	print("filtering:", #userlevels)
 
 	-- Go through all levels and see if they fullfill the filter requirements:
 	for k,level in pairs(userlevels) do
 		local skip = false
 		if userlevelFilters.authorizedOnly == true then
 			if level.authorized ~= true then
-				print("skip1")
 				skip = true
 			end
 		end
 		if userlevelFilters.downloadedOnly == true then
 			if level:getIsDownloaded() ~= true then
-				print("skip2")
 				skip = true
 			end
 		end
@@ -781,8 +786,6 @@ function menu:applyUserlevelFilters()
 			table.insert( userlevelsFiltered, level )
 		end
 	end
-
-	print("Filtered:", #userlevelsFiltered)
 
 	local sorting = sortingSchemes[userlevelFilters.sorting]
 	if sorting == "Levelname ascending" then
@@ -807,6 +810,10 @@ function menu:applyUserlevelFilters()
 	menu.firstDisplayedUserlevel = 1
 	menu.selectedUserlevel = 1
 	if buttonCenter then selectButton( buttonCenter ) end
+
+	config.setValue( "LevelsFilterAuthorized", userlevelFilters.authorizedOnly )
+	config.setValue( "LevelsFilterDownloaded", userlevelFilters.downloadedOnly )
+	config.setValue( "LevelsSorting", userlevelFilters.sorting )
 end
 
 function menu:getFiltersVisible()

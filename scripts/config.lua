@@ -66,7 +66,7 @@ function config.setValue( name, value, filename )
 		s, e = string.find(line, name .. " = [^\r\n]+")
 		if s then
 			--data = string.gsub(data, name .. " = [^\r\n]+\r\n", name .. " = " .. value .. "\r\n")
-			newData = newData .. name .. " = " .. value .. "\r\n"
+			newData = newData .. name .. " = " .. tostring(value) .. "\r\n"
 			found = true
 		else
 			newData = newData .. line .. "\r\n"
@@ -74,7 +74,7 @@ function config.setValue( name, value, filename )
 		end
 	end
 	if not found then
-		newData = newData .. name .. " = " .. value .. "\r\n"
+		newData = newData .. name .. " = " .. tostring(value) .. "\r\n"
 	end
 	
 	file = love.filesystem.newFile( filename )
@@ -106,6 +106,8 @@ function config.getValue( name, filename )
 	if data then
 		for k, v in string.gmatch(data, "([^ \r\n]+) = ([^\r\n]+)") do
 			if k == name then
+				if v == "false" then return false end
+				if v == "true" then return true end
 				return v
 			end
 		end
