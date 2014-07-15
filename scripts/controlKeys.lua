@@ -155,19 +155,19 @@ function controlKeys:setup()
 		menuFilters[1].txt = nameForKey( keys.CHOOSE )
 		menuFilters[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
 		menuFilters[1].offset = (menuFilters[1].img:getWidth() - fontSmall:getWidth(menuFilters[1].txt))/2/Camera.scale
-		menuFilters[1].x = (love.graphics.getWidth()-menuFilters[1].img:getWidth())/Camera.scale - 6
+		menuFilters[1].x = (love.graphics.getWidth()-menuFilters[1].img:getWidth())/Camera.scale - 24
 		menuFilters[1].labelX = (menuFilters[1].x*Camera.scale + menuFilters[1].img:getWidth() -
 						fontSmall:getWidth(menuFilters[1].label))/Camera.scale
-		menuFilters[1].y = (love.graphics.getHeight())/Camera.scale - 20
+		menuFilters[1].y = (love.graphics.getHeight())/Camera.scale - 32
 		
 		menuFilters[2] = {}
 		menuFilters[2].label = "Cancel"
 		menuFilters[2].txt = nameForKey( keys.BACK )
 		menuFilters[2].img = menu:getImage(getImageForKey( keys.BACK ))
 		menuFilters[2].offset = (menuFilters[2].img:getWidth() - fontSmall:getWidth(menuFilters[2].txt))/2/Camera.scale
-		menuFilters[2].x = 6
+		menuFilters[2].x = 24
 		menuFilters[2].labelX = menuFilters[2].x
-		menuFilters[2].y = (love.graphics.getHeight())/Camera.scale - 20
+		menuFilters[2].y = (love.graphics.getHeight())/Camera.scale - 32
 
 		rating = {}
 		rating[1] = {}

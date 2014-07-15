@@ -501,6 +501,8 @@ function menu:initUserlevels()
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
+
+	-- Add a panel for displaying the filters on. Make it invisible for now:
 	userlevelFilterBox = menu:addBox( -width/2 + 8, - 0, width - 16, height/2 )
 	userlevelFilterBox.visible = false
 	userlevelFilters = {
