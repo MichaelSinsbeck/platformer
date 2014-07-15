@@ -20,6 +20,22 @@ local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The
 local userlevels = {}
 local userlevelsByAuthor = {}
 local userlevelList
+local bkupButtons = {}		-- while filters are active, save list's buttons in here
+local buttonCenter
+
+-- Filters for and sorting of userlevels
+local userlevelFilterBox
+local userlevelFilters
+local sortingSchemes = {
+	"Levelname ascending",
+	"Levelname descending",
+	"Author ascending",
+	"Author descending",
+	"Fun rating ascending",
+	"Fun rating descending",
+	"Difficulty rating ascending",
+	"Difficulty rating descending",
+}
 
 --local PADDING = 50		-- distance of buttons from edges
 
@@ -485,6 +501,11 @@ function menu:initUserlevels()
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
+	userlevelFilterBox = menu:addBox( -width/2 + 8, - 0, width - 16, height/2 )
+	userlevelFilterBox.visible = false
+	userlevelFilters = {
+		sorting = 1,
+	}
 
 	local chooseLevel = function()
 		if userlevels[menu.selectedUserlevel] then
@@ -496,38 +517,33 @@ function menu:initUserlevels()
 		end
 	end
 
-	local buttonCenter = menu:addButton( 0, 0, "startOff", "startOn", "Choose", chooseLevel, nil )
+	local lineHover = function()
+		menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+		local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
+		local x = (userlevelList.x + 10)
+		menu.setPlayerPosition( x, y )()
+	end
+
+	buttonCenter = menu:addButton( 0, 0, "startOff", "startOn", "Choose", chooseLevel, lineHover )
 	buttonCenter.invisible = true
 
 	local moveUp = function()
-		selectButton( buttonCenter )
 		menu.selectedUserlevel = math.max( 1, menu.selectedUserlevel - 1 )
-
-		menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 
 		if menu.selectedUserlevel < menu.firstDisplayedUserlevel then
 			menu.firstDisplayedUserlevel = menu.selectedUserlevel
 		end
 
-		local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
-		local x = (userlevelList.x + 10)
-		menu.setPlayerPosition( x, y )()
-
+		selectButton( buttonCenter )
 	end
 	local moveDown = function()
-		selectButton( buttonCenter )
 		menu.selectedUserlevel = math.min( #userlevels, menu.selectedUserlevel + 1 )
-
-		menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 
 		if menu.selectedUserlevel - menu.firstDisplayedUserlevel + 1> menu.displayedUserlevels then
 			menu.firstDisplayedUserlevel = menu.selectedUserlevel - menu.displayedUserlevels + 1
 		end
 
-		local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
-		local x = (userlevelList.x + 10)
-		menu.setPlayerPosition( x, y )()
-
+		selectButton( buttonCenter )
 	end
 	local buttonUp = menu:addButton( 0, -10, "startOff", "startOn", "up", nil, moveUp )
 	local buttonDown = menu:addButton( 0, 10, "startOff", "startOn", "down", nil, moveDown )
@@ -560,9 +576,6 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 			end
 		end
 	end
-	math.randomseed( os.time() )
-	local level = Userlevel:new( math.random(), math.random(), 0, 0, authorizationLevel == "authorized" )
-	menu:insertUserlevelIntoList( level )
 	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 end
 
@@ -571,7 +584,6 @@ function menu:failedDownloadingUserlevel( level )
 end
 
 function menu:drawUserlevels()
-	--love.graphics.print( "press number to download. press again to play.", 10, 40 )
 	local y = (userlevelList.y + LIST_ENTRY_HEIGHT*1)*Camera.scale
 	local x = (userlevelList.x + 8)*Camera.scale
 
@@ -601,6 +613,9 @@ function menu:drawUserlevels()
 	
 	--for i, level in ipairs( userlevels ) do
 	local lastDisplayedLevel = math.min( menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevels )
+	if userlevelFilterBox.visible then
+		lastDisplayedLevel = math.min( 1 + 0.5*menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevels )
+	end
 	--print(#userlevels, lastDisplayedLevel, menu.displayedUserlevels, menu.firstDisplayedUserlevel )
 	for i = menu.firstDisplayedUserlevel, lastDisplayedLevel do
 		local level = userlevels[i]
@@ -614,8 +629,11 @@ function menu:drawUserlevels()
 		level.ratingFunVis:draw( xFun + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.ratingDifficultyVis:draw( xDifficulty + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-
 	end
+
+	--[[if userlevelFilterBox.visible then
+		userlevelFilterBox.box:draw( userlevelFilterBox.x, userlevelFilterBox.y )
+	end]]
 end
 
 function menu:updateTextForCurrentUserlevel()
@@ -627,6 +645,93 @@ function menu:updateTextForCurrentUserlevel()
 		else
 			menu.text = "Download '" .. userlevels[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
 		end
+	end
+end
+
+-- Start displaying popup for filters. Will apply controls from userlevel list to filter popup
+function menu:showUserlevelFilters()
+	if not (menu.state == "userlevels") then return end
+	
+	if userlevelFilterBox then
+		userlevelFilterBox.visible = true
+
+		bkupButtons = buttons
+		buttons = {}
+
+		local x = userlevelFilterBox.x + 16
+		local y = userlevelFilterBox.y + 10
+		local sortingButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
+		sortingButton.invisible = true
+		local sortingLabel = menu:addText( x, y, nil, "Sort by: " .. sortingSchemes[userlevelFilters.sorting] )
+
+		local nextSortingScheme = function()
+			selectButton(sortingButton)
+			userlevelFilters.sorting = userlevelFilters.sorting + 1
+			if userlevelFilters.sorting > #sortingSchemes then
+				userlevelFilters.sorting = 1
+			end
+			sortingLabel.txt = "Sort by: " .. sortingSchemes[userlevelFilters.sorting]
+		end
+		local prevSortingScheme = function()
+			selectButton(sortingButton)
+			userlevelFilters.sorting = userlevelFilters.sorting - 1
+			if userlevelFilters.sorting < 1 then
+				userlevelFilters.sorting = #sortingSchemes
+			end
+			sortingLabel.txt = "Sort by: " .. sortingSchemes[userlevelFilters.sorting]
+		end
+
+		local bPrev = menu:addButton( x-10, y, "startOff", "startOn", "", nil, prevSortingScheme )
+		local bNext = menu:addButton( x+10, y, "startOff", "startOn", "", nil, nextSortingScheme )
+		bPrev.invisible = true
+		bNext.invisible = true
+
+		selectButton(sortingButton)
+	end
+end
+
+function menu:hideUserlevelFilters()
+	if not (menu.state == "userlevels") then return end
+
+	menuTexts = {}
+	selectButton( buttonCenter )
+	menuPlayer.vis.sx = 1
+	
+	if userlevelFilterBox then
+		userlevelFilterBox.visible = false
+
+		-- re-enable the list's buttons which were stored before.
+		buttons = bkupButtons
+	end
+end
+
+function menu:applyFilters()
+	menu:hideUserlevelFilters()
+
+	local sorting = sortingSchemes[userlevelFilters.sorting]
+
+	if sorting == "Levelname ascending" then
+		table.sort( userlevels, Userlevel.sortByNameAscending )
+	elseif sorting == "Levelname descending" then
+		table.sort( userlevels, Userlevel.sortByNameDescending )
+	elseif sorting == "Author ascending" then
+		table.sort( userlevels, Userlevel.sortByAuthorAscending )
+	elseif sorting == "Author descending" then
+		table.sort( userlevels, Userlevel.sortByAuthorDescending )
+	elseif sorting == "Fun rating ascending" then
+		table.sort( userlevels, Userlevel.sortByFunAscending )
+	elseif sorting == "Fun rating descending" then
+		table.sort( userlevels, Userlevel.sortByFunDescending )
+	elseif sorting == "Difficulty rating ascending" then
+		table.sort( userlevels, Userlevel.sortByDifficultyAscending )
+	elseif sorting == "Difficulty rating descending" then
+		table.sort( userlevels, Userlevel.sortByDifficultyDescending )
+	end
+end
+
+function menu:getFiltersVisible()
+	if menu.state == "userlevels" and userlevelFilterBox and userlevelFilterBox.visible then
+		return true
 	end
 end
 
@@ -654,7 +759,6 @@ function menu.initRatingMenu()
 	if not shaders:getDeathEffect() then
 		shaders:setDeathEffect( .8 )
 	end
-
 
 	menu:addText( -30, -12, nil, "Rate the level! (Esc to skip)" )
 	menu:addText( -28, -2, nil, "Boring" )
@@ -823,7 +927,6 @@ function menu:addButtonLabeled( x,y,imgOff,imgOn,name,action,actionHover,label,f
 	--new.oy = AnimationDB.image[imgOff]:getHeight()*0.5/Camera.scale
 	new.ox = 0
 	new.oy = 0
-	
 	new.labelX = (AnimationDB.image[imgOff]:getWidth() - _G[font]:getWidth(label))*0.5/Camera.scale
 	table.insert(buttons, new)
 
@@ -835,6 +938,7 @@ function menu:addText( x, y, index, str )
 		index = #menuTexts + 1
 	end
 	menuTexts[index] = {txt = str, x=x, y=y}
+	return menuTexts[index]
 end
 
 function menu:changeText( index, str )
@@ -911,9 +1015,9 @@ function menu:generateBox(left,top,width,height,boxFactor)
 	return new
 end
 
-function menu:addBox(left,top,width,height)
-	--table.insert(menuBoxes, menu:generateBox(left,top,width,height))
-	local newBox = { x = left, y = top, w = width, h = height, box = BambooBox:new( "", width, height ) }
+function menu:addBox(left,top,width,height,manualDrawing)
+	-- if manualDrawing is set to true then box is not drawn in background.
+	local newBox = { x = left, y = top, w = width, h = height, box = BambooBox:new( "", width, height ), visible = true, manualDrawing = manualDrawing }
 	table.insert( menuBoxes, newBox )
 	return newBox
 end
@@ -1133,25 +1237,35 @@ function menu:keypressed( key, unicode )
 				elseif menu.state == "rating" then
 					menu.startTransition(menu.initUserlevels, false)()
 				elseif menu.state == "userlevels" then
-					menu.startTransition(menu.initMain, false)()
+					if menu:getFiltersVisible() then
+						menu:hideUserlevelFilters()
+					else
+						menu.startTransition(menu.initMain, false)()
+					end
 				end
 			end
 		elseif menu.state == "userlevels" then
-			if tonumber(key) then
+			if key == keys.FILTERS or (key == keys.PAD.FILTERS and love.joystick.getJoystickCount() > 0) then
+				if not menu:getFiltersVisible() then
+					menu:showUserlevelFilters()
+				end
+			elseif tonumber(key) then
 				local i = tonumber(key)
-				if i >= 0 and i <=9 then
-					if userlevels[i] then
-						if userlevels[i]:getIsDownloaded() then
-							userlevels[i]:play()
-						else
-							userlevels[i]:download()
-						end
-					end
+				if i == 1 then
+					table.sort( userlevels, Userlevel.sortByAuthorAscending )
+				elseif i == 2 then table.sort( userlevels, Userlevel.sortByAuthorDescending )
+				elseif i == 3 then table.sort( userlevels, Userlevel.sortByNameAscending )
+				elseif i == 4 then table.sort( userlevels, Userlevel.sortByNameDescending )
+				elseif i == 5 then table.sort( userlevels, Userlevel.sortByFunDescending )
+				elseif i == 6 then table.sort( userlevels, Userlevel.sortByFunDescending )
+				elseif i == 7 then table.sort( userlevels, Userlevel.sortByDifficultyAscending )
+				elseif i == 8 then table.sort( userlevels, Userlevel.sortByDifficultyDescending )
 				end
 			end
 		end
 	end
 end
+
 
 ---------------------------------------------------------
 -- Animate ninja and buttons:
@@ -1290,8 +1404,20 @@ function menu:draw()
 	
 	-- draw boxes:
 	for k,element in pairs(menuBoxes) do
-		element.box:draw( element.x, element.y )
+		if element.visible then
+			element.box:draw( element.x, element.y )
+		end
 	end
+
+	if menu.state == "userlevels" then
+		menu:drawUserlevels()
+		if menu.statusMsg then
+			love.graphics.print( menu.statusMsg,
+			(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
+			10)
+		end
+	end
+
 	--[[
 	for k,element in pairs(menuBoxes) do
 		-- scale box coordinates according to scale
@@ -1360,7 +1486,7 @@ function menu:draw()
 					button.oy*Camera.scale)
 				end
 			end
-			love.graphics.setColor(0,0,0,255)
+			love.graphics.setColor(255,255,255,255)
 			if button.label then
 				love.graphics.setFont( _G[button.font] )
 				love.graphics.print( button.label,
@@ -1385,15 +1511,6 @@ function menu:draw()
 		love.graphics.print( text.txt, 
 		(text.x)*Camera.scale, 
 		(text.y)*Camera.scale)
-	end
-
-	if menu.state == "userlevels" then
-		menu:drawUserlevels()
-		if menu.statusMsg then
-			love.graphics.print( menu.statusMsg,
-			(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
-			10)
-		end
 	end
 
 

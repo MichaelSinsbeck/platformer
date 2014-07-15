@@ -22,6 +22,7 @@ local keyTypes = {
 	"CHOOSE",
 	"BACK",
 	"PAUSE",
+	"FILTERS",
 }
 ---------------------------------------------------------
 -- Defaults
@@ -47,6 +48,8 @@ function keys.setDefaults()
 	keys.BACK = 'escape'
 
 	keys.PAUSE = 'escape'
+
+	keys.FILTERS = 'f'
 	
 	-- gamepad defaults:
 	keys.PAD = {}
@@ -69,6 +72,8 @@ function keys.setDefaults()
 	keys.PAD.BACK = '2'
 
 	keys.PAD.PAUSE = '7'
+
+	keys.PAD.FILTERS = '7'
 	
 	keys.gamepadPressed = {}
 end

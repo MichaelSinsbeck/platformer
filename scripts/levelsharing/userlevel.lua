@@ -108,7 +108,6 @@ end
 
 function Userlevel:authorize()
 
-
 	local visName = 'stars' .. o.ratingFun
 	o.ratingFunVis = Visualizer:New( visName )
 	o.ratingFunVis:init()
@@ -129,8 +128,6 @@ function Userlevel:authorize()
 		o.authorizationVis:setAni( "authorizationTrue" )
 		o.authorizationVis:update(0)
 	end
-
-
 end
 
 function Userlevel:play()
@@ -139,4 +136,116 @@ function Userlevel:play()
 	menu.startTransition( menu.startGame( self.filename ), false )()
 end
 
+function Userlevel.sortByAuthorAscending( a, b )
+	if a and b then
+		if a.author < b.author then
+			return true
+		else
+			if a.author == b.author then
+				if a.levelname < b.levelname then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+function Userlevel.sortByAuthorDescending( a, b )
+	if a and b then
+		if a.author > b.author then
+			return true
+		else
+			if a.author == b.author then
+				if a.levelname < b.levelname then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+function Userlevel.sortByNameAscending( a, b )
+	if a and b then
+		if a.levelname < b.levelname then
+			return true
+		else
+			if a.levelname == b.levelname then
+				if a.author < b.author then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+function Userlevel.sortByNameDescending( a, b )
+	if a and b then
+		if a.levelname > b.levelname then
+			return true
+		else
+			if a.levelname == b.levelname then
+				if a.author < b.author then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+function Userlevel.sortByFunAscending( a, b )
+	if a and b then
+		if a.ratingFun < b.ratingFun then
+			return true
+		else
+			if a.ratingFun == b.ratingFun then
+				if a.levelname < b.levelname then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+function Userlevel.sortByFunDescending( a, b )
+	if a and b then
+		if a.ratingFun > b.ratingFun then
+			return true
+		else
+			if a.ratingFun == b.ratingFun then
+				if a.levelname < b.levelname then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+function Userlevel.sortByDifficultyAscending( a, b )
+	if a and b then
+		if a.ratingDifficulty < b.ratingDifficulty then
+			return true
+		else
+			if a.ratingDifficulty == b.ratingDifficulty then
+				if a.levelname < b.levelname then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+function Userlevel.sortByDifficultyDescending( a, b )
+	if a and b then
+		if a.ratingDifficulty > b.ratingDifficulty then
+			return true
+		else
+			if a.ratingDifficulty == b.ratingDifficulty then
+				if a.levelname < b.levelname then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
 return Userlevel

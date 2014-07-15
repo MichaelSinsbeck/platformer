@@ -5,6 +5,8 @@ local controlKeys = {}
 local death = {}
 local win = {}
 local menuControl = {}
+local menuUserlevels = {}
+local menuFilters = {}
 local rating = {}
 local toDraw
 
@@ -17,7 +19,13 @@ function controlKeys:draw( drawMode )
 	elseif drawMode == "win" then
 		toDraw = win
 	elseif drawMode == "menu" then
-		toDraw = menuControl
+		if menu:getFiltersVisible() then
+			toDraw = menuFilters
+		elseif menu.state == "userlevels" then
+			toDraw = menuUserlevels
+		else
+			toDraw = menuControl
+		end
 	elseif drawMode == "rating" then
 		toDraw = rating
 	end
@@ -111,6 +119,55 @@ function controlKeys:setup()
 		menuControl[2].x = 6
 		menuControl[2].labelX = menuControl[2].x
 		menuControl[2].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuUserlevels = {}
+		menuUserlevels[1] = {}
+		menuUserlevels[1].label = "Choose"
+		menuUserlevels[1].txt = nameForKey( keys.CHOOSE )
+		menuUserlevels[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
+		menuUserlevels[1].offset = (menuUserlevels[1].img:getWidth() - fontSmall:getWidth(menuUserlevels[1].txt))/2/Camera.scale
+		menuUserlevels[1].x = (love.graphics.getWidth()-menuUserlevels[1].img:getWidth())/Camera.scale - 6
+		menuUserlevels[1].labelX = (menuUserlevels[1].x*Camera.scale + menuUserlevels[1].img:getWidth() -
+						fontSmall:getWidth(menuUserlevels[1].label))/Camera.scale
+		menuUserlevels[1].y = (love.graphics.getHeight())/Camera.scale - 20
+		
+		menuUserlevels[2] = {}
+		menuUserlevels[2].label = "Back"
+		menuUserlevels[2].txt = nameForKey( keys.BACK )
+		menuUserlevels[2].img = menu:getImage(getImageForKey( keys.BACK ))
+		menuUserlevels[2].offset = (menuUserlevels[2].img:getWidth() - fontSmall:getWidth(menuUserlevels[2].txt))/2/Camera.scale
+		menuUserlevels[2].x = 6
+		menuUserlevels[2].labelX = menuUserlevels[2].x
+		menuUserlevels[2].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuUserlevels[3] = {}
+		menuUserlevels[3].label = "Filters and Sorting"
+		menuUserlevels[3].txt = nameForKey( keys.FILTERS )
+		menuUserlevels[3].img = menu:getImage(getImageForKey( keys.BACK ))
+		menuUserlevels[3].offset = (menuUserlevels[3].img:getWidth() - fontSmall:getWidth(menuUserlevels[3].txt))/2/Camera.scale
+		menuUserlevels[3].x = 0.75*(love.graphics.getWidth()-menuUserlevels[3].img:getWidth())/Camera.scale
+		menuUserlevels[3].labelX = menuUserlevels[3].x +menuUserlevels[3].offset- fontSmall:getWidth(menuUserlevels[3].label)/2/Camera.scale
+		menuUserlevels[3].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuFilters = {}
+		menuFilters[1] = {}
+		menuFilters[1].label = "Apply"
+		menuFilters[1].txt = nameForKey( keys.CHOOSE )
+		menuFilters[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
+		menuFilters[1].offset = (menuFilters[1].img:getWidth() - fontSmall:getWidth(menuFilters[1].txt))/2/Camera.scale
+		menuFilters[1].x = (love.graphics.getWidth()-menuFilters[1].img:getWidth())/Camera.scale - 6
+		menuFilters[1].labelX = (menuFilters[1].x*Camera.scale + menuFilters[1].img:getWidth() -
+						fontSmall:getWidth(menuFilters[1].label))/Camera.scale
+		menuFilters[1].y = (love.graphics.getHeight())/Camera.scale - 20
+		
+		menuFilters[2] = {}
+		menuFilters[2].label = "Cancel"
+		menuFilters[2].txt = nameForKey( keys.BACK )
+		menuFilters[2].img = menu:getImage(getImageForKey( keys.BACK ))
+		menuFilters[2].offset = (menuFilters[2].img:getWidth() - fontSmall:getWidth(menuFilters[2].txt))/2/Camera.scale
+		menuFilters[2].x = 6
+		menuFilters[2].labelX = menuFilters[2].x
+		menuFilters[2].y = (love.graphics.getHeight())/Camera.scale - 20
 
 		rating = {}
 		rating[1] = {}

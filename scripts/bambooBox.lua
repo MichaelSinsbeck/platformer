@@ -243,6 +243,7 @@ function Box:draw( x, y )
 		for i, line in pairs( self.lines ) do
 			love.graphics.rectangle( "fill", (x+line.x)*Camera.scale, (y+line.y)*Camera.scale, line.w*Camera.scale, line.h*Camera.scale )
 		end
+		love.graphics.setColor( 255,255,255,255 )
 	end
 end
 

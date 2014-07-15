@@ -168,9 +168,9 @@ function love.keypressed( key, repeated )
 		editor.keypressed( key, repeated )
 	else
 	
-		if key == keys.FULLSCREEN then
-			settings:toggleFullScreen()
-		end
+		--if key == keys.FULLSCREEN then
+		--	settings:toggleFullScreen()
+		--end
 
 		if mode == 'menu' then
 			menu:keypressed( key, repeated )
