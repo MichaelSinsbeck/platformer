@@ -18,6 +18,7 @@ local selButton
 local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
 
 local userlevels = {}
+local userlevelsFiltered = {}
 local userlevelsByAuthor = {}
 local userlevelList
 local bkupButtons = {}		-- while filters are active, save list's buttons in here
@@ -439,6 +440,7 @@ function menu:loadDownloadedUserlevels()
 			menu:insertUserlevelIntoList( newLevel )
 		end
 	end
+	menu:applyUserlevelFilters()
 end
 
 function menu:insertUserlevelIntoList( level )
@@ -486,6 +488,24 @@ function menu:initUserlevels()
 
 	userlevels = {}
 	userlevelsByAuthor = {}
+	userlevelsFiltered = {}
+
+
+	local width = love.graphics.getWidth()/Camera.scale - 16
+	local height = love.graphics.getHeight()/Camera.scale - 32
+	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
+
+	-- Add a panel for displaying the filters on. Make it invisible for now:
+	userlevelFilterBox = menu:addBox( -width/2 + 8, - 0, width - 16, height/2 )
+	userlevelFilterBox.visible = false
+	userlevelFilters = {
+		sorting = 1,
+		authorizedOnly = true,
+		downloadedOnly = false,
+	}
+
+
+
 	menu:loadDownloadedUserlevels()
 
 	--[[threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
@@ -497,17 +517,7 @@ function menu:initUserlevels()
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 						function(data) menu:userlevelsLoaded(data, "authorized") end,
 						nil, "authorized" )
-	local width = love.graphics.getWidth()/Camera.scale - 16
-	local height = love.graphics.getHeight()/Camera.scale - 32
 
-	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
-
-	-- Add a panel for displaying the filters on. Make it invisible for now:
-	userlevelFilterBox = menu:addBox( -width/2 + 8, - 0, width - 16, height/2 )
-	userlevelFilterBox.visible = false
-	userlevelFilters = {
-		sorting = 1,
-	}
 
 	local chooseLevel = function()
 		if userlevels[menu.selectedUserlevel] then
@@ -539,7 +549,7 @@ function menu:initUserlevels()
 		selectButton( buttonCenter )
 	end
 	local moveDown = function()
-		menu.selectedUserlevel = math.min( #userlevels, menu.selectedUserlevel + 1 )
+		menu.selectedUserlevel = math.min( #userlevelsFiltered, menu.selectedUserlevel + 1 )
 
 		if menu.selectedUserlevel - menu.firstDisplayedUserlevel + 1> menu.displayedUserlevels then
 			menu.firstDisplayedUserlevel = menu.selectedUserlevel - menu.displayedUserlevels + 1
@@ -579,6 +589,7 @@ function menu:userlevelsLoaded( data, authorizationLevel )
 		end
 	end
 	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+	menu:applyUserlevelFilters()
 end
 
 function menu:failedDownloadingUserlevel( level )
@@ -614,13 +625,13 @@ function menu:drawUserlevels()
 	love.graphics.print( "Authorized", xAuthorized + 2*Camera.scale, y + 2*Camera.scale )
 	
 	--for i, level in ipairs( userlevels ) do
-	local lastDisplayedLevel = math.min( menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevels )
+	local lastDisplayedLevel = math.min( menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevelsFiltered )
 	if userlevelFilterBox.visible then
-		lastDisplayedLevel = math.min( 1 + 0.5*menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevels )
+		lastDisplayedLevel = math.min( 1 + 0.5*menu.displayedUserlevels + menu.firstDisplayedUserlevel - 1, #userlevelsFiltered )
 	end
 	--print(#userlevels, lastDisplayedLevel, menu.displayedUserlevels, menu.firstDisplayedUserlevel )
 	for i = menu.firstDisplayedUserlevel, lastDisplayedLevel do
-		local level = userlevels[i]
+		local level = userlevelsFiltered[i]
 
 		y = (2 + userlevelList.y + LIST_ENTRY_HEIGHT*(i-menu.firstDisplayedUserlevel+2))*Camera.scale
 
@@ -660,9 +671,10 @@ function menu:showUserlevelFilters()
 		bkupButtons = buttons
 		buttons = {}
 
+		-- Sorting scheme
 		local x = userlevelFilterBox.x + 16
 		local y = userlevelFilterBox.y + 10
-		local sortingButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
+		local sortingButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
 		sortingButton.invisible = true
 		local sortingLabel = menu:addText( x, y, nil, "Sort by: " .. sortingSchemes[userlevelFilters.sorting] )
 
@@ -688,6 +700,23 @@ function menu:showUserlevelFilters()
 		bPrev.invisible = true
 		bNext.invisible = true
 
+		-- Authorized only:
+		y = y + 16
+		local authorizedButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
+		authorizedButton.invisible = true
+		local authorizedLabel = menu:addText( x, y, nil, "Only show authorized: " .. tostring(userlevelFilters.authorizedOnly) )
+
+		local nextAuthorizationLevel = function()
+			selectButton(authorizedButton)
+			userlevelFilters.authorizedOnly = not userlevelFilters.authorizedOnly
+			authorizedLabel.txt = "Only show authorized: " .. tostring(userlevelFilters.authorizedOnly)
+		end
+
+		local aPrev = menu:addButton( x-10, y, "startOff", "startOn", "", nil, nextAuthorizationLevel )
+		local aNext = menu:addButton( x+10, y, "startOff", "startOn", "", nil, nextAuthorizationLevel )
+		aPrev.invisible = true
+		aNext.invisible = true
+
 		selectButton(sortingButton)
 	end
 end
@@ -707,28 +736,60 @@ function menu:hideUserlevelFilters()
 	end
 end
 
-function menu:applyFilters()
-	menu:hideUserlevelFilters()
+function menu:applyUserlevelFilters()
+	if userlevelFilterBox and userlevelFilterBox.visible then
+		menu:hideUserlevelFilters()
+	end
+
+	userlevelsFiltered = {}
+	print("filtering:", #userlevels)
+
+	-- Go through all levels and see if they fullfill the filter requirements:
+	for k,level in pairs(userlevels) do
+		local skip = false
+		if userlevelFilters.authorizedOnly == true then
+			if level.authorized ~= true then
+				print("skip1")
+				skip = true
+			end
+		end
+		if userlevelFilters.downloadedOnly == true then
+			if level:getIsDownloaded() ~= true then
+				print("skip2")
+				skip = true
+			end
+		end
+
+		if not skip then
+			table.insert( userlevelsFiltered, level )
+		end
+	end
+
+	print("Filtered:", #userlevelsFiltered)
 
 	local sorting = sortingSchemes[userlevelFilters.sorting]
-
 	if sorting == "Levelname ascending" then
-		table.sort( userlevels, Userlevel.sortByNameAscending )
+		table.sort( userlevelsFiltered, Userlevel.sortByNameAscending )
 	elseif sorting == "Levelname descending" then
-		table.sort( userlevels, Userlevel.sortByNameDescending )
+		table.sort( userlevelsFiltered, Userlevel.sortByNameDescending )
 	elseif sorting == "Author ascending" then
-		table.sort( userlevels, Userlevel.sortByAuthorAscending )
+		table.sort( userlevelsFiltered, Userlevel.sortByAuthorAscending )
 	elseif sorting == "Author descending" then
-		table.sort( userlevels, Userlevel.sortByAuthorDescending )
+		table.sort( userlevelsFiltered, Userlevel.sortByAuthorDescending )
 	elseif sorting == "Fun rating ascending" then
-		table.sort( userlevels, Userlevel.sortByFunAscending )
+		table.sort( userlevelsFiltered, Userlevel.sortByFunAscending )
 	elseif sorting == "Fun rating descending" then
-		table.sort( userlevels, Userlevel.sortByFunDescending )
+		table.sort( userlevelsFiltered, Userlevel.sortByFunDescending )
 	elseif sorting == "Difficulty rating ascending" then
-		table.sort( userlevels, Userlevel.sortByDifficultyAscending )
+		table.sort( userlevelsFiltered, Userlevel.sortByDifficultyAscending )
 	elseif sorting == "Difficulty rating descending" then
-		table.sort( userlevels, Userlevel.sortByDifficultyDescending )
+		table.sort( userlevelsFiltered, Userlevel.sortByDifficultyDescending )
 	end
+
+	-- Adjust list view in case less levels are shown than before:
+	menu.firstDisplayedUserlevel = 1
+	menu.selectedUserlevel = 1
+	if buttonCenter then selectButton( buttonCenter ) end
 end
 
 function menu:getFiltersVisible()
