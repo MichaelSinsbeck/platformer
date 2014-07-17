@@ -47,6 +47,11 @@ function Line:update(dt)
 	local distance = (self.nx * dx + self.ny * dy)
 	local position = self.ex * dx + self.ey*dy
 	
+	if p.anchor or (game.isAction and p.canHook) then
+		self.distanceOld = distance
+		return
+	end
+		
 	if p.line and p.line == self then
 	  distance = 0
 	end

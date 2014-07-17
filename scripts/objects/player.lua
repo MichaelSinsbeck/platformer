@@ -341,7 +341,9 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
-				if self.status ~= 'online' then self.status = 'rightwall' end
+				--if self.status ~= 'online' then 
+					self.status = 'rightwall' 
+				--end			
       end
     end
   elseif vx < 0 then -- Bewegung nach links
@@ -350,9 +352,9 @@ function Player:collision(dt)
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'left',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'left',self.tag) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
-        if self.status ~= 'online' then
-			self.status = 'leftwall'
-		end
+        --if self.status ~= 'online' then
+					self.status = 'leftwall'
+				--end
       end
     end
   end
@@ -368,6 +370,10 @@ function Player:collision(dt)
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth)-1,math.floor(self.newY-self.semiheight),'up',self.tag) then
         self.newY = math.ceil(self.newY-self.semiheight)+self.semiheight
         verticalChange = false
+        if self.status == 'online' then
+					self.status = 'fly'
+					self.line = nil
+        end
       end
     end
     
@@ -384,7 +390,7 @@ function Player:collision(dt)
   end
   
   -- Attach to a wall, from every status but 'stand', if position is correct.
-  if self.status ~= 'stand' then
+  if self.status ~= 'stand' and self.status ~= 'online' then
 		if utility.isInteger(self.newX-self.semiwidth) then -- if aligned with the left
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth)-1,math.floor(self.newY-self.semiheight),'left',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth)-1,math.ceil(self.newY+self.semiheight)-1,'left',self.tag) then
@@ -456,6 +462,10 @@ function Player:collision(dt)
   end
   
   self.newX = math.min(math.max(self.newX,1+self.semiwidth),myMap.width+1-self.semiwidth)
+	
+	if self.status ~= 'online' then
+		self.line = nil
+	end
 	
 	-- correct rope length if shortening did not work (avoid unwanted snapping effects)
 	if self.anchor and game.isUp then
@@ -605,7 +615,10 @@ function Player:throwBungee()
 	local vx = self.bungeeSpeed * math.cos(self.vis[2].angle)
 	local vy = self.bungeeSpeed * math.sin(self.vis[2].angle)
 	local newBungee = objectClasses.Bungee:New({x=self.x, y=self.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=self.vis[2].angle})} })
-	spriteEngine:insert(newBungee)	
+	spriteEngine:insert(newBungee)
+	if self.status == 'online' then
+		self.status = 'fly'
+	end	
 end
 
 function Player:connect(anchor)
