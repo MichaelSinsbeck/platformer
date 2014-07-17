@@ -132,15 +132,15 @@ function menu.initMain()
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
+	menu:addButton( x, y, 'downloadOff', 'downloadOn', "User Levels", menu.startTransition( menu.initUserlevels, true), actionHover )
+	y = y + 10
+
+	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'settingsOff', 'settingsOn', "Settings", menu.startTransition( settings.init, false), actionHover )
 	y = y + 10
 	
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
 	menu:addButton( x, y, 'editorOff', 'editorOn', "Level Editor", menu.startTransition( editor.start, true), actionHover )
-	y = y + 10
-
-	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
-	menu:addButton( x, y, 'downloadOff', 'downloadOn', "User Levels", menu.startTransition( menu.initUserlevels, true), actionHover )
 	y = y + 10
 
 	actionHover = menu.setPlayerPosition( x - 4, y + 5 )
@@ -847,7 +847,7 @@ function menu.initRatingMenu()
 		shaders:setDeathEffect( .8 )
 	end
 
-	menu:addText( -36, -12, nil, "Rate the level!" )
+	menu:addText( -30, -12, nil, "Rate the level!" )
 	menu:addText( -28, -2, nil, "Boring" )
 	menu:addText( 16, -2, nil, "Fun" )
 	local visFun = Visualizer:New("stars3")
