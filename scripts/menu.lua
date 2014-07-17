@@ -847,18 +847,18 @@ function menu.initRatingMenu()
 		shaders:setDeathEffect( .8 )
 	end
 
-	menu:addText( -30, -12, nil, "Rate the level! (Esc to skip)" )
+	menu:addText( -36, -12, nil, "Rate the level!" )
 	menu:addText( -28, -2, nil, "Boring" )
 	menu:addText( 16, -2, nil, "Fun" )
 	local visFun = Visualizer:New("stars3")
 	visFun:init()
-	table.insert( menuVisualizers, {vis = visFun, x = 0, y = 0} )
+	table.insert( menuVisualizers, {vis = visFun, x = 0, y = -1} )
 
 	menu:addText( -25, 8, nil, "Easy" )
 	menu:addText( 16, 8, nil, "Difficult" )
-	local visDifficulty = Visualizer:New("stars3")
+	local visDifficulty = Visualizer:New("skulls3")
 	visDifficulty:init()
-	table.insert( menuVisualizers, {vis = visDifficulty, x = 0, y = 10} )
+	table.insert( menuVisualizers, {vis = visDifficulty, x = 0, y = 9} )
 
 	-- Start player next to fun rating:
 	menu.setPlayerPosition( -34, 0 )()
@@ -877,7 +877,7 @@ function menu.initRatingMenu()
 				visFun:update(0)
 			else -- otherwise update "difficulty" diplay;
 				levelrating.ratingDifficulty = i
-				visDifficulty:setAni("stars" .. i)
+				visDifficulty:setAni("skulls" .. i)
 				visDifficulty:update(0)
 			end
 		end
