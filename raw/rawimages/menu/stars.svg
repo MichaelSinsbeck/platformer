@@ -18,7 +18,7 @@
    version="1.1"
    id="svg2"
    height="300"
-   width="150">
+   width="100">
   <sodipodi:namedview
      id="base"
      pagecolor="#000000"
@@ -27,8 +27,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2"
-     inkscape:cx="93.29011"
-     inkscape:cy="95.130149"
+     inkscape:cx="110.79011"
+     inkscape:cy="135.13015"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -251,7 +251,7 @@
          inkscape:connector-curvature="0"
          id="path5327"
          d="m 471.64023,1039.4575 c 0.0351,-1.8405 0.36746,-2.772 1.69755,-3.3961 1.58424,-0.7433 2.7352,-0.7915 4.20184,0.3387 1.13661,0.8759 1.25397,2.5006 0.71401,3.6922 -0.47607,1.0506 -2.28855,1.7283 -2.74033,2.8219 -0.44307,1.0726 -0.59113,1.2781 -0.24973,2.558"
-         style="fill:none;stroke:#000000;stroke-width:4.60712227;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:none;stroke:#000000;stroke-width:4.60712242;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
       <path
          style="fill:none;stroke:#ff8e11;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m 471.64023,1039.4575 c 0.0351,-1.8405 0.36746,-2.772 1.69755,-3.3961 1.58424,-0.7433 2.7352,-0.7915 4.20184,0.3387 1.13661,0.8759 1.25397,2.5006 0.71401,3.6922 -0.47607,1.0506 -2.28855,1.7283 -2.74033,2.8219 -0.44307,1.0726 -0.59113,1.2781 -0.24973,2.558"

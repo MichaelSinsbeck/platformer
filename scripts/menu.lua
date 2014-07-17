@@ -611,8 +611,8 @@ function menu:drawUserlevels()
 	local xStatus = (userlevelList.x + 12)*Camera.scale
 	local xLevelname = (userlevelList.x + 22)*Camera.scale
 	local xAuthor = (userlevelList.x + 0.3*userlevelList.w)*Camera.scale
-	local xFun = (userlevelList.x + 0.85*userlevelList.w - 2*32)*Camera.scale
-	local xDifficulty = (userlevelList.x + 0.85*userlevelList.w - 32)*Camera.scale
+	local xFun = (userlevelList.x + 0.85*userlevelList.w - 2*27)*Camera.scale
+	local xDifficulty = (userlevelList.x + 0.85*userlevelList.w - 27)*Camera.scale
 	local xAuthorized = (userlevelList.x + 0.85*userlevelList.w)*Camera.scale
 	local xEnd = (userlevelList.x + userlevelList.w - 8)*Camera.scale
 	
@@ -647,8 +647,8 @@ function menu:drawUserlevels()
 		level.statusVis:draw( xStatus + 4*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		love.graphics.print( i .. ": " .. level.levelname, xLevelname, y )
 		love.graphics.print( level.author, xAuthor, y )
-		level.ratingFunVis:draw( xFun + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-		level.ratingDifficultyVis:draw( xDifficulty + 16*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+		level.ratingFunVis:draw( xFun + 12*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+		level.ratingDifficultyVis:draw( xDifficulty + 12*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, y + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 	end
 
