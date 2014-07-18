@@ -3,7 +3,8 @@
 --
 local http = require("socket.http")
 
-local mainURL = "http://www.germanunkol.de/bandana/userlevels/"
+local mainURL = require("scripts/url")
+mainURL = mainURL .. "userlevels/"
 
 function getLevelNames( authorizationLevel )
 	local url = mainURL .. "listAuthorized.php"

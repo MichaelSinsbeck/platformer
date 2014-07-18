@@ -3,7 +3,8 @@
 
 local http = require("socket.http")
 
-local mainURL = "http://www.germanunkol.de/bandana/userlevels/rate.php"
+local mainURL = require("scripts/url")
+mainURL = mainURL .. "userlevels/rate.php"
 
 function rate( levelname, author, ratingFun, ratingDifficulty )
 	local url = mainURL .. "?author=" .. author

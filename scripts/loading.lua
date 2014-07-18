@@ -74,6 +74,13 @@ function loading.update()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')
 		--bg_test = love.graphics.newImage('images/menu/bg_main.png')		
+
+	threadInterface.new( "version info",	-- thread name (only used for printing debug messages)
+		"scripts/levelsharing/get.lua",	-- thread script
+		"get",	-- function to call (inside script)
+		menu.downloadedVersionInfo, nil,	-- callback events when done
+		-- the following are arguments passed to the function:
+		"version.php" )
 	end
 	loading.step = loading.step + 1
 end

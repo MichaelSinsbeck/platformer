@@ -162,6 +162,42 @@ function menu.initMain()
 	menu.curLevelName = nil	-- don't display level name when entering menu
 end
 
+function menu.downloadedVersionInfo( info )
+	-- Trunc the received Data into version string and welcome message:
+	local version, message = string.match( info, "(.-)%s+(.*)%s-" )
+	print( "version:", #version )
+	local str = ""
+	for i = 1, #version do
+		str = str .. string.byte(version,i) .. ","
+	end
+	print(str)
+
+	print("Game version: " .. GAMEVERSION .. ", online version: " .. version)
+	if version ~= GAMEVERSION then
+		local url = require("scripts/url")
+		print("\tVersion mismatch!")
+		local msg = "Outdated game version (" .. GAMEVERSION .. ")\nDownload newest at: " .. url
+		menu.setMessage( msg, -70, -27 )
+	else
+		print("\tGame is running the newest version.")
+		menu.setMessage( message, -70, -27 )
+	end
+end
+
+function menu.setMessage( msg, x, y )
+	--[[local x = love.graphics.getWidth()/Camera.scale/3
+	local y = love.graphics.getHeight()/Camera.scale - 64
+	local width = love.graphics.getWidth()/Camera.scale/3]]
+	menu.message = {
+		--box = menu.addBox( ),
+		--function menu:addBox(left,top,width,height,manualDrawing)
+		timer = 30,
+		text = msg,
+		x = x,
+		y = y,
+	}
+end
+
 function menu.setPlayerPosition( x, y )
 	return function()
 		menuPlayer.x = x
@@ -398,7 +434,6 @@ function menu:drawLevelName()
 	
 	love.graphics.setColor(255,255,255)
 	love.graphics.printf( menu.curLevelName, 0, fontLarge:getHeight()*0.05 , love.graphics.getWidth(), 'center')
-	
 	
 	love.graphics.pop()
 end
@@ -1102,8 +1137,10 @@ end
 
 function menu:addBox(left,top,width,height,manualDrawing)
 	-- if manualDrawing is set to true then box is not drawn in background.
-	local newBox = { x = left, y = top, w = width, h = height, box = BambooBox:new( "", width, height ), visible = true, manualDrawing = manualDrawing }
-	table.insert( menuBoxes, newBox )
+	local newBox = { x = left, y = top, w = width, h = height, box = BambooBox:new( "", width, height ), visible = true }
+	if not manualDrawing then
+		table.insert( menuBoxes, newBox )
+	end
 	return newBox
 end
 
@@ -1434,12 +1471,11 @@ function menu:update(dt)
 		element.box:update(dt)
 	end]]
 
-	if menu.statusMsg then
-		if menu.statusMsgCountdown > 0 then
-			menu.statusMsgCountdown = menu.statusMsgCountdown - dt
-			if menu.statusMsgCountdown <= 0 then
-				menu.statusMsg = nil
-			end
+
+	if menu.message then
+		menu.message.timer = menu.message.timer - dt
+		if menu.message.timer <= 0 then
+			menu.message = nil
 		end
 	end
 end
@@ -1496,11 +1532,6 @@ function menu:draw()
 
 	if menu.state == "userlevels" then
 		menu:drawUserlevels()
-		if menu.statusMsg then
-			love.graphics.print( menu.statusMsg,
-			(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.statusMsg))/2,
-			10)
-		end
 	end
 
 	--[[
@@ -1601,6 +1632,12 @@ function menu:draw()
 
 	for k,v in ipairs(menuVisualizers) do
 		v.vis:draw(v.x*Camera.scale,v.y*Camera.scale)
+	end
+
+	if menu.message then
+		love.graphics.print( menu.message.text,
+			--(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.message.text ))/2,
+			menu.message.x*Camera.scale, menu.message.y*Camera.scale )
 	end
 
 	love.graphics.pop()
@@ -1878,11 +1915,6 @@ end
 
 function menu:getSelected()
 	return selButton
-end
-
-function menu:setStatusMsg( msg, countdown ) 
-	menu.statusMsg = string.lower(msg)
-	menu.statusMsgCountdown = countdown
 end
 
 return menu

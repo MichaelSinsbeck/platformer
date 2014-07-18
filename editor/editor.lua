@@ -14,6 +14,9 @@ local EditorCam = require("editor/editorCam")
 
 require("editor/msgBox")
 
+local uploadURL = require("scripts/url")
+uploadURL = uploadURL .. "userlevels/upload.php"
+
 local map = nil
 local cam = nil
 
@@ -2318,7 +2321,7 @@ function editor.startUploadNow()
 		"uploadFile",	-- function to call (inside script)
 		editor.uploadSuccess, editor.uploadFailed,	-- callback events when done
 		-- the following are arguments passed to the function:
-		"http://www.germanunkol.de/bandana/userlevels/upload.php",
+		uploadURL,
 		filename,
 		map.name, map.author or "anonymous")
 end

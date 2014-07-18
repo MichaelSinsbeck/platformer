@@ -1,19 +1,12 @@
--- This script will get a level file from the server.
+-- This script will return the contents of the given file on the server.
 -- Intended to be run in a background thread.
 
 local http = require("socket.http")
 
 local mainURL = require("scripts/url")
-mainURL = mainURL .. "userlevels/"
 
-function getLevel( levelname, author, authorized )
-	local url = mainURL .. "authorized/"
-
-	if authorized ~= true then
-		url = mainURL .. "unauthorized/"
-	end
-
-	url = url .. author .. "/" .. levelname .. ".dat"
+function get( filename )
+	local url = mainURL .. filename
 
 	print("loading:", url)
 	local response, statusCode, responseHeaders, statusLine = http.request( url )
