@@ -16,9 +16,7 @@ local menuLogs = {}
 local menuVisualizers = {}
 local selButton
 local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
-
-local userlevels = {}
-local userlevelsFiltered = {}
+local userlevels = {} local userlevelsFiltered = {}
 local userlevelsByAuthor = {}
 local userlevelList
 local bkupButtons = {}		-- while filters are active, save list's buttons in here
@@ -507,8 +505,8 @@ function menu:initUserlevels()
 	local val
 	val = config.getValue( "LevelsFilterAuthorized" )
 	if val ~= nil then userlevelFilters.authorizedOnly = val end
-	val = config.getValue( "LevelsFilterDownloaded" )
-	if val ~= nil then userlevelFilters.downloadedOnly = val end
+	--val = config.getValue( "LevelsFilterDownloaded" )
+	--if val ~= nil then userlevelFilters.downloadedOnly = val end
 	val = config.getValue( "LevelsSorting" )
 	if val ~= nil then
 		userlevelFilters.sorting = math.min(math.max(math.floor(tonumber(val)), 1),#sortingSchemes )
@@ -812,7 +810,7 @@ function menu:applyUserlevelFilters()
 	if buttonCenter then selectButton( buttonCenter ) end
 
 	config.setValue( "LevelsFilterAuthorized", userlevelFilters.authorizedOnly )
-	config.setValue( "LevelsFilterDownloaded", userlevelFilters.downloadedOnly )
+	--config.setValue( "LevelsFilterDownloaded", userlevelFilters.downloadedOnly )
 	config.setValue( "LevelsSorting", userlevelFilters.sorting )
 end
 
