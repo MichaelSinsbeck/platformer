@@ -16,7 +16,8 @@ local menuLogs = {}
 local menuVisualizers = {}
 local selButton
 local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
-local userlevels = {} local userlevelsFiltered = {}
+local userlevels = {}
+local userlevelsFiltered = {}
 local userlevelsByAuthor = {}
 local userlevelList
 local bkupButtons = {}		-- while filters are active, save list's buttons in here
@@ -515,20 +516,24 @@ function menu:initUserlevels()
 	-- Add a panel for displaying the filters on. Make it invisible for now:
 	userlevelFilterBox = menu:addBox( -width/2 + 8, - 0, width - 16, height/2 )
 	userlevelFilterBox.visible = false
-	userlevelFilters = {
-		sorting = 1,
-		authorizedOnly = true,
-		downloadedOnly = false,
-	}
 
-	local val
-	val = config.getValue( "LevelsFilterAuthorized" )
-	if val ~= nil then userlevelFilters.authorizedOnly = val end
-	--val = config.getValue( "LevelsFilterDownloaded" )
-	--if val ~= nil then userlevelFilters.downloadedOnly = val end
-	val = config.getValue( "LevelsSorting" )
-	if val ~= nil then
-		userlevelFilters.sorting = math.min(math.max(math.floor(tonumber(val)), 1),#sortingSchemes )
+	-- Only load settings when starting the userlevel list for the first time:
+	if not userlevelFilters then
+		userlevelFilters = {
+			sorting = 1,
+			authorizedOnly = true,
+			downloadedOnly = false,
+		}
+		menu.loadedUserlevelFilters = true
+		local val
+		val = config.getValue( "LevelsFilterAuthorized" )
+		if val ~= nil then userlevelFilters.authorizedOnly = val end
+		--val = config.getValue( "LevelsFilterDownloaded" )
+		--if val ~= nil then userlevelFilters.downloadedOnly = val end
+		val = config.getValue( "LevelsSorting" )
+		if val ~= nil then
+			userlevelFilters.sorting = math.min(math.max(math.floor(tonumber(val)), 1), #sortingSchemes )
+		end
 	end
 
 	menu:loadDownloadedUserlevels()
