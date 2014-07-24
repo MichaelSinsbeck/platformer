@@ -143,11 +143,20 @@ function controlKeys:setup()
 		menuUserlevels[3] = {}
 		menuUserlevels[3].label = "Filters and Sorting"
 		menuUserlevels[3].txt = nameForKey( keys.FILTERS )
-		menuUserlevels[3].img = menu:getImage(getImageForKey( keys.BACK ))
+		menuUserlevels[3].img = menu:getImage(getImageForKey( keys.FILTERS ))
 		menuUserlevels[3].offset = (menuUserlevels[3].img:getWidth() - fontSmall:getWidth(menuUserlevels[3].txt))/2/Camera.scale
 		menuUserlevels[3].x = 0.75*(love.graphics.getWidth()-menuUserlevels[3].img:getWidth())/Camera.scale
 		menuUserlevels[3].labelX = menuUserlevels[3].x +menuUserlevels[3].offset- fontSmall:getWidth(menuUserlevels[3].label)/2/Camera.scale
 		menuUserlevels[3].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuUserlevels[4] = {}
+		menuUserlevels[4].label = "REFRESH"
+		menuUserlevels[4].txt = nameForKey( keys.REFRESH )
+		menuUserlevels[4].img = menu:getImage(getImageForKey( keys.REFRESH ))
+		menuUserlevels[4].offset = (menuUserlevels[4].img:getWidth() - fontSmall:getWidth(menuUserlevels[4].txt))/2/Camera.scale
+		menuUserlevels[4].x = 0.25*(love.graphics.getWidth()-menuUserlevels[4].img:getWidth())/Camera.scale
+		menuUserlevels[4].labelX = menuUserlevels[4].x +menuUserlevels[4].offset- fontSmall:getWidth(menuUserlevels[4].label)/2/Camera.scale
+		menuUserlevels[4].y = (love.graphics.getHeight())/Camera.scale - 20
 
 		menuFilters = {}
 		menuFilters[1] = {}

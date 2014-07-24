@@ -508,7 +508,6 @@ function menu:initUserlevels()
 	userlevelsByAuthor = {}
 	userlevelsFiltered = {}
 
-
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
 	userlevelList = menu:addBox( -width/2, -height/2 - 8, width, height )
@@ -546,11 +545,11 @@ function menu:initUserlevels()
 
 
 	local chooseLevel = function()
-		if userlevels[menu.selectedUserlevel] then
-			if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
-				userlevels[menu.selectedUserlevel]:play()
+		if userlevelsFiltered[menu.selectedUserlevel] then
+			if userlevelsFiltered[menu.selectedUserlevel]:getIsDownloaded() then
+				userlevelsFiltered[menu.selectedUserlevel]:play()
 			else
-				userlevels[menu.selectedUserlevel]:download()
+				userlevelsFiltered[menu.selectedUserlevel]:download()
 			end
 		end
 	end
@@ -837,6 +836,12 @@ end
 function menu:getFiltersVisible()
 	if menu.state == "userlevels" and userlevelFilterBox and userlevelFilterBox.visible then
 		return true
+	end
+end
+
+function menu:refreshUserlevels()
+	if menu.state == "userlevels" then
+		menu:initUserlevels()
 	end
 end
 
@@ -1351,6 +1356,8 @@ function menu:keypressed( key, unicode )
 					end
 				end
 			end
+		elseif key == keys.REFRESH then
+			menu:refreshUserlevels()
 		elseif menu.state == "userlevels" then
 			if key == keys.FILTERS or (key == keys.PAD.FILTERS and love.joystick.getJoystickCount() > 0) then
 				if not menu:getFiltersVisible() then
