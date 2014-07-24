@@ -103,6 +103,8 @@ end
 
 -- creates main menu:
 function menu.initMain()
+
+
 	menu.xCamera = 0
 	menu.yCamera = 0
 	menu.xTarget = 0
@@ -160,42 +162,25 @@ function menu.initMain()
 	menuPlayer.vis.sx = 1
 
 	menu.curLevelName = nil	-- don't display level name when entering menu
+
+	if not menu.versionMessage then
+		menu.versionMessage = "Version " .. GAMEVERSION
+	end
 end
 
 function menu.downloadedVersionInfo( info )
 	-- Trunc the received Data into version string and welcome message:
 	local version, message = string.match( info, "(.-)%s+(.*)%s-" )
-	print( "version:", #version )
-	local str = ""
-	for i = 1, #version do
-		str = str .. string.byte(version,i) .. ","
-	end
-	print(str)
 
 	print("Game version: " .. GAMEVERSION .. ", online version: " .. version)
 	if version ~= GAMEVERSION then
 		local url = require("scripts/url")
 		print("\tVersion mismatch!")
-		local msg = "Outdated game version (" .. GAMEVERSION .. ")\nDownload newest at: " .. url
-		menu.setMessage( msg, -70, -27 )
+		menu.versionMessage = "Outdated game version (" .. GAMEVERSION .. ")\nDownload newest at: " .. url
 	else
 		print("\tGame is running the newest version.")
-		menu.setMessage( message, -70, -27 )
+		menu.versionMessage = message .. " Version " .. version
 	end
-end
-
-function menu.setMessage( msg, x, y )
-	--[[local x = love.graphics.getWidth()/Camera.scale/3
-	local y = love.graphics.getHeight()/Camera.scale - 64
-	local width = love.graphics.getWidth()/Camera.scale/3]]
-	menu.message = {
-		--box = menu.addBox( ),
-		--function menu:addBox(left,top,width,height,manualDrawing)
-		timer = 30,
-		text = msg,
-		x = x,
-		y = y,
-	}
 end
 
 function menu.setPlayerPosition( x, y )
@@ -1053,11 +1038,11 @@ function menu:addButtonLabeled( x,y,imgOff,imgOn,name,action,actionHover,label,f
 	return new
 end
 
-function menu:addText( x, y, index, str )
+function menu:addText( x, y, index, str, col )
 	if index == nil then
 		index = #menuTexts + 1
 	end
-	menuTexts[index] = {txt = str, x=x, y=y}
+	menuTexts[index] = {txt = str, x=x, y=y, col=col or {255,255,255,255} }
 	return menuTexts[index]
 end
 
@@ -1470,14 +1455,6 @@ function menu:update(dt)
 	--[[for k, element in pairs(menuBoxes) do
 		element.box:update(dt)
 	end]]
-
-
-	if menu.message then
-		menu.message.timer = menu.message.timer - dt
-		if menu.message.timer <= 0 then
-			menu.message = nil
-		end
-	end
 end
 
 ---------------------------------------------------------
@@ -1634,11 +1611,11 @@ function menu:draw()
 		v.vis:draw(v.x*Camera.scale,v.y*Camera.scale)
 	end
 
-	if menu.message then
-		love.graphics.print( menu.message.text,
-			--(love.graphics.getWidth() - love.graphics.getFont():getWidth( menu.message.text ))/2,
-			menu.message.x*Camera.scale, menu.message.y*Camera.scale )
+	if menu.state == "main" and menu.versionMessage then
+		love.graphics.setColor( 50,90,160,180 )
+		love.graphics.printf( menu.versionMessage, -122*Camera.scale, -27*Camera.scale, 200*Camera.scale, "right" )
 	end
+	love.graphics.setColor( 255,255,255,255 )
 
 	love.graphics.pop()
 

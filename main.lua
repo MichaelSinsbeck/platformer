@@ -14,7 +14,7 @@ paused = false
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
 DEBUG = false
 
-GAMEVERSION = "0.05"
+GAMEVERSION = "0.1"
 --USE_SHADERS = true
 --USE_SHADOWS = true
 
