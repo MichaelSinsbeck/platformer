@@ -4,168 +4,131 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 33,38
+Dimensions: 35,25
 
-Author: 
+Author: micha
 Description:
 
 endDescription
 
 Background:
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
+----------------ccccccccccccccccc-
+----------------ccccccccccccccccc-
+----------------ccccccccccccccccc-
+---------------cccccccccccccccccc-
+---------------cccccccccccccccccc-
+---------------cccccccccccccccccc-
+---------------cccccccccccccccccc-
+---------------cccccccccccccccccc-
+----------------------------------
+----------------------------------
+--------------------sssss---------
+-------------------sssssss--------
+-------------------ssssssss-------
+-------------------sssssssss------
+--------------------sssssssss-----
+--------------------ssssssssss----
+--------------------ssssssssss----
+--------------------ssssssssss----
+--------------------sssssssssss---
+--------------------ssssssssssss--
+-------------------sssssssssssssss
+-------------------sssssssssssssss
+-------------------sssssssssssssss
+----------------------------------
 endBackground
 
 Ground:
---------------ccccc-------------
---------------c---c-------------
---------------c---c-------------
-------ccccc---c---ccccccccc-----
-------c-------------------c-----
---c---c-------------------c-----
---c---1-------------------------
---c---1-------------------------
-------c----------------cccc-----
-------c----------------cccc-----
-------ccccc11111-1111cccccc-----
-------c-------------------c-----
---------------------------c-----
---------------------------c-----
-----ccc-------------------ccc---
-----ccc-------------------ccc---
-----ccc-----11------------ccc---
-----cccccc111111-111---cccccc---
----------c--------1----c--------
----------c--------1----c--------
----------c--------1----c--------
----------c-------------c--------
----------c---1---------c--------
----------c---1---------c--------
----------c---111-ccccccc--------
----------cc---1-------cc--------
-----------c---1-------c---------
-----------c---1-------c---------
-----------c-----------c---------
-----------c--------1--c---------
-----------c--------1--c---------
-----------cccccc-ccc--c---------
-----------c-----------c---cccccc
-----------------------c--------c
--------------------------------c
--------------------------------c
-sssssssssssssssssssssssssssssssc
+cccccccccccccccccccccccccccccccccc
+cc------------------cc----------cc
+c--------------------------------c
+c-------------------cc-----cc---cc
+c--------------c----cc-----cc---cc
+c------------bbc----ccc----ccccccc
+c--------------c-----------ccccccc
+cbbbbbbbbbbbbbbccccccccccccccccccc
+c--------------c-----------------c
+cbbbbb---------------------------c
+c------------------gggggg--------c
+c------------------g-ggggbbbbb---c
+c------------------g-------------c
+c------------------ggggggbbbbbb--c
+c------------------ggggg---------c
+c-------------------ggg----------c
+c-------------------ggg---bbb----c
+c-------------------gg-----------c
+---------------------------------c
+-------------------------bbb-----c
+ccccccccccccccbb-----------------c
+cccccccccccccc-------------------c
+cccccccccccccc---ccccccccccccccccc
+cccccccccccccc---ccccccccccccccccc
 endGround
 
 BgObjects:
 endBgObjects
 
 Objects:
-Obj:Appearblock
-	x:15
-	y:3
-	p:state=solid
-	p:color=red
+Obj:Player
+	x:3
+	y:19
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=false
 endObj
-Obj:Button
-	x:16
-	y:35
-	p:lifetime=0
-	p:color=blue
+Obj:Walker
+	x:29
+	y:12
+	p:direction=1
 endObj
-Obj:Appearblock
-	x:16
-	y:3
-	p:state=solid
-	p:color=red
+Obj:Walker
+	x:30
+	y:21
+	p:direction=-1
 endObj
-Obj:Appearblock
-	x:17
-	y:3
-	p:state=solid
-	p:color=red
+Obj:Walker
+	x:25
+	y:21
+	p:direction=-1
 endObj
-Obj:Button
-	x:24
-	y:7
-	p:lifetime=1
-	p:color=red
-endObj
-Obj:Appearblock
-	x:26
-	y:6
-	p:state=solid
-	p:color=red
-endObj
-Obj:Appearblock
-	x:26
-	y:7
-	p:state=solid
-	p:color=red
-endObj
-Obj:Appearblock
-	x:26
-	y:33
-	p:state=solid
-	p:color=blue
-endObj
-Obj:Appearblock
-	x:26
-	y:34
-	p:state=solid
-	p:color=blue
-endObj
-Obj:Appearblock
-	x:26
-	y:35
-	p:state=solid
-	p:color=blue
+Obj:Walker
+	x:20
+	y:21
+	p:direction=-1
 endObj
 Obj:Exit
-	x:29
-	y:35
+	x:30
+	y:4
 endObj
-Obj:Player
-	x:5
-	y:35
+Obj:Walker
+	x:24
+	y:12
+	p:direction=1
 endObj
-Obj:Rock
-	x:16
+Obj:Spawner
+	x:20
+	y:11
+	p:direction=right
+endObj
+Obj:Runner
+	x:11
+	y:6
+endObj
+Obj:LineHook
+	x:19
+	y:11
+endObj
+Obj:LineHook
+	x:0
+	y:11
+endObj
+Obj:Fixedcannon
+	x:32
 	y:2
+	p:angle=2
+	p:delay=0
+	p:firerate=1.2
 endObj
 endObjects
 
