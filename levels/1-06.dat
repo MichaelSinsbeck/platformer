@@ -66,10 +66,10 @@ Objects:
 Obj:Player
 	x:2
 	y:5
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=false
 endObj
 Obj:Walker
 	x:23

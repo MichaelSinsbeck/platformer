@@ -64,10 +64,10 @@ Objects:
 Obj:Player
 	x:2
 	y:8
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=false
 endObj
 Obj:Exit
 	x:54
