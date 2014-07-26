@@ -682,11 +682,11 @@ end
 function menu:updateTextForCurrentUserlevel()
 	if not userlevels or not menu.selectedUserlevel then return end
 
-	if userlevels[menu.selectedUserlevel] then
-		if userlevels[menu.selectedUserlevel]:getIsDownloaded() then
-			menu.text = "Play '" .. userlevels[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
+	if userlevelsFiltered[menu.selectedUserlevel] then
+		if userlevelsFiltered[menu.selectedUserlevel]:getIsDownloaded() then
+			menu.text = "Play '" .. userlevelsFiltered[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
 		else
-			menu.text = "Download '" .. userlevels[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
+			menu.text = "Download '" .. userlevelsFiltered[menu.selectedUserlevel].levelname .. "'\n(" .. menu.selectedUserlevel .. "/" .. #userlevels .. ")"
 		end
 	end
 end
