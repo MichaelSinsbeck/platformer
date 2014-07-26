@@ -7,6 +7,7 @@
 --
 -- IMPORTANT! Any scripts called by this should return 'false' and an error message upon failure, which will then be passed back to the main thread. The main thread expects such a failure message, if it's not supplied, it will wait forever.
 require("scripts/threadUtils")
+require("love.filesystem")
 
 local args = {...}
 
@@ -17,7 +18,7 @@ scriptFile = args[4] -- should be global!
 functionName = args[5]
 
 -- Load the given script.
-dofile(scriptFile)
+love.filesystem.load(scriptFile)()
 
 -- Execute the function. Since it has been loaded and is global, it should now be in _G:
 local result, msg = _G[functionName]( args[6], args[7], args[8], args[9], args[10] )
