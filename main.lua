@@ -247,6 +247,8 @@ end
 function love.textinput( letter )
 	if mode == 'editor' then
 		editor.textinput( letter )
+	elseif mode == 'menu' then
+		menu:textinput( letter )
 	end
 end
 

@@ -159,7 +159,7 @@ function controlKeys:setup()
 		menuUserlevels[4].y = (love.graphics.getHeight())/Camera.scale - 20
 
 		menuFilters = {}
-		menuFilters[1] = {}
+		--[[menuFilters[1] = {}
 		menuFilters[1].label = "Apply"
 		menuFilters[1].txt = nameForKey( keys.CHOOSE )
 		menuFilters[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
@@ -176,7 +176,7 @@ function controlKeys:setup()
 		menuFilters[2].offset = (menuFilters[2].img:getWidth() - fontSmall:getWidth(menuFilters[2].txt))/2/Camera.scale
 		menuFilters[2].x = 24
 		menuFilters[2].labelX = menuFilters[2].x
-		menuFilters[2].y = (love.graphics.getHeight())/Camera.scale - 32
+		menuFilters[2].y = (love.graphics.getHeight())/Camera.scale - 32]]
 
 		rating = {}
 		rating[1] = {}

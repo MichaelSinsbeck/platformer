@@ -93,3 +93,88 @@ end
 function utility.isInteger(number)
 	return number == math.floor(number)
 end
+
+
+-- Returns the coordinates of a char (often the cursor) in a multi-lined text
+-- if the character is the num-th character in the text:
+function utility.getCharPos( wrappedLines, num )
+	local i = 0
+	local x, y = 0,0
+	for k, l in ipairs( wrappedLines ) do
+		if i + #l >= num then
+			num = num - i
+			x = fontSmall:getWidth( l:sub(1, num) )
+			y = k*fontSmall:getHeight()
+		else
+			i = i + #l
+		end
+	end
+	return x, y
+end
+
+
+function utility.wrap( front, back, width )
+	local lines = {}
+	local plain = front .. back .. "\n"
+	local num = #front
+	for line in plain:gmatch( "([^\n]-\n)" ) do
+		table.insert( lines, line )
+	end
+
+	local wLines = {}	-- lines that have been wrapped
+	local shortLine
+	local restLine
+	local word = "[^ ]* "	-- not space followed by space
+	local tmpLine
+	local letter = "[%z\1-\127\194-\244][\128-\191]*"
+
+	for k, line in ipairs(lines) do
+		if fontSmall:getWidth( line ) <= width then
+			table.insert( wLines, line )
+		else
+			restLine = line .. " " -- start with full line
+			while #restLine > 0 do
+				local i = 1
+				local breakingCondition = false
+				tmpLine = nil
+				shortLine = nil
+				repeat		-- look for spaces!
+					tmpLine = restLine:match( word:rep(i) )
+					if tmpLine then
+						if fontSmall:getWidth(tmpLine) > width then
+							breakingCondition = true
+						else
+							shortLine = tmpLine
+						end
+					else
+						breakingCondition = true
+					end
+					i = i + 1
+				until breakingCondition
+				if not shortLine then -- if there weren't enough spaces then:
+					breakingCondition = false
+					i = 1
+					repeat			-- ... look for letters:
+						tmpLine = restLine:match( letter:rep(i) )
+						if tmpLine then
+							if fontSmall:getWidth(tmpLine) > width then
+								breakingCondition = true
+							else
+								shortLine = tmpLine
+							end
+						else
+							breakingCondition = true
+						end
+						i = i + 1
+					until breakingCondition
+				end
+				table.insert( wLines, shortLine )
+				restLine = restLine:sub( #shortLine+1 )
+			end
+		end
+	end
+
+	local cursorX, cursorY = utility.getCharPos( wLines, num )
+	return wLines, cursorX, cursorY
+end
+

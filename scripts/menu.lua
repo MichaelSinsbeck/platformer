@@ -14,6 +14,7 @@ local menuTexts = {}
 local menuBoxes = {}
 local menuLogs = {}
 local menuVisualizers = {}
+local inputBoxes = {}
 local selButton
 local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
 local userlevels = {}
@@ -85,7 +86,7 @@ function menu:getImage( imgName )
 	return AnimationDB.image[imgName]
 end
 
-function menu.clear()
+function menu:clear()
 	mode = 'menu'
 	buttons = {}	-- clear all buttons from other menus
 	menuImages = {}
@@ -95,6 +96,7 @@ function menu.clear()
 	menuBoxes = {}
 	menuLogs = {}	
 	menuVisualizers = {}	
+	inputBoxes = {}
 	userlevelList = nil
 end
 
@@ -104,7 +106,6 @@ end
 
 -- creates main menu:
 function menu.initMain()
-
 
 	menu.xCamera = 0
 	menu.yCamera = 0
@@ -535,13 +536,12 @@ function menu:initUserlevels()
 			userlevelFilters.sorting = math.min(math.max(math.floor(tonumber(val)), 1), #sortingSchemes )
 		end
 	end
+	userlevelFilters.searchText = nil
 
 	menu:loadDownloadedUserlevels()
 
 	--[[threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
-						function(data) menu:userlevelsLoaded(data, "authorized") end,
-						nil, "authorized" )]]
-	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+						function(data) menu:userlevelsLoaded(data, "authorized") end, nil, "authorized" )]] threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 						function(data) menu:userlevelsLoaded(data, "unauthorized") end,
 						nil, "unauthorized" )
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
@@ -704,7 +704,7 @@ function menu:showUserlevelFilters()
 		-- Sorting scheme
 		local x = userlevelFilterBox.x + 16
 		local y = userlevelFilterBox.y + 10
-		local sortingButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
+		local sortingButton = menu:addButton( x, y, "startOff", "startOn", "", nil, menu.setPlayerPosition( x-4, y+2 ) )
 		sortingButton.invisible = true
 		local sortingLabel = menu:addText( x, y, nil, "Sort by: " .. sortingSchemes[userlevelFilters.sorting] )
 
@@ -732,7 +732,7 @@ function menu:showUserlevelFilters()
 
 		-- Authorized only:
 		y = y + 8
-		local authorizedButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
+		local authorizedButton = menu:addButton( x, y, "startOff", "startOn", "", nil, menu.setPlayerPosition( x-4, y+2 ) )
 		authorizedButton.invisible = true
 		local authorizedLabel = menu:addText( x, y, nil, "Only show authorized: " .. tostring(userlevelFilters.authorizedOnly) )
 
@@ -749,7 +749,7 @@ function menu:showUserlevelFilters()
 
 		-- Downloaded only:
 		y = y + 8
-		local downloadedButton = menu:addButton( x, y, "startOff", "startOn", "", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-4, y+2 ) )
+		local downloadedButton = menu:addButton( x, y, "startOff", "startOn", "", nil, menu.setPlayerPosition( x-4, y+2 ) )
 		downloadedButton.invisible = true
 		local downloadedLabel = menu:addText( x, y, nil, "Only show downloaded: " .. tostring(userlevelFilters.downloadedOnly) )
 
@@ -764,6 +764,34 @@ function menu:showUserlevelFilters()
 		dPrev.invisible = true
 		dNext.invisible = true
 
+		y = y + 8
+		local returnFunction = function( txt )
+			if txt and #txt > 0 then
+				userlevelFilters.searchText = string.lower( txt )
+			else
+				userlevelFilters.txt = 0
+			end
+		end
+
+		menu:addText( x, y, nil, "Search:" )
+		local inputBox = menu:addInputBox( x + 15, y, 50, 1, "", returnFunction, 100, "." )
+
+		local activateInput = function()
+			menu.activeInput = inputBox
+		end
+
+		local searchButton = menu:addButton( x, y, "startOff", "startOn", "", activateInput, menu.setPlayerPosition( x-4, y+2 ) )
+		searchButton.invisible = true
+		local sNext = menu:addButton( x+10, y, "startOff", "startOn", "", nil, function() selectButton( searchButton ); activateInput() end )
+		local sPrev = menu:addButton( x-10, y, "startOff", "startOn", "", nil, function() selectButton( searchButton ) end )	-- this button doesn't do anything, but jumps back to the previous one
+		sNext.invisible = true
+		sPrev.invisible = true
+
+		y = y + 8
+		local applyButton = menu:addButton( x, y, "startOff", "startOn", "apply", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-2, y+5 ) )
+		x = x + 16
+		local cancelButton = menu:addButton( x, y, "startOff", "startOn", "cancel", function() menu:hideUserlevelFilters() end, menu.setPlayerPosition( x-2, y+5 ) )
+
 		selectButton(sortingButton)
 	end
 end
@@ -774,6 +802,9 @@ function menu:hideUserlevelFilters()
 	menuTexts = {}
 	selectButton( buttonCenter )
 	menuPlayer.vis.sx = 1
+
+	inputBoxes = {}
+	menu.activeInput = nil
 	
 	if userlevelFilterBox then
 		userlevelFilterBox.visible = false
@@ -801,6 +832,15 @@ function menu:applyUserlevelFilters()
 		if userlevelFilters.downloadedOnly == true then
 			if level:getIsDownloaded() ~= true then
 				skip = true
+			end
+		end
+		if userlevelFilters.searchText then
+			local containsStr = string.lower( level.levelname ):find( userlevelFilters.searchText ) or 
+								string.lower( level.author ):find( userlevelFilters.searchText )
+			print(level.levelname, level.author, userlevelFilters.searchText, containsStr)
+			if not containsStr then
+				skip = true
+				print("\tskipping")
 			end
 		end
 
@@ -831,6 +871,7 @@ function menu:applyUserlevelFilters()
 	-- Adjust list view in case less levels are shown than before:
 	menu.firstDisplayedUserlevel = 1
 	menu.selectedUserlevel = 1
+	userlevelFilters.searchText = nil	-- reset previous
 	if buttonCenter then selectButton( buttonCenter ) end
 
 	config.setValue( "LevelsFilterAuthorized", userlevelFilters.authorizedOnly )
@@ -1328,6 +1369,86 @@ function menu:keypressed( key, unicode )
 	if menu.state == "credits" then	--any key in credits screen returns to main screen.
 		menu.startTransition(menu.initMain, false)()
 	else
+
+	if menu.activeInput then
+		local inp = menu.activeInput
+		-- back up text incase anything goes wrong:
+		inp.oldFront, inp.oldBack = inp.front, inp.back
+		local stop, jump
+
+		if key == "backspace" then
+			local len = #inp.front
+			if len > 0 then
+				inp.front = inp.front:sub(1, len-1)
+			end
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "escape" then
+			inp.front = inp.txt
+			inp.back = ""
+			stop = true
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "return" then
+			inp.txt = inp.front .. inp.back
+			stop = true
+			if inp.returnEvent then
+				inp.returnEvent( inp.txt )
+			end
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "left" then
+			local len = #inp.front
+
+			if len > 0 then
+				inp.back = inp.front:sub( len,len ) .. inp.back
+				inp.front = inp.front:sub(1, len-1)
+			end
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "right" then
+			local len = #inp.back
+			if len > 0 then
+				inp.front = inp.front .. inp.back:sub(1,1)
+				inp.back = inp.back:sub(2,len)
+			end
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "delete" then
+			local len = #inp.back
+			if len > 0 then
+				inp.back = inp.back:sub(2,len)
+			end
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "home" then
+			inp.back = inp.front .. inp.back
+			inp.front = ""
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "end" then
+			inp.front = inp.front .. inp.back
+			inp.back = ""
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "tab" then
+			inp.txt = inp.front .. inp.back
+			--[[if love.keyboard.isDown("lshift", "rshift") then
+				jump = "backward"
+			else
+				jump = "forward"
+			end]]
+			stop = true
+			if inp.returnEvent then
+				inp.returnEvent( inp.txt )
+			end
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		end
+
+		if stop then
+			menu.activeInput = nil
+			return "stop"
+		elseif jump then
+			menu.activeInput = nil
+			return jump
+		end
+		return
+	end
+
+
+
 		if key == keys.UP or key == "w" or (key == keys.PAD.UP and love.joystick.getJoystickCount() > 0) then
 			menu:selectAbove()
 		elseif key == keys.DOWN or key == "s" or (key == keys.PAD.DOWN and love.joystick.getJoystickCount() > 0) then
@@ -1379,6 +1500,31 @@ function menu:keypressed( key, unicode )
 				elseif i == 6 then table.sort( userlevels, Userlevel.sortByFunDescending )
 				elseif i == 7 then table.sort( userlevels, Userlevel.sortByDifficultyAscending )
 				elseif i == 8 then table.sort( userlevels, Userlevel.sortByDifficultyDescending )
+				end
+			end
+		end
+	end
+end
+
+-- Add the letter to the currently active text.
+function menu:textinput( letter )
+	if menu.activeInput then
+		local inp = menu.activeInput
+		if letter:find( inp.allowedChars or ALLOWED_CHARS ) then
+			letter = string.lower(letter)
+			if inp.maxLetters > #inp.txt then
+				local prevFront, prevWrapped = inp.front, inp.wrappedText
+				local prevX, prevY = inp.curX, inp.curY
+				inp.front = inp.front .. letter
+				inp.wrappedText,inp.curX,inp.curY =
+				utility.wrap( inp.front, inp.back, inp.pixelWidth )
+
+				-- Don't allow more than 'lines' lines. If number is greater with the newly added char,
+				-- reset to previous.
+				if #inp.wrappedText > inp.lines then
+					inp.front = prevFront
+					inp.wrappedText = prevWrapped
+					inp.curX, inp.curY = prevX, prevY
 				end
 			end
 		end
@@ -1604,6 +1750,27 @@ function menu:draw()
 		--love.graphics.print(k, button.x, button.y )
 	end
 
+	for k, input in ipairs( inputBoxes ) do
+		if input == menu.activeInput then
+			local cX = input.x*Camera.scale + input.curX
+			local cY = input.y*Camera.scale + input.curY
+			love.graphics.line( cX, cY - fontSmall:getHeight(), cX, cY )
+			love.graphics.setColor(255,255,255,50)
+		else
+			love.graphics.setColor(255,255,255,20)
+		end
+		love.graphics.rectangle("fill", input.x*Camera.scale, input.y*Camera.scale,
+									input.width*Camera.scale, input.height*Camera.scale )
+		love.graphics.setColor(255,255,255,255)
+		--love.graphics.printf( input.front .. input.back, input.x*Camera.scale, input.y*Camera.scale,
+		--							input.width*Camera.scale )
+		for k2, l in ipairs( input.wrappedText ) do
+			if k2 > input.lines then break end
+			love.graphics.print(l, input.x*Camera.scale,
+								input.y*Camera.scale + (k2-1)*fontSmall:getHeight() )
+		end
+	end
+
 	if menu.state == "main" or menu.state == "worldMap" or
 		menu.state == "settings" or menu.state == "keyboard" or
 		menu.state == "gamepad" or menu.state == "pause" or
@@ -1808,8 +1975,6 @@ startR = 0, endR = 0, -- rotation
 		oX = img:getWidth(), oY = img:getHeight(), -- offset
 	}
 	table.insert( transitionImages, newImage )
-
-
 end
 
 function menu.startTransition( event, showImage )
@@ -1904,6 +2069,33 @@ end
 
 function menu:getSelected()
 	return selButton
+end
+
+-------------------------------------------------------------------
+-- Input boxes:
+-------------------------------------------------------------------
+
+function menu:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters, allowedChars )
+	local wrappedText, curX, curY = utility.wrap( txt or "", "", width*Camera.scale )
+	local new = {
+		x = x,
+		y = y,
+		width = width,
+		pixelWidth = width*Camera.scale,
+		height = lines*fontSmall:getHeight()/Camera.scale,
+		txt = txt or "",
+		front = txt or "",
+		back = "",
+		lines = lines,
+		wrappedText = wrappedText,
+		curX = curX,
+		curY = curY,
+		maxLetters = maxLetters or math.huge,
+		returnEvent = returnEvent,
+		allowedChars = allowedChars,
+	}
+	table.insert( inputBoxes, new )
+	return new
 end
 
 return menu

@@ -7,86 +7,6 @@ local PADDING = 3
 -- chars which, by default, can by typed into input boxes:
 local ALLOWED_CHARS = "[0-9a-zA-Z%- ?!%.]"
 
-local function getCharPos( wrappedLines, num )
-	local i = 0
-	local x, y = 0,0
-	for k, l in ipairs( wrappedLines ) do
-		if i + #l >= num then
-			num = num - i
-			x = fontSmall:getWidth( l:sub(1, num) )
-			y = k*fontSmall:getHeight()
-		else
-			i = i + #l
-		end
-	end
-	return x, y
-end
-
-local function wrap( front, back, width )
-	local lines = {}
-	local plain = front .. back .. "\n"
-	local num = #front
-	for line in plain:gmatch( "([^\n]-\n)" ) do
-		table.insert( lines, line )
-	end
-
-	local wLines = {}	-- lines that have been wrapped
-	local shortLine
-	local restLine
-	local word = "[^ ]* "	-- not space followed by space
-	local tmpLine
-	local letter = "[%z\1-\127\194-\244][\128-\191]*"
-
-	for k, line in ipairs(lines) do
-		if fontSmall:getWidth( line ) <= width then
-			table.insert( wLines, line )
-		else
-			restLine = line .. " " -- start with full line
-			while #restLine > 0 do
-				local i = 1
-				local breakingCondition = false
-				tmpLine = nil
-				shortLine = nil
-				repeat		-- look for spaces!
-					tmpLine = restLine:match( word:rep(i) )
-					if tmpLine then
-						if fontSmall:getWidth(tmpLine) > width then
-							breakingCondition = true
-						else
-							shortLine = tmpLine
-						end
-					else
-						breakingCondition = true
-					end
-					i = i + 1
-				until breakingCondition
-				if not shortLine then -- if there weren't enough spaces then:
-					breakingCondition = false
-					i = 1
-					repeat			-- ... look for letters:
-						tmpLine = restLine:match( letter:rep(i) )
-						if tmpLine then
-							if fontSmall:getWidth(tmpLine) > width then
-								breakingCondition = true
-							else
-								shortLine = tmpLine
-							end
-						else
-							breakingCondition = true
-						end
-						i = i + 1
-					until breakingCondition
-				end
-				table.insert( wLines, shortLine )
-				restLine = restLine:sub( #shortLine+1 )
-			end
-		end
-	end
-
-	local cursorX, cursorY = getCharPos( wLines, num )
-	return wLines, cursorX, cursorY
-end
-
 function Panel:new( x, y, width, height )-- highlightSelected )
 	local o = {}
 	setmetatable(o, self)
@@ -588,7 +508,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 end
 
 function Panel:addInputBox( x, y, width, lines, txt, returnEvent, maxLetters, allowedChars )
-	local wrappedText, curX, curY = wrap( txt or "", "", width*Camera.scale )
+	local wrappedText, curX, curY = utility.wrap( txt or "", "", width*Camera.scale )
 	local new = {
 		x = x + self.x,
 		y = y + self.y,
@@ -620,7 +540,7 @@ function Panel:textinput( letter )
 				local prevX, prevY = inp.curX, inp.curY
 				inp.front = inp.front .. letter
 				inp.wrappedText,inp.curX,inp.curY =
-				wrap( inp.front, inp.back, inp.pixelWidth )
+				utility.wrap( inp.front, inp.back, inp.pixelWidth )
 
 				-- Don't allow more than 'lines' lines. If number is greater with the newly added char,
 				-- reset to previous.
@@ -635,9 +555,8 @@ function Panel:textinput( letter )
 end
 
 function Panel:keypressed( key )
-
 	if self.activeInput then
-		inp = self.activeInput
+		local inp = self.activeInput
 		-- back up text incase anything goes wrong:
 		inp.oldFront, inp.oldBack = inp.front, inp.back
 		local stop, jump
@@ -647,19 +566,19 @@ function Panel:keypressed( key )
 			if len > 0 then
 				inp.front = inp.front:sub(1, len-1)
 			end
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "escape" then
 			inp.front = inp.txt
 			inp.back = ""
 			stop = true
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "return" then
 			inp.txt = inp.front .. inp.back
 			stop = true
 			if inp.returnEvent then
 				inp.returnEvent( inp.txt )
 			end
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "left" then
 			local len = #inp.front
 
@@ -667,28 +586,28 @@ function Panel:keypressed( key )
 				inp.back = inp.front:sub( len,len ) .. inp.back
 				inp.front = inp.front:sub(1, len-1)
 			end
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "right" then
 			local len = #inp.back
 			if len > 0 then
 				inp.front = inp.front .. inp.back:sub(1,1)
 				inp.back = inp.back:sub(2,len)
 			end
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "delete" then
 			local len = #inp.back
 			if len > 0 then
 				inp.back = inp.back:sub(2,len)
 			end
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "home" then
 			inp.back = inp.front .. inp.back
 			inp.front = ""
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "end" then
 			inp.front = inp.front .. inp.back
 			inp.back = ""
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "tab" then
 			inp.txt = inp.front .. inp.back
 			--[[if love.keyboard.isDown("lshift", "rshift") then
@@ -700,7 +619,7 @@ function Panel:keypressed( key )
 			if inp.returnEvent then
 				inp.returnEvent( inp.txt )
 			end
-			inp.wrappedText,inp.curX,inp.curY = wrap( inp.front, inp.back, inp.pixelWidth )
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		end
 
 		if stop then
