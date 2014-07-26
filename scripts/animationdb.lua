@@ -240,6 +240,10 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('skulls.png','skulls', tileSize, 2*tileSize, 'menu')
 	AnimationDB:loadTiledImage('userlevelState.png','userlevelStates', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('authorizationState.png','authorizationState', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('acceptOff.png','acceptOff', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('acceptOn.png','acceptOn', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('cancelOff.png','cancelOff', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('cancelOn.png','cancelOn', tileSize, tileSize, 'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')

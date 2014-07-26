@@ -273,7 +273,7 @@ end
 end]]
 
 function BgObject:addToCategory( cat, filename, x, y )
-	local img, coords = dofile( "editor/bgObjects/" .. filename )
+	local img, coords = love.filesystem.load( "editor/bgObjects/" .. filename )()
 	local imgID = img:sub( 11 )
 	for k, c in pairs( coords ) do
 		new = BgObject:new( imgID .. "_" .. c.tileX .. "x" .. c.tileY, img, c )
