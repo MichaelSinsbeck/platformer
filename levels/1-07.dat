@@ -135,10 +135,10 @@ endObj
 Obj:Player
 	x:12
 	y:14
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=false
 endObj
 Obj:LineHook
 	x:37

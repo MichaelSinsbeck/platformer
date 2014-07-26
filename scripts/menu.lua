@@ -177,7 +177,7 @@ function menu.downloadedVersionInfo( info )
 	if version ~= GAMEVERSION then
 		local url = require("scripts/url")
 		print("\tVersion mismatch!")
-		menu.versionMessage = "Outdated game version (" .. GAMEVERSION .. ")\nDownload newest at: " .. url
+		menu.versionMessage = "Version " .. GAMEVERSION .. "\nVersion ".. version.. " available at:\n" .. url
 	else
 		print("\tGame is running the newest version.")
 		menu.versionMessage = message .. " Version " .. version
