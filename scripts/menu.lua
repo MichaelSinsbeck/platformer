@@ -788,9 +788,9 @@ function menu:showUserlevelFilters()
 		sPrev.invisible = true
 
 		y = y + 8
-		local applyButton = menu:addButton( x, y, "startOff", "startOn", "apply", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-2, y+5 ) )
+		local applyButton = menu:addButton( x, y, "acceptOff", "acceptOn", "apply", function() menu:applyUserlevelFilters() end, menu.setPlayerPosition( x-2, y+5 ) )
 		x = x + 16
-		local cancelButton = menu:addButton( x, y, "startOff", "startOn", "cancel", function() menu:hideUserlevelFilters() end, menu.setPlayerPosition( x-2, y+5 ) )
+		local cancelButton = menu:addButton( x, y, "cancelOff", "cancelOn", "cancel", function() menu:hideUserlevelFilters() end, menu.setPlayerPosition( x-2, y+5 ) )
 
 		selectButton(sortingButton)
 	end
