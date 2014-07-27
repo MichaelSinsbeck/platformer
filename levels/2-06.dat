@@ -1,0 +1,363 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+Dimensions: 55,22
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+------------------------------------------------------
+endBackground
+
+Ground:
+cccccccccccccccccccccccccc----------------------------
+c----------------cc------c----------------------------
+-----------------cc------c----------------------------
+c----------------cc------c------------------ccccccc---
+c---ccccccccccccccc---cccc------------------------c---
+c---c------------cc---c---------------------------c---
+c---c------------cc---c---------------------------c---
+c---c------------cc---c------------------------cccc---
+c---------ccc----cc---c-------------------------------
+c-------c---c----cc---c-------------------------------
+c-------c---c----cc---c-------------------------------
+c-ccccccc---c----cc---c-------------------------------
+c-----------------------------------------------------
+c-----------------------------------------------------
+c-----------------------------------------------------
+ccccccccc---ccccccccccccccccccccc---------------------
+--------c-----------------------cc--------------------
+--------c------------------------cc-------------------
+--------ccccccccccccccccc---------c-------------------
+------------------------ccccccc---c-------------------
+------------------------------ccccc-------------------
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Appearblock
+	x:8
+	y:12
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:8
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:8
+	y:14
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:9
+	y:11
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:10
+	y:11
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:11
+	y:11
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:9
+	y:15
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:10
+	y:15
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:11
+	y:15
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Walker
+	x:10
+	y:10
+	p:direction=-1
+endObj
+Obj:Button
+	x:1
+	y:14
+	p:lifetime=0
+	p:color=yellow
+endObj
+Obj:Button
+	x:10
+	y:17
+	p:lifetime=1
+	p:color=red
+endObj
+Obj:Player
+	x:6
+	y:14
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=true
+endObj
+Obj:Appearblock
+	x:12
+	y:12
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:12
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:12
+	y:14
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:12
+	y:17
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:17
+	y:12
+	p:state=passable
+	p:color=red
+endObj
+Obj:Appearblock
+	x:17
+	y:13
+	p:state=passable
+	p:color=red
+endObj
+Obj:Appearblock
+	x:17
+	y:14
+	p:state=passable
+	p:color=red
+endObj
+Obj:Button
+	x:14
+	y:3
+	p:lifetime=3
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:19
+	y:11
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:20
+	y:11
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:21
+	y:11
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:29
+	y:18
+	p:state=solid
+	p:color=red
+endObj
+Obj:Button
+	x:25
+	y:18
+	p:lifetime=0
+	p:color=yellow
+endObj
+Obj:Button
+	x:48
+	y:6
+	p:lifetime=4
+	p:color=red
+endObj
+Obj:Appearblock
+	x:30
+	y:12
+	p:state=passable
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:31
+	y:12
+	p:state=passable
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:32
+	y:12
+	p:state=passable
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:33
+	y:12
+	p:state=passable
+	p:color=yellow
+endObj
+Obj:Button
+	x:28
+	y:18
+	p:lifetime=0
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:39
+	y:9
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:40
+	y:9
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:41
+	y:9
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:42
+	y:9
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Exit
+	x:23
+	y:3
+endObj
+Obj:Button
+	x:32
+	y:19
+	p:lifetime=1
+	p:color=green
+endObj
+Obj:Appearblock
+	x:12
+	y:16
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:29
+	y:17
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:29
+	y:16
+	p:state=solid
+	p:color=red
+endObj
+Obj:Fixedcannon
+	x:1
+	y:11
+	p:angle=-1
+	p:delay=0
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:0
+	y:2
+	p:angle=0
+	p:delay=0.4
+	p:firerate=1.2
+endObj
+Obj:Appearblock
+	x:11
+	y:3
+	p:state=passable
+	p:color=red
+endObj
+Obj:Appearblock
+	x:8
+	y:8
+	p:state=passable
+	p:color=red
+endObj
+Obj:Fixedcannon
+	x:9
+	y:8
+	p:angle=2
+	p:delay=0
+	p:firerate=1.2
+endObj
+Obj:Appearblock
+	x:18
+	y:12
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:18
+	y:13
+	p:state=passable
+	p:color=green
+endObj
+Obj:Appearblock
+	x:18
+	y:14
+	p:state=passable
+	p:color=green
+endObj
+endObjects
+

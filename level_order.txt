@@ -1,0 +1,122 @@
+World 1 - village - blank
+
+Walker + Spawner
+Spikes
+Abgründe
+Runner
+Shuriken - fixed
+Line
+
+ 1) Welcome, walking and jumping
+ 2) Windmill, walking and jumping with gaps, no death, wodden planks introduced
+ 3) Spikes und Abgründe
+ 4) Leap of Faith (wie weit kann man springen + aus dem Stand)
+ 5) Walker
+ 6) Walker
+ 7) Walker + Spawner
+ 8) Line
+ 9) Line
+10) Shuriken fixed
+11) Shuriken fixed
+12) Shuriken fixed
+13) Runner
+14) Runner
+15) Runner
+
+World 2 - forest - double jump
+
+Crumbleblock
+Goalie
+Rotator
+Button
+
+ 1) The Tower - wall jump tutorial
+ 2) The cellar - wall jump training
+ 3) Advanced Jumping - one-wall-wall-jump, slide+wall jump
+ 4) wall jump + spikes - waghalsige sprünge
+ 5) Button
+ 6) Button
+ 7) Button
+ 8)	Goalie
+ 9) Goalie
+10) slide up + wall jump
+11) Rotator
+12) Rotator 
+13) Rotator 
+14) Crumbleblock
+15) Crumbleblock
+
+World 3 - clouds - parachute
+
+Bouncer
+Bumper (round)
+Clubber
+Wind
+Shuriken - aiming
+
+ 1) Parachute - Leap of faith
+ 2) Parachute - bowel-type
+ 3) Parachute + Goalie
+ 4) Bouncer
+ 5) Bouncer
+ 6) Bouncer
+ 7) Shuriken - aiming
+ 8) Shuriken - aiming
+ 9) Shuriken - aiming
+10) Bumper
+11) Bumper
+12) Wind
+13) Wind
+14) Clubber
+15) Clubber
+
+World 4 - dash
+
+Imitator
+Cannon
+Glass
+Door + Key
+Medusa + Spawner
+
+ 1)
+ 2)
+ 3) 
+ 4)
+ 5) 
+ 6) 
+ 7) 
+ 8)
+ 9)
+10)
+11)
+12)
+13)
+14)
+15)
+
+World 5 - rope
+
+ 1)
+ 2)
+ 3) 
+ 4)
+ 5) 
+ 6) 
+ 7) 
+ 8)
+ 9)
+10)
+11)
+12)
+13)
+14)
+15)
+
+
+
+
+
+
+
+
+
