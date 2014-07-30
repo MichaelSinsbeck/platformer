@@ -50,11 +50,11 @@ Ground:
 ----------------------cccccc-----------cccccccc
 ----------------------cccccc-----------cccccccc
 ----------------------cccccc-----------cccccccc
---------2-------------cccccc------------ccccccc
---------2-------------cccccc-------------------
---------2-------------cccccc-------------------
-ssggggggggggsssssssssscccccc--------sssssssssss
-sssssssssssssssssssssscccccc---------ssssssssss
+----------2--------------ccc------------ccccccc
+----------2--------------ccc-------------------
+----------2--------------ccc-------------------
+ssssssssggggggsssssssssssccc--------sssssssssss
+sssssssssssssssssssssssssccc---------ssssssssss
 endGround
 
 BgObjects:

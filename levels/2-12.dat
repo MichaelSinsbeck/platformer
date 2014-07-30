@@ -1,0 +1,190 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+Dimensions: 34,21
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+endBackground
+
+Ground:
+ccccccccccccccccccccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccc-------c---c-------ccccccc
+c-------------ccccc-------------c
+c-------------------------------c
+c--------ccc---------ccc--------c
+c--------c-c---------c-c--------c
+c--------ccc---------ccc--------c
+c-------------------------------c
+cccccc---------------------cccccc
+ccccccc-------c---c-------ccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccc---ccccccccccccccc
+ccccccccccccccccccccccccccccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Player
+	x:29
+	y:13
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=true
+endObj
+Obj:Rotator
+	x:22
+	y:11
+	p:rOuter=10
+	p:rInner=1
+	p:nArms=2
+	p:angle=0
+	p:speed=-2
+endObj
+Obj:Rotator
+	x:10
+	y:11
+	p:rOuter=10
+	p:rInner=1
+	p:nArms=2
+	p:angle=1.5707963267949
+	p:speed=2
+endObj
+Obj:Button
+	x:2
+	y:13
+	p:lifetime=0
+	p:color=red
+endObj
+Obj:Button
+	x:30
+	y:13
+	p:lifetime=0
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:17
+	y:6
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:16
+	y:6
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:15
+	y:6
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:15
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:16
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:17
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:17
+	y:4
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:16
+	y:4
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:15
+	y:4
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:15
+	y:15
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:16
+	y:15
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:17
+	y:15
+	p:state=solid
+	p:color=green
+endObj
+Obj:Walker
+	x:16
+	y:1
+	p:direction=-1
+endObj
+Obj:Button
+	x:16
+	y:7
+	p:lifetime=2
+	p:color=green
+endObj
+Obj:Exit
+	x:16
+	y:18
+endObj
+endObjects
+

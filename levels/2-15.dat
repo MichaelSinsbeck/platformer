@@ -1,0 +1,319 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+Dimensions: 35,25
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+endBackground
+
+Ground:
+cccccccccccccccccccccccccccccccccc
+c---------------c----------------c
+c---------------c----------------c
+c--------------------------------c
+c-----bbb------------------------c
+c--------------------------------c
+c-------------ccc----------------c
+c-------------ccc----------------c
+c-------------ccc---cccccccccccccc
+c-------------ccc---c------------c
+c----c--------ccc----------------c
+c----cccccccccccc----------------c
+c----ccccccccccc-----------------c
+c----cccccccccccccccccccccccccc--c
+c----cccccccccccc-------c-----c--c
+c----ccccccccccc--------c-----c--c
+c-------------------1---c-----c--c
+c-------------------1------------c
+c-------------------1------------c
+cccccccc--cccccccccccccccccccccccc
+ccccccc-----------cccccccccccccccc
+ccccccc-----------cccccccccccccccc
+ccccccc-----------cccccccccccccccc
+cccccccccccccccccccccccccccccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Crumbleblock
+	x:9
+	y:19
+	p:lifetime=1
+endObj
+Obj:Rotator
+	x:9
+	y:16
+	p:rOuter=7
+	p:rInner=1
+	p:nArms=4
+	p:angle=0
+	p:speed=-2
+endObj
+Obj:Player
+	x:2
+	y:18
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Fixedcannon
+	x:16
+	y:15
+	p:angle=0
+	p:delay=0
+	p:firerate=1.2
+endObj
+Obj:Goalie
+	x:27
+	y:16
+	p:direction=0
+endObj
+Obj:Goalie
+	x:28
+	y:9
+	p:direction=1
+endObj
+Obj:Fixedcannon
+	x:16
+	y:12
+	p:angle=0
+	p:delay=0
+	p:firerate=2
+endObj
+Obj:Exit
+	x:15
+	y:22
+endObj
+Obj:Appearblock
+	x:16
+	y:5
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:16
+	y:4
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:16
+	y:3
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:28
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:27
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:26
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Goalie
+	x:28
+	y:1
+	p:direction=0
+endObj
+Obj:Goalie
+	x:27
+	y:1
+	p:direction=0
+endObj
+Obj:Goalie
+	x:26
+	y:1
+	p:direction=0
+endObj
+Obj:Button
+	x:31
+	y:7
+	p:lifetime=10
+	p:color=red
+endObj
+Obj:Crumbleblock
+	x:8
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:7
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:6
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:5
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:4
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:3
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:2
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:2
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:3
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:4
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:5
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:6
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:7
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:8
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:10
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:10
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:11
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:11
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:12
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:12
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:1
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:1
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Runner
+	x:2
+	y:6
+endObj
+Obj:Crumbleblock
+	x:8
+	y:19
+	p:lifetime=1
+endObj
+endObjects
+

@@ -1,0 +1,257 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+Dimensions: 33,21
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+endBackground
+
+Ground:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+cccccccccccccccccccccccccccccccc
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+ccccc---------------------cccccc
+cc----------------------------cc
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Crumbleblock
+	x:9
+	y:11
+	p:lifetime=0.5
+endObj
+Obj:Player
+	x:1
+	y:10
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=true
+endObj
+Obj:Exit
+	x:30
+	y:10
+endObj
+Obj:Crumbleblock
+	x:9
+	y:10
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:8
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:6
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:5
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:11
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:10
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:8
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:6
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:5
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:11
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:10
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:8
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:6
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:5
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:11
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:10
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:8
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:7
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:6
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:5
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:12
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:12
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:12
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:12
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:25
+	y:13
+	p:lifetime=0.5
+endObj
+endObjects
+

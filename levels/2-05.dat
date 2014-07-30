@@ -82,7 +82,7 @@ endObj
 Obj:Button
 	x:24
 	y:13
-	p:lifetime=2
+	p:lifetime=3
 	p:color=blue
 endObj
 Obj:Button
