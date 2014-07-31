@@ -7,9 +7,10 @@
 -- c: concrete
 -- d: dirt
 -- w: wood
--- s: stonr
+-- s: stone
 -- 1: spikes grey
 -- 2: spikes brown
+-- o: cloud
 --
 -- A dot represents any tile and a space an empty tile.
 --
@@ -618,6 +619,16 @@ function Ground:init()
 						{4,15}, {5,15}, {6,15})
 	new:setHorizontalLine( {4,12}, {5,12}, {6,12} )
 	new:setVerticalLine( {7,13}, {7,14}, {7,15} )
+	table.insert( list, new )
+
+	local new = Ground:new("cloud", 'o' )
+	new:setSingleTile( {11, 0} )
+	new:setThickTiles( {8,1}, {9,1}, {10,1},
+						{8,2}, {9,2}, {10,2},
+						{8,3}, {9,3}, {10,3})
+	new:setHorizontalLine( {8,0}, {9,0}, {10,0} )
+	new:setVerticalLine( {11,1}, {11,2}, {11,3} )
+
 	table.insert( list, new )
 
 	return list

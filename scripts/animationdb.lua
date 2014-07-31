@@ -614,7 +614,11 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('LEBGround2On'   ,'editorButton',{72},{1e6})	
 	AnimationDB:addAni('LEBGround3Off'  ,'editorButton',{73},{1e6})
 	AnimationDB:addAni('LEBGround3Hover','editorButton',{74},{1e6})
-	AnimationDB:addAni('LEBGround3On'   ,'editorButton',{75},{1e6})		
+	AnimationDB:addAni('LEBGround3On'   ,'editorButton',{75},{1e6})
+	AnimationDB:addAni('LECloudOff'  ,'editorButton',{85},{1e6})
+	AnimationDB:addAni('LECloudOn','editorButton',{86},{1e6})
+	AnimationDB:addAni('LECloudHover'   ,'editorButton',{87},{1e6})	
+
 	
 	AnimationDB:addAni('LEPenOff'     ,'editorButton',{19},{1e6})
 	AnimationDB:addAni('LEPenHover'   ,'editorButton',{20},{1e6})

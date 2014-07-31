@@ -419,6 +419,16 @@ function editor.start()
 				'LESpikes2Hover',
 				"draw brown spikes", nil, "8" )
 	groundButtons[8] = b
+  y = y + 10
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[9]:setActive(true)
+										editor.currentGround = editor.groundList[9] end,
+				'LECloudOff',
+				'LECloudOn',
+				'LECloudHover',
+				"draw clouds", nil, "9" )
+	groundButtons[9] = b	
 
 	-- Panel for choosing the background type:
 	--backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )

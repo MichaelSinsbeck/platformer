@@ -1717,7 +1717,7 @@ function EditorMap:loadFromFile( fullName )
 
 		map.collisionSrc = {}
 
-		local order = {'b','c','d','g','s','w','1','2'}
+		local order = {'b','c','d','g','s','w','o','1','2'}
 		
 		for tileCounter, currentTile in ipairs(order) do
 			y = 0
@@ -1864,7 +1864,7 @@ end
 
 function EditorMap:generateParallax()
 	print('generating parallax background')
-	local nLayers = 5
+	local nLayers = 2
 	wLevel = self.width
 	hLevel = self.height
 	wScreen = Camera.width

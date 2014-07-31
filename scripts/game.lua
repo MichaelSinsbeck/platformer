@@ -34,6 +34,7 @@ function game:draw()
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())
 	end
+	love.graphics.print( love.timer.getFPS(), 20, love.graphics.getHeight() - 40 )
 end
 
 function game:checkControls()
