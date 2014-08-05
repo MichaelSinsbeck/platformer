@@ -637,6 +637,10 @@ function Ground:init()
 	new:addVariation( "cm", {9,4})
 	new:addVariation( "cm", {10,4})
 	new:addVariation( "cm", {11,4})
+	new:addVariation( "lm", {8,5})
+	new:addVariation( "m", {9,5})
+	new:addVariation( "rm", {10,5})
+	new:addVariation( "single", {11,5})
 
 	table.insert( list, new )
 
