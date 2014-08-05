@@ -9,7 +9,7 @@ local Bouncer = object:New({
   }, 
   properties = {
 		angle = utility.newCycleProperty({-1,0,1,2},{'up', 'right', 'down', 'left'}),
-		strength = utility.newProperty({15,23,30},{'weak','medium','strong'},2),
+		strength = utility.newProperty({16,23,30},{'weak','medium','strong'},2),
   }, 
 })
 

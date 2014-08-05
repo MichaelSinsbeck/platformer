@@ -51,6 +51,7 @@ Droplet = require 'scripts/objects.droplet',
 Rock = require 'scripts/objects.rock',
 Bean = require 'scripts/objects.bean',
 Rotator = require 'scripts/objects.rotator',
+Npc = require 'scripts/objects.npc'
 }
 
 
