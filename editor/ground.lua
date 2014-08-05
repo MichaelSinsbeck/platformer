@@ -264,7 +264,10 @@ function Ground:addTransition( lt, t, rt, l, r, lb, b, rb, coords, tName )
 end
 
 function Ground:addVariation( dir, coords )
-	self.variations[dir] = self:coordsToQuad( coords )
+	if not self.variations[dir] then
+		self.variations[dir] = {}
+	end
+	table.insert( self.variations[dir], self:coordsToQuad( coords ) )
 end
 
 function Ground:addSimilar( match )
@@ -340,7 +343,8 @@ function Ground:getQuad( l, r, t, b, lt, rt, lb, rb, forceNoTransition )
 			if math.random(20) == 1 then
 				-- make center tile less likeley to have variation:
 				if foundDir ~= "cm" or math.random(2) == 1 then
-					return self.variations[foundDir]
+					local numVariations = #self.variations[foundDir]
+					return self.variations[foundDir][math.random(1,numVariations)]
 				end
 			end
 		end
@@ -628,6 +632,11 @@ function Ground:init()
 						{8,3}, {9,3}, {10,3})
 	new:setHorizontalLine( {8,0}, {9,0}, {10,0} )
 	new:setVerticalLine( {11,1}, {11,2}, {11,3} )
+
+	new:addVariation( "cm", {8,4})
+	new:addVariation( "cm", {9,4})
+	new:addVariation( "cm", {10,4})
+	new:addVariation( "cm", {11,4})
 
 	table.insert( list, new )
 
