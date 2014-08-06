@@ -5,7 +5,7 @@ local backgroundColor = {44,90,160,150} -- color of box content
 local PADDING = 3
 
 -- chars which, by default, can by typed into input boxes:
-local ALLOWED_CHARS = "[0-9a-zA-Z%- ?!%.]"
+local ALLOWED_CHARS = "[0-9a-zA-Z%- ?!%.,]"
 
 function Panel:new( x, y, width, height )-- highlightSelected )
 	local o = {}
@@ -455,7 +455,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 		end
 
 		self:addInputBox( x + 1, y + 1, self.width-18, 5, property.values[1],
-				returnEvent, 200, "[?!%.A-Za-z0-9 ]" )
+				returnEvent, 200, "[0-9a-zA-Z%- ?!%.,]" )
 
 	else
 
@@ -549,7 +549,7 @@ function Panel:textinput( letter )
 	if self.activeInput then
 		local inp = self.activeInput
 		if letter:find( inp.allowedChars or ALLOWED_CHARS ) then
-			letter = string.lower(letter)
+			--letter = string.lower(letter)
 			if inp.maxLetters > #inp.txt then
 				local prevFront, prevWrapped = inp.front, inp.wrappedText
 				local prevX, prevY = inp.curX, inp.curY
