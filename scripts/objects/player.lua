@@ -59,6 +59,40 @@ local Player = object:New({
   },   
   })
 
+function Player:setBandana(color)
+
+	local bandana2num = {blank=1,white=2,yellow=3,green=4,blue=5,red=6}
+	local number = bandana2num[color]
+	
+	self.bandana = color	
+	
+	self.canWalljump = false
+	self.Parachute   = false
+	self.Teleport    = false
+	self.canHook     = false
+	
+	if number == 1 then --blank
+	  self.jumpSpeed = -4
+	  self.walkSpeed = 5
+	else -- white
+		self.jumpSpeed = -13
+	  self.walkSpeed = 13	
+	  if number >= 3 then --yellow
+			self.canWalljump = true
+		end
+		if number >= 4 then --green
+			self.canParachute = true
+		end
+		if number >= 5 then --blue
+			self.canTeleport   = true
+		end
+		if number >= 6 then --red
+			self.canHook = true		
+		end	  	  	  
+	end
+end
+
+
 function Player:jump()
 	game:checkControls()
   if self.status == 'stand' then

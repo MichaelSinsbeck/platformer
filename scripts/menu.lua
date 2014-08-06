@@ -363,6 +363,7 @@ function menu.startCampaignLevel( lvlNum )
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start()
+		p:setBandana(Campaign.bandana) 
 		config.setValue( "level", lvl )
 	end
 end

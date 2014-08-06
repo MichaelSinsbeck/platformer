@@ -66,9 +66,9 @@ function game:update(dt)
   Camera:update(dt)
   
   if game.won then
-	game.won = nil
-	levelEnd:registerEnd()
-	levelEnd:display()
+		game.won = nil
+		levelEnd:registerEnd()
+		levelEnd:display()
   end
   
 	if p.dead then

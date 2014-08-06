@@ -410,6 +410,7 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('starBandana','bandana',{1},{1e6})
 	AnimationDB:addAni('whiteBandana','bandana',{2},{1e6})
+	AnimationDB:addAni('yellowBandana','bandana',{2},{1e6}) --todo
 	AnimationDB:addAni('greenBandana','bandana',{3},{1e6})
 	AnimationDB:addAni('blueBandana','bandana',{4},{1e6})
 	AnimationDB:addAni('redBandana','bandana',{5},{1e6})

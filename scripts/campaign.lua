@@ -1,5 +1,5 @@
 Campaign = {
-	'1-01.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
+	'1-00.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
 	'1-06.dat',	'1-07.dat',	'1-08.dat',	'1-09.dat',	'1-10.dat',
 	'1-11.dat',	'1-12.dat',	'1-13.dat',	'1-14.dat',	'1-15.dat',
 	
@@ -23,6 +23,23 @@ Campaign = {
 Campaign.current = 0
 Campaign.worldNumber = 1
 Campaign.last = 0
+Campaign.bandana = 'blank'
+
+local num2bandana = {'blank','white','yellow','green','blue','red'}
+local bandana2num = {blank=1,white=2,yellow=3,green=4,blue=5,red=6}
+
+function Campaign:showUpgrade()
+end
+
+function Campaign:upgradeBandana(color)
+	local current = bandana2num[self.bandana]
+	local new = bandana2num[color]
+	if new > current then
+		self.bandana = num2bandana[new]
+		p:setBandana(self.bandana)
+		self:showUpgrade()
+	end
+end
 
 function Campaign:reset()
   self:setLevel(1)
@@ -40,7 +57,8 @@ function Campaign:proceed()
 		-- go to next level
 		myMap = Map:loadFromFile( "levels/" .. self[self.current])
 		levelEnd:reset()	
-		myMap:start(p) 
+		myMap:start()
+		p:setBandana(self.bandana) 
 		mode = 'game'
 		menu:newLevelName( self.names[ self[self.current] ] )
   else
