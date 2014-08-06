@@ -1,8 +1,8 @@
-local t1 = 'A proper ninja must jump high. Wear the white bandana and learn the art of jumping.'
+--[[local t1 = 'A proper ninja must jump high. Wear the white bandana and learn the art of jumping.'
 local t2 = 'A proper ninja masters the wall jump. Hug the wall and jump again.'
 local t3 = 'This is the third text'
 local t4 = 'This is the forth text'
-local t5 = 'This is the fifth text'
+local t5 = 'This is the fifth text']]
 
 
 local Npc = object:New({
@@ -16,7 +16,7 @@ local Npc = object:New({
 		Visualizer:New( nil, {active = false,relY = -2}, 'hallo' ),
   },
 	properties = {
-		text = utility.newCycleProperty({t1,t2,t3,t4,t5}, {1,2,3,4,5}),
+		text = utility.newTextProperty(200),
 	}, 
 })
 

@@ -43,6 +43,13 @@ function utility.newProperty(values, names, default)
 	newProp.cycle = false
 	return newProp
 end
+function utility.newTextProperty( maxChars )
+	local newProp = {}
+	newProp.values = {""}
+	newProp.default = 1
+	newProp.isTextProperty = true
+	return newProp
+end
 
 function utility.newCycleProperty(values, names, default)
 	local newProp = utility.newProperty(values, names, default)

@@ -196,13 +196,15 @@ function Panel:draw()
 		love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
-		love.graphics.setColor(255,255,255,20)
-		love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
-						25*Camera.scale, 4*Camera.scale)
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
-		local displayName = p.names[p.obj[k]] or p.obj[k]
-		love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
+		if not p.isTextProperty then
+			love.graphics.setColor(255,255,255,20)
+			love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
+			25*Camera.scale, 4*Camera.scale)
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
+			local displayName = p.names[p.obj[k]] or p.obj[k]
+			love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
+		end
 	end
 
 	for k, input in ipairs( self.inputBoxes ) do
@@ -442,65 +444,78 @@ function Panel:disselectAll()
 end
 
 function Panel:addProperty( name, x, y, property, obj, cycle )
-	
 	--self:addLabel( self.x + x, self.y + y, name .. ":" )
+	
+	if property.isTextProperty then
 
-	-- since the properties are copied by reference,
-	-- changing them here will change them for the object, too:
-	function decrease()
-		-- find current index
-		local current = 1
-		for i,v in ipairs(property.values) do
-			if tostring(v) == tostring(obj[name]) then
-				current = i
-				break
-			end
+		local returnEvent = function( txt )
+			property.values[1] = txt
+			obj:setProperty( name, property.values[1] ) 
+			obj:applyOptions()
 		end
-		-- decrease value and cycle/clamp
-		current = current -1
-		if current < 1 then
-			if property.cycle then
-				current = #property.values
-			else
-				current = 1
-			end
-		end
-		obj:setProperty( name, property.values[current] ) 
-		obj:applyOptions()
-	end
-	function increase()
-		-- find current index
-		local current = 1
-		for i,v in ipairs(property.values) do
-			if tostring(v) == tostring(obj[name]) then
-				current = i
-				break
-			end
-		end
-		current = current + 1
-		if current > #property.values then
-			if property.cycle then
-				current = 1
-			else
-				current = #property.values
-			end		
-		end
-		obj:setProperty( name, property.values[current] ) 
-		obj:applyOptions()
-	end
 
-	self:addClickable( x + 1, y + 7, decrease,
+		self:addInputBox( x + 1, y + 1, self.width-18, 5, property.values[1],
+				returnEvent, 200, "[?!%.A-Za-z0-9 ]" )
+
+	else
+
+		-- since the properties are copied by reference,
+		-- changing them here will change them for the object, too:
+		function decrease()
+			-- find current index
+			local current = 1
+			for i,v in ipairs(property.values) do
+				if tostring(v) == tostring(obj[name]) then
+					current = i
+					break
+				end
+			end
+			-- decrease value and cycle/clamp
+			current = current -1
+			if current < 1 then
+				if property.cycle then
+					current = #property.values
+				else
+					current = 1
+				end
+			end
+			obj:setProperty( name, property.values[current] ) 
+			obj:applyOptions()
+		end
+		function increase()
+			-- find current index
+			local current = 1
+			for i,v in ipairs(property.values) do
+				if tostring(v) == tostring(obj[name]) then
+					current = i
+					break
+				end
+			end
+			current = current + 1
+			if current > #property.values then
+				if property.cycle then
+					current = 1
+				else
+					current = #property.values
+				end		
+			end
+			obj:setProperty( name, property.values[current] ) 
+			obj:applyOptions()
+		end
+
+		self:addClickable( x + 1, y + 7, decrease,
 		'LEUpOff',
 		'LEUpOn',
 		'LEUpHover',
 		"Choose next value", nil,nil, true)
 
-	self:addClickable( x + 30, y + 7, increase,
+		self:addClickable( x + 30, y + 7, increase,
 		'LEDownOff',
 		'LEDownOn',
 		'LEDownHover',
 		"Choose next value", nil,nil, true)
-	
+	end
+
 	property.x = x + self.x
 	property.y = y + self.y
 	property.obj = obj
@@ -605,34 +620,34 @@ function Panel:keypressed( key )
 			inp.front = ""
 			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "end" then
-			inp.front = inp.front .. inp.back
-			inp.back = ""
-			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
-		elseif key == "tab" then
-			inp.txt = inp.front .. inp.back
-			--[[if love.keyboard.isDown("lshift", "rshift") then
-				jump = "backward"
-			else
-				jump = "forward"
-			end]]
-			stop = true
-			if inp.returnEvent then
-				inp.returnEvent( inp.txt )
-			end
-			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		inp.front = inp.front .. inp.back
+		inp.back = ""
+		inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+	elseif key == "tab" then
+		inp.txt = inp.front .. inp.back
+		--[[if love.keyboard.isDown("lshift", "rshift") then
+		jump = "backward"
+		else
+		jump = "forward"
+		end]]
+		stop = true
+		if inp.returnEvent then
+		inp.returnEvent( inp.txt )
+		end
+		inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		end
 
 		if stop then
-			self.activeInput = nil
-			editor.activeInputPanel = nil
-			return "stop"
+		self.activeInput = nil
+		editor.activeInputPanel = nil
+		return "stop"
 		elseif jump then
-			self.activeInput = nil
-			editor.activeInputPanel = nil
-			return jump
+		self.activeInput = nil
+		editor.activeInputPanel = nil
+		return jump
 		end
-	end
-end
+		end
+		end
 
 
-return Panel
+		return Panel
