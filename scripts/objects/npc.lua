@@ -12,8 +12,8 @@ local Npc = object:New({
   isInEditor = true,
   radius = 4,
   vis = {
-		Visualizer:New('placeholder08'),
-		Visualizer:New( nil, {active = false,relY = -2}, 'hallo' ),
+		Visualizer:New('npc'),
+		Visualizer:New( nil, {active = false,relY = -2}, '' ),
   },
 	properties = {
 		text = utility.newTextProperty(200),

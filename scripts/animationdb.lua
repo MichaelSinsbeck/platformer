@@ -300,6 +300,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('medusaSpawner.png','medusaSpawner',tileSize,tileSize)
 	AnimationDB:loadTiledImage('rotator.png','rotator',tileSize,tileSize)
 	AnimationDB:loadTiledImage('miniFlame.png','miniFlame',0.4*tileSize,0.4*tileSize)
+	AnimationDB:loadTiledImage('npc.png','npc')
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -405,11 +406,14 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('imitatorSliding','imitator',{4},{1e6})
 
 	AnimationDB:addAni('launcherLoading','launcher',{1,2,3},{.45,.45,1e6})
+	AnimationDB:addAni('npc','npc',{1},{1e6})
+	
 
 	AnimationDB:addAni('explosionExplode','explosion',{1,2,3,4,5,6,6},{.05,.05,.1,.1,.1,.1,1e6})
 
 	AnimationDB:addAni('starBandana','bandana',{1},{1e6})
 	AnimationDB:addAni('whiteBandana','bandana',{2},{1e6})
+	AnimationDB:addAni('yellowBandana','bandana',{2},{1e6}) --todo
 	AnimationDB:addAni('greenBandana','bandana',{3},{1e6})
 	AnimationDB:addAni('blueBandana','bandana',{4},{1e6})
 	AnimationDB:addAni('redBandana','bandana',{5},{1e6})
