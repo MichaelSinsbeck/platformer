@@ -192,8 +192,8 @@ end
 function love.keyreleased(key)
 	if mode == 'game' then
 		game.keyreleased(key)
-	elseif mode == 'editor' then
-		editor.keyreleased(key)
+	--elseif mode == 'editor' then
+	--	editor.keyreleased(key)
 	end
 end
 

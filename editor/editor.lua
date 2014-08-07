@@ -100,8 +100,6 @@ function editor.init()
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
 	editor.toolsToolTips["bgObject"] = "left mouse: add current background object, ctrl to add multiple times"
 	editor.toolsToolTips["edit"] = "left mouse: select object, left + drag: move object"
-
-	editor.scroll = { x = 0, y = 0 }
 end
 
 function editor.createCellQuad()
@@ -736,8 +734,6 @@ function editor:update( dt )
 		map:unPreviewAll()		-- removes box selection highlight
 	end
 
-
-
 	if msgBox.visible then msgBox:unhighlightAll() end
 	if loadPanel.visible then loadPanel:unhighlightAll() end
 	if savePanel.visible then savePanel:unhighlightAll() end
@@ -922,7 +918,15 @@ function editor:update( dt )
 		end
 	end
 
-	cam:jumpTo( cam.x + editor.scroll.x*dt*EDITOR_SCROLL_SPEED, cam.y + editor.scroll.y*dt*EDITOR_SCROLL_SPEED )
+	-- If no panel is currently awaiting input, then let cursor keys scroll the
+	-- camera:
+	if not editor.activeInputPanel then
+		local panX = (love.keyboard.isDown("left") and 400 or 0) - (love.keyboard.isDown("right") and 400 or 0)
+		local panY = (love.keyboard.isDown("up") and 400 or 0) - (love.keyboard.isDown("down") and 400 or 0)
+
+		cam:jumpTo( cam.x + panX*dt, cam.y + panY*dt )
+
+	end
 
 	if self.toolTip.text == "" and self.currentTool and not hit then
 		self.setToolTip( self.toolsToolTips[self.currentTool] )
@@ -1810,14 +1814,10 @@ function editor.keypressed( key, repeated )
 		--map:duplicateSelection()
 		--editor.createPropertiesPanel()
 	--editor.duplicateSelection()
-	elseif key == "left" then
-		editor.scroll.x = editor.scroll.x + 1
-	elseif key == "right" then
-		editor.scroll.x = editor.scroll.x - 1
-	elseif key == "down" then
-		editor.scroll.y = editor.scroll.y - 1
-	elseif key == "up" then
-		editor.scroll.y = editor.scroll.y + 1
+	elseif key == '+' then
+		cam:zoomIn()
+	elseif key == '-' then
+		cam:zoomOut()
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then
@@ -1829,18 +1829,6 @@ function editor.keypressed( key, repeated )
 				editor.currentBackground = editor.backgroundList[num]
 			end
 		end
-	end
-end
-
-function editor.keyreleased( key )
-	if key == "left" then
-		editor.scroll.x = editor.scroll.x - 1
-	elseif key == "right" then
-		editor.scroll.x = editor.scroll.x + 1
-	elseif key == "down" then
-		editor.scroll.y = editor.scroll.y + 1
-	elseif key == "up" then
-		editor.scroll.y = editor.scroll.y - 1
 	end
 end
 
