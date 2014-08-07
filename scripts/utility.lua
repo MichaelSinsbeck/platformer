@@ -43,11 +43,20 @@ function utility.newProperty(values, names, default)
 	newProp.cycle = false
 	return newProp
 end
-function utility.newTextProperty( maxChars )
+function utility.newTextProperty()
 	local newProp = {}
 	newProp.values = {""}
 	newProp.default = 1
 	newProp.isTextProperty = true
+	return newProp
+end
+function utility.newNumericTextProperty( default, min, max )
+	local newProp = {}
+	newProp.values = { default }
+	newProp.default = 1
+	newProp.isNumericTextProperty = true
+	newProp.max = max
+	newProp.min = min
 	return newProp
 end
 

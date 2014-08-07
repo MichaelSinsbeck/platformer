@@ -207,13 +207,17 @@ function Panel:draw()
 	end
 	for k, p in pairs( self.properties ) do
 		if not p.isTextProperty then
-			love.graphics.setColor(255,255,255,20)
-			love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
-			25*Camera.scale, 4*Camera.scale)
+			if not p.isNumericTextProperty then
+				love.graphics.setColor(255,255,255,20)
+				love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
+				25*Camera.scale, 4*Camera.scale)
+			end
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
-			local displayName = p.names[p.obj[k]] or p.obj[k]
-			love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
+			if not p.isNumericTextProperty then
+				local displayName = p.names[p.obj[k]] or p.obj[k]
+				love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
+			end
 		end
 	end
 
@@ -319,7 +323,7 @@ function Panel:deactivateInput()
 	if self.activeInput then
 		self.activeInput.txt = self.activeInput.front .. self.activeInput.back
 		if self.activeInput.returnEvent then
-			self.activeInput.returnEvent( self.activeInput.txt )
+			self.activeInput.returnEvent( self.activeInput )
 		end
 		self.activeInput = nil
 	end
@@ -336,7 +340,7 @@ function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 		if self.activeInput then
 			self.activeInput.txt = self.activeInput.front .. self.activeInput.back
 			if self.activeInput.returnEvent then
-				self.activeInput.returnEvent( self.activeInput.txt )
+				self.activeInput.returnEvent( self.activeInput )
 			end
 			self.activeInput = nil
 		end
@@ -481,14 +485,34 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 	
 	if property.isTextProperty then
 
-		local returnEvent = function( txt )
-			property.values[1] = txt
+		local returnEvent = function( input )
+			property.values[1] = input.txt
 			obj:setProperty( name, property.values[1] ) 
 			obj:applyOptions()
 		end
 
 		self:addInputBox( x + 1, y + 1, self.width-18, 5, property.values[1],
 				returnEvent, 200, "[0-9a-zA-Z%- ?!%.,]" )
+
+	elseif property.isNumericTextProperty then
+
+		local returnEvent = function( input )
+			local num = tonumber(input.txt)
+			if num then
+				num = math.min( property.max, num )
+				num = math.max( property.min, num )
+				property.values[1] = num
+			end
+			input.txt = tostring(property.values[1])
+			input.front = input.txt
+			input.back = ""
+			obj:setProperty( name, property.values[1] ) 
+			obj:applyOptions()
+			print("applied:" .. property.values[1])
+		end
+
+		self:addInputBox( x + 1, y + 5, self.width-18, 1, tostring(property.values[1]),
+				returnEvent, 200, "[%-%+0-9.]" )
 
 	else
 
@@ -624,7 +648,7 @@ function Panel:keypressed( key )
 			inp.txt = inp.front .. inp.back
 			stop = true
 			if inp.returnEvent then
-				inp.returnEvent( inp.txt )
+				inp.returnEvent( inp )
 			end
 			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "left" then
@@ -665,7 +689,7 @@ function Panel:keypressed( key )
 		end]]
 		stop = true
 		if inp.returnEvent then
-			inp.returnEvent( inp.txt )
+			inp.returnEvent( inp )
 		end
 		inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 	end

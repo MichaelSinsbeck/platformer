@@ -788,9 +788,9 @@ function menu:showUserlevelFilters()
 		dNext.invisible = true
 
 		y = y + 8
-		local returnFunction = function( txt )
-			if txt and #txt > 0 then
-				userlevelFilters.searchText = string.lower( txt )
+		local returnFunction = function( input )
+			if input.txt and #input.txt > 0 then
+				userlevelFilters.searchText = string.lower( input.txt )
 			else
 				userlevelFilters.txt = 0
 			end
@@ -1414,7 +1414,7 @@ function menu:keypressed( key, unicode )
 			inp.txt = inp.front .. inp.back
 			stop = true
 			if inp.returnEvent then
-				inp.returnEvent( inp.txt )
+				inp.returnEvent( inp )
 			end
 			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "left" then
@@ -1455,7 +1455,7 @@ function menu:keypressed( key, unicode )
 			end]]
 			stop = true
 			if inp.returnEvent then
-				inp.returnEvent( inp.txt )
+				inp.returnEvent( inp )
 			end
 			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		end

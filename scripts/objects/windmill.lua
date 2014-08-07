@@ -13,7 +13,8 @@ local Windmill = object:New({
 	semiwidth = 0.5,
 	properties = {
 		wings = utility.newProperty({5,6,7,8},nil,3),
-		speed = utility.newProperty({0,.2,.5,2},{'stopped','slow','medium','fast'},3),
+		--speed = utility.newProperty({0,.2,.5,2},{'stopped','slow','medium','fast'},3),
+		speed = utility.newNumericTextProperty( 0.2, -2, 2 )
 	},
 	vis = {Visualizer:New('windmillwing')},
 	preview = Visualizer:New('windmillpreview'),	

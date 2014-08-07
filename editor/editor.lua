@@ -2173,14 +2173,14 @@ function editor.saveFileStart( callbackEvent )
 	savePanel:addLabel( 8, 20, "Author:" )
 	savePanel:addLabel( 8, 32, "Short description:" )
 
-	local setMapAuthor = function( txt )
-		map.author = txt or ""
+	local setMapAuthor = function( input )
+		map.author = input.txt or ""
 	end
-	local setMapName = function( txt )
-		map.name = txt or ""	
+	local setMapName = function( input )
+		map.name = input.txt or ""	
 	end
-	local setMapDescription = function( txt )
-		map.description = txt or ""	
+	local setMapDescription = function( input )
+		map.description = input.txt or ""	
 	end
 	local chars = "[0-9a-zA-Z%-]"
 	savePanel:addInputBox( 10, 13, savePanel.width - 20, 1, map.name or "", setMapName, 30, chars )
