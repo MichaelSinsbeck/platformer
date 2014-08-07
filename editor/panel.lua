@@ -298,6 +298,22 @@ function Panel:deactivateAll()
 	end
 end
 
+function Panel:deactivateInput()
+	if self.activeInput then
+		self.activeInput.txt = self.activeInput.front .. self.activeInput.back
+		if self.activeInput.returnEvent then
+			self.activeInput.returnEvent( self.activeInput.txt )
+		end
+		self.activeInput = nil
+	end
+	if editor.activeInputPanel == self then
+		editor.activeInputPanel = nil
+	end
+end
+function Panel:getActiveInput()
+	return self.activeInput
+end
+
 function Panel:click( mouseX, mouseY, clicked, msgBoxActive )
 	if clicked then
 		if self.activeInput then
@@ -632,21 +648,21 @@ function Panel:keypressed( key )
 		end]]
 		stop = true
 		if inp.returnEvent then
-		inp.returnEvent( inp.txt )
+			inp.returnEvent( inp.txt )
 		end
 		inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
-		end
+	end
 
-		if stop then
+	if stop then
 		self.activeInput = nil
 		editor.activeInputPanel = nil
 		return "stop"
-		elseif jump then
+	elseif jump then
 		self.activeInput = nil
 		editor.activeInputPanel = nil
 		return jump
-		end
-		end
+	end
+end
 		end
 
 

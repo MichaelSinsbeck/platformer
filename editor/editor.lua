@@ -61,6 +61,8 @@ local KEY_QUIT = "escape"
 local KEY_MENU = "escape"
 local KEY_TEST = "f4"
 
+local EDITOR_SCROLL_SPEED = 300
+
 -- called when loading game	
 function editor.init()
 
@@ -83,7 +85,6 @@ function editor.init()
 	end
 
 	editor.objectProperties = {}
-
 	
 	--editor.objectList, editor.objectProperties = Object:init()
 	editor.backgroundList = Background:init()
@@ -93,11 +94,14 @@ function editor.init()
 		x = 0,
 		y = 0,
 	}
+
 	editor.toolsToolTips = {}
 	editor.toolsToolTips["pen"] = "left mouse: draw, right mouse: erase, shift: draw straight line, ctrl: flood fill"
 	--editor.toolsToolTips["erase"] = "click: erase, shift+click: erase straight line"
 	editor.toolsToolTips["bgObject"] = "left mouse: add current background object, ctrl to add multiple times"
 	editor.toolsToolTips["edit"] = "left mouse: select object, left + drag: move object"
+
+	editor.scroll = { x = 0, y = 0 }
 end
 
 function editor.createCellQuad()
@@ -733,6 +737,7 @@ function editor:update( dt )
 	end
 
 
+
 	if msgBox.visible then msgBox:unhighlightAll() end
 	if loadPanel.visible then loadPanel:unhighlightAll() end
 	if savePanel.visible then savePanel:unhighlightAll() end
@@ -916,6 +921,8 @@ function editor:update( dt )
 			map:highlightAllInRegion( sX, sY, eX+2, eY+2 )
 		end
 	end
+
+	cam:jumpTo( cam.x + editor.scroll.x*dt*EDITOR_SCROLL_SPEED, cam.y + editor.scroll.y*dt*EDITOR_SCROLL_SPEED )
 
 	if self.toolTip.text == "" and self.currentTool and not hit then
 		self.setToolTip( self.toolsToolTips[self.currentTool] )
@@ -1274,6 +1281,14 @@ function editor:mousepressed( button, x, y )
 				if propertiesPanel:collisionCheck(x, y) then
 					propertiesPanel:click( x, y, button )
 					mouseOnCanvas = false
+				else
+					-- It the user clicks outisde of the panel area (collisionCheck returns
+					-- nil or false) then any possibly active input boxes on the panel should
+					-- get set to inactive. This makes sure the text is "accepted", i.e. the
+					-- change in the text is stored.
+					if propertiesPanel:getActiveInput() then
+						propertiesPanel:deactivateInput()
+					end
 				end
 			end
 		end
@@ -1795,6 +1810,14 @@ function editor.keypressed( key, repeated )
 		--map:duplicateSelection()
 		--editor.createPropertiesPanel()
 	--editor.duplicateSelection()
+	elseif key == "left" then
+		editor.scroll.x = editor.scroll.x + 1
+	elseif key == "right" then
+		editor.scroll.x = editor.scroll.x - 1
+	elseif key == "down" then
+		editor.scroll.y = editor.scroll.y - 1
+	elseif key == "up" then
+		editor.scroll.y = editor.scroll.y + 1
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
 		local num = tonumber(key)
 		if editor.currentTool == "pen" then
@@ -1806,6 +1829,18 @@ function editor.keypressed( key, repeated )
 				editor.currentBackground = editor.backgroundList[num]
 			end
 		end
+	end
+end
+
+function editor.keyreleased( key )
+	if key == "left" then
+		editor.scroll.x = editor.scroll.x - 1
+	elseif key == "right" then
+		editor.scroll.x = editor.scroll.x + 1
+	elseif key == "down" then
+		editor.scroll.y = editor.scroll.y + 1
+	elseif key == "up" then
+		editor.scroll.y = editor.scroll.y - 1
 	end
 end
 

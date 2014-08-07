@@ -192,11 +192,13 @@ end
 function love.keyreleased(key)
 	if mode == 'game' then
 		game.keyreleased(key)
+	elseif mode == 'editor' then
+		editor.keyreleased(key)
 	end
 end
 
 function love.joystickpressed(joystick, button)
-	if keys.currentlyAssigning then	
+	if keys.currentlyAssigning then
 		if menu.state == 'gamepad' then
 			keys.assign( tostring(button) )
 		end
