@@ -166,7 +166,7 @@ function menu.initMain()
 	menu.curLevelName = nil	-- don't display level name when entering menu
 
 	if not menu.versionMessage then
-		menu.versionMessage = "Version " .. GAMEVERSION
+		menu.versionMessage = "Version " .. GAME_VERSION
 	end
 end
 
@@ -174,11 +174,11 @@ function menu.downloadedVersionInfo( info )
 	-- Trunc the received Data into version string and welcome message:
 	local version, message = string.match( info, "(.-)%s+(.*)%s-" )
 
-	print("Game version: " .. GAMEVERSION .. ", online version: " .. version)
-	if version ~= GAMEVERSION then
+	print("Game version: " .. GAME_VERSION .. ", online version: " .. version)
+	if version ~= GAME_VERSION then
 		local url = require("scripts/url")
 		print("\tVersion mismatch!")
-		menu.versionMessage = "Version " .. GAMEVERSION .. "\nVersion ".. version.. " available at:\n" .. url
+		menu.versionMessage = "Version " .. GAME_VERSION .. "\nVersion ".. version.. " available at:\n" .. url
 	else
 		print("\tGame is running the newest version.")
 		menu.versionMessage = message .. " Version " .. version

@@ -633,14 +633,7 @@ function Ground:init()
 	new:setHorizontalLine( {8,0}, {9,0}, {10,0} )
 	new:setVerticalLine( {11,1}, {11,2}, {11,3} )
 
-	new:addVariation( "cm", {8,4})
-	new:addVariation( "cm", {9,4})
-	new:addVariation( "cm", {10,4})
-	new:addVariation( "cm", {11,4})
-	new:addVariation( "lm", {8,5})
-	new:addVariation( "m", {9,5})
-	new:addVariation( "rm", {10,5})
-	new:addVariation( "single", {11,5})
+	new:addVariation( "single", {11,4})
 
 	table.insert( list, new )
 

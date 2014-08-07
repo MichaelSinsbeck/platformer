@@ -48,7 +48,6 @@ function EditorMap:new( backgroundList )
 	
 	o.tileSize = Camera.scale*8
 
-
 	o.minX = 1
 	o.maxX = 33
 	o.minY = 1
@@ -90,6 +89,8 @@ function EditorMap:new( backgroundList )
 	o.author = config.getValue( "author" ) or ""
 
 	o:setBackgroundColor( defaultBackgroundColor )
+
+	o.mapFileVersion = MAPFILE_VERSION
 
 	return o
 end
@@ -1663,6 +1664,7 @@ function EditorMap:loadFromFile( fullName )
 		local dimX,dimY = str:match("Dimensions: (.-),(.-)\n")
 		local author = str:match("Author: (.-)\n")
 		local description = str:match("Description:\n(.-)\n?endDescription\n")
+		local mapFileVersion = str:match("MapFileVersion:(.-)\n")
 		--local minX, maxX = -math.floor(dimX/2), math.floor(dimX/2)
 		--local minY, maxY = -math.floor(dimY/2), math.floor(dimY/2)
 		local minX, maxX = 0, tonumber(dimX)
@@ -1702,6 +1704,7 @@ function EditorMap:loadFromFile( fullName )
 		map.name = string.lower(mapName or "" )
 		map.description = string.lower(description or "" )
 		map.author = author or ""
+		map.mapFileVersion = mapFileVersion
 
 		local matchName
 		local y = 0

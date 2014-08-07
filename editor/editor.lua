@@ -31,9 +31,9 @@ local backgroundPanel
 local propertiesPanel
 local loadPanel
 local savePanel
-local uploadStatusPanel
+local statusPanel
 
-local uploadStatusTimer = 0
+local statusTimer = 0
 local savePanelCallbackEvent
 
 local toolButtons = {}
@@ -489,8 +489,8 @@ function editor.start()
 
 	x = love.graphics.getWidth()/Camera.scale/2 - 48
 	y = love.graphics.getHeight()/Camera.scale - 32 - 8
-	uploadStatusPanel = Panel:new( x, y, 96, 32 )
-	uploadStatusPanel.visible = false
+	statusPanel = Panel:new( x, y, 96, 32 )
+	statusPanel.visible = false
 	editor.uploadInProgress = false
 	
 	-- available tools:
@@ -966,10 +966,10 @@ function editor:update( dt )
 	end
 
 	-- Count down upload status timer and if it goes below zero, disable the status panel:
-	if uploadStatusTimer > 0 then
-		uploadStatusTimer = uploadStatusTimer - dt
-		if uploadStatusTimer <= 0 then
-			uploadStatusPanel.visible = false
+	if statusTimer >= 0 then
+		statusTimer = statusTimer - dt
+		if statusTimer < 0 then
+			statusPanel.visible = false
 		end
 	end
 end
@@ -1948,8 +1948,8 @@ function editor:draw()
 	if menuPanel.visible then
 		menuPanel:draw()
 	end
-	if uploadStatusPanel.visible then
-		uploadStatusPanel:draw()
+	if statusPanel.visible then
+		statusPanel:draw()
 	end
 
 	if loadPanel.visible then
@@ -2237,6 +2237,7 @@ function editor.saveFileNow( fileName, testFile )
 	if map then
 		local content = FILE_HEADER
 
+		content = content .. "MapFileVersion:" .. MAPFILE_VERSION .. "\n"
 		content = content .. map:dimensionsToString() .. "\n"
 		content = content .. "Author: " .. (map.author or "anonymous") .. "\n"
 
@@ -2280,11 +2281,20 @@ end
 
 
 function editor.loadFile( fileName, testFile )
+
+	statusTimer = 0
+
 	local fullName = "mylevels/" .. (fileName or "bkup.dat")
 	if testFile then
 		fullName = "test.dat"
 	end
 	map = Map:loadFromFile( fullName ) or map
+	
+	-- Warn if the editor has a newever version than the map file:
+	if map.mapFileVersion ~= MAPFILE_VERSION then
+		editor.addWarning( "Level is made with older version\nof the game. There may be errors." )
+	end
+
 	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
 end
@@ -2339,12 +2349,12 @@ function editor.startUploadNow()
 
 	editor.uploadInProgress = true
 
-	uploadStatusPanel:clearAll()
-	uploadStatusPanel:addLabel( 16, 8, "Uploading level file:" )
-	uploadStatusPanel:addLabel( 16, 12, map.name )
-	uploadStatusPanel:addLabel( 16, 16, "by " .. map.author )
-	uploadStatusPanel.visible = true
-	uploadStatusTimer = -1
+	statusPanel:clearAll()
+	statusPanel:addLabel( 16, 8, "Uploading level file:" )
+	statusPanel:addLabel( 16, 12, map.name )
+	statusPanel:addLabel( 16, 16, "by " .. map.author )
+	statusPanel.visible = true
+	statusPanel = -1
 
 	local filename = love.filesystem.getSaveDirectory()
 	filename = filename .. "/mylevels/" .. map.name .. ".dat"
@@ -2360,26 +2370,40 @@ function editor.startUploadNow()
 end
 
 function editor.uploadSuccess()
-	if uploadStatusPanel then
-		uploadStatusPanel:clearAll()
-		uploadStatusPanel:addLabel( 12, 8, "Successfully uploaded!")
-		uploadStatusPanel:addLabel( 12, 12, "Map is now awaiting\nauthorization.")
-		uploadStatusTimer = 5
+	if statusPanel then
+		statusPanel:clearAll()
+		statusPanel:addLabel( 12, 8, "Successfully uploaded!")
+		statusPanel:addLabel( 12, 12, "Map is now awaiting\nauthorization.")
+		statusTimer = 5
 	end
 	editor.uploadInProgress = false
 end
 
 function editor.uploadFailed( reason )
-	if uploadStatusPanel then
-		uploadStatusPanel:clearAll()
-		uploadStatusPanel:addLabel( 16, 8, "Failed to upload." )
-		--uploadStatusPanel:addLabel( 16, 16, "Check your connection." )
+	if statusPanel then
+		statusPanel:clearAll()
+		statusPanel:addLabel( 16, 8, "Failed to upload." )
+		--statusPanel:addLabel( 16, 16, "Check your connection." )
 		if reason then
-			uploadStatusPanel:addLabel( 16, 16, reason )
+			statusPanel:addLabel( 16, 16, reason )
 		end
-		uploadStatusTimer = 5
+		statusTimer = 5
 	end
 	editor.uploadInProgress = false
+end
+
+------------------------------------------------------------------------
+-- Status message:
+------------------------------------------------------------------------
+
+function editor.addWarning( msg )
+	if statusPanel then
+		statusPanel:clearAll()
+		statusPanel:addLabel( 12, 8, "Warning!")
+		statusPanel:addLabel( 12, 12, msg )
+		statusPanel.visible = true
+		statusTimer = 5
+	end
 end
 
 ------------------------------------------------------------------------

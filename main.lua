@@ -14,7 +14,12 @@ paused = false
 fullscreenCanvas = nil		-- initialized and maintained in settings:setWindowSize()
 DEBUG = false
 
-GAMEVERSION = "0.1"
+-- The version of the game. Should be updated on every game update.
+GAME_VERSION = "0.1"
+-- The level file version. Should be changed whenever there's an incompability
+-- introduced in level file reading/writing level files:
+MAPFILE_VERSION = "1"
+
 --USE_SHADERS = true
 --USE_SHADOWS = true
 
