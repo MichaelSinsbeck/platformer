@@ -31,6 +31,8 @@ function Panel:new( x, y, width, height )-- highlightSelected )
 	o.properties = {}
 	o.inputBoxes = {}
 
+	o.visualizers = {}
+
 	o.visible = true
 
 	if o.width > 0 and o.height > 0 then
@@ -152,6 +154,12 @@ function Panel:addBatchClickable( x, y, event, obj, width, height, toolTip, page
 	return c
 end
 
+function Panel:addVisualizer( x, y, name )
+	local new = Visualizer:New(name)
+	new:init()
+	table.insert( self.visualizers, {vis = new, x=x+self.x, y=y+self.y} )
+end
+
 function Panel:clearAll()
 	self.pages = {}
 	self.pages[0] = {}
@@ -161,6 +169,8 @@ function Panel:clearAll()
 	self.properties = {}
 
 	self.inputBoxes = {}
+
+	self.visualizers = {}
 end
 
 function Panel:draw()
@@ -233,6 +243,10 @@ function Panel:draw()
 		button:draw()
 	end
 
+	for k, vis in pairs( self.visualizers ) do
+		vis.vis:draw( vis.x*Camera.scale, vis.y*Camera.scale )
+	end
+
 	if self.pages[self.selectedPage] then
 		for k, button in ipairs( self.pages[self.selectedPage] ) do
 			button:draw()
@@ -275,6 +289,9 @@ function Panel:update( dt )
 				end
 			end
 		end
+	end
+	for k, vis in pairs( self.visualizers ) do
+		vis.vis:update( dt )
 	end
 	--[[if self.box then
 		self.box:update( dt )

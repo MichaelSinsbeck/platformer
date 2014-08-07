@@ -689,6 +689,9 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('LERightHover'   ,'editorButtonPages',{5},{1e6})
 	AnimationDB:addAni('LERightOn'   ,'editorButtonPages',{6},{1e6})
 
+	AnimationDB:addAni('cancelOn'   ,'cancelOn',{1},{1e6})
+	AnimationDB:addAni('acceptOn'   ,'acceptOn',{1},{1e6})
+
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('keyboardSmall','keyboardSmall',{1},{1e6})
 	AnimationDB:addAni('keyboardLarge','keyboardLarge',{1},{1e6})

@@ -2354,7 +2354,7 @@ function editor.startUploadNow()
 	statusPanel:addLabel( 16, 12, map.name )
 	statusPanel:addLabel( 16, 16, "by " .. map.author )
 	statusPanel.visible = true
-	statusPanel = -1
+	statusTimer = -1
 
 	local filename = love.filesystem.getSaveDirectory()
 	filename = filename .. "/mylevels/" .. map.name .. ".dat"
@@ -2372,8 +2372,9 @@ end
 function editor.uploadSuccess()
 	if statusPanel then
 		statusPanel:clearAll()
-		statusPanel:addLabel( 12, 8, "Successfully uploaded!")
-		statusPanel:addLabel( 12, 12, "Map is now awaiting\nauthorization.")
+		statusPanel:addLabel( 18, 8, "Successfully uploaded!")
+		statusPanel:addLabel( 18, 12, "Map is now awaiting\nauthorization.")
+		statusPanel:addVisualizer( 12, 12, "acceptOn" )
 		statusTimer = 5
 	end
 	editor.uploadInProgress = false
@@ -2382,10 +2383,11 @@ end
 function editor.uploadFailed( reason )
 	if statusPanel then
 		statusPanel:clearAll()
-		statusPanel:addLabel( 16, 8, "Failed to upload." )
+		statusPanel:addLabel( 18, 8, "Failed to upload." )
+		statusPanel:addVisualizer( 12, 12, "cancelOn" )
 		--statusPanel:addLabel( 16, 16, "Check your connection." )
 		if reason then
-			statusPanel:addLabel( 16, 16, reason )
+			statusPanel:addLabel( 18, 16, reason )
 		end
 		statusTimer = 5
 	end
@@ -2399,8 +2401,9 @@ end
 function editor.addWarning( msg )
 	if statusPanel then
 		statusPanel:clearAll()
-		statusPanel:addLabel( 12, 8, "Warning!")
-		statusPanel:addLabel( 12, 12, msg )
+		statusPanel:addLabel( 18, 8, "Warning!")
+		statusPanel:addLabel( 18, 12, msg )
+		statusPanel:addVisualizer( 12, 12, "authorizationFalse" )
 		statusPanel.visible = true
 		statusTimer = 5
 	end
