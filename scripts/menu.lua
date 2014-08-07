@@ -499,6 +499,22 @@ function menu:insertUserlevelIntoList( level )
 	userlevelsByAuthor[level.author][level.levelname] = level
 end
 
+function menu:deleteUserlevel()
+	if menu.state == "userlevels" and userlevelsFiltered and menu.selectedUserlevel then
+		if userlevelsFiltered[menu.selectedUserlevel]:getIsDownloaded() then
+			if userlevelsFiltered[menu.selectedUserlevel] then
+				for k, l in pairs(userlevels) do
+					if l == userlevelsFiltered[menu.selectedUserlevel] then
+						l:deleteLocalContent()
+						userlevelsFiltered[menu.selectedUserlevel] = nil
+					end
+				end
+				menu:applyUserlevelFilters()
+			end
+		end
+	end
+end
+
 function menu:initUserlevels()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "userlevels"
@@ -678,6 +694,12 @@ function menu:drawUserlevels()
 	--[[if userlevelFilterBox.visible then
 		userlevelFilterBox.box:draw( userlevelFilterBox.x, userlevelFilterBox.y )
 	end]]
+end
+
+function menu:getIsDownloaded()
+	return userlevelsFiltered ~= nil and menu.selectedUserlevel ~= nil and
+		userlevelsFiltered[menu.selectedUserlevel] ~= nil and
+		userlevelsFiltered[menu.selectedUserlevel]:getIsDownloaded()
 end
 
 function menu:updateTextForCurrentUserlevel()
@@ -1449,7 +1471,6 @@ function menu:keypressed( key, unicode )
 	end
 
 
-
 		if key == keys.UP or key == "w" or (key == keys.PAD.UP and love.joystick.getJoystickCount() > 0) then
 			menu:selectAbove()
 		elseif key == keys.DOWN or key == "s" or (key == keys.PAD.DOWN and love.joystick.getJoystickCount() > 0) then
@@ -1490,18 +1511,8 @@ function menu:keypressed( key, unicode )
 				if not menu:getFiltersVisible() then
 					menu:showUserlevelFilters()
 				end
-			elseif tonumber(key) then
-				local i = tonumber(key)
-				if i == 1 then
-					table.sort( userlevels, Userlevel.sortByAuthorAscending )
-				elseif i == 2 then table.sort( userlevels, Userlevel.sortByAuthorDescending )
-				elseif i == 3 then table.sort( userlevels, Userlevel.sortByNameAscending )
-				elseif i == 4 then table.sort( userlevels, Userlevel.sortByNameDescending )
-				elseif i == 5 then table.sort( userlevels, Userlevel.sortByFunDescending )
-				elseif i == 6 then table.sort( userlevels, Userlevel.sortByFunDescending )
-				elseif i == 7 then table.sort( userlevels, Userlevel.sortByDifficultyAscending )
-				elseif i == 8 then table.sort( userlevels, Userlevel.sortByDifficultyDescending )
-				end
+			elseif key == keys.DELETE_LEVEL then
+				menu:deleteUserlevel()
 			end
 		end
 	end

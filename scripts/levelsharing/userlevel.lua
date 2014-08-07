@@ -102,8 +102,17 @@ function Userlevel:failedDownloading( msg )
 	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 end
 
-function Userlevel:loadDescription()
+function Userlevel:deleteLocalContent()
+	love.filesystem.remove( self.filename )
+	self.downloaded = false
 
+	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+
+	self.statusVis:setAni( "userlevelDownload" )
+	self.statusVis:update(0)
+end
+
+function Userlevel:loadDescription()
 end
 
 function Userlevel:authorize()

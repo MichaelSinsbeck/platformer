@@ -24,6 +24,7 @@ local keyTypes = {
 	"PAUSE",
 	"FILTERS",
 	"REFRESH",
+	"DELETE_LEVEL",
 }
 ---------------------------------------------------------
 -- Defaults
@@ -52,6 +53,7 @@ function keys.setDefaults()
 
 	keys.FILTERS = 'f'
 	keys.REFRESH = "f5"
+	keys.DELETE_LEVEL = 'x'
 	
 	-- gamepad defaults:
 	keys.PAD = {}

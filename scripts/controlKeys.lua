@@ -6,6 +6,7 @@ local death = {}
 local win = {}
 local menuControl = {}
 local menuUserlevels = {}
+local menuUserlevelsDelete = {}
 local menuFilters = {}
 local rating = {}
 local toDraw
@@ -22,7 +23,11 @@ function controlKeys:draw( drawMode )
 		if menu:getFiltersVisible() then
 			toDraw = menuFilters
 		elseif menu.state == "userlevels" then
-			toDraw = menuUserlevels
+			if menu:getIsDownloaded() then
+				toDraw = menuUserlevelsDelete
+			else
+				toDraw = menuUserlevels
+			end
 		else
 			toDraw = menuControl
 		end
@@ -157,6 +162,53 @@ function controlKeys:setup()
 		menuUserlevels[4].x = 0.25*(love.graphics.getWidth()-menuUserlevels[4].img:getWidth())/Camera.scale
 		menuUserlevels[4].labelX = menuUserlevels[4].x +menuUserlevels[4].offset- fontSmall:getWidth(menuUserlevels[4].label)/2/Camera.scale
 		menuUserlevels[4].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuUserlevelsDelete = {}
+		menuUserlevelsDelete[1] = {}
+		menuUserlevelsDelete[1].label = "Choose"
+		menuUserlevelsDelete[1].txt = nameForKey( keys.CHOOSE )
+		menuUserlevelsDelete[1].img = menu:getImage(getImageForKey( keys.CHOOSE ))
+		menuUserlevelsDelete[1].offset = (menuUserlevelsDelete[1].img:getWidth() - fontSmall:getWidth(menuUserlevelsDelete[1].txt))/2/Camera.scale
+		menuUserlevelsDelete[1].x = (love.graphics.getWidth()-menuUserlevelsDelete[1].img:getWidth())/Camera.scale - 6
+		menuUserlevelsDelete[1].labelX = (menuUserlevelsDelete[1].x*Camera.scale + menuUserlevelsDelete[1].img:getWidth() -
+						fontSmall:getWidth(menuUserlevelsDelete[1].label))/Camera.scale
+		menuUserlevelsDelete[1].y = (love.graphics.getHeight())/Camera.scale - 20
+		
+		menuUserlevelsDelete[2] = {}
+		menuUserlevelsDelete[2].label = "Back"
+		menuUserlevelsDelete[2].txt = nameForKey( keys.BACK )
+		menuUserlevelsDelete[2].img = menu:getImage(getImageForKey( keys.BACK ))
+		menuUserlevelsDelete[2].offset = (menuUserlevelsDelete[2].img:getWidth() - fontSmall:getWidth(menuUserlevelsDelete[2].txt))/2/Camera.scale
+		menuUserlevelsDelete[2].x = 6
+		menuUserlevelsDelete[2].labelX = menuUserlevelsDelete[2].x
+		menuUserlevelsDelete[2].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuUserlevelsDelete[3] = {}
+		menuUserlevelsDelete[3].label = "Filters and Sorting"
+		menuUserlevelsDelete[3].txt = nameForKey( keys.FILTERS )
+		menuUserlevelsDelete[3].img = menu:getImage(getImageForKey( keys.FILTERS ))
+		menuUserlevelsDelete[3].offset = (menuUserlevelsDelete[3].img:getWidth() - fontSmall:getWidth(menuUserlevelsDelete[3].txt))/2/Camera.scale
+		menuUserlevelsDelete[3].x = 0.75*(love.graphics.getWidth()-menuUserlevelsDelete[3].img:getWidth())/Camera.scale
+		menuUserlevelsDelete[3].labelX = menuUserlevelsDelete[3].x +menuUserlevelsDelete[3].offset- fontSmall:getWidth(menuUserlevelsDelete[3].label)/2/Camera.scale
+		menuUserlevelsDelete[3].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuUserlevelsDelete[4] = {}
+		menuUserlevelsDelete[4].label = "REFRESH"
+		menuUserlevelsDelete[4].txt = nameForKey( keys.REFRESH )
+		menuUserlevelsDelete[4].img = menu:getImage(getImageForKey( keys.REFRESH ))
+		menuUserlevelsDelete[4].offset = (menuUserlevelsDelete[4].img:getWidth() - fontSmall:getWidth(menuUserlevelsDelete[4].txt))/2/Camera.scale
+		menuUserlevelsDelete[4].x = 0.25*(love.graphics.getWidth()-menuUserlevelsDelete[4].img:getWidth())/Camera.scale
+		menuUserlevelsDelete[4].labelX = menuUserlevelsDelete[4].x +menuUserlevelsDelete[4].offset- fontSmall:getWidth(menuUserlevelsDelete[4].label)/2/Camera.scale
+		menuUserlevelsDelete[4].y = (love.graphics.getHeight())/Camera.scale - 20
+
+		menuUserlevelsDelete[5] = {}
+		menuUserlevelsDelete[5].label = "Delete locally"
+		menuUserlevelsDelete[5].txt = nameForKey( keys.DELETE_LEVEL )
+		menuUserlevelsDelete[5].img = menu:getImage(getImageForKey( keys.DELETE_LEVEL ))
+		menuUserlevelsDelete[5].offset = (menuUserlevelsDelete[5].img:getWidth() - fontSmall:getWidth(menuUserlevelsDelete[5].txt))/2/Camera.scale
+		menuUserlevelsDelete[5].x = 0.5*(love.graphics.getWidth()-menuUserlevelsDelete[5].img:getWidth())/Camera.scale
+		menuUserlevelsDelete[5].labelX = menuUserlevelsDelete[5].x +menuUserlevelsDelete[5].offset- fontSmall:getWidth(menuUserlevelsDelete[5].label)/2/Camera.scale
+		menuUserlevelsDelete[5].y = (love.graphics.getHeight())/Camera.scale - 20
 
 		menuFilters = {}
 		--[[menuFilters[1] = {}
