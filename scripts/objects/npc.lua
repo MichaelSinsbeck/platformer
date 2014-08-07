@@ -16,7 +16,12 @@ local Npc = object:New({
 		Visualizer:New( nil, {active = false,relY = -2}, '' ),
   },
 	properties = {
-		text = utility.newTextProperty(200),
+		text = utility.newTextProperty( ),
+		display = utility.newCycleProperty( {"region", "timer"},
+				{"in region", "after delay"} , 1 ),
+		delay = utility.newNumericTextProperty( 0, -math.huge, math.huge ),
+		displayTime = utility.newNumericTextProperty( 10, 0.1, math.huge ),
+		regionSize = utility.newNumericTextProperty( 10, -math.huge, math.huge ),
 	}, 
 })
 

@@ -206,19 +206,16 @@ function Panel:draw()
 		love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
 	end
 	for k, p in pairs( self.properties ) do
-		if not p.isTextProperty then
-			if not p.isNumericTextProperty then
-				love.graphics.setColor(255,255,255,20)
-				love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
-				25*Camera.scale, 4*Camera.scale)
-			end
+		if not p.isTextProperty and not p.isNumericTextProperty then
+			love.graphics.setColor(255,255,255,20)
+			love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
+			25*Camera.scale, 4*Camera.scale)
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
-			if not p.isNumericTextProperty then
-				local displayName = p.names[p.obj[k]] or p.obj[k]
-				love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
-			end
+
+			local displayName = p.names[p.obj[k]] or p.obj[k]
+			love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
 		end
+		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
 	end
 
 	for k, input in ipairs( self.inputBoxes ) do
@@ -491,7 +488,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 			obj:applyOptions()
 		end
 
-		self:addInputBox( x + 1, y + 1, self.width-18, 5, property.values[1],
+		self:addInputBox( x + 1, y + 5, self.width-18, 5, property.values[1],
 				returnEvent, 200, "[0-9a-zA-Z%- ?!%.,]" )
 
 	elseif property.isNumericTextProperty then

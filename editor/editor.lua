@@ -140,7 +140,10 @@ function editor.createPropertiesPanel()
 				if map.selectedObjects[1].properties then
 					for name, p in pairs(map.selectedObjects[1].properties) do
 						propertiesPanel:addProperty( name, x, y, p, map.selectedObjects[1] )
-						y = y + 16
+						y = y + 12
+						if p.isTextProperty then	-- text boxes are larger:
+							y = y + 4*8
+						end
 					end
 				end
 			end
