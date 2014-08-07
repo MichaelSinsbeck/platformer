@@ -512,7 +512,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 		end
 
 		self:addInputBox( x + 1, y + 5, self.width-18, 1, tostring(property.values[1]),
-				returnEvent, 200, "[%-%+0-9.]" )
+				returnEvent, 200, "[%-%+0-9%.e]" )
 
 	else
 
