@@ -38,6 +38,7 @@ function Campaign:upgradeBandana(color)
 		self.bandana = num2bandana[new]
 		p:setBandana(self.bandana)
 		self:showUpgrade()
+		config.setValue('bandana', self.bandana )
 	end
 end
 
@@ -58,7 +59,7 @@ function Campaign:proceed()
 		myMap = Map:loadFromFile( "levels/" .. self[self.current])
 		levelEnd:reset()	
 		myMap:start()
-		p:setBandana(self.bandana) 
+		--p:setBandana(self.bandana) 
 		mode = 'game'
 		menu:newLevelName( self.names[ self[self.current] ] )
   else

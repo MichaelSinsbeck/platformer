@@ -58,7 +58,7 @@ function menu:init()
 	menu:loadTransitionImages()
 	menu.curLevelName = nil
 
-	menuPlayer.vis = Visualizer:New("whiteWalk")	--require("scripts/menuPlayer")
+	menuPlayer.vis = Visualizer:New(Campaign.bandana .. "Walk")	--require("scripts/menuPlayer")
 	--menuPlayer.x = 0
 	--menuPlayer.y = 0
 	menuPlayer.vis:init()
@@ -160,7 +160,7 @@ function menu.initMain()
 	-- start of with the start button selected:
 	selectButton(startButton)
 	
-	menuPlayer.vis:setAni("whiteWalk")
+	menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
 	menuPlayer.vis.sx = 1
 
 	menu.curLevelName = nil	-- don't display level name when entering menu
@@ -198,7 +198,7 @@ local function scrollWorldMap()	--called when a button on world map is selected
 	
 	-- Create function which will set ninja coordinates. Then call that function:
 	local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
-	--menuPlayer.vis:setAni("whiteWalk")
+	--menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
 	func()
 end
 -- creates world map menu:
@@ -363,7 +363,6 @@ function menu.startCampaignLevel( lvlNum )
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start()
-		p:setBandana(Campaign.bandana) 
 		config.setValue( "level", lvl )
 	end
 end
@@ -1009,7 +1008,7 @@ function menu.initRatingMenu()
 	-- start of with the start button selected:
 	selectButton(buttons[3])
 	
-	menuPlayer.vis:setAni("whiteWalk")
+	menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
 	menuPlayer.vis.sx = 1
 
 	menu.curLevelName = nil	-- don't display level name when entering menu
@@ -1899,7 +1898,7 @@ function menu.initPauseMenu()
 	-- start of with the start button selected:
 	selectButton(startButton)
 
-	menuPlayer.vis:setAni("whiteWalk")
+	menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
 	menuPlayer.vis.sx = 1
 
 	menu.curLevelName = nil	-- don't display level name when entering menu

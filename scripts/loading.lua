@@ -62,6 +62,7 @@ function loading.update()
 		timer = 0
 
 		Campaign:reset()
+		Campaign.bandana = config.getValue("bandana") or 'blank'
 		loading.msg = "Shadows"
 	elseif loading.step == 8 then
 		shadows = require("scripts/monocle")

@@ -2205,7 +2205,11 @@ function EditorMap:addLight( x, y )
 end
 
 function EditorMap:start()
-
+	if editor.active then
+		print('Editor')
+	else
+		print('Campaign')
+	end
 	game.deathtimer = 0
 	shaders:resetDeathEffect()
 	game.restartingLevel = false

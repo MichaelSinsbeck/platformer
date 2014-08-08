@@ -14,8 +14,10 @@ local Player = object:New({
   fxFly = 12,
   fxLine = .1,
   status = 'fly',
-  walkSpeed = 13,
-  jumpSpeed = -13,
+  walkSpeedNormal = 13,
+  jumpSpeedNormal = -13,
+  walkSpeedWeak = 5,
+  jumpSpeedWeak = -7.5,
   walljumpSpeedx1 = 9,
   walljumpSpeedx2 = 13,
   walljumpSpeedy = -13,
@@ -59,6 +61,12 @@ local Player = object:New({
   },   
   })
 
+function Player:applyOptions()
+	if not editor.active then
+		self:setBandana(Campaign.bandana)
+	end
+end
+
 function Player:setBandana(color)
 
 	local bandana2num = {blank=1,white=2,yellow=3,green=4,blue=5,red=6}
@@ -72,11 +80,11 @@ function Player:setBandana(color)
 	self.canHook     = false
 	
 	if number == 1 then --blank
-	  self.jumpSpeed = -4
-	  self.walkSpeed = 5
+	  self.jumpSpeed = Player.jumpSpeedWeak
+	  self.walkSpeed = Player.walkSpeedWeak
 	else -- white
-		self.jumpSpeed = -13
-	  self.walkSpeed = 13	
+		self.jumpSpeed = Player.jumpSpeedNormal
+	  self.walkSpeed = Player.walkSpeedNormal
 	  if number >= 3 then --yellow
 			self.canWalljump = true
 		end
