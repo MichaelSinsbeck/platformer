@@ -927,7 +927,7 @@ function editor:update( dt )
 		local panX = (love.keyboard.isDown("left") and 400 or 0) - (love.keyboard.isDown("right") and 400 or 0)
 		local panY = (love.keyboard.isDown("up") and 400 or 0) - (love.keyboard.isDown("down") and 400 or 0)
 
-		cam:jumpTo( cam.x + panX*dt, cam.y + panY*dt )
+		cam:jumpTo( cam.x + math.floor(panX*dt), cam.y + math.floor(panY*dt) )
 
 	end
 
