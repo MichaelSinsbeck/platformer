@@ -92,7 +92,7 @@ function love.draw()
 	
 		shaders.draw()
 	
-		if mode == 'game' or mode == 'levelEnd' or (mode == 'menu' and (menu.state == 'pause' or menu.state == 'rating')) then
+		if mode == 'game' or mode == 'levelEnd' or mode == 'upgrade' or (mode == 'menu' and (menu.state == 'pause' or menu.state == 'rating')) then
 			game:draw()
 		elseif mode == 'menu' and menu.state ~= 'pause' then
 			menu:draw()
@@ -113,6 +113,8 @@ function love.draw()
 				levelEnd:draw()
 			elseif mode == 'menu' and (menu.state == 'pause' or menu.state == 'rating') then	-- draw AFTER grey shader!
 				menu:draw()
+			elseif mode == 'upgrade' then
+				upgrade:draw()				
 			elseif mode == 'game' and game.isDead() then
 				controlKeys:draw("death")
 			end
@@ -170,13 +172,15 @@ function love.keypressed( key, repeated )
 		--	settings:toggleFullScreen()
 		--end
 
-		if mode == 'menu' then
-			menu:keypressed( key, repeated )
-		elseif mode == 'game' then
-			game.keypressed( key )
-		elseif mode == 'levelEnd' then
-			levelEnd:keypressed( key, repeated )
-		end
+	if mode == 'menu' then
+		menu:keypressed( key, repeated )
+	elseif mode == 'game' then
+		game.keypressed( key )
+	elseif mode == 'levelEnd' then
+		levelEnd:keypressed( key, repeated )
+	elseif mode == 'upgrade' then
+		upgrade.keypressed(key, repeated)
+	end
 
 		-- always works, independently of game state:
 		if key == keys.SCREENSHOT then
