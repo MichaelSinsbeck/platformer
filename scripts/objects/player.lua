@@ -75,7 +75,7 @@ function Player:setBandana(color)
 	self.bandana = color	
 	
 	self.canWalljump = false
-	self.Parachute   = false
+	self.canParachute= false
 	self.Teleport    = false
 	self.canHook     = false
 	
