@@ -57,13 +57,12 @@ function config.setValue( name, value, filename )
 		data = ""
 	end
 	
-
 	local newData = ""
 	local found = false
 	--print("full:")
 	for line in data:gmatch("[^\r\n]+") do
 		--print(line)
-		s, e = string.find(line, name .. " = [^\r\n]+")
+		s, e = string.find(line, name .. " = [^\r\n]*")
 		if s then
 			--data = string.gsub(data, name .. " = [^\r\n]+\r\n", name .. " = " .. value .. "\r\n")
 			newData = newData .. name .. " = " .. tostring(value) .. "\r\n"
@@ -104,7 +103,7 @@ function config.getValue( name, filename )
 		file:close()
 	end
 	if data then
-		for k, v in string.gmatch(data, "([^ \r\n]+) = ([^\r\n]+)") do
+		for k, v in string.gmatch(data, "([^ \r\n]+) = ([^\r\n]*)") do
 			if k == name then
 				if v == "false" then return false end
 				if v == "true" then return true end

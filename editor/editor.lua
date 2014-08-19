@@ -2269,7 +2269,9 @@ function editor.saveFileNow( fileName, testFile )
 	end
 
 	-- remember the author name for future levels:
-	config.setValue("author", map.author)
+	if map.author and #map.author > 0 then
+		config.setValue("author", map.author)
+	end
 
 	-- Mark all changes as saved, but only if this is NOT just a test save. A test save is only
 	-- done when playtesting the map - the saved file can't be restored by the user, so this is
