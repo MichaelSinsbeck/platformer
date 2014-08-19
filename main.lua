@@ -220,6 +220,9 @@ function love.joystickpressed(joystick, button)
 	end
 	--if button == 9 then Campaign:reset() myMap:start(p) end
 	]]--
+	if mode == 'upgrade' then
+		upgrade.joystickpressed(joystick, button)
+	end	
 end
 
 function love.joystickreleased(joystick, button)

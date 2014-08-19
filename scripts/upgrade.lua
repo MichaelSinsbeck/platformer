@@ -14,15 +14,28 @@ function upgrade.draw()
 	y = 0.5*love.graphics.getHeight() - 0.5*box.pixelHeight + boundary
 	
 	love.graphics.setFont(fontLarge)
-	love.graphics.printf('White Bandana', x, y, box.pixelWidth-2*boundary, 'center' )
+	local text1,text2
+	if Campaign.bandana == 'white' then
+		text1 = 'White Bandana'
+		text2 = "\n\n\nBe a ninja, jump higher, run faster!\n\n\n\n Press any key to continue"
+	else
+		text1 = 'Yellow Bandana'
+		text2 = "\n\n\nLearn the wall-jump.\n\n\n\n Press any key to continue"
+	end
 	
-	local text = "\n\n\nBe a ninja, jump higher, run faster!\n\n\n\n Press any key to continue"
+	love.graphics.printf(text1, x, y, box.pixelWidth-2*boundary, 'center' )
+	
 	y = y + fontLarge:getHeight()
 	love.graphics.setFont(fontSmall)
-	love.graphics.printf(text, x, y, box.pixelWidth-2*boundary, 'center' )
+	love.graphics.printf(text2, x, y, box.pixelWidth-2*boundary, 'center' )
 end
 
 function upgrade.keypressed()
+	mode = 'game'
+	shaders:resetDeathEffect()
+end
+
+function upgrade.joystickpressed(joystick, button)
 	mode = 'game'
 	shaders:resetDeathEffect()
 end

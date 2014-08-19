@@ -1,0 +1,106 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 45,28
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+endBackground
+
+Ground:
+------------cccccwwwccccccwwwccccccwwwc-----
+------------ccccc---------------------c-----
+------------ccccc---------------------c-----
+------------ccccc---------------------c-----
+------------ccccc---ccccccbbbcccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---wccccc---cccccc---w-----
+------------ccc-----w-----------------w-----
+------------ccc-----w-----------------w-----
+------------ccc-----w-----------------w-----
+------------ccc-----w-----------------w-----
+------------cccccbbbwccccc---ccccccbbbwbb---
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+------------ccccc---cccccc---cccccc---c-----
+-------------cccc---cccccc---cccccc---c-----
+--------------cccb--cccccc---ccccccwwwcccccc
+--------------------cccccc------------------
+--------------------cccccc------------------
+---------sss--------cccccc-----------------c
+ssssssssssssssssssssccccccsssccccccccccddddc
+sssssssssssssssssssddddddddsddddddddddddsssc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Exit
+	x:40
+	y:24
+endObj
+Obj:Player
+	x:2
+	y:24
+	p:canHook=false
+	p:canParachute=false
+	p:canTeleport=false
+	p:canWalljump=true
+endObj
+Obj:Npc
+	x:7
+	y:24
+	p:delay=0
+	p:displayTime=10
+	p:regionSize=10
+	p:display=region
+	p:text=Here is the next bandana. Enjoy!
+endObj
+Obj:Bandana
+	x:10
+	y:23
+	p:color=yellow
+endObj
+endObjects
+

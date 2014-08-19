@@ -4,14 +4,20 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 33,21
+MapFileVersion:1
+Dimensions: 33,26
 
-Author: micha
+Author: Micha
 Description:
 
 endDescription
 
 Background:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
 --------------------------------
 --------------------------------
 --------------------------------
@@ -40,48 +46,57 @@ Ground:
 --------------------------------
 --------------------------------
 --------------------------------
-c-------------------------------
-c-------------------------------
-c-------------------------------
-c-------------------------------
-ccccccccccc---------------------
-ccccccccccc---------------------
-cccccccccccccccbbbcccbb---------
-ccccccccccccccc---ccc-------cccc
-ccccccccccccccc---c---------cccc
+--------------------------------
+-----------------------ccccccccc
+-----------------------ccccccccc
 ccccc------------------ccccccccc
-cccc-----------------ccccccccccc
-cccc------ccccbbbbcccccccccccccc
-cccc------ccc-----cccccccccccccc
-ccccccccccccc-----cccccccccccccc
-ccccccccccccc-----cccccccccccccc
+cccc-----------ccccccccccccccccc
+ccc-----------cccccccccccccccccc
+c-----------cccccccccccccccccccc
+c--------ccccccccccccccc----cccc
+c--------cccccccccccccc-------cc
+c-------ccccccccccccc---------cc
+ccc----------------------------c
+ccccc--------------------------c
+ccccccc------------------------c
+ccccccccccc--------------------c
+cccccccccccccc-----------------c
+ccccccccccccccc----------------c
+cccccccccccccccc---------------c
+ccccccccccccccccc--------------c
+ccccccccccccccccccc------ccccc-c
+cccccccccccccccccccccccccccccccc
 endGround
 
 BgObjects:
 endBgObjects
 
 Objects:
+Obj:Npc
+	x:21
+	y:23
+	p:delay=0
+	p:displayTime=10
+	p:regionSize=10
+	p:display=region
+	p:text=Insert Background story here.
+endObj
 Obj:Player
-	x:4
+	x:18
 	y:8
 	p:canHook=false
 	p:canParachute=false
 	p:canTeleport=false
 	p:canWalljump=false
 endObj
-Obj:Npc
-	x:8
-	y:17
-	p:text=A true ninja must run fast and jump far.
+Obj:Exit
+	x:27
+	y:5
 endObj
 Obj:Bandana
-	x:6
-	y:8
+	x:27
+	y:22
 	p:color=white
-endObj
-Obj:Exit
-	x:30
-	y:11
 endObj
 endObjects
 

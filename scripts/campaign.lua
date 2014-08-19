@@ -1,9 +1,9 @@
 Campaign = {
-	'1-00.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
+	'1-00b.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
 	'1-06.dat',	'1-07.dat',	'1-08.dat',	'1-09.dat',	'1-10.dat',
 	'1-11.dat',	'1-12.dat',	'1-13.dat',	'1-14.dat',	'1-15.dat',
 	
-	'2-01.dat',	'2-02.dat',	'2-03.dat',	'2-04.dat',	'2-05.dat',
+	'2-01b.dat',	'2-02.dat',	'2-03.dat',	'2-04.dat',	'2-05.dat',
 	'2-06.dat', '2-07.dat',	'2-08.dat',	'2-09.dat',	'2-10.dat',
 	'2-11.dat',	'2-12.dat',	'2-13.dat',	'2-14.dat',	'2-15.dat',
 	
@@ -163,6 +163,7 @@ Campaign.names['l14.dat'] = 'Where is the Ground'
 Campaign.names['l15.dat'] = 'Bullet Hell'
 Campaign.names['l22.dat'] = 'The End'
 
+Campaign.names['1-00b.dat'] = 'Welcome'
 Campaign.names['1-01.dat'] = 'Welcome'
 Campaign.names['1-02.dat'] = 'Windmill'
 Campaign.names['1-03.dat'] = 'You can die'
@@ -179,6 +180,7 @@ Campaign.names['1-13.dat'] = 'Hungry'
 Campaign.names['1-14.dat'] = 'Its a trap'
 Campaign.names['1-15.dat'] = 'Finale'
 
+Campaign.names['2-01b.dat'] = 'The Tower'
 Campaign.names['2-01.dat'] = 'The Tower'
 Campaign.names['2-02.dat'] = 'Cellar'
 Campaign.names['2-03.dat'] = 'Advanced Jumping'
