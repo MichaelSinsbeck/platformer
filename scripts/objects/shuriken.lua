@@ -1,5 +1,6 @@
 local Shuriken = object:New({
 	tag = 'Shuriken',
+	category = 'Enemies',
   vx = 1,
   vy = 1,
   z = -1,

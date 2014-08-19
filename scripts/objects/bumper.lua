@@ -1,5 +1,6 @@
 local Bumper = object:New({
 	tag = 'Bumper',
+	category = "Interactive",
   targetv = 23,
   marginx = 0.8,
   marginy = 0.8,

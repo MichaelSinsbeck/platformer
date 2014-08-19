@@ -1,6 +1,7 @@
 local LineHook = object:New({
 	--ID = 0,
 	tag = 'LineHook',
+	category = "Interactive",
 	layout = 'center',
   isInEditor = true,
 	vis = {

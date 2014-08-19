@@ -1,5 +1,6 @@
 local Bouncer = object:New({
 	tag = 'Bouncer',
+	category = "Interactive",
   targetvy = -23,
   marginx = 0.8,
   marginy = 0.2,

@@ -1,5 +1,6 @@
 local Key = object:New({
 	tag = 'Key',
+	category = 'Interactive',
   marginx = .8,
   marginy = .8,
   isInEditor = true,

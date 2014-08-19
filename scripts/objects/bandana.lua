@@ -1,5 +1,6 @@
 local Bandana = object:New({
 	tag = 'Bandana',
+	category = 'Essential',
   marginx = .8,
   marginy = .8,
   isInEditor = true,

@@ -1,5 +1,6 @@
 local Exit = object:New({
 	tag = 'Exit',
+	category = 'Essential',
   marginx = 0.3,
   marginy = 0.6,
   isInEditor = true,

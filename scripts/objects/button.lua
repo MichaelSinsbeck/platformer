@@ -1,5 +1,6 @@
 local Button = object:New({
 	tag = 'Button',
+	category = 'Interactive',
   marginx = 0.5,
   marginy = 0.3,
   isInEditor = true,

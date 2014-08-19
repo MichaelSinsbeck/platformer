@@ -119,4 +119,6 @@ function spriteFactory(name,opts)
 	end
 	return new
 end]]
+
+
 return objectClasses

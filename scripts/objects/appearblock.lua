@@ -1,5 +1,6 @@
 local Appearblock = object:New({
 	tag = 'Appearblock',
+	category = "Interactive",
   marginx = 0.8,
   marginy = 0.8,
   isInEditor = true,

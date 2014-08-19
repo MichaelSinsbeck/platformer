@@ -1,5 +1,6 @@
 local Rotator = object:New({
 	tag = 'Rotator',
+	category = "Enemies",
   targetv = 23,
   marginx = 0.8,
   marginy = 0.8,

@@ -1,5 +1,6 @@
 local Spawner = object:New({
 	tag = 'Spawner',
+	category = 'Enemies',
   firerate = 3, -- in seconds
   marginx = .8,
   marginy = .8,

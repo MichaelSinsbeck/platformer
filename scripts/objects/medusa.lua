@@ -1,5 +1,6 @@
 local Medusa = object:New({
 	tag = 'Medusa',
+	category = "Enemies",
 	layout = 'center',
   marginx = 0.6,
   marginy = 0.6,

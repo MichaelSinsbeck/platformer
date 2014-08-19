@@ -1,5 +1,6 @@
 local Clubber = object:New({
 	tag = 'Clubber',
+	category = "Enemies",
   speed = 2,
   xSensing = 20, --how far can he see?
   ySensing = 7,

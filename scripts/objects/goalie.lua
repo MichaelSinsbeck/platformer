@@ -1,5 +1,6 @@
 local Goalie = object:New({
 	tag = 'Goalie',
+	category = 'Enemies',
 	layout = 'center',
   maxSpeed = 20,
   acc = 50,

@@ -1,5 +1,6 @@
 local Imitator = object:New({
 	tag = 'Imitator',
+	category = "Enemies",
 	--animation = 'imitatorStand',
   marginx = 0.3,
   marginy = 0.6,

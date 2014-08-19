@@ -44,13 +44,15 @@ function Panel:new( x, y, width, height )-- highlightSelected )
 	return o
 end
 
-function Panel:addLabel( x, y, text )
+function Panel:addLabel( x, y, text, page )
 	local l = {
 		x = x+self.x,
 		y = y+self.y,
 		text = string.lower(text),
 	}
-	table.insert( self.labels, l )
+	page = page or 0
+	if not self.labels[page] then self.labels[page] = {} end
+	table.insert( self.labels[page], l )
 end
 
 function Panel:goToNextPage()
@@ -202,8 +204,15 @@ function Panel:draw()
 
 	love.graphics.setColor(255,255,255,255)
 
-	for k, label in ipairs( self.labels ) do
-		love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
+	if self.labels[0] then
+		for i, label in ipairs( self.labels[0] ) do
+			love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
+		end
+	end
+	if self.labels[self.selectedPage] then
+		for i, label in ipairs( self.labels[self.selectedPage] ) do
+			love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
+		end
 	end
 	for k, p in pairs( self.properties ) do
 		if not p.isTextProperty and not p.isNumericTextProperty then
@@ -252,11 +261,11 @@ function Panel:draw()
 		for k, button in ipairs( self.pages[self.selectedPage] ) do
 			button:draw()
 		end
-	for k, button in ipairs( self.pages[self.selectedPage] ) do
+		for k, button in ipairs( self.pages[self.selectedPage] ) do
 			button:drawOutline()
 		end		
 		-- draw preview outline ontop of already selected outline:
-	for k, button in ipairs( self.pages[self.selectedPage] ) do
+		for k, button in ipairs( self.pages[self.selectedPage] ) do
 			button:drawPreviewOutline()
 		end		
 	end

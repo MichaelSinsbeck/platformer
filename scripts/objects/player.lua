@@ -1,5 +1,6 @@
 local Player = object:New({
 	tag = 'Player',
+	category = 'Essential',
   isInEditor = true,
   unique = true,		-- only allow one per map
   x = 0,

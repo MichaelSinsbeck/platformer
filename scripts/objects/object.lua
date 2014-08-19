@@ -10,6 +10,7 @@ z = 0,
 collisionResult = false,
 flipped = false,
 vis = {},
+category = "Misc",
 }
 -- ox and oy are the coordinates of the image center
 -- semiwidth and semiheight define the hitbox of the object
@@ -314,8 +315,6 @@ function object:getPreviewSize()
 		return self.preview:getSize()
 	else
 		local sizeX,sizeY = self:getImageSize()
-		print(self.tag)
-		print('size x: '.. self.marginx * sizeX .. ', size y: ' .. self.marginy*sizeY)
 		return self.marginx * sizeX, self.marginy * sizeY
 	end
 end

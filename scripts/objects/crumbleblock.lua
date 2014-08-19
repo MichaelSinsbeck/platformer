@@ -1,5 +1,6 @@
 local Crumbleblock = object:New({
 	tag = 'Crumbleblock',
+	category = "Interactive",
   isInEditor = true,
   --marginx = 0.8,
   --marginy = 0.8,

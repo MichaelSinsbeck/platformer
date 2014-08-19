@@ -1,5 +1,6 @@
 local Runner = object:New({
 	tag = 'Runner',
+	category = "Enemies",
   maxSpeed = 19,
   acc = 25,--17,
   xSensing = 20, --how far can he see?

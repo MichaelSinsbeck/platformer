@@ -79,8 +79,11 @@ function editor.init()
 	for name, class in pairs(objectClasses) do
 		local new = class:New()
 		if new.isInEditor then
+			if not editor.objectList[class.category] then
+				editor.objectList[class.category] = {}
+			end
 			new:init()
-			table.insert(editor.objectList, new)
+			table.insert( editor.objectList[class.category], new )
 		end
 	end
 
@@ -540,14 +543,15 @@ function editor.createBgObjectPanel()
 		panelWidth, panelHeight )
 	bgObjectPanel.visible = false
 
-	local x, y = BORDER_PADDING, BORDER_PADDING --PADDING, PADDING
+	--local x, y = BORDER_PADDING, BORDER_PADDING + 8 --PADDING, PADDING
 	local page = 1
 	local maxY = -math.huge
 	local currentCategory
-	for k, category in pairs( editor.bgObjectList ) do
-		for i, obj in ipairs( category ) do
-			bgObjectPanel:addBatchClickable( 8 + (8+PADDING)*obj.panelX,
-					8 + (8+PADDING)*obj.panelY,
+	for category, list in pairs( editor.bgObjectList ) do
+		bgObjectPanel:addLabel( BORDER_PADDING, BORDER_PADDING, category, page )
+		for i, obj in ipairs( list ) do
+			bgObjectPanel:addBatchClickable( BORDER_PADDING + (8+PADDING)*obj.panelX,
+					BORDER_PADDING + 8 + (8+PADDING)*obj.panelY,
 					nil, obj, 8, 8, obj.tag, page )
 		end
 		page = page + 1	-- own page for each category
@@ -663,37 +667,43 @@ function editor.createObjectPanel()
 	local maxY = -math.huge
 	local scale = Camera.scale
 	local dx,dy = -math.huge, -math.huge
-	for k, obj in ipairs( editor.objectList ) do
-		if obj.vis[1] then
-		local w,h = obj:getPreviewSize()
-		dx = math.max(dx,w/scale)
-		dy = math.max(dy,h/scale)
+	for category, list in pairs( editor.objectList ) do
+		for i, obj in ipairs(list) do
+			if obj.vis[1] then
+				local w,h = obj:getPreviewSize()
+				dx = math.max(dx,w/scale)
+				dy = math.max(dy,h/scale)
+			end
 		end
 	end
-	for k, obj in ipairs( editor.objectList ) do
-		if obj.vis[1] then
-			local width, height = obj:getPreviewSize()
-			--[[local event = function()
+	for category, list in pairs( editor.objectList ) do
+		x = BORDER_PADDING
+		y = BORDER_PADDING + 8
+		objectPanel:addLabel( BORDER_PADDING, BORDER_PADDING, category, page )
+		for i, obj in ipairs( list ) do
+			if obj.vis[1] then
+				local width, height = obj:getPreviewSize()
+				--[[local event = function()
 				editor.currentObject = obj
 				objectPanel.visible = false
-			end]]
+				end]]
 
-			-- Is this object higher than the others of this row?
-			if x + dx + 8 > panelWidth then
-				y = y + dy + PADDING
-				if y + dy + 8 > panelHeight then
-					y = BORDER_PADDING
-					page = page + 1
+				-- Is this object higher than the others of this row?
+				if x + dx + 8 > panelWidth then
+					y = y + dy + PADDING
+					if y + dy + 8 > panelHeight then
+						y = BORDER_PADDING
+						page = page + 1
+					end
+					x = BORDER_PADDING
 				end
-				x = BORDER_PADDING
-			end
-			
-			objectPanel:addClickableObject( x, y, nil, obj, obj.tag, page )
-			x = x + dx + PADDING
-						
-			--[[maxY = math.max( height, maxY )
 
-			if x + width/scale + 8 > panelWidth then
+				objectPanel:addClickableObject( x, y, nil, obj, obj.tag, page )
+				x = x + dx + PADDING
+
+				--[[maxY = math.max( height, maxY )
+
+				if x + width/scale + 8 > panelWidth then
 				-- add the maximum height of the obejcts in this row, then continue:
 				y = y + maxY/scale + PADDING
 				if y + height/scale + 8 > panelHeight then
@@ -709,6 +719,8 @@ function editor.createObjectPanel()
 			objectPanel:addClickableObject( x + 0.5*width/scale, y, nil, obj, obj.tag, page )
 			x = x + width/scale + PADDING]]
 		end
+	end
+		page = page + 1
 	end
 
 	-- Add "end" button
@@ -923,7 +935,7 @@ function editor:update( dt )
 
 	-- If no panel is currently awaiting input, then let cursor keys scroll the
 	-- camera:
-	if not editor.activeInputPanel then
+	if not editor.activeInputPanel and not objectPanel.visible and not bgObjectPanel.visible and not loadPanel.visible then
 		local panX = (love.keyboard.isDown("left") and 400 or 0) - (love.keyboard.isDown("right") and 400 or 0)
 		local panY = (love.keyboard.isDown("up") and 400 or 0) - (love.keyboard.isDown("down") and 400 or 0)
 

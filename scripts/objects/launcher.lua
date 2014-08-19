@@ -1,6 +1,7 @@
 local Launcher = object:New({
 	tag = 'Launcher',
-  radius2 = 20^2,
+	category = "Enemies",
+	radius2 = 20^2,
   firerate = 0.2,--.5, -- in seconds
   rotating = true,
   timeleft = 0,

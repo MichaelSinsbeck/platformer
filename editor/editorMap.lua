@@ -1689,8 +1689,10 @@ function EditorMap:loadFromFile( fullName )
 			end
 		end
 		local objList = {}
-		for k,b in pairs(editor.objectList) do
-			objList[b.tag] = b
+		for k,category in pairs(editor.objectList) do
+			for j,b in pairs(category) do
+				objList[b.tag] = b
+			end
 		end
 
 		map = EditorMap:new( editor.backgroundList )

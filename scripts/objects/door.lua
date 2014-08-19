@@ -1,5 +1,6 @@
 local Door = object:New({
 	tag = 'Door',
+	category = 'Interactive',
   marginx = 0.8,
   marginy = 0.8,
   isInEditor = true,

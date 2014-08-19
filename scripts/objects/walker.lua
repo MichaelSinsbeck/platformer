@@ -1,5 +1,6 @@
 local Walker = object:New({
 	tag = 'Walker',
+	category = 'Enemies',
 	speed = 1.6,
 	vx = 1.6,
 	timer = 0,

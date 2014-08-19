@@ -1,5 +1,6 @@
 local Cannon = object:New({
 	tag = 'Cannon',
+	category = 'Enemies',
   radius2 = 20^2,
   firerate = 1,--1.5, -- in seconds
   rotating = true,

@@ -1,5 +1,7 @@
 local Keyhole = object:New({
 	tag = 'Keyhole',
+	category = 'Interactive',
+	category = 'Interactive',
   marginx = 0.8,
   marginy = 0.8,
   isInEditor = true,

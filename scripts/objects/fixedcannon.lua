@@ -1,5 +1,6 @@
 local FixedCannon = object:New({
 	tag = 'Fixedcannon',
+	category = 'Enemies',
   --firerate = 1.2, -- in seconds
   velocity = 15,
   marginx = .8,

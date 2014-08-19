@@ -1,5 +1,6 @@
 local MedusaSpawner = object:New({
 	tag = 'MedusaSpawner',
+	category = "Enemies",
   marginx = .8,
   marginy = .8,
   isInEditor = true,
