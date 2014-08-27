@@ -16,7 +16,7 @@ local menuLogs = {}
 local menuVisualizers = {}
 local inputBoxes = {}
 local selButton
-local worldNames = {'The Village', 'The Forest', 'In The Wall', 'On Paper', 'The Junkyard'}
+local worldNames = {'The Village', 'The Forest', 'The Sky', 'The castle', 'The ???'}
 local userlevels = {}
 local userlevelsFiltered = {}
 local userlevelsByAuthor = {}
@@ -41,7 +41,7 @@ local sortingSchemes = {
 --local PADDING = 50		-- distance of buttons from edges
 
 local dWorld = 170
-local nLogs = 8
+local nLogs = 10
 local distBetweenButtons = 10
 local levelsPerWorld = 15
 local distBetweenWorlds = dWorld-levelsPerWorld*distBetweenButtons
@@ -294,8 +294,9 @@ function menu.initWorldMap()
 		x = x + distBetweenButtons
 		
 		-- after last level of each world
+		-- bridge (logs)
 		if k/levelsPerWorld == math.floor(k/levelsPerWorld) then
-			wx = x + 3
+			wx = x + 1.5
 			for i = 1,nLogs do
 				local thisVis = Visualizer:New('log')
 				thisVis:init()
