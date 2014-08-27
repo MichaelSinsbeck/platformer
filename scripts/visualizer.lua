@@ -90,12 +90,13 @@ function Visualizer:draw(x,y, useExternalColor)
 			
 			local _, lines = fontSmall:getWrap(self.text,width)
 			local height = lines * fontSmall:getHeight()
+			local correction = fontSmall:getBaseline() - fontSmall:getAscent()
 			
 			love.graphics.setColor(0,0,0, self.alpha)
 			love.graphics.setFont(fontSmall)
 			x = x + self.relX * Camera.scale*8-- - self.ox*Camera.scale
 			y = y + self.relY * Camera.scale*8-- - self.oy*Camera.scale
-			love.graphics.printf(self.text, x-0.5*width, y-height,width,'center')
+			love.graphics.printf(self.text, x-0.5*width, y-0.5*height-correction,width,'center')
 			love.graphics.setColor(r,g,b,a)
 		else
 			print('Nothing to draw here')

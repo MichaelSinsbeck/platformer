@@ -65,6 +65,9 @@ local Player = object:New({
 function Player:applyOptions()
 	if not editor.active then
 		self:setBandana(Campaign.bandana)
+	else
+		self.jumpSpeed = Player.jumpSpeedNormal
+	  self.walkSpeed = Player.walkSpeedNormal
 	end
 end
 
