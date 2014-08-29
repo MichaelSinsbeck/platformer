@@ -10,6 +10,7 @@ local Text = object:New({
   vis = {
 		Visualizer:New('speechbubble'),
 		Visualizer:New( nil, {active = false,relY = 0}, '' ),
+		Visualizer:New('speechbubblepointer', {active=false}),
   },
 	properties = {
 		text = utility.newTextProperty(),
@@ -55,6 +56,8 @@ function Text:applyOptions()
 
 	self.polygonTriangulated = love.math.triangulate( self.polygon )
 
+	self.vis[3].relY = self.height/2/Camera.scale/8
+	--self.vis[3].ox = self.vis[2].ox
 end
 
 function Text:setAcceleration(dt)
@@ -109,6 +112,7 @@ function Text:postStep(dt)
 		self.status = math.max(self.status - self.speed * dt,0)
 	end
 	self.vis[2].active = (self.status > 0.9)
+	self.vis[3].active = self.vis[2].active and (mode ~= 'editor')
 end
 
 return Text
