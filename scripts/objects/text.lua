@@ -33,6 +33,28 @@ function Text:applyOptions()
 	local width, nLines = fontSmall:getWrap(self.text, maxWidth)
 	self.width = width+Camera.scale*4
 	self.height = nLines * fontSmall:getHeight()+Camera.scale*4
+
+	self.polygon = {}
+
+	for i = 0, self.width, 15 do
+		table.insert(self.polygon, -self.width*0.5 + i + math.random(-10,10)/10)	-- x value
+		table.insert(self.polygon, -self.height*0.5 + math.random(-10,10)/10)	-- x value
+	end
+	for i = 0, self.height, 15 do
+		table.insert(self.polygon, self.width*0.5 + math.random(-10,10)/10)	-- x value
+		table.insert(self.polygon, -self.height*0.5 + i + math.random(-10,10)/10)	-- x value
+	end
+	for i = self.width, 0, -15 do
+		table.insert(self.polygon, -self.width*0.5 + i + math.random(-10,10)/10)	-- x value
+		table.insert(self.polygon, self.height*0.5 + math.random(-10,10)/10)	-- x value
+	end
+	for i = self.height, 0, -15 do
+		table.insert(self.polygon, -self.width*0.5 + math.random(-10,10)/10)	-- x value
+		table.insert(self.polygon, -self.height*0.5 + i + math.random(-10,10)/10)	-- x value
+	end
+
+	self.polygonTriangulated = love.math.triangulate( self.polygon )
+
 end
 
 function Text:setAcceleration(dt)
@@ -42,15 +64,25 @@ function Text:draw()
 	-- draw speech bubble
 	local x = self.x*Camera.scale*8
 	local y = self.y*Camera.scale*8
+
 	local tween = math.sqrt(1-(1-self.status)^2)
 	-- local tween = self.status^2
 	local thisWidth = self.width * tween
 	local thisHeight = self.height * tween
+
+	love.graphics.push()
+	love.graphics.translate( x, y )
+	love.graphics.scale( tween, tween )
 	love.graphics.setColor(255,255,255,tween*255)
-	love.graphics.rectangle('fill',x-0.5*thisWidth,y-0.5*thisHeight,thisWidth,thisHeight)
+	--love.graphics.rectangle('fill',x-0.5*thisWidth,y-0.5*thisHeight,thisWidth,thisHeight)
+	for i = 1, #self.polygonTriangulated do
+		love.graphics.polygon( 'fill', self.polygonTriangulated[i] )
+	end
 	love.graphics.setColor(0,0,0,tween*255)
-	love.graphics.rectangle('line',x-0.5*thisWidth,y-0.5*thisHeight,thisWidth,thisHeight)
+	--love.graphics.rectangle('line',x-0.5*thisWidth,y-0.5*thisHeight,thisWidth,thisHeight)
+	love.graphics.polygon( 'line', self.polygon )
 	love.graphics.setColor(255,255,255)
+	love.graphics.pop()
 	-- draw visualizers
 	object.draw(self)
 	
