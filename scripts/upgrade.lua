@@ -1,8 +1,38 @@
-local upgrade = {}
+local upgrade = {color = 'none'}
 
 local width = 128
 local height = 80
 local box = BambooBox:new( "", width, height )
+local color
+local thisTitle
+local thisExplanation
+
+local title ={
+	none   = 'Nothing',
+	white  = 'White Bandana',
+	yellow = 'Yellow Bandana',
+	green = 'Green Bandana',
+	blue = 'Blue Bandana',
+	red = 'Red Bandana',
+}
+
+local explanation = {
+	none   = '\n\n\nYou already have this bandana.\n\n\nEnjoy this fish instead',
+	white  = '\n\n\nBe a ninja, jump higher, run faster!\n\n\n\n Press any key to continue',
+	yellow = '\n\n\nLearn the wall-jump.\n\n\n\n Press any key to continue',
+	green = '\n\n\nUse it as a parachute.\n\n\n\n Press any key to continue',
+	blue = '\n\n\nLearn the woosh.\n\n\n\n Press any key to continue',
+	red = '\n\n\nUse it as grappling hook.\n\n\n\n Press any key to continue',
+}
+
+function upgrade:newBandana(color)
+	mode = 'upgrade'
+	shaders:setDeathEffect( .8 )
+	color = Campaign:upgradeBandana(color)
+	thisTitle = title[color]
+	print(thisTitle)
+	thisExplanation = explanation[color]
+end			
 
 function upgrade.draw()
 	--game:draw()
@@ -13,21 +43,12 @@ function upgrade.draw()
 	x = 0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary
 	y = 0.5*love.graphics.getHeight() - 0.5*box.pixelHeight + boundary
 	
-	love.graphics.setFont(fontLarge)
-	local text1,text2
-	if Campaign.bandana == 'white' then
-		text1 = 'White Bandana'
-		text2 = "\n\n\nBe a ninja, jump higher, run faster!\n\n\n\n Press any key to continue"
-	else
-		text1 = 'Yellow Bandana'
-		text2 = "\n\n\nLearn the wall-jump.\n\n\n\n Press any key to continue"
-	end
-	
-	love.graphics.printf(text1, x, y, box.pixelWidth-2*boundary, 'center' )
+	love.graphics.setFont(fontLarge)	
+	love.graphics.printf(thisTitle, x, y, box.pixelWidth-2*boundary, 'center' )
 	
 	y = y + fontLarge:getHeight()
 	love.graphics.setFont(fontSmall)
-	love.graphics.printf(text2, x, y, box.pixelWidth-2*boundary, 'center' )
+	love.graphics.printf(thisExplanation, x, y, box.pixelWidth-2*boundary, 'center' )
 end
 
 function upgrade.keypressed()
