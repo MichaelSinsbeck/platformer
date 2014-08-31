@@ -34,7 +34,10 @@ function Bungee:draw()
 	object.draw(self)
 	
 	love.graphics.setLineWidth(Camera.scale*0.4)
-	love.graphics.setColor(212,0,0,thisAlpha)
+	
+	local color = utility.bandana2color[p.bandana]
+	
+	love.graphics.setColor(color[1],color[2],color[3],thisAlpha)
 	if self.status == 'fly' then
 	love.graphics.line(
 		math.floor(self.x*myMap.tileSize),

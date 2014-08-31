@@ -1802,16 +1802,8 @@ function menu:draw()
 		local x = menuPlayer.x*Camera.scale
 		local y = menuPlayer.y*Camera.scale
 		menuPlayer.vis[1]:draw(x,y,true)
-					
-		local bandana2color = {
-			white = {255,255,255},
-			yellow = {255,255,0},
-			green = {0,212,0},
-			blue = {40,90,160},
-			red = {212,0,0},
-		}
 
-		local color = bandana2color[Campaign.bandana]
+		local color = utility.bandana2color[Campaign.bandana]
 		if color then
 			local r,g,b = love.graphics.getColor()
 			love.graphics.setColor(color[1],color[2],color[3],255)

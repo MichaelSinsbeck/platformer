@@ -539,8 +539,6 @@ function Player:postStep(dt)
 	end
 	
 	self.vis[1].angle = 0
-	local prefix = self.bandana
-	if self.anchor then prefix = 'blank' end
 	
 	if self.status == 'fly' then
 		if self.anchor and self.anchor:relativeLength() < .3 and self.anchor.y < self.y then
@@ -600,9 +598,11 @@ function Player:postStep(dt)
 	end
 	
 	-- Set Animation
-	local continue = (newAnimation == "Walk")
-	self:setAnim('player' .. newAnimation, continue, 1)
-	self:setAnim('bandana' .. newAnimation, continue, 3)
+	if newAnimation then
+		local continue = (newAnimation == "Walk")
+		self:setAnim('player' .. newAnimation, continue, 1)
+		self:setAnim('bandana' .. newAnimation, continue, 3)
+	end
 
 	-- Check for changes in statistics and record them
 	-- for level-end-screen:
@@ -665,22 +665,14 @@ function Player:postStep(dt)
 	end
 end
 
-local bandana2color = {
-white = {255,255,255},
-yellow = {255,255,0},
-green = {0,212,0},
-blue = {40,90,160},
-red = {212,0,0},
-}
-
 function Player:draw()
 	local x = self.x*8*Camera.scale
 	local y = self.y*8*Camera.scale
 	
 	self.vis[1]:draw(x,y,true)
 	self.vis[2]:draw(x,y,true)
-	local color = bandana2color[self.bandana]
-	if color then
+	local color = utility.bandana2color[self.bandana]
+	if color and not self.anchor then
 		local r,g,b = love.graphics.getColor()
 		love.graphics.setColor(color[1],color[2],color[3],255)
 		self.vis[3]:draw(x,y,true)

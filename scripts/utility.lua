@@ -1,5 +1,13 @@
 utility = {}
 
+utility.bandana2color = {
+white = {255,255,255},
+yellow = {255,255,0},
+green = {0,212,0},
+blue = {40,90,160},
+red = {212,0,0},
+}
+
 -- Source http://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value
 function utility.copy(t, deep, seen)
     seen = seen or {}

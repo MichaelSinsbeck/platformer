@@ -26,9 +26,10 @@ function Bandana:setAcceleration(dt)
 		if editor.active then
 			p:setBandana(self.color)
 		else
-			Campaign:upgradeBandana(self.color)
-			mode = 'upgrade'
-			shaders:setDeathEffect( .8 )
+			upgrade:newBandana(self.color)
+			--Campaign:upgradeBandana(self.color)
+			--mode = 'upgrade'
+			--shaders:setDeathEffect( .8 )
 		end
 		--p.bandana = self.color
 		self:kill()
