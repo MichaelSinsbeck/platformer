@@ -51,8 +51,9 @@ local Player = object:New({
   prevAnim = "",	-- used for level statistics
 
   vis = {
-		Visualizer:New('whiteStand'),
-		Visualizer:New('targetline',{active = false})
+		Visualizer:New('playerStand'),
+		Visualizer:New('targetline',{active = false}),
+		Visualizer:New('bandanaStand'),
   },
   properties = {
 		canWalljump  = utility.newCycleProperty({true,false},{'true','false'}),
@@ -520,7 +521,8 @@ function Player:collision(dt)
 end
 
 function Player:postStep(dt)
-
+	local newAnimation
+	
   self.vis[1].alpha = math.min(self.vis[1].alpha + 1000*dt,255)
   self.dashTimer = math.max(self.dashTimer-dt,0)
   
@@ -543,59 +545,64 @@ function Player:postStep(dt)
 	if self.status == 'fly' then
 		if self.anchor and self.anchor:relativeLength() < .3 and self.anchor.y < self.y then
 			local dx,dy = self.x-self.anchor.x,self.y-self.anchor.y
-			if self.vis[1].animation ~= 'blankHooked' then
-				self:setAnim('blankHooked')
+			if self.vis[1].animation ~= 'playerHooked' then
+				newAnimation = 'Hooked'
 				self:flip(dx>0)
 			end
 			self.vis[1].angle = math.atan2(-dx,dy)
 		elseif self.isGliding then
 			if self.vy > 0 or myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then
-				self:setAnim(prefix..'Gliding')
+				newAnimation = 'Gliding'
 			else 
-				self:setAnim(prefix..'Jump')
+				newAnimation = 'Jump'
 			end
 		else
 			if self.vy < 0 then
 				if self.jumpsLeft == self.maxJumps - 1 then
-					self:setAnim(prefix..'Jump')
+					newAnimation = 'Jump'
 				else
-					self:setAnim(prefix..'DoubleJump')
+					newAnimation = 'DoubleJump'
 				end
 			else
-				self:setAnim(prefix..'Fall')
+				newAnimation = 'Fall'
 			end
 		end
 	elseif self.status == 'stand' then
 		if control == 0 and math.abs(self.vx) < .01 then
-			self:setAnim(prefix..'Stand')
+			newAnimation = 'Stand'
 		elseif control*self.vx < 0 then
 			if self.anchor and self.anchor:relativeLength() < .1 then
-				self:setAnim(prefix..'Run')
+				newAnimation = 'Run'
 			else
-				self:setAnim(prefix..'Sliding')
+				newAnimation = 'Sliding'
 			end
 		elseif control == 0 then
-			self:setAnim(prefix..'Walk',true)
+			newAnimation = 'Walk'
 		else
-			self:setAnim(prefix..'Run')
+			newAnimation = 'Run'
 		end
 	elseif self.status == 'rightwall' then
-		self:setAnim(prefix..'Wall')
+		newAnimation = 'Wall'
 		self:flip(false)
 	elseif self.status == 'leftwall' then
-		self:setAnim(prefix..'Wall')
+		newAnimation = 'Wall'
 		self:flip(true)
 	elseif self.status == 'online' then
 		if control == 0 then
 			if self.vx == 0 then
-				self:setAnim(prefix..'LineHang')
+				newAnimation = 'LineHang'
 			else
-				self:setAnim(prefix..'LineSlide')
+				newAnimation = 'LineSlide'
 			end
 		else
-			self:setAnim(prefix..'LineMove')
+			newAnimation = 'LineMove'
 		end
 	end
+	
+	-- Set Animation
+	local continue = (newAnimation == "Walk")
+	self:setAnim('player' .. newAnimation, continue, 1)
+	self:setAnim('bandana' .. newAnimation, continue, 3)
 
 	-- Check for changes in statistics and record them
 	-- for level-end-screen:
@@ -633,8 +640,10 @@ function Player:postStep(dt)
 
 	if self.flipped then
 		self.vis[1].sx = -1
+		self.vis[3].sx = -1
 	else
 		self.vis[1].sx = 1
+		self.vis[3].sx = 1
 	end
 	-- insert targetline if necessary
 	if self.canHook and not self.anchor then
@@ -653,6 +662,29 @@ function Player:postStep(dt)
 		end
 	else
 		self.vis[2].active = false
+	end
+end
+
+local bandana2color = {
+white = {255,255,255},
+yellow = {255,255,0},
+green = {0,212,0},
+blue = {40,90,160},
+red = {212,0,0},
+}
+
+function Player:draw()
+	local x = self.x*8*Camera.scale
+	local y = self.y*8*Camera.scale
+	
+	self.vis[1]:draw(x,y,true)
+	self.vis[2]:draw(x,y,true)
+	local color = bandana2color[self.bandana]
+	if color then
+		local r,g,b = love.graphics.getColor()
+		love.graphics.setColor(color[1],color[2],color[3],255)
+		self.vis[3]:draw(x,y,true)
+		love.graphics.setColor(r,g,b)
 	end
 end
 

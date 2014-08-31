@@ -7,10 +7,15 @@ function bridge:start()
 	menu.xTarget = Campaign.worldNumber*165-8
 	menu.xCamera = menu.xTarget-165
 	self.time = 0
-	menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
-	menuPlayer.vis.sx = 1
-	menuPlayer.vis:reset()
-	menuPlayer.vis:update(0.1)
+	menuPlayer.vis[1]:setAni("playerWalk")
+	menuPlayer.vis[1].sx = 1
+	menuPlayer.vis[1]:reset()
+	menuPlayer.vis[1]:update(0.1)
+	
+	menuPlayer.vis[2]:setAni("bandanaWalk")
+	menuPlayer.vis[2].sx = 1
+	menuPlayer.vis[2]:reset()
+	menuPlayer.vis[2]:update(0.1)
 end
 
 function bridge:draw()

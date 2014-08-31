@@ -58,10 +58,13 @@ function menu:init()
 	menu:loadTransitionImages()
 	menu.curLevelName = nil
 
-	menuPlayer.vis = Visualizer:New(Campaign.bandana .. "Walk")	--require("scripts/menuPlayer")
+	menuPlayer.vis = {}
+	menuPlayer.vis[1] = Visualizer:New("playerWalk")
+	menuPlayer.vis[2] = Visualizer:New("bandanaWalk")	--require("scripts/menuPlayer")
 	--menuPlayer.x = 0
 	--menuPlayer.y = 0
-	menuPlayer.vis:init()
+	menuPlayer.vis[1]:init()
+	menuPlayer.vis[2]:init()
 	
 	controlKeys:setup() -- make sure to display the correct keys!
 	
@@ -160,8 +163,10 @@ function menu.initMain()
 	-- start of with the start button selected:
 	selectButton(startButton)
 	
-	menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
-	menuPlayer.vis.sx = 1
+	menuPlayer.vis[1]:setAni("playerWalk")
+	menuPlayer.vis[1].sx = 1
+	menuPlayer.vis[2]:setAni("bandanaWalk")
+	menuPlayer.vis[2].sx = 1
 
 	menu.curLevelName = nil	-- don't display level name when entering menu
 
@@ -615,7 +620,8 @@ function menu:initUserlevels()
 	local y = (4 + userlevelList.y + LIST_ENTRY_HEIGHT*(menu.selectedUserlevel-menu.firstDisplayedUserlevel+2))
 	local x = (userlevelList.x + 10)
 	menu.setPlayerPosition( x, y )()
-	menuPlayer.vis.sx = 1
+	menuPlayer.vis[1].sx = 1
+	menuPlayer.vis[2].sx = 1
 
 	-- Add background to list (horizontal bars). Start on second row:
 	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
@@ -824,7 +830,8 @@ function menu:hideUserlevelFilters()
 
 	menuTexts = {}
 	selectButton( buttonCenter )
-	menuPlayer.vis.sx = 1
+	menuPlayer.vis[1].sx = 1
+	menuPlayer.vis[2].sx = 1
 
 	inputBoxes = {}
 	menu.activeInput = nil
@@ -1009,8 +1016,10 @@ function menu.initRatingMenu()
 	-- start of with the start button selected:
 	selectButton(buttons[3])
 	
-	menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
-	menuPlayer.vis.sx = 1
+	menuPlayer.vis[1]:setAni("playerWalk")
+	menuPlayer.vis[1].sx = 1
+	menuPlayer.vis[2]:setAni("bandanaWalk")
+	menuPlayer.vis[2].sx = 1	
 
 	menu.curLevelName = nil	-- don't display level name when entering menu
 end
@@ -1325,7 +1334,8 @@ function menu:selectLeft()
 		if buttons[k].x < selButton.x then
 			-- turn around player if moving to the left
 			if selButton.x > buttons[k].x then
-				menuPlayer.vis.sx = -1
+				menuPlayer.vis[1].sx = -1
+				menuPlayer.vis[2].sx = -1
 			end
 			selButton.selected = false
 			selectButton(buttons[k])
@@ -1363,7 +1373,8 @@ function menu:selectRight()
 		if buttons[k].x > selButton.x then
 			-- turn around player if moving to the right
 			if selButton.x < buttons[k].x then
-				menuPlayer.vis.sx = 1
+				menuPlayer.vis[1].sx = 1
+				menuPlayer.vis[2].sx = 1
 			end
 			selButton.selected = false
 			selectButton(buttons[k])
@@ -1553,7 +1564,8 @@ function menu:update(dt)
 		or menu.state == "settings" or menu.state == "keyboard" 
 		or menu.state == "gamepad" or menu.state == "pause"
 		or menu.state == "userlevels" or menu.state == "rating" then
-			menuPlayer.vis:update(dt/2)
+			menuPlayer.vis[1]:update(dt/2)
+			menuPlayer.vis[2]:update(dt/2)
 	end
 
 	local factor = math.min(1, 3*dt)
@@ -1787,7 +1799,25 @@ function menu:draw()
 		menu.state == "settings" or menu.state == "keyboard" or
 		menu.state == "gamepad" or menu.state == "pause" or
 		menu.state == "userlevels" or menu.state == "rating" then
-			menuPlayer.vis:draw(menuPlayer.x*Camera.scale, menuPlayer.y*Camera.scale)
+		local x = menuPlayer.x*Camera.scale
+		local y = menuPlayer.y*Camera.scale
+		menuPlayer.vis[1]:draw(x,y,true)
+					
+		local bandana2color = {
+			white = {255,255,255},
+			yellow = {255,255,0},
+			green = {0,212,0},
+			blue = {40,90,160},
+			red = {212,0,0},
+		}
+
+		local color = bandana2color[Campaign.bandana]
+		if color then
+			local r,g,b = love.graphics.getColor()
+			love.graphics.setColor(color[1],color[2],color[3],255)
+			menuPlayer.vis[2]:draw(x,y,true)
+			love.graphics.setColor(r,g,b)
+		end
 	end
 
 	love.graphics.setFont(fontSmall)
@@ -1899,8 +1929,10 @@ function menu.initPauseMenu()
 	-- start of with the start button selected:
 	selectButton(startButton)
 
-	menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
-	menuPlayer.vis.sx = 1
+	menuPlayer.vis[1]:setAni("playerWalk")
+	menuPlayer.vis[2]:setAni("bandanaWalk")
+	menuPlayer.vis[1].sx = 1
+	menuPlayer.vis[2].sx = 1
 
 	menu.curLevelName = nil	-- don't display level name when entering menu
 end
