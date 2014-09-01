@@ -377,8 +377,9 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('launcherLoading','launcher',{1,2,3},{.45,.45,1e6})
 	AnimationDB:addAni('npc','npc',{1},{1e6})
-	AnimationDB:addAni('speechbubble','speechbubble',{1},{1e6})
-	AnimationDB:addAni('speechbubblepointer','speechbubble',{2},{1e6})
+	AnimationDB:addAni('speechbubbleSector','speechbubble',{1},{1e6})
+	AnimationDB:addAni('speechbubbleTimer','speechbubble',{2},{1e6})
+	AnimationDB:addAni('speechbubblepointer','speechbubble',{3},{1e6})
 
 	AnimationDB:addAni('explosionExplode','explosion',{1,2,3,4,5,6,6},{.05,.05,.1,.1,.1,.1,1e6})
 

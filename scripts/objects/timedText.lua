@@ -1,14 +1,15 @@
 
-local Text = object:New({
-	tag = 'Text',
+local TimedText = object:New({
+	tag = 'TimedText',
   marginx = .8,
   marginy = .8,
   isInEditor = true,
   radius = 4,
   status = 0, -- determines the visibility - 0 invisible, 1 visible
   speed = 5,
+  timer = 0,
   vis = {
-		Visualizer:New('speechbubbleSector'),
+		Visualizer:New('speechbubbleTimer'),
 		Visualizer:New( nil, {active = false,relY = 0}, '' ),
 		Visualizer:New('speechbubblepointer', {active=false}),
   },
@@ -16,15 +17,13 @@ local Text = object:New({
 		text = utility.newTextProperty(),
 		location = utility.newCycleProperty( {"here", "player"},
 				{"here", "on player"} , 1 ),
-		offsetX = utility.newNumericTextProperty( 0, -math.huge, math.huge ),
-		offsetY = utility.newNumericTextProperty( 3, -math.huge, math.huge ),
-		sensorW = utility.newNumericTextProperty( 5, 0, math.huge ),
-		sensorH = utility.newNumericTextProperty( 3, 0, math.huge ),
-		hasPointer = utility.newCycleProperty({true,false},{'true','false'}),		
+		startTime = utility.newNumericTextProperty (0, 0, math.huge),
+		duration = utility.newNumericTextProperty (0, 0, math.huge),
+		hasPointer = utility.newCycleProperty({true,false},{'true','false'}),
 	}, 
 })
 
-function Text:applyOptions()
+function TimedText:applyOptions()
 	-- calculate size of speech bubble and generate a rectangle
 	self.vis[2].text = self.text
 	self.vis[2].ox = 0.5*fontSmall:getWidth(self.text)/Camera.scale
@@ -35,6 +34,7 @@ function Text:applyOptions()
 	self.height = nLines * fontSmall:getHeight()+Camera.scale*4
 
 	self.polygon = {}
+
 	local nSegmentsx = math.floor(self.width/15)
 	local nSegmentsy = math.floor(self.height/15)
 	
@@ -64,10 +64,10 @@ function Text:applyOptions()
 	self.vis[3].relY = self.height/2/Camera.scale/8
 end
 
-function Text:setAcceleration(dt)
+function TimedText:setAcceleration(dt)
 end
 
-function Text:draw()
+function TimedText:draw()
 
 	-- draw speech bubble
 	local x,y
@@ -82,7 +82,6 @@ function Text:draw()
 		x = self.x*Camera.scale*8
 		y = self.y*Camera.scale*8
 	end
-
 	local tween = math.sqrt(1-(1-self.status)^2)
 	local thisWidth = self.width * tween
 	local thisHeight = self.height * tween
@@ -99,27 +98,17 @@ function Text:draw()
 	love.graphics.polygon( 'line', self.polygon )
 	love.graphics.setColor(255,255,255)
 	love.graphics.pop()
+	
 	-- draw visualizers
 	object.draw(self)
 	
-	if mode == 'editor' then
-		thisWidth = self.sensorW * Camera.scale*8
-		thisHeight = self.sensorH * Camera.scale*8
-		x = (self.x + self.offsetX) * Camera.scale*8 - 0.5*thisWidth
-		y = (self.y + self.offsetY) * Camera.scale*8 - 0.5*thisHeight
-		love.graphics.setColor(0,255,0,50)
-			love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
-		love.graphics.setColor(255,255,255)
-	end
 end
 
-function Text:postStep(dt)
+function TimedText:postStep(dt)
+	self.timer = self.timer + dt
 	self.vis[1].active = (mode == 'editor')
-	local dx = p.x - self.x
-	local dy = p.y - self.y
 
-	if dx > self.offsetX-0.5*self.sensorW and dx < self.offsetX + 0.5*self.sensorW and
-	   dy > self.offsetY-0.5*self.sensorH and dy < self.offsetY + 0.5*self.sensorH then
+	if self.timer > self.startTime and self.timer < self.startTime + self.duration then
 		self.status = math.min(self.status + self.speed * dt,1)
 	else
 		self.status = math.max(self.status - self.speed * dt,0)
@@ -128,4 +117,4 @@ function Text:postStep(dt)
 	self.vis[3].active = self.vis[2].active and (mode ~= 'editor') and self.hasPointer
 end
 
-return Text
+return TimedText
