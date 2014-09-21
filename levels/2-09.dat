@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 39,28
 
 Author: micha
@@ -45,29 +46,29 @@ Ground:
 --------------------------------------
 --------------------------------------
 --------------------------------------
---------c-------------------c---------
 --------------------------------------
 --------------------------------------
--------------------------------------c
---------c------------bbbbbbbccccc----c
---ccccccccccc---ccccccccccccccccc----c
+--------------------------------------
 -------------------------------------c
 -------------------------------------c
--------------------------------------c
-------------------------------c------c
-------------------------------c------c
-------------------------------cccc---c
---------------------------------c----c
---------------------------------c----c
+--cccccc------------------c---ccc----c
+------cc--------cc-----------cc------c
+------ccccccccccccccccccccccccc------c
+-------------------------ccccc-------c
+------------------------cccccc-------c
+------------------------cccccc-------c
+-----------------------ccccccccccc---c
+-----------------------ccccccc--cc---c
+-----c-------------------ccc----cc---c
 --------------------------------c-bbcc
 --------------------------------c---c-
 --------------------------------c---c-
---------------------------------c---c-
+-cccccbbbbbbb------------c------c---c-
+-ccccccccccccccccc---ccccc------c---c-
 --------------------------------cb--c-
 --------------------------------c---c-
--c------------------------------c---c-
--c-----cc-------cc------------------c-
--cccccccccccccccccccccc-------ccccccc-
+------------------------------------c-
+------------------------------ccccccc-
 --------------------------------------
 endGround
 
@@ -76,21 +77,16 @@ endBgObjects
 
 Objects:
 Obj:Player
-	x:6
-	y:24
+	x:2
+	y:19
 	p:canHook=true
 	p:canParachute=true
 	p:canTeleport=true
 	p:canWalljump=true
 endObj
 Obj:Goalie
-	x:8
-	y:23
-	p:direction=1
-endObj
-Obj:Goalie
 	x:33
-	y:20
+	y:21
 	p:direction=0
 endObj
 Obj:Goalie
@@ -103,13 +99,18 @@ Obj:Exit
 	y:7
 endObj
 Obj:Goalie
-	x:27
-	y:7
+	x:6
+	y:20
 	p:direction=1
 endObj
 Obj:Goalie
-	x:27
-	y:3
+	x:6
+	y:16
+	p:direction=1
+endObj
+Obj:Goalie
+	x:25
+	y:8
 	p:direction=1
 endObj
 endObjects

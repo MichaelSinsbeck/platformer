@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 33,21
 
 Author: micha
@@ -47,14 +48,14 @@ cccccccccccccccccccccccccccccccc
 --------------------------------
 --------------------------------
 ccccc---------------------cccccc
-cc----------------------------cc
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
+cc------------------------cccccc
+--------------------------cccccc
+---------------------------ccccc
+----------------------------cccc
+-----------------------------ccc
+-----------------------------ccc
+-----------------------------ccc
+------------------------------cc
 endGround
 
 BgObjects:
@@ -179,41 +180,6 @@ Obj:Crumbleblock
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:25
-	y:11
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
-	y:10
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
-	y:8
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
-	y:7
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
-	y:6
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
-	y:5
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
 	x:9
 	y:12
 	p:lifetime=0.5
@@ -240,16 +206,6 @@ Obj:Crumbleblock
 endObj
 Obj:Crumbleblock
 	x:18
-	y:13
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
-	y:12
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:25
 	y:13
 	p:lifetime=0.5
 endObj
