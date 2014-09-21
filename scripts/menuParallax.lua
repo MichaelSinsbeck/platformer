@@ -46,7 +46,7 @@ function menuBG:draw()
 			love.graphics.draw(img,x, y,0,1/z,1/z,ox,oy)
 		end
 		-- draw rectangular ground
-		love.graphics.rectangle('fill',0,y-3/z,w,h)		
+		love.graphics.rectangle('fill',0,y,w,h)		
 	end
 	love.graphics.setColor(255,255,255)	
 end
