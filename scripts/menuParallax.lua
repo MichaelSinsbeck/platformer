@@ -5,12 +5,17 @@ menuBG = {layers = {}}
 
 local nLayers = 10
 local velocity = 50
-local colorFront = {54,88,111}
+--local colorFront = {54,88,111}
+local colorFront = {22,45,80}
 local colorBack = {170,190,210}	
+
+
+	--love.graphics.setBackgroundColor(22,45,80)
 
 function menuBG:update(dt)
 	local w,h = love.window.getDimensions()
-	for z, layer in ipairs(self.layers) do
+	for i, layer in ipairs(self.layers) do
+		local z = layer.z
 		for iobj, object in pairs(layer.objects) do
 			object.x = object.x - velocity*dt/z
 			if object.x < -object.ox then 
