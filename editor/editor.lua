@@ -176,6 +176,7 @@ function editor.start()
 
 	editor.init()
 
+	love.graphics.setBackgroundColor(22,45,80)
 	print("Starting editor..." )
 	mode = "editor"
 

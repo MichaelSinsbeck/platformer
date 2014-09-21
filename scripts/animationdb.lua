@@ -186,6 +186,8 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('background1.png','background1','tilesets')
 	-- editor stuff
 	AnimationDB:loadImage('cell.png','cell','editor')
+	AnimationDB.image['cell']:setWrap('repeat', 'repeat')
+	
 	AnimationDB:loadImage('fill.png','fill','editor')
 	AnimationDB:loadImage('pinLeft.png','pinLeft','editor')
 	AnimationDB:loadImage('pinRight.png','pinRight','editor')
