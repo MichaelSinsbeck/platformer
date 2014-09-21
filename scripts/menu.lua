@@ -121,8 +121,9 @@ function menu.initMain()
 
 	editor.active = false
 
-	--love.graphics.setBackgroundColor(40,40,40)
-	love.graphics.setBackgroundColor(22,45,80)
+	
+	--love.graphics.setBackgroundColor(22,45,80)
+	love.graphics.setBackgroundColor(170,190,210)
 
 	local x,y
 	x = -3
@@ -169,6 +170,9 @@ function menu.initMain()
 	menuPlayer.vis[2].sx = 1
 
 	menu.curLevelName = nil	-- don't display level name when entering menu
+
+	-- initialize parallax background
+	menuParallax:init()
 
 	if not menu.versionMessage then
 		menu.versionMessage = "Version " .. GAME_VERSION
@@ -1567,6 +1571,10 @@ function menu:update(dt)
 			menuPlayer.vis[1]:update(dt/2)
 			menuPlayer.vis[2]:update(dt/2)
 	end
+	
+	if menu.state == "main" then
+		menuParallax:update(dt)
+	end
 
 	local factor = math.min(1, 3*dt)
 	self.xCamera = self.xCamera + factor * (self.xTarget- self.xCamera)
@@ -1654,7 +1662,9 @@ function menu:draw()
 	love.graphics.setColor(255,255,255,100)
 	love.graphics.drawq(menu.images.shadow,menu.images.shadowQuad,0,0)
 	end]]
-
+	if menu.state == 'main' then
+		menuParallax:draw()
+	end
 
 	love.graphics.push()
 	love.graphics.translate(

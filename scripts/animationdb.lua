@@ -20,7 +20,7 @@ function AnimationDB:loadImage(imagefilename,name,subfolder) -- loads Image into
 	end
 	local image = love.graphics.newImage(imagefilename)
 	image:setFilter('linear','linear')
-	image:setWrap('repeat', 'repeat')
+	image:setWrap('clamp', 'clamp')
 	self.image[name] = image
 
 	return image, image:getWidth(), image:getHeight()
@@ -236,6 +236,17 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('world3.png','world3','world')
 	AnimationDB:loadImage('world4.png','world4','world')
 	AnimationDB:loadImage('world5.png','world5','world')
+	AnimationDB:loadImage('silhouette1.png','silhouette1','menu')
+	AnimationDB:loadImage('silhouette2.png','silhouette2','menu')
+	AnimationDB:loadImage('silhouette3.png','silhouette3','menu')
+	AnimationDB:loadImage('silhouette4.png','silhouette4','menu')
+	AnimationDB:loadImage('silhouette5.png','silhouette5','menu')
+	AnimationDB:loadImage('silhouette6.png','silhouette6','menu')
+	AnimationDB:loadImage('silhouette7.png','silhouette7','menu')
+	AnimationDB:loadImage('silhouette8.png','silhouette8','menu')
+	AnimationDB:loadImage('silhouette9.png','silhouette9','menu')
+	AnimationDB:loadImage('silhouette10.png','silhouette10','menu')
+	
 	AnimationDB:loadTiledImage('stars.png','stars', tileSize, 2*tileSize, 'menu')
 	AnimationDB:loadTiledImage('skulls.png','skulls', tileSize, 2*tileSize, 'menu')
 	AnimationDB:loadTiledImage('userlevelState.png','userlevelStates', tileSize, tileSize, 'menu')

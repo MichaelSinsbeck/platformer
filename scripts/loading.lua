@@ -14,6 +14,7 @@ function loading.update()
 		love.filesystem.createDirectory("userlevels")
 
 		menu = require("scripts/menu")
+		menuParallax = require("scripts/menuParallax")
 		BambooBox = require("scripts/bambooBox")
 		
 		-- loads all scripts and puts the necessary values into the global
