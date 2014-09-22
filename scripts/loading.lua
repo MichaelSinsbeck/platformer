@@ -28,6 +28,7 @@ function loading.update()
 		--require 'scripts/spritefactory'
 		Map = require 'editor/editorMap'
 		Sound = require 'scripts/sound'
+		--Sound:addAll()
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
 		require 'scripts/bridge'

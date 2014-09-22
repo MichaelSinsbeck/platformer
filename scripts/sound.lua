@@ -18,4 +18,15 @@ function sound:stopAll()
 	end
 end
 
+function sound:addAll()
+	print('Loadings sounds')
+	self:add('jump','jump.ogg')
+	self:add('blockbreak','blockbreak.ogg')
+	self:add('boom','boom.ogg')
+	self:add('coin','coin.ogg')
+	self:add('fireball','fireball.ogg')
+	self:add('oneup','oneup.ogg')
+	self:add('shot','shot.ogg')	
+end
+
 return sound
