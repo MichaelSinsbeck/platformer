@@ -1272,6 +1272,7 @@ function menu:selectAbove()
 		if buttons[k].y < selButton.y then
 			selButton.selected = false
 			selectButton(buttons[k])
+			Sound:play('menuMove')
 			return
 		end
 	end
@@ -1305,6 +1306,7 @@ function menu:selectBelow()
 		if buttons[k].y > selButton.y then
 			selButton.selected = false
 			selectButton(buttons[k])
+			Sound:play('menuMove')
 			return
 		end
 	end
@@ -1343,6 +1345,7 @@ function menu:selectLeft()
 			end
 			selButton.selected = false
 			selectButton(buttons[k])
+			Sound:play('menuMove')
 			return
 		end
 	end
@@ -1382,6 +1385,7 @@ function menu:selectRight()
 			end
 			selButton.selected = false
 			selectButton(buttons[k])
+			Sound:play('menuMove')
 			return
 		end
 	end
@@ -1396,6 +1400,7 @@ function menu:execute()
 	for k, button in pairs(buttons) do
 		if button.selected then
 			if button.action then
+				Sound:play('menuEnter')
 				button.action()
 			end
 			break
@@ -1497,6 +1502,7 @@ function menu:keypressed( key, unicode )
 		elseif key == keys.CHOOSE or key == " " or (key == keys.PAD.CHOOSE and love.joystick.getJoystickCount() > 0) then
 			menu:execute()
 		elseif key == keys.BACK or (key == keys.PAD.BACK and love.joystick.getJoystickCount() > 0) then
+			Sound:play('menuBack')
 			if menu.state == "main" then
 				menu.startTransition(love.event.quit, false)()
 			else

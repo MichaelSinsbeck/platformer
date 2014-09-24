@@ -108,6 +108,7 @@ function game.keypressed(key)
 			return
 		end
 		menu.initPauseMenu()
+		Sound:play('menuPause')
 	end
 	if key == "r" then
 		p.status = 'stand'

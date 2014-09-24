@@ -140,6 +140,12 @@ function love.keypressed( key, repeated )
 		return
 	end
 
+	if key == 'f1' then
+		Sound = love.filesystem.load('scripts/sound.lua')()
+		--Sound = require 'scripts/sound'
+		Sound:loadAll()
+	end
+	
 	if key == 'r' then
 		profiler:report()
 	elseif key == 't' then
