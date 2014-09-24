@@ -319,4 +319,10 @@ function object:getPreviewSize()
 	end
 end
 
+function object:playSound(event)
+	Sound:play(event)
+end
+
+
+
 return object

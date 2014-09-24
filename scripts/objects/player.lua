@@ -112,12 +112,15 @@ function Player:jump()
     self.status = 'fly'
     self.vy = self.jumpSpeed
     self.canUnJump = true
+    self:playSound('jump')
   elseif self.status == 'fly' and self.jumpsLeft > 0 then
     self.vy = self.jumpSpeed
     self.jumpsLeft = self.jumpsLeft - 1
     self.canUnJump = true
+		self:playSound('doubleJump')
   elseif self.status == 'fly' and self.canParachute then
 		self.isGliding = true
+		self:playSound('openParachute')
   elseif self.status == 'leftwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -129,6 +132,7 @@ function Player:jump()
 				self:flip(false)
 			end
     self.status = 'fly'
+    self:playSound('wallJump')
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -140,11 +144,13 @@ function Player:jump()
 				self:flip(true)
 			end
     self.status = 'fly'
+    self:playSound('wallJump')
   elseif self.status == 'online' then
 		self.status = 'fly'
 		self.vy = self.jumpSpeed
 		self.line = nil
 		self.canUnJump = true
+		self:playSound('jump')
   end
 end
 

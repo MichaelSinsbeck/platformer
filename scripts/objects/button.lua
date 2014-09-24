@@ -62,22 +62,26 @@ function Button:postStep(dt)
 		self.timer2 = self.lifetime
 		self.state = 'pressed'
 		spriteEngine:DoAll('buttonPress',self.color)
+		self:playSound('buttonPress')
 		
 	elseif self.state == 'pressed' and not touched then
 
 		self.state = 'released'
+		self:playSound('buttonRelease')
 		
 	elseif self.state == 'released' then
 
 		if touched then
 			self.timer2 = self.lifetime
 			self.state = 'pressed'
+			self:playSound('buttonPress')
 		else
 			self.timer2 = self.timer2-dt
 			if self.timer2 < 0 then
 				self.state = 'waiting'
 				spriteEngine:DoAll('buttonPress',self.color)
 				self.timer2 = 0
+				self:playSound('buttonUnPress')
 			end
 		end
 

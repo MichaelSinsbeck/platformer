@@ -28,7 +28,8 @@ function Spawner:postStep(dt)
 		local direction = 1
 		if self.left then direction = -1 end
 		local newWalker = objectClasses.Walker:New({x=self.x,y=self.y,vx = 0, direction = direction})
-		spriteEngine:insert(newWalker)	
+		spriteEngine:insert(newWalker)
+		self:playSound('spawn')
 	end
 	
 	local t = self.timer/self.firerate

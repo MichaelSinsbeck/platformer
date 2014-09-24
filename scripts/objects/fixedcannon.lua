@@ -32,7 +32,8 @@ function FixedCannon:setAcceleration(dt)
 		local newAngle = 6.28 * math.random()
 		local newShuriken = spriteFactory('Shuriken',{x=self.x,y=self.y,vx=vx,vy=vy})
 		newShuriken.vis[1].angle = newAngle
-		spriteEngine:insert(newShuriken)	
+		spriteEngine:insert(newShuriken)
+		self:playSound('shurikenShoot')
   end
 end
 

@@ -19,6 +19,7 @@ function Shuriken:setAcceleration(dt)
 	self.vis[1].angle = self.vis[1].angle + self.rotationVelocity*dt
 	if self:touchPlayer() and self.vis[1].animation == 'shuriken' and not p.dead then
     p.dead = true
+    self:playSound('shurikenDeath')
     levelEnd:addDeath("death_shuriken")
     objectClasses.Meat:spawn(self.x,self.y,self.vx,self.vy,12)
   end
@@ -32,6 +33,7 @@ end
 
 function Shuriken:postStep(dt)
   if self.collisionResult > 0 then
+		self:playSound('shurikenHit')
 		self:setAnim('shurikenDead')
 		self.vx = 0
 		self.vy = 0	

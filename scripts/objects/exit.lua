@@ -14,6 +14,7 @@ end
 function Exit:postStep(dt)
 	if self:touchPlayer() then
 		game.won = true
+		self:playSound('win')
 	end
 end
 
