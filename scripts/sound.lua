@@ -1,21 +1,45 @@
-local sound = {sounds = {}}
+local sound = {sources = {},sounds={},playing={}}
 
--- sounds is a table of sources. the keys are strings
+-- sources is a table of sources: key = filename, value = source
+-- sounds is a table of sounds: key = sound/event, value = filename
+-- playing is the table of sounds that are currently playing
 
-function sound:add(name,filename)
-	self.sounds[name] = love.audio.newSource( 'sounds/' .. filename, 'static' )
+function sound:add(name,...)
+
+	if not self.sounds[name] then
+			self.sounds[name] = {}
+	end
+	local arg = {...}
+	for k,filename in pairs(arg) do
+		-- load the file to the sources, it not done already
+		if not self.sources[filename] then
+			self.sources[filename] = love.audio.newSource( 'sounds/' .. filename, 'static' )
+		end
+		-- and insert into the list of sounds
+		table.insert(self.sounds[name],filename)
+	end
+	
 end
 
---function sound:connect(event,sound)
---	self.events[event] = sound
---end
 
 function sound:play(sound)
-	--if self.events[event] and self.sounds[self.events[event]] then
-	if self.sounds[sound] then
-		source = self.sounds[sound]
-		source:stop()
-		source:play()
+	if not self.sounds[sound] then
+		return
+	end
+	local nPossibilities = #self.sounds[sound]
+	local randomNumber = love.math.random(nPossibilities)
+	local thisFilename = self.sounds[sound][randomNumber]
+	local newSource = self.sources[thisFilename]:clone()
+	newSource:stop()
+	newSource:play()
+	table.insert(self.playing,newSource)
+end
+
+function sound:clean()
+	for i = #self.playing,1,-1 do
+		if self.playing[i]:isStopped() then
+			table.remove(self.playing,i)
+		end
 	end
 end
 
@@ -25,38 +49,10 @@ function sound:stopAll()
 	end
 end
 
-
-function sound:loadAll()
-	print('Loadings sounds')
-
-	self:add('menuMove','placeholder.wav')
-	self:add('menuEnter','placeholder.wav')
-	self:add('menuBack','placeholder.wav')
-	self:add('menuPause','placeholder.wav')
-
-	self:add('jump','placeholder.wav')	
-	self:add('wallJump','placeholder.wav')
-	self:add('doubleJump','placeholder.wav')
-	self:add('openParachute','placeholder.wav')
-	self:add('win','placeholder.wav')
-	self:add('land','placeholder.wav')
-	self:add('spikeDeath','placeholder.wav')
-	self:add('shurikenShoot','placeholder.wav')
-	self:add('shurikenHit','placeholder.wav')
-	self:add('shurikenDeath','placeholder.wav')
-	
-	self:add('spawn','placeholder.wav')
-	self:add('buttonPress','placeholder.wav')
-	self:add('buttonRelease','placeholder.wav')
-	self:add('buttonUnPress','placeholder.wav')
-	
-	self:add('showStatistics','placeholder.wav')
-	
-	
-	-- hier bitte weitere sounds zufügen in diesem Format:
-	-- self:add(soundname,dateiname)
+function sound:clear()
+	self.sources = {}
+	self.sounds = {}
+	love.audio.stop()
 end
-
-
 
 return sound

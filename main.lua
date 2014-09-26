@@ -45,6 +45,10 @@ function love.load(args)
 end
 
 function love.update( dt )
+
+	if Sound then
+		Sound:clean()
+	end
 	if mode == 'loading' then
 		loading.update( dt )
 	else
@@ -141,7 +145,7 @@ function love.keypressed( key, repeated )
 	end
 
 	if key == 'f1' then
-		Sound = love.filesystem.load('scripts/sound.lua')()
+		love.filesystem.load('scripts/sounddb.lua')()
 		--Sound = require 'scripts/sound'
 		Sound:loadAll()
 	end
