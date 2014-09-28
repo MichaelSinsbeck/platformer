@@ -3,8 +3,7 @@ function Sound:loadAll()
 	print('Loadings sounds')
 
 	-- menu sounds
-	
-	self:add('menuMove','silence.wav','silence.wav')
+	self:add('menuMove','placeholder.wav','placeholder2.wav')
 	self:add('menuEnter','silence.wav')
 	self:add('menuBack','silence.wav')
 	self:add('menuPause','silence.wav')
@@ -12,7 +11,7 @@ function Sound:loadAll()
 
 	-- in-game short sounds
 	-- ninja:
-	self:add('jump','silence.wav','silence.wav')
+	self:add('jump','silence.wav')
 	self:add('wallJump','silence.wav')
 	self:add('doubleJump','silence.wav')
 	self:add('openParachute','silence.wav')
@@ -21,7 +20,7 @@ function Sound:loadAll()
 	self:add('win','silence.wav')
 	-- gegner:
 	self:add('spikeDeath','silence.wav')
-	self:add('shurikenShoot','silence.wav')
+	self:add('shurikenShoot','placeholder.wav')
 	self:add('shurikenHit','silence.wav')
 	self:add('spawnWalker','silence.wav')
 	self:add('walkerLand','silence.wav')
@@ -31,7 +30,6 @@ function Sound:loadAll()
 	self:add('GoalieCollide','silence.wav')
 	self:add('RunnerCollide','silence.wav')
 	self:add('RunnerLand','silence.wav')
-	
 	
 	-- ninja stirbt an verschiedenen gegnern:
 	self:add('shurikenDeath','silence.wav')

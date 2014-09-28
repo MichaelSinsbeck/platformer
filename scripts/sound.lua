@@ -4,15 +4,14 @@ local sound = {sources = {},event2file={},longSounds={}}
 -- event2file is a table of sounds: key = sound/event, value = filename
 -- longSounds: key:object (from spriteEngine), value: source
 
--- add a sound to the database, the ... are filenames.
-
 local attenuationModel = 'linear clamped'
 local dist_ref = 2
 local dist_max = 10
 local roll_off = 1
-local doppler = 0
+local doppler = 1
 love.audio.setDistanceModel(attenuationModel)
 
+-- add a sound to the database, the ... are filenames.
 function sound:add(name,...)
 	if not self.event2file[name] then
 			self.event2file[name] = {}
@@ -109,7 +108,7 @@ function sound:setListener(object)
 	local vx = object.vx or 0
 	local vy = object.vy or 0
 	love.audio.setPosition(x,y,0)
-	love.audio.setVelocity(doppler*vx,doppler*vy,0)
+	--love.audio.setVelocity(doppler*vx,doppler*vy,0)
 end
 
 function sound:setPositions()
@@ -133,7 +132,7 @@ function sound:play(sound)
 		newSource:setAttenuationDistances(dist_ref,dist_max)
 		newSource:setPosition(0,0,0)
 		newSource:setVelocity(0,0,0)
-		newSource:isRelative(true)
+		newSource:setRelative(true)
 		newSource:play()
 		return newSource
 	end
@@ -142,9 +141,10 @@ end
 function sound:playSpatial(sound,x,y)
 	local newSource = self:play(sound)
 	if newSource then
-		newSource:isRelative(false)
-		newSource:setPosition(x,y,0)
-		newSource:setVelocity(0,0,0)
+		local lx,ly,lz = love.audio.getPosition()
+		-- doing the relative calculations by hand turns of doppler effect for short sounds
+		newSource:setPosition(x-lx,y-ly,0)
+		newSource:setRelative(true)
 	end
 end
 
