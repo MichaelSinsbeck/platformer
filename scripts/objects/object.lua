@@ -321,7 +321,7 @@ function object:getPreviewSize()
 end
 
 function object:playSound(event)
-	Sound:play(event)
+	Sound:playSpatial(event,self.x,self.y)
 end
 
 -- set the current long sound of the object
@@ -334,8 +334,12 @@ function object:sendSound()
 	if self.newSound then
 		Sound:playLongSound(self.newSound,self)
 		self.newSound = nil
+		self.hasSound = true
 	else
-		Sound:stopLongSound(self)
+		if self.hasSound then
+			Sound:stopLongSound(self)
+			self.hasSound = false
+		end
 	end
 
 end

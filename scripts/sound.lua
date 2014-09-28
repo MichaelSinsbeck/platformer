@@ -5,6 +5,14 @@ local sound = {sources = {},event2file={},longSounds={}}
 -- longSounds: key:object (from spriteEngine), value: source
 
 -- add a sound to the database, the ... are filenames.
+
+local attenuationModel = 'linear clamped'
+local dist_ref = 2
+local dist_max = 10
+local roll_off = 1
+local doppler = 1
+love.audio.setDistanceModel(attenuationModel)
+
 function sound:add(name,...)
 	if not self.event2file[name] then
 			self.event2file[name] = {}
@@ -18,7 +26,6 @@ function sound:add(name,...)
 		-- and insert into the list of sounds
 		table.insert(self.event2file[name],filename)
 	end
-	
 end
 
 -- check in the source-pool for a free source and return it
@@ -45,15 +52,15 @@ local function getRandomFilename(event)
 	return sound.event2file[event][randomNumber]
 end
 
-function sound:playSpatial(sound,x,y)
-	local newSource = self.play(sound)
-	newSource:setPosition(x,y,0)
-	newSource:setVelocity(0,0,0)
-end
-
 function sound:playLongSound(sound,object)
 	-- first check if the object has a sound already and if yes it if is the same
-	local thisFilename = self.event2file[sound][1]
+	local thisFilename
+	if self.event2file[sound] then
+		thisFilename = self.event2file[sound][1]
+	end
+	if not thisFilename then
+		return
+	end
 	
 	if not self.longSounds[object] then
 		self.longSounds[object] = {}
@@ -64,6 +71,7 @@ function sound:playLongSound(sound,object)
 		end
 		local newSource = getFreeSource(thisFilename)
 		newSource:setLooping(true)
+		newSource:setAttenuationDistances(dist_ref,dist_max)
 		newSource:play()
 		
 		self.longSounds[object].source = newSource
@@ -78,27 +86,80 @@ function sound:stopLongSound(object)
 	end
 end
 
+function sound:stopAllLongSounds()
+	for obj, v in pairs(self.longSounds) do
+		v.source:stop()
+	end
+	self.longSounds = {}
+end
+
+function sound:pauseLongSounds()
+	for obj, v in pairs(self.longSounds) do
+		v.source:pause()
+	end
+end
+
+function sound:resumeLongSounds()
+	love.audio.resume()
+end
+
+function sound:setListener(object)
+	local x = object.x or 0
+	local y = object.y or 0
+	local vx = object.vx or 0
+	local vy = object.vy or 0
+	love.audio.setPosition(x,y,0)
+	love.audio.setVelocity(doppler*vx,doppler*vy,0)
+end
+
+function sound:setPositions()
+	for object, v in pairs(self.longSounds) do
+		local x = object.x or 0
+		local y = object.y or 0
+		local vx = object.vx or 0
+		local vy = object.vy or 0
+		
+		v.source:setPosition(x,y,0)
+		v.source:setVelocity(doppler*vx,doppler*vy,0)
+	end
+end
+
 function sound:play(sound)
 	local thisFilename = getRandomFilename(sound)
+	if thisFilename then
+		local newSource = getFreeSource(thisFilename)	
+		newSource:stop()
+		newSource:setLooping(false)
+		newSource:setAttenuationDistances(dist_ref,dist_max)
+		newSource:setPosition(0,0,0)
+		newSource:setVelocity(0,0,0)
+		newSource:isRelative(true)
+		newSource:play()
+		return newSource
+	end
+end
 
-	local newSource = getFreeSource(thisFilename)	
-	newSource:stop()
-	newSource:play()
-	return newSource
+function sound:playSpatial(sound,x,y)
+	local newSource = self:play(sound)
+	if newSource then
+		newSource:isRelative(false)
+		newSource:setPosition(x,y,0)
+		newSource:setVelocity(0,0,0)
+	end
 end
 
 function sound:stopAll()
-	love.audiot.stop()
+	love.audio.stop()
 	self.clean()
-	--for k,v in pairs(self.event2file) do
-	--	v:stop()
-	--end
 end
 
 function sound:clear()
 	self.sources = {}
 	self.event2file = {}
+	self.longSounds = {}
 	love.audio.stop()
 end
+
+
 
 return sound

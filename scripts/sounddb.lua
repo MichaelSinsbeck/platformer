@@ -2,27 +2,41 @@ function Sound:loadAll()
 	self:clear()
 	print('Loadings sounds')
 
-	self:add('menuMove','placeholder2.ogg','placeholder.ogg')
-	self:add('menuEnter','placeholder.ogg')
-	self:add('menuBack','placeholder.ogg')
-	self:add('menuPause','placeholder.ogg')
+	-- menu sounds
+	
+	self:add('menuMove','silence.ogg','silence.ogg')
+	self:add('menuEnter','silence.ogg')
+	self:add('menuBack','silence.ogg')
+	self:add('menuPause','silence.ogg')
+	self:add('showStatistics','silence.ogg')
 
-	self:add('jump','placeholder.ogg','placeholder2.ogg')
-	self:add('wallJump','placeholder.ogg')
-	self:add('doubleJump','placeholder.ogg')
-	self:add('openParachute','placeholder.ogg')
-	self:add('win','placeholder.ogg')
-	self:add('land','placeholder.ogg')
-	self:add('spikeDeath','placeholder.ogg')
-	self:add('shurikenShoot','placeholder2.ogg')
-	self:add('shurikenHit','placeholder.ogg')
-	self:add('shurikenDeath','placeholder.ogg')
+
+
+	-- in-game short sounds
+	self:add('jump','silence.ogg','silence.ogg')
+	self:add('wallJump','silence.ogg')
+	self:add('doubleJump','silence.ogg')
+	self:add('openParachute','silence.ogg')
+	self:add('win','silence.ogg')
+	self:add('land','silence.ogg')
+	self:add('spikeDeath','silence.ogg')
+	self:add('shurikenShoot','silence.ogg')
+	self:add('shurikenHit','silence.ogg')
+	self:add('shurikenDeath','silence.ogg')
+	self:add('spawnWalker','silence.ogg')
+	self:add('buttonPress','silence.ogg')
+	self:add('buttonRelease','silence.ogg')
+	self:add('buttonUnPress','silence.ogg')
 	
-	self:add('spawn','placeholder.ogg')
-	self:add('buttonPress','placeholder.ogg')
-	self:add('buttonRelease','placeholder.ogg')
-	self:add('buttonUnPress','placeholder.ogg')
+	-- in-game long sounds
+	self:add('shurikenFly','silence.ogg')
 	
-	self:add('showStatistics','placeholder.ogg')
+	self:add('wallSlide','silence.ogg')
+	self:add('groundSlide','silence.ogg')
+	self:add('run','silence.ogg')
+	self:add('walk','silence.ogg')
+	
+	
+
 	
 end

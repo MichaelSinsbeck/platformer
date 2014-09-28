@@ -610,10 +610,17 @@ function Player:postStep(dt)
 		self:setAnim('bandana' .. newAnimation, continue, 3)
 	end
 	
-	-- Set Sound
-	if self.status == 'fly' then
-		self:haveSound('jump')
+	
+	-- Set long sound
+	if newAnimation == 'Sliding' then
+		self:haveSound('slide')
+	elseif newAnimation == 'Run' then
+		--self:haveSound('run')
 	end
+	
+	-- report own position as listener
+	Sound:setListener(self)
+	
 	-- Check for changes in statistics and record them
 	-- for level-end-screen:
 	levelEnd:registerVelocity( self.vx, self.vy)

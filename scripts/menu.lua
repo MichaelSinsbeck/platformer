@@ -1894,6 +1894,8 @@ function menu.initPauseMenu()
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "pause"
 
+	Sound:pauseLongSounds()
+	
 	love.graphics.setBackgroundColor(40,40,40)
 	if not shaders:getDeathEffect() then
 		shaders:setDeathEffect( .8 )
@@ -1948,6 +1950,7 @@ end
 function menu.endPauseMenu()
 	shaders:resetDeathEffect()
 	mode = 'game'
+	Sound:resumeLongSounds()
 end
 ---------------------------------------------------------
 -- Starts full screen menu transition:

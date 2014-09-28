@@ -34,6 +34,7 @@ function spriteEngine:update(dt)
       v:update(dt)
     end
   end
+	Sound:setPositions()  
   self:kill()
   self:addQueue()
 end
@@ -47,6 +48,7 @@ function spriteEngine:draw()
 end
 
 function spriteEngine:empty()
+	Sound:stopAllLongSounds()
   self.objects = {}
 end
 
@@ -59,12 +61,14 @@ function spriteEngine:kill()
   for i = #self.objects,1,-1 do
 		local thisObject = self.objects[i]
     if thisObject.dead then
+			Sound:stopLongSound(thisObject)
 			table.remove(self.objects,i)
 		elseif thisObject.tag ~= 'Player' and
 		  (thisObject.x < -1 or
 		   thisObject.x > myMap.width +3 or
 		   thisObject.y < -1 or
 		   thisObject.y > myMap.height+3) then
+			Sound:stopLongSound(thisObject)
 		  table.remove(self.objects,i)
     end
   end

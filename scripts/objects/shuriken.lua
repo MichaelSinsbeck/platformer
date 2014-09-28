@@ -17,6 +17,9 @@ local Shuriken = object:New({
 
 function Shuriken:setAcceleration(dt)
 	self.vis[1].angle = self.vis[1].angle + self.rotationVelocity*dt
+	if self.vis[1].animation == 'shuriken' and not self.dead then
+		self:haveSound('shurikenFly')
+	end
 	if self:touchPlayer() and self.vis[1].animation == 'shuriken' and not p.dead then
     p.dead = true
     self:playSound('shurikenDeath')

@@ -66,6 +66,7 @@ function game:update(dt)
   Camera:update(dt)
   
   if game.won then
+		Sound:stopAllLongSounds()
 		game.won = nil
 		levelEnd:registerEnd()
 		levelEnd:display()
@@ -97,14 +98,11 @@ end
 
 function game.keypressed(key)
 
-	if key == "escape" and editor.active then
-		editor.resume()
-		return
-	end
 
 	if key == keys.PAUSE then
 		if editor.active then
-			mode = "editor"
+			Sound:stopAllLongSounds()
+			editor.resume()
 			return
 		end
 		menu.initPauseMenu()
@@ -169,7 +167,13 @@ function game.joystickpressed(joystick, button)
 		menu.startTransition(menu.initWorldMap)()
 	end]]--
 	if button == keys.PAD.PAUSE then
+		if editor.active then
+			Sound:stopAllLongSounds()
+			editor.resume()
+			return
+		end
 		menu.initPauseMenu()
+		Sound:play('menuPause')
 	end
 	if button == keys.PAD.JUMP then
 		spriteEngine:DoAll('jump')
