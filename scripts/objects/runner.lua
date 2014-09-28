@@ -55,13 +55,29 @@ function Runner:setAcceleration(dt)
   end
   
   self.vy = self.vy + gravity * dt
-  
+	self.oldCollisionResult = self.collisionResult
+end
+
+function Runner:postStep(dt)
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
     p.dead = true
     levelEnd:addDeath("death_runner")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
-  end  
+  end
+
+  local l0,r0,u0,d0 = utility.directions(self.oldCollisionResult)
+  local l1,r1,u1,d1 = utility.directions(self.collisionResult)
+  if l1 and not l0 then
+		self:playSound('RunnerCollide')		
+  end
+  if r1 and not r0 then
+		self:playSound('RunnerCollide')		
+	end
+  if d1 and not d0 then
+		self:playSound('RunnerLand')		
+  end
+	
 end
 
 return Runner

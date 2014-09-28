@@ -150,7 +150,7 @@ function Player:jump()
 		self.vy = self.jumpSpeed
 		self.line = nil
 		self.canUnJump = true
-		self:playSound('jump')
+		self:playSound('jumpOfLine')
   end
 end
 
@@ -240,6 +240,7 @@ function Player:dash()
 end
 
 function Player:setAcceleration(dt)
+	self.laststatus = self.status
   -- read controls
 	game:checkControls()
 
@@ -518,6 +519,10 @@ function Player:collision(dt)
 	
 	if self.status ~= 'online' then
 		self.line = nil
+	end
+	
+	if self.status == 'stand' and self.laststatus ~= 'stand' then
+		self:playSound('land')
 	end
 	
 	-- correct rope length if shortening did not work (avoid unwanted snapping effects)

@@ -4,37 +4,47 @@ function Sound:loadAll()
 
 	-- menu sounds
 	
-	self:add('menuMove','silence.ogg','silence.ogg')
-	self:add('menuEnter','silence.ogg')
-	self:add('menuBack','silence.ogg')
-	self:add('menuPause','silence.ogg')
-	self:add('showStatistics','silence.ogg')
-
-
+	self:add('menuMove','silence.wav','silence.wav')
+	self:add('menuEnter','silence.wav')
+	self:add('menuBack','silence.wav')
+	self:add('menuPause','silence.wav')
+	self:add('showStatistics','silence.wav')
 
 	-- in-game short sounds
-	self:add('jump','silence.ogg','silence.ogg')
-	self:add('wallJump','silence.ogg')
-	self:add('doubleJump','silence.ogg')
-	self:add('openParachute','silence.ogg')
-	self:add('win','silence.ogg')
-	self:add('land','silence.ogg')
-	self:add('spikeDeath','silence.ogg')
-	self:add('shurikenShoot','silence.ogg')
-	self:add('shurikenHit','silence.ogg')
-	self:add('shurikenDeath','silence.ogg')
-	self:add('spawnWalker','silence.ogg')
-	self:add('buttonPress','silence.ogg')
-	self:add('buttonRelease','silence.ogg')
-	self:add('buttonUnPress','silence.ogg')
+	-- ninja:
+	self:add('jump','silence.wav','silence.wav')
+	self:add('wallJump','silence.wav')
+	self:add('doubleJump','silence.wav')
+	self:add('openParachute','silence.wav')
+	self:add('jumpOfLine','silence.wav')
+	self:add('land','silence.wav')
+	self:add('win','silence.wav')
+	-- gegner:
+	self:add('spikeDeath','silence.wav')
+	self:add('shurikenShoot','silence.wav')
+	self:add('shurikenHit','silence.wav')
+	self:add('spawnWalker','silence.wav')
+	self:add('walkerLand','silence.wav')
+	self:add('buttonPress','silence.wav')
+	self:add('buttonRelease','silence.wav')
+	self:add('buttonUnPress','silence.wav')
+	self:add('GoalieCollide','silence.wav')
+	self:add('RunnerCollide','silence.wav')
+	self:add('RunnerLand','silence.wav')
+	
+	
+	-- ninja stirbt an verschiedenen gegnern:
+	self:add('shurikenDeath','silence.wav')
+	self:add('walkerDeath','silence.wav')
+	self:add('GoalieDeath','silence.wav')
 	
 	-- in-game long sounds
-	self:add('shurikenFly','silence.ogg')
+	self:add('shurikenFly','silence.wav')
 	
-	self:add('wallSlide','silence.ogg')
-	self:add('groundSlide','silence.ogg')
-	self:add('run','silence.ogg')
-	self:add('walk','silence.ogg')
+	self:add('wallSlide','silence.wav')
+	self:add('groundSlide','silence.wav')
+	self:add('run','silence.wav')
+	self:add('walk','silence.wav')
 	
 	
 

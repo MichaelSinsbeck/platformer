@@ -10,7 +10,7 @@ local attenuationModel = 'linear clamped'
 local dist_ref = 2
 local dist_max = 10
 local roll_off = 1
-local doppler = 1
+local doppler = 0
 love.audio.setDistanceModel(attenuationModel)
 
 function sound:add(name,...)

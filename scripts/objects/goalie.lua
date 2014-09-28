@@ -64,11 +64,19 @@ function Goalie:setAcceleration(dt)
   self.vx = -self.sin*speed
   self.vy =  self.cos*speed
   
+  self.oldCollisionResult = self.collisionResult
+end
+
+function Goalie:postStep(dt)
+	if self.collisionResult > 0 and self.oldCollisionResult == 0 then
+		self:playSound('GoalieCollide')
+	end
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
     p.dead = true
     levelEnd:addDeath("death_goalie")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
+    self:playSound('GoalieDeath')
   end
 end
 

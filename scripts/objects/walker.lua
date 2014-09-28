@@ -16,11 +16,18 @@ local Walker = object:New({
 })
 
 function Walker:postStep(dt)
+	--local t0 = self.timer / self.period
 	if self.collisionResult >= 8 then
 		self.timer = (self.timer + dt)%self.period
 	else
 		self.timer = 0
 	end
+	--local t1 = self.timer / self.period
+	
+	--if (t0-0.5)*(t1-0.5)<= 0 then
+	--	self:playSound('walkerStep')
+	--end
+	   
 
 	local right,left,up,down = utility.directions(self.collisionResult)
 	if right then
@@ -37,7 +44,7 @@ function Walker:postStep(dt)
 	end
 	
 	-- positioning of feed (if normal)
-	if self.status == 'normal' then
+	if self.status == 'normal' or self.status == 'fall' then
 		local t = self.timer/self.period -- effective timer
 		local pi = math.pi
 		
@@ -76,7 +83,12 @@ function Walker:postStep(dt)
 				self.vis[5].relX = sign*(-0.2 + 0.2*math.cos(2*pi*t))
 				self.vis[5].relY = 0.3 + 0.1*math.sin(2*pi*t)
 				self.vis[5].angle = sign*0.3*math.sin(2*pi*t)
+				
 			end
+			if self.status == 'fall' then
+				self:playSound('walkerLand')
+			end
+			self.status = 'normal'
 		else -- falling
 			self.vis[1].relX = sign*0.4
 			self.vis[1].relY = 0.3
@@ -93,9 +105,11 @@ function Walker:postStep(dt)
 			self.vis[5].relX = -sign*0.2
 			self.vis[5].relY = 0.3
 			self.vis[5].angle = 0.3*sign
+			self.status = 'fall'
 		end
 	else -- status == ball
 		if self.collisionResult > 0 then
+			self:playSound('walkerLand')
 			self:wake()
 		end
 	end
@@ -105,6 +119,7 @@ function Walker:postStep(dt)
     p.dead = true
     levelEnd:addDeath("death_walker")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
+    self:playSound('walkerDeath')
   end  
 end
 
