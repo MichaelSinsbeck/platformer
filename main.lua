@@ -46,9 +46,6 @@ end
 
 function love.update( dt )
 
-	if Sound then
-		Sound:clean()
-	end
 	if mode == 'loading' then
 		loading.update( dt )
 	else

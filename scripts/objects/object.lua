@@ -177,6 +177,7 @@ function object:update(dt)
     self:collision(dt)
   end
   self:postStep(dt)	
+	self:sendSound()
 	
 	if self.vis then
 		for i = 1,#self.vis do
@@ -321,6 +322,22 @@ end
 
 function object:playSound(event)
 	Sound:play(event)
+end
+
+-- set the current long sound of the object
+function object:haveSound(sound)
+	self.newSound = sound
+end
+-- send the long sound of the object to the sound module
+-- is done automatically in the update
+function object:sendSound()
+	if self.newSound then
+		Sound:playLongSound(self.newSound,self)
+		self.newSound = nil
+	else
+		Sound:stopLongSound(self)
+	end
+
 end
 
 
