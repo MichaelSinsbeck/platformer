@@ -107,6 +107,7 @@ function Rotator:postStep(dt)
 		end
 	end
 
+	self:haveSound('rotatorLong')
 end
 
 return Rotator

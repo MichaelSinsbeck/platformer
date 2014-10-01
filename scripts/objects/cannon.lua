@@ -29,6 +29,7 @@ function Cannon:setAcceleration(dt)
 			local vy = -self.velocity*math.sin(self.vis[1].angle)
 			local newBullet = spriteFactory('Missile',{x=self.x,y=self.y,vx=vx,vy=vy})
 			spriteEngine:insert(newBullet)
+			self:playSound('cannonShoot')
 			self.timeleft = self.firerate
 			self:resetAnimation()
     end

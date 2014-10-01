@@ -19,6 +19,7 @@ function Door:activate(args)
 		self.status = 'active'
 		self.vis[1].timer = args.t
 		myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
+		self:playSound('doorOpen')
 	end
 end
 

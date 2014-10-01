@@ -27,6 +27,7 @@ function Keyhole:postStep(dt)
 		myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
 		myMap:queueShadowUpdate()
 		p.nKeys = p.nKeys - 1
+		self:playSound('doorOpen')
 	elseif self.status == 'active' and self.vis[1].timer > self.openTime then
 		spriteEngine:DoAll('activate',{t=self.vis[1].timer-self.openTime,x=self.x,y=self.y})
 		self:die()

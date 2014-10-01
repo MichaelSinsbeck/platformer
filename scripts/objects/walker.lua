@@ -16,17 +16,17 @@ local Walker = object:New({
 })
 
 function Walker:postStep(dt)
-	--local t0 = self.timer / self.period
+	local t0 = self.timer / self.period
 	if self.collisionResult >= 8 then
 		self.timer = (self.timer + dt)%self.period
 	else
 		self.timer = 0
 	end
-	--local t1 = self.timer / self.period
-	
-	--if (t0-0.5)*(t1-0.5)<= 0 then
-	--	self:playSound('walkerStep')
-	--end
+	local t1 = self.timer / self.period
+
+	if (t0-0.5)*(t1-0.5)<= 0 then
+		self:playSound('walkerStep')
+	end
 	   
 
 	local right,left,up,down = utility.directions(self.collisionResult)

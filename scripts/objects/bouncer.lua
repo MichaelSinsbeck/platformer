@@ -26,6 +26,7 @@ function Bouncer:applyOptions()
 	self.vis[1].angle = self.angle*0.5*math.pi+0.5*math.pi
 	local s = self.properties.strength.names[self.strength]
 	self:setAnim(s..'Bouncer',true)
+	self:playSound(s..'BouncerBump')
 end
 
 function Bouncer:setAcceleration(dt)

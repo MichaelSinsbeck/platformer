@@ -26,6 +26,9 @@ function Meat:setAcceleration(dt)
 end
 
 function Meat:postStep(dt)
+	if self.collisionResult > 0 then
+		self:playSound('meatCollide')
+	end
 	if self.collisionResult == 1 then
 		self:setAnim('meatWall')
 		self.rotSpeed = 0

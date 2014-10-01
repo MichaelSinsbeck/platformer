@@ -17,6 +17,7 @@ function Key:setAcceleration(dt)
 	if self:touchPlayer() then
 		p.nKeys = p.nKeys + 1
 		self:kill()
+		self:playSound('collectKey')
   end
 end
 

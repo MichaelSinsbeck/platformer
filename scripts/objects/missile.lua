@@ -68,6 +68,7 @@ function Missile:detonate()
 		args.radius2 = self.explosionRadius
 		spriteEngine:DoAll('explode',args)
 
+		self:playSound('missileExplode')
 		-- generate Explosion
 		local newExplo = spriteFactory('Explosion',{x=self.x,y=self.y, vis = {Visualizer:New('explosionExplode',{angle=2*math.pi*math.random()})}   })
 		spriteEngine:insert(newExplo)

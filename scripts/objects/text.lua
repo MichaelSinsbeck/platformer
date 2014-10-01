@@ -120,8 +120,14 @@ function Text:postStep(dt)
 
 	if dx > self.offsetX-0.5*self.sensorW and dx < self.offsetX + 0.5*self.sensorW and
 	   dy > self.offsetY-0.5*self.sensorH and dy < self.offsetY + 0.5*self.sensorH then
+	  if self.status == 0 then
+			self:playSound('textAppear')
+	  end
 		self.status = math.min(self.status + self.speed * dt,1)
 	else
+		if self.status == 1 then
+			self:playSound('textDisappear')
+		end
 		self.status = math.max(self.status - self.speed * dt,0)
 	end
 	self.vis[2].active = (self.status > 0.9)

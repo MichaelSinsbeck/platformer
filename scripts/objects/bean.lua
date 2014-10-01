@@ -17,6 +17,7 @@ function Bean:setAcceleration(dt)
 		self:kill()
 		p.maxJumps = p.maxJumps + 1
 		p.jumpsLeft = p.jumpsLeft + 1
+		self:playSound('collectBean')
   end
 end
 

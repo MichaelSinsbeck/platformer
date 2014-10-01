@@ -27,6 +27,7 @@ function Bumper:postStep(dt)
 		p.canUnJump = false
 		self.vis[1].sx = .8
 		self.vis[1].sy = .8
+		self:playSound('bumperBump')
 	end
 end
 

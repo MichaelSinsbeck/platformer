@@ -45,6 +45,7 @@ function Crumbleblock:postStep(dt)
 		math.abs(self.y-p.y) <= self.semiheight+p.semiheight then
 		self.state = 'wait'
 		self.vis[1].timer = 0
+		self:playSound('crumbleblockTouch')
 		
 	elseif self.state == 'wait' then
 		for i = #self.vis,1,-1 do
@@ -59,6 +60,7 @@ function Crumbleblock:postStep(dt)
 				newParticle.vis[1].angle = vis.angle
 				spriteEngine:insert(newParticle,2)
 			  self.vis[i] = nil
+			  self:playSound('crumbleblockCrumble')
 			end
 		end
 		if #self.vis == 0 then
