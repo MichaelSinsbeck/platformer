@@ -13,7 +13,9 @@ local Spawner = object:New({
 		Visualizer:New('spawnerfront'),
 	},
 	properties = {
+		isEvil = utility.newCycleProperty({true,false},{'enemy','bouncy'}),	
 		direction = utility.newCycleProperty({"left", "right"},nil),
+		strength = utility.newProperty({16,23},{'weak','strong'},2),		
 	}
 })
 
@@ -27,7 +29,7 @@ function Spawner:postStep(dt)
 		
 		local direction = 1
 		if self.left then direction = -1 end
-		local newWalker = objectClasses.Walker:New({x=self.x,y=self.y,vx = 0, direction = direction})
+		local newWalker = objectClasses.Walker:New({x=self.x,y=self.y,vx = 0, direction = direction, isEvil = self.isEvil,strength = self.strength})
 		spriteEngine:insert(newWalker)
 		self:playSound('spawnWalker')
 	end

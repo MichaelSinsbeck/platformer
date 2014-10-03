@@ -100,6 +100,9 @@ function Visualizer:draw(x,y, useExternalColor)
 			love.graphics.setColor(r,g,b,a)
 		else
 			print('Nothing to draw here')
+			if self.imgName then
+				print(selfimgName)
+			end
 		end
 	end
 end

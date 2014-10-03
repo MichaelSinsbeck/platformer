@@ -3,7 +3,7 @@ function Sound:loadAll()
 	print('Loadings sounds')
 
 	-- menu sounds
-	self:add('menuMove','placeholder.wav','placeholder2.wav')
+	self:add('menuMove','silence.wav','silence.wav')
 	self:add('menuEnter','silence.wav')
 	self:add('menuBack','silence.wav')
 	self:add('menuPause','silence.wav')
@@ -19,7 +19,7 @@ function Sound:loadAll()
 	self:add('land','silence.wav')
 	self:add('win','silence.wav')
 	-- gegner:
-	self:add('shurikenShoot','placeholder.wav')
+	self:add('shurikenShoot','silence.wav')
 	self:add('shurikenHit','silence.wav')
 	self:add('spawnWalker','silence.wav')
 	self:add('walkerLand','silence.wav')

@@ -2,18 +2,46 @@ local Walker = object:New({
 	tag = 'Walker',
 	category = 'Enemies',
 	speed = 1.6,
-	vx = 1.6,
+	vx = 0,
 	timer = 0,
-	vis = {Visualizer:New('prewalker')},
+	vis = {Visualizer:New('evilprewalker')},
   marginx = 0.6,
   marginy = 0.6,
   isInEditor = true,
   period = 0.5, -- should be (0.8/speed)
-  --direction = 1, -- put -1 for left
 	properties = {
+		isEvil = utility.newCycleProperty({true,false},{'enemy','bouncy'}),	
 		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
+		strength = utility.newProperty({16,23},{'weak','strong'},2),		
 	}  
 })
+	
+function Walker:applyOptions()
+	if self.strength == 16 then
+		self.arrows = 1
+	else
+		self.arrows = 2
+	end
+	
+	local prefix
+	local body
+	if self.isEvil then
+		prefix = 'evil'
+		body = 'walker'
+	else
+		prefix = 'good'
+		body = 'walker' .. self.arrows
+	end
+	if self.status == 'normal' then
+		self:setAnim(prefix .. 'walkerfoot2',false,1)
+		self:setAnim(prefix .. 'walkerfoot2',false,2)
+		self:setAnim(prefix .. body,false,3)
+		self:setAnim(prefix .. 'walkerfoot',false,4)
+		self:setAnim(prefix .. 'walkerfoot',false,5)
+	else
+		self:setAnim(prefix .. 'prewalker')
+	end
+end
 
 function Walker:postStep(dt)
 	local t0 = self.timer / self.period
@@ -116,10 +144,17 @@ function Walker:postStep(dt)
 	
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
+		if self.isEvil then
     p.dead = true
     levelEnd:addDeath("death_walker")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
     self:playSound('walkerDeath')
+    elseif self.status == 'normal' or self.status == 'fall' then
+			p.vy = -self.strength;
+			self:setAnim('goodwalkerblink' .. self.arrows,false,3)
+			self:resetAnimation()
+			p.canUnJump = false		
+    end
   end  
 end
 
@@ -127,11 +162,11 @@ function Walker:wake()
 	self.status = 'normal'
 	self:resize(0.48,0.375)
 	self.vis = {
-		Visualizer:New('walkerfoot2'),
-		Visualizer:New('walkerfoot2'),  
-		Visualizer:New('walker'),
-		Visualizer:New('walkerfoot'),
-		Visualizer:New('walkerfoot'),
+		Visualizer:New('evilwalkerfoot2'),
+		Visualizer:New('evilwalkerfoot2'),  
+		Visualizer:New('evilwalker'),
+		Visualizer:New('evilwalkerfoot'),
+		Visualizer:New('evilwalkerfoot'),
   }
   self:init()
 	self.vx = self.speed * self.direction
