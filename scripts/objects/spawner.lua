@@ -1,51 +1,60 @@
 local Spawner = object:New({
 	tag = 'Spawner',
 	category = 'Enemies',
-  firerate = 3, -- in seconds
+  --firerate = 3, -- in seconds
   marginx = .8,
   marginy = .8,
   isInEditor = true,
-  timer = 3,
+  --timer = 3,
   solid = true,
   vis = {
 		Visualizer:New('spawnerback'),
 		Visualizer:New('spawnerbar'),
 		Visualizer:New('spawnerfront'),
+		Visualizer:New('spawnersymbolspike')
 	},
 	properties = {
-		isEvil = utility.newCycleProperty({true,false},{'enemy','bouncy'}),	
+		type = utility.newCycleProperty({true,false},{'spikes','bouncer'}),	
 		direction = utility.newCycleProperty({"left", "right"},nil),
-		strength = utility.newProperty({16,23},{'weak','strong'},2),		
+		strength = utility.newCycleProperty({16,23},{'weak','strong'},2),
+		spawnTime = utility.newNumericTextProperty( 3, 0.1, math.huge ),
+		phase = utility.newNumericTextProperty( 1, 0, 1),
 	}
 })
+
+--SpawnerLeft = Spawner:New({left = true})
+function Spawner:applyOptions()
+	if self.type then
+		self:setAnim('spawnersymbolspike',true,4)
+	else
+		self:setAnim('spawnersymbolbounce',true,4)
+	end
+	if self.direction == "left" then
+		self.left = true
+	else
+		self.left = false
+	end
+	self.timer = self.spawnTime*self.phase
+end
 
 function Spawner:setAcceleration(dt)
 end
 
 function Spawner:postStep(dt)
 	self.timer = self.timer + dt
-	if self.timer > self.firerate then --spawn new enemy
-		self.timer = self.timer - self.firerate
+	if self.timer > self.spawnTime then --spawn new enemy
+		self.timer = self.timer - self.spawnTime
 		
 		local direction = 1
 		if self.left then direction = -1 end
-		local newWalker = objectClasses.Walker:New({x=self.x,y=self.y,vx = 0, direction = direction, isEvil = self.isEvil,strength = self.strength})
+		local newWalker = objectClasses.Walker:New({x=self.x,y=self.y,vx = 0, direction = direction, type = self.type,strength = self.strength})
 		spriteEngine:insert(newWalker)
 		self:playSound('spawnWalker')
 	end
 	
-	local t = self.timer/self.firerate
+	local t = self.timer/self.spawnTime
 	self.vis[2].sx = t*0.9
 	self.vis[2].relX = -0.45+0.5*self.vis[2].sx
-end
-
---SpawnerLeft = Spawner:New({left = true})
-function Spawner:applyOptions()
-	if self.direction == "left" then
-		self.left = true
-	else
-		self.left = false
-	end
 end
 
 return Spawner

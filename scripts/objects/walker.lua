@@ -10,7 +10,7 @@ local Walker = object:New({
   isInEditor = true,
   period = 0.5, -- should be (0.8/speed)
 	properties = {
-		isEvil = utility.newCycleProperty({true,false},{'enemy','bouncy'}),	
+		type = utility.newCycleProperty({true,false},{'enemy','bouncy'}),	
 		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
 		strength = utility.newProperty({16,23},{'weak','strong'},2),		
 	}  
@@ -25,7 +25,7 @@ function Walker:applyOptions()
 	
 	local prefix
 	local body
-	if self.isEvil then
+	if self.type then
 		prefix = 'evil'
 		body = 'walker'
 	else
@@ -144,7 +144,7 @@ function Walker:postStep(dt)
 	
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
-		if self.isEvil then
+		if self.type then
     p.dead = true
     levelEnd:addDeath("death_walker")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)

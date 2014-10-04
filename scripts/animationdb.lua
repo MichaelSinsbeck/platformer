@@ -568,6 +568,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('spawnerfront','spawner',{1},{1e6})	
 	AnimationDB:addAni('spawnerback','spawner',{2},{1e6})
 	AnimationDB:addAni('spawnerbar','spawner',{3},{1e6})
+	AnimationDB:addAni('spawnersymbolspike','spawner',{4},{1e6})
+	AnimationDB:addAni('spawnersymbolbounce','spawner',{5},{1e6})
 	
 	-- gui stuff
 	AnimationDB:addAni('guiBeanFull','bean',{1},{1e6})
