@@ -23,6 +23,8 @@ function Bungee:collision()
 		self.newX = tx
 		self.newY = ty
 		self.collisionResult = true
+	else
+		self.collisionResult = false
 	end
 end
 
@@ -197,7 +199,7 @@ function Bungee:relativeLength()
 end
 
 function Bungee:throw()
-	game:checkControls()
+	--game:checkControls()
 	local vx = self.speed * math.cos(p.vis[2].angle)
 	local vy = self.speed * math.sin(p.vis[2].angle)
 	local newBungee = self:New({x=p.x, y=p.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=p.vis[2].angle})} })
