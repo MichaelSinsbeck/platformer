@@ -1,0 +1,106 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 33,21
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+endBackground
+
+Ground:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+---------2-----------2----------
+oooooooooooooooooooooooooooo---o
+oooooooooo------ooo-----oooo---o
+ooooooo----oooooo---ooo-oooo---o
+ooooooo-oo-oooooo-ooooo----o---o
+ooo-----ooooooooo-oooooooo-ooooo
+ooo-ooooo----ooo--o----ooo-ooooo
+ooo--------------oo-oo-----ooooo
+oooooooooooooooooooooooooooooooo
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Player
+	x:15
+	y:11
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Imitator
+	x:15
+	y:13
+endObj
+Obj:Appearblock
+	x:28
+	y:12
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:29
+	y:12
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:30
+	y:12
+	p:state=solid
+	p:color=red
+endObj
+Obj:Button
+	x:19
+	y:18
+	p:lifetime=0
+	p:color=red
+endObj
+Obj:Exit
+	x:29
+	y:15
+endObj
+endObjects
+

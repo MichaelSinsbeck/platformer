@@ -1,0 +1,112 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+Dimensions: 33,31
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+endBackground
+
+Ground:
+-----------ooooooooooooo--------
+-----------ooooooooooooo--------
+-----------oooooo----oooo-------
+--oooo---oooooooo----oooo-------
+--ooooooooooooooo----ooooo------
+---oooooooooooooobb--ooooo------
+---oooooooooooooo----oooooo-----
+---ooooo----oo-oooo--ooooooo----
+----oooo----oo-oooo--ooooooo----
+----oooo-------oooo--oooooooo---
+----oooo--ooo--ooo1--oooooooo---
+----oooo---oo--ooo1--ooooooooo--
+----oooo---oo--ooo1--oooooooooo-
+---ooooo---oo--ooo1--ooooooooooo
+---ooooo---oo--oooo--ooooooooooo
+--oooooo---oo--oooo--ooooooooooo
+--oooooo---oo--oooo--ooooooooooo
+-ooooooo--ooo--------ooooooooooo
+-ooooooo---oo--------ooooooooooo
+-ooooooo---oo--ooooooooooooooooo
+--oooooo---oo1oooooooooooooooooo
+---oooooo--oooooooooooooooooooo-
+---oooooo------------ooooooooo--
+----ooooo------------oooooooo---
+----ooooo------------ooooo------
+----ooooo-----ooooooooooo-------
+----ooooo-----oooooooooo--------
+----ooooo-----oooooooooo--------
+----ooooo--o--oooooooooo--------
+---oooooo-----ooooooooooo-------
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Exit
+	x:18
+	y:4
+endObj
+Obj:Goalie
+	x:14
+	y:13
+	p:direction=0
+endObj
+Obj:Goalie
+	x:10
+	y:15
+	p:direction=0
+endObj
+Obj:Goalie
+	x:11
+	y:26
+	p:direction=0
+endObj
+Obj:Player
+	x:19
+	y:24
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+endObjects
+

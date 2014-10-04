@@ -7,7 +7,7 @@ Campaign = {
 	'2-06.dat', '2-07.dat',	'2-08.dat',	'2-09.dat',	'2-10.dat',
 	'2-11.dat',	'2-12.dat',	'2-13.dat',	'2-14.dat',	'2-15.dat',
 	
-	'endofdemo.dat',
+	--'endofdemo.dat',
 	
 	'3-01.dat',	'3-02.dat',	'3-03.dat',	'3-04.dat',	'3-05.dat',
 	'3-06.dat', '3-07.dat',	'3-08.dat',	'3-09.dat',	'3-10.dat',
@@ -200,5 +200,21 @@ Campaign.names['2-12.dat'] = 'Blender'
 Campaign.names['2-13.dat'] = 'Touch sensitive'
 Campaign.names['2-14.dat'] = 'Curtain'
 Campaign.names['2-15.dat'] = 'Access granted'
+
+Campaign.names['3-01.dat'] = 'Clouds!'
+Campaign.names['3-02.dat'] = 'Land'
+Campaign.names['3-03.dat'] = 'Bowel'
+Campaign.names['3-04.dat'] = 'Up'
+Campaign.names['3-05.dat'] = 'Bounce'
+Campaign.names['3-06.dat'] = 'Tunnel of Thorns'
+Campaign.names['3-07.dat'] = 'Companion'
+Campaign.names['3-08.dat'] = 'Vertical'
+Campaign.names['3-09.dat'] = 'Horizontal'
+Campaign.names['3-10.dat'] = 'Crab'
+Campaign.names['3-11.dat'] = 'SMB'
+Campaign.names['3-12.dat'] = 'Blender'
+Campaign.names['3-13.dat'] = 'Touch sensitive'
+Campaign.names['3-14.dat'] = 'Curtain'
+Campaign.names['3-15.dat'] = 'Access granted'
 
 Campaign.names['endofdemo.dat'] = 'End of Demo'
