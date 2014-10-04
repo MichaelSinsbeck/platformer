@@ -124,6 +124,8 @@ function menu.initMain()
 	
 	--love.graphics.setBackgroundColor(22,45,80)
 	love.graphics.setBackgroundColor(170,190,210)
+	--love.graphics.setBackgroundColor(80,150,205)
+	
 
 	local x,y
 	x = -3
