@@ -685,6 +685,9 @@ function Player:postStep(dt)
 	else
 		self.vis[2].active = false
 	end
+	
+	-- send position to camera
+	Camera:sendPlayer(self.x,self.y)
 end
 
 function Player:draw()

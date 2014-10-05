@@ -60,9 +60,10 @@ end
 function game:update(dt)
 	--dt = 1/60
   timer = timer + dt
+  Camera:resetGuide()
   spriteEngine:update(dt)
     
-  Camera:setTarget()
+--  Camera:setTarget()
   Camera:update(dt)
   
   if game.won then

@@ -54,6 +54,8 @@ Rotator = require 'scripts/objects.rotator',
 Npc = require 'scripts/objects.npc',
 Text = require 'scripts/objects.text',
 TimedText = require 'scripts/objects.timedText',
+CameraGuide = require 'scripts/objects.cameraguide',
+CameraGuideRect = require 'scripts/objects.cameraguiderectangle',
 }
 
 

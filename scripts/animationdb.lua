@@ -323,6 +323,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('miniFlame.png','miniFlame',0.4*tileSize,0.4*tileSize)
 	AnimationDB:loadTiledImage('npc.png','npc')
 	AnimationDB:loadTiledImage('speechbubble.png','speechbubble',tileSize,tileSize)
+	AnimationDB:loadTiledImage('camera.png','camera',tileSize,tileSize)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -399,6 +400,9 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('speechbubbleSector','speechbubble',{1},{1e6})
 	AnimationDB:addAni('speechbubbleTimer','speechbubble',{2},{1e6})
 	AnimationDB:addAni('speechbubblepointer','speechbubble',{3},{1e6})
+	AnimationDB:addAni('cameraRound','camera',{1},{1e6})
+	AnimationDB:addAni('cameraRectangle','camera',{2},{1e6})
+	
 
 	AnimationDB:addAni('explosionExplode','explosion',{1,2,3,4,5,6,6},{.05,.05,.1,.1,.1,.1,1e6})
 

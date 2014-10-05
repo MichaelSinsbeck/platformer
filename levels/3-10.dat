@@ -49,8 +49,8 @@ Ground:
 ---------------------------o--------------o-
 ---------------------------o--------------o-
 ---------------------------o--------------o-
--ooooooooooooooooooooooooooooo---o---oo---o-
--o-----------------------o---o---o----ooooo-
+-ooooooooooooooooooooooooooooo---o---ooo-oo-
+-o-----------------------o---o---o----oooo--
 -o-----------------------o---o---o----o-----
 -o-----------------------o---o---oo---o-----
 -ooooo---ooooooooooooooooo---o---o----o-----
@@ -158,7 +158,7 @@ Obj:Button
 	p:color=green
 endObj
 Obj:Button
-	x:41
+	x:40
 	y:9
 	p:lifetime=0
 	p:color=yellow
@@ -184,6 +184,15 @@ endObj
 Obj:Exit
 	x:40
 	y:20
+endObj
+Obj:CameraGuideRect
+	x:15
+	y:14
+	p:transition=0.2
+	p:offsetY=2
+	p:sensorH=14
+	p:sensorW=13
+	p:offsetX=8
 endObj
 endObjects
 

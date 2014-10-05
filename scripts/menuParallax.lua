@@ -10,6 +10,7 @@ local colorFront = {22,45,80}
 local colorBack = {170,190,210}	
 local colorSky = {80,150,205}
 
+
 function menuBG:update(dt)
 	local w,h = love.window.getDimensions()
 	-- mountains

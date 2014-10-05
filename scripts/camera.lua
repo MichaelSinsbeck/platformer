@@ -10,9 +10,15 @@ Camera = {
 	yScissor = 0,
 	wScissor = 0,
 	hScissor = 0,
+	gx = 0,	-- guide coordinates and weight
+	gy = 0,
+	gw = 0,
+	px = 0,
+	py = 0,
   }
 
 function Camera:update(dt)
+	Camera:calculateTarget()
   local tileSize = myMap.tileSize
   local factor = math.min(1, 6*dt)
   self.x = self.x + factor*(self.xTarget-self.x)
@@ -73,9 +79,29 @@ function Camera:applyScale()
 
 end
 
-function Camera:setTarget()
-  self.xTarget = p.x
-  self.yTarget = p.y
+function Camera:calculateTarget()
+	self.xTarget = self.gw * self.gx + (1-self.gw)*self.px
+	self.yTarget = self.gw * self.gy + (1-self.gw)*self.py
+end
+
+--function Camera:setTarget()
+--  self.xTarget = p.x
+--  self.yTarget = p.y
+--end
+
+function Camera:resetGuide()
+	self.gw = 0
+end
+
+function Camera:sendGuide(x,y,weight)
+	self.gx = x
+	self.gy = y
+	self.gw = weight
+end
+
+function Camera:sendPlayer(x,y)
+	self.px = x
+	self.py = y
 end
 
 function Camera:jumpTo(x,y)
