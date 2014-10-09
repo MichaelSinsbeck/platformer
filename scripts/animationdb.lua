@@ -3,7 +3,8 @@
 AnimationDB = {
 image = {},
 source = {},
-animation = {}
+animation = {},
+silhouette = {}, -- these are only for the background silhouettes
 }
 
 local R = 3
@@ -163,6 +164,15 @@ function AnimationDB:loadBackgrounds()
 	 
 end
 
+function AnimationDB:addSilhouette(name,x,y,width,height,sw,sh)
+
+	local tileSize = Camera.scale*8 -- (Different from the other code, there it is *10)
+	local quad = love.graphics.newQuad(tileSize*x,tileSize*y,tileSize*width,tileSize*height,sw,sh)
+	
+	if not self.silhouette[name] then self.silhouette[name] = {} end
+	table.insert(self.silhouette[name],quad)
+end
+
 function AnimationDB:loadAll()
 	local tileSize = Camera.scale*10
 	AnimationDB:loadBackgrounds()
@@ -170,6 +180,7 @@ function AnimationDB:loadAll()
 	AnimationDB:clearImages()	
 	AnimationDB:loadAllImages()
 	AnimationDB:loadAnimations()
+	AnimationDB:addAllSilhouettes()	
 end
 
 function AnimationDB:clearImages()
@@ -771,7 +782,28 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('statNumberOfButtons','statNumberOfButtons',
 	{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,16,18,19,18,19,20,21,22,21,22,21,22,21,22,21,22,23,24,25,26,27,28,29,30,31},
 	{1.5,.3,.03,.04,.06,.04,.03,.1,.9,.08,.05,.05,.08,.05,.2,1,.2,.5,.1,.1,.1,.1,.05,.2,.1,.3,.1,.2,.2,.1,.2,.1,.1,1,.03,.03,.03,.03,.9,.01,.9,1e6})
-
 end
 
+function AnimationDB:addAllSilhouettes()
+	local img,sw,sh = self:loadImage('silhouettes.png','silhouettes','silhouettes')
+	
+	self:addSilhouette('town',0,6,8,1,sw,sh)
+	self:addSilhouette('town',0,7,5,5,sw,sh)
+	self:addSilhouette('town',0,14,1,2,sw,sh)
+	self:addSilhouette('town',0,16,1,1,sw,sh)
+	self:addSilhouette('town',1,12,6,5,sw,sh)
+	self:addSilhouette('town',7,12,8,5,sw,sh)
+	self:addSilhouette('town',5,7,7,5,sw,sh)
+	self:addSilhouette('town',12,7,5,4,sw,sh)
+	self:addSilhouette('town',17,7,5,4,sw,sh)
+	self:addSilhouette('town',12,11,2,1,sw,sh)
+	self:addSilhouette('town',15,11,5,6,sw,sh)
+	self:addSilhouette('town',20,15,2,2,sw,sh)
 
+	self:addSilhouette('mountain',0,0,7,3,sw,sh)
+	self:addSilhouette('mountain',7,0,8,3,sw,sh)
+	self:addSilhouette('mountain',15,0,7,3,sw,sh)
+	self:addSilhouette('mountain',0,3,6,3,sw,sh)
+	self:addSilhouette('mountain',6,3,8,3,sw,sh)
+	self:addSilhouette('mountain',14,3,8,4,sw,sh)
+end

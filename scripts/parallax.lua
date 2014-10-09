@@ -1,9 +1,9 @@
 local Parallax
 
-Parallax = {layers = {},mountainLayers = {}}
+Parallax = {layers = {}}
 
 
-local nLayers = 10
+local nLayers = 5
 local nMountainLayers = 3
 local velocity = 50
 --local colorFront = {54,88,111}
@@ -20,13 +20,8 @@ function Parallax:update(dt)
 	end
 	-- move front layers
 	for i, layer in ipairs(self.layers) do
-		local z = layer.z
-		for iobj, object in pairs(layer.objects) do
-			object.x = object.x + dx/z
-			if object.x < -object.ox/z then 
-				object.x = object.x + w + 2*object.ox/z
-			end
-		end
+		local x = layer.x + dx/layer.z
+		layer.x = x%w
 	end
 end
 
@@ -55,20 +50,22 @@ function Parallax:draw()
 	for i = #self.layers,1,-1 do
 		local layer = self.layers[i]
 		local z = layer.z
+		local x = layer.x
 		local y = z2y(h,z)
 		local factor = 1-(i-1)/(nLayers+nMountainLayers)
 		local r,g,b = mix2color(factor)		
 		love.graphics.setColor(r,g,b)
 
+		--love.graphics.draw(layer.batch,x,y)
 		-- draw all the objects
-		for iobj,object in ipairs(layer.objects) do
+		--[[for iobj,object in ipairs(layer.objects) do
 			local x = object.x
 			local img = AnimationDB.image[object.image]
 			local ox = img:getWidth()/2
 			local oy = img:getHeight()
 
 			love.graphics.draw(img,x,y,0,object.s,object.s,ox,oy)
-		end
+		end]]
 		-- draw rectangular ground
 		if y < h then
 			love.graphics.rectangle('fill',0,y,w,h-y)
@@ -95,49 +92,66 @@ function Parallax:init()
 	vertices[4] = {0,.65*h,0,0,colorBack[1],colorBack[2],colorBack[3],255}
 	self.mesh = love.graphics.newMesh(vertices)
 	
+	local img = AnimationDB.image.silhouettes
 	-- generate layers
 	for i = 1,nLayers do
 		self.layers[i]={}
 		
 		self.layers[i].z = index2z(i)
+		self.layers[i].x = 0
+		self.layers[i].batch = love.graphics.newSpriteBatch(img)
 		local x = 0
 		local objects = {}
 		while x < w do
 			x = x + love.math.random()*250/self.layers[i].z
-			local number = love.math.random(11)
-			local imgName = 'silhouette' .. number
-			local img = AnimationDB.image[imgName]
-			local ox = img:getWidth()/2
-			local oy = img:getHeight()
+			local nQuads = #AnimationDB.silhouette.town
+			local number = love.math.random(nQuads)
+			local quad = AnimationDB.silhouette.town[number]
+			local _, _, wq, hq = quad:getViewport( )--- hier
+			local ox = wq/2
+			local oy = hq
 			local s = 1/self.layers[i].z-- either -1 or 1
-		
-			local newObject = {x = x, y = 0, image =imgName,ox=ox,oy=oy,s=s}
-			table.insert(objects,newObject)
+			
+			self.layers[i].batch:add(quad,x-w,0,0,s,s,ox,oy)
+			self.layers[i].batch:add(quad,x,0,0,s,s,ox,oy)
+			if x-ox < 0 then
+				self.layers[i].batch:add(quad,x+w,0,0,s,s,ox,oy)
+			end
+			if x+ox > w then
+				self.layers[i].batch:add(quad,x-2*w,0,0,s,s,ox,oy)
+			end
 			x = math.floor(x + ox/self.layers[i].z)
 		end
-		self.layers[i].objects = objects
 	end
 	-- generate mountain layer
 	local zRef = 2*index2z(nLayers+1)
 	for i=nLayers+1,nLayers+nMountainLayers do
 		self.layers[i] = {}
+		self.layers[i].x = 0
 		self.layers[i]. z = 2*index2z(i)
-	
+		self.layers[i].batch = love.graphics.newSpriteBatch(img)
 		local x = 0
 		local objects = {}
 		while x < w do
-			local number = love.math.random(5)
-			local imgName = 'mountain' .. number
-			local img = AnimationDB.image[imgName]
-			local ox = img:getWidth()/2
-			local oy = img:getHeight()
+			local nQuads = #AnimationDB.silhouette.mountain
+			local number = love.math.random(nQuads)
+			local quad = AnimationDB.silhouette.mountain[number]
+			local _, _, wq, hq = quad:getViewport( )--- hier
+			local ox = wq/2
+			local oy = hq
+		
 			local s = zRef/self.layers[i].z
+			self.layers[i].batch:add(quad,x-w,0,0,s,s,ox,oy)
+			self.layers[i].batch:add(quad,x,0,0,s,s,ox,oy)
+			if x-ox < 0 then
+				self.layers[i].batch:add(quad,x+w,0,0,s,s,ox,oy)
+			end
+			if x+ox > w then
+				self.layers[i].batch:add(quad,x-2*w,0,0,s,s,ox,oy)
+			end	
 			x = math.floor(x + ox)
-			local newObject = {x = x, y = 0, image =imgName,ox=ox,oy=oy,s=s}
-			table.insert(objects,newObject)
 			x = x + love.math.random()*100
 		end	
-		self.layers[i].objects = objects
 	
 	end
 end
