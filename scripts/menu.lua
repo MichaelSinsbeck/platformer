@@ -174,7 +174,7 @@ function menu.initMain()
 	menu.curLevelName = nil	-- don't display level name when entering menu
 
 	-- initialize parallax background
-	menuParallax:init()
+	parallax:init()
 
 	if not menu.versionMessage then
 		menu.versionMessage = "Version " .. GAME_VERSION
@@ -1581,7 +1581,7 @@ function menu:update(dt)
 	end
 	
 	if menu.state == "main" then
-		menuParallax:update(dt)
+		parallax:update(dt)
 	end
 
 	local factor = math.min(1, 3*dt)
@@ -1671,7 +1671,7 @@ function menu:draw()
 	love.graphics.drawq(menu.images.shadow,menu.images.shadowQuad,0,0)
 	end]]
 	if menu.state == 'main' then
-		menuParallax:draw()
+		parallax:draw()
 	end
 
 	love.graphics.push()

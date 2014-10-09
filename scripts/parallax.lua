@@ -1,6 +1,6 @@
-local menuBG
+local Parallax
 
-menuBG = {layers = {},mountainLayers = {}}
+Parallax = {layers = {},mountainLayers = {}}
 
 
 local nLayers = 10
@@ -12,14 +12,17 @@ local colorBack = {170,190,210}
 local colorSky = {80,150,205}
 
 
-function menuBG:update(dt)
+function Parallax:update(dt)
 	local w,h = love.window.getDimensions()
-
+	local dx = -velocity * dt
+	if mode == 'game' then
+		dx = Camera.dx
+	end
 	-- move front layers
 	for i, layer in ipairs(self.layers) do
 		local z = layer.z
 		for iobj, object in pairs(layer.objects) do
-			object.x = object.x - velocity*dt/z
+			object.x = object.x + dx/z
 			if object.x < -object.ox/z then 
 				object.x = object.x + w + 2*object.ox/z
 			end
@@ -28,7 +31,11 @@ function menuBG:update(dt)
 end
 
 local function z2y(h,z)
-	return math.floor(0.6*h+0.3*h/z)
+	local yHorizon = 0
+	if mode == 'game' then
+		yHorizon = Camera.yHorizon
+	end
+	return math.floor(0.6*h+(0.3*h+yHorizon)/z)
 end
 
 local function mix2color(factor)
@@ -38,7 +45,7 @@ local function mix2color(factor)
 	return r,g,b
 end
 
-function menuBG:draw()
+function Parallax:draw()
 	local w,h = love.window.getDimensions()
 	
 	-- sky-color
@@ -60,15 +67,17 @@ function menuBG:draw()
 			local ox = img:getWidth()/2
 			local oy = img:getHeight()
 
-			love.graphics.draw(img,x, y,0,object.s,object.s,ox,oy)
+			love.graphics.draw(img,x,y,0,object.s,object.s,ox,oy)
 		end
 		-- draw rectangular ground
-		love.graphics.rectangle('fill',0,y,w,h)
+		if y < h then
+			love.graphics.rectangle('fill',0,y,w,h-y)
+		end
 	end
 	love.graphics.setColor(255,255,255)	
 end
 
-function menuBG:clear()
+function Parallax:clear()
 end
 
 
@@ -76,7 +85,7 @@ local function index2z(i)
 	return math.exp((i-1)/5)
 end
 
-function menuBG:init()
+function Parallax:init()
 	local w,h = love.window.getDimensions()
 	-- generate sky-mesh
 	local vertices = {}
@@ -135,4 +144,4 @@ end
 
 
 
-return menuBG
+return Parallax

@@ -8,10 +8,12 @@ game = {
 
 function game:draw()
 
-	myMap:drawParallax()
+	--myMap:drawParallax()
+	parallax:draw()
 	Camera:apply()
 
 	myMap:drawBackground()
+	
 
 	if settings:getShadowsEnabled() and shadows:getNumLights() > 0 then
 		love.graphics.push()
@@ -65,6 +67,7 @@ function game:update(dt)
     
 --  Camera:setTarget()
   Camera:update(dt)
+  parallax:update(dt)
   
   if game.won then
 		Sound:stopAllLongSounds()

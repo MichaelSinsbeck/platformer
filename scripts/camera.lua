@@ -13,42 +13,51 @@ Camera = {
 	gx = 0,	-- guide coordinates and weight
 	gy = 0,
 	gw = 0,
-	px = 0,
+	px = 0, -- player coordinates
 	py = 0,
+	yHorizon = 0, -- distance (in pixel) above horizon
+	dx = 0, -- distance (in pixel) of horizonal movement
   }
 
 function Camera:update(dt)
 	Camera:calculateTarget()
   local tileSize = myMap.tileSize
   local factor = math.min(1, 6*dt)
+  local oldXWorld = self.xWorld
   self.x = self.x + factor*(self.xTarget-self.x)
   self.y = self.y + factor*(self.yTarget-self.y)
   self.xWorld = math.floor(-Camera.x*myMap.tileSize*self.zoom+self.width/2)/self.zoom
   self.yWorld = math.floor(-Camera.y*myMap.tileSize*self.zoom+self.height/2)/self.zoom
   
   -- check if screen is larger than level
-  if self.width/self.zoom <= myMap.width*tileSize then
-		if self.xWorld > -1*tileSize then self.xWorld = -1*tileSize end  
-		if self.xWorld < self.width/self.zoom - (myMap.width+1)*tileSize then
-			self.xWorld = self.width/self.zoom - (myMap.width+1)*tileSize
-		end  
+  if self.width/self.zoom < myMap.width*tileSize then
+		local upper = -1*tileSize
+		local lower = self.width/self.zoom - (myMap.width+1)*tileSize
+		if self.xWorld > upper then self.xWorld = upper end  
+		if self.xWorld < lower then self.xWorld = lower end  
   else
 		self.xWorld = (self.width/self.zoom - (myMap.width+2)*tileSize)/2
   end
   
-	if self.height/self.zoom <= myMap.height*tileSize then
-		if self.yWorld > -1*tileSize then self.yWorld = -1*tileSize end
-		if self.yWorld < self.height/self.zoom - (myMap.height+1)*tileSize then
-			self.yWorld = self.height/self.zoom - (myMap.height+1)*tileSize
-		end
+	if self.height/self.zoom < myMap.height*tileSize then
+		local upper = -1*tileSize
+		local lower = self.height/self.zoom - (myMap.height+1)*tileSize
+		
+		if self.yWorld > upper then self.yWorld = upper end
+		if self.yWorld < lower then self.yWorld = lower end
+		
+		self.yHorizon = (self.yWorld-lower)-0.5*(upper-lower)
 	else
 		self.yWorld = (self.height/self.zoom - (myMap.height+2)*tileSize)/2
+		self.yHorizon = 0
 	end
 	
 	self.wScissor = math.min(self.width,myMap.width*tileSize)
 	self.hScissor = math.min(self.height,myMap.height*tileSize)
 	self.xScissor = (self.width-self.wScissor)/2
 	self.yScissor = (self.height-self.hScissor)/2
+	
+	self.dx = self.xWorld - oldXWorld
 end
 
 function Camera:init()
