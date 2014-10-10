@@ -91,6 +91,7 @@ function game:update(dt)
   
   if p.y > myMap.height+2 and not p.dead then
 	p.dead = true
+	spriteEngine:DoAll('disconnect') -- release rope, if existant
 	levelEnd:addDeath("death_fall")
 	objectClasses.Meat:spawn(p.x,p.y-1,0,0)
   end
@@ -135,7 +136,7 @@ function game.keypressed(key)
 	end  
 
 
-	if key == keys.ACTION and p.canHook then
+	if key == keys.ACTION then
 		p:throwBungee()
 	end
 	if key == keys.NEXTMAP then

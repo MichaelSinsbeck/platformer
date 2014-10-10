@@ -56,17 +56,8 @@ function Parallax:draw()
 		local r,g,b = mix2color(factor)		
 		love.graphics.setColor(r,g,b)
 
-		--love.graphics.draw(layer.batch,x,y)
-		-- draw all the objects
-		--[[for iobj,object in ipairs(layer.objects) do
-			local x = object.x
-			local img = AnimationDB.image[object.image]
-			local ox = img:getWidth()/2
-			local oy = img:getHeight()
-
-			love.graphics.draw(img,x,y,0,object.s,object.s,ox,oy)
-		end]]
-		-- draw rectangular ground
+		love.graphics.draw(layer.batch,x,y)
+		
 		if y < h then
 			love.graphics.rectangle('fill',0,y,w,h-y)
 		end

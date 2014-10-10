@@ -177,6 +177,9 @@ function Player:dash()
 	if self.dashTimer > 0 or not self.canTeleport then
 		return
 	end
+	if self.dead then
+		return
+	end
 	-- determine direction
 	game:checkControls()
 	local direction = 0
@@ -706,14 +709,16 @@ function Player:draw()
 end
 
 function Player:throwBungee()
-	--game:checkControls()
-	local vx = self.bungeeSpeed * math.cos(self.vis[2].angle)
-	local vy = self.bungeeSpeed * math.sin(self.vis[2].angle)
-	local newBungee = objectClasses.Bungee:New({x=self.x, y=self.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=self.vis[2].angle})} })
-	spriteEngine:insert(newBungee)
-	if self.status == 'online' then
-		self.status = 'fly'
-	end	
+	if self.canHook and not self.dead then
+		--game:checkControls()
+		local vx = self.bungeeSpeed * math.cos(self.vis[2].angle)
+		local vy = self.bungeeSpeed * math.sin(self.vis[2].angle)
+		local newBungee = objectClasses.Bungee:New({x=self.x, y=self.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=self.vis[2].angle})} })
+		spriteEngine:insert(newBungee)
+		if self.status == 'online' then
+			self.status = 'fly'
+		end	
+	end
 end
 
 function Player:connect(anchor)
