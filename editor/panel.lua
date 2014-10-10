@@ -497,7 +497,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 			obj:applyOptions()
 		end
 
-		self:addInputBox( x + 1, y + 5, self.width-18, 5, property.values[1],
+		self:addInputBox( x + 1, y + 5, self.width-18, 5, obj[name],--property.values[1],
 				returnEvent, 200, "[0-9a-zA-Z%- ?!%.,]" )
 
 	elseif property.isNumericTextProperty then
@@ -517,7 +517,7 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 			print("applied:" .. property.values[1])
 		end
 
-		self:addInputBox( x + 1, y + 5, self.width-18, 1, tostring(property.values[1]),
+		self:addInputBox( x + 1, y + 5, self.width-18, 1, tostring(obj[name]),
 				returnEvent, 200, "[%-%+0-9%.e]" )
 
 	else

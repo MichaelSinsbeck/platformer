@@ -141,6 +141,7 @@ function editor.createPropertiesPanel()
 			else
 				x,y = 8, 26
 				if map.selectedObjects[1].properties then
+					print("new")
 					for name, p in pairs(map.selectedObjects[1].properties) do
 						propertiesPanel:addProperty( name, x, y, p, map.selectedObjects[1] )
 						y = y + 12
