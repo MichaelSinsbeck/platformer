@@ -1,5 +1,4 @@
 require 'scripts/spriteengine'
-local gui = require('scripts/gui')
 
 game = {
 	deathtimer = 0,
@@ -156,6 +155,18 @@ function game.keypressed(key)
 			v:encode(filename)
 		end
 	end
+
+	-- Debug:
+	if key == "1" then
+		gui.addBandana( "white" )
+	elseif key == "2" then
+		gui.addBandana( "yellow" )
+	elseif key == "3" then
+		gui.addBandana( "green" )
+	elseif key == "4" then
+		gui.addBandana( "red" )
+	end
+
 end
 
 function game.keyreleased(key)

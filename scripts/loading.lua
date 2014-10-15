@@ -34,6 +34,9 @@ function loading.update()
 		require 'scripts/levelEnd'
 		require 'scripts/bridge'
 		objectClasses = require 'scripts/objectclasses'
+
+		gui = require('scripts/gui')
+
 		loading.msg = "Camera"
 	elseif loading.step == 1 then
 		Camera:applyScale()

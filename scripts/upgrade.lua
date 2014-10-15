@@ -32,6 +32,8 @@ function upgrade:newBandana(color)
 	thisTitle = title[color]
 	print(thisTitle)
 	thisExplanation = explanation[color]
+
+	gui.addBandana( color );
 end			
 
 function upgrade.draw()

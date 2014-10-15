@@ -277,6 +277,7 @@ function AnimationDB:loadAllImages()
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
+	AnimationDB:loadTiledImage('guiBandanas.png','guiBandanas',tileSize*2,tileSize*2,'gui')
 	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player.png','player',tileSize,tileSize)
