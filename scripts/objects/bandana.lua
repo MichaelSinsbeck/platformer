@@ -25,6 +25,7 @@ function Bandana:setAcceleration(dt)
 	if self:touchPlayer() then
 		if editor.active then
 			p:setBandana(self.color)
+			gui.addBandana( self.color )
 		else
 			upgrade:newBandana(self.color)
 			--Campaign:upgradeBandana(self.color)
