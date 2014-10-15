@@ -30,7 +30,8 @@ Campaign.bandana = 'blank'
 local num2bandana = {'blank','white','yellow','green','blue','red'}
 local bandana2num = {blank=1,white=2,yellow=3,green=4,blue=5,red=6}
 
-function Campaign:showUpgrade()
+function Campaign:showUpgrade( color )
+	print("show upgrade", color)
 end
 
 function Campaign:upgradeBandana(color)
@@ -40,7 +41,7 @@ function Campaign:upgradeBandana(color)
 	if new > current then
 		self.bandana = num2bandana[new]
 		p:setBandana(self.bandana)
-		self:showUpgrade()
+		self:showUpgrade( color )
 		config.setValue('bandana', self.bandana )
 		return self.bandana
 	end

@@ -179,6 +179,7 @@ function menu.initMain()
 	if not menu.versionMessage then
 		menu.versionMessage = "Version " .. GAME_VERSION
 	end
+
 end
 
 function menu.downloadedVersionInfo( info )
@@ -376,6 +377,17 @@ function menu.startCampaignLevel( lvlNum )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start()
 		config.setValue( "level", lvl )
+
+		-- Add all bandans the user has already received:
+		gui.clearBandanas()
+		local bandanas = {"white","yellow","green","blue","red"}
+		local noShow = true
+		for i, col in ipairs( bandanas ) do
+			gui.addBandana( col, noShow )
+			if col == Campaign.bandana then
+				break
+			end
+		end
 	end
 end
 
@@ -390,6 +402,8 @@ function menu.startGame( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start()		
 		config.setValue( "level", lvl )
+
+		gui.clearBandanas()
 	end
 end
 
@@ -633,6 +647,7 @@ function menu:initUserlevels()
 	userlevelList.box:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
 
 	menu.displayedUserlevels = (userlevelList.box.height-16)/(LIST_ENTRY_HEIGHT) - 1
+
 end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
@@ -1698,6 +1713,8 @@ function menu:draw()
 	local color = {44,90,160,150} -- color of box content
 	if menu.state == "pause" then
 		color = {44,90,160,255}
+
+		gui.drawBandanas( 0, 50, "horizontal" )
 	end
 	
 	-- draw boxes:

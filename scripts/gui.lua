@@ -1,6 +1,7 @@
 local gui = {}
 local FullViz = Visualizer:New('guiBeanFull')
 local EmptyViz = Visualizer:New('guiBeanEmpty')
+local bandanaTimer = 0
 
 local bandanaGuiViz = {
 	white = Visualizer:New('guiBandanaWhite'),
@@ -33,23 +34,63 @@ function gui.draw()
 		EmptyViz:draw((10*i-5)*s,5*s)
 	end
 
-	for i = 1, #bandanas do
-		local x = Camera.width/Camera.scale - 8
-		local y = Camera.height/Camera.scale - 8 - (i-1)*15
-		bandanas[i]:draw( s*x, s*y )
+	if mode == 'game' and bandanaTimer > 0 then
+		gui.drawBandanas( Camera.width/Camera.scale - 8,
+			Camera.height/Camera.scale - 8 )
 	end
 end
 
-function gui.addBandana( color )
+function gui.update( dt )
+	if bandanaTimer > 0 then
+		bandanaTimer = bandanaTimer - dt
+	end
+end
+
+-- Display the bandanas at the given position
+function gui.drawBandanas( x, y, dir )
+	-- Left to right:
+	if dir == "horizontal" then
+		num = #bandanas
+		for i = 1, #bandanas do
+			local lX = x - (num-1)/2*16 + (i-1)*16
+			bandanas[i].viz:draw( Camera.scale*lX, Camera.scale*y )
+		end
+	else	-- bottom to top:
+		for i = 1, #bandanas do
+			local lY = y - (i-1)*16
+			bandanas[i].viz:draw( Camera.scale*x, Camera.scale*lY )
+		end
+	end
+end
+
+function gui.addBandana( color, noShow )
+
+	print("Adding bandana:", color )
+
+	if not noShow then
+		bandanaTimer = 4		-- show for 4 seconds
+	end
+
+	-- Check if a bandana with the color is already in the list.
+	-- If so, don't add it again.
+	for i = 1, #bandanas do
+		if bandanas[i].color == color then
+			return
+		end
+	end
+
 	if bandanaGuiViz[color] then
 		local new = bandanaGuiViz[color]
 		new:init()
-		table.insert( bandanas, new )
+		local container = {viz = new, color = color}
+		table.insert( bandanas, container )
 	end
 end
 
 function gui.clearBandanas()
+	print("Clearing all bandanas")
 	bandanas = {}
+	bandanaTimer = 0
 end
 
 return gui

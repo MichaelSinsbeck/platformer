@@ -60,48 +60,49 @@ end
 
 function game:update(dt)
 	--dt = 1/60
-  timer = timer + dt
-  Camera:resetGuide()
-  spriteEngine:update(dt)
-    
---  Camera:setTarget()
-  Camera:update(dt)
-  parallax:update(dt)
-  
-  if game.won then
+	timer = timer + dt
+	Camera:resetGuide()
+	spriteEngine:update(dt)
+
+	--  Camera:setTarget()
+	Camera:update(dt)
+	parallax:update(dt)
+
+	if game.won then
 		Sound:stopAllLongSounds()
 		game.won = nil
 		levelEnd:registerEnd()
 		levelEnd:display()
-  end
-  
+	end
+
 	if p.dead then
 		self.deathtimer = self.deathtimer + dt
 		-- finish fade-to-black in less time than full death sequence:
 		shaders:setDeathEffect(	self.deathtimer/(self.fullDeathtimer*0.3) )
 	end
-	
+
 	if self.deathtimer >= self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
 		if not self.restartingLevel then
 			menu.startTransition( function() myMap:start(p) end )()		-- fades to black and restarts map.
 			self.restartingLevel = true
 		end
 	end
-  
-  if p.y > myMap.height+2 and not p.dead then
-	p.dead = true
-	spriteEngine:DoAll('disconnect') -- release rope, if existant
-	levelEnd:addDeath("death_fall")
-	objectClasses.Meat:spawn(p.x,p.y-1,0,0)
-  end
-  
-  if recorder then
+
+	if p.y > myMap.height+2 and not p.dead then
+		p.dead = true
+		spriteEngine:DoAll('disconnect') -- release rope, if existant
+		levelEnd:addDeath("death_fall")
+		objectClasses.Meat:spawn(p.x,p.y-1,0,0)
+	end
+
+	if recorder then
 		recorderTimer = recorderTimer + dt
-  end
+	end
+
+	gui.update( dt )
 end
 
 function game.keypressed(key)
-
 
 	if key == keys.PAUSE then
 		if editor.active then
