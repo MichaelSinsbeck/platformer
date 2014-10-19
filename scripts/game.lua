@@ -8,12 +8,13 @@ game = {
 function game:draw()
 
 	--myMap:drawParallax()
+	Camera:setPureScissor()
 	parallax:draw()
 	Camera:apply()
 
+	-- background tiles
 	myMap:drawBackground()
 	
-
 	if settings:getShadowsEnabled() and shadows:getNumLights() > 0 then
 		love.graphics.push()
 		love.graphics.translate( -myMap.tileSize, -myMap.tileSize )

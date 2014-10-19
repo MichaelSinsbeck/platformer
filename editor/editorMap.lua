@@ -2207,6 +2207,7 @@ function EditorMap:addLight( x, y )
 end
 
 function EditorMap:start()
+	love.graphics.setBackgroundColor(0,0,0)
 	if editor.active then
 		print('Editor')
 	else

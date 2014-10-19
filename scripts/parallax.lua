@@ -44,6 +44,9 @@ function Parallax:draw()
 	local w,h = love.window.getDimensions()
 	
 	-- sky-color
+	love.graphics.setColor(colorBack[1],colorBack[2],colorBack[3])
+	love.graphics.rectangle('fill',0,0,w,h)
+	love.graphics.setColor(255,255,255)
 	love.graphics.draw(self.mesh)
 
 	-- draw layers

@@ -118,11 +118,15 @@ function Camera:jumpTo(x,y)
   self.y = y
 end
 
+function Camera:setPureScissor()
+	love.graphics.setScissor(self.xScissor,self.yScissor,self.wScissor,self.hScissor)
+end
+
 function Camera:apply()
 	love.graphics.push()
 	love.graphics.scale(self.zoom,self.zoom)
   love.graphics.translate(self.xWorld,self.yWorld)
-  love.graphics.setScissor(self.xScissor,self.yScissor,self.wScissor,self.hScissor)
+  --love.graphics.setScissor(self.xScissor,self.yScissor,self.wScissor,self.hScissor)
 end
 
 function Camera:free()
