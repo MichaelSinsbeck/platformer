@@ -15,7 +15,7 @@ local colorSky = {80,150,205}
 function Parallax:update(dt)
 	local w,h = love.window.getDimensions()
 	local dx = -velocity * dt
-	if mode == 'game' then
+	if mode == 'game' or mode == 'levelEnd' then
 		dx = Camera.dx
 	end
 	-- move front layers
@@ -27,7 +27,7 @@ end
 
 local function z2y(h,z)
 	local yHorizon = 0
-	if mode == 'game' then
+	if mode == 'game' or mode == 'levelEnd' then
 		yHorizon = Camera.yHorizon
 	end
 	return math.floor(0.6*h+(0.3*h+yHorizon)/z)
