@@ -336,6 +336,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('npc.png','npc')
 	AnimationDB:loadTiledImage('speechbubble.png','speechbubble',tileSize,tileSize)
 	AnimationDB:loadTiledImage('camera.png','camera',tileSize,tileSize)
+	AnimationDB:loadTiledImage('horizon.png','horizon',tileSize,tileSize)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -414,6 +415,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('speechbubblepointer','speechbubble',{3},{1e6})
 	AnimationDB:addAni('cameraRound','camera',{1},{1e6})
 	AnimationDB:addAni('cameraRectangle','camera',{2},{1e6})
+	AnimationDB:addAni('parallaxConfig','horizon',{1},{1e6})
 	
 
 	AnimationDB:addAni('explosionExplode','explosion',{1,2,3,4,5,6,6},{.05,.05,.1,.1,.1,.1,1e6})

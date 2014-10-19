@@ -56,6 +56,7 @@ Text = require 'scripts/objects.text',
 TimedText = require 'scripts/objects.timedText',
 CameraGuide = require 'scripts/objects.cameraguide',
 CameraGuideRect = require 'scripts/objects.cameraguiderectangle',
+ParallaxConfig = require 'scripts/objects.parallaxConfig',
 }
 
 

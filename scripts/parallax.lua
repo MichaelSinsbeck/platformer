@@ -10,6 +10,7 @@ local velocity = 50
 local colorFront = {22,45,80}
 local colorBack = {170,190,210}	
 local colorSky = {80,150,205}
+local baseLevel = 0.9
 
 
 function Parallax:update(dt)
@@ -18,7 +19,7 @@ function Parallax:update(dt)
 	if mode == 'game' or mode == 'levelEnd' then
 		dx = Camera.dx
 	end
-	-- move front layers
+	-- move layers horizontally (left/right)
 	for i, layer in ipairs(self.layers) do
 		local x = layer.x + dx/layer.z
 		layer.x = x%w
@@ -26,11 +27,9 @@ function Parallax:update(dt)
 end
 
 local function z2y(h,z)
-	local yHorizon = 0
-	if mode == 'game' or mode == 'levelEnd' then
-		yHorizon = Camera.yHorizon
-	end
-	return math.floor(0.6*h+(0.3*h+yHorizon)/z)
+	local dh = (baseLevel*Camera.scale*8 + Camera.yWorld) - 0.6*h
+	
+	return math.floor(0.6*h + dh / z)
 end
 
 local function mix2color(factor)
@@ -69,6 +68,7 @@ function Parallax:draw()
 end
 
 function Parallax:clear()
+	self.layers = {}
 end
 
 
@@ -76,8 +76,17 @@ local function index2z(i)
 	return math.exp((i-1)/5)
 end
 
-function Parallax:init()
+function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset)
+	self:clear()
 	local w,h = love.window.getDimensions()
+	
+	location = location or 'town'
+	color = color or blue
+	baseLevel = yLevel or 18
+	nLayers = frontlayers or 5
+	nMountainLayers = backlayers or 3
+	offset = offset or 0 -- offset in z-direction. 0 - first layer is at scale 1, 1 - first layer is one unit further back
+	
 	-- generate sky-mesh
 	local vertices = {}
 	vertices[1] = {0,0,0,0,colorSky[1],colorSky[2],colorSky[3],255}
@@ -91,7 +100,7 @@ function Parallax:init()
 	for i = 1,nLayers do
 		self.layers[i]={}
 		
-		self.layers[i].z = index2z(i)
+		self.layers[i].z = index2z(i+offset)
 		self.layers[i].x = 0
 		self.layers[i].batch = love.graphics.newSpriteBatch(img)
 		local x = 0
@@ -122,7 +131,7 @@ function Parallax:init()
 	for i=nLayers+1,nLayers+nMountainLayers do
 		self.layers[i] = {}
 		self.layers[i].x = 0
-		self.layers[i]. z = 2*index2z(i)
+		self.layers[i]. z = 2*index2z(i+offset)
 		self.layers[i].batch = love.graphics.newSpriteBatch(img)
 		local x = 0
 		local objects = {}

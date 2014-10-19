@@ -2222,39 +2222,39 @@ function EditorMap:start()
 
 	-- empty spriteEngine and add player
 	spriteEngine:empty()
-
-	--[[p.x = self.xStart+0.5
-	p.y = self.yStart+1-p.semiheight
-	p.newX = p.x
-	p.newY = p.y
-	p.vx = 0
-	p.vy = 0
-	p.bandana = 'white'
-	p.alpha = 255
-	p.status = 'stand'
-	p:setAnim(1,'whiteStand')
-	p:flip(false)
-	p.anchor = nil
-	p.hookAngle = nil
-	p.canDash = true
-	p:update(0)
-	p.dead = nil
-	--mode = 'intro'
-	--timer = 0--]]
 	
 	p = nil
+
+	local yLevel = self.height * 0.9
+	local location
+	local bgColor
+	local frontlayers
+	local backlayers
+	
+	-- iterate to find 'special' objects (player, parallaxConfig)
 	for i, obj in ipairs(self.objectList) do
 		if obj.tag == "Player" then
 			local newObj = obj:New()
 			p = newObj
 			newObj:update(0)	
 			spriteEngine:insert(newObj)
-			break
+		end
+		if obj.tag == "ParallaxConfig" then
+			parallaxReady = true
+			local newObj = obj:New()
+			
+			yLevel =  newObj.y-0.5
+			location = newObj.location
+			bgColor = newObj.color
+			frontlayers = newObj.frontlayers
+			backlayers = newObj.backlayers
 		end
 	end	
 	
+	parallax:init(location,bgColor,yLevel,frontlayers,backlayers,1)
+	
 	for i, obj in ipairs(self.objectList) do
-		if obj.tag ~= "LineHook" and obj.tag ~= "Player" then
+		if obj.tag ~= "LineHook" and obj.tag ~= "Player" and obj.tag ~="ParallaxConfig" then
 			local newObj = obj:New()
 
 			newObj:update(0)
