@@ -7,6 +7,7 @@ local bandanaGuiViz = {
 	white = Visualizer:New('guiBandanaWhite'),
 	yellow = Visualizer:New('guiBandanaYellow'),
 	green = Visualizer:New('guiBandanaGreen'),
+	blue = Visualizer:New('guiBandanaBlue'),
 	red = Visualizer:New('guiBandanaRed'),
 }
 

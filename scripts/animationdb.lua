@@ -599,7 +599,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('guiBandanaWhite','guiBandanas',{1},{1e6})
 	AnimationDB:addAni('guiBandanaYellow','guiBandanas',{2},{1e6})
 	AnimationDB:addAni('guiBandanaGreen','guiBandanas',{3},{1e6})
-	AnimationDB:addAni('guiBandanaRed','guiBandanas',{4},{1e6})
+	AnimationDB:addAni('guiBandanaBlue','guiBandanas',{4},{1e6})
+	AnimationDB:addAni('guiBandanaRed','guiBandanas',{5},{1e6})
 	
 	-- editor stuff
 	AnimationDB:addAni('lineHook'  ,'lineHook',{1},{1e6})
