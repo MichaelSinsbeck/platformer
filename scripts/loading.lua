@@ -93,7 +93,7 @@ function loading.update()
 		-- the following are arguments passed to the function:
 		"version.php" )
 	end
-	--loading.step = loading.step + 1
+	loading.step = loading.step + 1
 end
 
 function loading.draw()
