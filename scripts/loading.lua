@@ -3,6 +3,8 @@ local loading = {
 	step = -1,
 	msg = "scripts",
 }
+local proverb
+local source
 
 -- Every time this function is called, the next step will be loaded.
 -- Important: the loading.msg must be set to the name of the NEXT module, not the current one,
@@ -91,7 +93,7 @@ function loading.update()
 		-- the following are arguments passed to the function:
 		"version.php" )
 	end
-	loading.step = loading.step + 1
+	--loading.step = loading.step + 1
 end
 
 function loading.draw()
@@ -99,6 +101,8 @@ function loading.draw()
 	love.graphics.setColor(255,255,255,255)
 	local str = "Loading: " .. loading.msg
 	--print(str)
+	local w = love.graphics.getWidth()
+	local h = love.graphics.getHeight()
 	
 	love.graphics.setColor(150,150,150)
 	love.graphics.setFont(fontSmall)
@@ -106,7 +110,13 @@ function loading.draw()
 	
 	love.graphics.setColor(44,90,160)
 	love.graphics.setFont(fontLarge)
-	love.graphics.printf('Loading', 0, 0.5*love.graphics.getHeight(), love.graphics.getWidth(), 'center')
+	love.graphics.printf(proverb, 0.2*w, 0.5*h, 0.6*w, 'center')
+	
+	local width, lines = fontLarge:getWrap(proverb, 0.6*w)
+	
+	love.graphics.setColor(150,150,150)
+	love.graphics.setFont(fontSmall)
+	love.graphics.printf(source, 0.5*w-0.5*width,0.5*h + lines * fontLarge:getHeight() * 1.25, width,'right')
 end
 
 function loading.preload()
@@ -118,7 +128,52 @@ function loading.preload()
 	-- hide mouse
 	love.mouse.setVisible(false)
 	
+	local proverbs = {
+	{"Perseverence is strength",'Japanese Proverb'},
+	{"Experience is the mother of wisdom",'Japanese Proverb'},
+	{"If you do not enter the tiger's cave, you will not catch its cub.",'Japanese Proverb'},
+	{"Fall down seven times, stand up eight",'Japanese Proverb'},
+	{"The talented hawk hides its claws",'Japanese Proverb'},
+	{"Don't follow proverbs blindly",'Go Proverb'},
+	{"Big dragons never die",'Go Proverb'},
+	{"Don't go fishing while your house is on fire",'Go Proverb'},
+	}
+	local nr = love.math.random(#proverbs)
+	proverb = proverbs[nr][1]
+	source = proverbs[nr][2]
+	
 	mode = 'loading'	
 end
+
+--[[ some proverbs:
+----------------
+Source: http://en.wikiquote.org/wiki/Japanese_proverbs
+
+継続は力なり。
+Keizoku wa chikara nari.
+Translation: Perseverance is strength.
+
+愚公山を移す
+Translation: Faith can move mountains.
+
+亀の甲より年の功
+Translation: Experience is the mother of wisdom.
+
+虎穴に入らずんば虎子を得ず。
+Koketsu ni irazunba koji wo ezu.
+Translation: If you do not enter the tiger's cave, you will not catch its cub.
+
+七転び八起き Nana korobi ya oki
+Translation: Fall down seven times, stand up eight
+
+能ある鷹は爪を隠す。Nō aru taka wa tsume wo kakusu.
+Translation: The talented hawk hides its claws
+
+--------------
+Source: http://senseis.xmp.net/?GoProverbs
+Don't follow proverbs blindly
+Big dragons never die
+Don't go fishing while your house is on fire
+--]]
 
 return loading
