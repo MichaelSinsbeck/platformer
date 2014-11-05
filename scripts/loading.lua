@@ -15,7 +15,7 @@ function loading.update()
 		
 		love.filesystem.createDirectory("userlevels")
 
-		menu = require("scripts/menu")
+		menu = require("scripts/menu/menu")
 		parallax = require("scripts/parallax")
 		BambooBox = require("scripts/bambooBox")
 		
@@ -81,7 +81,7 @@ function loading.update()
 		levelEnd:init()	-- must be called AFTER requiring the editor
 		loading.msg = "Menu"
 	elseif loading.step == 10 then
-		menu.initMain()
+		menu:initMain()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')
 		--bg_test = love.graphics.newImage('images/menu/bg_main.png')		
