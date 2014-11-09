@@ -167,7 +167,7 @@ end
 function AnimationDB:addSilhouette(name,x,y,width,height,sw,sh)
 
 	local tileSize = Camera.scale*8 -- (Different from the other code, there it is *10)
-	local quad = love.graphics.newQuad(tileSize*x,tileSize*y,tileSize*width,tileSize*height,sw,sh)
+	local quad = love.graphics.newQuad(tileSize*x,tileSize*y+1,tileSize*width,tileSize*height-1,sw,sh)
 	
 	if not self.silhouette[name] then self.silhouette[name] = {} end
 	table.insert(self.silhouette[name],quad)
