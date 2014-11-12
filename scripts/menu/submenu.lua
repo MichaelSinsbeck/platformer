@@ -2,6 +2,7 @@
 -- Buttons are usually displayed on the panels.
 
 local Panel = require( "scripts/menu/menuPanel" )
+local Button = require( "scripts/menu/button" )
 
 local Submenu = {}
 Submenu.__index = Submenu
@@ -20,15 +21,35 @@ end
 function Submenu:draw()
 	for k,l in ipairs( self.layers ) do
 		if l.visible then
+
+			-- Draw all images on this layer:
 			for j, i in ipairs( l.images ) do
 				love.graphics.draw( AnimationDB.image[i.image], i.x*Camera.scale, i.y*Camera.scale )
 			end
+
+			-- Draw the panels on this layer:
 			for j, p in ipairs( l.panels ) do
 				p:draw()
+			end
+
+			-- Draw the buttons on this layer:
+			for j, b in ipairs( l.buttons ) do
+				b:draw()
 			end
 		end
 	end
 end
+
+function Submenu:update( dt )
+	for k,l in ipairs( self.layers ) do
+		if l.visible then
+			for j, b in ipairs( l.buttons ) do
+				b:update( dt )
+			end
+		end
+	end
+end
+
 
 function Submenu:addLayer( layerName )
 	local layer = {
@@ -60,7 +81,19 @@ function Submenu:addPanel( x, y, w, h, layerName )
 	end
 end
 
-function Submenu:addButton()
+function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName )
+	
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local b = Button:new( imgOff, imgOn, x, y, event, eventHover )
+			table.insert( l.buttons, b )
+			return b
+		end
+	end
+
 end
 
 function Submenu:addImage( image, x, y, layerName )

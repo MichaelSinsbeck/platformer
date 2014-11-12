@@ -4,6 +4,7 @@ local menu = {
 	transitionActive = false,
 	transitionPercentage = 0,
 	state = "main",
+	activeSubmenu = "Main"
 }
 
 local transition = require( "scripts/menu/transition" )
@@ -17,11 +18,14 @@ local menuPlayer = {
 }
 
 function menu:init()
+
+	-- Create the menu ninja:
 	menuPlayer.vis = Visualizer:New( "playerWalk" )
 	menuPlayer.visBandana = Visualizer:New("bandanaWalk")
 	menuPlayer.vis:init()
 	menuPlayer.visBandana:init()
 
+	-- Create the ninja's Bandana
 	menuPlayer.vis:setAni("playerWalk")
 	menuPlayer.vis.sx = 1
 	menuPlayer.visBandana:setAni("bandanaWalk")
@@ -40,10 +44,22 @@ function menu:initMain()
 	parallax:init()
 
 	local mainMenu = Submenu:new()
-	local p = mainMenu:addPanel( -24, -16, 48, 64 )
+	mainMenu:addImage( "logo", -85, -78 )
+	local p = mainMenu:addPanel( -24, -17, 48, 80 )
+	mainMenu:addButton( "startOff", "startOn", -3, -10 )
+	mainMenu:addButton( "downloadOff", "downloadOn", -2, 0 )
+	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10 )
+	mainMenu:addButton( "editorOff", "editorOn", -2, 20 )
+	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30 )
+	mainMenu:addButton( "exitOff", "exitOn", -2, 40 )
 	submenus["Main"] = mainMenu
 
-	mainMenu:addImage( "logo", -85, -78 )
+
+	menu:switchToSubmenu( "Main" )
+end
+
+function menu:switchToSubmenu( menuName )
+	menu.activeSubmenu = menuName
 end
 
 function menu:update( dt )
@@ -53,6 +69,8 @@ function menu:update( dt )
 
 	menuPlayer.vis:update(dt/2)
 	menuPlayer.visBandana:update(dt/2)
+
+	submenus[self.activeSubmenu]:update(dt)
 end
 
 function menu:updateLevelName( dt )
@@ -70,21 +88,20 @@ function menu:draw()
 		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
 
 	-- Draw all visible panels:
-	for i, m in pairs( submenus ) do
-		m:draw()
+	submenus[self.activeSubmenu]:draw()
+
+	-- Draw the menu ninja:
+	local x = menuPlayer.x*Camera.scale
+	local y = menuPlayer.y*Camera.scale
+	menuPlayer.vis:draw(x,y,true)
+
+	local color = utility.bandana2color[Campaign.bandana]
+	if color then
+		local r,g,b = love.graphics.getColor()
+		love.graphics.setColor(color[1],color[2],color[3],255)
+		menuPlayer.visBandana:draw(x,y,true)
+		love.graphics.setColor(r,g,b)
 	end
-
-		local x = menuPlayer.x*Camera.scale
-		local y = menuPlayer.y*Camera.scale
-		menuPlayer.vis:draw(x,y,true)
-
-		local color = utility.bandana2color[Campaign.bandana]
-		if color then
-			local r,g,b = love.graphics.getColor()
-			love.graphics.setColor(color[1],color[2],color[3],255)
-			menuPlayer.visBandana:draw(x,y,true)
-			love.graphics.setColor(r,g,b)
-		end
 
 	love.graphics.pop()
 end
