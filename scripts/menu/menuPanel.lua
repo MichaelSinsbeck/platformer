@@ -13,10 +13,6 @@ function Panel:new( x, y, width, height )
 	return o
 end
 
-function Panel:addButton( x, y, vis )
-
-end
-
 function Panel:draw()
 	self.box:draw( self.x, self.y )
 end

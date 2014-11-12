@@ -7,9 +7,9 @@ local menu = {
 }
 
 local transition = require( "scripts/menu/transition" )
-local Panel = require( "scripts/menu/menuPanel" )
+local Submenu = require( "scripts/menu/submenu" )
 
-local panels = {}
+local submenus = {}
 
 function menu:init()
 
@@ -26,9 +26,11 @@ function menu:initMain()
 	-- initialize parallax background
 	parallax:init()
 
-	local p = Panel:new( -16, -16, 48, 64 )
+	local mainMenu = Submenu:new()
+	local p = mainMenu:addPanel( -24, -16, 48, 64 )
+	submenus["Main"] = mainMenu
 
-	panels[1] = p
+	mainMenu:addImage( "logo", -85, -78 )
 
 end
 
@@ -44,9 +46,9 @@ end
 
 function menu:draw()
 
-	if menu.state == 'main' then
+	--if menu.state == 'main' then
 		parallax:draw()
-	end
+	--end
 
 	love.graphics.push()
 	love.graphics.translate(
@@ -54,8 +56,8 @@ function menu:draw()
 		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
 
 	-- Draw all visible panels:
-	for i, p in pairs( panels ) do
-		p:draw()
+	for i, m in pairs( submenus ) do
+		m:draw()
 	end
 
 	love.graphics.pop()
@@ -63,7 +65,7 @@ end
 
 -- Remove every panel
 function menu:clear()
-	panels = {}
+	submenus = {}
 end
 
 function menu:drawTransition()
