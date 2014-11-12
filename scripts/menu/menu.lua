@@ -46,14 +46,23 @@ function menu:initMain()
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
 	local p = mainMenu:addPanel( -24, -17, 48, 80 )
-	mainMenu:addButton( "startOff", "startOn", -3, -10 )
+	local b = mainMenu:addButton( "startOff", "startOn", -3, -7 )
+	mainMenu:setSelectedButton( b )
+	
 	mainMenu:addButton( "downloadOff", "downloadOn", -2, 0 )
 	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10 )
 	mainMenu:addButton( "editorOff", "editorOn", -2, 20 )
 	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30 )
 	mainMenu:addButton( "exitOff", "exitOn", -2, 40 )
-	submenus["Main"] = mainMenu
+	
+	--[[for k = 1, 25 do
+		x = love.math.random( -40, 40 )
+		y = love.math.random( -40, 40 )
+		mainMenu:addButton( "startOff", "startOn", x, y )
+	end]]
+	mainMenu:linkButtons( "MainLayer")
 
+	submenus["Main"] = mainMenu
 
 	menu:switchToSubmenu( "Main" )
 end
@@ -121,6 +130,17 @@ end
 function menu:keypressed( key, repeated )
 	if key == "escape" then
 		love.event.quit()
+	end
+	if self.activeSubmenu then
+		if key == "left" then
+			submenus[self.activeSubmenu]:goLeft()
+		elseif key == "right" then
+			submenus[self.activeSubmenu]:goRight()
+		elseif key == "up" then
+			submenus[self.activeSubmenu]:goUp()
+		elseif key == "down" then
+			submenus[self.activeSubmenu]:goDown()
+		end
 	end
 end
 
