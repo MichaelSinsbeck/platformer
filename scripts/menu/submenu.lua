@@ -17,7 +17,6 @@ function Submenu:new()
 	return o
 end
 
-
 function Submenu:draw()
 	for k,l in ipairs( self.layers ) do
 		if l.visible then
@@ -37,6 +36,7 @@ function Submenu:addLayer( layerName )
 		visible = true,
 		panels = {},
 		images = {},
+		buttons = {},
 	}
 
 	table.insert( self.layers, layer )

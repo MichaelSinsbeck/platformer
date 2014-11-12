@@ -11,8 +11,21 @@ local Submenu = require( "scripts/menu/submenu" )
 
 local submenus = {}
 
-function menu:init()
+local menuPlayer = {
+	x = 0,
+	y = 0,
+}
 
+function menu:init()
+	menuPlayer.vis = Visualizer:New( "playerWalk" )
+	menuPlayer.visBandana = Visualizer:New("bandanaWalk")
+	menuPlayer.vis:init()
+	menuPlayer.visBandana:init()
+
+	menuPlayer.vis:setAni("playerWalk")
+	menuPlayer.vis.sx = 1
+	menuPlayer.visBandana:setAni("bandanaWalk")
+	menuPlayer.visBandana.sx = 1
 end
 
 function menu:initMain()
@@ -31,18 +44,19 @@ function menu:initMain()
 	submenus["Main"] = mainMenu
 
 	mainMenu:addImage( "logo", -85, -78 )
-
 end
 
 function menu:update( dt )
-	if menu.state == "main" then
+	--if menu.state == "main" then
 		parallax:update(dt)
-	end
+	--end
+
+	menuPlayer.vis:update(dt/2)
+	menuPlayer.visBandana:update(dt/2)
 end
 
 function menu:updateLevelName( dt )
 end
-
 
 function menu:draw()
 
@@ -59,6 +73,18 @@ function menu:draw()
 	for i, m in pairs( submenus ) do
 		m:draw()
 	end
+
+		local x = menuPlayer.x*Camera.scale
+		local y = menuPlayer.y*Camera.scale
+		menuPlayer.vis:draw(x,y,true)
+
+		local color = utility.bandana2color[Campaign.bandana]
+		if color then
+			local r,g,b = love.graphics.getColor()
+			love.graphics.setColor(color[1],color[2],color[3],255)
+			menuPlayer.visBandana:draw(x,y,true)
+			love.graphics.setColor(r,g,b)
+		end
 
 	love.graphics.pop()
 end
@@ -85,6 +111,14 @@ function menu:textinput( letter )
 end
 
 function menu:downloadedVersionInfo( info )
+end
+
+function menu:setPlayerPosition( x, y )
+end
+
+function menu:setPlayerAnimation( animation )
+	menuPlayer.x = x
+	menuPlayer.y = y
 end
 
 return menu
