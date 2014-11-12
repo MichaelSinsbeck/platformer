@@ -29,6 +29,9 @@ end
 function Button:select()
 	self.selected = true
 	self.img = self.imgOn
+	if self.eventHover then
+		self.eventHover()
+	end
 end
 
 function Button:deselect()
@@ -59,6 +62,12 @@ function Button:getNextUp( b )
 end
 function Button:getNextDown( b )
 	return self.nextDown
+end
+
+function Button:startEvent()
+	if self.event then
+		self.event()
+	end
 end
 
 return Button

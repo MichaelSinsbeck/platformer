@@ -3,6 +3,7 @@
 
 local Panel = require( "scripts/menu/menuPanel" )
 local Button = require( "scripts/menu/button" )
+local Transition = require( "scripts/menu/transition" )
 
 local Submenu = {}
 Submenu.__index = Submenu
@@ -16,10 +17,17 @@ function Submenu:new()
 
 	o:addLayer( "MainLayer" )
 
+	o:enterTransition()
+
 	return o
 end
 
 function Submenu:draw()
+
+	if self.transition then
+		self.transition:push()
+	end
+
 	for k,l in ipairs( self.layers ) do
 		if l.visible then
 
@@ -39,6 +47,10 @@ function Submenu:draw()
 			end
 		end
 	end
+
+	if self.transition then
+		self.transition:pop()
+	end
 end
 
 function Submenu:update( dt )
@@ -49,7 +61,15 @@ function Submenu:update( dt )
 			end
 		end
 	end
+
+	if self.transition then
+		self.transition:update( dt )
+	end
 end
+
+----------------------------------------------------------------------
+-- Handling layers:
+----------------------------------------------------------------------
 
 function Submenu:addLayer( layerName )
 	local layer = {
@@ -85,6 +105,10 @@ function Submenu:setHighestLayerActive()
 		end
 	end
 end
+
+----------------------------------------------------------------------
+-- Adding things to draw on this menu:
+----------------------------------------------------------------------
 
 function Submenu:addPanel( x, y, w, h, layerName )
 
@@ -131,6 +155,10 @@ function Submenu:addImage( image, x, y, layerName )
 	end
 end
 
+----------------------------------------------------------------------
+-- Handle button selection:
+----------------------------------------------------------------------
+
 function Submenu:linkButtons( layerName )
 	-- Find the layer:
 	local layer = nil
@@ -161,7 +189,6 @@ function Submenu:linkButtons( layerName )
 					if vecB.x < 0 then
 						ang = 360 - ang
 					end
-					print( ang )
 					if ang >= 45 and ang < 135 then
 						table.insert( right, b2 )
 					elseif ang >= 135 and ang < 225 then
@@ -173,7 +200,6 @@ function Submenu:linkButtons( layerName )
 					end
 				end
 			end
-			print("tables:", #left, #right, #up, #down )
 
 			-- The button closest to the right is this button's right neighbour etc.:
 			b1:setNextLeft(nil)
@@ -306,6 +332,41 @@ function Submenu:goDown()
 			end
 		end
 	end
+end
+
+----------------------------------------------------------------------
+-- Button events:
+----------------------------------------------------------------------
+
+-- Called when user hit's "enter" or similar
+function Submenu:startButtonEvent()
+	if self.activeLayer then
+		local l = self.layers[self.activeLayer]
+		if l.selectedButton then
+			l.selectedButton:startEvent()
+		end
+	end
+end
+
+----------------------------------------------------------------------
+-- Add transitions:
+----------------------------------------------------------------------
+
+function Submenu:enterTransition()
+	self.transition = Transition:new( self, 1, 0, 1000, 0, 0, 0, 0 )
+end
+
+function Submenu:exitTransition()
+	
+end
+
+-- Called when the submenu's enter or exit transition is done:
+function Submenu:finishedTransition()
+	self.transition = nil
+end
+
+function Submenu:getTransition()
+	return self.transition ~= nil
 end
 
 return Submenu

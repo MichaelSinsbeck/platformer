@@ -7,7 +7,6 @@ local menu = {
 	activeSubmenu = "Main"
 }
 
-local transition = require( "scripts/menu/transition" )
 local Submenu = require( "scripts/menu/submenu" )
 
 local submenus = {}
@@ -53,13 +52,8 @@ function menu:initMain()
 	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10 )
 	mainMenu:addButton( "editorOff", "editorOn", -2, 20 )
 	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30 )
-	mainMenu:addButton( "exitOff", "exitOn", -2, 40 )
+	mainMenu:addButton( "exitOff", "exitOn", -2, 40, love.event.quit )
 	
-	--[[for k = 1, 25 do
-		x = love.math.random( -40, 40 )
-		y = love.math.random( -40, 40 )
-		mainMenu:addButton( "startOff", "startOn", x, y )
-	end]]
 	mainMenu:linkButtons( "MainLayer")
 
 	submenus["Main"] = mainMenu
@@ -97,19 +91,24 @@ function menu:draw()
 		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
 
 	-- Draw all visible panels:
-	submenus[self.activeSubmenu]:draw()
+	if self.activeSubmenu then
+		submenus[self.activeSubmenu]:draw()
 
-	-- Draw the menu ninja:
-	local x = menuPlayer.x*Camera.scale
-	local y = menuPlayer.y*Camera.scale
-	menuPlayer.vis:draw(x,y,true)
+		-- If there's no transition in progress...
+		if not submenus[self.activeSubmenu]:getTransition() then
+			-- Draw the menu ninja:
+			local x = menuPlayer.x*Camera.scale
+			local y = menuPlayer.y*Camera.scale
+			menuPlayer.vis:draw(x,y,true)
 
-	local color = utility.bandana2color[Campaign.bandana]
-	if color then
-		local r,g,b = love.graphics.getColor()
-		love.graphics.setColor(color[1],color[2],color[3],255)
-		menuPlayer.visBandana:draw(x,y,true)
-		love.graphics.setColor(r,g,b)
+			local color = utility.bandana2color[Campaign.bandana]
+			if color then
+				local r,g,b = love.graphics.getColor()
+				love.graphics.setColor(color[1],color[2],color[3],255)
+				menuPlayer.visBandana:draw(x,y,true)
+				love.graphics.setColor(r,g,b)
+			end
+		end
 	end
 
 	love.graphics.pop()
@@ -140,6 +139,8 @@ function menu:keypressed( key, repeated )
 			submenus[self.activeSubmenu]:goUp()
 		elseif key == "down" then
 			submenus[self.activeSubmenu]:goDown()
+		elseif key == "return" then
+			submenus[self.activeSubmenu]:startButtonEvent()
 		end
 	end
 end
@@ -157,5 +158,11 @@ function menu:setPlayerAnimation( animation )
 	menuPlayer.x = x
 	menuPlayer.y = y
 end
+
+----------------------------------------------------------------------
+-- Menu transitions:
+----------------------------------------------------------------------
+
+
 
 return menu
