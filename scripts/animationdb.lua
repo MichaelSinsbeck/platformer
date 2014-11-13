@@ -7,6 +7,8 @@ animation = {},
 silhouette = {}, -- these are only for the background silhouettes
 }
 
+local vectorAnimations = {}
+
 local R = 3
 local HR = 1.5
 
@@ -132,22 +134,7 @@ function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,ge
   end
 end
 
-function AnimationDB:addAni(name,source,frames,duration)
-	-- check, iff both input tables have the same length and add zeros, if necessary
-	local frameLength = #frames
-	local durationLength = #duration
-	if frameLength > durationLength then
-		for excess = durationLength+1,frameLength do
-			duration[excess] = 0
-		end
-	end
-	self.animation[name] = {}
-	self.animation[name].source = source
-	self.animation[name].frames = frames
-	self.animation[name].duration = duration
-end
-
-function AnimationDB:addVectorAni(name,source,frames,duration,updateFunction)
+function AnimationDB:addAni(name,source,frames,duration,updateFunction)
 	-- check, iff both input tables have the same length and add zeros, if necessary
 	local frameLength = #frames
 	local durationLength = #duration
@@ -733,30 +720,30 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('acceptOn'   ,'acceptOn',{1},{1e6})
 
 	-- Menu Buttons:
-	AnimationDB:addVectorAni('startOn','menuButtons',{1},{1e6}, 
-		AnimationDB.startAniUpdate )
+	AnimationDB:addAni('startOn','menuButtons',{1},{1e6}, 
+		vectorAnimations.startAniUpdate )
 	AnimationDB:addAni('startOff','menuButtons',{2},{1e6} )
-	AnimationDB:addVectorAni('exitOn','menuButtons',{3},{1e6},
-		AnimationDB.exitAniUpdate )
+	AnimationDB:addAni('exitOn','menuButtons',{3},{1e6},
+		vectorAnimations.exitAniUpdate )
 	AnimationDB:addAni('exitOff','menuButtons',{4},{1e6})
-	AnimationDB:addVectorAni('downloadOn','menuButtons',{5},{1e6}, 
-		AnimationDB.userlevelsAniUpdate )
+	AnimationDB:addAni('downloadOn','menuButtons',{5},{1e6}, 
+		vectorAnimations.userlevelsAniUpdate )
 	AnimationDB:addAni('downloadOff','menuButtons',{6},{1e6})
-	AnimationDB:addVectorAni('restartOn','menuButtons',{7},{1e6},
-		AnimationDB.restartAniUpdate )
+	AnimationDB:addAni('restartOn','menuButtons',{7},{1e6},
+		vectorAnimations.restartAniUpdate )
 	AnimationDB:addAni('restartOff','menuButtons',{8},{1e6})
-	AnimationDB:addVectorAni('editorOn','menuButtons',{9},{1e6},
-		AnimationDB.editorAniUpdate )
+	AnimationDB:addAni('editorOn','menuButtons',{9},{1e6},
+		vectorAnimations.editorAniUpdate )
 	AnimationDB:addAni('editorOff','menuButtons',{10},{1e6})
 	AnimationDB:addAni('acceptOn','menuButtons',{11},{1e6})
 	AnimationDB:addAni('acceptOff','menuButtons',{12},{1e6})
-	AnimationDB:addVectorAni('settingsOn','menuButtons',{13},{1e6},
-		AnimationDB.settingsAniRestart )
+	AnimationDB:addAni('settingsOn','menuButtons',{13},{1e6},
+		vectorAnimations.settingsAniRestart )
 	AnimationDB:addAni('settingsOff','menuButtons',{14},{1e6})
 	AnimationDB:addAni('cancelOn','menuButtons',{15},{1e6})
 	AnimationDB:addAni('cancelOff','menuButtons',{16},{1e6})
-	AnimationDB:addVectorAni('creditsOn','menuButtons',{17},{1e6},
-		AnimationDB.creditsAniUpdate )
+	AnimationDB:addAni('creditsOn','menuButtons',{17},{1e6},
+		vectorAnimations.creditsAniUpdate )
 	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
@@ -862,17 +849,18 @@ function AnimationDB:addAllSilhouettes()
 	self:addSilhouette('mountain',14,3,8,4,sw,sh)
 end
 
-function AnimationDB.startAniUpdate( anim )
+
+function vectorAnimations.startAniUpdate( anim )
 	anim.ox = 4 + 1-2*math.abs(math.sin(5*anim.timer))
 	anim.sy = 1-0.1*math.abs(math.cos(5*anim.timer))
 	anim.sx = 1/anim.sy
 end
 
-function AnimationDB.settingsAniRestart( anim )
+function vectorAnimations.settingsAniRestart( anim )
 	anim.angle = anim.timer * 5
 end
 
-function AnimationDB.creditsAniUpdate( anim )
+function vectorAnimations.creditsAniUpdate( anim )
 	--anim.sx = 1-0.1*math.abs(math.cos(6*anim.timer))
 	--anim.sx = 1-2*math.abs(math.sin(6*anim.timer))
 	anim.sx = 1+0.15*math.abs(math.sin(6*anim.timer))
@@ -880,31 +868,31 @@ function AnimationDB.creditsAniUpdate( anim )
 	anim.angle = 0.2*math.sin(- anim.timer * 6)
 	anim.oy = 4 + 1-2*math.abs(math.sin(6*anim.timer))
 end
-function AnimationDB.exitAniUpdate( anim )
+function vectorAnimations.exitAniUpdate( anim )
 	anim.oy = 4+1-2*math.abs(math.sin(5*anim.timer))
 	anim.sx = 1-0.05*math.abs(math.cos(5*anim.timer))
 	anim.sy = 1/anim.sx
 end
-function AnimationDB.editorAniUpdate( anim )
+function vectorAnimations.editorAniUpdate( anim )
 	anim.oy = 4 -1*math.abs(math.sin(5*anim.timer))
 	anim.sx = 1-0.05*math.abs(math.cos(5*anim.timer))
 	anim.sy = 1/anim.sx
 end
-function AnimationDB.userlevelsAniUpdate( anim )
+function vectorAnimations.userlevelsAniUpdate( anim )
 	anim.yShift = -0.4*math.sin(5*anim.timer)
 	anim.xShift = -anim.yShift
 	anim.sx = 1+0.1*math.abs(math.cos(5*anim.timer))
 	anim.sy = anim.sx
 end
-function AnimationDB.keyboardAniUpdate( anim )
+function vectorAnimations.keyboardAniUpdate( anim )
 	anim.sx = 1-0.1*math.abs(math.cos(5*anim.timer))
 	anim.sy = 1-0.05*math.abs(math.cos(5*anim.timer))
 end
-function AnimationDB.gamepadAniUpdate( anim )
+function vectorAnimations.gamepadAniUpdate( anim )
 	anim.sx = 1-0.1*math.abs(math.cos(5*anim.timer))
 	anim.sy = 1-0.05*math.abs(math.cos(5*anim.timer))
 end
-function AnimationDB.restartAniUpdate( anim )
+function vectorAnimations.restartAniUpdate( anim )
 	anim.angle = anim.angle - math.pow(math.sin(anim.timer), 2)/5
 end
 
