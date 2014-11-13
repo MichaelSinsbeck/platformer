@@ -39,9 +39,16 @@ function menu:init()
 	local b = mainMenu:addButton( "startOff", "startOn", -3, -10,
 		nil, self:setPlayerPositionEvent( -6, -5) )
 	mainMenu:setSelectedButton( b )
+
+	local switchToUserlevels = function()
+		mainMenu:startExitTransition(
+				function()
+					self:switchToSubmenu( "Userlevels" )
+				end )
+	end
 	
 	mainMenu:addButton( "downloadOff", "downloadOn", -2, 0,
-		nil, self:setPlayerPositionEvent( -6, 5) )
+		switchToUserlevels, self:setPlayerPositionEvent( -6, 5) )
 	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10,
 		nil, self:setPlayerPositionEvent( -6, 15) )
 	mainMenu:addButton( "editorOff", "editorOn", -2, 20,
@@ -56,8 +63,6 @@ function menu:init()
 	mainMenu:addButton( "exitOff", "exitOn", -2, 40,
 		quit, self:setPlayerPositionEvent( -6, 45) )
 	
-	mainMenu:linkButtons( "MainLayer")
-
 	submenus["Main"] = mainMenu
 
 	-- Create userlevel submenu:
@@ -84,6 +89,7 @@ end
 
 function menu:switchToSubmenu( menuName )
 	menu.activeSubmenu = menuName
+	submenus[menu.activeSubmenu]:startIntroTransition()
 end
 
 function menu:update( dt )

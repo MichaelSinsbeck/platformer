@@ -142,6 +142,7 @@ function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName )
 		if l.name == layerName then
 			local b = Button:new( imgOff, imgOn, x, y, event, eventHover )
 			table.insert( l.buttons, b )
+			self:linkButtons( layerName )
 			return b
 		end
 	end

@@ -866,7 +866,7 @@ function vectorAnimations.creditsAniUpdate( anim )
 	anim.sx = 1+0.15*math.abs(math.sin(6*anim.timer))
 	anim.sy = anim.sx
 	anim.angle = 0.2*math.sin(- anim.timer * 6)
-	anim.oy = 4 + 1-2*math.abs(math.sin(6*anim.timer))
+	anim.oy = 4 + 1-1*math.abs(math.sin(6*anim.timer))
 end
 function vectorAnimations.exitAniUpdate( anim )
 	anim.oy = 4+1-2*math.abs(math.sin(5*anim.timer))

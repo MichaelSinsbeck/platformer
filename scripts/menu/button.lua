@@ -13,23 +13,31 @@ function Button:new( imgOff, imgOn, x, y, event, eventHover )
 	o.x = x + 4
 	o.y = y + 4
 	o.selected = false
-	o.vis = Visualizer:New( imgOff )
-	o.vis:init()
+	if #imgOff > 0 then
+		o.vis = Visualizer:New( imgOff )
+		o.vis:init()
+	end
 	return o
 end
 
 function Button:draw()
 	--print( self.imgOff, Animate
-	self.vis:draw( Camera.scale*self.x, Camera.scale*self.y )
+	if self.vis then
+		self.vis:draw( Camera.scale*self.x, Camera.scale*self.y )
+	end
 end
 
 function Button:update( dt )
-	self.vis:update( dt )
+	if self.vis then
+		self.vis:update( dt )
+	end
 end
 
 function Button:select()
 	self.selected = true
-	self.vis:setAni( self.imgOn )
+	if self.vis then
+		self.vis:setAni( self.imgOn )
+	end
 	if self.eventHover then
 		self.eventHover()
 	end
@@ -37,7 +45,9 @@ end
 
 function Button:deselect()
 	self.selected = false
-	self.vis:setAni( self.imgOff )
+	if self.vis then
+		self.vis:setAni( self.imgOff )
+	end
 end
 
 function Button:setNextLeft( b )
