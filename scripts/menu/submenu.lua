@@ -17,25 +17,32 @@ function Submenu:new()
 
 	o:addLayer( "MainLayer" )
 
-	o:enterTransition()
+	o:startIntroTransition()
 
 	return o
 end
 
 function Submenu:draw()
 
-	if self.transition then
-		self.transition:push()
-	end
-
 	for k,l in ipairs( self.layers ) do
 		if l.visible then
+
+			if self.imageTransition then
+				self.imageTransition:push()
+			end
 
 			-- Draw all images on this layer:
 			for j, i in ipairs( l.images ) do
 				love.graphics.draw( AnimationDB.image[i.image], i.x*Camera.scale, i.y*Camera.scale )
 			end
 
+			if self.imageTransition then
+				self.imageTransition:pop()
+			end
+
+			if self.transition then
+				self.transition:push()
+			end
 			-- Draw the panels on this layer:
 			for j, p in ipairs( l.panels ) do
 				p:draw()
@@ -45,11 +52,10 @@ function Submenu:draw()
 			for j, b in ipairs( l.buttons ) do
 				b:draw()
 			end
+			if self.transition then
+				self.transition:pop()
+			end
 		end
-	end
-
-	if self.transition then
-		self.transition:pop()
 	end
 end
 
@@ -64,6 +70,9 @@ function Submenu:update( dt )
 
 	if self.transition then
 		self.transition:update( dt )
+	end
+	if self.imageTransition then
+		self.imageTransition:update( dt )
 	end
 end
 
@@ -352,21 +361,33 @@ end
 -- Add transitions:
 ----------------------------------------------------------------------
 
-function Submenu:enterTransition()
-	self.transition = Transition:new( self, 1, 0, 1000, 0, 0, 0, 0 )
+function Submenu:startIntroTransition()
+	self.transition = Transition:new( self, 1, 0, 1000, 0, 0, 0, 0, 0.5 )
+	self.imageTransition = Transition:new( self, 1, 0, -1000, 0, 0, 0, 0, 0 )
 end
 
-function Submenu:exitTransition()
-	
+function Submenu:startExitTransition( exitEvent )
+	self.transition = Transition:new( self, 0.5, 0, 0, 0, 0, 1000, 0, 0 )
+	self.imageTransition = Transition:new( self, 0.5, 0, 0, 0, 0, -1000, 0, 0 )
+	self.exitEvent = exitEvent
 end
 
 -- Called when the submenu's enter or exit transition is done:
-function Submenu:finishedTransition()
-	self.transition = nil
+function Submenu:finishedTransition( transition )
+	if transition == self.transition then
+		self.transition = nil
+	elseif transition == self.imageTransition then
+		self.imageTransition = nil
+	end
+	if self.transition == nil and self.imageTransition == nil then
+		if self.exitEvent then
+			self.exitEvent()
+		end
+	end
 end
 
 function Submenu:getTransition()
-	return self.transition ~= nil
+	return (self.transition ~= nil or self.imageTransition ~= nil)
 end
 
 return Submenu

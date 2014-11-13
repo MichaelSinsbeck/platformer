@@ -44,15 +44,26 @@ function menu:initMain()
 
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
-	local p = mainMenu:addPanel( -24, -17, 48, 80 )
-	local b = mainMenu:addButton( "startOff", "startOn", -3, -7 )
+	local p = mainMenu:addPanel( -24, -20, 48, 80 )
+	local b = mainMenu:addButton( "startOff", "startOn", -3, -10,
+		nil, self:setPlayerPositionEvent( -6, -5) )
 	mainMenu:setSelectedButton( b )
 	
-	mainMenu:addButton( "downloadOff", "downloadOn", -2, 0 )
-	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10 )
-	mainMenu:addButton( "editorOff", "editorOn", -2, 20 )
-	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30 )
-	mainMenu:addButton( "exitOff", "exitOn", -2, 40, love.event.quit )
+	mainMenu:addButton( "downloadOff", "downloadOn", -2, 0,
+		nil, self:setPlayerPositionEvent( -6, 5) )
+	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10,
+		nil, self:setPlayerPositionEvent( -6, 15) )
+	mainMenu:addButton( "editorOff", "editorOn", -2, 20,
+		nil, self:setPlayerPositionEvent( -6, 25) )
+	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30,
+		nil, self:setPlayerPositionEvent( -6, 35) )
+
+	local quit = function()
+		mainMenu:startExitTransition( love.event.quit )
+	end
+
+	mainMenu:addButton( "exitOff", "exitOn", -2, 40,
+		quit, self:setPlayerPositionEvent( -6, 45) )
 	
 	mainMenu:linkButtons( "MainLayer")
 
@@ -131,16 +142,19 @@ function menu:keypressed( key, repeated )
 		love.event.quit()
 	end
 	if self.activeSubmenu then
-		if key == "left" then
-			submenus[self.activeSubmenu]:goLeft()
-		elseif key == "right" then
-			submenus[self.activeSubmenu]:goRight()
-		elseif key == "up" then
-			submenus[self.activeSubmenu]:goUp()
-		elseif key == "down" then
-			submenus[self.activeSubmenu]:goDown()
-		elseif key == "return" then
-			submenus[self.activeSubmenu]:startButtonEvent()
+		-- Don't let user control menu while a transition is active:
+		if not submenus[self.activeSubmenu]:getTransition() then
+			if key == "left" then
+				submenus[self.activeSubmenu]:goLeft()
+			elseif key == "right" then
+				submenus[self.activeSubmenu]:goRight()
+			elseif key == "up" then
+				submenus[self.activeSubmenu]:goUp()
+			elseif key == "down" then
+				submenus[self.activeSubmenu]:goDown()
+			elseif key == "return" then
+				submenus[self.activeSubmenu]:startButtonEvent()
+			end
 		end
 	end
 end
@@ -152,17 +166,23 @@ function menu:downloadedVersionInfo( info )
 end
 
 function menu:setPlayerPosition( x, y )
+	menuPlayer.x = x
+	menuPlayer.y = y
+end
+
+function menu:setPlayerPositionEvent( x, y )
+	return function()
+		menuPlayer.x = x
+		menuPlayer.y = y
+	end
 end
 
 function menu:setPlayerAnimation( animation )
-	menuPlayer.x = x
-	menuPlayer.y = y
 end
 
 ----------------------------------------------------------------------
 -- Menu transitions:
 ----------------------------------------------------------------------
-
 
 
 return menu

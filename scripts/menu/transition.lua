@@ -1,7 +1,7 @@
 local Transition = {}
 Transition.__index = Transition
 
-function Transition:new( submenu, time, startX, startY, startRot, endX, endY, endRot )
+function Transition:new( submenu, time, startX, startY, startRot, endX, endY, endRot, startTime )
 	local o = {}
 	setmetatable( o, self )
 	o.submenu = submenu
@@ -12,9 +12,10 @@ function Transition:new( submenu, time, startX, startY, startRot, endX, endY, en
 	o.endX = endX or 0
 	o.endY = endY or 0
 	o.endRot = endRot or 0
-	o.curX = 0
-	o.curY = 0
-	o.curRot = 0
+	o.curX = startX
+	o.curY = startY
+	o.curRot = startRot
+	o.startTime = startTime	-- wait for startTime to be over before running the animation
 
 	o.passedTime = 0
 
@@ -32,14 +33,25 @@ function Transition:pop()
 	love.graphics.pop()
 end
 
+-- Spline-like function that smoothes out transition.
+-- Give value between 0 and 1 and it returns a value between 0 and 1, but "smoother".
+function Transition:interpolateCos( rel )
+	return -math.cos(math.pi*rel)*0.5 + 0.5
+end
+
 function Transition:update( dt )
 	self.passedTime = self.passedTime + dt
-	self.curX = self.passedTime*(self.endX - self.startX)/self.time + self.startX
-	self.curY = self.passedTime*(self.endY - self.startY)/self.time + self.startY
-	self.curRot = self.passedTime*(self.endRot - self.startRot)/self.time + self.startRot
-	if self.passedTime > self.time then
-		self.submenu:finishedTransition()
+
+	if self.passedTime > self.startTime then
+		local smoothed = self:interpolateCos( (self.passedTime - self.startTime)/self.time )
+		self.curX = smoothed*(self.endX - self.startX) + self.startX
+		self.curY = smoothed*(self.endY - self.startY) + self.startY
+		self.curRot = smoothed*(self.endRot - self.startRot) + self.startRot
+		if self.passedTime > self.startTime + self.time then
+			self.submenu:finishedTransition( self )
+		end
 	end
 end
 
 return Transition
+
