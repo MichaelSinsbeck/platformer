@@ -8,6 +8,7 @@ local menu = {
 }
 
 local Submenu = require( "scripts/menu/submenu" )
+local UserlevelSubmenu = require( "scripts/menu/userlevelsubmenu" )
 
 local submenus = {}
 
@@ -29,19 +30,9 @@ function menu:init()
 	menuPlayer.vis.sx = 1
 	menuPlayer.visBandana:setAni("bandanaWalk")
 	menuPlayer.visBandana.sx = 1
-end
 
-function menu:initMain()
-	mode = 'menu'
 
-	self.xCamera = 0
-	self.yCamera = 0
-	self.xTarget = 0
-	self.yTarget = 0
-
-	-- initialize parallax background
-	parallax:init()
-
+	-- Create the main menu:
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
 	local p = mainMenu:addPanel( -24, -20, 48, 80 )
@@ -69,7 +60,26 @@ function menu:initMain()
 
 	submenus["Main"] = mainMenu
 
-	menu:switchToSubmenu( "Main" )
+	-- Create userlevel submenu:
+	local userlevelsMenu = UserlevelSubmenu:new()
+
+	submenus["Userlevels"] = userlevelsMenu
+
+end
+
+function menu:initMain()
+	mode = 'menu'
+
+	self.xCamera = 0
+	self.yCamera = 0
+	self.xTarget = 0
+	self.yTarget = 0
+
+	-- initialize parallax background
+	parallax:init()
+
+	--menu:switchToSubmenu( "Main" )
+	menu:switchToSubmenu( "Userlevels" )
 end
 
 function menu:switchToSubmenu( menuName )
