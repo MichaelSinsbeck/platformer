@@ -274,6 +274,8 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('acceptOn.png','acceptOn', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('cancelOff.png','cancelOff', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('cancelOn.png','cancelOn', tileSize, tileSize, 'menu')
+
+	AnimationDB:loadTiledImage('menuButtons.png','menuButtons', tileSize, tileSize, 'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
@@ -712,6 +714,26 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('cancelOn'   ,'cancelOn',{1},{1e6})
 	AnimationDB:addAni('acceptOn'   ,'acceptOn',{1},{1e6})
+
+	-- Menu Buttons:
+	AnimationDB:addAni('startOn','menuButtons',{1},{1e6})
+	AnimationDB:addAni('startOff','menuButtons',{2},{1e6})
+	AnimationDB:addAni('exitOn','menuButtons',{3},{1e6})
+	AnimationDB:addAni('exitOff','menuButtons',{4},{1e6})
+	AnimationDB:addAni('downloadOn','menuButtons',{5},{1e6})
+	AnimationDB:addAni('downloadOff','menuButtons',{6},{1e6})
+	AnimationDB:addAni('restartOn','menuButtons',{7},{1e6})
+	AnimationDB:addAni('restartOff','menuButtons',{8},{1e6})
+	AnimationDB:addAni('editorOn','menuButtons',{9},{1e6})
+	AnimationDB:addAni('editorOff','menuButtons',{10},{1e6})
+	AnimationDB:addAni('acceptOn','menuButtons',{11},{1e6})
+	AnimationDB:addAni('acceptOff','menuButtons',{12},{1e6})
+	AnimationDB:addAni('settingsOn','menuButtons',{13},{1e6})
+	AnimationDB:addAni('settingsOff','menuButtons',{14},{1e6})
+	AnimationDB:addAni('cancelOn','menuButtons',{15},{1e6})
+	AnimationDB:addAni('cancelOff','menuButtons',{16},{1e6})
+	AnimationDB:addAni('creditsOn','menuButtons',{17},{1e6})
+	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('keyboardSmall','keyboardSmall',{1},{1e6})

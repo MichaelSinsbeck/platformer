@@ -79,7 +79,7 @@ function menu:initMain()
 	parallax:init()
 
 	--menu:switchToSubmenu( "Main" )
-	menu:switchToSubmenu( "Userlevels" )
+	menu:switchToSubmenu( "Main" )
 end
 
 function menu:switchToSubmenu( menuName )

@@ -10,25 +10,26 @@ function Button:new( imgOff, imgOn, x, y, event, eventHover )
 	o.imgOn = imgOn
 	o.event = event
 	o.eventHover = eventHover
-	o.x = x
-	o.y = y
+	o.x = x + 4
+	o.y = y + 4
 	o.selected = false
-	o.img = imgOff
+	o.vis = Visualizer:New( imgOff )
+	o.vis:init()
 	return o
 end
 
 function Button:draw()
 	--print( self.imgOff, Animate
-	love.graphics.draw( AnimationDB.image[self.img], self.x*Camera.scale, self.y*Camera.scale )
+	self.vis:draw( Camera.scale*self.x, Camera.scale*self.y )
 end
 
 function Button:update( dt )
-	--self.vis:update( dt )
+	self.vis:update( dt )
 end
 
 function Button:select()
 	self.selected = true
-	self.img = self.imgOn
+	self.vis:setAni( self.imgOn )
 	if self.eventHover then
 		self.eventHover()
 	end
@@ -36,7 +37,7 @@ end
 
 function Button:deselect()
 	self.selected = false
-	self.img = self.imgOff
+	self.vis:setAni( self.imgOff )
 end
 
 function Button:setNextLeft( b )
