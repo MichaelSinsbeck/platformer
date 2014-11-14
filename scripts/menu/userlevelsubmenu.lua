@@ -17,6 +17,7 @@ local userlevelsByAuthor = {}
 
 local Submenu = require( "scripts/menu/submenu" )
 local Userlevel = require("scripts/levelsharing/userlevel")
+local HotkeyDisplay = require("scripts/menu/hotkeyDisplay")
 local submenu	-- use this to remember the current sub menu
 
 local LIST_WIDTH = 100	-- Dummy value
@@ -81,7 +82,9 @@ function UserlevelSubmenu:new()
 	end
 	submenu.draw = function()
 		originalDraw( submenu )
-		self:drawUserlevels()
+		if not submenu:getTransition() then
+			self:drawUserlevels()
+		end
 	end
 
 	UserlevelSubmenu:loadDownloadedUserlevels()
@@ -128,6 +131,19 @@ function UserlevelSubmenu:new()
 
 	submenu:addButton( "", "", 0, -10, nil, moveUp )
 	submenu:addButton( "", "", 0, 10, nil, moveDown )
+
+	-- Add hotkeys:
+	local back = function()
+		submenu:startExitTransition( function() menu:switchToSubmenu( "Main" ) end )
+	end
+	submenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		nil )
+	submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		back )
 
 	-- Start downloading level list:
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",

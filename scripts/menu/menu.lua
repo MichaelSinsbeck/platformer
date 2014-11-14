@@ -31,7 +31,6 @@ function menu:init()
 	menuPlayer.visBandana:setAni("bandanaWalk")
 	menuPlayer.visBandana.sx = 1
 
-
 	-- Create the main menu:
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
@@ -62,6 +61,17 @@ function menu:init()
 
 	mainMenu:addButton( "exitOff", "exitOn", -2, 40,
 		quit, self:setPlayerPositionEvent( -6, 45) )
+
+	mainMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		nil )
+
+	mainMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Exit",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		quit )
+
 	
 	submenus["Main"] = mainMenu
 
@@ -154,22 +164,21 @@ function menu:drawLevelName()
 end
 
 function menu:keypressed( key, repeated )
-	if key == "escape" then
-		love.event.quit()
-	end
 	if self.activeSubmenu then
 		-- Don't let user control menu while a transition is active:
 		if not submenus[self.activeSubmenu]:getTransition() then
-			if key == "left" then
+			if key == keys.LEFT then
 				submenus[self.activeSubmenu]:goLeft()
-			elseif key == "right" then
+			elseif key == keys.RIGHT then
 				submenus[self.activeSubmenu]:goRight()
-			elseif key == "up" then
+			elseif key == keys.UP then
 				submenus[self.activeSubmenu]:goUp()
-			elseif key == "down" then
+			elseif key == keys.DOWN then
 				submenus[self.activeSubmenu]:goDown()
-			elseif key == "return" then
+			elseif key == keys.CHOOSE then
 				submenus[self.activeSubmenu]:startButtonEvent()
+			else
+				submenus[self.activeSubmenu]:hotkey( key )
 			end
 		end
 	end

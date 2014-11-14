@@ -4,6 +4,7 @@
 local Panel = require( "scripts/menu/menuPanel" )
 local Button = require( "scripts/menu/button" )
 local Transition = require( "scripts/menu/transition" )
+local HotkeyDisplay = require( "scripts/menu/hotkeyDisplay" )
 
 local Submenu = {}
 Submenu.__index = Submenu
@@ -52,6 +53,11 @@ function Submenu:draw()
 			for j, b in ipairs( l.buttons ) do
 				b:draw()
 			end
+			-- Draw the hotkey displays on this layer:
+			for j, h in ipairs( l.hotkeys ) do
+				h:draw()
+			end
+
 			if self.transition then
 				self.transition:pop()
 			end
@@ -87,6 +93,7 @@ function Submenu:addLayer( layerName )
 		panels = {},
 		images = {},
 		buttons = {},
+		hotkeys = {},
 		selectedButton = nil,
 	}
 
@@ -161,6 +168,20 @@ function Submenu:addImage( image, x, y, layerName )
 				y = y,
 			}
 			table.insert( l.images, i )
+		end
+	end
+end
+
+
+function Submenu:addHotkey( key, gamepadKey, caption, x, y, event, layerName )
+	
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local h = HotkeyDisplay:new( key, gamepadKey, caption, x, y, event )
+			table.insert( l.hotkeys, h )
 		end
 	end
 end
@@ -359,6 +380,23 @@ function Submenu:startButtonEvent()
 end
 
 ----------------------------------------------------------------------
+-- Hotkey events:
+----------------------------------------------------------------------
+
+-- Called when user hit's "enter" or similar
+function Submenu:hotkey( key )
+	if self.activeLayer then
+		local l = self.layers[self.activeLayer]
+		for i, h in ipairs( l.hotkeys ) do
+			if h:getKey() == key then
+				h:event()
+				return
+			end
+		end
+	end
+end
+
+----------------------------------------------------------------------
 -- Add transitions:
 ----------------------------------------------------------------------
 
@@ -383,6 +421,7 @@ function Submenu:finishedTransition( transition )
 	if self.transition == nil and self.imageTransition == nil then
 		if self.exitEvent then
 			self.exitEvent()
+			self.exitEvent = nil
 		end
 	end
 end
@@ -390,5 +429,6 @@ end
 function Submenu:getTransition()
 	return (self.transition ~= nil or self.imageTransition ~= nil)
 end
+
 
 return Submenu
