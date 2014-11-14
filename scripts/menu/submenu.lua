@@ -304,6 +304,25 @@ function Submenu:setSelectedButton( b, layerName )
 	end
 end
 
+function Submenu:reselectButton()
+	-- Per default, choose the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			if l.selectedButton then
+				self:setSelectedButton( l.selectedButton, layerName )
+				return
+			end
+			-- If none found, select the first found button:
+			if #l.buttons > 0 then
+				self:setSelectedButton( l.buttons[1], layerName )
+				return
+			end
+		end
+	end
+end
+
 function Submenu:goLeft()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
@@ -400,9 +419,15 @@ end
 -- Add transitions:
 ----------------------------------------------------------------------
 
-function Submenu:startIntroTransition()
+function Submenu:startIntroTransition( introEvent )
 	self.transition = Transition:new( self, 1, 0, 1000, 0, 0, 0, 0, 0.5 )
 	self.imageTransition = Transition:new( self, 1, 0, -1000, 0, 0, 0, 0, 0 )
+	self.introEvent = function()
+		self:reselectButton()
+		if introEvent then
+			introEvent()
+		end
+	end
 end
 
 function Submenu:startExitTransition( exitEvent )
@@ -422,6 +447,9 @@ function Submenu:finishedTransition( transition )
 		if self.exitEvent then
 			self.exitEvent()
 			self.exitEvent = nil
+		elseif self.introEvent then
+			self.introEvent()
+			self.introEvent = nil
 		end
 	end
 end

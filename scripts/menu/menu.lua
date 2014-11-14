@@ -35,9 +35,8 @@ function menu:init()
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
 	local p = mainMenu:addPanel( -24, -20, 48, 80 )
-	local b = mainMenu:addButton( "startOff", "startOn", -3, -10,
+	mainMenu:addButton( "startOff", "startOn", -3, -10,
 		nil, self:setPlayerPositionEvent( -6, -5) )
-	mainMenu:setSelectedButton( b )
 
 	local switchToUserlevels = function()
 		mainMenu:startExitTransition(
