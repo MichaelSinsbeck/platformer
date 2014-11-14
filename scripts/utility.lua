@@ -202,3 +202,7 @@ function utility.wrap( front, back, width )
 	return wLines, cursorX, cursorY
 end
 
+
+function utility.interpolateCos( rel )
+	return -math.cos(math.pi*rel)*0.5 + 0.5
+end

@@ -4,7 +4,8 @@ local menu = {
 	transitionActive = false,
 	transitionPercentage = 0,
 	state = "main",
-	activeSubmenu = "Main"
+	activeSubmenu = "Main",
+	parallaxPos = 0
 }
 
 local Submenu = require( "scripts/menu/submenu" )
@@ -99,12 +100,38 @@ end
 function menu:switchToSubmenu( menuName )
 	menu.activeSubmenu = menuName
 	submenus[menu.activeSubmenu]:startIntroTransition()
+
+	if menuName == "Main" then
+		self.parallaxSlideTo = 0
+		self.parallaxSlideStart = self.parallaxPos
+		self.parallaxSlideTime = 0.5
+		self.parallaxPassedTime = 0
+		self.parallaxSlide = true
+	else
+		self.parallaxSlideTo = -1000
+		self.parallaxSlideStart = self.parallaxPos
+		self.parallaxSlideTime = 0.75
+		self.parallaxPassedTime = 0
+		self.parallaxSlide = true
+	end
 end
 
 function menu:update( dt )
 	--if menu.state == "main" then
-		parallax:update(dt)
+		--parallax:update(dt)
+	parallax:setPosition( self.parallaxPos )
 	--end
+	if self.parallaxSlide then
+		self.parallaxPassedTime = self.parallaxPassedTime + dt
+		if self.parallaxPassedTime < self.parallaxSlideTime then
+			local amount = utility.interpolateCos( self.parallaxPassedTime/self.parallaxSlideTime )
+			self.parallaxPos = self.parallaxSlideStart + 
+				(self.parallaxSlideTo - self.parallaxSlideStart)*amount
+		else
+			self.parallaxPos = self.parallaxSlideTo
+			self.parallaxSlide = false
+		end
+	end
 
 	menuPlayer.vis:update(dt/2)
 	menuPlayer.visBandana:update(dt/2)

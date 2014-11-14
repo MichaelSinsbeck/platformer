@@ -36,14 +36,13 @@ end
 -- Spline-like function that smoothes out transition.
 -- Give value between 0 and 1 and it returns a value between 0 and 1, but "smoother".
 function Transition:interpolateCos( rel )
-	return -math.cos(math.pi*rel)*0.5 + 0.5
 end
 
 function Transition:update( dt )
 	self.passedTime = self.passedTime + dt
 
 	if self.passedTime > self.startTime then
-		local smoothed = self:interpolateCos( (self.passedTime - self.startTime)/self.time )
+		local smoothed = utility.interpolateCos( (self.passedTime - self.startTime)/self.time )
 		self.curX = smoothed*(self.endX - self.startX) + self.startX
 		self.curY = smoothed*(self.endY - self.startY) + self.startY
 		self.curRot = smoothed*(self.endRot - self.startRot) + self.startRot
