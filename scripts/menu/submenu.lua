@@ -66,6 +66,10 @@ function Submenu:draw()
 			if self.transition then
 				--self.transition:pop()
 			end
+
+			if l.customDrawFunction then
+				l.customDrawFunction()
+			end
 		end
 	end
 
@@ -108,6 +112,17 @@ function Submenu:addLayer( layerName )
 	self:setHighestLayerActive()
 end
 
+function Submenu:addCustomDrawFunction( fnc, layerName )
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			l.customDrawFunction = fnc
+		end
+	end
+end
+
 function Submenu:setLayerVisible( layerName, bool )
 
 	for k, l in ipairs( self.layers ) do
@@ -117,6 +132,14 @@ function Submenu:setLayerVisible( layerName, bool )
 	end
 
 	self:setHighestLayerActive()
+end
+function Submenu:getLayerVisible( layerName )
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			return l.visible
+		end
+	end
+	return false
 end
 
 function Submenu:setHighestLayerActive()

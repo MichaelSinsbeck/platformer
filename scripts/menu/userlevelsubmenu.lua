@@ -72,23 +72,9 @@ function UserlevelSubmenu:new( x, y )
 	end
 
 	-- Extend the original drawing functions of the submenu class:
-	local originalIntro = submenu.startIntroTransition
-	local originalDraw = submenu.draw
-
-	submenu.startIntroTransition = function()
-		originalIntro( submenu )
-		submenu:setSelectedButton( buttonCenter )
-		userlevels = {}
-	end
-	submenu.draw = function()
-		originalDraw( submenu )
-		--if not submenu:getTransition() then
-			self:drawUserlevels()
-		--end
-	end
+	submenu:addCustomDrawFunction( UserlevelSubmenu.drawUserlevels, "MainLayer" )
 
 	UserlevelSubmenu:loadDownloadedUserlevels()
-
 
 	-- Add invisible buttons to list which allow level selection:
 	local chooseLevel = function()
@@ -147,6 +133,15 @@ function UserlevelSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
+	submenu:addHotkey( keys.FILTERS, keys.PAD.FILTERS, "Show Filters",
+		-love.graphics.getWidth()/Camera.scale/2 + 48,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		UserlevelSubmenu.showFilters )
+
+	submenu:addHotkey( keys.FILTERS, keys.PAD.FILTERS, "Hide Filters",
+		-love.graphics.getWidth()/Camera.scale/2 + 48,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
 
 	-- Start downloading level list:
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
@@ -297,6 +292,7 @@ function UserlevelSubmenu:insertUserlevelIntoList( level )
 end
 
 function UserlevelSubmenu:drawUserlevels()
+
 	local x = -LIST_WIDTH/2 + 4
 	local y = -LIST_HEIGHT/2
 	local w = LIST_WIDTH - 4
@@ -309,9 +305,6 @@ function UserlevelSubmenu:drawUserlevels()
 	local xDifficulty = (x + 0.85*w - 27)*Camera.scale
 	local xAuthorized = (x + 0.85*w)*Camera.scale
 	local xEnd = (x + w - 8)*Camera.scale
-
-	love.graphics.push()
-	love.graphics.translate( submenu.x*Camera.scale, submenu.y*Camera.scale )
 
 	-- draw headers:
 	love.graphics.setColor( 30,0,0,75 )
@@ -347,10 +340,16 @@ function UserlevelSubmenu:drawUserlevels()
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 	end
 
-	love.graphics.pop()
 	--[[if userlevelFilterBox.visible then
 		userlevelFilterBox.box:draw( userlevelFilterBox.x, userlevelFilterBox.y )
 	end]]
+end
+
+function UserlevelSubmenu:showFilters()
+	submenu:setLayerVisible( "Filters", true )
+end
+function UserlevelSubmenu:hideFilters()
+	submenu:setLayerVisible( "Filters", false )
 end
 
 
