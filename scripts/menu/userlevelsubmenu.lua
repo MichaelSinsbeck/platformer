@@ -23,7 +23,6 @@ local submenu	-- use this to remember the current sub menu
 local LIST_WIDTH = 100	-- Dummy value
 local LIST_HEIGHT = 100	-- Dummy value
 local LIST_ENTRY_HEIGHT = 8
-local buttonCenter
 local selectedUserlevel
 local firstDisplayedUserlevel
 local displayedUserlevels = 8
@@ -88,12 +87,12 @@ function UserlevelSubmenu:new( x, y )
 	end
 	local lineHover = function()
 		--menu:updateTextForCurrentUserlevel()	--display name of currently selected level
-		local y = (20 - LIST_HEIGHT/2 + LIST_ENTRY_HEIGHT*(selectedUserlevel-firstDisplayedUserlevel-1))
-		local x = -LIST_WIDTH/2 + 12
-		menu:setPlayerPosition( x, y )
+		local cy = (20 - LIST_HEIGHT/2 + LIST_ENTRY_HEIGHT*(selectedUserlevel-firstDisplayedUserlevel-1))
+		local cx = -LIST_WIDTH/2 + 12
+		menu:setPlayerPosition( x + cx, y + cy )	-- player position must be in global coordinates
 	end
 
-	buttonCenter = submenu:addButton( "", "", 0, 0, chooseLevel, lineHover )
+	local buttonCenter = submenu:addButton( "", "", 0, 0, chooseLevel, lineHover )
 	buttonCenter.invisible = true
 
 	local moveUp = function()
@@ -142,6 +141,8 @@ function UserlevelSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
+	submenu:addHiddenHotkey( keys.BACK, keys.PAD.BACK,
+		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
 
 	-- Start downloading level list:
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
@@ -150,6 +151,11 @@ function UserlevelSubmenu:new( x, y )
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 						function(data) UserlevelSubmenu:userlevelsLoaded(data, "authorized") end,
 						nil, "authorized" )
+
+	submenu:setActivateFunction(
+		function()
+			submenu:setSelectedButton( buttonCenter )
+		end )
 
 	return submenu
 end
@@ -351,6 +357,5 @@ end
 function UserlevelSubmenu:hideFilters()
 	submenu:setLayerVisible( "Filters", false )
 end
-
 
 return UserlevelSubmenu

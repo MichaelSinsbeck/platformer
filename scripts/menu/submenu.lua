@@ -59,8 +59,10 @@ function Submenu:draw()
 				b:draw()
 			end
 			-- Draw the hotkey displays on this layer:
-			for j, h in ipairs( l.hotkeys ) do
-				h:draw()
+			if self.activeLayer == k then
+				for j, h in ipairs( l.hotkeys ) do
+					h:draw()
+				end
 			end
 
 			if self.transition then
@@ -75,6 +77,17 @@ function Submenu:draw()
 
 	love.graphics.pop()
 end
+
+-- An activation function is called every time the submen is set to visible
+function Submenu:activate()
+	if self.activateFunction then
+		self.activateFunction()
+	end
+end
+function Submenu:setActivateFunction( fnc )
+	self.activateFunction = fnc
+end
+
 
 function Submenu:update( dt )
 	for k,l in ipairs( self.layers ) do
@@ -211,6 +224,19 @@ function Submenu:addHotkey( key, gamepadKey, caption, x, y, event, layerName )
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
 			local h = HotkeyDisplay:new( key, gamepadKey, caption, x, y, event )
+			table.insert( l.hotkeys, h )
+		end
+	end
+end
+
+function Submenu:addHiddenHotkey( key, gamepadKey, event, layerName )
+	
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local h = HotkeyDisplay:new( key, gamepadKey, nil, nil, nil, event )
 			table.insert( l.hotkeys, h )
 		end
 	end
@@ -406,8 +432,8 @@ function Submenu:goDown()
 				-- If there is a button left of the selected button,
 				-- select that new button:
 				self:setSelectedButton(
-				l.selectedButton:getNextDown(),
-				l.layerName
+					l.selectedButton:getNextDown(),
+					l.layerName
 				)
 			end
 		end

@@ -152,6 +152,7 @@ function menu:switchToSubmenu( menuName )
 
 	self.activeSubmenu = menuName
 	submenus[self.activeSubmenu]:reselectButton()
+	submenus[self.activeSubmenu]:activate()
 	--submenus[menu.activeSubmenu]:startIntroTransition()
 
 	if menuName == "Main" then
