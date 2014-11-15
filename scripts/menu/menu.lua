@@ -20,6 +20,11 @@ local menuPlayer = {
 
 function menu:init()
 
+	self.xCamera = 0
+	self.yCamera = 0
+	self.xTarget = 0
+	self.yTarget = 0
+
 	-- Create the menu ninja:
 	menuPlayer.vis = Visualizer:New( "playerWalk" )
 	menuPlayer.visBandana = Visualizer:New("bandanaWalk")
@@ -35,21 +40,33 @@ function menu:init()
 	-- Create the main menu:
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
-	local p = mainMenu:addPanel( -24, -20, 48, 80 )
-	mainMenu:addButton( "startOff", "startOn", -3, -10,
-		nil, self:setPlayerPositionEvent( -6, -5) )
+	mainMenu:addPanel( -24, -20, 48, 80 )
 
+	local switchToWorldMap = function()
+		mainMenu:startExitTransition(
+				function()
+					self:switchToSubmenu( "Worldmap" )
+				end )
+	end
 	local switchToUserlevels = function()
 		mainMenu:startExitTransition(
 				function()
 					self:switchToSubmenu( "Userlevels" )
 				end )
 	end
-	
+	local switchToSettings = function()
+		mainMenu:startExitTransition(
+				function()
+					self:switchToSubmenu( "Settings" )
+				end )
+	end
+
+	mainMenu:addButton( "startOff", "startOn", -3, -10,
+		switchToWorldMap, self:setPlayerPositionEvent( -6, -5) )
 	mainMenu:addButton( "downloadOff", "downloadOn", -2, 0,
 		switchToUserlevels, self:setPlayerPositionEvent( -6, 5) )
 	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10,
-		nil, self:setPlayerPositionEvent( -6, 15) )
+		switchToSettings, self:setPlayerPositionEvent( -6, 15) )
 	mainMenu:addButton( "editorOff", "editorOn", -2, 20,
 		nil, self:setPlayerPositionEvent( -6, 25) )
 	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30,
@@ -80,18 +97,41 @@ function menu:init()
 
 	submenus["Userlevels"] = userlevelsMenu
 
+	-- Create World map menu:
+	local worldMapMenu = Submenu:new()
+	submenus["Worldmap"] = worldMapMenu
+	local back = function()
+		worldMapMenu:startExitTransition( function() menu:switchToSubmenu( "Main" ) end )
+	end
+	worldMapMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		nil )
+	worldMapMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		back )
+
+	local settingsMenu = Submenu:new()
+	submenus["Settings"] = settingsMenu
+	local back = function()
+		settingsMenu:startExitTransition( function() menu:switchToSubmenu( "Main" ) end )
+	end
+	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		nil )
+	settingsMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		back )
+
+	-- initialize parallax background
+	parallax:init()
 end
 
 function menu:initMain()
 	mode = 'menu'
-
-	self.xCamera = 0
-	self.yCamera = 0
-	self.xTarget = 0
-	self.yTarget = 0
-
-	-- initialize parallax background
-	parallax:init()
 
 	--menu:switchToSubmenu( "Main" )
 	menu:switchToSubmenu( "Main" )
@@ -102,34 +142,46 @@ function menu:switchToSubmenu( menuName )
 	submenus[menu.activeSubmenu]:startIntroTransition()
 
 	if menuName == "Main" then
-		self.parallaxSlideTo = 0
-		self.parallaxSlideStart = self.parallaxPos
-		self.parallaxSlideTime = 0.5
-		self.parallaxPassedTime = 0
-		self.parallaxSlide = true
+		self.xTarget = 0
+		self.yTarget = 0
+		self.xCameraStart = self.xCamera
+		self.yCameraStart = self.yCamera
+		self.cameraSlideTime = 0.5
+		self.cameraPassedTime = 0
+	elseif menuName == "Worldmap" then
+		self.xTarget = 0
+		self.yTarget = 700
+		self.xCameraStart = self.xCamera
+		self.yCameraStart = self.yCamera
+		self.cameraSlideTime = 0.5
+		self.cameraPassedTime = 0
 	else
-		self.parallaxSlideTo = -1000
-		self.parallaxSlideStart = self.parallaxPos
-		self.parallaxSlideTime = 0.75
-		self.parallaxPassedTime = 0
-		self.parallaxSlide = true
+		self.xTarget = -700
+		self.yTarget = 0
+		self.xCameraStart = self.xCamera
+		self.yCameraStart = self.yCamera
+		self.cameraSlideTime = 0.5
+		self.cameraPassedTime = 0
 	end
 end
 
 function menu:update( dt )
 	--if menu.state == "main" then
 		--parallax:update(dt)
-	parallax:setPosition( self.parallaxPos )
+	parallax:setPosition( self.xCamera )
 	--end
-	if self.parallaxSlide then
-		self.parallaxPassedTime = self.parallaxPassedTime + dt
-		if self.parallaxPassedTime < self.parallaxSlideTime then
-			local amount = utility.interpolateCos( self.parallaxPassedTime/self.parallaxSlideTime )
-			self.parallaxPos = self.parallaxSlideStart + 
-				(self.parallaxSlideTo - self.parallaxSlideStart)*amount
+	if self.cameraSlideTime then
+		self.cameraPassedTime = self.cameraPassedTime + dt
+		if self.cameraPassedTime < self.cameraSlideTime then
+			local amount = utility.interpolateCos( self.cameraPassedTime/self.cameraSlideTime )
+			self.xCamera = self.xCameraStart + 
+				(self.xTarget - self.xCameraStart)*amount
+			self.yCamera = self.yCameraStart + 
+				(self.yTarget - self.yCameraStart)*amount
 		else
-			self.parallaxPos = self.parallaxSlideTo
-			self.parallaxSlide = false
+			self.xCamera = self.xTarget
+			self.yCamera = self.yTarget
+			self.cameraSlideTime = nil
 		end
 	end
 
@@ -150,8 +202,10 @@ function menu:draw()
 
 	love.graphics.push()
 	love.graphics.translate(
-		-math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
-		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
+		---math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
+		---math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)]]
+		love.graphics.getWidth()/2,
+		love.graphics.getHeight()/2)
 
 	-- Draw all visible panels:
 	if self.activeSubmenu then
