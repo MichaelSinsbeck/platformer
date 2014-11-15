@@ -89,7 +89,6 @@ function menu:init()
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		quit )
-
 	
 	submenus["Main"] = mainMenu
 
@@ -101,11 +100,8 @@ function menu:init()
 	-- Create World map menu:
 	local worldMapMenu = Submenu:new( 0, -700 )
 	submenus["Worldmap"] = worldMapMenu
-	local back = function()
-		--worldMapMenu:startExitTransition(
-		--	function()
-				menu:switchToSubmenu( "Main" )
-		--	end )
+	local backToMain = function()
+		menu:switchToSubmenu( "Main" )
 	end
 	worldMapMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
@@ -114,18 +110,22 @@ function menu:init()
 	worldMapMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
-		back )
+		backToMain )
+
+	local switchToSound = function()
+		menu:switchToSubmenu( "Sound" )
+	end
+	local switchToKeyAssignment = function()
+		menu:switchToSubmenu( "KeyAssignment" )
+	end
 
 	local settingsMenu = Submenu:new( -700, 0 )
-	settingsMenu:addPanel( -24, -20, 48, 80 )
+	settingsMenu:addPanel( -24, -20, 48, 50 )
+	settingsMenu:addButton( "soundOptionsOff", "soundOptionsOn", -3, -10, 
+		switchToSound, self:setPlayerPositionEvent( settingsMenu.x - 10, -5 ) )
+	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -3, 0, 
+		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 10, 5 ) )
 
-	submenus["Settings"] = settingsMenu
-	local back = function()
-		--settingsMenu:startExitTransition(
-			--function()
-				menu:switchToSubmenu( "Main" )
-			--end )
-	end
 	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
@@ -133,7 +133,43 @@ function menu:init()
 	settingsMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
-		back )
+		backToMain )
+
+	submenus["Settings"] = settingsMenu
+
+	local soundMenu = Submenu:new( -1400, 0 )
+	soundMenu:addPanel( -32, -20, 64, 50 )
+
+	local backToSettings = function()
+		menu:switchToSubmenu( "Settings" )
+	end
+	soundMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		nil )
+	soundMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		backToSettings )
+
+	submenus["Sound"] = soundMenu
+
+	local width = love.graphics.getWidth()/Camera.scale - 16
+	local height = love.graphics.getHeight()/Camera.scale - 32
+	local keyAssignment = Submenu:new( -1400, 0 )
+	local p = keyAssignment:addPanel( -width/2, -height/2 - 8, width, height )
+	p:turnIntoList( 16, 1 )
+
+	keyAssignment:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		nil )
+	keyAssignment:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		backToSettings )
+
+	submenus["KeyAssignment"] = keyAssignment
 
 	-- initialize parallax background
 	parallax:init()
@@ -176,8 +212,15 @@ function menu:switchToSubmenu( menuName )
 		self.yCameraStart = self.yCamera
 		self.cameraSlideTime = 0.5
 		self.cameraPassedTime = 0
-	else
+	elseif menuName == "Settings" then
 		self.xTarget = -700
+		self.yTarget = 0
+		self.xCameraStart = self.xCamera
+		self.yCameraStart = self.yCamera
+		self.cameraSlideTime = 0.5
+		self.cameraPassedTime = 0
+	elseif menuName == "Sound" or menuName == "KeyAssignment" then
+		self.xTarget = -1400
 		self.yTarget = 0
 		self.xCameraStart = self.xCamera
 		self.yCameraStart = self.yCamera
@@ -307,10 +350,5 @@ end
 
 function menu:setPlayerAnimation( animation )
 end
-
-----------------------------------------------------------------------
--- Menu transitions:
-----------------------------------------------------------------------
-
 
 return menu

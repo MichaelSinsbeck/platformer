@@ -182,6 +182,8 @@ function UserlevelSubmenu:loadDownloadedUserlevels()
 	end
 	UserlevelSubmenu:applyUserlevelFilters()
 end
+
+-- Called whenever a new level has been downloaded:
 function UserlevelSubmenu:userlevelsLoaded( data, authorizationLevel )
 	for line in data:gmatch("([^\n]-)\n") do
 		local author, levelname, ratingFun, ratingDifficulty = line:match("(.*)\t(.*)\t.*\t(.*)\t(.*)")
