@@ -28,7 +28,7 @@ local selectedUserlevel
 local firstDisplayedUserlevel
 local displayedUserlevels = 8
 
-function UserlevelSubmenu:new()
+function UserlevelSubmenu:new( x, y )
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
 
@@ -36,7 +36,7 @@ function UserlevelSubmenu:new()
 	LIST_HEIGHT = height
 	displayedUserlevels = (LIST_HEIGHT-16)/(LIST_ENTRY_HEIGHT) - 1
 
-	submenu = Submenu:new()
+	submenu = Submenu:new( x, y )
 	
 	local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
 	p:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
@@ -82,9 +82,9 @@ function UserlevelSubmenu:new()
 	end
 	submenu.draw = function()
 		originalDraw( submenu )
-		if not submenu:getTransition() then
+		--if not submenu:getTransition() then
 			self:drawUserlevels()
-		end
+		--end
 	end
 
 	UserlevelSubmenu:loadDownloadedUserlevels()
@@ -134,7 +134,10 @@ function UserlevelSubmenu:new()
 
 	-- Add hotkeys:
 	local back = function()
-		submenu:startExitTransition( function() menu:switchToSubmenu( "Main" ) end )
+		--submenu:startExitTransition(
+		--	function()
+				menu:switchToSubmenu( "Main" )
+		--	end )
 	end
 	submenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
@@ -307,6 +310,9 @@ function UserlevelSubmenu:drawUserlevels()
 	local xAuthorized = (x + 0.85*w)*Camera.scale
 	local xEnd = (x + w - 8)*Camera.scale
 
+	love.graphics.push()
+	love.graphics.translate( submenu.x*Camera.scale, submenu.y*Camera.scale )
+
 	-- draw headers:
 	love.graphics.setColor( 30,0,0,75 )
 	love.graphics.rectangle( "fill", xLevelname - 8, y*Camera.scale, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
@@ -341,6 +347,7 @@ function UserlevelSubmenu:drawUserlevels()
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 	end
 
+	love.graphics.pop()
 	--[[if userlevelFilterBox.visible then
 		userlevelFilterBox.box:draw( userlevelFilterBox.x, userlevelFilterBox.y )
 	end]]

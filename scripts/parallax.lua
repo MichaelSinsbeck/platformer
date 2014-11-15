@@ -38,7 +38,7 @@ end
 local function z2y(h,z)
 	local dh
 	if mode == "menu" then
-		dh = (baseLevel*Camera.scale*8 + menu.yCamera) - 0.6*h
+		dh = (baseLevel*Camera.scale*8 - menu.yCamera) - 0.6*h
 	else
 		dh = (baseLevel*Camera.scale*8 + Camera.yWorld) - 0.6*h
 	end

@@ -43,22 +43,22 @@ function menu:init()
 	mainMenu:addPanel( -24, -20, 48, 80 )
 
 	local switchToWorldMap = function()
-		mainMenu:startExitTransition(
-				function()
+		--mainMenu:startExitTransition(
+				--function()
 					self:switchToSubmenu( "Worldmap" )
-				end )
+				--end )
 	end
 	local switchToUserlevels = function()
-		mainMenu:startExitTransition(
-				function()
+		--mainMenu:startExitTransition(
+				--function()
 					self:switchToSubmenu( "Userlevels" )
-				end )
+				--end )
 	end
 	local switchToSettings = function()
-		mainMenu:startExitTransition(
-				function()
+		--mainMenu:startExitTransition(
+				--function()
 					self:switchToSubmenu( "Settings" )
-				end )
+				--end )
 	end
 
 	mainMenu:addButton( "startOff", "startOn", -3, -10,
@@ -73,7 +73,8 @@ function menu:init()
 		nil, self:setPlayerPositionEvent( -6, 35) )
 
 	local quit = function()
-		mainMenu:startExitTransition( love.event.quit )
+		--mainMenu:startExitTransition( love.event.quit )
+		love.event.quit()
 	end
 
 	mainMenu:addButton( "exitOff", "exitOn", -2, 40,
@@ -93,15 +94,18 @@ function menu:init()
 	submenus["Main"] = mainMenu
 
 	-- Create userlevel submenu:
-	local userlevelsMenu = UserlevelSubmenu:new()
+	local userlevelsMenu = UserlevelSubmenu:new( 700, 0 )
 
 	submenus["Userlevels"] = userlevelsMenu
 
 	-- Create World map menu:
-	local worldMapMenu = Submenu:new()
+	local worldMapMenu = Submenu:new( 0, -700 )
 	submenus["Worldmap"] = worldMapMenu
 	local back = function()
-		worldMapMenu:startExitTransition( function() menu:switchToSubmenu( "Main" ) end )
+		--worldMapMenu:startExitTransition(
+		--	function()
+				menu:switchToSubmenu( "Main" )
+		--	end )
 	end
 	worldMapMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
@@ -112,10 +116,15 @@ function menu:init()
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		back )
 
-	local settingsMenu = Submenu:new()
+	local settingsMenu = Submenu:new( -700, 0 )
+	settingsMenu:addPanel( -24, -20, 48, 80 )
+
 	submenus["Settings"] = settingsMenu
 	local back = function()
-		settingsMenu:startExitTransition( function() menu:switchToSubmenu( "Main" ) end )
+		--settingsMenu:startExitTransition(
+			--function()
+				menu:switchToSubmenu( "Main" )
+			--end )
 	end
 	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
@@ -138,8 +147,12 @@ function menu:initMain()
 end
 
 function menu:switchToSubmenu( menuName )
-	menu.activeSubmenu = menuName
-	submenus[menu.activeSubmenu]:startIntroTransition()
+
+	self.previousSubmenu = self.activeSubmenu
+
+	self.activeSubmenu = menuName
+	submenus[self.activeSubmenu]:reselectButton()
+	--submenus[menu.activeSubmenu]:startIntroTransition()
 
 	if menuName == "Main" then
 		self.xTarget = 0
@@ -150,7 +163,14 @@ function menu:switchToSubmenu( menuName )
 		self.cameraPassedTime = 0
 	elseif menuName == "Worldmap" then
 		self.xTarget = 0
-		self.yTarget = 700
+		self.yTarget = -700
+		self.xCameraStart = self.xCamera
+		self.yCameraStart = self.yCamera
+		self.cameraSlideTime = 0.5
+		self.cameraPassedTime = 0
+	elseif menuName == "Userlevels" then
+		self.xTarget = 700
+		self.yTarget = 0
 		self.xCameraStart = self.xCamera
 		self.yCameraStart = self.yCamera
 		self.cameraSlideTime = 0.5
@@ -168,7 +188,7 @@ end
 function menu:update( dt )
 	--if menu.state == "main" then
 		--parallax:update(dt)
-	parallax:setPosition( self.xCamera )
+	parallax:setPosition( -self.xCamera )
 	--end
 	if self.cameraSlideTime then
 		self.cameraPassedTime = self.cameraPassedTime + dt
@@ -202,17 +222,19 @@ function menu:draw()
 
 	love.graphics.push()
 	love.graphics.translate(
-		---math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
-		---math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)]]
-		love.graphics.getWidth()/2,
-		love.graphics.getHeight()/2)
+		-math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
+		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
+
+	if self.previousSubmenu then
+		submenus[self.previousSubmenu]:draw()
+	end
 
 	-- Draw all visible panels:
 	if self.activeSubmenu then
 		submenus[self.activeSubmenu]:draw()
 
 		-- If there's no transition in progress...
-		if not submenus[self.activeSubmenu]:getTransition() then
+		--if not submenus[self.activeSubmenu]:getTransition() then
 			-- Draw the menu ninja:
 			local x = menuPlayer.x*Camera.scale
 			local y = menuPlayer.y*Camera.scale
@@ -225,7 +247,7 @@ function menu:draw()
 				menuPlayer.visBandana:draw(x,y,true)
 				love.graphics.setColor(r,g,b)
 			end
-		end
+		--end
 	end
 
 	love.graphics.pop()
@@ -246,7 +268,7 @@ end
 function menu:keypressed( key, repeated )
 	if self.activeSubmenu then
 		-- Don't let user control menu while a transition is active:
-		if not submenus[self.activeSubmenu]:getTransition() then
+		--if not submenus[self.activeSubmenu]:getTransition() then
 			if key == keys.LEFT then
 				submenus[self.activeSubmenu]:goLeft()
 			elseif key == keys.RIGHT then
@@ -260,7 +282,7 @@ function menu:keypressed( key, repeated )
 			else
 				submenus[self.activeSubmenu]:hotkey( key )
 			end
-		end
+		--end
 	end
 end
 

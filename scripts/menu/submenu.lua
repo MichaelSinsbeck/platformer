@@ -9,27 +9,32 @@ local HotkeyDisplay = require( "scripts/menu/hotkeyDisplay" )
 local Submenu = {}
 Submenu.__index = Submenu
 
-function Submenu:new()
+function Submenu:new( x, y )
 	local o = {}
 	o.layers = {}
 	o.activeLayer = 1
+	o.x = x or 0
+	o.y = y or 0
 
 	setmetatable( o, self )
 
 	o:addLayer( "MainLayer" )
 
-	o:startIntroTransition()
+	--o:startIntroTransition()
 
 	return o
 end
 
 function Submenu:draw()
 
+	love.graphics.push()
+	love.graphics.translate( self.x*Camera.scale, self.y*Camera.scale )
+
 	for k,l in ipairs( self.layers ) do
 		if l.visible then
 
 			if self.imageTransition then
-				self.imageTransition:push()
+				--self.imageTransition:push()
 			end
 
 			-- Draw all images on this layer:
@@ -38,11 +43,11 @@ function Submenu:draw()
 			end
 
 			if self.imageTransition then
-				self.imageTransition:pop()
+				--self.imageTransition:pop()
 			end
 
 			if self.transition then
-				self.transition:push()
+				--self.transition:push()
 			end
 			-- Draw the panels on this layer:
 			for j, p in ipairs( l.panels ) do
@@ -59,10 +64,12 @@ function Submenu:draw()
 			end
 
 			if self.transition then
-				self.transition:pop()
+				--self.transition:pop()
 			end
 		end
 	end
+
+	love.graphics.pop()
 end
 
 function Submenu:update( dt )
@@ -74,12 +81,12 @@ function Submenu:update( dt )
 		end
 	end
 
-	if self.transition then
+	--[[if self.transition then
 		self.transition:update( dt )
 	end
 	if self.imageTransition then
 		self.imageTransition:update( dt )
-	end
+	end]]
 end
 
 ----------------------------------------------------------------------
@@ -419,6 +426,7 @@ end
 -- Add transitions:
 ----------------------------------------------------------------------
 
+--[[
 function Submenu:startIntroTransition( introEvent )
 	self.transition = Transition:new( self, 1, 0, 1000, 0, 0, 0, 0, 0.5 )
 	self.imageTransition = Transition:new( self, 1, 0, -1000, 0, 0, 0, 0, 0 )
@@ -457,6 +465,6 @@ end
 function Submenu:getTransition()
 	return (self.transition ~= nil or self.imageTransition ~= nil)
 end
-
+]]
 
 return Submenu
