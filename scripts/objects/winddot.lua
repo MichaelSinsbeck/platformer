@@ -6,9 +6,14 @@ local Winddot = object:New({
 	vx = 0,
 	vy = -20, -- should be the same value as in player.lua
 	vis = {Visualizer:New('wind1')},
+	yDeath = 0,
 })
 
 function Winddot:setAcceleration(dt)
+end
+
+function Winddot:collision()
+	return 0
 end
 
 function Winddot:step(dt)
@@ -17,11 +22,7 @@ function Winddot:step(dt)
 end
 
 function Winddot:postStep(dt)
-	local thisTile = 0
-	if myMap.collision[math.floor(self.x)] then
-		thisTile = myMap.collision[math.floor(self.x)][math.floor(self.y)]
-	end
-if thisTile~=4 or self.collisionResult > 0 then
+	if self.y < self.yDeath then
 		self:kill()
 	end
 end

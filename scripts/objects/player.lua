@@ -23,6 +23,7 @@ local Player = object:New({
   walljumpSpeedx2 = 13,
   walljumpSpeedy = -13,
   wallgravity = 20,
+  windGravityReduction = 0.71,
   walltime = 0,
   releasetime = .15,
   unjumpSpeed = 6,
@@ -32,6 +33,7 @@ local Player = object:New({
   dashTimer = 0,
   dashDelay = 0.6,
   isGliding = false,
+  isInWind = false,
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
   windMaxSpeed = -20,
@@ -242,11 +244,33 @@ function Player:dash()
 
 end
 
+function Player:checkWind()
+	local windStatus = 0
+	-- 0 - no wind
+	-- 1 - close to wind (for parachute animation)
+	-- 2 - in wind
+	for k,object in pairs(spriteEngine.objects) do
+		if object.tag == 'Upwind' and 
+			 math.abs(self.x-object.x) <= 0.5 and
+			 self.y <= object.y + 0.5 then
+				if self.y >= object.y - object.height + 0.5 then
+					return 2
+				else if self.y >= object.y - object.height + 0.25 then
+					windStatus = 1
+				end
+			end
+		end
+	end
+	return windStatus
+end
+
 function Player:setAcceleration(dt)
 	self.laststatus = self.status
   -- read controls
 	game:checkControls()
-
+	
+	-- check for wind
+	self.isInWind = self:checkWind()
 	
 	-- drop down from line
 	if self.status == 'online' and game.isDown then
@@ -255,10 +279,12 @@ function Player:setAcceleration(dt)
 	end
 		
   -- Acceleration down
+  local factor = 1
+  if self.isInWind == 2 then factor = self.windGravityReduction end
   if self.status == 'leftwall' or self.status == 'rightwall' then
-		self.vy = self.vy + self.wallgravity * dt
+		self.vy = self.vy + factor * self.wallgravity * dt
 	else
-		self.vy = self.vy + gravity * dt
+		self.vy = self.vy + factor * gravity * dt
   end
 	
   -- Gliding
@@ -267,9 +293,7 @@ function Player:setAcceleration(dt)
 		self.isGliding = false
   end
   if self.status == 'fly' and self.isGliding then
-		if self.vy > self.windMaxSpeed and
-		   myMap.collision[math.floor(self.x)] and
-		   myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then --wind
+		if self.vy > self.windMaxSpeed and self.isInWind == 2 then
 			self.vy = self.vy - self.glideAcc*dt
 			if self.vy < self.windMaxSpeed then
 				self.vy = self.windMaxSpeed
@@ -563,7 +587,7 @@ function Player:postStep(dt)
 			end
 			self.vis[1].angle = math.atan2(-dx,dy)
 		elseif self.isGliding then
-			if self.vy > 0 or myMap.collision[math.floor(self.x)][math.floor(self.y)] == 4 then
+			if self.vy > 0 or self.isInWind > 0 then
 				newAnimation = 'Gliding'
 			else 
 				newAnimation = 'Jump'

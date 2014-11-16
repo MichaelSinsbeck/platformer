@@ -26,7 +26,6 @@ Particle = require 'scripts/objects.particle',
 Windmill = require 'scripts/objects.windmill',
 Button = require 'scripts/objects.button',
 Appearblock = require 'scripts/objects.appearblock',
-Emitter = require 'scripts/objects.emitter',
 Winddot = require 'scripts/objects.winddot',
 Bubble = require 'scripts/objects.bubble',
 Crumbleblock = require 'scripts/objects.crumbleblock',
@@ -57,6 +56,7 @@ TimedText = require 'scripts/objects.timedText',
 CameraGuide = require 'scripts/objects.cameraguide',
 CameraGuideRect = require 'scripts/objects.cameraguiderectangle',
 ParallaxConfig = require 'scripts/objects.parallaxConfig',
+Upwind = require 'scripts/objects.upwind',
 }
 
 

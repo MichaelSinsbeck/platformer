@@ -330,6 +330,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('rock.png','rock',tileSize,tileSize)	
 	AnimationDB:loadTiledImage('woosh.png','woosh')
 	AnimationDB:loadTiledImage('medusa.png','medusa')
+	AnimationDB:loadTiledImage('upwind.png','upwind')
 	AnimationDB:loadTiledImage('medusaSpawner.png','medusaSpawner',tileSize,tileSize)
 	AnimationDB:loadTiledImage('rotator.png','rotator',tileSize,tileSize)
 	AnimationDB:loadTiledImage('miniFlame.png','miniFlame',0.4*tileSize,0.4*tileSize)
@@ -481,6 +482,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('wind1','winddot',{1},{1e6})
 	AnimationDB:addAni('wind2','winddot',{2},{1e6})
 	AnimationDB:addAni('wind3','winddot',{3},{1e6})
+	AnimationDB:addAni('upwind','upwind',{1},{1e6})
+	
 
 	AnimationDB:addAni('cannon','cannon',{1},{1e6})
 
