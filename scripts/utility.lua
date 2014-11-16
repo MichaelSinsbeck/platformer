@@ -74,6 +74,16 @@ function utility.newCycleProperty(values, names, default)
 	return newProp
 end
 
+function  utility.newIntegerProperty(default,min,max)
+	local values = {}
+	local counter = 1
+	for i = min,max do
+		values[counter] = i
+		counter = counter + 1
+	end
+	return utility.newProperty(values, nil, default)
+end
+
 -- miscellaneous functions:
 
 function utility.tableFind( tbl, value )

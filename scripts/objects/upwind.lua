@@ -9,7 +9,7 @@ local Upwind = object:New({
 		Visualizer:New('upwind'),
   },  
 	properties = {
-		height = utility.newNumericTextProperty( 3, 0, math.huge ),
+		height = utility.newIntegerProperty(10,1,100)
 	}, 
 })
 
