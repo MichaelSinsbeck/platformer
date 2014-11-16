@@ -278,6 +278,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('keyOff.png','keyOff', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('keyAssignment.png','keyAssignment', tileSize, tileSize*3, 'menu')
 	AnimationDB:loadTiledImage('soundButton.png','soundButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('graphicsButton.png','graphicsButton', tileSize, tileSize, 'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
@@ -744,10 +745,12 @@ function AnimationDB:loadAnimations()
 		vectorAnimations.creditsAniUpdate )
 	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
 	AnimationDB:addAni('keyAssignmentOn','keyAssignment',{1},{1e6},
-		vectorAnimations.editoAniUpdate )
+		vectorAnimations.userlevelsAniUpdate )
 	AnimationDB:addAni('keyAssignmentOff','keyAssignment',{2},{1e6})
-	AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},{0.15, 0.15, 0.15, 1})
+	AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},{0.15, 0.15, 0.15, 0.5}, vectorAnimations.soundAniUpdate )
 	AnimationDB:addAni('soundOptionsOff','soundButton',{5},{1e6})
+	AnimationDB:addAni('graphicsOptionsOn','graphicsButton',{1,2,3,4,5},{0.5, 0.25, 0.25, 0.25, 1.25}, vectorAnimations.graphicsAniUpdate )
+	AnimationDB:addAni('graphicsOptionsOff','graphicsButton',{1},{1e6})
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('keyboardSmall','keyOff',{1},{1e6})
@@ -854,48 +857,58 @@ end
 
 
 function vectorAnimations.startAniUpdate( anim )
-	anim.ox = 4 + 1-2*math.abs(math.sin(5*anim.timer))
-	anim.sy = 1-0.1*math.abs(math.cos(5*anim.timer))
+	anim.ox = 4 + 1-2*math.abs(math.sin(5*anim.vectorTimer))
+	anim.sy = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
 	anim.sx = 1/anim.sy
 end
 
 function vectorAnimations.settingsAniRestart( anim )
-	anim.angle = anim.timer * 5
+	anim.angle = anim.vectorTimer * 5
 end
 
 function vectorAnimations.creditsAniUpdate( anim )
-	--anim.sx = 1-0.1*math.abs(math.cos(6*anim.timer))
-	--anim.sx = 1-2*math.abs(math.sin(6*anim.timer))
-	anim.sx = 1+0.15*math.abs(math.sin(6*anim.timer))
+	--anim.sx = 1-0.1*math.abs(math.cos(6*anim.vectorTimer))
+	--anim.sx = 1-2*math.abs(math.sin(6*anim.vectorTimer))
+	anim.sx = 1+0.15*math.abs(math.sin(6*anim.vectorTimer))
 	anim.sy = anim.sx
-	anim.angle = 0.2*math.sin(- anim.timer * 6)
-	anim.oy = 4 + 1-1*math.abs(math.sin(6*anim.timer))
+	anim.angle = 0.2*math.sin(- anim.vectorTimer * 6)
+	anim.oy = 4 + 1-1*math.abs(math.sin(6*anim.vectorTimer))
 end
 function vectorAnimations.exitAniUpdate( anim )
-	anim.oy = 4+1-2*math.abs(math.sin(5*anim.timer))
-	anim.sx = 1-0.05*math.abs(math.cos(5*anim.timer))
+	anim.oy = 4+1-2*math.abs(math.sin(5*anim.vectorTimer))
+	anim.sx = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
 	anim.sy = 1/anim.sx
 end
 function vectorAnimations.editorAniUpdate( anim )
-	anim.oy = 4 -1*math.abs(math.sin(5*anim.timer))
-	anim.sx = 1-0.05*math.abs(math.cos(5*anim.timer))
+	anim.oy = 4 -1*math.abs(math.sin(5*anim.vectorTimer))
+	anim.sx = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
 	anim.sy = 1/anim.sx
 end
 function vectorAnimations.userlevelsAniUpdate( anim )
-	anim.yShift = -0.4*math.sin(5*anim.timer)
+	anim.yShift = -0.4*math.sin(5*anim.vectorTimer)
 	anim.xShift = -anim.yShift
-	anim.sx = 1+0.1*math.abs(math.cos(5*anim.timer))
+	anim.sx = 1+0.1*math.abs(math.cos(5*anim.vectorTimer))
 	anim.sy = anim.sx
 end
 function vectorAnimations.keyboardAniUpdate( anim )
-	anim.sx = 1-0.1*math.abs(math.cos(5*anim.timer))
-	anim.sy = 1-0.05*math.abs(math.cos(5*anim.timer))
+	anim.sx = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
 end
 function vectorAnimations.gamepadAniUpdate( anim )
-	anim.sx = 1-0.1*math.abs(math.cos(5*anim.timer))
-	anim.sy = 1-0.05*math.abs(math.cos(5*anim.timer))
+	anim.sx = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
 end
 function vectorAnimations.restartAniUpdate( anim )
-	anim.angle = anim.angle - math.pow(math.sin(anim.timer), 2)/5
+	anim.angle = anim.angle - math.pow(math.sin(anim.vectorTimer), 2)/5
+end
+function vectorAnimations.soundAniUpdate( anim )
+	anim.angle = math.cos( 3*anim.vectorTimer )/3
+end
+function vectorAnimations.graphicsAniUpdate( anim )
+	local t = anim.vectorTimer - 2.5*math.floor(anim.vectorTimer / 2.5)
+	if t < 2 then
+		anim.sx = 1 + 0.1*t
+		anim.sy = anim.sx
+	end
 end
 

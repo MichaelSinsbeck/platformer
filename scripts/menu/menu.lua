@@ -123,8 +123,10 @@ function menu:init()
 	settingsMenu:addPanel( -24, -20, 48, 50 )
 	settingsMenu:addButton( "soundOptionsOff", "soundOptionsOn", -3, -10, 
 		switchToSound, self:setPlayerPositionEvent( settingsMenu.x - 10, -5 ) )
-	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -3, 0, 
+	settingsMenu:addButton( "graphicsOptionsOff", "graphicsOptionsOn", -3, 0, 
 		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 10, 5 ) )
+	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -3, 10, 
+		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 10, 15 ) )
 
 	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,

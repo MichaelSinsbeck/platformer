@@ -5,6 +5,7 @@ function Visualizer:New(name,input,text)
   local o = input or {}
   o.animation = name or ''
   o.timer = o.timer or 0
+  o.vectorTimer = o.vectorTimer or 0
   o.frame = o.frame or 1
   o.sx, o.sy = o.sx or 1, o.sy or 1
   o.relX, o.relY = o.relX or 0, o.relY or 0
@@ -70,6 +71,7 @@ end
 function Visualizer:reset()
 	self.frame = 1
 	self.timer = 0
+	self.vectorTimer = 0
 end
 
 function Visualizer:draw(x,y, useExternalColor)
@@ -139,6 +141,7 @@ function Visualizer:update(dt)
 		end
 	end
 	if self.vectorUpdate then
+		self.vectorTimer = self.vectorTimer + dt
 		self:vectorUpdate()
 	end
 end
