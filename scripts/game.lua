@@ -23,9 +23,11 @@ function game:draw()
 	end
 	
 	myMap:drawGround()
+	myMap:drawForeground()
+	
 	spriteEngine:draw()
 	
-	myMap:drawForeground()
+	
 
 	--love.graphics.setColor(255,255,255) 
 	
