@@ -123,13 +123,13 @@ function menu:init()
 	end
 
 	local settingsMenu = Submenu:new( -700, 0 )
-	settingsMenu:addPanel( -24, -20, 48, 50 )
+	settingsMenu:addPanel( -32, -20, 64, 50 )
 	settingsMenu:addButton( "soundOptionsOff", "soundOptionsOn", -3, -10, 
 		switchToSound, self:setPlayerPositionEvent( settingsMenu.x - 10, -5 ) )
 	settingsMenu:addButton( "graphicsOptionsOff", "graphicsOptionsOn", -3, 0, 
 		switchToGraphics, self:setPlayerPositionEvent( settingsMenu.x - 10, 5 ) )
 	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -3, 10, 
-		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 10, 15 ) )
+		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 14, 15 ) )
 
 	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
@@ -170,7 +170,7 @@ function menu:init()
 	graphicsMenu:addButton( "fullscreenOff", "fullscreenOn", -19, -10, 
 		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 26, -5 ) )
 
-	graphicsMenu:addSlider( -19, 0, 20, 5,
+	graphicsMenu:addSlider( -19, 0, 20, 3,
 		self:setPlayerPositionEvent( graphicsMenu.x - 23, 5), nil )
 
 	local backToSettings = function()
