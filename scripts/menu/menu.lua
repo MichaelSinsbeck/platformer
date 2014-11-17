@@ -115,6 +115,9 @@ function menu:init()
 	local switchToSound = function()
 		menu:switchToSubmenu( "Sound" )
 	end
+	local switchToGraphics = function()
+		menu:switchToSubmenu( "Graphics" )
+	end
 	local switchToKeyAssignment = function()
 		menu:switchToSubmenu( "KeyAssignment" )
 	end
@@ -124,7 +127,7 @@ function menu:init()
 	settingsMenu:addButton( "soundOptionsOff", "soundOptionsOn", -3, -10, 
 		switchToSound, self:setPlayerPositionEvent( settingsMenu.x - 10, -5 ) )
 	settingsMenu:addButton( "graphicsOptionsOff", "graphicsOptionsOn", -3, 0, 
-		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 10, 5 ) )
+		switchToGraphics, self:setPlayerPositionEvent( settingsMenu.x - 10, 5 ) )
 	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -3, 10, 
 		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 10, 15 ) )
 
@@ -140,7 +143,12 @@ function menu:init()
 	submenus["Settings"] = settingsMenu
 
 	local soundMenu = Submenu:new( -1400, 0 )
-	soundMenu:addPanel( -32, -20, 64, 50 )
+	soundMenu:addPanel( -40, -20, 72, 50 )
+
+	soundMenu:addSlider( -19, -10, 20, 5,
+		self:setPlayerPositionEvent( soundMenu.x - 23, -5), nil )
+	soundMenu:addSlider( -19, 0, 20, 5,
+		self:setPlayerPositionEvent( soundMenu.x - 23, 5), nil )
 
 	local backToSettings = function()
 		menu:switchToSubmenu( "Settings" )
@@ -155,6 +163,29 @@ function menu:init()
 		backToSettings )
 
 	submenus["Sound"] = soundMenu
+
+	local graphicsMenu = Submenu:new( -1400, 0 )
+	graphicsMenu:addPanel( -48, -20, 96, 50 )
+
+	graphicsMenu:addButton( "fullscreenOff", "fullscreenOn", -19, -10, 
+		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 26, -5 ) )
+
+	graphicsMenu:addSlider( -19, 0, 20, 5,
+		self:setPlayerPositionEvent( graphicsMenu.x - 23, 5), nil )
+
+	local backToSettings = function()
+		menu:switchToSubmenu( "Settings" )
+	end
+	graphicsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		nil )
+	graphicsMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		backToSettings )
+
+	submenus["Graphics"] = graphicsMenu
 
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
@@ -186,6 +217,8 @@ end
 
 function menu:switchToSubmenu( menuName )
 
+	print(menuName)
+	print(submenus[menuName])
 	self.previousSubmenu = self.activeSubmenu
 
 	self.activeSubmenu = menuName
@@ -221,7 +254,9 @@ function menu:switchToSubmenu( menuName )
 		self.yCameraStart = self.yCamera
 		self.cameraSlideTime = 0.5
 		self.cameraPassedTime = 0
-	elseif menuName == "Sound" or menuName == "KeyAssignment" then
+	elseif menuName == "Sound" or
+		menuName == "Graphics" or
+		menuName == "KeyAssignment" then
 		self.xTarget = -1400
 		self.yTarget = 0
 		self.xCameraStart = self.xCamera

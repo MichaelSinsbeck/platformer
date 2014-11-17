@@ -279,6 +279,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('keyAssignment.png','keyAssignment', tileSize, tileSize*3, 'menu')
 	AnimationDB:loadTiledImage('soundButton.png','soundButton', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('graphicsButton.png','graphicsButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('fullscreenButton.png','fullscreenButton', tileSize, tileSize, 'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
@@ -744,13 +745,21 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('creditsOn','menuButtons',{17},{1e6},
 		vectorAnimations.creditsAniUpdate )
 	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
+	AnimationDB:addAni('worldItemOn','menuButtons',{19},{1e6},
+		vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('worldItemOff','menuButtons',{20},{1e6})
 	AnimationDB:addAni('keyAssignmentOn','keyAssignment',{1},{1e6},
 		vectorAnimations.userlevelsAniUpdate )
 	AnimationDB:addAni('keyAssignmentOff','keyAssignment',{2},{1e6})
-	AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},{0.15, 0.15, 0.15, 0.5}, vectorAnimations.soundAniUpdate )
+	AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},
+		{0.15, 0.15, 0.15, 0.5}, vectorAnimations.soundAniUpdate )
 	AnimationDB:addAni('soundOptionsOff','soundButton',{5},{1e6})
-	AnimationDB:addAni('graphicsOptionsOn','graphicsButton',{1,2,3,4,5},{0.5, 0.25, 0.25, 0.25, 1.25}, vectorAnimations.graphicsAniUpdate )
+	AnimationDB:addAni('graphicsOptionsOn','graphicsButton',{1,2,3,4,5},
+		{0.5, 0.25, 0.25, 0.25, 1.25}, vectorAnimations.graphicsAniUpdate )
 	AnimationDB:addAni('graphicsOptionsOff','graphicsButton',{1},{1e6})
+	AnimationDB:addAni('fullscreenOn','fullscreenButton',{2,3,4,5,6,7,6,5,4,3,2},
+		{.15, .15, .15, .15, .15, .5, .15, .15, .15, .15, .5} )
+	AnimationDB:addAni('fullscreenOff','fullscreenButton',{1},{1e6})
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('keyboardSmall','keyOff',{1},{1e6})

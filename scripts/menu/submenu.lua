@@ -3,6 +3,7 @@
 
 local Panel = require( "scripts/menu/menuPanel" )
 local Button = require( "scripts/menu/button" )
+local Slider = require( "scripts/menu/slider" )
 local Transition = require( "scripts/menu/transition" )
 local HotkeyDisplay = require( "scripts/menu/hotkeyDisplay" )
 
@@ -199,6 +200,23 @@ function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName )
 
 end
 
+function Submenu:addSlider( x, y, width, segments, eventHover, eventChange, layerName )
+	
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local b = Slider:new( x, y, width, segments, eventHover, eventChange )
+			table.insert( l.buttons, b )
+			self:linkButtons( layerName )
+			return b
+		end
+	end
+
+end
+
+
 function Submenu:addImage( image, x, y, layerName )
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
@@ -383,13 +401,17 @@ function Submenu:goLeft()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		if l.selectedButton then
-			if l.selectedButton:getNextLeft() then
-				-- If there is a button left of the selected button,
-				-- select that new button:
-				self:setSelectedButton(
-				l.selectedButton:getNextLeft(),
-				l.layerName
-				)
+			if l.selectedButton.isSlider then
+				l.selectedButton:decreaseValue()
+			else
+				if l.selectedButton:getNextLeft() then
+					-- If there is a button left of the selected button,
+					-- select that new button:
+					self:setSelectedButton(
+						l.selectedButton:getNextLeft(),
+						l.layerName
+					)
+				end
 			end
 		end
 	end
@@ -398,13 +420,17 @@ function Submenu:goRight()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		if l.selectedButton then
-			if l.selectedButton:getNextRight() then
-				-- If there is a button left of the selected button,
-				-- select that new button:
-				self:setSelectedButton(
-				l.selectedButton:getNextRight(),
-				l.layerName
-				)
+			if l.selectedButton.isSlider then
+				l.selectedButton:increaseValue()
+			else
+				if l.selectedButton:getNextRight() then
+					-- If there is a button left of the selected button,
+					-- select that new button:
+					self:setSelectedButton(
+						l.selectedButton:getNextRight(),
+						l.layerName
+					)
+				end
 			end
 		end
 	end
@@ -449,7 +475,9 @@ function Submenu:startButtonEvent()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		if l.selectedButton then
-			l.selectedButton:startEvent()
+			if not l.isSlider then
+				l.selectedButton:startEvent()
+			end
 		end
 	end
 end
