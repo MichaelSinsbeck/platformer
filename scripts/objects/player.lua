@@ -23,7 +23,6 @@ local Player = object:New({
   walljumpSpeedx2 = 13,
   walljumpSpeedy = -13,
   wallgravity = 20,
-  windGravityReduction = 0.71,
   walltime = 0,
   releasetime = .15,
   unjumpSpeed = 6,
@@ -268,10 +267,7 @@ function Player:setAcceleration(dt)
 	self.laststatus = self.status
   -- read controls
 	game:checkControls()
-	
-	-- check for wind
-	self.isInWind = self:checkWind()
-	
+		
 	-- drop down from line
 	if self.status == 'online' and game.isDown then
 		self.status = 'fly'
@@ -279,12 +275,10 @@ function Player:setAcceleration(dt)
 	end
 		
   -- Acceleration down
-  local factor = 1
-  if self.isInWind == 2 then factor = self.windGravityReduction end
   if self.status == 'leftwall' or self.status == 'rightwall' then
-		self.vy = self.vy + factor * self.wallgravity * dt
+		self.vy = self.vy + self.wallgravity * dt
 	else
-		self.vy = self.vy + factor * gravity * dt
+		self.vy = self.vy + gravity * dt
   end
 	
   -- Gliding
@@ -292,6 +286,10 @@ function Player:setAcceleration(dt)
 		-- set back to false (setting to true is done in keypressed)
 		self.isGliding = false
   end
+  if self.isGliding then
+		-- check for wind
+		self.isInWind = self:checkWind()	
+  end  
   if self.status == 'fly' and self.isGliding then
 		if self.vy > self.windMaxSpeed and self.isInWind == 2 then
 			self.vy = self.vy - self.glideAcc*dt
