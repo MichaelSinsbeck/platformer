@@ -143,7 +143,7 @@ function menu:init()
 	submenus["Settings"] = settingsMenu
 
 	local soundMenu = Submenu:new( -1400, 0 )
-	local p = soundMenu:addPanel( -64, -20, 112, 50 )
+	local p = soundMenu:addPanel( -64, -20, 112, 40 )
 	p:turnIntoList( 10, 1 )
 
 	soundMenu:addSlider( -16, -10, 40, 6,
