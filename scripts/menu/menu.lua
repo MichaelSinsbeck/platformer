@@ -9,7 +9,7 @@ local menu = {
 }
 
 local Submenu = require( "scripts/menu/submenu" )
-local UserlevelSubmenu = require( "scripts/menu/userlevelsubmenu" )
+local UserlevelSubmenu = require( "scripts/menu/userlevelSubmenu" )
 
 local submenus = {}
 
