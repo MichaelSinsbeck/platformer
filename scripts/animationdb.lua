@@ -760,6 +760,12 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('fullscreenOn','fullscreenButton',{2,3,4,5,6,7,6,5,4,3,2},
 		{.15, .15, .15, .15, .15, .5, .15, .15, .15, .15, .5} )
 	AnimationDB:addAni('fullscreenOff','fullscreenButton',{1},{1e6})
+	AnimationDB:addAni('toFullscreenOff','fullscreenButton',{1},{1e6} )
+	AnimationDB:addAni('toFullscreenOn','fullscreenButton',{2,3,4,5,6},{.1,.1,.1,.1,.6},
+		vectorAnimations.fullscreenAniUpdate )
+	AnimationDB:addAni('toWindowedOff','fullscreenButton',{7},{1e6} )
+	AnimationDB:addAni('toWindowedOn','fullscreenButton',{8,9,10,11,12},{.1,.1,.1,.1,.6},
+		vectorAnimations.fullscreenAniUpdate )
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('keyboardSmall','keyOff',{1},{1e6})
@@ -920,4 +926,9 @@ function vectorAnimations.graphicsAniUpdate( anim )
 		anim.sy = anim.sx
 	end
 end
-
+function vectorAnimations.fullscreenAniUpdate( anim )
+	anim.yShift = -0.4*math.cos(math.pi*anim.vectorTimer)
+	anim.xShift = -anim.yShift
+	anim.sx = 1+0.1*math.abs(math.sin(math.pi*anim.vectorTimer))
+	anim.sy = anim.sx
+end

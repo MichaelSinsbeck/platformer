@@ -4,6 +4,7 @@
 local Panel = require( "scripts/menu/menuPanel" )
 local Button = require( "scripts/menu/button" )
 local Slider = require( "scripts/menu/slider" )
+local ToggleButton = require( "scripts/menu/toggleButton" )
 local Transition = require( "scripts/menu/transition" )
 local HotkeyDisplay = require( "scripts/menu/hotkeyDisplay" )
 
@@ -197,7 +198,23 @@ function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName )
 			return b
 		end
 	end
+end
 
+function Submenu:addToggleButton( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
+		x, y, event, eventHover, captions, name, layerName )
+	
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local b = ToggleButton:new( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
+						x, y, event, eventHover, captions, name )
+			table.insert( l.buttons, b )
+			self:linkButtons( layerName )
+			return b
+		end
+	end
 end
 
 function Submenu:addSlider( x, y, width, segments, eventHover,

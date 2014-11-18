@@ -169,8 +169,10 @@ function menu:init()
 	local graphicsMenu = Submenu:new( -1400, 0 )
 	graphicsMenu:addPanel( -64, -20, 112, 50 )
 
-	graphicsMenu:addButton( "fullscreenOff", "fullscreenOn", -19, -10, 
-		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 26, -5 ) )
+	graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
+		"toWindowedOff", "toWindowedOn", -19, -10, 
+		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 23, -5 ),
+		{[true]="Fullscreen", [false]="windowed"}, "Fullscreen:" )
 
 	graphicsMenu:addSlider( -19, 0, 20, 3,
 		self:setPlayerPositionEvent( graphicsMenu.x - 23, 5), nil,
