@@ -143,7 +143,8 @@ function menu:init()
 	submenus["Settings"] = settingsMenu
 
 	local soundMenu = Submenu:new( -1400, 0 )
-	soundMenu:addPanel( -64, -20, 112, 50 )
+	local p = soundMenu:addPanel( -64, -20, 112, 50 )
+	p:turnIntoList( 10, 1 )
 
 	soundMenu:addSlider( -16, -10, 40, 6,
 		self:setPlayerPositionEvent( soundMenu.x - 20, -5), nil,
@@ -167,7 +168,8 @@ function menu:init()
 	submenus["Sound"] = soundMenu
 
 	local graphicsMenu = Submenu:new( -1400, 0 )
-	graphicsMenu:addPanel( -64, -20, 112, 50 )
+	local p = graphicsMenu:addPanel( -64, -20, 112, 50 )
+	p:turnIntoList( 10, 1 )
 
 	graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		"toWindowedOff", "toWindowedOn", -19, -10, 
