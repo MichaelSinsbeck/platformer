@@ -280,6 +280,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('soundButton.png','soundButton', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('graphicsButton.png','graphicsButton', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('fullscreenButton.png','fullscreenButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('shadersButton.png','shadersButton', tileSize, tileSize, 'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
@@ -766,6 +767,10 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('toWindowedOff','fullscreenButton',{7},{1e6} )
 	AnimationDB:addAni('toWindowedOn','fullscreenButton',{8,9,10,11,12},{.1,.1,.1,.1,.6},
 		vectorAnimations.fullscreenAniUpdate )
+	AnimationDB:addAni('shadersOff','shadersButton',{1},{1e6} )
+	AnimationDB:addAni('shadersOn','shadersButton',{2},{1e6}, vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('noShadersOff','shadersButton',{3},{1e6} )
+	AnimationDB:addAni('noShadersOn','shadersButton',{4},{1e6}, vectorAnimations.userlevelsAniUpdate )
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('keyboardSmall','keyOff',{1},{1e6})

@@ -174,11 +174,16 @@ function menu:init()
 	graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		"toWindowedOff", "toWindowedOn", -19, -10, 
 		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 23, -5 ),
-		{[true]="Fullscreen", [false]="windowed"}, "Fullscreen:" )
+		{[true]="On", [false]="Off"}, "Fullscreen:" )
 
-	graphicsMenu:addSlider( -19, 0, 20, 3,
-		self:setPlayerPositionEvent( graphicsMenu.x - 23, 5), nil,
-		{ "Simple", "Detailed", "Very detailed" }, "Graphics:" )
+	graphicsMenu:addToggleButton( "noShadersOff", "noShadersOn",
+		"shadersOff", "shadersOn", -19, 0, 
+		toggleShaders, self:setPlayerPositionEvent( graphicsMenu.x - 23, 5 ),
+		{[true]="On", [false]="Off"}, "Shaders:" )
+
+	graphicsMenu:addSlider( -19, 10, 20, 3,
+		self:setPlayerPositionEvent( graphicsMenu.x - 23, 15), nil,
+		{ "None", "Simple", "Detailed" }, "Background:" )
 
 	local backToSettings = function()
 		menu:switchToSubmenu( "Settings" )
