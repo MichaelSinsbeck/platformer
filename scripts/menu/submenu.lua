@@ -200,14 +200,15 @@ function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName )
 
 end
 
-function Submenu:addSlider( x, y, width, segments, eventHover, eventChange, captions, layerName )
+function Submenu:addSlider( x, y, width, segments, eventHover,
+		eventChange, captions, name, layerName )
 	
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local b = Slider:new( x, y, width, segments, eventHover, eventChange, captions )
+			local b = Slider:new( x, y, width, segments, eventHover, eventChange, captions, name )
 			table.insert( l.buttons, b )
 			self:linkButtons( layerName )
 			return b
@@ -475,7 +476,7 @@ function Submenu:startButtonEvent()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		if l.selectedButton then
-			if not l.isSlider then
+			if not l.selectedButton.isSlider then
 				l.selectedButton:startEvent()
 			end
 		end

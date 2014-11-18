@@ -143,14 +143,14 @@ function menu:init()
 	submenus["Settings"] = settingsMenu
 
 	local soundMenu = Submenu:new( -1400, 0 )
-	soundMenu:addPanel( -56, -20, 104, 50 )
+	soundMenu:addPanel( -64, -20, 112, 50 )
 
-	soundMenu:addSlider( -19, -10, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 23, -5), nil,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" } )
-	soundMenu:addSlider( -19, 0, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 23, 5), nil,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" } )
+	soundMenu:addSlider( -16, -10, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 20, -5), nil,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume:" )
+	soundMenu:addSlider( -16, 0, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 20, 5), nil,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume:" )
 
 	local backToSettings = function()
 		menu:switchToSubmenu( "Settings" )
@@ -167,14 +167,14 @@ function menu:init()
 	submenus["Sound"] = soundMenu
 
 	local graphicsMenu = Submenu:new( -1400, 0 )
-	graphicsMenu:addPanel( -48, -20, 96, 50 )
+	graphicsMenu:addPanel( -64, -20, 112, 50 )
 
 	graphicsMenu:addButton( "fullscreenOff", "fullscreenOn", -19, -10, 
 		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 26, -5 ) )
 
 	graphicsMenu:addSlider( -19, 0, 20, 3,
 		self:setPlayerPositionEvent( graphicsMenu.x - 23, 5), nil,
-		{ "Simple", "Detailed", "Very detailed" } )
+		{ "Simple", "Detailed", "Very detailed" }, "Graphics:" )
 
 	local backToSettings = function()
 		menu:switchToSubmenu( "Settings" )

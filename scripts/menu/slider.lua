@@ -3,7 +3,7 @@
 local Slider = {}
 Slider.__index = Slider
 
-function Slider:new( x, y, width, segments, eventHover, eventChange, captions )
+function Slider:new( x, y, width, segments, eventHover, eventChange, captions, name )
 	local o = {}
 	setmetatable( o, self )
 	o.x = x + 4
@@ -14,6 +14,7 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions )
 	o.eventHover = eventHover
 	o.numSegments = segments
 	o.width = width
+	o.name = name or ""
 	o.value = 1
 	o.vis = {}
 	o.dx = o.width/o.numSegments
@@ -23,6 +24,7 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions )
 		o.vis[i] = Visualizer:New( "worldItemOff" )
 		o.vis[i]:init()
 	end
+
 	Slider.setValue( o, 1 )
 	return o
 end
@@ -35,6 +37,8 @@ function Slider:draw()
 	end
 	love.graphics.print( self.captions[self.value],
 		Camera.scale*(self.x+self.dx*self.numSegments), y - 2*Camera.scale )
+	love.graphics.printf( self.name,
+		Camera.scale*(self.x - 13) - 500, y - 2*Camera.scale,  500, "right" )
 end
 
 function Slider:update( dt )
