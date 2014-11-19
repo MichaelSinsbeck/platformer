@@ -147,12 +147,12 @@ function menu:init()
 	local p = soundMenu:addPanel( -64, -20, 112, 40 )
 	p:turnIntoList( 10, 1 )
 
-	soundMenu:addSlider( -44, -10, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 48, -5), nil,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume:" )
-	soundMenu:addSlider( -44, 0, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 48, 5), nil,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume:" )
+	soundMenu:addSlider( -46, -10, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 50, -5), nil,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
+	soundMenu:addSlider( -46, 0, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 50, 5), nil,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
 
 	local backToSettings = function()
 		menu:switchToSubmenu( "Settings" )
@@ -184,7 +184,7 @@ function menu:init()
 
 	graphicsMenu:addSlider( -32, 10, 20, 3,
 		self:setPlayerPositionEvent( graphicsMenu.x - 36, 15), nil,
-		{ "Non Background", "Simple Background", "Detailed background" } )
+		{ "No Background", "Simple Background", "Detailed background" } )
 
 	local backToSettings = function()
 		menu:switchToSubmenu( "Settings" )
