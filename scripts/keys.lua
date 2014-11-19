@@ -6,7 +6,7 @@ keys.gamepadePressed = {}
 keys.pressedLastFrame = {}
 keys.currentlyAssigning = false		--holds the string of the key which is currently being changed.
 
-local keyTypes = {
+keyTypes = {
 	"SCREENSHOT",
 	"FULLSCREEN",
 	"RESTARTMAP",

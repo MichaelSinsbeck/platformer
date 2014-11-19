@@ -17,15 +17,15 @@ function TButton:new( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
 	o.y = y + 4
 	o.selected = false
 	o.captions = captions
-	o.value = false
+	o.value = true
 	o.name = name or ""
 	o.isToggleButton = true		-- Let outside world know I'm a toggle button, not a normal button
 	if #o.imgOffOff > 0 then
 		o.vis = Visualizer:New( o.imgOffOff )
 		o.vis:init()
 	end
-
-	self:setImage()
+	o.text = ""
+	TButton.toggle( o )
 	return o
 end
 
@@ -34,10 +34,10 @@ function TButton:draw()
 	if self.vis then
 		self.vis:draw( Camera.scale*self.x, y )
 	end
-	love.graphics.print( self.captions[self.value],
+	love.graphics.print( self.text,
 		Camera.scale*(self.x + 8), y - 2*Camera.scale )
-	love.graphics.printf( self.name,
-		Camera.scale*(self.x - 13) - 500, y - 2*Camera.scale,  500, "right" )
+	--love.graphics.printf( self.name,
+	--	Camera.scale*(self.x - 13) - 500, y - 2*Camera.scale,  500, "right" )
 end
 
 function TButton:update( dt )
@@ -86,6 +86,7 @@ end
 
 function TButton:toggle()
 	self.value = not self.value
+	self.text = self.name .. self.captions[self.value]
 	self:setImage()
 end
 

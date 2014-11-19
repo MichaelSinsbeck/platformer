@@ -10,6 +10,7 @@ local menu = {
 
 local Submenu = require( "scripts/menu/submenu" )
 local UserlevelSubmenu = require( "scripts/menu/userlevelSubmenu" )
+local KeyAssignmentSubmenu = require( "scripts/menu/keyAssignmentSubmenu" )
 
 local submenus = {}
 
@@ -146,11 +147,11 @@ function menu:init()
 	local p = soundMenu:addPanel( -64, -20, 112, 40 )
 	p:turnIntoList( 10, 1 )
 
-	soundMenu:addSlider( -16, -10, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 20, -5), nil,
+	soundMenu:addSlider( -44, -10, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 48, -5), nil,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume:" )
-	soundMenu:addSlider( -16, 0, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 20, 5), nil,
+	soundMenu:addSlider( -44, 0, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 48, 5), nil,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume:" )
 
 	local backToSettings = function()
@@ -172,18 +173,18 @@ function menu:init()
 	p:turnIntoList( 10, 1 )
 
 	graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
-		"toWindowedOff", "toWindowedOn", -19, -10, 
-		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 23, -5 ),
-		{[true]="On", [false]="Off"}, "Fullscreen:" )
+		"toWindowedOff", "toWindowedOn", -32, -10, 
+		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 36, -5 ),
+		{[true]="Fullscreen", [false]="Windowed"} )
 
 	graphicsMenu:addToggleButton( "noShadersOff", "noShadersOn",
-		"shadersOff", "shadersOn", -19, 0, 
-		toggleShaders, self:setPlayerPositionEvent( graphicsMenu.x - 23, 5 ),
-		{[true]="On", [false]="Off"}, "Shaders:" )
+		"shadersOff", "shadersOn", -32, 0, 
+		toggleShaders, self:setPlayerPositionEvent( graphicsMenu.x - 36, 5 ),
+		{[true]="on", [false]="off"}, "Shaders: " )
 
-	graphicsMenu:addSlider( -19, 10, 20, 3,
-		self:setPlayerPositionEvent( graphicsMenu.x - 23, 15), nil,
-		{ "None", "Simple", "Detailed" }, "Background:" )
+	graphicsMenu:addSlider( -32, 10, 20, 3,
+		self:setPlayerPositionEvent( graphicsMenu.x - 36, 15), nil,
+		{ "Non Background", "Simple Background", "Detailed background" } )
 
 	local backToSettings = function()
 		menu:switchToSubmenu( "Settings" )
@@ -201,18 +202,7 @@ function menu:init()
 
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
-	local keyAssignment = Submenu:new( -1400, 0 )
-	local p = keyAssignment:addPanel( -width/2, -height/2 - 8, width, height )
-	p:turnIntoList( 16, 1 )
-
-	keyAssignment:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
-		love.graphics.getWidth()/Camera.scale/2 - 24,
-		love.graphics.getHeight()/Camera.scale/2 - 16,
-		nil )
-	keyAssignment:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
-		-love.graphics.getWidth()/Camera.scale/2 + 24,
-		love.graphics.getHeight()/Camera.scale/2 - 16,
-		backToSettings )
+	local keyAssignment = KeyAssignmentSubmenu:new( -1400, 0 )
 
 	submenus["KeyAssignment"] = keyAssignment
 

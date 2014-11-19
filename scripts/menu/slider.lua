@@ -24,6 +24,7 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions, n
 		o.vis[i] = Visualizer:New( "worldItemOff" )
 		o.vis[i]:init()
 	end
+	o.text = ""
 
 	Slider.setValue( o, 1 )
 	return o
@@ -35,10 +36,10 @@ function Slider:draw()
 	for i = 1, self.numSegments do
 		self.vis[i]:draw( Camera.scale*(self.x+self.dx*(i-1)), y )
 	end
-	love.graphics.print( self.captions[self.value],
+	love.graphics.print( self.text,
 		Camera.scale*(self.x+self.dx*self.numSegments), y - 2*Camera.scale )
-	love.graphics.printf( self.name,
-		Camera.scale*(self.x - 13) - 500, y - 2*Camera.scale,  500, "right" )
+	--love.graphics.printf( self.name,
+	--	Camera.scale*(self.x - 13) - 500, y - 2*Camera.scale,  500, "right" )
 end
 
 function Slider:update( dt )
@@ -99,6 +100,7 @@ function Slider:setValue( val )
 	self.value = val
 	self.vis[self.value]:setAni( "worldItemOn" )
 	self.vis[self.value]:update(0)
+	self.text = self.name .. self.captions[self.value]
 	if self.eventChange then
 		self.eventChange( self.value )
 	end
