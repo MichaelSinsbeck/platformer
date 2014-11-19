@@ -2443,7 +2443,7 @@ function editor.closeAttempt()
 end
 
 function editor.closeNow()
-	menu.startTransition( menu.initMain, true )()
+	menu:initMain()
 end
 
 return editor

@@ -61,6 +61,9 @@ function menu:init()
 					self:switchToSubmenu( "Settings" )
 				--end )
 	end
+	local switchToEditor = function()
+		self:switchToSubmenu( "Editor" )
+	end
 
 	mainMenu:addButton( "startOff", "startOn", -3, -10,
 		switchToWorldMap, self:setPlayerPositionEvent( -6, -5) )
@@ -69,7 +72,7 @@ function menu:init()
 	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10,
 		switchToSettings, self:setPlayerPositionEvent( -6, 15) )
 	mainMenu:addButton( "editorOff", "editorOn", -2, 20,
-		nil, self:setPlayerPositionEvent( -6, 25) )
+		switchToEditor, self:setPlayerPositionEvent( -6, 25) )
 	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30,
 		nil, self:setPlayerPositionEvent( -6, 35) )
 
@@ -206,6 +209,19 @@ function menu:init()
 
 	submenus["KeyAssignment"] = keyAssignment
 
+
+	-- Dummy menu for editor (doesn't actually display anything)
+	local editorMenu = Submenu:new( 0, 1000 )
+
+	local function showEditor()
+		editor.start()
+	end
+
+	editorMenu:setActivateFunction( showEditor )
+
+	submenus["Editor"] = editorMenu
+
+
 	-- initialize parallax background
 	parallax:init()
 end
@@ -219,13 +235,10 @@ end
 
 function menu:switchToSubmenu( menuName )
 
-	print(menuName)
-	print(submenus[menuName])
 	self.previousSubmenu = self.activeSubmenu
 
 	self.activeSubmenu = menuName
 	submenus[self.activeSubmenu]:reselectButton()
-	submenus[self.activeSubmenu]:activate()
 	--submenus[menu.activeSubmenu]:startIntroTransition()
 
 	if menuName == "Main" then
@@ -265,6 +278,13 @@ function menu:switchToSubmenu( menuName )
 		self.yCameraStart = self.yCamera
 		self.cameraSlideTime = 0.5
 		self.cameraPassedTime = 0
+	elseif menuName == "Editor" then
+		self.xTarget = 0
+		self.yTarget = 1000
+		self.xCameraStart = self.xCamera
+		self.yCameraStart = self.yCamera
+		self.cameraSlideTime = 0.5
+		self.cameraPassedTime = 0
 	end
 end
 
@@ -285,6 +305,7 @@ function menu:update( dt )
 			self.xCamera = self.xTarget
 			self.yCamera = self.yTarget
 			self.cameraSlideTime = nil
+			submenus[self.activeSubmenu]:activate()
 		end
 	end
 
