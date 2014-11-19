@@ -205,7 +205,8 @@ function levelEnd:keypressed( key, unicode )
 		else
 			Campaign:setLevel(Campaign.current+1)
 			Campaign:saveState()
-			menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
+			--menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
+			menu:switchToSubmenu( "Worldmap" )	-- start the transition and fade into world map
 		end
 	elseif key == keys.CHOOSE or key == keys.PAD.CHOOSE then
 		-- if you're not displaying all stats yet,then display them now
@@ -220,7 +221,8 @@ function levelEnd:keypressed( key, unicode )
 				menu.initRatingMenu()
 				--menu.startTransition(menu.initRatingMenu)()
 			else
-				menu.startTransition(function () Campaign:proceed() end)()
+				--menu.startTransition(function () Campaign:proceed() end)()
+				Campaign:proceed()
 			end
 		end
 	end

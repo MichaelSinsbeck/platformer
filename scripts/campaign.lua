@@ -66,10 +66,10 @@ function Campaign:proceed()
 		levelEnd:reset()	
 		myMap:start()
 		mode = 'game'
-		menu:newLevelName( self.names[ self[self.current] ] )
+		--menu:newLevelName( self.names[ self[self.current] ] )
   else
 		self:setLevel(self.current-1)  
-		menu.initWorldMap()      
+		menu:switchToSubmenu( "Worldmap" )
   end
 	self:saveState()
 end

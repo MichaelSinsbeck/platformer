@@ -11,6 +11,7 @@ local menu = {
 local Submenu = require( "scripts/menu/submenu" )
 local UserlevelSubmenu = require( "scripts/menu/userlevelSubmenu" )
 local KeyAssignmentSubmenu = require( "scripts/menu/keyAssignmentSubmenu" )
+local WorldmapSubmenu = require( "scripts/menu/worldmapSubmenu" )
 
 local submenus = {}
 
@@ -102,19 +103,8 @@ function menu:init()
 	submenus["Userlevels"] = userlevelsMenu
 
 	-- Create World map menu:
-	local worldMapMenu = Submenu:new( 0, -700 )
+	local worldMapMenu = WorldmapSubmenu:new( 0, -700 )
 	submenus["Worldmap"] = worldMapMenu
-	local backToMain = function()
-		menu:switchToSubmenu( "Main" )
-	end
-	worldMapMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
-		love.graphics.getWidth()/Camera.scale/2 - 24,
-		love.graphics.getHeight()/Camera.scale/2 - 24,
-		nil )
-	worldMapMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
-		-love.graphics.getWidth()/Camera.scale/2 + 24,
-		love.graphics.getHeight()/Camera.scale/2 - 24,
-		backToMain )
 
 	local switchToSound = function()
 		menu:switchToSubmenu( "Sound" )
@@ -232,6 +222,9 @@ function menu:initMain()
 end
 
 function menu:switchToSubmenu( menuName )
+
+	if menuName == "Pause" then menuName = "Worldmap" end	-- DEBUG
+
 	mode = 'menu'
 
 	self.previousSubmenu = self.activeSubmenu
@@ -241,48 +234,31 @@ function menu:switchToSubmenu( menuName )
 	--submenus[menu.activeSubmenu]:startIntroTransition()
 
 	if menuName == "Main" then
-		self.xTarget = 0
-		self.yTarget = 0
-		self.xCameraStart = self.xCamera
-		self.yCameraStart = self.yCamera
-		self.cameraSlideTime = 0.5
-		self.cameraPassedTime = 0
+		self:slideCameraTo( 0, 0, 0.5 )
 	elseif menuName == "Worldmap" then
-		self.xTarget = 0
-		self.yTarget = -700
-		self.xCameraStart = self.xCamera
-		self.yCameraStart = self.yCamera
-		self.cameraSlideTime = 0.5
-		self.cameraPassedTime = 0
+		--self:slideCameraTo( 0, -700, 0.5 )
+		WorldmapSubmenu:scroll()
 	elseif menuName == "Userlevels" then
-		self.xTarget = 700
-		self.yTarget = 0
-		self.xCameraStart = self.xCamera
-		self.yCameraStart = self.yCamera
-		self.cameraSlideTime = 0.5
-		self.cameraPassedTime = 0
+		self:slideCameraTo( 700, 0, 0.5 )
 	elseif menuName == "Settings" then
-		self.xTarget = -700
-		self.yTarget = 0
-		self.xCameraStart = self.xCamera
-		self.yCameraStart = self.yCamera
-		self.cameraSlideTime = 0.5
-		self.cameraPassedTime = 0
+		self:slideCameraTo( -700, 0, 0.5 )
 	elseif menuName == "Sound" or
 		menuName == "Graphics" or
 		menuName == "KeyAssignment" then
-		self.xTarget = -1400
-		self.yTarget = 0
-		self.xCameraStart = self.xCamera
-		self.yCameraStart = self.yCamera
-		self.cameraSlideTime = 0.5
-		self.cameraPassedTime = 0
+		self:slideCameraTo( -1400, 0, 0.5 )
 	elseif menuName == "Editor" then
-		self.xTarget = 0
-		self.yTarget = 1000
+		self:slideCameraTo( 0, 1000, 0.5 )
+	end
+end
+
+function menu:slideCameraTo( x, y, time )
+	if not self.cameraSlideTime or 
+		self.xTarget ~= x or self.yTarget ~= y then
+		self.xTarget = x
+		self.yTarget = y
 		self.xCameraStart = self.xCamera
 		self.yCameraStart = self.yCamera
-		self.cameraSlideTime = 0.5
+		self.cameraSlideTime = time
 		self.cameraPassedTime = 0
 	end
 end
@@ -415,7 +391,7 @@ end
 -- which will start the given level:
 ---------------------------------------------------------
 
-function menu.startCampaignLevel( lvlNum )
+function menu:startCampaignLevel( lvlNum )
 	local lvl = "levels/" .. Campaign[lvlNum]
 	return function()
 		initAll()

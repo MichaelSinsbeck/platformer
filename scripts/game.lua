@@ -111,7 +111,7 @@ function game.keypressed(key)
 			editor.resume()
 			return
 		end
-		menu.initPauseMenu()
+		menu:switchToSubmenu( "Pause" )
 		Sound:play('menuPause')
 	end
 	if key == "r" then
@@ -192,7 +192,7 @@ function game.joystickpressed(joystick, button)
 			editor.resume()
 			return
 		end
-		menu.initPauseMenu()
+		menu:switchToSubmenu( "Pause" )
 		Sound:play('menuPause')
 	end
 	if button == keys.PAD.JUMP then

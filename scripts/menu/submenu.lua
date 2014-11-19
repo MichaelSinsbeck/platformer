@@ -415,6 +415,19 @@ function Submenu:reselectButton()
 	end
 end
 
+function Submenu:getSelectedButton( layerName )
+	-- Per default, choose the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			if l.selectedButton then
+				return l.selectedButton
+			end
+		end
+	end
+end
+
 function Submenu:goLeft()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
