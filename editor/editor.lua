@@ -2089,12 +2089,12 @@ end
 function editor.testMapNow()
 	editor.saveFileNow( "test.dat", "" )
 
-	menu.startTransition( menu.startGame( "test.dat" ), false )()
+	menu:startGame( "test.dat" )()
 end
 
 function editor.newMapAttempt()
 	if map and map.unsavedChanges then
-	msgBox:new( "Create new map?\nAnswering yes will destroy all unsaved changes for the current map.",
+		msgBox:new( "Create new map?\nAnswering yes will destroy all unsaved changes for the current map.",
 				editor.newMapNow, nil )
 	else
 		editor.newMapNow()

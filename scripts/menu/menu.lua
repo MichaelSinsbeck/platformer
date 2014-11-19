@@ -227,13 +227,12 @@ function menu:init()
 end
 
 function menu:initMain()
-	mode = 'menu'
-
 	--menu:switchToSubmenu( "Main" )
 	menu:switchToSubmenu( "Main" )
 end
 
 function menu:switchToSubmenu( menuName )
+	mode = 'menu'
 
 	self.previousSubmenu = self.activeSubmenu
 
@@ -410,5 +409,54 @@ end
 
 function menu:setPlayerAnimation( animation )
 end
+
+---------------------------------------------------------
+-- Creates and returns an annonymous function
+-- which will start the given level:
+---------------------------------------------------------
+
+function menu.startCampaignLevel( lvlNum )
+	local lvl = "levels/" .. Campaign[lvlNum]
+	return function()
+		initAll()
+		Campaign.current = lvlNum		
+		--p = spriteFactory('Player')
+		mode = 'game'
+		gravity = 22
+		--Campaign.current = lvlNum
+		myMap = Map:loadFromFile( lvl )
+		levelEnd:reset()		-- resets the counters of all deaths etc
+		myMap:start()
+		config.setValue( "level", lvl )
+
+		-- Add all bandans the user has already received:
+		gui.clearBandanas()
+		local bandanas = {"white","yellow","green","blue","red"}
+		local noShow = true
+		for i, col in ipairs( bandanas ) do
+			gui.addBandana( col, noShow )
+			if col == Campaign.bandana then
+				break
+			end
+		end
+	end
+end
+
+function menu:startGame( lvl )
+	return function ()
+		initAll()
+		--p = spriteFactory('Player')
+		mode = 'game'
+		gravity = 22
+		--Campaign.current = lvlNum
+		myMap = Map:loadFromFile( lvl )
+		levelEnd:reset()		-- resets the counters of all deaths etc
+		myMap:start()		
+		config.setValue( "level", lvl )
+
+		gui.clearBandanas()
+	end
+end
+
 
 return menu
