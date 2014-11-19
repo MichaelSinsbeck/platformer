@@ -218,7 +218,9 @@ function getImageForKey( str, font )
 end
 
 function getAnimationForKey( str )
+	print( str )
 	str = nameForKey( str )
+	print( "\t", str )
 	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyboardLarge"
 	end

@@ -149,6 +149,10 @@ function AnimationDB:addAni(name,source,frames,duration,updateFunction)
 	self.animation[name].duration = duration
 
 	self.animation[name].updateFunction = updateFunction
+	if name == "gamepadRB" then
+		print( self.animation[name],
+			source, frames, duration, updateFunction )
+	end
 end
 
 function AnimationDB:loadBackgrounds()
@@ -281,6 +285,18 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('graphicsButton.png','graphicsButton', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('fullscreenButton.png','fullscreenButton', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('shadersButton.png','shadersButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('gamepadA.png','gamepadA',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadB.png','gamepadB',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadX.png','gamepadX',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadY.png','gamepadY',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadUp.png','gamepadUp',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadDown.png','gamepadDown',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadRight.png','gamepadRight',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadLeft.png','gamepadLeft',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadLB.png','gamepadLB',tileSize,tileSize*2,'menu')
+	AnimationDB:loadTiledImage('gamepadRB.png','gamepadRB',tileSize,tileSize*2,'menu')
+	AnimationDB:loadTiledImage('gamepadStart.png','gamepadStart',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadBack.png','gamepadBack',tileSize,tileSize,'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
