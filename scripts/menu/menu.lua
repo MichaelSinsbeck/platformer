@@ -125,6 +125,9 @@ function menu:init()
 	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -3, 10, 
 		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 14, 15 ) )
 
+	local backToMain = function()
+		menu:switchToSubmenu( "Main" )
+	end
 	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
@@ -179,9 +182,6 @@ function menu:init()
 		self:setPlayerPositionEvent( graphicsMenu.x - 36, 15), nil,
 		{ "No Background", "Simple Background", "Detailed background" } )
 
-	local backToSettings = function()
-		menu:switchToSubmenu( "Settings" )
-	end
 	graphicsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
