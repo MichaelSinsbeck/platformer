@@ -302,7 +302,7 @@ function menu:draw()
 	love.graphics.push()
 	love.graphics.translate(
 		-math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
-		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2)
+		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2 )
 
 	if self.previousSubmenu then
 		submenus[self.previousSubmenu]:draw()
