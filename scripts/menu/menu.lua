@@ -165,26 +165,40 @@ function menu:init()
 	local p = graphicsMenu:addPanel( -64, -20, 112, 50 )
 	p:turnIntoList( 10, 1 )
 
+	local backToSettingsSaveGraphics = function()
+		settings:saveAll()
+		menu:switchToSubmenu( "Settings" )
+	end
 	local toggleFullscreen = function( bool )
 		--print(bool)
 		--settings:toggleFullScreen( bool )
 		settings:toggleFullScreen()
 		self:switchToSubmenu( "Graphics" )
 	end
+	local toggleShaders = function( bool )
+		settings:setShadersEnabled( bool )
+	end
+	local setBackgroundDetail = function( val )
+		settings:setBackgroundDetail( val )
+	end
 
-	graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
+	local b = graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		"toWindowedOff", "toWindowedOn", -32, -10, 
 		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 36, -5 ),
 		{[true]="Fullscreen", [false]="Windowed"} )
+	b:setValue( settings:getFullscreen() )
 
-	graphicsMenu:addToggleButton( "noShadersOff", "noShadersOn",
+	local b = graphicsMenu:addToggleButton( "noShadersOff", "noShadersOn",
 		"shadersOff", "shadersOn", -32, 0, 
 		toggleShaders, self:setPlayerPositionEvent( graphicsMenu.x - 36, 5 ),
 		{[true]="on", [false]="off"}, "Shaders: " )
+	b:setValue( settings:getShadersEnabled() )
 
-	graphicsMenu:addSlider( -32, 10, 20, 3,
-		self:setPlayerPositionEvent( graphicsMenu.x - 36, 15), nil,
+	local s = graphicsMenu:addSlider( -32, 10, 20, 3,
+		self:setPlayerPositionEvent( graphicsMenu.x - 36, 15), setBackgroundDetail,
 		{ "No Background", "Simple Background", "Detailed background" } )
+		print("BACKGROUND DETAIL:", settings:getBackgroundDetail() )
+	s:setValue( settings:getBackgroundDetail() )
 
 	graphicsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
@@ -193,7 +207,7 @@ function menu:init()
 	graphicsMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
-		backToSettings )
+		backToSettingsSaveGraphics )
 
 	submenus["Graphics"] = graphicsMenu
 

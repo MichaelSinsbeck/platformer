@@ -26,7 +26,7 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions, n
 	end
 	o.text = ""
 
-	Slider.setValue( o, 1 )
+	Slider.setValue( o, 1, true )
 	return o
 end
 
@@ -94,16 +94,17 @@ function Slider:decreaseValue()
 	self:setValue( math.max( self.value -1, 1 ) )
 end
 
-function Slider:setValue( val )
+function Slider:setValue( val, dontCallEvent )
 	self.vis[self.value]:setAni( "worldItemOff" )
 	self.vis[self.value]:update(0)
 	self.value = val
 	self.vis[self.value]:setAni( "worldItemOn" )
 	self.vis[self.value]:update(0)
 	self.text = self.name .. self.captions[self.value]
-	if self.eventChange then
+	if self.eventChange and not dontCallEvent then
 		self.eventChange( self.value )
 	end
+	print( "SLIDER", self.value )
 end
 
 return Slider

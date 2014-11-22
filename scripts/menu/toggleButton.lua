@@ -90,6 +90,13 @@ function TButton:toggle()
 	self:setImage()
 end
 
+function TButton:setValue( bool )
+	self.value = bool
+	self.text = self.name .. self.captions[self.value]
+	self:setImage()
+end
+
+
 function TButton:setImage()
 	if self.vis then
 		if self.value == true then

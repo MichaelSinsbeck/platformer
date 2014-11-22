@@ -2,12 +2,14 @@
 local settings = {
 	useShadows = true,
 	useShaders = true,
+	backgroundDetail = 3,
+	fullscreen = false,
 }
 
 --settings.fullscreen = false
 
 function settings:checkMode( w, h )
-	if settings.fullscreen then
+	if self.fullscreen then
 		for k, v in pairs(love.graphics.getModes()) do
 			if v.width >= w and v.height >= h then
 				return true
@@ -50,6 +52,7 @@ function settings:setWindowSize()
 end
 
 function settings:toggleFullScreen(switch)
+	
 	if switch == nil then
 		self.fullscreen = not self.fullscreen
 	else
@@ -58,7 +61,6 @@ function settings:toggleFullScreen(switch)
 
 	self:setWindowSize()
 	Camera:applyScale()
-	config.setValue("fullscreen",self.fullscreen)
 
 	--collectgarbage()
 end
@@ -72,7 +74,7 @@ function settings:initWindowSize()
 	self.yScreen = h
 
 	-- only property is "fullscreen"
-	self.fullscreen = config.getValue("fullscreen")
+	--self.fullscreen = config.getValue("fullscreen")
 	if not self.fullscreen or self.fullscreen == "false" then
 		self.fullscreen = false
 	end
@@ -139,6 +141,49 @@ end
 
 function settings:setShadersEnabled( bool )
 	self.useShaders = bool
+end
+
+function settings:getFullscreen()
+	return self.fullscreen
+end
+
+function settings:loadAll()
+	local bg = config.getValue("backgroundDetail")
+	if tonumber( bg ) then
+		self.backgroundDetail = tonumber( bg )
+	end
+	print( "bg", bg, tonumber(bg), self.backgroundDetail )
+	local fs = config.getValue("fullscreen")
+	if fs == nil or fs == false then
+		self.fullscreen = false
+	else
+		self.fullscreen = true
+	end
+	local shaders = config.getValue("useShaders")
+	if shaders == nil or shaders == false then
+		self.useShaders = false
+	else
+		self.useShaders = true
+	end
+end
+
+function settings:saveAll()
+	config.setValue("fullscreen",self.fullscreen)
+	config.setValue("useShaders",self.useShaders)
+	config.setValue("backgroundDetail",self.backgroundDetail)
+	print("Saved settings:")
+	print("\tfullscreen:", self.fullscreen)
+	print("\tuseShaders:", self.useShaders)
+	print("\tbackgroundDetail:", self.backgroundDetail)
+end
+
+function settings:setBackgroundDetail( val )
+	print("detail:", val)
+	self.backgroundDetail = val
+end
+
+function settings:getBackgroundDetail()
+	return self.backgroundDetail
 end
 
 return settings

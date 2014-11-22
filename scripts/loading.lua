@@ -122,6 +122,7 @@ end
 function loading.preload()
 -- This function does everything that is necessary before the loading 
 -- screen can be shown: Set graphical mode and load font.
+	settings:loadAll()
 	Camera:init()	
 	loadFont()	
 
