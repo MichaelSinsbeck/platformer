@@ -140,16 +140,27 @@ function menu:init()
 	local p = soundMenu:addPanel( -64, -20, 112, 40 )
 	p:turnIntoList( 10, 1 )
 
-	soundMenu:addSlider( -46, -10, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 50, -5), nil,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
-	soundMenu:addSlider( -46, 0, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 50, 5), nil,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
+	local changeEffectVolume = function( val )
+		settings:setEffectVolume( (val-1)*20 )
+	end
+	local changeMusicVolume = function( val )
+		settings:setMusicVolume( (val-1)*20 )
+	end
 
-	local backToSettings = function()
+	local backToSettingsSaveAudio = function()
+		settings:saveAudio()
 		menu:switchToSubmenu( "Settings" )
 	end
+
+	local s = soundMenu:addSlider( -46, -10, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 50, -5), changeEffectVolume,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
+	s:setValue( settings:getEffectVolume()/20+1 )
+	local s = soundMenu:addSlider( -46, 0, 40, 6,
+		self:setPlayerPositionEvent( soundMenu.x - 50, 5), changeMusicVolume,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
+	s:setValue( settings:getMusicVolume()/20+1 )
+
 	soundMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
@@ -157,7 +168,7 @@ function menu:init()
 	soundMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
-		backToSettings )
+		backToSettingsSaveAudio )
 
 	submenus["Sound"] = soundMenu
 
@@ -166,7 +177,7 @@ function menu:init()
 	p:turnIntoList( 10, 1 )
 
 	local backToSettingsSaveGraphics = function()
-		settings:saveAll()
+		settings:saveGraphics()
 		menu:switchToSubmenu( "Settings" )
 	end
 	local toggleFullscreen = function( bool )
@@ -197,7 +208,6 @@ function menu:init()
 	local s = graphicsMenu:addSlider( -32, 10, 20, 3,
 		self:setPlayerPositionEvent( graphicsMenu.x - 36, 15), setBackgroundDetail,
 		{ "No Background", "Simple Background", "Detailed background" } )
-		print("BACKGROUND DETAIL:", settings:getBackgroundDetail() )
 	s:setValue( settings:getBackgroundDetail() )
 
 	graphicsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",

@@ -31,7 +31,6 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions, n
 end
 
 function Slider:draw()
-	--print( self.imgOff, Animate
 	local y = Camera.scale*self.y
 	for i = 1, self.numSegments do
 		self.vis[i]:draw( Camera.scale*(self.x+self.dx*(i-1)), y )
@@ -104,7 +103,6 @@ function Slider:setValue( val, dontCallEvent )
 	if self.eventChange and not dontCallEvent then
 		self.eventChange( self.value )
 	end
-	print( "SLIDER", self.value )
 end
 
 return Slider
