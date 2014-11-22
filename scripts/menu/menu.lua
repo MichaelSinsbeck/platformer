@@ -168,6 +168,12 @@ function menu:init()
 	local p = graphicsMenu:addPanel( -64, -20, 112, 50 )
 	p:turnIntoList( 10, 1 )
 
+	local toggleFullscreen = function( bool )
+		--print(bool)
+		--settings:toggleFullScreen( bool )
+		settings:toggleFullScreen()
+	end
+
 	graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		"toWindowedOff", "toWindowedOn", -32, -10, 
 		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 36, -5 ),
@@ -214,6 +220,10 @@ function menu:init()
 
 	-- initialize parallax background
 	parallax:init()
+
+	if love.joystick.getJoystickCount() ~= 0 then
+		self:connectedGamepad()
+	end
 end
 
 function menu:initMain()
@@ -365,6 +375,28 @@ function menu:keypressed( key, repeated )
 	end
 end
 
+function menu:gamepadpressed( button )
+	if self.activeSubmenu then
+		key = tostring( button )
+		-- Don't let user control menu while a transition is active:
+		--if not submenus[self.activeSubmenu]:getTransition() then
+			if key == keys.PAD.LEFT then
+				submenus[self.activeSubmenu]:goLeft()
+			elseif key == keys.PAD.RIGHT then
+				submenus[self.activeSubmenu]:goRight()
+			elseif key == keys.PAD.UP then
+				submenus[self.activeSubmenu]:goUp()
+			elseif key == keys.PAD.DOWN then
+				submenus[self.activeSubmenu]:goDown()
+			elseif key == keys.PAD.CHOOSE then
+				submenus[self.activeSubmenu]:startButtonEvent()
+			else
+				submenus[self.activeSubmenu]:gamepadHotkey( key )
+			end
+		--end
+	end
+end
+
 function menu:textinput( letter )
 end
 
@@ -434,5 +466,19 @@ function menu:startGame( lvl )
 	end
 end
 
+---------------------------------------------------------
+-- Handle connecting/disconnecting joysticks:
+---------------------------------------------------------
+
+function menu:connectedGamepad()
+	for k, submenu in pairs( submenus ) do
+		submenu:connectedGamepad()
+	end
+end
+function menu:disconnectedGamepad()
+	for k, submenu in pairs( submenus ) do
+		submenu:disconnectedGamepad()
+	end
+end
 
 return menu

@@ -116,8 +116,8 @@ function love.draw()
 				menu:draw()
 			elseif mode == 'upgrade' then
 				upgrade:draw()				
-			elseif mode == 'game' and game.isDead() then
-				controlKeys:draw("death")
+			--elseif mode == 'game' and game.isDead() then
+				--controlKeys:draw("death")
 			end
 		end
 		if menu.curLevelName then
@@ -221,6 +221,11 @@ function love.joystickpressed(joystick, button)
 		return	
 	end
 	keys.pressGamepadKey( joystick, button )
+
+	if mode == 'menu' then
+		menu:gamepadpressed( button )
+	end
+
 	--[[
 	if mode == 'game' then
 		game.joystickpressed(joystick, button)
@@ -252,17 +257,32 @@ function love.joystickhat( joystick, hat, direction )
 			direction = "r"
 		end
 		keys.pressGamepadKey( joystick, direction )
+
+		-- Treat joystick hat like a button:
+		if mode == 'menu' then
+			menu:gamepadpressed( direction )
+		end
 	end
 end
 
 function love.joystickadded( j )
 	print( "New gamepad found:", j:getName() )
 	if keys then keys.joystickadded( j ) end
+	if love.joystick.getJoystickCount() == 1 then
+		if menu then
+			menu:connectedGamepad()
+		end
+	end
 end
 
 function love.joystickremoved( j )
 	print( "Disconnected gamepad:", j:getName() )
 	if keys then keys.joystickremoved( j ) end
+	if love.joystick.getJoystickCount() == 0 then
+		if menu then
+			menu:disconnectedGamepad()
+		end
+	end
 end
 
 function love.textinput( letter )

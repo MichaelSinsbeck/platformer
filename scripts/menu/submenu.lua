@@ -529,6 +529,38 @@ function Submenu:hotkey( key )
 		end
 	end
 end
+function Submenu:gamepadHotkey( key )
+	if self.activeLayer then
+		local l = self.layers[self.activeLayer]
+		for i, h in ipairs( l.hotkeys ) do
+			print( " ", h:getGamepadKey(), type( h:getGamepadKey() ) )
+			if h:getGamepadKey() == key then
+				print( "\t\tmatch" )
+				h:event()
+				return
+			end
+		end
+	end
+end
+
+----------------------------------------------------------------------
+-- Change hotkeys when a gamepad is connected:
+----------------------------------------------------------------------
+
+function Submenu:connectedGamepad()
+	for k, l in ipairs( self.layers ) do
+		for i, h in ipairs( l.hotkeys ) do
+			h:useGamepadVisualizers()
+		end
+	end
+end
+function Submenu:disconnectedGamepad()
+	for k, l in ipairs( self.layers ) do
+		for i, h in ipairs( l.hotkeys ) do
+			h:useKeyboardVisualizers()
+		end
+	end
+end
 
 ----------------------------------------------------------------------
 -- Add transitions:

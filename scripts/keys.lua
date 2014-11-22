@@ -218,9 +218,7 @@ function getImageForKey( str, font )
 end
 
 function getAnimationForKey( str )
-	print( str )
 	str = nameForKey( str )
-	print( "\t", str )
 	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyboardLarge"
 	end
@@ -431,7 +429,7 @@ function keys.joystickadded( j )
 	keys.gamepadPressed[j:getID()] = {}
 	keys.pressedLastFrame[j:getID()] = {}
 	if love.joystick.getJoystickCount() == 1 then
-		controlKeys:setup()
+		--controlKeys:setup()
 	end
 end
 
@@ -440,7 +438,7 @@ function keys.joystickremoved( j )
 	-- if, with the removal of this joystick, the last one
 	-- has been removed, switch to keyboard:
 	if love.joystick.getJoystickCount() == 0 then
-		controlKeys:setup()
+		--controlKeys:setup()
 	end
 
 	keys.gamepadPressed[j:getID()] = nil

@@ -10,7 +10,6 @@ function Panel:new( x, y, width, height )
 	o.y = y
 
 	o.box = BambooBox:new( nil, width, height )
-	print("box:", x, y, width, height )
 	return o
 end
 

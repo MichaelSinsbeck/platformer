@@ -94,7 +94,6 @@ function Campaign:saveState()
 			config.setValue( "lastLevel", self[self.current])
 		end
 	end--]]
-
 end
 
 function Campaign:setLevel(lvlnum)

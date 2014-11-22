@@ -50,8 +50,8 @@ function loading.update()
 		keys.loadGamepad()
 		loading.msg = "Menu"
 	elseif loading.step == 4 then
-		menu:init()	-- must be called after AnimationDB:loadAll()
-		BambooBox:init()
+		--menu:init()	-- must be called after AnimationDB:loadAll()
+		--BambooBox:init()
 		upgrade = require("scripts/upgrade")		
 		love.keyboard.setKeyRepeat( true )
 		loading.msg = "Shaders"
@@ -78,7 +78,7 @@ function loading.update()
 		shadows = require("scripts/monocle")
 		loading.msg = "Levels"
 	elseif loading.step == 9 then
-		levelEnd:init()	-- must be called AFTER requiring the editor
+		--levelEnd:init()	-- must be called AFTER requiring the editor
 		loading.msg = "Menu"
 	elseif loading.step == 10 then
 		menu:initMain()
