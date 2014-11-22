@@ -5,7 +5,9 @@ local menu = {
 	transitionPercentage = 0,
 	state = "main",
 	activeSubmenu = "Main",
-	parallaxPos = 0
+	parallaxPos = 0,
+	xCamera = 0,
+	yCamera = 0,
 }
 
 local Submenu = require( "scripts/menu/submenu" )
@@ -21,11 +23,6 @@ local menuPlayer = {
 }
 
 function menu:init()
-
-	self.xCamera = 0
-	self.yCamera = 0
-	self.xTarget = 0
-	self.yTarget = 0
 
 	-- Create the menu ninja:
 	menuPlayer.vis = Visualizer:New( "playerWalk" )
@@ -172,6 +169,7 @@ function menu:init()
 		--print(bool)
 		--settings:toggleFullScreen( bool )
 		settings:toggleFullScreen()
+		self:switchToSubmenu( "Graphics" )
 	end
 
 	graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
@@ -224,6 +222,9 @@ function menu:init()
 	if love.joystick.getJoystickCount() ~= 0 then
 		self:connectedGamepad()
 	end
+
+	--print( self.xCamera, self.yCamera )
+
 end
 
 function menu:initMain()
@@ -261,6 +262,7 @@ function menu:switchToSubmenu( menuName )
 	end
 end
 
+-- Slide camera to a position over a short period of time
 function menu:slideCameraTo( x, y, time )
 	if not self.cameraSlideTime or 
 		self.xTarget ~= x or self.yTarget ~= y then
@@ -271,6 +273,14 @@ function menu:slideCameraTo( x, y, time )
 		self.cameraSlideTime = time
 		self.cameraPassedTime = 0
 	end
+end
+
+-- Instantaneously move camera to a position
+function menu:setCameraTo( x, y )
+	self.xTarget = x
+	self.yTarget = y
+	self.xCamera = x
+	self.yCamera = y
 end
 
 function menu:update( dt )
