@@ -34,7 +34,7 @@ function loading.update()
 		Sound:loadAll()
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
-		require 'scripts/bridge'
+		Bridge = require 'scripts/bridge'
 		objectClasses = require 'scripts/objectclasses'
 
 		gui = require('scripts/gui')

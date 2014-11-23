@@ -7,6 +7,7 @@ local singleWorldWidth = 170
 local distBetweenButtons = 10
 local levelsPerWorld = 15
 local distBetweenWorlds = singleWorldWidth-levelsPerWorld*distBetweenButtons
+local bridges = {}
 
 function WorldmapSubmenu:new( x, y )
 	submenu = Submenu:new( x, y )
@@ -29,6 +30,8 @@ function WorldmapSubmenu:new( x, y )
 	submenu:addImage( "world3", singleWorldWidth*1.5, -30 )
 	submenu:addImage( "world4", singleWorldWidth*2.5, -30 )
 	submenu:addImage( "world5", singleWorldWidth*3.5, -30 )
+	local bridge = Bridge:new( -singleWorldWidth*0.5, -30 )
+	table.insert( bridges, bridge )
 
 	local x, y = -singleWorldWidth*0.5 + 6, 1
 	local prevX, prevY = nil, nil
@@ -83,6 +86,7 @@ function WorldmapSubmenu:new( x, y )
 		-- after last level of each world
 		-- bridge (logs)
 		if k/levelsPerWorld == math.floor(k/levelsPerWorld) then
+
 			--[[wx = x + 1.5
 			for i = 1,nLogs do
 				local thisVis = Visualizer:New('log')
@@ -98,7 +102,6 @@ function WorldmapSubmenu:new( x, y )
 			
 			x = x + distBetweenWorlds
 		end
-
 	end
 
 	-- fallback:
@@ -106,15 +109,23 @@ function WorldmapSubmenu:new( x, y )
 		-- start off with the first level selected:
 		submenu:setSelectedButton( firstButton )
 	end
-
-
+	
 	-- Extend the original drawing functions of the submenu class:
-	--submenu:addCustomDrawFunction( WorldmapSubmenu.draw, "MainLayer" )
+	submenu:addCustomDrawFunction( WorldmapSubmenu.draw, "MainLayer" )
+	submenu:addCustomUpdateFunction( function(dt) WorldmapSubmenu:update(dt) end )
 
 	return submenu
 end
 
 function WorldmapSubmenu:draw()
+	for k, b in ipairs( bridges ) do
+		b:draw()
+	end
+end
+function WorldmapSubmenu:update( dt )
+	for k, b in ipairs( bridges ) do
+		b:update( dt )
+	end
 end
 
 function WorldmapSubmenu:scroll( )

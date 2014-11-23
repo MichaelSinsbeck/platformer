@@ -57,10 +57,11 @@ function Campaign:proceed()
 	local nextIsNew = (self.current+1 > self.last)
 	local worldChange = self:setLevel(self.current+1)
 	
-	if worldChange and nextIsNew then
+	--[[if worldChange and nextIsNew then
 		-- go to animation for world transition
 		bridge:start()
-	elseif self[self.current] then
+	else]]
+	if self[self.current] then
 		-- go to next level
 		myMap = Map:loadFromFile( "levels/" .. self[self.current])
 		levelEnd:reset()	

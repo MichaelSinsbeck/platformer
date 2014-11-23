@@ -106,6 +106,9 @@ function Submenu:update( dt )
 	if self.imageTransition then
 		self.imageTransition:update( dt )
 	end]]
+	if self.customUpdateFunction then
+		self.customUpdateFunction( dt )
+	end
 end
 
 ----------------------------------------------------------------------
@@ -136,6 +139,9 @@ function Submenu:addCustomDrawFunction( fnc, layerName )
 			l.customDrawFunction = fnc
 		end
 	end
+end
+function Submenu:addCustomUpdateFunction( fnc )
+	self.customUpdateFunction = fnc
 end
 
 function Submenu:setLayerVisible( layerName, bool )
