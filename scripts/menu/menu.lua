@@ -288,7 +288,7 @@ end
 
 -- Slide camera to a position over a short period of time
 function menu:slideCameraTo( x, y, time )
-	if not self.cameraSlideTime or 
+	if (not self.cameraSlideTime) or 
 		self.xTarget ~= x or self.yTarget ~= y then
 		self.xTarget = x
 		self.yTarget = y
@@ -469,7 +469,7 @@ function menu:startCampaignLevel( lvlNum )
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start()
-		config.setValue( "level", lvl )
+		config.setValue( "level", Campaign[lvlNum] )
 
 		-- Add all bandans the user has already received:
 		gui.clearBandanas()
@@ -500,6 +500,14 @@ function menu:startGame( lvl )
 	end
 end
 
+function menu:proceedToNextLevel( levelNumber )
+	WorldmapSubmenu:createButtons( levelNumber, levelNumber )
+end
+
+function menu:nextWorld( worldNumber )
+	WorldmapSubmenu:addBridge( worldNumber-1 )
+	self:switchToSubmenu( "Worldmap" )
+end
 ---------------------------------------------------------
 -- Handle connecting/disconnecting joysticks:
 ---------------------------------------------------------

@@ -42,13 +42,17 @@ local Bridge = {}
 Bridge.__index = Bridge
 local nLogs = 10
 
-function Bridge:new( x, y )
+function Bridge:new( x, y, noAnimation )
 	local o = {}
 	setmetatable( o, self )
 	o.x = x
 	o.y = y
 	o.time = 0
+	if noAnimation then
+		o.time = 1
+	end
 	o.logs = {}
+	o.animationFinished = false
 
 	local wx = 1.5
 	for i = 1,nLogs do
@@ -58,6 +62,8 @@ function Bridge:new( x, y )
 		table.insert(o.logs, {vis = thisVis, x = wx, y = wy})
 		wx = wx + 2.1
 	end
+
+	self.update( o, o.time*2 )
 
 	return o
 end
@@ -69,7 +75,7 @@ function Bridge:draw()
 end
 
 function Bridge:update(dt)
-	self.time = self.time + dt
+	self.time = self.time + dt*0.5
 	
 	-- scroll world map
 	--local factor = math.min(1, 3*dt)
@@ -82,6 +88,10 @@ function Bridge:update(dt)
 		menu.AddOneWorldMap()
 		mode = 'menu'
 	end]]
+
+	if self.time >= 1 then
+		self.animationFinished = true
+	end
 end
 
 -- changes scales of Logs, if existant
