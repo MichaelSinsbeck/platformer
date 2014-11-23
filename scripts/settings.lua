@@ -159,6 +159,7 @@ function settings:getEffectVolume()
 end
 function settings:setEffectVolume( vol )
 	self.effectVolume = vol
+	Sound:setSoundVolume( vol/100 )
 end
 
 function settings:getMusicVolume()
@@ -166,6 +167,7 @@ function settings:getMusicVolume()
 end
 function settings:setMusicVolume( vol )
 	self.musicVolume = vol
+	Sound:setMusicVolume( vol/100 )
 end
 
 function settings:loadAll()
