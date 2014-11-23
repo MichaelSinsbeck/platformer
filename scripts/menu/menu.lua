@@ -258,7 +258,10 @@ end
 
 function menu:switchToSubmenu( menuName )
 
-	if menuName == "Pause" then menuName = "Worldmap" end	-- DEBUG
+	if menuName == "Pause" then
+		menuName = "Worldmap"		-- DEBUG
+	end
+
 
 	mode = 'menu'
 
@@ -270,11 +273,13 @@ function menu:switchToSubmenu( menuName )
 
 	if menuName == "Main" then
 		self:slideCameraTo( 0, 0, 0.5 )
+		menu.currentlyPlayingUserlevels = false
 	elseif menuName == "Worldmap" then
 		--self:slideCameraTo( 0, -700, 0.5 )
 		WorldmapSubmenu:scroll()
 	elseif menuName == "Userlevels" then
 		self:slideCameraTo( 700, 0, 0.5 )
+		menu.currentlyPlayingUserlevels = true
 	elseif menuName == "Settings" then
 		self:slideCameraTo( -700, 0, 0.5 )
 	elseif menuName == "Sound" or
@@ -284,6 +289,7 @@ function menu:switchToSubmenu( menuName )
 	elseif menuName == "Editor" then
 		self:slideCameraTo( 0, 1000, 0.5 )
 	end
+
 end
 
 -- Slide camera to a position over a short period of time

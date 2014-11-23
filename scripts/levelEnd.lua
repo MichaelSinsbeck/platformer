@@ -218,7 +218,8 @@ function levelEnd:keypressed( key, unicode )
 				editor.resume()
 			elseif menu.currentlyPlayingUserlevels then
 				--menu.startTransition(menu.initUserlevels)()
-				menu.initRatingMenu()
+				--menu.initRatingMenu()
+				menu:switchToSubmenu( "Userlevels" )
 				--menu.startTransition(menu.initRatingMenu)()
 			else
 				--menu.startTransition(function () Campaign:proceed() end)()

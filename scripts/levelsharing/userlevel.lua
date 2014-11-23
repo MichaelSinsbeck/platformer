@@ -88,7 +88,7 @@ function Userlevel:finishedDownloading( data )
 	self.statusVis:setAni( "userlevelPlay" )
 	self.statusVis:update(0)
 
-	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+	--menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 end
 function Userlevel:failedDownloading( msg )
 	print("Couldn't download " .. self.filename .. ". Reason: " .. msg )
@@ -99,14 +99,14 @@ function Userlevel:failedDownloading( msg )
 	self.statusVis:setAni( "userlevelError" )
 	self.statusVis:update(0)
 
-	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+	--menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 end
 
 function Userlevel:deleteLocalContent()
 	love.filesystem.remove( self.filename )
 	self.downloaded = false
 
-	menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+	--menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 
 	self.statusVis:setAni( "userlevelDownload" )
 	self.statusVis:update(0)
@@ -142,7 +142,8 @@ end
 function Userlevel:play()
 	if not self.downloaded then return end
 
-	menu.startTransition( menu.startGame( self.filename ), false )()
+	--menu.startTransition( menu.startGame( self.filename ), false )()
+	menu:startGame( self.filename )()
 end
 
 function Userlevel.sortByAuthorAscending( a, b )
