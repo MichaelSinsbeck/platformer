@@ -33,13 +33,8 @@ function WorldmapSubmenu:new( x, y )
 	submenu:addImage( "world4", singleWorldWidth*2.5, -30 )
 	submenu:addImage( "world5", singleWorldWidth*3.5, -30 )
 
-	--local x, y = -singleWorldWidth*0.5 + 6, 1
-	--local prevX, prevY = nil, nil
-
 	local currentLevel = config.getValue("level")
 	local lastLevel = config.getValue("lastLevel") or Campaign[1]
-
-	print(currentLevel, "current level")
 
 --[[	for k, v in ipairs(Campaign) do
 
@@ -96,6 +91,8 @@ function WorldmapSubmenu:new( x, y )
 		end
 	end]]
 
+	local x, y = -singleWorldWidth*0.5 + 6, 1
+
 	local lastLevelNum = 1	-- at least one level button should be created
 	local selectLevelNum = 1	-- which level to select (default: last one)
 	for k, v in ipairs( Campaign ) do
@@ -107,6 +104,13 @@ function WorldmapSubmenu:new( x, y )
 		if v == currentLevel then
 			selectLevelNum = k
 		end
+
+		submenu:addImage( "worldItemInactive", x -1 , y-1 )
+
+		if k/levelsPerWorld == math.floor(k/levelsPerWorld) then
+			x = x + distBetweenWorlds
+		end
+		x = x + distBetweenButtons
 	end
 
 	-- Create a list of buttons.
