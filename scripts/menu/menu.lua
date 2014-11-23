@@ -288,6 +288,7 @@ end
 
 -- Slide camera to a position over a short period of time
 function menu:slideCameraTo( x, y, time )
+	print("Slide camera to:", x, y )
 	if (not self.cameraSlideTime) or 
 		self.xTarget ~= x or self.yTarget ~= y then
 		self.xTarget = x
@@ -301,10 +302,12 @@ end
 
 -- Instantaneously move camera to a position
 function menu:setCameraTo( x, y )
+	print("Set camera to:", x, y )
 	self.xTarget = x
 	self.yTarget = y
 	self.xCamera = x
 	self.yCamera = y
+	self.cameraSlideTime = nil
 end
 
 function menu:update( dt )
@@ -505,8 +508,8 @@ function menu:proceedToNextLevel( levelNumber )
 end
 
 function menu:nextWorld( worldNumber )
-	WorldmapSubmenu:addBridge( worldNumber-1 )
 	self:switchToSubmenu( "Worldmap" )
+	WorldmapSubmenu:addBridge( worldNumber-1 )
 end
 ---------------------------------------------------------
 -- Handle connecting/disconnecting joysticks:

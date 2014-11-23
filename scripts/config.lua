@@ -28,10 +28,6 @@ local CONFIG_FILE = "config.txt"	-- default file name if none is given.
 -- If an entry with the same name exists, it's overwritten.
 function config.setValue( name, value, filename )
 
-	if name == "level" then
-		print("SETTING LEVEL:", debug.traceback() )
-	end
-	
 	filename = filename or CONFIG_FILE	-- default to configfile
 	
 	if not name or not value == nil then

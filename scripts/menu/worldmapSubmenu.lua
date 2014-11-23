@@ -161,7 +161,6 @@ end
 
 function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBridges )
 
-	print("number of levels", "selectedLevel", lastLevelNumber, selectLevelNum )
 	local x, y = -singleWorldWidth*0.5 + 6, 1
 
 	for k, v in ipairs(Campaign) do
@@ -211,6 +210,9 @@ function WorldmapSubmenu:addBridge( worldNumber, noAnimation )
 	local y = 0
 	local bridge = Bridge:new( x, y, noAnimation )
 	table.insert( bridges, bridge )
+	if not noAnimation then
+		menu:setCameraTo( submenu.x + x, submenu.y + y )
+	end
 end
 
 return WorldmapSubmenu
