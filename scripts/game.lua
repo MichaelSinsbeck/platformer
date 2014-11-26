@@ -86,7 +86,7 @@ function game:update(dt)
 
 	if self.deathtimer >= self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
 		if not self.restartingLevel then
-			menu.startTransition( function() myMap:start(p) end )()		-- fades to black and restarts map.
+			myMap:start(p)
 			self.restartingLevel = true
 		end
 	end
@@ -113,7 +113,7 @@ function game.keypressed(key)
 			editor.resume()
 			return
 		end
-		menu.initPauseMenu()
+		menu:switchToSubmenu( "Pause" )
 		Sound:play('menuPause')
 	end
 	if key == "r" then
@@ -128,12 +128,14 @@ function game.keypressed(key)
 	
 	if p.dead then
 		if key == keys.CHOOSE then
-			menu.startTransition( function() myMap:start(p) end )()
+			--menu.startTransition( function() myMap:start(p) end )()
+			myMap:start(p)
 		elseif key == keys.BACK then
 			if menu.currentlyPlayingUserlevels then
-				menu.startTransition( menu.initUserlevels, true )()
+				--menu.startTransition( menu.initUserlevels, true )()
+				menu:switchToSubmenu( "Userlevels" )
 			else
-				menu.startTransition( menu.initWorldMap, true )()
+				menu:switchToSubmenu( "Worldmap" )
 			end
 		end
 	end  
@@ -192,7 +194,7 @@ function game.joystickpressed(joystick, button)
 			editor.resume()
 			return
 		end
-		menu.initPauseMenu()
+		menu:switchToSubmenu( "Pause" )
 		Sound:play('menuPause')
 	end
 	if button == keys.PAD.JUMP then
@@ -200,13 +202,13 @@ function game.joystickpressed(joystick, button)
 	end
 	if p.dead then
 		if button == keys.PAD.CHOOSE then
-			menu.startTransition( function() myMap:start(p) end )()
+			myMap:start(p)
 		elseif button == keys.PAD.BACK then
 			--menu.startTransition( menu.initWorldMap, true )()
 			if menu.currentlyPlayingUserlevels then
-				menu.startTransition( menu.initUserlevels, true )()
+				menu:switchToSubmenu( "Userlevels" )
 			else
-				menu.startTransition( menu.initWorldMap, true )()
+				menu:switchToSubmenu( "Worldmap" )
 			end
 		end
 	end  

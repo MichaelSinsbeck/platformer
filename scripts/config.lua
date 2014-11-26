@@ -27,7 +27,7 @@ local CONFIG_FILE = "config.txt"	-- default file name if none is given.
 -- Saves a name, value pair in the file "filename".
 -- If an entry with the same name exists, it's overwritten.
 function config.setValue( name, value, filename )
-	
+
 	filename = filename or CONFIG_FILE	-- default to configfile
 	
 	if not name or not value == nil then

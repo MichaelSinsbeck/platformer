@@ -5,6 +5,7 @@ function Visualizer:New(name,input,text)
   local o = input or {}
   o.animation = name or ''
   o.timer = o.timer or 0
+  o.vectorTimer = o.vectorTimer or 0
   o.frame = o.frame or 1
   o.sx, o.sy = o.sx or 1, o.sy or 1
   o.relX, o.relY = o.relX or 0, o.relY or 0
@@ -27,6 +28,11 @@ function Visualizer:init()
 		local name = AnimationDB.animation[self.animation].source
 		self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
 		self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
+
+		-- If there is a special update function, overwrite my own update function:
+		if AnimationDB.animation[self.animation].updateFunction then
+			self.vectorUpdate = AnimationDB.animation[self.animation].updateFunction
+		end
 	end
 	self:update(0)
 end
@@ -65,6 +71,7 @@ end
 function Visualizer:reset()
 	self.frame = 1
 	self.timer = 0
+	self.vectorTimer = 0
 end
 
 function Visualizer:draw(x,y, useExternalColor)
@@ -114,9 +121,9 @@ function Visualizer:getImage()
 end
 
 function Visualizer:update(dt)
-  self.timer = self.timer + dt
-  -- switch to next frame
-  if self.animation then
+	self.timer = self.timer + dt
+	-- switch to next frame
+	if self.animation then
 		local animationData = AnimationDB.animation[self.animation]
 		if animationData then -- only advance, if the animation exists in DB
 			local source = AnimationDB.source[animationData.source]
@@ -132,7 +139,11 @@ function Visualizer:update(dt)
 		else -- if animation does not exists
 			self.imgName = nil
 		end
-  end
+	end
+	if self.vectorUpdate then
+		self.vectorTimer = self.vectorTimer + dt
+		self:vectorUpdate()
+	end
 end
 
 -- The following uses a mesh to draw the animation:
@@ -177,9 +188,14 @@ end
 
 function Visualizer:setAni(name)
 	if self.animation ~= name then
-	  self.animation = name
-	  if not continue then
-	    self:reset()
-	  end
+		self.animation = name
+		if not continue then
+			self:reset()
+		end
+		if AnimationDB.animation[self.animation].updateFunction then
+			self.vectorUpdate = AnimationDB.animation[self.animation].updateFunction
+		else
+			self.vectorUpdate = nil
+		end
 	end
 end

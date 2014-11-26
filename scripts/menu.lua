@@ -583,7 +583,8 @@ function menu:initUserlevels()
 	menu:loadDownloadedUserlevels()
 
 	--[[threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
-						function(data) menu:userlevelsLoaded(data, "authorized") end, nil, "authorized" )]] threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+						function(data) menu:userlevelsLoaded(data, "authorized") end, nil, "authorized" )]]
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 						function(data) menu:userlevelsLoaded(data, "unauthorized") end,
 						nil, "unauthorized" )
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
@@ -652,8 +653,6 @@ end
 
 function menu:userlevelsLoaded( data, authorizationLevel )
 	if menu.state == "userlevels" then	-- if I'm still in the correct state
-		local x = -love.graphics.getWidth()/2/Camera.scale + 1
-		local y = -love.graphics.getHeight()/2/Camera.scale + 1
 		for line in data:gmatch("([^\n]-)\n") do
 			local author, levelname, ratingFun, ratingDifficulty = line:match("(.*)\t(.*)\t.*\t(.*)\t(.*)")
 			if author and levelname and ratingFun and ratingDifficulty then

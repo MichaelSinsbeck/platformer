@@ -2,12 +2,16 @@
 local settings = {
 	useShadows = true,
 	useShaders = true,
+	backgroundDetail = 3,
+	fullscreen = false,
+	effectVolume = 60,
+	musicVolume = 40,
 }
 
 --settings.fullscreen = false
 
 function settings:checkMode( w, h )
-	if settings.fullscreen then
+	if self.fullscreen then
 		for k, v in pairs(love.graphics.getModes()) do
 			if v.width >= w and v.height >= h then
 				return true
@@ -26,15 +30,21 @@ end
 function settings:setWindowSize()
 	local success
 	local scale
+	print("FULLSCREEN:", self.fullscreen)
 	if self.fullscreen then
+		print("1")
 		scale = self:fullscreenScale()
+		print("1.1")
 		success = love.window.setMode( 0, 0, {fullscreen = true} )
 	else
+		print("2")
 		scale = self:windowScale()
+		print("2.1")
 		success = love.window.setMode(
 			math.min(self.xScreen,scale*8*32),
 			math.min(self.yScreen,scale*8*20), {fullscreen = false} )
 	end
+		print("3")
 	Camera:setScale(scale)
 
 	local w, h = love.window.getDimensions()
@@ -44,6 +54,7 @@ function settings:setWindowSize()
 end
 
 function settings:toggleFullScreen(switch)
+	
 	if switch == nil then
 		self.fullscreen = not self.fullscreen
 	else
@@ -52,9 +63,8 @@ function settings:toggleFullScreen(switch)
 
 	self:setWindowSize()
 	Camera:applyScale()
-	config.setValue("fullscreen",self.fullscreen)
 
-	collectgarbage()
+	--collectgarbage()
 end
 
 
@@ -66,7 +76,7 @@ function settings:initWindowSize()
 	self.yScreen = h
 
 	-- only property is "fullscreen"
-	self.fullscreen = config.getValue("fullscreen")
+	--self.fullscreen = config.getValue("fullscreen")
 	if not self.fullscreen or self.fullscreen == "false" then
 		self.fullscreen = false
 	end
@@ -126,13 +136,78 @@ end
 function settings:setShadowsEnabled( bool )
 	self.useShadows = bool
 end
-
 function settings:getShadersEnabled()
 	return self.useShaders
 end
-
 function settings:setShadersEnabled( bool )
 	self.useShaders = bool
+end
+
+function settings:getFullscreen()
+	return self.fullscreen
+end
+
+function settings:setBackgroundDetail( val )
+	self.backgroundDetail = val
+end
+function settings:getBackgroundDetail()
+	return self.backgroundDetail
+end
+
+function settings:getEffectVolume()
+	return self.effectVolume
+end
+function settings:setEffectVolume( vol )
+	self.effectVolume = vol
+	Sound:setSoundVolume( vol/100 )
+end
+
+function settings:getMusicVolume()
+	return self.musicVolume
+end
+function settings:setMusicVolume( vol )
+	self.musicVolume = vol
+	Sound:setMusicVolume( vol/100 )
+end
+
+function settings:loadAll()
+	local bg = config.getValue("backgroundDetail")
+	if tonumber( bg ) then
+		self.backgroundDetail = tonumber( bg )
+	end
+	local fs = config.getValue("fullscreen")
+	if fs == nil or fs == false then
+		self.fullscreen = false
+	else
+		self.fullscreen = true
+	end
+	local shaders = config.getValue("useShaders")
+	if shaders == nil or shaders == false then
+		self.useShaders = false
+	else
+		self.useShaders = true
+	end
+	local effectVol = config.getValue("effectVolume")
+	if tonumber( effectVol ) then
+		self.effectVolume = tonumber( effectVol )
+	end
+	local musicVol = config.getValue("musicVolume")
+	if tonumber( musicVol ) then
+		self.musicVolume = tonumber( musicVol )
+	end
+	print("Loaded settings.")
+end
+
+function settings:saveGraphics()
+	config.setValue("fullscreen",self.fullscreen)
+	config.setValue("useShaders",self.useShaders)
+	config.setValue("backgroundDetail",self.backgroundDetail)
+	print("Saved graphics settings.")
+end
+function settings:saveAudio()
+	config.setValue("effectVolume",self.effectVolume)
+	config.setValue("musicVolume",self.musicVolume)
+	print("Saved audio settings.")
 end
 
 return settings

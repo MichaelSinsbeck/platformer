@@ -7,6 +7,8 @@ animation = {},
 silhouette = {}, -- these are only for the background silhouettes
 }
 
+local vectorAnimations = {}
+
 local R = 3
 local HR = 1.5
 
@@ -132,19 +134,25 @@ function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,ge
   end
 end
 
-function AnimationDB:addAni(name,source,frames,duration)
+function AnimationDB:addAni(name,source,frames,duration,updateFunction)
 	-- check, iff both input tables have the same length and add zeros, if necessary
 	local frameLength = #frames
 	local durationLength = #duration
 	if frameLength > durationLength then
-	  for excess = durationLength+1,frameLength do
-	    duration[excess] = 0
-	  end
+		for excess = durationLength+1,frameLength do
+			duration[excess] = 0
+		end
 	end
-  self.animation[name] = {}
-  self.animation[name].source = source
-  self.animation[name].frames = frames
-  self.animation[name].duration = duration
+	self.animation[name] = {}
+	self.animation[name].source = source
+	self.animation[name].frames = frames
+	self.animation[name].duration = duration
+
+	self.animation[name].updateFunction = updateFunction
+	if name == "gamepadRB" then
+		print( self.animation[name],
+			source, frames, duration, updateFunction )
+	end
 end
 
 function AnimationDB:loadBackgrounds()
@@ -220,15 +228,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('worldItemOff.png','worldItemOff','menu')
 	AnimationDB:loadImage('worldItemOn.png','worldItemOn','menu')
 	AnimationDB:loadImage('worldItemInactive.png','worldItemInactive','menu')
-	AnimationDB:loadImage('keyboardOff.png','keyboardOff','menu')
-	AnimationDB:loadImage('keyboardOn.png','keyboardOn','menu')
-	AnimationDB:loadImage('gamepadOff.png','gamepadOff','menu')
-	AnimationDB:loadImage('gamepadOn.png','gamepadOn','menu')
-	AnimationDB:loadImage('keyOn.png','keyOn','menu')
-	AnimationDB:loadImage('keyOff.png','keyOff','menu')
-	AnimationDB:loadImage('keyLargeOn.png','keyLargeOn','menu')
-	AnimationDB:loadImage('keyLargeOff.png','keyLargeOff','menu')
-	AnimationDB:loadImage('gamepadA.png','gamepadA','menu')
+	--[[AnimationDB:loadImage('gamepadA.png','gamepadA','menu')
 	AnimationDB:loadImage('gamepadB.png','gamepadB','menu')
 	AnimationDB:loadImage('gamepadX.png','gamepadX','menu')
 	AnimationDB:loadImage('gamepadY.png','gamepadY','menu')
@@ -239,7 +239,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('gamepadLB.png','gamepadLB','menu')
 	AnimationDB:loadImage('gamepadRB.png','gamepadRB','menu')
 	AnimationDB:loadImage('gamepadStart.png','gamepadStart','menu')
-	AnimationDB:loadImage('gamepadBack.png','gamepadBack','menu')
+	AnimationDB:loadImage('gamepadBack.png','gamepadBack','menu')]]
 	AnimationDB:loadImage('keyNone.png','keyNone','menu')
 	AnimationDB:loadImage('restartOff.png','restartOff','menu')
 	AnimationDB:loadImage('restartOn.png','restartOn','menu')
@@ -274,6 +274,29 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('acceptOn.png','acceptOn', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('cancelOff.png','cancelOff', tileSize, tileSize, 'menu')
 	AnimationDB:loadTiledImage('cancelOn.png','cancelOn', tileSize, tileSize, 'menu')
+
+	AnimationDB:loadTiledImage('menuButtons.png','menuButtons', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('keyLargeOn.png','keyLargeOn', tileSize, tileSize*2, 'menu')
+	AnimationDB:loadTiledImage('keyLargeOff.png','keyLargeOff', tileSize, tileSize*2, 'menu')
+	AnimationDB:loadTiledImage('keyOn.png','keyOn', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('keyOff.png','keyOff', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('keyAssignment.png','keyAssignment', tileSize, tileSize*3, 'menu')
+	AnimationDB:loadTiledImage('soundButton.png','soundButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('graphicsButton.png','graphicsButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('fullscreenButton.png','fullscreenButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('shadersButton.png','shadersButton', tileSize, tileSize, 'menu')
+	AnimationDB:loadTiledImage('gamepadA.png','gamepadA',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadB.png','gamepadB',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadX.png','gamepadX',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadY.png','gamepadY',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadUp.png','gamepadUp',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadDown.png','gamepadDown',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadRight.png','gamepadRight',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadLeft.png','gamepadLeft',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadLB.png','gamepadLB',tileSize,tileSize*2,'menu')
+	AnimationDB:loadTiledImage('gamepadRB.png','gamepadRB',tileSize,tileSize*2,'menu')
+	AnimationDB:loadTiledImage('gamepadStart.png','gamepadStart',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('gamepadBack.png','gamepadBack',tileSize,tileSize,'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
@@ -716,9 +739,61 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('cancelOn'   ,'cancelOn',{1},{1e6})
 	AnimationDB:addAni('acceptOn'   ,'acceptOn',{1},{1e6})
 
+	-- Menu Buttons:
+	AnimationDB:addAni('startOn','menuButtons',{1},{1e6}, 
+		vectorAnimations.startAniUpdate )
+	AnimationDB:addAni('startOff','menuButtons',{2},{1e6} )
+	AnimationDB:addAni('exitOn','menuButtons',{3},{1e6},
+		vectorAnimations.exitAniUpdate )
+	AnimationDB:addAni('exitOff','menuButtons',{4},{1e6})
+	AnimationDB:addAni('downloadOn','menuButtons',{5},{1e6}, 
+		vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('downloadOff','menuButtons',{6},{1e6})
+	AnimationDB:addAni('restartOn','menuButtons',{7},{1e6},
+		vectorAnimations.restartAniUpdate )
+	AnimationDB:addAni('restartOff','menuButtons',{8},{1e6})
+	AnimationDB:addAni('editorOn','menuButtons',{9},{1e6},
+		vectorAnimations.editorAniUpdate )
+	AnimationDB:addAni('editorOff','menuButtons',{10},{1e6})
+	AnimationDB:addAni('acceptOn','menuButtons',{11},{1e6})
+	AnimationDB:addAni('acceptOff','menuButtons',{12},{1e6})
+	AnimationDB:addAni('settingsOn','menuButtons',{13},{1e6},
+		vectorAnimations.settingsAniRestart )
+	AnimationDB:addAni('settingsOff','menuButtons',{14},{1e6})
+	AnimationDB:addAni('cancelOn','menuButtons',{15},{1e6})
+	AnimationDB:addAni('cancelOff','menuButtons',{16},{1e6})
+	AnimationDB:addAni('creditsOn','menuButtons',{17},{1e6},
+		vectorAnimations.creditsAniUpdate )
+	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
+	AnimationDB:addAni('worldItemOn','menuButtons',{19},{1e6},
+		vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('worldItemOff','menuButtons',{20},{1e6})
+	AnimationDB:addAni('keyAssignmentOn','keyAssignment',{1},{1e6},
+		vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('keyAssignmentOff','keyAssignment',{2},{1e6})
+	AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},
+		{0.15, 0.15, 0.15, 0.5}, vectorAnimations.soundAniUpdate )
+	AnimationDB:addAni('soundOptionsOff','soundButton',{5},{1e6})
+	AnimationDB:addAni('graphicsOptionsOn','graphicsButton',{1,2,3,4,5},
+		{0.5, 0.25, 0.25, 0.25, 1.25}, vectorAnimations.graphicsAniUpdate )
+	AnimationDB:addAni('graphicsOptionsOff','graphicsButton',{1},{1e6})
+	AnimationDB:addAni('fullscreenOn','fullscreenButton',{2,3,4,5,6,7,6,5,4,3,2},
+		{.15, .15, .15, .15, .15, .5, .15, .15, .15, .15, .5} )
+	AnimationDB:addAni('fullscreenOff','fullscreenButton',{1},{1e6})
+	AnimationDB:addAni('toFullscreenOff','fullscreenButton',{1},{1e6} )
+	AnimationDB:addAni('toFullscreenOn','fullscreenButton',{2,3,4,5,6},{.1,.1,.1,.1,.6},
+		vectorAnimations.fullscreenAniUpdate )
+	AnimationDB:addAni('toWindowedOff','fullscreenButton',{7},{1e6} )
+	AnimationDB:addAni('toWindowedOn','fullscreenButton',{8,9,10,11,12},{.1,.1,.1,.1,.6},
+		vectorAnimations.fullscreenAniUpdate )
+	AnimationDB:addAni('shadersOff','shadersButton',{1},{1e6} )
+	AnimationDB:addAni('shadersOn','shadersButton',{2},{1e6}, vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('noShadersOff','shadersButton',{3},{1e6} )
+	AnimationDB:addAni('noShadersOn','shadersButton',{4},{1e6}, vectorAnimations.userlevelsAniUpdate )
+
 	-- keyboard and gamepad keys for in-level display: (tutorial)
-	AnimationDB:addAni('keyboardSmall','keyboardSmall',{1},{1e6})
-	AnimationDB:addAni('keyboardLarge','keyboardLarge',{1},{1e6})
+	AnimationDB:addAni('keyboardSmall','keyOff',{1},{1e6})
+	AnimationDB:addAni('keyboardLarge','keyLargeOff',{1},{1e6})
 	AnimationDB:addAni('gamepadA','gamepadA',{1},{1e6})
 	AnimationDB:addAni('gamepadB','gamepadB',{1},{1e6})
 	AnimationDB:addAni('gamepadBack','gamepadBack',{1},{1e6})
@@ -817,4 +892,67 @@ function AnimationDB:addAllSilhouettes()
 	self:addSilhouette('mountain',0,3,6,3,sw,sh)
 	self:addSilhouette('mountain',6,3,8,3,sw,sh)
 	self:addSilhouette('mountain',14,3,8,4,sw,sh)
+end
+
+
+function vectorAnimations.startAniUpdate( anim )
+	anim.ox = 4 + 1-2*math.abs(math.sin(5*anim.vectorTimer))
+	anim.sy = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sx = 1/anim.sy
+end
+
+function vectorAnimations.settingsAniRestart( anim )
+	anim.angle = anim.vectorTimer * 5
+end
+
+function vectorAnimations.creditsAniUpdate( anim )
+	--anim.sx = 1-0.1*math.abs(math.cos(6*anim.vectorTimer))
+	--anim.sx = 1-2*math.abs(math.sin(6*anim.vectorTimer))
+	anim.sx = 1+0.15*math.abs(math.sin(6*anim.vectorTimer))
+	anim.sy = anim.sx
+	anim.angle = 0.2*math.sin(- anim.vectorTimer * 6)
+	anim.oy = 4 + 1-1*math.abs(math.sin(6*anim.vectorTimer))
+end
+function vectorAnimations.exitAniUpdate( anim )
+	anim.oy = 4+1-2*math.abs(math.sin(5*anim.vectorTimer))
+	anim.sx = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = 1/anim.sx
+end
+function vectorAnimations.editorAniUpdate( anim )
+	anim.oy = 4 -1*math.abs(math.sin(5*anim.vectorTimer))
+	anim.sx = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = 1/anim.sx
+end
+function vectorAnimations.userlevelsAniUpdate( anim )
+	anim.yShift = -0.4*math.sin(5*anim.vectorTimer)
+	anim.xShift = -anim.yShift
+	anim.sx = 1+0.1*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = anim.sx
+end
+function vectorAnimations.keyboardAniUpdate( anim )
+	anim.sx = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
+end
+function vectorAnimations.gamepadAniUpdate( anim )
+	anim.sx = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
+end
+function vectorAnimations.restartAniUpdate( anim )
+	anim.angle = anim.angle - math.pow(math.sin(anim.vectorTimer), 2)/5
+end
+function vectorAnimations.soundAniUpdate( anim )
+	anim.angle = math.cos( 3*anim.vectorTimer )/3
+end
+function vectorAnimations.graphicsAniUpdate( anim )
+	local t = anim.vectorTimer - 2.5*math.floor(anim.vectorTimer / 2.5)
+	if t < 2 then
+		anim.sx = 1 + 0.1*t
+		anim.sy = anim.sx
+	end
+end
+function vectorAnimations.fullscreenAniUpdate( anim )
+	anim.yShift = -0.4*math.cos(math.pi*anim.vectorTimer)
+	anim.xShift = -anim.yShift
+	anim.sx = 1+0.1*math.abs(math.sin(math.pi*anim.vectorTimer))
+	anim.sy = anim.sx
 end

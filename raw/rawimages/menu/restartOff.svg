@@ -13,7 +13,7 @@
    inkscape:export-xdpi="90"
    inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/menu/startOn.png"
    sodipodi:docname="restartOff.svg"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    version="1.1"
    id="svg2"
    height="50"
@@ -59,7 +59,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -68,12 +68,6 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Ebene 1">
-    <path
-       sodipodi:nodetypes="cccc"
-       inkscape:connector-curvature="0"
-       id="path3788"
-       d="m 43.146655,1040.6567 c -9.479207,-1.9093 -18.383925,-5.3929 -25.184525,-13.2829 7.292008,-7.8426 14.712761,-11.0405 24.87946,-13.3061 2.125,11.5 1.430259,20.811 0.305065,26.589 z"
-       style="opacity:0.01000001;fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
        style="fill:#aa4400;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m 18.156349,1005.5687 c -4.985016,3.386 -7.435112,8.6153 -9.7032479,14.2788 5.3123079,2.6288 11.5425619,4.819 17.0361859,3.7545 -0.193705,-1.0314 -1.203443,-4.5606 -1.62524,-5.9043 4.972368,-0.9324 10.010642,1.5848 11.906966,6.277 2.175284,5.3824 -0.599853,11.5675 -6.206309,13.8333 -5.039759,2.0368 -10.626479,0.1989 -13.286129,-4.1018 -0.482581,1.8897 -1.280144,3.9968 -5.915215,5.9634 5.004581,6.2432 13.973626,8.6775 22.128688,5.3817 9.859188,-3.9845 14.776408,-14.8121 10.985867,-24.1913 -3.535933,-8.7492 -13.3981,-13.0911 -22.709497,-10.4051 -0.521755,-0.9598 -1.966286,-3.8844 -2.612069,-4.8862 z"

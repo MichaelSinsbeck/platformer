@@ -56,21 +56,22 @@ end
 function Campaign:proceed()
 	local nextIsNew = (self.current+1 > self.last)
 	local worldChange = self:setLevel(self.current+1)
-	
+
 	if worldChange and nextIsNew then
 		-- go to animation for world transition
-		bridge:start()
+		menu:nextWorld( self.worldNumber )	-- (shows new bridge)
 	elseif self[self.current] then
 		-- go to next level
 		myMap = Map:loadFromFile( "levels/" .. self[self.current])
 		levelEnd:reset()	
 		myMap:start()
 		mode = 'game'
-		menu:newLevelName( self.names[ self[self.current] ] )
-  else
+		menu:proceedToNextLevel( self.current )
+		--menu:newLevelName( self.names[ self[self.current] ] )
+	else
 		self:setLevel(self.current-1)  
-		menu.initWorldMap()      
-  end
+		menu:switchToSubmenu( "Worldmap" )
+	end
 	self:saveState()
 end
 
@@ -94,13 +95,12 @@ function Campaign:saveState()
 			config.setValue( "lastLevel", self[self.current])
 		end
 	end--]]
-
 end
 
 function Campaign:setLevel(lvlnum)
 	self.current = lvlnum
 	self.last = math.max(self.last, self.current)
-	local newWorld =  math.floor((self.current-1)/15)+1
+	local newWorld = math.floor((self.current-1)/15)+1
 	if newWorld == self.worldNumber then
 		return false
 	else

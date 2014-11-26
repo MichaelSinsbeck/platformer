@@ -161,5 +161,12 @@ function sound:clear()
 end
 
 
+-- volume goes from 0 to 1
+function sound:setMusicVolume(volume)
+	print( "Music volume set to " .. volume )
+end
+function sound:setSoundVolume(volume)
+	print( "Effect volume set to " .. volume )
+end
 
 return sound

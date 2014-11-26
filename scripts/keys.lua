@@ -6,7 +6,7 @@ keys.gamepadePressed = {}
 keys.pressedLastFrame = {}
 keys.currentlyAssigning = false		--holds the string of the key which is currently being changed.
 
-local keyTypes = {
+keyTypes = {
 	"SCREENSHOT",
 	"FULLSCREEN",
 	"RESTARTMAP",
@@ -218,11 +218,7 @@ function getImageForKey( str, font )
 end
 
 function getAnimationForKey( str )
-	if str == " " then str = "space" end
-	if str == "up" then str = "A" end
-	if str == "down" then str = "B" end
-	if str == "left" then str = "C" end
-	if str == "right" then str = "D" end
+	str = nameForKey( str )
 	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyboardLarge"
 	end
@@ -433,7 +429,7 @@ function keys.joystickadded( j )
 	keys.gamepadPressed[j:getID()] = {}
 	keys.pressedLastFrame[j:getID()] = {}
 	if love.joystick.getJoystickCount() == 1 then
-		controlKeys:setup()
+		--controlKeys:setup()
 	end
 end
 
@@ -442,7 +438,7 @@ function keys.joystickremoved( j )
 	-- if, with the removal of this joystick, the last one
 	-- has been removed, switch to keyboard:
 	if love.joystick.getJoystickCount() == 0 then
-		controlKeys:setup()
+		--controlKeys:setup()
 	end
 
 	keys.gamepadPressed[j:getID()] = nil

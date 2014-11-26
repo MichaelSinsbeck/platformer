@@ -15,7 +15,7 @@ function loading.update()
 		
 		love.filesystem.createDirectory("userlevels")
 
-		menu = require("scripts/menu")
+		menu = require("scripts/menu/menu")
 		parallax = require("scripts/parallax")
 		BambooBox = require("scripts/bambooBox")
 		
@@ -34,7 +34,7 @@ function loading.update()
 		Sound:loadAll()
 		require 'scripts/campaign'
 		require 'scripts/levelEnd'
-		require 'scripts/bridge'
+		Bridge = require 'scripts/bridge'
 		objectClasses = require 'scripts/objectclasses'
 
 		gui = require('scripts/gui')
@@ -50,8 +50,8 @@ function loading.update()
 		keys.loadGamepad()
 		loading.msg = "Menu"
 	elseif loading.step == 4 then
-		menu:init()	-- must be called after AnimationDB:loadAll()
-		BambooBox:init()
+		--menu:init()	-- must be called after AnimationDB:loadAll()
+		--BambooBox:init()
 		upgrade = require("scripts/upgrade")		
 		love.keyboard.setKeyRepeat( true )
 		loading.msg = "Shaders"
@@ -78,10 +78,10 @@ function loading.update()
 		shadows = require("scripts/monocle")
 		loading.msg = "Levels"
 	elseif loading.step == 9 then
-		levelEnd:init()	-- must be called AFTER requiring the editor
+		--levelEnd:init()	-- must be called AFTER requiring the editor
 		loading.msg = "Menu"
 	elseif loading.step == 10 then
-		menu.initMain()
+		menu:initMain()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')
 		--bg_test = love.graphics.newImage('images/menu/bg_main.png')		
@@ -122,6 +122,7 @@ end
 function loading.preload()
 -- This function does everything that is necessary before the loading 
 -- screen can be shown: Set graphical mode and load font.
+	settings:loadAll()
 	Camera:init()	
 	loadFont()	
 

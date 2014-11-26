@@ -26,8 +26,22 @@ function Parallax:update(dt)
 	end
 end
 
+function Parallax:setPosition( posX )
+	local w,h = love.window.getDimensions()
+	-- move layers horizontally (left/right)
+	for i, layer in ipairs(self.layers) do
+		local x = posX/layer.z
+		layer.x = x%w
+	end
+end
+
 local function z2y(h,z)
-	local dh = (baseLevel*Camera.scale*8 + Camera.yWorld) - 0.6*h
+	local dh
+	if mode == "menu" then
+		dh = (baseLevel*Camera.scale*8 - menu.yCamera) - 0.6*h
+	else
+		dh = (baseLevel*Camera.scale*8 + Camera.yWorld) - 0.6*h
+	end
 	
 	return math.floor(0.6*h + dh / z)
 end
