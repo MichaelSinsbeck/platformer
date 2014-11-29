@@ -303,27 +303,27 @@ function Submenu:addText( text, x, y, width, layerName )
 	end
 end
 
-function Submenu:addHotkey( key, gamepadKey, caption, x, y, event, layerName )
+function Submenu:addHotkey( func, caption, x, y, event, layerName )
 	
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local h = HotkeyDisplay:new( key, gamepadKey, caption, x, y, event )
+			local h = HotkeyDisplay:new( func, caption, x, y, event )
 			table.insert( l.hotkeys, h )
 		end
 	end
 end
 
-function Submenu:addHiddenHotkey( key, gamepadKey, event, layerName )
+function Submenu:addHiddenHotkey( func, event, layerName )
 	
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local h = HotkeyDisplay:new( key, gamepadKey, nil, nil, nil, event )
+			local h = HotkeyDisplay:new( func, nil, nil, nil, event )
 			table.insert( l.hotkeys, h )
 		end
 	end
@@ -611,6 +611,14 @@ function Submenu:disconnectedGamepad()
 	for k, l in ipairs( self.layers ) do
 		for i, h in ipairs( l.hotkeys ) do
 			h:useKeyboardVisualizers()
+		end
+	end
+end
+
+function Submenu:updateHotkeys()
+	for k, l in ipairs( self.layers ) do
+		for i, h in ipairs( l.hotkeys ) do
+			h:update()
 		end
 	end
 end

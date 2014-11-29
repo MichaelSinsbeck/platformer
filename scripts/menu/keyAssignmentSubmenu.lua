@@ -115,11 +115,11 @@ function KeyAssignmentSubmenu:new( x, y )
 				menu:switchToSubmenu( "Settings" )
 		--	end )
 	end
-	submenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Reassign",
+	submenu:addHotkey( "CHOOSE", "Reassign",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		nil )
-	submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+	submenu:addHotkey( "BACK", "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
@@ -240,6 +240,7 @@ function KeyAssignmentSubmenu:close()
 	for name, key in pairs( padKeysLocal ) do
 		keys.PAD[name] = key
 	end
+	menu:updateHotkeys()
 	keys:exitSubMenu()
 end
 

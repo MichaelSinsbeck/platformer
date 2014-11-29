@@ -125,20 +125,20 @@ function UserlevelSubmenu:new( x, y )
 				menu:switchToSubmenu( "Main" )
 		--	end )
 	end
-	submenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+	submenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		nil )
-	submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+	submenu:addHotkey( "BACK", "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
-	submenu:addHotkey( keys.FILTERS, keys.PAD.FILTERS, "Show Filters",
+	submenu:addHotkey( "FILTERS", "Show Filters",
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		UserlevelSubmenu.showFilters )
 
-	submenu:addHotkey( keys.FILTERS, keys.PAD.FILTERS, "Hide Filters",
+	submenu:addHotkey( "FILTERS", "Hide Filters",
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer

@@ -83,12 +83,12 @@ function menu:init()
 	mainMenu:addButton( "exitOff", "exitOn", -2, 40,
 		quit, self:setPlayerPositionEvent( -6, 45) )
 
-	mainMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+	mainMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		nil )
 
-	mainMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Exit",
+	mainMenu:addHotkey( "BACK", "Exit",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		quit )
@@ -127,11 +127,11 @@ function menu:init()
 		menu:switchToSubmenu( "Main" )
 	end
 
-	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+	settingsMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		nil )
-	settingsMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+	settingsMenu:addHotkey( "BACK", "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		backToMain )
@@ -163,11 +163,11 @@ function menu:init()
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
 	s:setValue( settings:getMusicVolume()/20+1 )
 
-	soundMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+	soundMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		nil )
-	soundMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+	soundMenu:addHotkey( "BACK", "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		backToSettingsSaveAudio )
@@ -211,11 +211,11 @@ function menu:init()
 		{ "No Background", "Simple Background", "Detailed background" } )
 	s:setValue( settings:getBackgroundDetail() )
 
-	graphicsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+	graphicsMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		nil )
-	graphicsMenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+	graphicsMenu:addHotkey( "BACK", "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		backToSettingsSaveGraphics )
@@ -544,6 +544,16 @@ end
 function menu:disconnectedGamepad()
 	for k, submenu in pairs( submenus ) do
 		submenu:disconnectedGamepad()
+	end
+end
+
+---------------------------------------------------------
+-- Handle changes of hotkeys
+---------------------------------------------------------
+
+function menu:updateHotkeys()
+	for k, submenu in pairs( submenus ) do
+		submenu:updateHotkeys()
 	end
 end
 

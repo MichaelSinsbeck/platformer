@@ -18,11 +18,11 @@ function WorldmapSubmenu:new( x, y )
 	local back = function()
 		menu:switchToSubmenu( "Main" )
 	end
-	submenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+	submenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		nil )
-	submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Back",
+	submenu:addHotkey( "BACK", "Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )

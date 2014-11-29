@@ -1,24 +1,27 @@
 local HotkeyDisplay = {}
 HotkeyDisplay.__index = HotkeyDisplay
 
-function HotkeyDisplay:new( key, gamepadKey, caption, x, y, event )
+function HotkeyDisplay:new( func, caption, x, y, event )
 	local o = {}
 	setmetatable( o, self )
 	o.x = x
 	o.y = y
-	o.keyName = nameForKey( key )
-	o.key = key
-	o.gamepadKey = gamepadKey
+	o.func = func	-- Name of the key function (JUMP, LEFT etc)
+	print(o.func)
+	o.key = keys[func]
+	o.gamepadKey = keys.PAD[key]
+	o.keyName = nameForKey( o.key )
 	o.caption = caption
 	o.assignedEvent = event
 	if caption then	-- Add display
-		o.vis = Visualizer:New( getAnimationForKey( key ) )
+		print( o.key )
+		o.vis = Visualizer:New( getAnimationForKey( o.key ) )
 		o.vis:init()
-		o.textVis = Visualizer:New( nil, nil, nameForKey(key) )
+		o.textVis = Visualizer:New( nil, nil, nameForKey( o.key ) )
 		o.textVis:init()
 		o.captionVis = Visualizer:New( nil, nil, caption )
 		o.captionVis:init()
-		o.gamepadVis = Visualizer:New( getAnimationForPad( gamepadKey ) )
+		o.gamepadVis = Visualizer:New( getAnimationForPad( o.gamepadKey ) )
 		o.gamepadVis:init()
 	end
 	return o
@@ -55,6 +58,28 @@ end
 -- Draw keyboard hotkeys only
 function HotkeyDisplay:useKeyboardVisualizers()
 	self.gamepad = false
+end
+
+function HotkeyDisplay:update()
+
+	-- If the key I'm displaying is no longer the one for
+	-- the function I should be displaying, update:
+	if self.key ~= keys[self.func] then
+		self.key = keys[self.func]
+		self.keyName = nameForKey( self.key )
+		--if self.caption then
+			self.vis = Visualizer:New( getAnimationForKey( self.key ) )
+			self.vis:init()
+			self.textVis = Visualizer:New( nil, nil, nameForKey( self.key ) )
+			self.textVis:init()
+		--end
+	end
+	-- Same for gamepad:
+	if self.gamepadKey ~= keys.PAD[self.func] then
+		self.gamepadKey = keys.PAD[self.func]
+		self.gamepadVis = Visualizer:New( getAnimationForPad( self.gamepadKey ) )
+		self.gamepadVis:init()
+	end
 end
 
 return HotkeyDisplay
