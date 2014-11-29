@@ -21,6 +21,7 @@ function loading.update()
 		
 		-- loads all scripts and puts the necessary values into the global
 		-- environment:
+		keys = require("scripts/keys")
 		--require("scripts/misc")
 		shaders = require("scripts/shaders")
 
@@ -43,13 +44,13 @@ function loading.update()
 		Camera:applyScale()
 		loading.msg = "Keyboard Setup"
 	elseif loading.step == 2 then
-		--keys.load()
+		keys.load()
 		loading.msg = "Gamepad Setup"
 	elseif loading.step == 3 then
-		--keys.loadGamepad()
+		keys.loadGamepad()
 		loading.msg = "Menu"
 	elseif loading.step == 4 then
-		--menu:init()	-- must be called after AnimationDB:loadAll()
+		menu:init()	-- must be called after AnimationDB:loadAll()
 		--BambooBox:init()
 		upgrade = require("scripts/upgrade")		
 		love.keyboard.setKeyRepeat( true )
@@ -122,9 +123,6 @@ function loading.preload()
 -- This function does everything that is necessary before the loading 
 -- screen can be shown: Set graphical mode and load font.
 	settings:loadAll()
-	keys = require("scripts/keys")
-	keys.load()
-	keys.loadGamepad()
 	Camera:init()	
 	loadFont()	
 

@@ -8,6 +8,7 @@ local menu = {
 	parallaxPos = 0,
 	xCamera = 0,
 	yCamera = 0,
+	initialized = false,
 }
 
 local Submenu = require( "scripts/menu/submenu" )
@@ -126,7 +127,6 @@ function menu:init()
 		menu:switchToSubmenu( "Main" )
 	end
 
-	print("CHOOSE KEY:", keys.CHOOSE )
 	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
@@ -183,7 +183,6 @@ function menu:init()
 		menu:switchToSubmenu( "Settings" )
 	end
 	local toggleFullscreen = function( bool )
-		--print(bool)
 		--settings:toggleFullScreen( bool )
 		settings:toggleFullScreen()
 		self:switchToSubmenu( "Graphics" )
@@ -249,7 +248,7 @@ function menu:init()
 		self:connectedGamepad()
 	end
 
-	--print( self.xCamera, self.yCamera )
+	menu.initialized = true
 
 end
 

@@ -81,7 +81,9 @@ function Camera:applyScale()
 	if editor then
 		levelEnd:init()
 	end	
-	menu:init()		-- after AnimationDB:loadAll() !
+	if menu.initialized then
+		menu:init()	-- must be called after AnimationDB:loadAll()
+	end
 	--if myMap then -- reload Map-image, if map exists
 	--	myMap:loadImage()
 	--end
