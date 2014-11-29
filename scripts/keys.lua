@@ -761,9 +761,10 @@ function keys:checkInvalid()
 end
 
 function keys:exitSubMenu()
-	if not keys.currentlyAssigning then
+	--if not keys.currentlyAssigning then
+	print("closing", keys.changed)
 		if keys.changed then
-			if menu.state == "keyboard" then	-- save keyboard layout:
+			--if menu.state == "keyboard" then	-- save keyboard layout:
 				config.setValue( "SCREENSHOT", keys.SCREENSHOT, "keyboard.txt")
 				config.setValue( "FULLSCREEN", keys.FULLSCREEN, "keyboard.txt")
 				config.setValue( "RESTARTMAP", keys.RESTARTMAP, "keyboard.txt")
@@ -781,7 +782,7 @@ function keys:exitSubMenu()
 				config.setValue( "CHOOSE", keys.CHOOSE, "keyboard.txt")
 				config.setValue( "BACK", keys.BACK, "keyboard.txt")
 				config.setValue( "PAUSE", keys.PAUSE, "keyboard.txt")
-			else
+			--else
 				config.setValue( "SCREENSHOT", keys.PAD.SCREENSHOT, "gamepad.txt")
 				config.setValue( "FULLSCREEN", keys.PAD.FULLSCREEN, "gamepad.txt")
 				config.setValue( "RESTARTMAP", keys.PAD.RESTARTMAP, "gamepad.txt")
@@ -799,12 +800,13 @@ function keys:exitSubMenu()
 				config.setValue( "CHOOSE", keys.PAD.CHOOSE, "gamepad.txt")
 				config.setValue( "BACK", keys.PAD.BACK, "gamepad.txt")
 				config.setValue( "PAUSE", keys.PAD.PAUSE, "gamepad.txt")
-			end
+			--end
+			keys.changed = false
 		end
-		if not keys:checkInvalid() then
+		--[[if not keys:checkInvalid() then
 			menu.startTransition(settings.init, false)()		-- exit the submenu and return to parent menu
-		end
-	end
+		end]]
+	--end
 end
 
 function keys.startAssign( keyToAssign )
@@ -865,6 +867,11 @@ function keys.abortAssigning()
 	imgOff,imgOn = getImageForPad( keys.PAD[keys.currentlyAssigning] )
 	menu:changeButtonImage( "key_PAD_" .. keys.currentlyAssigning, imgOff, imgOn )
 	keys.currentlyAssigning = false
+end
+
+function keys.setChanged()
+	keys.changed = true
+	print("keys changed")
 end
 
 return keys

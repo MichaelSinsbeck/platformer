@@ -12,6 +12,20 @@ local firstDisplayedFunction = 1
 local numDisplayedFunctions = 8
 local functions = {}
 
+-- Assignment:
+--local keyCurrentlyAssigning = nil
+--
+local function createFunction( f, keyType )
+	f.name = string.lower( keyType )
+	f.keyType = keyType
+	f.keyVis = Visualizer:New( getAnimationForKey( keys[keyType] ) )
+	f.keyVis:init()
+	f.keyNameVis = Visualizer:New( nil, nil, nameForKey( keys[keyType] ) )
+	f.keyNameVis:init()
+	f.padVis = Visualizer:New( getAnimationForPad( keys.PAD[keyType] ) )
+	f.padVis:init()
+end
+
 function KeyAssignmentSubmenu:new( x, y )
 	local width = 0.6*love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
@@ -23,31 +37,46 @@ function KeyAssignmentSubmenu:new( x, y )
 	functions = {}
 	for i = 1, #keyTypes do
 		local f = {}
-		f.name = string.lower( keyTypes[i] )
-		f.keyVis = Visualizer:New( getAnimationForKey( keys[keyTypes[i]] ) )
-		f.keyVis:init()
-		f.keyNameVis = Visualizer:New( nil, nil, nameForKey( keys[keyTypes[i]] ) )
-		f.keyNameVis:init()
-		f.padVis = Visualizer:New( getAnimationForPad( keys.PAD[keyTypes[i]] ) )
-		f.padVis:init()
+		createFunction( f, keyTypes[i] )
 		table.insert( functions, f )
 	end
 
 	submenu = Submenu:new( x, y )
+
+	local cancelAssignment = function()
+		submenu:setLayerVisible( "Assignment", false )
+		self.keyCurrentlyAssigning = nil
+	end
 	
 	local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
 	p:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
 
+	submenu:addLayer("Assignment")
+	submenu:setLayerVisible( "Assignment", false )
+	submenu:addPanel( -LIST_WIDTH/2 + 8, -16, LIST_WIDTH - 16, 32, "Assignment" )
+	submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Cancel",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		cancelAssignment, "Assignment" )
+
 	-- Add invisible buttons to list which allow level selection:
-	local startChangingKey = function()
-	end
 	local lineHover = function()
 		local cy = (20 - LIST_HEIGHT/2 + LIST_ENTRY_HEIGHT*(selectedFunction-firstDisplayedFunction-1))
 		local cx = -LIST_WIDTH/2 + 12
 		menu:setPlayerPosition( x + cx, y + cy )	-- player position must be in global coordinates
 	end
 
-	local buttonCenter = submenu:addButton( "", "", 0, 0, chooseLevel, lineHover )
+	local startReassignment = function()
+		self.keyCurrentlyAssigning = keyTypes[selectedFunction]
+		print("Starting assignment for: ", self.keyCurrentlyAssigning )
+		submenu:setLayerVisible( "Assignment", true )
+		submenu:clearLayer( "Assignment" )
+		--submenu:addPanel( -LIST_WIDTH/2 + 8, -16, LIST_WIDTH - 16, 32, "Assignment" )
+		submenu:addText( "Enter new key for '" .. functions[selectedFunction].name .. "'",
+				-LIST_WIDTH/2 + 32, -4, LIST_WIDTH - 64, "Assignment" )
+	end
+
+	local buttonCenter = submenu:addButton( "", "", 0, 0, startReassignment, lineHover )
 	buttonCenter.invisible = true
 
 	local moveUp = function()
@@ -79,7 +108,7 @@ function KeyAssignmentSubmenu:new( x, y )
 				menu:switchToSubmenu( "Settings" )
 		--	end )
 	end
-	submenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
+	submenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Reassign",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		nil )
@@ -92,6 +121,10 @@ function KeyAssignmentSubmenu:new( x, y )
 		function()
 			submenu:setSelectedButton( buttonCenter )
 		end )
+	submenu:setDeactivateFunction(
+		function()
+			KeyAssignmentSubmenu:close()
+		end	)
 
 	-- Extend the original drawing functions of the submenu class:
 	submenu:addCustomDrawFunction( KeyAssignmentSubmenu.draw, "MainLayer" )
@@ -155,6 +188,25 @@ function KeyAssignmentSubmenu:draw()
 
 
 	]]
+end
+
+function KeyAssignmentSubmenu:assignKey( key )
+	submenu:setLayerVisible( "Assignment", false )
+	
+	for i, f in ipairs( functions ) do
+		if f.keyType == self.keyCurrentlyAssigning then
+			keys[self.keyCurrentlyAssigning] = key
+			createFunction( f, f.keyType )
+			keys.setChanged()
+			break
+		end
+	end
+
+	self.keyCurrentlyAssigning = nil
+end
+
+function KeyAssignmentSubmenu:close()
+	keys:exitSubMenu()
 end
 
 return KeyAssignmentSubmenu

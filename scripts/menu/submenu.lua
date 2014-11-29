@@ -35,22 +35,22 @@ function Submenu:draw()
 	for k,l in ipairs( self.layers ) do
 		if l.visible then
 
-			if self.imageTransition then
+			--if self.imageTransition then
 				--self.imageTransition:push()
-			end
+			--end
 
 			-- Draw all images on this layer:
 			for j, i in ipairs( l.images ) do
 				love.graphics.draw( AnimationDB.image[i.image], i.x*Camera.scale, i.y*Camera.scale )
 			end
 
-			if self.imageTransition then
+			--if self.imageTransition then
 				--self.imageTransition:pop()
-			end
+			--end
 
-			if self.transition then
+			--if self.transition then
 				--self.transition:push()
-			end
+			--end
 			-- Draw the panels on this layer:
 			for j, p in ipairs( l.panels ) do
 				p:draw()
@@ -67,9 +67,14 @@ function Submenu:draw()
 				end
 			end
 
-			if self.transition then
-				--self.transition:pop()
+			for j, t in ipairs( l.texts ) do
+				love.graphics.printf( t.text, t.x*Camera.scale, t.y*Camera.scale,
+						t.width*Camera.scale, "center" )
 			end
+
+			--if self.transition then
+				--self.transition:pop()
+			--end
 
 			if l.customDrawFunction then
 				l.customDrawFunction()
@@ -88,6 +93,14 @@ function Submenu:activate()
 end
 function Submenu:setActivateFunction( fnc )
 	self.activateFunction = fnc
+end
+function Submenu:setDeactivateFunction( fnc )
+	self.deactivateFunction = fnc
+end
+function Submenu:deactivate()
+	if self.deactivateFunction then
+		self.deactivateFunction()
+	end
 end
 
 
@@ -122,6 +135,7 @@ function Submenu:addLayer( layerName )
 		panels = {},
 		images = {},
 		buttons = {},
+		texts = {},
 		hotkeys = {},
 		selectedButton = nil,
 	}
@@ -169,6 +183,22 @@ function Submenu:setHighestLayerActive()
 		if self.layers[k].visible then
 			self.activeLayer = k
 			return
+		end
+	end
+end
+
+function Submenu:clearLayer( layerName )
+	-- Per default, use the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			--l.panels = {}
+			l.images = {}
+			l.buttons = {}
+			l.texts = {}
+			--l.hotkeys = {}
+			l.selectedButton = nil
 		end
 	end
 end
@@ -240,7 +270,6 @@ function Submenu:addSlider( x, y, width, segments, eventHover,
 
 end
 
-
 function Submenu:addImage( image, x, y, layerName )
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
@@ -257,6 +286,22 @@ function Submenu:addImage( image, x, y, layerName )
 	end
 end
 
+function Submenu:addText( text, x, y, width, layerName )
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local t = {
+				text = text,
+				x = x,
+				y = y,
+				width = width,
+			}
+			table.insert( l.texts, t )
+		end
+	end
+end
 
 function Submenu:addHotkey( key, gamepadKey, caption, x, y, event, layerName )
 	
@@ -530,10 +575,11 @@ function Submenu:hotkey( key )
 		for i, h in ipairs( l.hotkeys ) do
 			if h:getKey() == key then
 				h:event()
-				return
+				return true
 			end
 		end
 	end
+	return false
 end
 function Submenu:gamepadHotkey( key )
 	if self.activeLayer then

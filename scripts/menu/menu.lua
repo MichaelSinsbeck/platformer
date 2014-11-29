@@ -262,10 +262,13 @@ function menu:switchToSubmenu( menuName )
 		menuName = "Worldmap"		-- DEBUG
 	end
 
-
 	mode = 'menu'
 
 	self.previousSubmenu = self.activeSubmenu
+	-- Clean up sub menu:
+	if submenus[self.previousSubmenu] then
+		submenus[self.previousSubmenu]:deactivate()
+	end
 
 	self.activeSubmenu = menuName
 	submenus[self.activeSubmenu]:reselectButton()
@@ -401,6 +404,14 @@ function menu:keypressed( key, repeated )
 	if self.activeSubmenu then
 		-- Don't let user control menu while a transition is active:
 		--if not submenus[self.activeSubmenu]:getTransition() then
+		if self.activeSubmenu == "KeyAssignment" and
+			KeyAssignmentSubmenu.keyCurrentlyAssigning ~= nil then
+			-- Only assign if not taken by hotkey:
+			if not submenus[self.activeSubmenu]:hotkey( key ) then
+				KeyAssignmentSubmenu:assignKey( key )
+			end
+		else
+
 			if key == keys.LEFT then
 				submenus[self.activeSubmenu]:goLeft()
 			elseif key == keys.RIGHT then
@@ -414,7 +425,7 @@ function menu:keypressed( key, repeated )
 			else
 				submenus[self.activeSubmenu]:hotkey( key )
 			end
-		--end
+		end
 	end
 end
 
@@ -423,19 +434,19 @@ function menu:gamepadpressed( button )
 		key = tostring( button )
 		-- Don't let user control menu while a transition is active:
 		--if not submenus[self.activeSubmenu]:getTransition() then
-			if key == keys.PAD.LEFT then
-				submenus[self.activeSubmenu]:goLeft()
-			elseif key == keys.PAD.RIGHT then
-				submenus[self.activeSubmenu]:goRight()
-			elseif key == keys.PAD.UP then
-				submenus[self.activeSubmenu]:goUp()
-			elseif key == keys.PAD.DOWN then
-				submenus[self.activeSubmenu]:goDown()
-			elseif key == keys.PAD.CHOOSE then
-				submenus[self.activeSubmenu]:startButtonEvent()
-			else
-				submenus[self.activeSubmenu]:gamepadHotkey( key )
-			end
+		if key == keys.PAD.LEFT then
+			submenus[self.activeSubmenu]:goLeft()
+		elseif key == keys.PAD.RIGHT then
+			submenus[self.activeSubmenu]:goRight()
+		elseif key == keys.PAD.UP then
+			submenus[self.activeSubmenu]:goUp()
+		elseif key == keys.PAD.DOWN then
+			submenus[self.activeSubmenu]:goDown()
+		elseif key == keys.PAD.CHOOSE then
+			submenus[self.activeSubmenu]:startButtonEvent()
+		else
+			submenus[self.activeSubmenu]:gamepadHotkey( key )
+		end
 		--end
 	end
 end

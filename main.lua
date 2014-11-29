@@ -162,7 +162,7 @@ function love.keypressed( key, repeated )
 		end
 	end
 	
-	if menu.transitionActive and menu.transitionPercentage < 50 then return end
+	--if menu.transitionActive and menu.transitionPercentage < 50 then return end
 	
 	if keys.currentlyAssigning then
 		if menu.state == 'keyboard' then
@@ -195,11 +195,13 @@ function love.keypressed( key, repeated )
 			print('Saved screenshot')
 		end
 		if key == keys.RESTARTMAP then
-			myMap:start(p)
+			if myMap then myMap:start(p) end
 		end
 		if key == keys.RESTARTGAME then
-			Campaign:reset()
-			myMap:start(p)
+			if Campaign and myMap then
+				Campaign:reset()
+				myMap:start(p)
+			end
 		end
 	end
 end
