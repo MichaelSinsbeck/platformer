@@ -11,6 +11,8 @@ local selectedFunction = 1
 local firstDisplayedFunction = 1
 local numDisplayedFunctions = 8
 local functions = {}
+local keysLocal = {}
+local padKeysLocal = {}
 
 -- Assignment:
 --local keyCurrentlyAssigning = nil
@@ -18,11 +20,11 @@ local functions = {}
 local function createFunction( f, keyType )
 	f.name = string.lower( keyType )
 	f.keyType = keyType
-	f.keyVis = Visualizer:New( getAnimationForKey( keys[keyType] ) )
+	f.keyVis = Visualizer:New( getAnimationForKey( keysLocal[keyType] ) )
 	f.keyVis:init()
-	f.keyNameVis = Visualizer:New( nil, nil, nameForKey( keys[keyType] ) )
+	f.keyNameVis = Visualizer:New( nil, nil, nameForKey( keysLocal[keyType] ) )
 	f.keyNameVis:init()
-	f.padVis = Visualizer:New( getAnimationForPad( keys.PAD[keyType] ) )
+	f.padVis = Visualizer:New( getAnimationForPad( padKeysLocal[keyType] ) )
 	f.padVis:init()
 end
 
@@ -33,6 +35,11 @@ function KeyAssignmentSubmenu:new( x, y )
 	LIST_WIDTH = width
 	LIST_HEIGHT = height
 	numDisplayedFunctions = (LIST_HEIGHT-16)/(LIST_ENTRY_HEIGHT) - 1
+
+	for i = 1, #keyTypes do
+		keysLocal[keyTypes[i]] = keys[keyTypes[i]]
+		padKeysLocal[keyTypes[i]] = keys.PAD[keyTypes[i]]
+	end
 
 	functions = {}
 	for i = 1, #keyTypes do
@@ -224,6 +231,15 @@ function KeyAssignmentSubmenu:assignPad( key )
 end
 
 function KeyAssignmentSubmenu:close()
+	-- Copy the new keys to the table of keys which is actually used:
+	for name, key in pairs( keysLocal ) do
+		if name ~= "PAD" then
+			keys[name] = key
+		end
+	end
+	for name, key in pairs( keysLocal.PAD ) do
+		keys.PAD[name] = key
+	end
 	keys:exitSubMenu()
 end
 

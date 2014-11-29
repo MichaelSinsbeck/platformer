@@ -125,6 +125,8 @@ function menu:init()
 	local backToMain = function()
 		menu:switchToSubmenu( "Main" )
 	end
+
+	print("CHOOSE KEY:", keys.CHOOSE )
 	settingsMenu:addHotkey( keys.CHOOSE, keys.PAD.CHOOSE, "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
