@@ -402,8 +402,6 @@ end
 
 function menu:keypressed( key, repeated )
 	if self.activeSubmenu then
-		-- Don't let user control menu while a transition is active:
-		--if not submenus[self.activeSubmenu]:getTransition() then
 		if self.activeSubmenu == "KeyAssignment" and
 			KeyAssignmentSubmenu.keyCurrentlyAssigning ~= nil then
 			-- Only assign if not taken by hotkey:
@@ -432,22 +430,27 @@ end
 function menu:gamepadpressed( button )
 	if self.activeSubmenu then
 		key = tostring( button )
-		-- Don't let user control menu while a transition is active:
-		--if not submenus[self.activeSubmenu]:getTransition() then
-		if key == keys.PAD.LEFT then
-			submenus[self.activeSubmenu]:goLeft()
-		elseif key == keys.PAD.RIGHT then
-			submenus[self.activeSubmenu]:goRight()
-		elseif key == keys.PAD.UP then
-			submenus[self.activeSubmenu]:goUp()
-		elseif key == keys.PAD.DOWN then
-			submenus[self.activeSubmenu]:goDown()
-		elseif key == keys.PAD.CHOOSE then
-			submenus[self.activeSubmenu]:startButtonEvent()
+		if self.activeSubmenu == "KeyAssignment" and
+			KeyAssignmentSubmenu.keyCurrentlyAssigning ~= nil then
+			-- Only assign if not taken by hotkey:
+			if not submenus[self.activeSubmenu]:gamepadHotkey( key ) then
+				KeyAssignmentSubmenu:assignPad( key )
+			end
 		else
-			submenus[self.activeSubmenu]:gamepadHotkey( key )
+			if key == keys.PAD.LEFT then
+				submenus[self.activeSubmenu]:goLeft()
+			elseif key == keys.PAD.RIGHT then
+				submenus[self.activeSubmenu]:goRight()
+			elseif key == keys.PAD.UP then
+				submenus[self.activeSubmenu]:goUp()
+			elseif key == keys.PAD.DOWN then
+				submenus[self.activeSubmenu]:goDown()
+			elseif key == keys.PAD.CHOOSE then
+				submenus[self.activeSubmenu]:startButtonEvent()
+			else
+				submenus[self.activeSubmenu]:gamepadHotkey( key )
+			end
 		end
-		--end
 	end
 end
 

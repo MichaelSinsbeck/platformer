@@ -397,7 +397,7 @@ function keys.handleGamepad( ID )
 				if mode == "game" then
 					game.joystickpressed( ID, k )
 				elseif mode == "menu" then
-					menu:keypressed( k )
+					--menu:keypressed( k )
 				elseif mode == "levelEnd" then
 					levelEnd:keypressed( k )
 				end
@@ -762,7 +762,6 @@ end
 
 function keys:exitSubMenu()
 	--if not keys.currentlyAssigning then
-	print("closing", keys.changed)
 		if keys.changed then
 			--if menu.state == "keyboard" then	-- save keyboard layout:
 				config.setValue( "SCREENSHOT", keys.SCREENSHOT, "keyboard.txt")
@@ -871,7 +870,6 @@ end
 
 function keys.setChanged()
 	keys.changed = true
-	print("keys changed")
 end
 
 return keys

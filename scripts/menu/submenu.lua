@@ -585,14 +585,15 @@ function Submenu:gamepadHotkey( key )
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		for i, h in ipairs( l.hotkeys ) do
-			print( " ", h:getGamepadKey(), type( h:getGamepadKey() ) )
 			if h:getGamepadKey() == key then
-				print( "\t\tmatch" )
 				h:event()
-				return
+				print("found")
+				return true
 			end
 		end
 	end
+	print("not found")
+	return false
 end
 
 ----------------------------------------------------------------------

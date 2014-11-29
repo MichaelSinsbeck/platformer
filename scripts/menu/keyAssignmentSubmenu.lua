@@ -43,10 +43,10 @@ function KeyAssignmentSubmenu:new( x, y )
 
 	submenu = Submenu:new( x, y )
 
-	local cancelAssignment = function()
+	--[[local cancelAssignment = function()
 		submenu:setLayerVisible( "Assignment", false )
 		self.keyCurrentlyAssigning = nil
-	end
+	end]]
 	
 	local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
 	p:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
@@ -54,10 +54,10 @@ function KeyAssignmentSubmenu:new( x, y )
 	submenu:addLayer("Assignment")
 	submenu:setLayerVisible( "Assignment", false )
 	submenu:addPanel( -LIST_WIDTH/2 + 8, -16, LIST_WIDTH - 16, 32, "Assignment" )
-	submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Cancel",
+	--[[submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Cancel",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
-		cancelAssignment, "Assignment" )
+		cancelAssignment, "Assignment" )]]
 
 	-- Add invisible buttons to list which allow level selection:
 	local lineHover = function()
@@ -191,8 +191,9 @@ function KeyAssignmentSubmenu:draw()
 end
 
 function KeyAssignmentSubmenu:assignKey( key )
-	submenu:setLayerVisible( "Assignment", false )
-	
+
+	-- Update the display for the key, and the key
+	-- in the keys list:
 	for i, f in ipairs( functions ) do
 		if f.keyType == self.keyCurrentlyAssigning then
 			keys[self.keyCurrentlyAssigning] = key
@@ -202,6 +203,23 @@ function KeyAssignmentSubmenu:assignKey( key )
 		end
 	end
 
+	submenu:setLayerVisible( "Assignment", false )
+	self.keyCurrentlyAssigning = nil
+end
+
+function KeyAssignmentSubmenu:assignPad( key )
+	-- Update the display for the key, and the key
+	-- in the keys list:
+	for i, f in ipairs( functions ) do
+		if f.keyType == self.keyCurrentlyAssigning then
+			keys.PAD[self.keyCurrentlyAssigning] = key
+			createFunction( f, f.keyType )
+			keys.setChanged()
+			break
+		end
+	end
+
+	submenu:setLayerVisible( "Assignment", false )
 	self.keyCurrentlyAssigning = nil
 end
 
