@@ -299,8 +299,10 @@ function getAnimationForPad( str )
 		return "gamepadRight"
 	elseif str == "8" then
 		return "gamepadStart"
-	else
+	elseif str == "9" then
 		return "gamepadBack"
+	else
+		return "keyNone"
 	end
 end
 

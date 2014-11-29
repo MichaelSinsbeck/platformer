@@ -297,6 +297,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('gamepadRB.png','gamepadRB',tileSize,tileSize*2,'menu')
 	AnimationDB:loadTiledImage('gamepadStart.png','gamepadStart',tileSize,tileSize,'menu')
 	AnimationDB:loadTiledImage('gamepadBack.png','gamepadBack',tileSize,tileSize,'menu')
+	AnimationDB:loadTiledImage('keyNone.png','keyNone',tileSize,tileSize,'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
@@ -806,6 +807,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('gamepadUp','gamepadUp',{1},{1e6})
 	AnimationDB:addAni('gamepadY','gamepadY',{1},{1e6})
 	AnimationDB:addAni('gamepadX','gamepadX',{1},{1e6})
+	AnimationDB:addAni('keyNone','keyNone',{1},{1e6})
 
 	AnimationDB:addAni('stars0','stars',{1},{1e6})
 	AnimationDB:addAni('stars1','stars',{2},{1e6})
