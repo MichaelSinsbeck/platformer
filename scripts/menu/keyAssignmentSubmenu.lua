@@ -203,7 +203,7 @@ function KeyAssignmentSubmenu:assignKey( key )
 	-- in the keys list:
 	for i, f in ipairs( functions ) do
 		if f.keyType == self.keyCurrentlyAssigning then
-			keys[self.keyCurrentlyAssigning] = key
+			keysLocal[self.keyCurrentlyAssigning] = key
 			createFunction( f, f.keyType )
 			keys.setChanged()
 			break
@@ -219,7 +219,7 @@ function KeyAssignmentSubmenu:assignPad( key )
 	-- in the keys list:
 	for i, f in ipairs( functions ) do
 		if f.keyType == self.keyCurrentlyAssigning then
-			keys.PAD[self.keyCurrentlyAssigning] = key
+			padKeysLocal[self.keyCurrentlyAssigning] = key
 			createFunction( f, f.keyType )
 			keys.setChanged()
 			break
@@ -237,7 +237,7 @@ function KeyAssignmentSubmenu:close()
 			keys[name] = key
 		end
 	end
-	for name, key in pairs( keysLocal.PAD ) do
+	for name, key in pairs( padKeysLocal ) do
 		keys.PAD[name] = key
 	end
 	keys:exitSubMenu()
