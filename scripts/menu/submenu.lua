@@ -573,6 +573,10 @@ function Submenu:hotkey( key )
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		for i, h in ipairs( l.hotkeys ) do
+			print( h )
+			for k, v in pairs( h ) do
+				print("\t", k, v)
+			end
 			if h:getKey() == key then
 				h:event()
 				return true

@@ -10,7 +10,7 @@ function HotkeyDisplay:new( key, gamepadKey, caption, x, y, event )
 	o.key = key
 	o.gamepadKey = gamepadKey
 	o.caption = caption
-	o.event = event
+	o.assignedEvent = event
 	if caption then	-- Add display
 		o.vis = Visualizer:New( getAnimationForKey( key ) )
 		o.vis:init()
@@ -42,8 +42,8 @@ function HotkeyDisplay:getGamepadKey()
 end
 
 function HotkeyDisplay:event()
-	if self.event then
-		self.event()
+	if self.assignedEvent then
+		self.assignedEvent()
 	end
 end
 
