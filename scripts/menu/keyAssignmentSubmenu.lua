@@ -262,15 +262,37 @@ function KeyAssignmentSubmenu:resetToDefault()
 end
 
 function KeyAssignmentSubmenu:checkForConflicts()
-	for name, key in pairs( keysLocal ) do
-		for i, otherName in pairs( keys.conflictKeys[name] ) do
-			if key == keysLocal[otherName] then
-				submenu:clearLayer( "Error" )
-				submenu:addText( "Conflict! '" .. string.lower(name) .. "' and '"
-					.. string.lower(otherName) .. "' may not have the same value!",
-					-LIST_WIDTH/2 + 32, 24, LIST_WIDTH - 64, "Error" )
-				submenu:setLayerVisible( "Error", true )	
-				return false
+	for k, conflictList in pairs( keys.conflictList ) do
+		for i, name in ipairs( conflictList ) do
+			for j = i+1, #conflictList do
+				local otherName = conflictList[j]
+				if keysLocal[name] ~= "none" then
+				if keysLocal[name] == keysLocal[otherName] then
+					submenu:clearLayer( "Error" )
+					submenu:addText( "Conflict! The keys for '" .. string.lower(name) ..
+					"' and '" .. string.lower(otherName) .. "' may not be the same!",
+					-LIST_WIDTH/2 + 32, 28, LIST_WIDTH - 64, "Error" )
+					submenu:setLayerVisible( "Error", true )	
+					return false
+				end
+			end
+			end
+		end
+	end
+	for k, conflictList in pairs( keys.conflictList ) do
+		for i, name in ipairs( conflictList ) do
+			for j = i+1, #conflictList do
+				local otherName = conflictList[j]
+				if padKeysLocal[name] ~= "none" then
+					if padKeysLocal[name] == padKeysLocal[otherName] then
+						submenu:clearLayer( "Error" )
+						submenu:addText( "Conflict! The gamepad keys for '" .. string.lower(name) ..
+						"' and '" .. string.lower(otherName) .. "' may not be the same!",
+						-LIST_WIDTH/2 + 32, 26, LIST_WIDTH - 64, "Error" )
+						submenu:setLayerVisible( "Error", true )	
+						return false
+					end
+				end
 			end
 		end
 	end
