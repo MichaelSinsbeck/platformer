@@ -130,6 +130,7 @@ function KeyAssignmentSubmenu:new( x, y )
 		end
 		--	end )
 	end
+
 	submenu:addHotkey( "CHOOSE", "Reassign",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
@@ -138,6 +139,10 @@ function KeyAssignmentSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
+	submenu:addHotkey( "RESET", "Default",
+		-love.graphics.getWidth()/Camera.scale/2 + 48,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		function() KeyAssignmentSubmenu:resetToDefault() end )
 
 	submenu:setActivateFunction(
 		function()
@@ -243,6 +248,17 @@ function KeyAssignmentSubmenu:assignPad( key )
 
 	submenu:setLayerVisible( "Assignment", false )
 	self.keyCurrentlyAssigning = nil
+end
+
+function KeyAssignmentSubmenu:resetToDefault()
+	keys.setDefaults()
+	for i = 1, #keyTypes do
+		keysLocal[keyTypes[i]] = keys[keyTypes[i]]
+		padKeysLocal[keyTypes[i]] = keys.PAD[keyTypes[i]]
+	end
+	for i, f in ipairs( functions ) do
+		createFunction( f, f.keyType )
+	end
 end
 
 function KeyAssignmentSubmenu:checkForConflicts()
