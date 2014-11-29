@@ -7,14 +7,12 @@ function HotkeyDisplay:new( func, caption, x, y, event )
 	o.x = x
 	o.y = y
 	o.func = func	-- Name of the key function (JUMP, LEFT etc)
-	print(o.func)
 	o.key = keys[func]
 	o.gamepadKey = keys.PAD[key]
 	o.keyName = nameForKey( o.key )
 	o.caption = caption
 	o.assignedEvent = event
 	if caption then	-- Add display
-		print( o.key )
 		o.vis = Visualizer:New( getAnimationForKey( o.key ) )
 		o.vis:init()
 		o.textVis = Visualizer:New( nil, nil, nameForKey( o.key ) )

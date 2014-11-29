@@ -571,9 +571,11 @@ end
 -- Called when user hit's "enter" or similar
 function Submenu:hotkey( key )
 	if self.activeLayer then
+		print("active:", self.activeLayer, key)
 		local l = self.layers[self.activeLayer]
 		for i, h in ipairs( l.hotkeys ) do
 			if h:getKey() == key then
+				print("get")
 				h:event()
 				return true
 			end

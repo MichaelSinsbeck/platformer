@@ -61,6 +61,19 @@ function KeyAssignmentSubmenu:new( x, y )
 	submenu:addLayer("Assignment")
 	submenu:setLayerVisible( "Assignment", false )
 	submenu:addPanel( -LIST_WIDTH/2 + 8, -16, LIST_WIDTH - 16, 32, "Assignment" )
+
+	local closeError = function()
+		submenu:setLayerVisible( "Error", false )
+	end
+
+	submenu:addLayer("Error")
+	submenu:setLayerVisible( "Error", false )
+	submenu:addPanel( -LIST_WIDTH/2 + 24, 16, LIST_WIDTH - 48, 32, "Error" )
+	submenu:addHotkey( "BACK", "Ok", 
+		love.graphics.getWidth()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		closeError, "Error" )
+	local emptyButton = submenu:addButton( "", "", 0, 0, closeError, function() print("seleted...") end, "Error" )
 	--[[submenu:addHotkey( keys.BACK, keys.PAD.BACK, "Cancel",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
@@ -112,7 +125,9 @@ function KeyAssignmentSubmenu:new( x, y )
 	local back = function()
 		--submenu:startExitTransition(
 		--	function()
-				menu:switchToSubmenu( "Settings" )
+		if KeyAssignmentSubmenu:checkForConflicts() then
+			menu:switchToSubmenu( "Settings" )
+		end
 		--	end )
 	end
 	submenu:addHotkey( "CHOOSE", "Reassign",
@@ -228,6 +243,22 @@ function KeyAssignmentSubmenu:assignPad( key )
 
 	submenu:setLayerVisible( "Assignment", false )
 	self.keyCurrentlyAssigning = nil
+end
+
+function KeyAssignmentSubmenu:checkForConflicts()
+	for name, key in pairs( keysLocal ) do
+		for i, otherName in pairs( keys.conflictKeys[name] ) do
+			if key == keysLocal[otherName] then
+				submenu:clearLayer( "Error" )
+				submenu:addText( "Conflict! '" .. string.lower(name) .. "' and '"
+					.. string.lower(otherName) .. "' may not have the same value!",
+					-LIST_WIDTH/2 + 32, 24, LIST_WIDTH - 64, "Error" )
+				submenu:setLayerVisible( "Error", true )	
+				return false
+			end
+		end
+	end
+	return true
 end
 
 function KeyAssignmentSubmenu:close()
