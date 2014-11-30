@@ -1,0 +1,111 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 33,21
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+endBackground
+
+Ground:
+ccccccccccccccccccc-cccccccccccc
+ccccccccccc--cccccc--ccccccccccc
+ccccccccccc--cccccc--ccccccccccc
+ccccccccccc--cccccc--ccccccccccc
+ccccccc--cc--cc--cc--cc--ccccccc
+ccccccc--cc--cc--cc--cc--ccccccc
+ccccccc--cccccc--cc-ccc--c1ccccc
+cc---cc--cccccc--cccccc--cc--ccc
+cc---cc--cccccc--cccccc--cc--ccc
+ccccccccccccccccccccccccccc--ccc
+cc---cc--cccccc--cccccc--cc--ccc
+cc---cc--cccccc--cccccc--cc--ccc
+ccccccc--cccccc--cccccc--ccccccc
+ccccccc--cc--cc--cc--cc--ccccccc
+ccccccc--cc--cc--cc--cc--ccccccc
+ccccccccccc--cc-ccc--ccccccccccc
+ccccccccccc--cccccc--ccccccccccc
+ccccccccccc--cccccc--ccccccccccc
+ccccccccccccccccccc11ccccccccccc
+cccccccccccccccccccccccccccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Player
+	x:3
+	y:11
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Exit
+	x:3
+	y:8
+endObj
+Obj:Fixedcannon
+	x:15
+	y:15
+	p:angle=-1
+	p:delay=0
+	p:firerate=1.2
+endObj
+Obj:Fixedcannon
+	x:19
+	y:6
+	p:angle=-1
+	p:delay=0
+	p:firerate=0.4
+endObj
+Obj:Fixedcannon
+	x:19
+	y:0
+	p:angle=1
+	p:delay=0.5
+	p:firerate=0.4
+endObj
+Obj:Goalie
+	x:28
+	y:9
+	p:direction=0
+endObj
+Obj:Walker
+	x:11
+	y:5
+	p:type=true
+	p:direction=-1
+	p:strength=23
+endObj
+endObjects
+

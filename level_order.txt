@@ -72,19 +72,20 @@ Shuriken - aiming
 
 World 4 - dash
 
-Imitator
+Aiming Shuriken
+Clubber(?)
 Cannon
 Glass
 Door + Key
 Medusa + Spawner
 
- 1)
- 2)
- 3) 
- 4)
- 5) 
- 6) 
- 7) 
+ 1) Woosh
+ 2) ''
+ 3) ''
+ 4) ''
+ 5) ''
+ 6) Shuriken - aiming
+ 7) ''
  8)
  9)
 10)

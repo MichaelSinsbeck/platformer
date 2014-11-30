@@ -1,0 +1,132 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 14,21
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+-------------
+endBackground
+
+Ground:
+ccccccccccccc
+ccccccc---ccc
+cccccc-----cc
+cccccc-----cc
+cccccc-----cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+cccccc-ccc-cc
+c---cc-ccc-cc
+c---cc-ccc-cc
+cccccc-ccc-cc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Player
+	x:3
+	y:18
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Fixedcannon
+	x:10
+	y:19
+	p:angle=-1
+	p:delay=0.4
+	p:firerate=1.6
+endObj
+Obj:Fixedcannon
+	x:6
+	y:19
+	p:angle=-1
+	p:delay=0.9
+	p:firerate=1.6
+endObj
+Obj:Crumbleblock
+	x:6
+	y:8
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:6
+	y:7
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:6
+	y:6
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:6
+	y:5
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:10
+	y:8
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:10
+	y:7
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:10
+	y:6
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:10
+	y:5
+	p:lifetime=1
+endObj
+Obj:Exit
+	x:8
+	y:4
+endObj
+endObjects
+

@@ -1,0 +1,96 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 41,21
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+endBackground
+
+Ground:
+---ccccccccccccccccccccccccccccccc------
+---ccccccccccccccccccccccccccccccc------
+---cc------------c--------------ccccc---
+---cc------------c--------------ccccc---
+ccccc------------c-----------------ccccc
+ccccc----11111---c------ccccc------c---c
+ccccc----11c-----c------cccc1------c---c
+ccccc------c-----c------cccc1------c---c
+ccccc------c-----c------cccc1------cbbbc
+cccccc11---c-----c------cccc1----------c
+cccccc11---c-----c11----cccc1----------c
+cc---cc----c---11111----cccc1-------bbbc
+cc---cc----c------------c1111----------c
+cc---cc----c---------------------------c
+cc---cccccccccccccccccccc11ccccccccccccc
+cc---cccccccccccccccccccc--ccccccccccccc
+cc---cccccccccccccccccccc--ccccccccccccc
+ccccccccccccccccccccccccc--ccccccccccccc
+ccccccccccccccccccccccccc--ccccccccccccc
+ccccccccccccccccccccccccc--ccccccccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Player
+	x:8
+	y:13
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Exit
+	x:3
+	y:16
+endObj
+Obj:Bandana
+	x:37
+	y:6
+	p:color=blue
+endObj
+Obj:Npc
+	x:33
+	y:13
+	p:delay=0
+	p:displayTime=10
+	p:regionSize=10
+	p:display=region
+	p:text=
+endObj
+Obj:Bonus
+	x:36
+	y:1
+endObj
+endObjects
+

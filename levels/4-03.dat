@@ -1,0 +1,92 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 18,28
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+-----------------
+endBackground
+
+Ground:
+cccccccc1--------
+cccccccc1--------
+cccc11111--------
+cccc----1--------
+cccc----1--------
+cccc----11111cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc11111----cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc----11111cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc11111----cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc----1----cccc
+cccc----ccccccccc
+cccc----ccccccccc
+cccc----ccccccccc
+cccc----ccccccccc
+ccccccccccccccccc
+ccccccccccccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Player
+	x:5
+	y:24
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Exit
+	x:15
+	y:4
+endObj
+endObjects
+
