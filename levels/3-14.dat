@@ -1,0 +1,277 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 35,26
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+endBackground
+
+Ground:
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+------------------------1--11--111
+------------------------1--11--111
+------------------------1--------1
+------------------------1--------1
+------------------------1--------1
+------------------------111--11--1
+-ooo--------------------111--11--1
+-----111111111111111111-1--------1
+----------------------1-1--------1
+----------------------1-1--------1
+----------------------1-1--------1
+----------------------1-1--11--111
+----------------------1-1--11--111
+---------------111----111--------1
+---------------111---------------1
+---------------111---------------1
+---------------111---------------1
+---------------111---------------1
+-ooo-11111111111111111111111111111
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Upwind
+	x:10
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:11
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:12
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:13
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:14
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:18
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:19
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:20
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:21
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:22
+	y:23
+	p:height=4
+endObj
+Obj:Upwind
+	x:15
+	y:18
+	p:height=5
+endObj
+Obj:Upwind
+	x:16
+	y:18
+	p:height=5
+endObj
+Obj:Upwind
+	x:17
+	y:18
+	p:height=5
+endObj
+Obj:Upwind
+	x:23
+	y:23
+	p:height=4
+endObj
+Obj:Upwind
+	x:24
+	y:23
+	p:height=4
+endObj
+Obj:Upwind
+	x:30
+	y:23
+	p:height=11
+endObj
+Obj:Upwind
+	x:27
+	y:16
+	p:height=9
+endObj
+Obj:Upwind
+	x:28
+	y:16
+	p:height=9
+endObj
+Obj:Upwind
+	x:31
+	y:16
+	p:height=9
+endObj
+Obj:Upwind
+	x:32
+	y:16
+	p:height=9
+endObj
+Obj:Upwind
+	x:29
+	y:10
+	p:height=5
+endObj
+Obj:Upwind
+	x:30
+	y:10
+	p:height=5
+endObj
+Obj:Upwind
+	x:26
+	y:10
+	p:height=5
+endObj
+Obj:Upwind
+	x:25
+	y:10
+	p:height=5
+endObj
+Obj:Upwind
+	x:27
+	y:23
+	p:height=5
+endObj
+Obj:Upwind
+	x:28
+	y:23
+	p:height=5
+endObj
+Obj:Upwind
+	x:31
+	y:23
+	p:height=5
+endObj
+Obj:Upwind
+	x:32
+	y:23
+	p:height=5
+endObj
+Obj:Player
+	x:2
+	y:23
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Exit
+	x:2
+	y:11
+endObj
+Obj:Upwind
+	x:9
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:8
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:7
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:6
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:5
+	y:23
+	p:height=10
+endObj
+Obj:Upwind
+	x:29
+	y:23
+	p:height=11
+endObj
+Obj:Upwind
+	x:26
+	y:23
+	p:height=11
+endObj
+Obj:Upwind
+	x:25
+	y:23
+	p:height=11
+endObj
+Obj:Upwind
+	x:23
+	y:18
+	p:height=6
+endObj
+Obj:Bonus
+	x:23
+	y:17
+endObj
+endObjects
+
