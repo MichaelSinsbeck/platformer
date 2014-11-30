@@ -2443,6 +2443,7 @@ function editor.closeAttempt()
 end
 
 function editor.closeNow()
+	editor.active = false
 	menu:initMain()
 end
 
