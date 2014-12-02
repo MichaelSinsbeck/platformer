@@ -13,7 +13,7 @@
    inkscape:export-xdpi="90"
    inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/world/world1.png"
    sodipodi:docname="world1.svg"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    version="1.1"
    id="svg2"
    height="360"
@@ -26,16 +26,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="707.10923"
-     inkscape:cy="178.37248"
+     inkscape:cx="341.22941"
+     inkscape:cy="155.28843"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:showpageshadow="true"
-     inkscape:window-width="1280"
-     inkscape:window-height="750"
+     inkscape:window-width="1920"
+     inkscape:window-height="1025"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true">
@@ -875,5 +875,11 @@
        style="fill:#d9b399;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cscscccsscsssssscscssscsssssscssscsscssssssssssscsssssssssscsc" />
+    <path
+       style="fill:none;stroke:#917d6f;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       d="m 52.953138,868.30642 38.269791,1.29764 42.521981,-1.55717 c 0,0 26.22191,0 33.3089,0 7.087,0 47.48289,1.03811 47.48289,1.03811 0,0 48.90029,0 65.20039,0 16.30009,0 46.06551,-1.53321 63.78298,-1.55718 17.45768,-0.0236 58.22862,-1.78577 92.13098,2.33577 8.62904,1.04904 102.31362,-3.04349 106.67887,-5 5.17371,-2.31886 48.76539,3.51906 53.72629,3 4.9609,-0.51906 42.99169,1.22141 48.66129,1.22141 5.66959,0 24.80449,0 41.10458,0 16.3001,0 52.44379,-1.55718 52.44379,-1.55718 l 14.88271,0.51907"
+       id="path4800"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccscssssssscc" />
   </g>
 </svg>
