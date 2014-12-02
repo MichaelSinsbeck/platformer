@@ -493,6 +493,7 @@ function Submenu:goLeft()
 						l.selectedButton:getNextLeft(),
 						l.layerName
 					)
+					menu:setPlayerDirection( "left" )
 				end
 			end
 		end
@@ -512,6 +513,7 @@ function Submenu:goRight()
 						l.selectedButton:getNextRight(),
 						l.layerName
 					)
+					menu:setPlayerDirection( "right" )
 				end
 			end
 		end

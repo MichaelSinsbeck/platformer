@@ -294,6 +294,7 @@ function menu:switchToSubmenu( menuName )
 		self:slideCameraTo( 0, 1000, 0.5 )
 	end
 
+	menu:setPlayerDirection( "right" )
 end
 
 -- Slide camera to a position over a short period of time
@@ -470,6 +471,16 @@ function menu:setPlayerPositionEvent( x, y )
 	return function()
 		menuPlayer.x = x
 		menuPlayer.y = y
+	end
+end
+
+function menu:setPlayerDirection( dir )
+	if dir == "left" then
+		menuPlayer.vis.sx = -1
+		menuPlayer.visBandana.sx = -1
+	else
+		menuPlayer.vis.sx = 1
+		menuPlayer.visBandana.sx = 1
 	end
 end
 
