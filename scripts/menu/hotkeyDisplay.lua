@@ -8,7 +8,7 @@ function HotkeyDisplay:new( func, caption, x, y, event )
 	o.y = y
 	o.func = func	-- Name of the key function (JUMP, LEFT etc)
 	o.key = keys[func]
-	o.gamepadKey = keys.PAD[key]
+	o.gamepadKey = keys.PAD[func]
 	o.keyName = nameForKey( o.key )
 	o.caption = caption
 	o.assignedEvent = event

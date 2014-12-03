@@ -591,12 +591,10 @@ function Submenu:gamepadHotkey( key )
 		for i, h in ipairs( l.hotkeys ) do
 			if h:getGamepadKey() == key then
 				h:event()
-				print("found")
 				return true
 			end
 		end
 	end
-	print("not found")
 	return false
 end
 

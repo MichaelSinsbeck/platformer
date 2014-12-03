@@ -2,7 +2,7 @@
 controlKeys = require("scripts/controlKeys")
 
 local keys = {}
-keys.gamepadePressed = {}
+keys.gamepadPressed = {}
 keys.pressedLastFrame = {}
 keys.currentlyAssigning = false		--holds the string of the key which is currently being changed.
 
@@ -97,8 +97,16 @@ function keys.setDefaults()
 	keys.PAD.REFRESH = 'none'
 
 	keys.PAD.RESET = 'none'
-	
-	keys.gamepadPressed = {}
+
+	-- Reset all keys:
+	if keys.gamepadPressed then
+		for id, joystick in pairs( keys.gamepadPressed ) do
+			for b, val in pairs( keys.gamepadPressed[id] ) do
+				keys.gamepadPressed[id][b] = nil
+				keys.pressedLastFrame[id][b] = nil
+			end
+		end
+	end
 
 end
 
