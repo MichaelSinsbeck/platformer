@@ -2,6 +2,7 @@
 local loading = {
 	step = -1,
 	msg = "scripts",
+	done = false,		-- set to true when everything has been loaded
 }
 local proverb
 local source
@@ -79,8 +80,7 @@ function loading.update()
 		levelEnd:init()	-- must be called AFTER requiring the editor
 		loading.msg = "Menu"
 	elseif loading.step == 10 then
-		menu:switchToSubmenu( "Main" )
-		menu:show()
+		loading.done = true
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')
 		--bg_test = love.graphics.newImage('images/menu/bg_main.png')		
@@ -102,10 +102,12 @@ function loading.draw()
 	--print(str)
 	local w = love.graphics.getWidth()
 	local h = love.graphics.getHeight()
-	
-	love.graphics.setColor(150,150,150)
-	love.graphics.setFont(fontSmall)
-	love.graphics.print(str, Camera.scale*5, love.graphics.getHeight()-Camera.scale*8)
+
+	if not loading.done then
+		love.graphics.setColor(150,150,150)
+		love.graphics.setFont(fontSmall)
+		love.graphics.print(str, Camera.scale*5, love.graphics.getHeight()-Camera.scale*8)
+	end
 	
 	love.graphics.setColor(44,90,160)
 	love.graphics.setFont(fontLarge)
@@ -116,6 +118,12 @@ function loading.draw()
 	love.graphics.setColor(150,150,150)
 	love.graphics.setFont(fontSmall)
 	love.graphics.printf(source, 0.5*w-0.5*width,0.5*h + lines * fontLarge:getHeight() * 1.25, width,'right')
+
+	if loading.done then
+		love.graphics.printf( "Any key to start",
+			0.2*w, love.graphics.getHeight()-Camera.scale*8,
+			0.6*w, 'center' )
+	end
 end
 
 function loading.preload()
@@ -143,6 +151,13 @@ function loading.preload()
 	source = proverbs[nr][2]
 	
 	mode = 'loading'	
+end
+
+function loading.keypressed()
+	if loading.done then
+		menu:switchToSubmenu( "Main" )
+		menu:show()
+	end
 end
 
 --[[ some proverbs:

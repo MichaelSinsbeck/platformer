@@ -179,15 +179,17 @@ function love.keypressed( key, repeated )
 		--	settings:toggleFullScreen()
 		--end
 
-	if mode == 'menu' then
-		menu:keypressed( key, repeated )
-	elseif mode == 'game' then
-		game.keypressed( key )
-	elseif mode == 'levelEnd' then
-		levelEnd:keypressed( key, repeated )
-	elseif mode == 'upgrade' then
-		upgrade.keypressed(key, repeated)
-	end
+		if mode == 'menu' then
+			menu:keypressed( key, repeated )
+		elseif mode == 'game' then
+			game.keypressed( key )
+		elseif mode == 'levelEnd' then
+			levelEnd:keypressed( key, repeated )
+		elseif mode == 'upgrade' then
+			upgrade.keypressed(key, repeated)
+		elseif mode == 'loading' then
+			loading.keypressed()
+		end
 
 		-- always works, independently of game state:
 		if key == keys.SCREENSHOT then
@@ -226,6 +228,8 @@ function love.joystickpressed(joystick, button)
 
 	if mode == 'menu' then
 		menu:gamepadpressed( button )
+	elseif mode == 'loading' then
+		loading.keypressed()
 	end
 
 	--[[
@@ -298,6 +302,8 @@ end
 function love.mousepressed( x, y, button )
 	if mode == 'editor' then
 		editor:mousepressed( button, x, y )
+	elseif mode == 'loading' then
+		loading.keypressed()
 	end
 end
 
