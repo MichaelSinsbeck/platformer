@@ -210,10 +210,14 @@ end
 
 function WorldmapSubmenu:addBridge( worldNumber, noAnimation )
 	print("New bridge for world:", worldNumber )
+	if bridges[worldNumber] then
+		print("\talready exists." )
+		return
+	end
 	local x = -singleWorldWidth*0.5 + (singleWorldWidth)*worldNumber - 15
 	local y = 0
 	local bridge = Bridge:new( x, y, noAnimation )
-	table.insert( bridges, bridge )
+	bridges[worldNumber] = bridge
 	if not noAnimation then
 		menu:setCameraTo( submenu.x + x, submenu.y + y )
 	end
