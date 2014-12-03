@@ -2444,7 +2444,9 @@ end
 
 function editor.closeNow()
 	editor.active = false
-	menu:initMain()
+	--menu:initMain()
+	menu:switchToSubmenu( "Main" )
+	menu:show()
 end
 
 return editor

@@ -248,10 +248,10 @@ function menu:init()
 
 end
 
-function menu:initMain()
+--function menu:initMain()
 	--menu:switchToSubmenu( "Main" )
-	menu:switchToSubmenu( "Main" )
-end
+--	menu:switchToSubmenu( "Main" )
+--end
 
 function menu:show()
 	-- initialize parallax background

@@ -49,9 +49,9 @@ function EditorMap:new( backgroundList )
 	o.tileSize = Camera.scale*8
 
 	o.minX = 1
-	o.maxX = 33
+	o.maxX = love.graphics.getWidth()/(Camera.scale*8) - 2 -- 33
 	o.minY = 1
-	o.maxY = 21
+	o.maxY = love.graphics.getHeight()/(Camera.scale*8) - 2 -- 21
 	
 	o.width, o.height = o.maxX-o.minX+1,o.maxY-o.minY+1	-- fallback
 

@@ -79,7 +79,7 @@ function loading.update()
 		levelEnd:init()	-- must be called AFTER requiring the editor
 		loading.msg = "Menu"
 	elseif loading.step == 10 then
-		menu:initMain()
+		menu:switchToSubmenu( "Main" )
 		menu:show()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')
