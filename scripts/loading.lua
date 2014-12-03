@@ -80,6 +80,7 @@ function loading.update()
 		loading.msg = "Menu"
 	elseif loading.step == 10 then
 		menu:initMain()
+		menu:show()
 		-- temporary
 		--springtime = love.graphics.newImage('images/transition/silhouette.png')
 		--bg_test = love.graphics.newImage('images/menu/bg_main.png')		

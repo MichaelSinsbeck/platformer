@@ -71,6 +71,7 @@ function Campaign:proceed()
 	else
 		self:setLevel(self.current-1)  
 		menu:switchToSubmenu( "Worldmap" )
+		menu:show()
 	end
 	self:saveState()
 end

@@ -114,6 +114,7 @@ function game.keypressed(key)
 			return
 		end
 		menu:switchToSubmenu( "Pause" )
+		menu:show()
 		Sound:play('menuPause')
 	end
 	if key == "r" then
@@ -134,8 +135,10 @@ function game.keypressed(key)
 			if menu.currentlyPlayingUserlevels then
 				--menu.startTransition( menu.initUserlevels, true )()
 				menu:switchToSubmenu( "Userlevels" )
+				menu:show()
 			else
 				menu:switchToSubmenu( "Worldmap" )
+				menu:show()
 			end
 		end
 	end  
@@ -195,6 +198,7 @@ function game.joystickpressed(joystick, button)
 			return
 		end
 		menu:switchToSubmenu( "Pause" )
+		menu:show()
 		Sound:play('menuPause')
 	end
 	if button == keys.PAD.JUMP then
@@ -207,8 +211,10 @@ function game.joystickpressed(joystick, button)
 			--menu.startTransition( menu.initWorldMap, true )()
 			if menu.currentlyPlayingUserlevels then
 				menu:switchToSubmenu( "Userlevels" )
+				menu:show()
 			else
 				menu:switchToSubmenu( "Worldmap" )
+				menu:show()
 			end
 		end
 	end  

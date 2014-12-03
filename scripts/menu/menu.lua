@@ -240,10 +240,6 @@ function menu:init()
 
 	submenus["Editor"] = editorMenu
 
-
-	-- initialize parallax background
-	parallax:init()
-
 	if love.joystick.getJoystickCount() ~= 0 then
 		self:connectedGamepad()
 	end
@@ -257,13 +253,19 @@ function menu:initMain()
 	menu:switchToSubmenu( "Main" )
 end
 
+function menu:show()
+	-- initialize parallax background
+	parallax:init()
+
+	-- Switch to showing the menu:
+	mode = 'menu'
+end
+
 function menu:switchToSubmenu( menuName )
 
 	if menuName == "Pause" then
 		menuName = "Worldmap"		-- DEBUG
 	end
-
-	mode = 'menu'
 
 	self.previousSubmenu = self.activeSubmenu
 	-- Clean up sub menu:

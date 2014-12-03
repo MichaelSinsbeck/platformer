@@ -20,8 +20,6 @@ function levelEnd:init()
 	self.levels["end_air"] = Map:loadFromFile( "levels/end_air.dat" )
 	self.levels["end_spikes"] = Map:loadFromFile( "levels/end_spikes.dat" )
 	self.levels["end"] = Map:loadFromFile( "levels/end.dat" )
-
-	print("\n\n\n\nLEVELS INITIALIZES")
 end
 
 function levelEnd:reset()
@@ -209,6 +207,7 @@ function levelEnd:keypressed( key, unicode )
 			Campaign:saveState()
 			--menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
 			menu:switchToSubmenu( "Worldmap" )	-- start the transition and fade into world map
+			menu:show()
 		end
 	elseif key == keys.CHOOSE or key == keys.PAD.CHOOSE then
 		-- if you're not displaying all stats yet,then display them now
@@ -222,6 +221,7 @@ function levelEnd:keypressed( key, unicode )
 				--menu.startTransition(menu.initUserlevels)()
 				--menu.initRatingMenu()
 				menu:switchToSubmenu( "Userlevels" )
+				menu:show()
 				--menu.startTransition(menu.initRatingMenu)()
 			else
 				--menu.startTransition(function () Campaign:proceed() end)()

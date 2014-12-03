@@ -22,7 +22,7 @@ function Parallax:update(dt)
 	-- move layers horizontally (left/right)
 	for i, layer in ipairs(self.layers) do
 		local x = layer.x + dx/layer.z
-		layer.x = x%w
+		layer.x = x % w
 	end
 end
 
@@ -31,7 +31,7 @@ function Parallax:setPosition( posX )
 	-- move layers horizontally (left/right)
 	for i, layer in ipairs(self.layers) do
 		local x = posX/layer.z
-		layer.x = x%w
+		layer.x = x % w
 	end
 end
 
@@ -91,6 +91,7 @@ local function index2z(i)
 end
 
 function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset)
+
 	self:clear()
 	local w,h = love.window.getDimensions()
 	
