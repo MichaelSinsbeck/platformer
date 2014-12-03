@@ -68,9 +68,7 @@ function loading.update()
 		recorder = false
 		screenshots = {}
 		recorderTimer = 0
-
 		timer = 0
-
 		Campaign:reset()
 		Campaign.bandana = config.getValue("bandana") or 'blank'
 		loading.msg = "Shadows"
@@ -78,7 +76,7 @@ function loading.update()
 		shadows = require("scripts/monocle")
 		loading.msg = "Levels"
 	elseif loading.step == 9 then
-		--levelEnd:init()	-- must be called AFTER requiring the editor
+		levelEnd:init()	-- must be called AFTER requiring the editor
 		loading.msg = "Menu"
 	elseif loading.step == 10 then
 		menu:initMain()

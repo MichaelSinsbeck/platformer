@@ -326,6 +326,7 @@ function Pic:new( x, y, statType, num )
 		newPic.subTitle = num
 		newPic.map = levelEnd.levels["end"]
 	end
+
 	return newPic
 end
 
@@ -347,7 +348,7 @@ function Pic:draw()
 	for k = 1, #self.visBG do
 		self.visBG[k]:draw( self.visBG[k].posX, self.visBG[k].posY )
 	end
-	
+
 	if self.map then
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.push()

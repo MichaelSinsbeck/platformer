@@ -20,6 +20,8 @@ function levelEnd:init()
 	self.levels["end_air"] = Map:loadFromFile( "levels/end_air.dat" )
 	self.levels["end_spikes"] = Map:loadFromFile( "levels/end_spikes.dat" )
 	self.levels["end"] = Map:loadFromFile( "levels/end.dat" )
+
+	print("\n\n\n\nLEVELS INITIALIZES")
 end
 
 function levelEnd:reset()
