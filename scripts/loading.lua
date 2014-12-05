@@ -1,4 +1,4 @@
-
+local startTime
 local loading = {
 	step = -1,
 	msg = "scripts",
@@ -12,6 +12,9 @@ local source
 -- because love.draw gets called after love.update.
 function loading.update()
 
+	if not startTime then
+		startTime = love.timer.getTime()
+	end
 	if loading.step == 0 then
 		
 		love.filesystem.createDirectory("userlevels")
@@ -91,6 +94,10 @@ function loading.update()
 		menu.downloadedVersionInfo, nil,	-- callback events when done
 		-- the following are arguments passed to the function:
 		"version.php" )
+	end
+	if loading.done and love.timer.getTime() > startTime + 5 then
+		menu:switchToSubmenu( "Main" )
+		menu:show()	
 	end
 	loading.step = loading.step + 1
 end
