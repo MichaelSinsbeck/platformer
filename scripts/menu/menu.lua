@@ -255,7 +255,7 @@ end
 
 function menu:show()
 	-- initialize parallax background
-	parallax:init()
+	parallax:init(nil,nil,nil,nil,nil,nil,1)
 
 	-- Switch to showing the menu:
 	mode = 'menu'

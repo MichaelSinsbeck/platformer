@@ -1652,7 +1652,9 @@ function EditorMap:update( dt, forceUpdateAll )
 end
 
 -- pass a full name including the path!
-function EditorMap:loadFromFile( fullName )
+function EditorMap:loadFromFile( fullName, isIcon )
+	-- if flag "isIcon"  is set, then parallax:init is not called
+
 	print('Loading Map: ' .. fullName)
 	local map = nil
 
@@ -1850,15 +1852,19 @@ function EditorMap:loadFromFile( fullName )
 		map:update( nil, true )
 		map:updateBorder()
 		
-		if mode == "game" or mode == "levelEnd" then
-			map:generateParallax()
-		end
+		--if mode == "game" or mode == "levelEnd" then
+		--	map:generateParallax()
+		--end
 
 		if mode == "editor" then
 			menu:newLevelName( "loaded: " .. mapName, true )
 		end
 	else
 		print( fullName .. " not found." )
+	end
+	
+	if not isIcon then
+		parallax:init(location,bgColor,yLevel,frontlayers,backlayers,1)
 	end
 
 	-- After adding all those tiles, the editor will think the map has been changed.
@@ -1868,6 +1874,7 @@ function EditorMap:loadFromFile( fullName )
 end
 
 function EditorMap:generateParallax()
+	print('Möp')
 	print('generating parallax background')
 	local nLayers = 2
 	wLevel = self.width
@@ -2250,8 +2257,6 @@ function EditorMap:start()
 			backlayers = newObj.backlayers
 		end
 	end	
-	
-	parallax:init(location,bgColor,yLevel,frontlayers,backlayers,1)
 	
 	for i, obj in ipairs(self.objectList) do
 		if obj.tag ~= "LineHook" and obj.tag ~= "Player" and obj.tag ~="ParallaxConfig" then

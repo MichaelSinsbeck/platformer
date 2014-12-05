@@ -90,7 +90,10 @@ local function index2z(i)
 	return math.exp((i-1)/5)
 end
 
-function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset)
+function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
+	if seed then
+		love.math.setRandomSeed(seed)
+	end
 
 	self:clear()
 	local w,h = love.window.getDimensions()
