@@ -1,43 +1,3 @@
---[[bridge = {}
-
-function bridge:start()
-	menu.initWorldMap()
-	mode = 'bridge'
-	
-	menu.xTarget = Campaign.worldNumber*165-8
-	menu.xCamera = menu.xTarget-165
-	self.time = 0
-	menuPlayer.vis[1]:setAni("playerWalk")
-	menuPlayer.vis[1].sx = 1
-	menuPlayer.vis[1]:reset()
-	menuPlayer.vis[1]:update(0.1)
-	
-	menuPlayer.vis[2]:setAni("bandanaWalk")
-	menuPlayer.vis[2].sx = 1
-	menuPlayer.vis[2]:reset()
-	menuPlayer.vis[2]:update(0.1)
-end
-
-function bridge:draw()
-	menu:draw()
-end
-
-function bridge:update(dt)
-	self.time = self.time + dt
-	
-	-- scroll world map
-	local factor = math.min(1, 3*dt)
-	menu.xCamera = menu.xCamera + factor * (menu.xTarget- menu.xCamera)
-	
-	-- bridge building animation
-	menu:easeLogs(self.time-1)
-	
-	if self.time > 3 then -- when finished, go to menu
-		menu.AddOneWorldMap()
-		mode = 'menu'
-	end
-end]]
-
 local Bridge = {}
 Bridge.__index = Bridge
 local nLogs = 10
@@ -77,10 +37,6 @@ end
 function Bridge:update(dt)
 	self.time = self.time + dt*0.5
 	
-	-- scroll world map
-	--local factor = math.min(1, 3*dt)
-	--menu.xCamera = menu.xCamera + factor * (menu.xTarget- menu.xCamera)
-	
 	-- bridge building animation
 	self:easeLogs(self.time-1)
 	
@@ -89,7 +45,11 @@ function Bridge:update(dt)
 		mode = 'menu'
 	end]]
 
-	if self.time >= 1 then
+	if self.time >= 1.4 then
+		for k,log in ipairs(self.logs) do
+			log.vis.sx = 1
+			log.vis.sy = 1
+		end
 		self.animationFinished = true
 	end
 end
@@ -100,7 +60,8 @@ function Bridge:easeLogs(t)
 	--	if k > (Campaign.worldNumber-1) * nLogs and k <= Campaign.worldNumber * nLogs then
 	--		local i = k - Campaign.worldNumber * nLogs -1
 	--		local tEase = t-(i-1)/(nLogs-1)-1
-			log.vis.sx = self:easing(self.time)
+		local tEase = (self.time - (k-1)/nLogs)*2
+			log.vis.sx = self:easing(tEase)
 			log.vis.sy = log.vis.sx
 		--end
 	end
