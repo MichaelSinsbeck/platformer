@@ -262,8 +262,6 @@ function menu:show()
 end
 
 function menu:switchToSubmenu( menuName )
-	mode = 'menu'
-	
 	if menuName == "Pause" then
 		menuName = "Worldmap"		-- DEBUG
 	end

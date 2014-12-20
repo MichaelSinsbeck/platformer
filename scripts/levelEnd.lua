@@ -203,10 +203,14 @@ function levelEnd:keypressed( key, unicode )
 			--menu.startTransition(menu.initRatingMenu)()
 			menu.initRatingMenu()
 		else
-			Campaign:setLevel(Campaign.current+1)
 			Campaign:saveState()
 			--menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
-			menu:switchToSubmenu( "Worldmap" )	-- start the transition and fade into world map
+			local worldChange, nextIsNew = Campaign:setLevel(Campaign.current+1)
+			if worldChange and nextIsNew then
+				menu:nextWorld( Campaign.worldNumber )	-- (shows new bridge)
+			else
+				menu:switchToSubmenu( "Worldmap" )	-- start the transition and fade into world map
+			end
 			menu:show()
 		end
 	elseif key == keys.CHOOSE or key == keys.PAD.CHOOSE then
