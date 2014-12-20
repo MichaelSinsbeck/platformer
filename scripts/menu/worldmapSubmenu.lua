@@ -165,6 +165,8 @@ end
 
 function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBridges )
 
+	print('*** createButtons ***')
+
 	local x, y = -singleWorldWidth*0.5 + 6, 1
 
 	for k, v in ipairs(Campaign) do
@@ -190,12 +192,14 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBrid
 				submenu:addImage( "worldItemInactive", x, y )
 			end
 		end
+		
+		-- add bridges before each new world
+		if addBridges and (k-1)/levelsPerWorld == math.floor((k-1)/levelsPerWorld)then
+			WorldmapSubmenu:addBridge( math.floor((k-1)/levelsPerWorld), true )
+		end
 
-		-- bridge (logs)
+		-- add extra distance after each world
 		if k/levelsPerWorld == math.floor(k/levelsPerWorld) then
-			if addBridges then
-				WorldmapSubmenu:addBridge( math.floor(k/levelsPerWorld), true )
-			end
 			x = x + distBetweenWorlds
 		end
 		x = x + distBetweenButtons
