@@ -74,7 +74,7 @@ function Parallax:draw()
 
 		love.graphics.draw(layer.batch,x,y)
 		
-		if y < h then
+		if self.showGround and y < h then
 			love.graphics.rectangle('fill',0,y,w,h-y)
 		end
 	end
@@ -105,7 +105,7 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	nMountainLayers = backlayers or 3
 	offset = offset or 0 -- offset in z-direction. 0 - first layer is at scale 1, 1 - first layer is one unit further back
 	
-	-- generate sky-mesh
+	-- generate sky-mesh (color transition from blue to fog)
 	local vertices = {}
 	vertices[1] = {0,0,0,0,colorSky[1],colorSky[2],colorSky[3],255}
 	vertices[2] = {w,0,0,0,colorSky[1],colorSky[2],colorSky[3],255}
@@ -113,7 +113,15 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	vertices[4] = {0,.65*h,0,0,colorBack[1],colorBack[2],colorBack[3],255}
 	self.mesh = love.graphics.newMesh(vertices)
 	
+	-- turn ground on or off
+	if location == 'sky' then
+		self.showGround = false
+	else
+		self.showGround = true
+	end
+	
 	local img = AnimationDB.image.silhouettes
+	
 	-- generate layers
 	for i = 1,nLayers do
 		self.layers[i]={}
@@ -124,56 +132,63 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 		local x = 0
 		local objects = {}
 		while x < w do
-			x = x + love.math.random()*250/self.layers[i].z
-			local nQuads = #AnimationDB.silhouette.town
+			x = x + love.math.random()*60*Camera.scale/self.layers[i].z
+			local nQuads = #AnimationDB.silhouette[location]
 			local number = love.math.random(nQuads)
-			local quad = AnimationDB.silhouette.town[number]
+			local quad = AnimationDB.silhouette[location][number]
 			local _, _, wq, hq = quad:getViewport( )--- hier
 			local ox = wq/2
 			local oy = hq
 			local s = 1/self.layers[i].z-- either -1 or 1
+			local y = 0
+			if location == 'sky' then
+				y = (love.math.random()-0.5)*60*Camera.scale*s
+			end
 			
-			self.layers[i].batch:add(quad,x-w,0,0,s,s,ox,oy)
-			self.layers[i].batch:add(quad,x,0,0,s,s,ox,oy)
+			
+			self.layers[i].batch:add(quad,x-w,y,0,s,s,ox,oy)
+			self.layers[i].batch:add(quad,x,y,0,s,s,ox,oy)
 			if x-ox < 0 then
-				self.layers[i].batch:add(quad,x+w,0,0,s,s,ox,oy)
+				self.layers[i].batch:add(quad,x+w,y,0,s,s,ox,oy)
 			end
 			if x+ox > w then
-				self.layers[i].batch:add(quad,x-2*w,0,0,s,s,ox,oy)
+				self.layers[i].batch:add(quad,x-2*w,y,0,s,s,ox,oy)
 			end
 			x = math.floor(x + ox/self.layers[i].z)
 		end
 	end
 	-- generate mountain layer
-	local zRef = 2*index2z(nLayers+1)
-	for i=nLayers+1,nLayers+nMountainLayers do
-		self.layers[i] = {}
-		self.layers[i].x = 0
-		self.layers[i]. z = 2*index2z(i+offset)
-		self.layers[i].batch = love.graphics.newSpriteBatch(img)
-		local x = 0
-		local objects = {}
-		while x < w do
-			local nQuads = #AnimationDB.silhouette.mountain
-			local number = love.math.random(nQuads)
-			local quad = AnimationDB.silhouette.mountain[number]
-			local _, _, wq, hq = quad:getViewport( )--- hier
-			local ox = wq/2
-			local oy = hq
-		
-			local s = zRef/self.layers[i].z
-			self.layers[i].batch:add(quad,x-w,0,0,s,s,ox,oy)
-			self.layers[i].batch:add(quad,x,0,0,s,s,ox,oy)
-			if x-ox < 0 then
-				self.layers[i].batch:add(quad,x+w,0,0,s,s,ox,oy)
-			end
-			if x+ox > w then
-				self.layers[i].batch:add(quad,x-2*w,0,0,s,s,ox,oy)
+	if location ~= 'sky' then
+		local zRef = 2*index2z(nLayers+1)
+		for i=nLayers+1,nLayers+nMountainLayers do
+			self.layers[i] = {}
+			self.layers[i].x = 0
+			self.layers[i]. z = 2*index2z(i+offset)
+			self.layers[i].batch = love.graphics.newSpriteBatch(img)
+			local x = 0
+			local objects = {}
+			while x < w do
+				local nQuads = #AnimationDB.silhouette.mountain
+				local number = love.math.random(nQuads)
+				local quad = AnimationDB.silhouette.mountain[number]
+				local _, _, wq, hq = quad:getViewport( )--- hier
+				local ox = wq/2
+				local oy = hq
+			
+				local s = zRef/self.layers[i].z
+				self.layers[i].batch:add(quad,x-w,0,0,s,s,ox,oy)
+				self.layers[i].batch:add(quad,x,0,0,s,s,ox,oy)
+				if x-ox < 0 then
+					self.layers[i].batch:add(quad,x+w,0,0,s,s,ox,oy)
+				end
+				if x+ox > w then
+					self.layers[i].batch:add(quad,x-2*w,0,0,s,s,ox,oy)
+				end	
+				x = math.floor(x + ox)
+				x = x + love.math.random()*100
 			end	
-			x = math.floor(x + ox)
-			x = x + love.math.random()*100
-		end	
-	
+		
+		end
 	end
 end
 

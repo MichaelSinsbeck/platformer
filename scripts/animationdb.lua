@@ -894,6 +894,9 @@ function AnimationDB:addAllSilhouettes()
 	self:addSilhouette('mountain',0,3,6,3,sw,sh)
 	self:addSilhouette('mountain',6,3,8,3,sw,sh)
 	self:addSilhouette('mountain',14,3,8,4,sw,sh)
+	
+	self:addSilhouette('sky',0,12,3,1,sw,sh)
+	self:addSilhouette('sky',5,12,3,1,sw,sh)
 end
 
 
