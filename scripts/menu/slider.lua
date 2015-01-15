@@ -19,11 +19,20 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions, n
 	o.vis = {}
 	o.dx = o.width/o.numSegments
 	o.captions = {}
+	-- For every possible choise, generate a segment:
 	for i = 1, segments do
 		o.captions[i] = (captions and captions[i]) or ""
-		o.vis[i] = Visualizer:New( "worldItemOff" )
+		o.vis[i] = Visualizer:New( "sliderSegmentOff" )
 		o.vis[i]:init()
 	end
+	-- This must be in an extra loop, because the chooseImage depends on the 
+	-- number of captions, so _all_ captions must be set before the chooseImage
+	-- function is first called:
+	for i = 1, segments do
+		-- make sure the right image is chosen for this visualizer:
+		Slider.chooseImage( o, i, "off" )
+	end
+
 	o.text = ""
 
 	Slider.setValue( o, 1, true )
@@ -93,12 +102,46 @@ function Slider:decreaseValue()
 	self:setValue( math.max( self.value -1, 1 ) )
 end
 
+-- This function chooses the appropriate visualizer depending on the state of the 
+-- slider segment at "value"
+function Slider:chooseImage( value, active )
+	if active == "on" then
+		if value == 1 then
+			self.vis[value]:setAni( "sliderSegmentOnEnd" )
+			self.vis[value].sx = -1
+		elseif value == #self.captions then
+			self.vis[value]:setAni( "sliderSegmentOnEnd" )
+			self.vis[value].sx = 1
+		else 
+			self.vis[value]:setAni( "sliderSegmentOn" )
+			self.vis[value].sx = 1
+		end
+	else
+		if value == 1 then
+			self.vis[value]:setAni( "sliderSegmentOffEnd" )
+			self.vis[value].sx = -1
+		elseif value == #self.captions then
+			self.vis[value]:setAni( "sliderSegmentOffEnd" )
+			self.vis[value].sx = 1
+		else
+			self.vis[value]:setAni( "sliderSegmentOff" )
+			self.vis[value].sx = 1
+		end
+	end
+	-- Update, to actually set the new image:
+	self.vis[value]:update(0)
+end
+
 function Slider:setValue( val, dontCallEvent )
-	self.vis[self.value]:setAni( "worldItemOff" )
-	self.vis[self.value]:update(0)
+
+	-- Deactivate the current segemnt:
+	self:chooseImage( self.value, "off" )
+
 	self.value = val
-	self.vis[self.value]:setAni( "worldItemOn" )
-	self.vis[self.value]:update(0)
+
+	-- Activate the new segemnt:
+	self:chooseImage( self.value, "on" )
+
 	self.text = self.name .. self.captions[self.value]
 	if self.eventChange and not dontCallEvent then
 		self.eventChange( self.value )
