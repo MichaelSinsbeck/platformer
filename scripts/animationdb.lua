@@ -769,6 +769,12 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('worldItemOn','menuButtons',{19},{1e6},
 		vectorAnimations.userlevelsAniUpdate )
 	AnimationDB:addAni('worldItemOff','menuButtons',{20},{1e6})
+
+	AnimationDB:addAni('sliderSegmentOff','menuButtons',{21},{1e6})
+	AnimationDB:addAni('sliderSegmentOn','menuButtons',{22},{1e6})
+	AnimationDB:addAni('sliderSegmentOffEnd','menuButtons',{23},{1e6})
+	AnimationDB:addAni('sliderSegmentOnEnd','menuButtons',{24},{1e6})
+
 	AnimationDB:addAni('keyAssignmentOn','keyAssignment',{1},{1e6},
 		vectorAnimations.userlevelsAniUpdate )
 	AnimationDB:addAni('keyAssignmentOff','keyAssignment',{2},{1e6})
