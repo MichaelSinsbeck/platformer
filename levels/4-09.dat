@@ -1,0 +1,353 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 33,21
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+endBackground
+
+Ground:
+cccccccccccccccccccccccccccccccc
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+cccccccc---ccc-ccccccccccccccccc
+cccccccc---ccc-----------------c
+ccccccccccccccccccccccccccccc--c
+c------------------------------c
+c--ccccccccccccccccccccccccccccc
+c------------------------------c
+ccccccccccccccccccccccccccccc--c
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Player
+	x:12
+	y:12
+	p:canHook=false
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Exit
+	x:9
+	y:14
+endObj
+Obj:Launcher
+	x:29
+	y:2
+	p:velocity=5
+	p:distance=5
+endObj
+Obj:Appearblock
+	x:8
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:9
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:10
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Button
+	x:28
+	y:18
+	p:lifetime=6
+	p:color=red
+endObj
+Obj:Button
+	x:19
+	y:14
+	p:lifetime=6
+	p:color=blue
+endObj
+Obj:Button
+	x:29
+	y:16
+	p:lifetime=6
+	p:color=green
+endObj
+Obj:Button
+	x:2
+	y:18
+	p:lifetime=6
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:28
+	y:2
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:28
+	y:1
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:30
+	y:3
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:29
+	y:3
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:28
+	y:3
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Launcher
+	x:2
+	y:2
+	p:velocity=7
+	p:distance=5
+endObj
+Obj:Appearblock
+	x:3
+	y:2
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:3
+	y:3
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:2
+	y:3
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:1
+	y:3
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:1
+	y:2
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:1
+	y:1
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:2
+	y:1
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:3
+	y:1
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:19
+	y:3
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:20
+	y:3
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:21
+	y:3
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:21
+	y:2
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:21
+	y:1
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:20
+	y:1
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:19
+	y:1
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:19
+	y:2
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Launcher
+	x:20
+	y:2
+	p:velocity=8
+	p:distance=5
+endObj
+Obj:Spawner
+	x:14
+	y:13
+	p:strength=23
+	p:phase=1
+	p:spawnTime=5
+	p:type=true
+	p:direction=left
+endObj
+Obj:Appearblock
+	x:10
+	y:3
+	p:state=solid
+	p:color=red
+endObj
+Obj:Launcher
+	x:11
+	y:2
+	p:velocity=12
+	p:distance=5
+endObj
+Obj:Appearblock
+	x:10
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:10
+	y:1
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:11
+	y:1
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:12
+	y:1
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:12
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:12
+	y:3
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:11
+	y:3
+	p:state=solid
+	p:color=red
+endObj
+Obj:ParallaxConfig
+	x:15
+	y:1
+	p:location=town
+	p:color=blue
+	p:backlayers=1
+	p:frontlayers=1
+endObj
+Obj:Appearblock
+	x:29
+	y:1
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:30
+	y:1
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:30
+	y:2
+	p:state=solid
+	p:color=blue
+endObj
+endObjects
+

@@ -2,10 +2,10 @@ local Launcher = object:New({
 	tag = 'Launcher',
 	category = "Enemies",
 	radius2 = 20^2,
-  firerate = 0.2,--.5, -- in seconds
+  --firerate = 3, -- in # of tiles
   rotating = true,
   timeleft = 0,
-  velocity = 15,
+  --velocity = 3, --15
   marginx = .8,
   marginy = .8,
   isInEditor = true,
@@ -13,7 +13,15 @@ local Launcher = object:New({
 		Visualizer:New('launcher',{angle = -0.5*math.pi}),
 		Visualizer:New('launcherSon'),
   },
+	properties = {
+		distance = utility.newIntegerProperty(3,1,10),
+		velocity = utility.newIntegerProperty(15,1,20),
+	},  
 })
+
+function Launcher:applyOptions()
+	self.timeleft = self.distance/self.velocity
+end
 
 function Launcher:setAcceleration(dt)
   local dx = self.x-p.x
@@ -31,7 +39,7 @@ function Launcher:setAcceleration(dt)
 			local newAngle = math.random()*math.pi*2
 			local newShuriken = spriteFactory('Shuriken',{x=self.x,y=self.y,vx=vx,vy=vy,vis={Visualizer:New('shuriken',{angle=newAngle})} })
 			spriteEngine:insert(newShuriken)
-			self.timeleft = self.firerate
+			self.timeleft = self.distance/self.velocity
 			self:playSound('launcherShoot')
     end
   end

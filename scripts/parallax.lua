@@ -3,8 +3,8 @@ local Parallax
 Parallax = {layers = {}}
 
 
-local nLayers = 5
-local nMountainLayers = 3
+local nLayers = 1
+local nMountainLayers = 1
 local velocity = 50
 --local colorFront = {54,88,111}
 local colorFront = {22,45,80}
@@ -101,8 +101,8 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	location = location or 'town'
 	color = color or blue
 	baseLevel = yLevel or 18
-	nLayers = frontlayers or 5
-	nMountainLayers = backlayers or 3
+	nLayers = frontlayers or 2
+	nMountainLayers = backlayers or 1
 	offset = offset or 0 -- offset in z-direction. 0 - first layer is at scale 1, 1 - first layer is one unit further back
 	
 	-- generate sky-mesh (color transition from blue to fog)

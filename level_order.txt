@@ -86,8 +86,8 @@ Medusa + Spawner
  5) ''
  6) Shuriken - aiming
  7) ''
- 8)
- 9)
+ 8) '' + Crumble + Button/Block
+ 9) '' - slow
 10)
 11)
 12)
