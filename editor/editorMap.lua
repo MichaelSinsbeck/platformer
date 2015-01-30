@@ -2323,7 +2323,8 @@ function EditorMap:drawParallax(world)
 	--love.graphics.draw(AnimationDB.background[world],AnimationDB.backgroundQuad,0,0)
 end
 
-function EditorMap:collisionRectangleTest(x,y,semiwidth,semiheight,tag)
+function EditorMap:collisionRectangleTest(x,y,semiwidth,semiheight,collisionIdx)
+	local collisionIdx = collisionIdx or {1, 3}
 	local minx = math.floor(x-semiwidth)
 	local maxx = math.ceil(x+semiwidth-1)
 	local miny = math.floor(y-semiheight)
@@ -2333,8 +2334,12 @@ function EditorMap:collisionRectangleTest(x,y,semiwidth,semiheight,tag)
 			for yy = miny,maxy do
 				local collisionNumber = self.collision[xx][yy]
 				if collisionNumber then
-					if collisionNumber == 1 or (collisionNumber == 3 and tag ~= 'Player') then
-						return true
+					for i,idx in ipairs(collisionIdx) do
+					--if collisionNumber == 1 or (collisionNumber == 3 and tag ~= 'Player') then
+						if collisionNumber == idx then
+					
+							return true
+						end
 					end
 				end
 			end

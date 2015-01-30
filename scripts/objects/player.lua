@@ -196,7 +196,7 @@ function Player:dash()
 	newX = math.min(newX,myMap.width+1-self.semiwidth)
 	
 	-- Check collision with map
-	if myMap:collisionRectangleTest(newX,self.y,self.semiwidth,self.semiheight,self.tag) then
+	if myMap:collisionRectangleTest(newX,self.y,self.semiwidth,self.semiheight,{1,3}) then
 		if direction > 0 then
 			newX = math.floor( newX+self.semiwidth)-self.semiwidth
 		else
@@ -205,7 +205,7 @@ function Player:dash()
 		
 		local ok
 		repeat
-			if myMap:collisionRectangleTest(newX,self.y,self.semiwidth,self.semiheight,self.tag) then
+			if myMap:collisionRectangleTest(newX,self.y,self.semiwidth,self.semiheight,{1,3}) then
 				ok = false
 				newX = newX - direction
 			else
