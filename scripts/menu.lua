@@ -215,7 +215,6 @@ local function scrollWorldMap()	--called when a button on world map is selected
 end
 -- creates world map menu:
 function menu.initWorldMap()
-	
 	menu:clear()	-- remove anything that was previously on the menu
 	menu.state = "worldMap"
 	
@@ -349,7 +348,7 @@ function menu.AddOneWorldMap()
 		'worldItemOff',
 		'worldItemOn',
 		v,
-		menu.startTransition(menu.startGame( "levels/" .. v ), true),
+		menu.startTransition(menu.startCampaignLevel( v ), true),
 		scrollWorldMap )
 	if x > menu.furthestX then
 		menu.furthestX = x

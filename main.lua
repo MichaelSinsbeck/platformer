@@ -59,6 +59,10 @@ function love.update( dt )
 		elseif mode == 'editor' then
 			editor:update( dt )
 		end
+		
+		if fader.active then
+			fader:update(dt)
+		end
 	
 		if menu.transitionActive then
 			menu:transition( dt )
@@ -102,6 +106,7 @@ function love.draw()
 		elseif mode == 'editor' then
 			editor:draw()
 		end
+
 	
 		if menu.transitionActive then
 			menu:drawTransition()
@@ -127,6 +132,10 @@ function love.draw()
 			love.graphics.setFont(fontSmall)
 			love.graphics.print("fps: " .. love.timer.getFPS(), 10, 20)
 			love.graphics.print("cam scale: " .. Camera.scale, 10, 55 )
+		end
+				
+		if fader.active then
+			fader:draw()
 		end
 	end
 end

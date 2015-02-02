@@ -42,6 +42,7 @@ function loading.update()
 		objectClasses = require 'scripts/objectclasses'
 
 		gui = require('scripts/gui')
+		fader = require('scripts/fader')
 
 		loading.msg = "Camera"
 	elseif loading.step == 1 then

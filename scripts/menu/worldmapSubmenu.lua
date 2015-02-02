@@ -182,7 +182,8 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBrid
 				curButton = submenu:addButton(
 				'worldItemOff',
 				'worldItemOn',
-				x, y, menu:startCampaignLevel( k ),
+				x, y, --menu:startCampaignLevel( k ),
+				fader:switchFunction(k),
 				self.scroll )
 
 				numLevelButtons = k

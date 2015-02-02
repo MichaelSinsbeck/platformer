@@ -498,6 +498,7 @@ function menu:startCampaignLevel( lvlNum )
 		Campaign.current = lvlNum		
 		--p = spriteFactory('Player')
 		mode = 'game'
+		
 		gravity = 22
 		--Campaign.current = lvlNum
 		myMap = Map:loadFromFile( lvl )

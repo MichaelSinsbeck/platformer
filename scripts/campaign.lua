@@ -58,17 +58,20 @@ function Campaign:proceed()
 
 	if worldChange and nextIsNew then
 		-- go to animation for world transition
+		menu:proceedToNextLevel( self.current -1)
 		menu:nextWorld( self.worldNumber )	-- (shows new bridge)
 		menu:show()
 	elseif self[self.current] then
 		-- go to next level
-		myMap = Map:loadFromFile( "levels/" .. self[self.current])
-		levelEnd:reset()	
-		myMap:start()
-		mode = 'game'
-		menu:proceedToNextLevel( self.current )
+		--myMap = Map:loadFromFile( "levels/" .. self[self.current])
+		--levelEnd:reset()	
+		--myMap:start()
+		--mode = 'game'
+		
+		fader:fadeTo(self.current)
 		--menu:newLevelName( self.names[ self[self.current] ] )
 	else
+		menu:proceedToNextLevel( self.current )
 		self:setLevel(self.current-1)  
 		menu:switchToSubmenu( "Worldmap" )
 		menu:show()
