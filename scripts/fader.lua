@@ -2,7 +2,7 @@ local fader = {}
 
 local timer = 0
 local timeIn = 0.2
-local timeOut = 0.4
+local timeOut = 0.6
 local middleFunction
 local levelNumber
 local phase = 1
@@ -46,12 +46,19 @@ function fader:draw()
 		--local radius = math.max(Camera.width*(1-progress),0)
 		local x = p.x*8*Camera.scale+Camera.xWorld
 		local y = p.y*8*Camera.scale+Camera.yWorld
+		local radius = 2*Camera.width*math.exp(-5*(1-progress))
+		local stencilFunction = function()
+			love.graphics.circle('fill',x,y,radius)
+		end
+		love.graphics.setInvertedStencil( stencilFunction)
 		
-		local radius = 2*Camera.width*math.exp(-5*progress)
+		
 		love.graphics.setColor(0,0,0)
-		love.graphics.circle('fill',x,y,radius)
-		love.graphics.circle('line',x,y,radius)
+		love.graphics.rectangle('fill',0,0,Camera.width,Camera.height)
+		--love.graphics.circle('fill',x,y,radius)
 		
+		love.graphics.setStencil()
+		love.graphics.circle('line',x,y,radius)
 	end
 end
 

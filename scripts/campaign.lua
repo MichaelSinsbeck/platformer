@@ -58,7 +58,7 @@ function Campaign:proceed()
 
 	if worldChange and nextIsNew then
 		-- go to animation for world transition
-		menu:proceedToNextLevel( self.current -1)
+		--menu:proceedToNextLevel( self.current )
 		menu:nextWorld( self.worldNumber )	-- (shows new bridge)
 		menu:show()
 	elseif self[self.current] then
