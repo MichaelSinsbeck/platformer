@@ -1,7 +1,7 @@
 function Sound:loadAll()
 	self:clear()
 	print('Loadings sounds')
-
+--[[
 	-- menu sounds
 	self:add('menuMove','silence.wav','silence.wav')
 	self:add('menuEnter','silence.wav')
@@ -65,7 +65,7 @@ function Sound:loadAll()
 	self:add('run','silence.wav')
 	self:add('walk','silence.wav')
 	
-	
+	--]]
 
 	
 end
