@@ -144,7 +144,7 @@ function Bungee:postStep(dt)
 					end
 				end			
 			end
-			
+			-- back
 			for i = self.nNodes,1,-1 do
 				dx,dy = nx[i] - nx[i-1], ny[i] - ny[i-1]
 				mx,my = (nx[i] + nx[i-1])/2,(ny[i] + ny[i-1])/2
@@ -167,7 +167,6 @@ function Bungee:postStep(dt)
 			end
 		end
 
-
 		for i = 0,self.nNodes-1 do
 			-- reevaluate new velocity and accept new values
 			self.nodesVx[i] = (self.nodesNewX[i] - self.nodesX[i])/dt
@@ -178,6 +177,8 @@ function Bungee:postStep(dt)
 		if self.status == 'fix' then
 			self.nodesX[0] = p.x
 			self.nodesY[0] = p.y
+			self.nodesVx[0] = p.vx
+			self.nodesVy[0] = p.vy
 		end
 		
 
