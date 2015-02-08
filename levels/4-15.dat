@@ -1,0 +1,478 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 47,24
+
+Author: Micha
+Description:
+
+endDescription
+
+Background:
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+----------------------------------------------
+endBackground
+
+Ground:
+cccccccccccccccccccccccccccccccccccccccccccccc
+c-------------cccccccccccccccccccccccccccccccc
+c-------------cccccccccccccccccccccccccccccccc
+c-------------cccccccccccccccccccccccccccccccc
+c-------------cccccccccccccccccccccccccccccccc
+c-----cccccccccccccccccccccccccccccccccccccccc
+c--------------------------------------------c
+c--------------------------------------------c
+c--------------------------------------------c
+c--------------------------------------------c
+c--ccc---------------------------------------c
+c--ccc---------------------------------------c
+c--ccccccccccccccccccccccccccccccccccccccccccc
+c--------------------------------------------c
+c-------------------------------------------bc
+c--------------------------------------------c
+c--------------------------------------------c
+cccccccccccccccccccccccccccccccccccccccccc---c
+c--------------------------------------------c
+c--------------------------------------------c
+c--------------------------------------------c
+c---c----------------------------------------c
+cccccccccccccccccccccccccccccccccccccccccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Cannon
+	x:26
+	y:20
+	p:firerate=0.8
+endObj
+Obj:Player
+	x:2
+	y:21
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Exit
+	x:9
+	y:4
+endObj
+Obj:Crumbleblock
+	x:24
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:24
+	y:14
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:24
+	y:15
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:24
+	y:16
+	p:lifetime=0.5
+endObj
+Obj:Launcher
+	x:44
+	y:13
+	p:velocity=11
+	p:distance=4
+endObj
+Obj:Cannon
+	x:44
+	y:7
+	p:firerate=1
+endObj
+Obj:Crumbleblock
+	x:7
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:12
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:11
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:6
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:9
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:10
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:8
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:13
+	y:10
+	p:lifetime=1
+endObj
+Obj:Glassblock
+	x:1
+	y:5
+endObj
+Obj:Glassblock
+	x:2
+	y:5
+endObj
+Obj:Glassblock
+	x:3
+	y:5
+endObj
+Obj:Glassblock
+	x:4
+	y:5
+endObj
+Obj:Glassblock
+	x:5
+	y:5
+endObj
+Obj:Crumbleblock
+	x:17
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:22
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:21
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:16
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:14
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:19
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:20
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:15
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:18
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:23
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:27
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:32
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:31
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:26
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:24
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:29
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:30
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:25
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:28
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:33
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:37
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:42
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:41
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:36
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:34
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:39
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:40
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:35
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:38
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:43
+	y:10
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:43
+	y:9
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:43
+	y:8
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:43
+	y:7
+	p:lifetime=1
+endObj
+Obj:Crumbleblock
+	x:43
+	y:6
+	p:lifetime=1
+endObj
+Obj:Launcher
+	x:7
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Launcher
+	x:12
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Launcher
+	x:17
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Launcher
+	x:22
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Launcher
+	x:27
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Launcher
+	x:32
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Launcher
+	x:37
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Launcher
+	x:42
+	y:11
+	p:velocity=15
+	p:distance=3
+endObj
+Obj:Crumbleblock
+	x:23
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:23
+	y:14
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:23
+	y:15
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:23
+	y:16
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:22
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:22
+	y:14
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:22
+	y:15
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:22
+	y:16
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:20
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:20
+	y:14
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:20
+	y:15
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:20
+	y:16
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:21
+	y:13
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:21
+	y:14
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:21
+	y:15
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:21
+	y:16
+	p:lifetime=0.5
+endObj
+endObjects
+
