@@ -32,6 +32,9 @@ function Bungee:draw()
 	local r, g, b, a = love.graphics.getColor()	
 	
 	local thisAlpha = math.min(5*255*self.lifetime/Bungee.lifetime,255)
+	if self.status == 'dangle' then
+		thisAlpha = math.min(thisAlpha,127)
+	end
 	self.vis[1].alpha = thisAlpha
 	object.draw(self)
 	
