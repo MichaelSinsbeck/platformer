@@ -81,14 +81,14 @@ function Bungee:postStep(dt)
 				self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
 				self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
 			end	
-		end
-	
-		-- check for maximum length
-		local dx,dy = self.x-p.x, self.y-p.y
-		local length = math.sqrt(dx*dx+dy*dy)
-		if length > self.maxLength then
-			self:kill()
-			return
+		else		
+			-- check for maximum length
+			local dx,dy = self.x-p.x, self.y-p.y
+			local length = math.sqrt(dx*dx+dy*dy)
+			if length > self.maxLength then
+				self:kill()
+				return
+			end
 		end
 	end
  
