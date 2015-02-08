@@ -1,0 +1,107 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 58,23
+
+Author: Micha
+Description:
+
+endDescription
+
+Background:
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+---------------------------------------------------------
+endBackground
+
+Ground:
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ccccccccccccccccccccccccccccccccccccccccccccccc----------
+ccccccccccccccccccccccccccccccccccccccccccc--------------
+ccccccccccccccccccccccccccccccccccc----------------------
+cccccccccccccccccccccccccccccccc-------------------------
+cccccccccccccccccccccccccccccccc-------------------------
+cccccccccccccccccccccccccccc-----------------------------
+ccccccccccccccccccccccc--------------------------cccccccc
+ccccccccccccccccccccccc-----------------------------cccc-
+ccccccccccccccccccc--------------------------------------
+cccccccccccccccc-----------------------------------------
+c--------------------------------------------------------
+c--------------------------------------------------------
+c--------------------------------------------------------
+c--------------------------------------------------------
+c--------------------------------------------------------
+c--------------------------------------------------------
+cccccccccccccccb-----------------------------------------
+ccccccccccccccc------------------------------------------
+ccccccccccccccc------------------------------------------
+cccccccccccccc-------------------------------------------
+ccccccccccccc--------------------------------------------
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Npc
+	x:7
+	y:16
+	p:delay=0
+	p:displayTime=10
+	p:regionSize=10
+	p:display=region
+	p:text=
+endObj
+Obj:Text
+	x:7
+	y:12
+	p:hasPointer=true
+	p:offsetX=0
+	p:offsetY=3
+	p:location=here
+	p:sensorH=3
+	p:sensorW=5
+	p:text=Hey, last bandana.
+endObj
+Obj:Exit
+	x:53
+	y:6
+endObj
+Obj:Player
+	x:2
+	y:16
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Bandana
+	x:5
+	y:16
+	p:color=red
+endObj
+endObjects
+
