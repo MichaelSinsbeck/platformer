@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 33,30
+Dimensions: 33,21
 
 Author: micha
 Description:
@@ -33,254 +33,285 @@ Background:
 --------------------------------
 --------------------------------
 --------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
 endBackground
 
 Ground:
---------------------------------
---------------------------------
---------------------------------
---------------------------------
----------ccccc----ccccc---------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
--------------c----c-------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
--------c----------------c-------
-c------cccccccccccccccccc------c
 cccccccccccccccccccccccccccccccc
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+c------------------------------c
+cccccccc---ccc-ccccccccccccccccc
+cccccccc---ccc-----------------c
+ccccccccccccccccccccccccccccc--c
+c------------------------------c
+c--ccccccccccccccccccccccccccccc
+c------------------------------c
+ccccccccccccccccccccccccccccc--c
 endGround
 
 BgObjects:
 endBgObjects
 
 Objects:
-Obj:Launcher
-	x:14
-	y:24
-	p:velocity=15
-	p:distance=6
-endObj
-Obj:Button
-	x:26
-	y:27
-	p:lifetime=0
-	p:color=blue
-endObj
 Obj:Player
-	x:4
-	y:27
-	p:canHook=true
+	x:15
+	y:12
+	p:canHook=false
 	p:canParachute=true
 	p:canTeleport=true
 	p:canWalljump=true
 endObj
 Obj:Exit
-	x:19
-	y:3
-endObj
-Obj:Crumbleblock
-	x:13
-	y:22
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:14
-	y:22
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:15
-	y:22
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:16
-	y:22
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:18
-	y:22
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:13
-	y:23
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:13
-	y:24
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:13
-	y:25
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:18
-	y:23
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:18
-	y:24
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:18
-	y:25
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:13
-	y:26
-	p:lifetime=1
-endObj
-Obj:Crumbleblock
-	x:18
-	y:26
-	p:lifetime=1
-endObj
-Obj:Button
-	x:5
-	y:15
-	p:lifetime=0
-	p:color=green
-endObj
-Obj:Appearblock
-	x:4
-	y:16
-	p:state=solid
-	p:color=blue
-endObj
-Obj:Appearblock
-	x:5
-	y:16
-	p:state=solid
-	p:color=blue
-endObj
-Obj:Appearblock
-	x:6
-	y:16
-	p:state=solid
-	p:color=blue
-endObj
-Obj:Appearblock
-	x:28
-	y:16
-	p:state=solid
-	p:color=green
-endObj
-Obj:Appearblock
-	x:29
-	y:16
-	p:state=solid
-	p:color=green
-endObj
-Obj:Appearblock
-	x:30
-	y:16
-	p:state=solid
-	p:color=green
-endObj
-Obj:Button
-	x:2
-	y:15
-	p:lifetime=3
-	p:color=red
-endObj
-Obj:Appearblock
-	x:18
-	y:21
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:18
-	y:20
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:18
-	y:19
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:18
-	y:17
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:18
-	y:18
-	p:state=passable
-	p:color=red
-endObj
-Obj:Appearblock
-	x:1
-	y:16
-	p:state=solid
-	p:color=yellow
-endObj
-Obj:Appearblock
-	x:2
-	y:16
-	p:state=solid
-	p:color=yellow
-endObj
-Obj:Appearblock
-	x:3
-	y:16
-	p:state=solid
-	p:color=yellow
-endObj
-Obj:Button
-	x:29
-	y:15
-	p:lifetime=0
-	p:color=yellow
-endObj
-Obj:Crumbleblock
-	x:17
-	y:22
-	p:lifetime=1
+	x:9
+	y:14
 endObj
 Obj:Launcher
+	x:23
+	y:2
+	p:velocity=5
+	p:distance=5
+endObj
+Obj:Appearblock
+	x:8
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:9
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:10
+	y:13
+	p:state=solid
+	p:color=red
+endObj
+Obj:Button
+	x:28
+	y:18
+	p:lifetime=6
+	p:color=red
+endObj
+Obj:Button
+	x:19
+	y:14
+	p:lifetime=6
+	p:color=blue
+endObj
+Obj:Button
+	x:29
+	y:16
+	p:lifetime=6
+	p:color=green
+endObj
+Obj:Button
+	x:2
+	y:18
+	p:lifetime=6
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:22
+	y:2
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:22
+	y:1
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:24
+	y:3
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:23
+	y:3
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:22
+	y:3
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Launcher
+	x:8
+	y:2
+	p:velocity=7
+	p:distance=5
+endObj
+Obj:Appearblock
+	x:9
+	y:2
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:9
+	y:3
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:8
+	y:3
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:7
+	y:3
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:7
+	y:2
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:7
+	y:1
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:8
+	y:1
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:9
+	y:1
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
 	x:17
-	y:24
-	p:velocity=15
-	p:distance=6
+	y:2
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:18
+	y:2
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:19
+	y:2
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:19
+	y:1
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:17
+	y:1
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Launcher
+	x:18
+	y:1
+	p:velocity=8
+	p:distance=5
+endObj
+Obj:Spawner
+	x:14
+	y:13
+	p:strength=23
+	p:phase=1
+	p:spawnTime=5
+	p:type=true
+	p:direction=left
+endObj
+Obj:Appearblock
+	x:12
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Launcher
+	x:13
+	y:1
+	p:velocity=12
+	p:distance=5
+endObj
+Obj:Appearblock
+	x:12
+	y:1
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:14
+	y:1
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:14
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:13
+	y:2
+	p:state=solid
+	p:color=red
+endObj
+Obj:ParallaxConfig
+	x:15
+	y:1
+	p:location=town
+	p:color=blue
+	p:backlayers=1
+	p:frontlayers=1
+endObj
+Obj:Appearblock
+	x:23
+	y:1
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:24
+	y:1
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:24
+	y:2
+	p:state=solid
+	p:color=blue
 endObj
 endObjects
 
