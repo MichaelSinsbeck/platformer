@@ -1,0 +1,1333 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 33,30
+
+Author: Micha
+Description:
+
+endDescription
+
+Background:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+endBackground
+
+Ground:
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------c-----
+--------------------------c-----
+--------------------------------
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc----------------cccccccc
+cccccccc------cccc------cccccccc
+cccccccc----------------cccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Glassblock
+	x:8
+	y:7
+endObj
+Obj:Glassblock
+	x:9
+	y:7
+endObj
+Obj:Glassblock
+	x:10
+	y:7
+endObj
+Obj:Glassblock
+	x:11
+	y:7
+endObj
+Obj:Glassblock
+	x:12
+	y:7
+endObj
+Obj:Glassblock
+	x:13
+	y:7
+endObj
+Obj:Glassblock
+	x:14
+	y:7
+endObj
+Obj:Glassblock
+	x:15
+	y:7
+endObj
+Obj:Glassblock
+	x:16
+	y:7
+endObj
+Obj:Glassblock
+	x:17
+	y:7
+endObj
+Obj:Glassblock
+	x:18
+	y:7
+endObj
+Obj:Glassblock
+	x:19
+	y:7
+endObj
+Obj:Glassblock
+	x:20
+	y:7
+endObj
+Obj:Glassblock
+	x:21
+	y:7
+endObj
+Obj:Glassblock
+	x:22
+	y:7
+endObj
+Obj:Glassblock
+	x:23
+	y:7
+endObj
+Obj:Glassblock
+	x:8
+	y:8
+endObj
+Obj:Glassblock
+	x:9
+	y:8
+endObj
+Obj:Glassblock
+	x:10
+	y:8
+endObj
+Obj:Glassblock
+	x:11
+	y:8
+endObj
+Obj:Glassblock
+	x:12
+	y:8
+endObj
+Obj:Glassblock
+	x:13
+	y:8
+endObj
+Obj:Glassblock
+	x:14
+	y:8
+endObj
+Obj:Glassblock
+	x:15
+	y:8
+endObj
+Obj:Glassblock
+	x:16
+	y:8
+endObj
+Obj:Glassblock
+	x:17
+	y:8
+endObj
+Obj:Glassblock
+	x:18
+	y:8
+endObj
+Obj:Glassblock
+	x:19
+	y:8
+endObj
+Obj:Glassblock
+	x:20
+	y:8
+endObj
+Obj:Glassblock
+	x:21
+	y:8
+endObj
+Obj:Glassblock
+	x:22
+	y:8
+endObj
+Obj:Glassblock
+	x:23
+	y:8
+endObj
+Obj:Glassblock
+	x:8
+	y:9
+endObj
+Obj:Glassblock
+	x:9
+	y:9
+endObj
+Obj:Glassblock
+	x:10
+	y:9
+endObj
+Obj:Glassblock
+	x:11
+	y:9
+endObj
+Obj:Glassblock
+	x:12
+	y:9
+endObj
+Obj:Glassblock
+	x:13
+	y:9
+endObj
+Obj:Glassblock
+	x:14
+	y:9
+endObj
+Obj:Glassblock
+	x:15
+	y:9
+endObj
+Obj:Glassblock
+	x:16
+	y:9
+endObj
+Obj:Glassblock
+	x:17
+	y:9
+endObj
+Obj:Glassblock
+	x:18
+	y:9
+endObj
+Obj:Glassblock
+	x:19
+	y:9
+endObj
+Obj:Glassblock
+	x:20
+	y:9
+endObj
+Obj:Glassblock
+	x:21
+	y:9
+endObj
+Obj:Glassblock
+	x:22
+	y:9
+endObj
+Obj:Glassblock
+	x:23
+	y:9
+endObj
+Obj:Glassblock
+	x:8
+	y:10
+endObj
+Obj:Glassblock
+	x:9
+	y:10
+endObj
+Obj:Glassblock
+	x:10
+	y:10
+endObj
+Obj:Glassblock
+	x:11
+	y:10
+endObj
+Obj:Glassblock
+	x:12
+	y:10
+endObj
+Obj:Glassblock
+	x:13
+	y:10
+endObj
+Obj:Glassblock
+	x:14
+	y:10
+endObj
+Obj:Glassblock
+	x:15
+	y:10
+endObj
+Obj:Glassblock
+	x:16
+	y:10
+endObj
+Obj:Glassblock
+	x:17
+	y:10
+endObj
+Obj:Glassblock
+	x:18
+	y:10
+endObj
+Obj:Glassblock
+	x:19
+	y:10
+endObj
+Obj:Glassblock
+	x:20
+	y:10
+endObj
+Obj:Glassblock
+	x:21
+	y:10
+endObj
+Obj:Glassblock
+	x:22
+	y:10
+endObj
+Obj:Glassblock
+	x:23
+	y:10
+endObj
+Obj:Glassblock
+	x:8
+	y:11
+endObj
+Obj:Glassblock
+	x:9
+	y:11
+endObj
+Obj:Glassblock
+	x:10
+	y:11
+endObj
+Obj:Glassblock
+	x:11
+	y:11
+endObj
+Obj:Glassblock
+	x:12
+	y:11
+endObj
+Obj:Glassblock
+	x:13
+	y:11
+endObj
+Obj:Glassblock
+	x:14
+	y:11
+endObj
+Obj:Glassblock
+	x:15
+	y:11
+endObj
+Obj:Glassblock
+	x:16
+	y:11
+endObj
+Obj:Glassblock
+	x:17
+	y:11
+endObj
+Obj:Glassblock
+	x:18
+	y:11
+endObj
+Obj:Glassblock
+	x:19
+	y:11
+endObj
+Obj:Glassblock
+	x:20
+	y:11
+endObj
+Obj:Glassblock
+	x:21
+	y:11
+endObj
+Obj:Glassblock
+	x:22
+	y:11
+endObj
+Obj:Glassblock
+	x:23
+	y:11
+endObj
+Obj:Glassblock
+	x:8
+	y:12
+endObj
+Obj:Glassblock
+	x:9
+	y:12
+endObj
+Obj:Glassblock
+	x:10
+	y:12
+endObj
+Obj:Glassblock
+	x:11
+	y:12
+endObj
+Obj:Glassblock
+	x:12
+	y:12
+endObj
+Obj:Glassblock
+	x:13
+	y:12
+endObj
+Obj:Glassblock
+	x:14
+	y:12
+endObj
+Obj:Glassblock
+	x:15
+	y:12
+endObj
+Obj:Glassblock
+	x:16
+	y:12
+endObj
+Obj:Glassblock
+	x:17
+	y:12
+endObj
+Obj:Glassblock
+	x:18
+	y:12
+endObj
+Obj:Glassblock
+	x:19
+	y:12
+endObj
+Obj:Glassblock
+	x:20
+	y:12
+endObj
+Obj:Glassblock
+	x:21
+	y:12
+endObj
+Obj:Glassblock
+	x:22
+	y:12
+endObj
+Obj:Glassblock
+	x:23
+	y:12
+endObj
+Obj:Glassblock
+	x:8
+	y:13
+endObj
+Obj:Glassblock
+	x:9
+	y:13
+endObj
+Obj:Glassblock
+	x:10
+	y:13
+endObj
+Obj:Glassblock
+	x:11
+	y:13
+endObj
+Obj:Glassblock
+	x:12
+	y:13
+endObj
+Obj:Glassblock
+	x:13
+	y:13
+endObj
+Obj:Glassblock
+	x:14
+	y:13
+endObj
+Obj:Glassblock
+	x:15
+	y:13
+endObj
+Obj:Glassblock
+	x:16
+	y:13
+endObj
+Obj:Glassblock
+	x:17
+	y:13
+endObj
+Obj:Glassblock
+	x:18
+	y:13
+endObj
+Obj:Glassblock
+	x:19
+	y:13
+endObj
+Obj:Glassblock
+	x:20
+	y:13
+endObj
+Obj:Glassblock
+	x:21
+	y:13
+endObj
+Obj:Glassblock
+	x:22
+	y:13
+endObj
+Obj:Glassblock
+	x:23
+	y:13
+endObj
+Obj:Glassblock
+	x:8
+	y:14
+endObj
+Obj:Glassblock
+	x:9
+	y:14
+endObj
+Obj:Glassblock
+	x:10
+	y:14
+endObj
+Obj:Glassblock
+	x:11
+	y:14
+endObj
+Obj:Glassblock
+	x:12
+	y:14
+endObj
+Obj:Glassblock
+	x:13
+	y:14
+endObj
+Obj:Glassblock
+	x:14
+	y:14
+endObj
+Obj:Glassblock
+	x:15
+	y:14
+endObj
+Obj:Glassblock
+	x:16
+	y:14
+endObj
+Obj:Glassblock
+	x:17
+	y:14
+endObj
+Obj:Glassblock
+	x:18
+	y:14
+endObj
+Obj:Glassblock
+	x:19
+	y:14
+endObj
+Obj:Glassblock
+	x:20
+	y:14
+endObj
+Obj:Glassblock
+	x:21
+	y:14
+endObj
+Obj:Glassblock
+	x:22
+	y:14
+endObj
+Obj:Glassblock
+	x:23
+	y:14
+endObj
+Obj:Glassblock
+	x:8
+	y:15
+endObj
+Obj:Glassblock
+	x:9
+	y:15
+endObj
+Obj:Glassblock
+	x:10
+	y:15
+endObj
+Obj:Glassblock
+	x:11
+	y:15
+endObj
+Obj:Glassblock
+	x:12
+	y:15
+endObj
+Obj:Glassblock
+	x:13
+	y:15
+endObj
+Obj:Glassblock
+	x:14
+	y:15
+endObj
+Obj:Glassblock
+	x:15
+	y:15
+endObj
+Obj:Glassblock
+	x:16
+	y:15
+endObj
+Obj:Glassblock
+	x:17
+	y:15
+endObj
+Obj:Glassblock
+	x:18
+	y:15
+endObj
+Obj:Glassblock
+	x:19
+	y:15
+endObj
+Obj:Glassblock
+	x:20
+	y:15
+endObj
+Obj:Glassblock
+	x:21
+	y:15
+endObj
+Obj:Glassblock
+	x:22
+	y:15
+endObj
+Obj:Glassblock
+	x:23
+	y:15
+endObj
+Obj:Glassblock
+	x:8
+	y:16
+endObj
+Obj:Glassblock
+	x:9
+	y:16
+endObj
+Obj:Glassblock
+	x:10
+	y:16
+endObj
+Obj:Glassblock
+	x:11
+	y:16
+endObj
+Obj:Glassblock
+	x:12
+	y:16
+endObj
+Obj:Glassblock
+	x:13
+	y:16
+endObj
+Obj:Glassblock
+	x:14
+	y:16
+endObj
+Obj:Glassblock
+	x:15
+	y:16
+endObj
+Obj:Glassblock
+	x:16
+	y:16
+endObj
+Obj:Glassblock
+	x:17
+	y:16
+endObj
+Obj:Glassblock
+	x:18
+	y:16
+endObj
+Obj:Glassblock
+	x:19
+	y:16
+endObj
+Obj:Glassblock
+	x:20
+	y:16
+endObj
+Obj:Glassblock
+	x:21
+	y:16
+endObj
+Obj:Glassblock
+	x:22
+	y:16
+endObj
+Obj:Glassblock
+	x:23
+	y:16
+endObj
+Obj:Glassblock
+	x:8
+	y:17
+endObj
+Obj:Glassblock
+	x:9
+	y:17
+endObj
+Obj:Glassblock
+	x:10
+	y:17
+endObj
+Obj:Glassblock
+	x:11
+	y:17
+endObj
+Obj:Glassblock
+	x:12
+	y:17
+endObj
+Obj:Glassblock
+	x:13
+	y:17
+endObj
+Obj:Glassblock
+	x:14
+	y:17
+endObj
+Obj:Glassblock
+	x:15
+	y:17
+endObj
+Obj:Glassblock
+	x:16
+	y:17
+endObj
+Obj:Glassblock
+	x:17
+	y:17
+endObj
+Obj:Glassblock
+	x:18
+	y:17
+endObj
+Obj:Glassblock
+	x:19
+	y:17
+endObj
+Obj:Glassblock
+	x:20
+	y:17
+endObj
+Obj:Glassblock
+	x:21
+	y:17
+endObj
+Obj:Glassblock
+	x:22
+	y:17
+endObj
+Obj:Glassblock
+	x:23
+	y:17
+endObj
+Obj:Glassblock
+	x:8
+	y:18
+endObj
+Obj:Glassblock
+	x:9
+	y:18
+endObj
+Obj:Glassblock
+	x:10
+	y:18
+endObj
+Obj:Glassblock
+	x:11
+	y:18
+endObj
+Obj:Glassblock
+	x:12
+	y:18
+endObj
+Obj:Glassblock
+	x:13
+	y:18
+endObj
+Obj:Glassblock
+	x:14
+	y:18
+endObj
+Obj:Glassblock
+	x:15
+	y:18
+endObj
+Obj:Glassblock
+	x:16
+	y:18
+endObj
+Obj:Glassblock
+	x:17
+	y:18
+endObj
+Obj:Glassblock
+	x:18
+	y:18
+endObj
+Obj:Glassblock
+	x:19
+	y:18
+endObj
+Obj:Glassblock
+	x:20
+	y:18
+endObj
+Obj:Glassblock
+	x:21
+	y:18
+endObj
+Obj:Glassblock
+	x:22
+	y:18
+endObj
+Obj:Glassblock
+	x:23
+	y:18
+endObj
+Obj:Glassblock
+	x:8
+	y:19
+endObj
+Obj:Glassblock
+	x:9
+	y:19
+endObj
+Obj:Glassblock
+	x:10
+	y:19
+endObj
+Obj:Glassblock
+	x:11
+	y:19
+endObj
+Obj:Glassblock
+	x:12
+	y:19
+endObj
+Obj:Glassblock
+	x:13
+	y:19
+endObj
+Obj:Glassblock
+	x:14
+	y:19
+endObj
+Obj:Glassblock
+	x:15
+	y:19
+endObj
+Obj:Glassblock
+	x:16
+	y:19
+endObj
+Obj:Glassblock
+	x:17
+	y:19
+endObj
+Obj:Glassblock
+	x:18
+	y:19
+endObj
+Obj:Glassblock
+	x:19
+	y:19
+endObj
+Obj:Glassblock
+	x:20
+	y:19
+endObj
+Obj:Glassblock
+	x:21
+	y:19
+endObj
+Obj:Glassblock
+	x:22
+	y:19
+endObj
+Obj:Glassblock
+	x:23
+	y:19
+endObj
+Obj:Glassblock
+	x:8
+	y:20
+endObj
+Obj:Glassblock
+	x:9
+	y:20
+endObj
+Obj:Glassblock
+	x:10
+	y:20
+endObj
+Obj:Glassblock
+	x:11
+	y:20
+endObj
+Obj:Glassblock
+	x:12
+	y:20
+endObj
+Obj:Glassblock
+	x:13
+	y:20
+endObj
+Obj:Glassblock
+	x:14
+	y:20
+endObj
+Obj:Glassblock
+	x:15
+	y:20
+endObj
+Obj:Glassblock
+	x:16
+	y:20
+endObj
+Obj:Glassblock
+	x:17
+	y:20
+endObj
+Obj:Glassblock
+	x:18
+	y:20
+endObj
+Obj:Glassblock
+	x:19
+	y:20
+endObj
+Obj:Glassblock
+	x:20
+	y:20
+endObj
+Obj:Glassblock
+	x:21
+	y:20
+endObj
+Obj:Glassblock
+	x:22
+	y:20
+endObj
+Obj:Glassblock
+	x:23
+	y:20
+endObj
+Obj:Glassblock
+	x:8
+	y:21
+endObj
+Obj:Glassblock
+	x:9
+	y:21
+endObj
+Obj:Glassblock
+	x:10
+	y:21
+endObj
+Obj:Glassblock
+	x:11
+	y:21
+endObj
+Obj:Glassblock
+	x:12
+	y:21
+endObj
+Obj:Glassblock
+	x:13
+	y:21
+endObj
+Obj:Glassblock
+	x:14
+	y:21
+endObj
+Obj:Glassblock
+	x:15
+	y:21
+endObj
+Obj:Glassblock
+	x:16
+	y:21
+endObj
+Obj:Glassblock
+	x:17
+	y:21
+endObj
+Obj:Glassblock
+	x:18
+	y:21
+endObj
+Obj:Glassblock
+	x:19
+	y:21
+endObj
+Obj:Glassblock
+	x:20
+	y:21
+endObj
+Obj:Glassblock
+	x:21
+	y:21
+endObj
+Obj:Glassblock
+	x:22
+	y:21
+endObj
+Obj:Glassblock
+	x:23
+	y:21
+endObj
+Obj:Glassblock
+	x:8
+	y:22
+endObj
+Obj:Glassblock
+	x:9
+	y:22
+endObj
+Obj:Glassblock
+	x:10
+	y:22
+endObj
+Obj:Glassblock
+	x:11
+	y:22
+endObj
+Obj:Glassblock
+	x:12
+	y:22
+endObj
+Obj:Glassblock
+	x:13
+	y:22
+endObj
+Obj:Glassblock
+	x:14
+	y:22
+endObj
+Obj:Glassblock
+	x:15
+	y:22
+endObj
+Obj:Glassblock
+	x:16
+	y:22
+endObj
+Obj:Glassblock
+	x:17
+	y:22
+endObj
+Obj:Glassblock
+	x:18
+	y:22
+endObj
+Obj:Glassblock
+	x:19
+	y:22
+endObj
+Obj:Glassblock
+	x:20
+	y:22
+endObj
+Obj:Glassblock
+	x:21
+	y:22
+endObj
+Obj:Glassblock
+	x:22
+	y:22
+endObj
+Obj:Glassblock
+	x:23
+	y:22
+endObj
+Obj:Glassblock
+	x:8
+	y:23
+endObj
+Obj:Glassblock
+	x:9
+	y:23
+endObj
+Obj:Glassblock
+	x:10
+	y:23
+endObj
+Obj:Glassblock
+	x:11
+	y:23
+endObj
+Obj:Glassblock
+	x:12
+	y:23
+endObj
+Obj:Glassblock
+	x:13
+	y:23
+endObj
+Obj:Glassblock
+	x:14
+	y:23
+endObj
+Obj:Glassblock
+	x:15
+	y:23
+endObj
+Obj:Glassblock
+	x:16
+	y:23
+endObj
+Obj:Glassblock
+	x:17
+	y:23
+endObj
+Obj:Glassblock
+	x:18
+	y:23
+endObj
+Obj:Glassblock
+	x:19
+	y:23
+endObj
+Obj:Glassblock
+	x:20
+	y:23
+endObj
+Obj:Glassblock
+	x:21
+	y:23
+endObj
+Obj:Glassblock
+	x:22
+	y:23
+endObj
+Obj:Glassblock
+	x:23
+	y:23
+endObj
+Obj:Glassblock
+	x:8
+	y:24
+endObj
+Obj:Glassblock
+	x:9
+	y:24
+endObj
+Obj:Glassblock
+	x:10
+	y:24
+endObj
+Obj:Glassblock
+	x:11
+	y:24
+endObj
+Obj:Glassblock
+	x:12
+	y:24
+endObj
+Obj:Glassblock
+	x:13
+	y:24
+endObj
+Obj:Glassblock
+	x:18
+	y:24
+endObj
+Obj:Glassblock
+	x:19
+	y:24
+endObj
+Obj:Glassblock
+	x:20
+	y:24
+endObj
+Obj:Glassblock
+	x:21
+	y:24
+endObj
+Obj:Glassblock
+	x:22
+	y:24
+endObj
+Obj:Glassblock
+	x:23
+	y:24
+endObj
+Obj:Glassblock
+	x:8
+	y:25
+endObj
+Obj:Glassblock
+	x:9
+	y:25
+endObj
+Obj:Glassblock
+	x:10
+	y:25
+endObj
+Obj:Glassblock
+	x:11
+	y:25
+endObj
+Obj:Glassblock
+	x:12
+	y:25
+endObj
+Obj:Glassblock
+	x:13
+	y:25
+endObj
+Obj:Glassblock
+	x:18
+	y:25
+endObj
+Obj:Glassblock
+	x:19
+	y:25
+endObj
+Obj:Glassblock
+	x:20
+	y:25
+endObj
+Obj:Glassblock
+	x:21
+	y:25
+endObj
+Obj:Glassblock
+	x:22
+	y:25
+endObj
+Obj:Glassblock
+	x:23
+	y:25
+endObj
+Obj:Glassblock
+	x:8
+	y:26
+endObj
+Obj:Glassblock
+	x:9
+	y:26
+endObj
+Obj:Glassblock
+	x:10
+	y:26
+endObj
+Obj:Glassblock
+	x:11
+	y:26
+endObj
+Obj:Glassblock
+	x:12
+	y:26
+endObj
+Obj:Glassblock
+	x:13
+	y:26
+endObj
+Obj:Glassblock
+	x:18
+	y:26
+endObj
+Obj:Glassblock
+	x:19
+	y:26
+endObj
+Obj:Glassblock
+	x:20
+	y:26
+endObj
+Obj:Glassblock
+	x:21
+	y:26
+endObj
+Obj:Glassblock
+	x:22
+	y:26
+endObj
+Obj:Glassblock
+	x:23
+	y:26
+endObj
+Obj:Player
+	x:30
+	y:6
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Cannon
+	x:15
+	y:1
+	p:firerate=1
+endObj
+Obj:Exit
+	x:15
+	y:26
+endObj
+endObjects
+
