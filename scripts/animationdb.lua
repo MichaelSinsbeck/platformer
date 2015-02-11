@@ -345,6 +345,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('door.png','door',tileSize,tileSize)	
 	AnimationDB:loadTiledImage('targetline.png','targetline')
 	AnimationDB:loadTiledImage('bumper.png','bumper')
+	AnimationDB:loadTiledImage('anchor.png','anchor')
 	AnimationDB:loadTiledImage('clubber.png','clubber',tileSize,tileSize)	
 	AnimationDB:loadTiledImage('light.png','light',tileSize,tileSize)	
 	AnimationDB:loadTiledImage('menuPlayer.png','menuPlayer',tileSize,tileSize, "menu")
@@ -582,7 +583,8 @@ function AnimationDB:loadAnimations()
 	
 	AnimationDB:addAni('targetline','targetline',{1},{1e6})
 	
-	AnimationDB:addAni('bumper','bumper',{1},{1e6})	
+	AnimationDB:addAni('bumper','bumper',{1},{1e6})
+	AnimationDB:addAni('anchor','anchor',{1},{1e6})
 	
 	AnimationDB:addAni('clubber','clubber',{1},{1e6})	
 	AnimationDB:addAni('club','clubber',{2},{1e6})
