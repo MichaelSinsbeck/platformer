@@ -27,11 +27,11 @@ function WorldmapSubmenu:new( x, y )
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
 
-	submenu:addImage( "world1", -singleWorldWidth*0.5, -30 )
-	submenu:addImage( "world2", singleWorldWidth*0.5, -30 )
-	submenu:addImage( "world3", singleWorldWidth*1.5, -30 )
-	submenu:addImage( "world4", singleWorldWidth*2.5, -30 )
-	submenu:addImage( "world5", singleWorldWidth*3.5, -30 )
+	submenu:addImage( "world1", -singleWorldWidth*0.5, -42 )
+	submenu:addImage( "world2", singleWorldWidth*0.5, -42 )
+	submenu:addImage( "world3", singleWorldWidth*1.5, -42 )
+	submenu:addImage( "world4", singleWorldWidth*2.5, -42 )
+	submenu:addImage( "world5", singleWorldWidth*3.5, -42 )
 
 	local currentLevel = config.getValue("level")
 	local lastLevel = config.getValue("lastLevel") or Campaign[1]
