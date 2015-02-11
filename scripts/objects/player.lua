@@ -46,13 +46,11 @@ local Player = object:New({
   visible = true,
   canUnJump = false,
   nKeys = 0,
-  hookAngle = -math.pi/4,
 
   prevAnim = "",	-- used for level statistics
 
   vis = {
 		Visualizer:New('playerStand'),
-		Visualizer:New('targetline',{active = false}),
 		Visualizer:New('bandanaStand'),
   },
   properties = {
@@ -636,7 +634,7 @@ function Player:postStep(dt)
 	if newAnimation then
 		local continue = (newAnimation == "Walk")
 		self:setAnim('player' .. newAnimation, continue, 1)
-		self:setAnim('bandana' .. newAnimation, continue, 3)
+		self:setAnim('bandana' .. newAnimation, continue, 2)
 	end
 	
 	
@@ -686,49 +684,39 @@ function Player:postStep(dt)
 
 	if self.flipped then
 		self.vis[1].sx = -1
-		self.vis[3].sx = -1
+		self.vis[2].sx = -1
 	else
 		self.vis[1].sx = 1
-		self.vis[3].sx = 1
-	end
-	-- insert targetline if necessary
-	if self.canHook and not self.anchor then
-		self.vis[2].active = true
-		self.vis[2].ox = - 5
-		if game.isUp then 
-			self.hookAngle	= math.max(self.hookAngle - 3*dt, -0.5*math.pi)
-		end
-		if game.isDown then
-			self.hookAngle	= math.min(self.hookAngle + 3*dt, 0.5*math.pi)
-		end
-		if self.flipped then
-			self.vis[2].angle = math.pi - self.hookAngle
-		else
-			self.vis[2].angle = self.hookAngle
-		end
-	else
-		self.vis[2].active = false
+		self.vis[2].sx = 1
 	end
 	
-	-- find closest anchor, if applicible
+	-- reset anchor from previous time step
 	if self.closestAnchor then
-
 		self.closestAnchor.vis[2].active = false
 		self.closestAnchor = nil
 	end
-	
+	-- find closest anchor, if applicible
 	if self.canHook and not self.anchor then
-		self.anchorDist2 = objectClasses.Bungee.maxLength^2
+		-- define a point in front of player
+		local tx = self.x + 0.5 * self.vx
+		local ty = self.y + 0.5 * self.vy - 1
+		if self.flipped then
+			tx = tx - 1
+		else
+			tx = tx + 1
+		end
+		
+		self.anchorDist = math.huge
 		for k,obj in ipairs(spriteEngine.objects) do
-			if obj.tag == 'Anchor' then
-				obj.vis[2].active = false
-				local dx,dy = self.x-obj.x, self.y-obj.y
-				if self.flipped then
-					dx = -dx
-				end
-				local thisAngle = math.abs((math.atan2(dy,dx)-5/6*math.pi-math.pi)%(2*math.pi)-math.pi)		
-				local thisDist = (dx)^2 + (dy)^2
-			  if thisAngle < 1/3*math.pi and thisDist < self.anchorDist2 then
+			if obj.tag == 'Anchor' and utility.pyth(self.x-obj.x,self.y-obj.y) <= objectClasses.Bungee.maxLength then
+				local dx,dy = tx-obj.x, ty-obj.y
+				--if self.flipped then
+				--	dx = -dx
+				--end
+				--local thisAngle = math.abs((math.atan2(dy,dx)-5/6*math.pi-math.pi)%(2*math.pi)-math.pi)		
+				--local thisDist = (dx)^2 + (dy)^2
+				thisDist = utility.pyth(dx,dy)
+			  if thisDist < self.anchorDist then
 					self.closestAnchor=obj
 					self.anchorDist2 = thisDist
 			  end
@@ -749,12 +737,11 @@ function Player:draw()
 	local y = self.y*8*Camera.scale
 	
 	self.vis[1]:draw(x,y,true)
-	self.vis[2]:draw(x,y,true)
 	local color = utility.bandana2color[self.bandana]
 	if color and not self.anchor then
 		local r,g,b = love.graphics.getColor()
 		love.graphics.setColor(color[1],color[2],color[3],255)
-		self.vis[3]:draw(x,y,true)
+		self.vis[2]:draw(x,y,true)
 		love.graphics.setColor(r,g,b)
 	end
 end
