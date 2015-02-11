@@ -698,8 +698,8 @@ function Player:postStep(dt)
 	-- find closest anchor, if applicible
 	if self.canHook and not self.anchor then
 		-- define a point in front of player
-		local tx = self.x + 0.5 * self.vx
-		local ty = self.y + 0.5 * self.vy - 1
+		
+		local tx,ty = self.x,self.y - 3
 		if self.flipped then
 			tx = tx - 1
 		else
@@ -718,7 +718,7 @@ function Player:postStep(dt)
 				thisDist = utility.pyth(dx,dy)
 			  if thisDist < self.anchorDist then
 					self.closestAnchor=obj
-					self.anchorDist2 = thisDist
+					self.anchorDist = thisDist
 			  end
 			end
 		end
