@@ -82,5 +82,17 @@ Obj:Exit
 	x:11
 	y:2
 endObj
+Obj:Anchor
+	x:15
+	y:0
+endObj
+Obj:Anchor
+	x:20
+	y:11
+endObj
+Obj:Anchor
+	x:10
+	y:11
+endObj
 endObjects
 
