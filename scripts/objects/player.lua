@@ -116,7 +116,7 @@ function Player:jump()
     self.jumpsLeft = self.jumpsLeft - 1
     self.canUnJump = true
 		self:playSound('doubleJump')
-  elseif self.status == 'fly' and self.canParachute then
+  elseif self.status == 'fly' and not self.anchor and self.canParachute then
 		self.isGliding = true
 		self:playSound('openParachute')
   elseif self.status == 'leftwall' then
@@ -751,6 +751,7 @@ if self.closestAnchor then
 	local thisAngle = math.atan2(self.closestAnchor.y-self.y,self.closestAnchor.x-self.x)
 	local newBungee = objectClasses.Bungee:New({x=self.x,y=self.y,vx=0,vy=0,target=self.closestAnchor,vis = {Visualizer:New('bungee',{angle=thisAngle})}})
 	spriteEngine:insert(newBungee,2)
+	self.isGliding = false
 	if self.status == 'online' then
 		self.status = 'fly'
 	end
