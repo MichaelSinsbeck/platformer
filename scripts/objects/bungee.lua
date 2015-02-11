@@ -63,11 +63,14 @@ function Bungee:postStep(dt)
 	if self.status == 'fly' then
 		local dx,dy = self.target.x-self.x,self.target.y-self.y
 		local dist = math.sqrt(dx^2+dy^2)
-		local ratio = (self.speed*dt)/dist
+		local ratio = self.speed*dt/dist
+		local radius = .6
 		if not self.dead then
-			if ratio >= 1 then
-				self.x = self.target.x
-				self.y = self.target.y
+			if self.speed*dt + radius >= dist then
+				if dist > radius then
+					self.x = self.x + dx *(dist-radius)/dist
+					self.y = self.y + dy *(dist-radius)/dist
+				end
 				-- make connection
 				p:connect(self)
 				self.status = 'fix'

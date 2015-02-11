@@ -3,7 +3,6 @@ local Anchor = object:New({
   marginx = .8,
   marginy = .8,
   isInEditor = true,
-	solid = true,
   vis = {
 		Visualizer:New('anchor'),
 		Visualizer:New('crosshairs',{active = false}),
