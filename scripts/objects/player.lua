@@ -763,7 +763,7 @@ function Player:throwBungee()
 if self.closestAnchor then
 	local thisAngle = math.atan2(self.closestAnchor.y-self.y,self.closestAnchor.x-self.x)
 	local newBungee = objectClasses.Bungee:New({x=self.x,y=self.y,vx=0,vy=0,target=self.closestAnchor,vis = {Visualizer:New('bungee',{angle=thisAngle})}})
-	spriteEngine:insert(newBungee)
+	spriteEngine:insert(newBungee,2)
 	if self.status == 'online' then
 		self.status = 'fly'
 	end
