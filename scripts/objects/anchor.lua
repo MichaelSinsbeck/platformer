@@ -6,10 +6,15 @@ local Anchor = object:New({
 	solid = true,
   vis = {
 		Visualizer:New('anchor'),
+		Visualizer:New('crosshairs',{active = false}),
   },
 })
 
 function Anchor:setAcceleration(dt)
+end
+
+function Anchor:postStep(dt)
+	self.vis[2].angle = self.vis[2].angle + dt
 end
 
 return Anchor

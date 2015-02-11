@@ -4,6 +4,7 @@ local Bungee = object:New({
   marginy = 0.1,
   maxLength = 10,
   minLength = 0.5,
+	speed = 50, -- speed of rope shooting
   lifetime = 5,
   status = 'fly',
   nNodes = 20,
@@ -16,7 +17,7 @@ local Bungee = object:New({
 function Bungee:setAcceleration(dt)
 end
 
-function Bungee:collision()
+--[[function Bungee:collision()
 	local dist = utility.pyth(self.newX-self.x,self.newY-self.y)
 	local air, tx, ty = myMap:raycast(self.x,self.y, self.vx, self.vy, dist)
 	if not air then
@@ -26,7 +27,7 @@ function Bungee:collision()
 	else
 		self.collisionResult = false
 	end
-end
+end]]
 
 function Bungee:draw()
 	local r, g, b, a = love.graphics.getColor()	
@@ -36,7 +37,7 @@ function Bungee:draw()
 		thisAlpha = math.min(thisAlpha,127)
 	end
 	self.vis[1].alpha = thisAlpha
-	object.draw(self)
+	object.draw(self) -- draw hook at the end
 	
 	love.graphics.setLineWidth(Camera.scale*0.4)
 	
@@ -60,34 +61,43 @@ end
 
 function Bungee:postStep(dt)
 	if self.status == 'fly' then
-
-		if self.collisionResult and not self.dead and self.status ~= 'fall' then	-- Collision
-			self.vx, self.vy = 0,0
-			p:connect(self)
-			self.status = 'fix'
-			self.nodesX = {}
-			self.nodesY = {}
-			self.nodesNewX = {}
-			self.nodesNewY = {}		
-			self.nodesVx = {}
-			self.nodesVy = {}
-			self.nodes = {}
-			-- create nodes (linear)
-			for i = 0,self.nNodes do
-				self.nodesX[i] = p.x + (self.x-p.x)*i/self.nNodes
-				self.nodesY[i] = p.y + (self.y-p.y)*i/self.nNodes
-				self.nodesVx[i] = 0
-				self.nodesVy[i] = 0
-				self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
-				self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
-			end	
-		else		
-			-- check for maximum length
-			local dx,dy = self.x-p.x, self.y-p.y
-			local length = math.sqrt(dx*dx+dy*dy)
-			if length > self.maxLength then
-				self:kill()
-				return
+		local dx,dy = self.target.x-self.x,self.target.y-self.y
+		local dist = math.sqrt(dx^2+dy^2)
+		local ratio = (self.speed*dt)/dist
+		if not self.dead then
+			if ratio >= 1 then
+				self.x = self.target.x
+				self.y = self.target.y
+				-- make connection
+				p:connect(self)
+				self.status = 'fix'
+				self.nodesX = {}
+				self.nodesY = {}
+				self.nodesNewX = {}
+				self.nodesNewY = {}		
+				self.nodesVx = {}
+				self.nodesVy = {}
+				self.nodes = {}
+				-- create nodes (linear)
+				for i = 0,self.nNodes do
+					self.nodesX[i] = p.x + (self.x-p.x)*i/self.nNodes
+					self.nodesY[i] = p.y + (self.y-p.y)*i/self.nNodes
+					self.nodesVx[i] = 0
+					self.nodesVy[i] = 0
+					self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
+					self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
+				end	
+			else
+			  -- move
+				self.x = self.x + dx*ratio
+				self.y = self.y + dy*ratio
+				-- check for distance to player
+				local dx,dy = self.x-p.x, self.y-p.y
+				local length = math.sqrt(dx*dx+dy*dy)
+				if length > self.maxLength then
+					self:kill()
+					return
+				end
 			end
 		end
 	end

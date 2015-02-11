@@ -36,7 +36,6 @@ local Player = object:New({
   glideSpeed = 1.5,--1.5,
   glideAcc = 44,--60, -- should be larger than gravity
   windMaxSpeed = -20,
-	bungeeSpeed = 50, -- speed of rope shooting
   marginx = 0.3,
   marginy = 0.6,
   linePointx = 0,
@@ -711,6 +710,36 @@ function Player:postStep(dt)
 		self.vis[2].active = false
 	end
 	
+	-- find closest anchor, if applicible
+	if self.closestAnchor then
+
+		self.closestAnchor.vis[2].active = false
+		self.closestAnchor = nil
+	end
+	
+	if self.canHook and not self.anchor then
+		self.anchorDist2 = objectClasses.Bungee.maxLength^2
+		for k,obj in ipairs(spriteEngine.objects) do
+			if obj.tag == 'Anchor' then
+				obj.vis[2].active = false
+				local dx,dy = self.x-obj.x, self.y-obj.y
+				if self.flipped then
+					dx = -dx
+				end
+				local thisAngle = math.abs((math.atan2(dy,dx)-5/6*math.pi-math.pi)%(2*math.pi)-math.pi)		
+				local thisDist = (dx)^2 + (dy)^2
+			  if thisAngle < 1/3*math.pi and thisDist < self.anchorDist2 then
+					self.closestAnchor=obj
+					self.anchorDist2 = thisDist
+			  end
+			end
+		end
+		-- show crosshairs
+		if self.closestAnchor then
+			self.closestAnchor.vis[2].active = true
+		end
+	end
+	
 	-- send position to camera
 	Camera:sendPlayer(self.x,self.y)
 end
@@ -731,16 +760,14 @@ function Player:draw()
 end
 
 function Player:throwBungee()
-	if self.canHook and not self.dead then
-		--game:checkControls()
-		local vx = self.bungeeSpeed * math.cos(self.vis[2].angle)
-		local vy = self.bungeeSpeed * math.sin(self.vis[2].angle)
-		local newBungee = objectClasses.Bungee:New({x=self.x, y=self.y, vx=vx, vy=vy, vis = {Visualizer:New('bungee',{angle=self.vis[2].angle})} })
-		spriteEngine:insert(newBungee)
-		if self.status == 'online' then
-			self.status = 'fly'
-		end	
+if self.closestAnchor then
+	local thisAngle = math.atan2(self.closestAnchor.y-self.y,self.closestAnchor.x-self.x)
+	local newBungee = objectClasses.Bungee:New({x=self.x,y=self.y,vx=0,vy=0,target=self.closestAnchor,vis = {Visualizer:New('bungee',{angle=thisAngle})}})
+	spriteEngine:insert(newBungee)
+	if self.status == 'online' then
+		self.status = 'fly'
 	end
+end
 end
 
 function Player:connect(anchor)
