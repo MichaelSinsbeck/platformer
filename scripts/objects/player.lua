@@ -692,7 +692,7 @@ function Player:postStep(dt)
 	
 	-- reset anchor from previous time step
 	if self.closestAnchor then
-		self.closestAnchor.vis[2].active = false
+		self.closestAnchor.isCurrentTarget  = false
 		self.closestAnchor = nil
 	end
 	-- find closest anchor, if applicible
@@ -724,7 +724,7 @@ function Player:postStep(dt)
 		end
 		-- show crosshairs
 		if self.closestAnchor then
-			self.closestAnchor.vis[2].active = true
+			self.closestAnchor.isCurrentTarget = true
 		end
 	end
 	
