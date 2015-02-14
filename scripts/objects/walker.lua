@@ -198,4 +198,10 @@ function Walker:wake()
 	self.vx = self.speed * self.direction
 end
 
+function Walker:onKill()
+	if p.anchor and p.anchor.target == self then
+		spriteEngine:DoAll('disconnect')
+	end
+end
+
 return Walker
