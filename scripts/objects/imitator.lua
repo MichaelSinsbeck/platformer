@@ -133,4 +133,10 @@ function Imitator:unjump()
 	end
 end
 
+function Imitator:onKill()
+	if p.anchor and p.anchor.target == self then
+		spriteEngine:DoAll('disconnect')
+	end
+end
+
 return Imitator

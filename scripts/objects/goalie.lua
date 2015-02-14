@@ -98,4 +98,10 @@ function Goalie:postStep(dt)
   end
 end
 
+function Goalie:onKill()
+	if p.anchor and p.anchor.target == self then
+		spriteEngine:DoAll('disconnect')
+	end
+end
+
 return Goalie

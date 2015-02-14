@@ -14,13 +14,20 @@ local FixedCannon = object:New({
 	properties = {
 		angle = utility.newCycleProperty({0, 1, 2, -1}, {'right', 'down', 'left', 'up'}),
 		firerate = utility.newProperty({.4, .6, .8, 1, 1.2, 1.4, 1.6, 1.8, 2},nil,5),
-		delay = utility.newCycleProperty({0, .1, .2, .3, .4, .5, .6, .7, .8, .9})
+		phase = utility.newCycleProperty({0, .1, .2, .3, .4, .5, .6, .7, .8, .9}),
+		ammo = utility.newCycleProperty({'Shuriken','Anchor'}),
 	},
 })
 
 function FixedCannon:applyOptions()
 	self.vis[2].angle = self.angle*0.5*math.pi
-	self.vis[1].timer = self.firerate*self.delay
+	self.vis[1].timer = self.firerate*self.phase
+	
+	if self.ammo == 'Shuriken' then
+		self:setAnim('shuriken',false,1)
+	else
+		self:setAnim('anchor',false,1)
+	end
 end
 
 function FixedCannon:setAcceleration(dt)
@@ -30,7 +37,7 @@ function FixedCannon:setAcceleration(dt)
 		self.vis[1].timer = self.vis[1].timer - self.firerate
 		local vx,vy = math.cos(self.vis[2].angle) * self.velocity, math.sin(self.vis[2].angle) * self.velocity
 		local newAngle = 6.28 * math.random()
-		local newShuriken = spriteFactory('Shuriken',{x=self.x,y=self.y,vx=vx,vy=vy})
+		local newShuriken = spriteFactory(self.ammo,{x=self.x,y=self.y,vx=vx,vy=vy})
 		newShuriken.vis[1].angle = newAngle
 		spriteEngine:insert(newShuriken)
 		self:playSound('shurikenShoot')
@@ -38,7 +45,7 @@ function FixedCannon:setAcceleration(dt)
 end
 
 return FixedCannon
--- Create Cannon object for 4 directions in with 4 different delays
+-- Create Cannon object for 4 directions in with 4 different phases
 --[[FixedCannon1r = FixedCannon:New({vis = {Visualizer:New('shuriken',{timer = 1.2}),Visualizer:New('fixedcannon',{angle = 0})}})
 FixedCannon2r = FixedCannon:New({vis = {Visualizer:New('shuriken',{timer = 0.9}),Visualizer:New('fixedcannon',{angle = 0})}})
 FixedCannon3r = FixedCannon:New({vis = {Visualizer:New('shuriken',{timer = 0.6}),Visualizer:New('fixedcannon',{angle = 0})}})

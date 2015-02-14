@@ -97,4 +97,10 @@ function Runner:postStep(dt)
 	self:haveSound('runnerLong')
 end
 
+function Runner:onKill()
+	if p.anchor and p.anchor.target == self then
+		spriteEngine:DoAll('disconnect')
+	end
+end
+
 return Runner
