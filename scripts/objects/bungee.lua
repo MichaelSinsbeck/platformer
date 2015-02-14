@@ -70,6 +70,10 @@ function Bungee:draw()
 end
 
 function Bungee:postStep(dt)
+	if not self.target.anchorRadii then
+		self:kill()
+		return
+	end
 	if self.status == 'fly' then
 		local dx,dy = self.target.x-self.x,self.target.y-self.y
 		local rx,ry = self.target.anchorRadii[1], self.target.anchorRadii[2]

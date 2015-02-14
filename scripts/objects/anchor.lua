@@ -44,7 +44,7 @@ function Anchor:postStep(dt)
 		self.deathTimer = 1
   end
   if not self.isActive then
-		self.vis[1].alpha = math.min(1, self.lifetime-self.vis[1].timer)*127
+		self.vis[1].alpha = math.min(1, self.lifetime-self.vis[1].timer)*255
 		if self.vis[1].timer > self.lifetime then
 				self:kill()
 		end
