@@ -21,14 +21,14 @@ function Anchor:postStep(dt)
 	else
 		self.zoomState = math.max(self.zoomState - 7*dt,0)
 	end
-	local s = self:easing(self.zoomState)
+	local s = utility.easingOvershoot(self.zoomState)
 
 	self.vis[2].angle = self.vis[2].angle + dt
 	self.vis[2].sx = s
 	self.vis[2].sy = s
 end
 
-function Anchor:easing(t)
+--[[function Anchor:easing(t)
 	if t <= 0 then
 		return 0
 	elseif t >= 1 then
@@ -36,6 +36,6 @@ function Anchor:easing(t)
 	else
 		return 1-(1-3*t)*((1-t)^2)
 	end
-end
+end--]]
 
 return Anchor

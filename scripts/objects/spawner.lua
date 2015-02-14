@@ -11,10 +11,10 @@ local Spawner = object:New({
 		Visualizer:New('spawnerback'),
 		Visualizer:New('spawnerbar'),
 		Visualizer:New('spawnerfront'),
-		Visualizer:New('spawnersymbolspike')
+		Visualizer:New('spawnersymbolenemy')
 	},
 	properties = {
-		type = utility.newCycleProperty({true,false},{'spikes','bouncer'}),	
+		type = utility.newCycleProperty({'enemy','bouncy','anchor'}),	
 		direction = utility.newCycleProperty({"left", "right"},nil),
 		strength = utility.newCycleProperty({16,23},{'weak','strong'},2),
 		spawnTime = utility.newNumericTextProperty( 3, 0.1, math.huge ),
@@ -24,11 +24,8 @@ local Spawner = object:New({
 
 --SpawnerLeft = Spawner:New({left = true})
 function Spawner:applyOptions()
-	if self.type then
-		self:setAnim('spawnersymbolspike',true,4)
-	else
-		self:setAnim('spawnersymbolbounce',true,4)
-	end
+	self:setAnim('spawnersymbol' .. self.type ,true,4)
+
 	if self.direction == "left" then
 		self.left = true
 	else

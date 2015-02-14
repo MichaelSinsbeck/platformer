@@ -216,3 +216,13 @@ end
 function utility.interpolateCos( rel )
 	return -math.cos(math.pi*rel)*0.5 + 0.5
 end
+
+function utility.easingOvershoot(t)
+	if t <= 0 then
+		return 0
+	elseif t >= 1 then
+		return 1
+	else
+		return 1-(1-3*t)*((1-t)^2)
+	end
+end

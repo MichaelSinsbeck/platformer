@@ -9,6 +9,7 @@ local Walker = object:New({
   marginy = 0.6,
   isInEditor = true,
   period = 0.5, -- should be (0.8/speed)
+  zoomState = 0, -- for cross hairs
 	properties = {
 		type = utility.newCycleProperty({'enemy','bouncy','anchor'}),	
 		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
@@ -163,7 +164,21 @@ function Walker:postStep(dt)
 				p.canUnJump = false		
 			end
     end
-  end  
+  end
+  
+  -- show crosshairs
+  if self.anchorRadii then
+		if self.isCurrentTarget then
+			self.zoomState = math.min(self.zoomState + 5*dt,1)
+		else
+			self.zoomState = math.max(self.zoomState - 7*dt,0)
+		end
+		local s = utility.easingOvershoot(self.zoomState)
+
+		self.vis[6].angle = self.vis[6].angle + dt
+		self.vis[6].sx = s
+		self.vis[6].sy = s 
+	end
 end
 
 function Walker:wake()
@@ -175,6 +190,7 @@ function Walker:wake()
 		Visualizer:New('enemywalker'),
 		Visualizer:New('enemywalkerfoot'),
 		Visualizer:New('enemywalkerfoot'),
+		Visualizer:New('crosshairs',{sx=0, sy=0}),
   }
   self:init()
   if self.type == 'anchor' then
