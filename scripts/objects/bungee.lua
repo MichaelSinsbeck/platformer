@@ -62,17 +62,30 @@ end
 function Bungee:postStep(dt)
 	if self.status == 'fly' then
 		local dx,dy = self.target.x-self.x,self.target.y-self.y
-		local dist = math.sqrt(dx^2+dy^2)
+		local rx,ry = self.target.anchorRadii[1], self.target.anchorRadii[2]
+		local dist = utility.pyth(dx,dy)
+		local skewDist = utility.pyth(dx/rx,dy/ry)
+		local skewVX = (dx/dist*self.speed)/rx
+		local skewVY = (dy/dist*self.speed)/ry
+		local skewSpeed = utility.pyth(skewVX,skewVY)
 		local ratio = self.speed*dt/dist
-		local radius = .6
+		--local skewRatio = skewSpeed*dt/skewDist
+		local radius = 1
 		if not self.dead then
-			if self.speed*dt + radius >= dist then
-				if dist > radius then
-					self.x = self.x + dx *(dist-radius)/dist
-					self.y = self.y + dy *(dist-radius)/dist
+			if skewSpeed*dt + radius >= skewDist then
+			--if self.speed*dt + radius >= dist then
+				if skewDist > radius then
+					self.x = self.x + dx *(skewDist-radius)/skewDist
+					self.y = self.y + dy *(skewDist-radius)/skewDist
 				end
 				-- make connection
 				p:connect(self)
+				self.rx = self.x-self.target.x
+				self.ry = self.y-self.target.y
+				
+				self.vis[1].angle = math.atan2(dx/rx,-dy/ry) - math.pi/2
+				
+				
 				self.status = 'fix'
 				self.nodesX = {}
 				self.nodesY = {}
@@ -96,13 +109,16 @@ function Bungee:postStep(dt)
 				self.y = self.y + dy*ratio
 				-- check for distance to player
 				local dx,dy = self.x-p.x, self.y-p.y
-				local length = math.sqrt(dx*dx+dy*dy)
+				local length = utility.pyth(dx,dy)
 				if length > self.maxLength then
 					self:kill()
 					return
 				end
 			end
 		end
+	else
+		self.x = self.target.x + self.rx
+		self.y = self.target.y + self.ry
 	end
  
 	if self.nodesX and self.nodesY then
@@ -192,6 +208,10 @@ function Bungee:postStep(dt)
 			self.nodesY[0] = p.y
 			self.nodesVx[0] = p.vx
 			self.nodesVy[0] = p.vy
+		end
+		if self.status ~= 'fly' then
+			self.nodesX[self.nNodes] = self.x
+			self.nodesY[self.nNodes] = self.y
 		end
 		
 

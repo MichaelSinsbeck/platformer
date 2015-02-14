@@ -5,6 +5,7 @@ local Anchor = object:New({
   isInEditor = true,
   isCurrentTarget = false,
   zoomState = 0,
+  anchorRadii = {.6,.6},
   vis = {
 		Visualizer:New('anchor'),
 		Visualizer:New('crosshairs',{sx=0, sy=0}),

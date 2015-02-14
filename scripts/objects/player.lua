@@ -410,27 +410,23 @@ function Player:collision(dt)
   -- Remember about floor and ceil:
   -- When upper bound is checked, use ceil (and maybe -1)
   -- When lower bound is checked, use floor
-  if vx > 0 then -- Bewegung nach rechts
-    -- haben die rechten Eckpunkte die Zelle gewechselt?
+  if vx > 0 then -- Moving to the right
+    -- did the bounding box change the cell?
     if math.ceil(self.x+self.semiwidth) ~= math.ceil(self.newX+self.semiwidth) then
-      -- Kollision in neuen Feldern?
+      -- Collision?
 			if myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.floor(self.y-self.semiheight),'right',self.tag) or
 				 myMap:collisionTest(math.ceil(self.newX+self.semiwidth-1),math.ceil(self.y+self.semiheight)-1,'right',self.tag) then
         self.newX = math.floor(self.newX+self.semiwidth)-self.semiwidth
-				--if self.status ~= 'online' then 
-					self.status = 'rightwall' 
-				--end			
+				self.status = 'rightwall'
       end
     end
-  elseif vx < 0 then -- Bewegung nach links
-    -- Eckpunkte wechseln Zelle?
+  elseif vx < 0 then -- Moving to the left
+    -- did the bounding box change the cell?
     if math.floor(self.x-self.semiwidth) ~= math.floor(self.newX-self.semiwidth) then
 			if myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.floor(self.y-self.semiheight),'left',self.tag) or
 				 myMap:collisionTest(math.floor(self.newX-self.semiwidth),math.ceil(self.y+self.semiheight)-1,'left',self.tag) then
         self.newX = math.ceil(self.newX-self.semiwidth)+self.semiwidth
-        --if self.status ~= 'online' then
-					self.status = 'leftwall'
-				--end
+				self.status = 'leftwall'
       end
     end
   end
@@ -546,10 +542,17 @@ function Player:collision(dt)
 	if self.status == 'stand' and self.laststatus ~= 'stand' then
 		self:playSound('land')
 	end
-	
+
+	-- check for rope length	
 	-- correct rope length if shortening did not work (avoid unwanted snapping effects)
-	if self.anchor and game.isUp then
-		self.anchor.length = math.max(self.anchor.length, math.sqrt((self.x-self.anchor.x)^2+(self.y-self.anchor.y)^2))
+	-- if rope is attached to moving anchor, then release rope
+	if self.anchor then
+	local actualLength = utility.pyth(self.x-self.anchor.x,self.y-self.anchor.y)
+		if game.isUp then
+		self.anchor.length = math.max(self.anchor.length, actualLength)
+		elseif actualLength > self.anchor.length + 0.5 then
+			spriteEngine:DoAll('disconnect')
+		end
 	end
 end
 
@@ -697,8 +700,8 @@ function Player:postStep(dt)
 	end
 	-- find closest anchor, if applicible
 	if self.canHook and not self.anchor then
-		-- define a point in front of player
-		
+	
+		-- define a target point in front of player		
 		local tx,ty = self.x,self.y - 3
 		if self.flipped then
 			tx = tx - 1
@@ -706,15 +709,11 @@ function Player:postStep(dt)
 			tx = tx + 1
 		end
 		
+		-- find anchor closest to target point
 		self.anchorDist = math.huge
 		for k,obj in ipairs(spriteEngine.objects) do
-			if obj.tag == 'Anchor' and utility.pyth(self.x-obj.x,self.y-obj.y) <= objectClasses.Bungee.maxLength then
+			if obj.anchorRadii  and utility.pyth(self.x-obj.x,self.y-obj.y) <= objectClasses.Bungee.maxLength then
 				local dx,dy = tx-obj.x, ty-obj.y
-				--if self.flipped then
-				--	dx = -dx
-				--end
-				--local thisAngle = math.abs((math.atan2(dy,dx)-5/6*math.pi-math.pi)%(2*math.pi)-math.pi)		
-				--local thisDist = (dx)^2 + (dy)^2
 				thisDist = utility.pyth(dx,dy)
 			  if thisDist < self.anchorDist then
 					self.closestAnchor=obj

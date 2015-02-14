@@ -4,13 +4,13 @@ local Walker = object:New({
 	speed = 1.6,
 	vx = 0,
 	timer = 0,
-	vis = {Visualizer:New('evilprewalker')},
+	vis = {Visualizer:New('enemyprewalker')},
   marginx = 0.6,
   marginy = 0.6,
   isInEditor = true,
   period = 0.5, -- should be (0.8/speed)
 	properties = {
-		type = utility.newCycleProperty({true,false},{'enemy','bouncy'}),	
+		type = utility.newCycleProperty({'enemy','bouncy','anchor'}),	
 		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
 		strength = utility.newProperty({16,23},{'weak','strong'},2),		
 	}  
@@ -23,14 +23,12 @@ function Walker:applyOptions()
 		self.arrows = 2
 	end
 	
-	local prefix
+	local prefix = self.type
 	local body
-	if self.type then
-		prefix = 'evil'
-		body = 'walker'
-	else
-		prefix = 'good'
+	if self.type == 'bouncy' then
 		body = 'walker' .. self.arrows
+	else
+		body = 'walker'
 	end
 	if self.status == 'normal' then
 		self:setAnim(prefix .. 'walkerfoot2',false,1)
@@ -41,6 +39,12 @@ function Walker:applyOptions()
 	else
 		self:setAnim(prefix .. 'prewalker')
 	end
+	
+	--[[if self.type == 'anchor' then
+		self.anchorRadii = {.6,.4}
+	else
+		self.anchorRadii = nil
+	end]]
 end
 
 function Walker:postStep(dt)
@@ -76,7 +80,9 @@ function Walker:postStep(dt)
 		local t = self.timer/self.period -- effective timer
 		local pi = math.pi
 		
-		self.vis[3].relY = sign*0.03*math.cos(4*pi*t) -- body of walker bounced on walk
+		if self.type ~= 'anchor' then -- don't do it for anchor, because otherwise the hook would have to bounce, too
+			self.vis[3].relY = sign*0.03*math.cos(4*pi*t) -- body of walker bounced on walk
+		end
 		
 		if self.collisionResult >= 8 then -- walking
 			if t < .5 then -- set animation (feed position)
@@ -144,16 +150,18 @@ function Walker:postStep(dt)
 	
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
-		if self.type then
+		if self.type == 'enemy' then
     p.dead = true
     levelEnd:addDeath("death_walker")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
     self:playSound('walkerDeath')
-    elseif self.status == 'normal' or self.status == 'fall' then
-			p.vy = -self.strength;
-			self:setAnim('goodwalkerblink' .. self.arrows,false,3)
-			self:resetAnimation()
-			p.canUnJump = false		
+    elseif self.type == 'bouncy' then
+				if self.status == 'normal' or self.status == 'fall' then
+				p.vy = -self.strength;
+				self:setAnim('goodwalkerblink' .. self.arrows,false,3)
+				self:resetAnimation()
+				p.canUnJump = false		
+			end
     end
   end  
 end
@@ -162,18 +170,17 @@ function Walker:wake()
 	self.status = 'normal'
 	self:resize(0.48,0.375)
 	self.vis = {
-		Visualizer:New('evilwalkerfoot2'),
-		Visualizer:New('evilwalkerfoot2'),  
-		Visualizer:New('evilwalker'),
-		Visualizer:New('evilwalkerfoot'),
-		Visualizer:New('evilwalkerfoot'),
+		Visualizer:New('enemywalkerfoot2'),
+		Visualizer:New('enemywalkerfoot2'),  
+		Visualizer:New('enemywalker'),
+		Visualizer:New('enemywalkerfoot'),
+		Visualizer:New('enemywalkerfoot'),
   }
   self:init()
+  if self.type == 'anchor' then
+		self.anchorRadii = {.6,.4}
+  end
 	self.vx = self.speed * self.direction
 end
 
 return Walker
-
---[[WalkerLeft = Walker:New({
-  direction = -1,
-})]]
