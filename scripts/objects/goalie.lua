@@ -11,13 +11,15 @@ local Goalie = object:New({
 	--marginx = 0.4,
   --marginy = 0.65,
   isInEditor = true,
+  zoomState = 0,
   vis = {
 		Visualizer:New('goalie'),
+		Visualizer:New('crosshairs',{sx=0, sy=0}),
   },
 	properties = {
 		direction = utility.newCycleProperty({0, .5, 1, -.5}, {'vertical', 'diagonal1','horizontal','diagonal2'}),
-		type = utility.newCycleProperty({'normal','anchor'}),
-	},  
+	},
+	anchorRadii = {.45,.45},
 })
 
 function Goalie:applyOptions()
@@ -25,13 +27,6 @@ function Goalie:applyOptions()
 	self.sin = math.sin(self.angle)
 	self.cos = math.cos(self.angle)
 	self.vis[1].angle = self.angle
-	
-	if self.type == 'anchor' then
-		self.anchorRadii = {.25,.5}
-	else
-		self.anchorRadii = nil
-	end
-	
 end
 
 function Goalie:setAcceleration(dt)
@@ -79,6 +74,21 @@ function Goalie:postStep(dt)
 	if self.collisionResult > 0 and self.oldCollisionResult == 0 then
 		self:playSound('goalieCollide')
 	end
+	
+	  -- show crosshairs
+  if self.anchorRadii then
+		if self.isCurrentTarget then
+			self.zoomState = math.min(self.zoomState + 5*dt,1)
+		else
+			self.zoomState = math.max(self.zoomState - 7*dt,0)
+		end
+		local s = utility.easingOvershoot(self.zoomState)
+
+		self.vis[2].angle = self.vis[2].angle + dt
+		self.vis[2].sx = s
+		self.vis[2].sy = s 
+	end
+	
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
     p:kill()

@@ -11,7 +11,7 @@ local Walker = object:New({
   period = 0.5, -- should be (0.8/speed)
   zoomState = 0, -- for cross hairs
 	properties = {
-		type = utility.newCycleProperty({'enemy','bouncy','anchor'}),	
+		type = utility.newCycleProperty({'enemy','bouncy'}),	
 		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
 		strength = utility.newProperty({16,23},{'weak','strong'},2),		
 	}  
@@ -186,7 +186,7 @@ function Walker:wake()
 		Visualizer:New('crosshairs',{sx=0, sy=0}),
   }
   self:init()
-  if self.type == 'anchor' then
+  if self.type == 'enemy' then
 		self.anchorRadii = {.6,.4}
   end
 	self.vx = self.speed * self.direction

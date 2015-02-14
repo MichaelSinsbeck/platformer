@@ -14,7 +14,7 @@ local Spawner = object:New({
 		Visualizer:New('spawnersymbolenemy')
 	},
 	properties = {
-		type = utility.newCycleProperty({'enemy','bouncy','anchor'}),	
+		type = utility.newCycleProperty({'enemy','bouncy'}),	
 		direction = utility.newCycleProperty({"left", "right"},nil),
 		strength = utility.newCycleProperty({16,23},{'weak','strong'},2),
 		spawnTime = utility.newNumericTextProperty( 3, 0.1, math.huge ),

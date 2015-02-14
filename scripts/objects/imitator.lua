@@ -14,19 +14,13 @@ local Imitator = object:New({
   walkSpeed = 18,--13,
   jumpSpeed = -13,
   unjumpSpeed = 6,
-  vis = {Visualizer:New('imitatorStand'),},
-	properties = {
-		type = utility.newCycleProperty({'normal','anchor'}),
-	},  
+  zoomState = 0,
+  vis = {
+		Visualizer:New('imitatorStand'),
+		Visualizer:New('crosshairs',{sx=0, sy=0}),
+  },
+	anchorRadii = {.3,.5} 
 })
-
-function Imitator:applyOptions()
-	if self.type == 'anchor' then
-		self.anchorRadii = {.25,.5}
-	else
-		self.anchorRadii = nil
-	end
-end
 
 function Imitator:setAcceleration(dt)
 	game:checkControls()
@@ -103,6 +97,20 @@ function Imitator:postStep(dt)
 		else
 			self:setAnim('imitatorRun')
 		end
+	end
+	
+	  -- show crosshairs
+  if self.anchorRadii then
+		if self.isCurrentTarget then
+			self.zoomState = math.min(self.zoomState + 5*dt,1)
+		else
+			self.zoomState = math.max(self.zoomState - 7*dt,0)
+		end
+		local s = utility.easingOvershoot(self.zoomState)
+
+		self.vis[2].angle = self.vis[2].angle + dt
+		self.vis[2].sx = s
+		self.vis[2].sy = s 
 	end
 	
 end

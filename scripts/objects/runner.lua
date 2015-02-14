@@ -6,25 +6,17 @@ local Runner = object:New({
   xSensing = 20, --how far can he see?
   ySensing = 7,
   mouthRadius = 7,
+  zoomState = 0,
   vis = {
 		Visualizer:New('runnerSleep',{frame = 3}),
 		Visualizer:New('runnerMouth',{relY = 0.2}),
+		Visualizer:New('crosshairs',{sx=0, sy=0}),
   },
   marginx = 0.7,
   marginy = 0.6,
   isInEditor = true,
-	properties = {
-		type = utility.newCycleProperty({'normal','anchor'}),
-	},    
+  anchorRadii = {.525,.5},
 })
-
-function Runner:applyOptions()
-	if self.type == 'anchor' then
-		self.anchorRadii = {.25,.5}
-	else
-		self.anchorRadii = nil
-	end
-end
 
 function Runner:setAcceleration(dt)
   local dx = self.x-p.x
@@ -70,6 +62,20 @@ function Runner:setAcceleration(dt)
 end
 
 function Runner:postStep(dt)
+  -- show crosshairs
+  if self.anchorRadii then
+		if self.isCurrentTarget then
+			self.zoomState = math.min(self.zoomState + 5*dt,1)
+		else
+			self.zoomState = math.max(self.zoomState - 7*dt,0)
+		end
+		local s = utility.easingOvershoot(self.zoomState)
+
+		self.vis[3].angle = self.vis[3].angle + dt
+		self.vis[3].sx = s
+		self.vis[3].sy = s 
+	end
+
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
     p:kill()

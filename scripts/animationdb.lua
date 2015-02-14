@@ -616,17 +616,16 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('bouncywalkerfoot2','walker',{6},{1e6})	
 	AnimationDB:addAni('bouncywalkerblink1','walker',{9,4},{0.1,1e6})
 	AnimationDB:addAni('bouncywalkerblink2','walker',{11,10},{0.1,1e6})
-	AnimationDB:addAni('anchorprewalker','walker',{12},{1e6})
+	--[[AnimationDB:addAni('anchorprewalker','walker',{12},{1e6})
 	AnimationDB:addAni('anchorwalker','walker',{15},{1e6})
 	AnimationDB:addAni('anchorwalkerfoot','walker',{13},{1e6})
-	AnimationDB:addAni('anchorwalkerfoot2','walker',{14},{1e6})
+	AnimationDB:addAni('anchorwalkerfoot2','walker',{14},{1e6})--]]
 	
 	AnimationDB:addAni('spawnerfront','spawner',{1},{1e6})	
 	AnimationDB:addAni('spawnerback','spawner',{2},{1e6})
 	AnimationDB:addAni('spawnerbar','spawner',{3},{1e6})
 	AnimationDB:addAni('spawnersymbolenemy','spawner',{4},{1e6})
 	AnimationDB:addAni('spawnersymbolbouncy','spawner',{5},{1e6})
-	AnimationDB:addAni('spawnersymbolanchor','spawner',{6},{1e6})
 	
 	-- gui stuff
 	AnimationDB:addAni('guiBeanFull','bean',{1},{1e6})
