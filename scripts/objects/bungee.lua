@@ -37,6 +37,16 @@ function Bungee:draw()
 		thisAlpha = math.min(thisAlpha,127)
 	end
 	self.vis[1].alpha = thisAlpha
+	
+	if self.status ~= 'fly' then
+		if self.target.anchorRx then
+			self.vis[1].relX = self.target.anchorRx
+		end
+		if self.target.anchorRy then
+			self.vis[1].relY = self.target.anchorRy
+		end
+	end
+	
 	object.draw(self) -- draw hook at the end
 	
 	love.graphics.setLineWidth(Camera.scale*0.4)
@@ -81,10 +91,8 @@ function Bungee:postStep(dt)
 				-- make connection
 				p:connect(self)
 				self.rx = self.x-self.target.x
-				self.ry = self.y-self.target.y
-				
+				self.ry = self.y-self.target.y				
 				self.vis[1].angle = math.atan2(dx/rx,-dy/ry) - math.pi/2
-				
 				
 				self.status = 'fix'
 				self.nodesX = {}

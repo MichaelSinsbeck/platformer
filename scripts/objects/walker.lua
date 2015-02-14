@@ -81,9 +81,8 @@ function Walker:postStep(dt)
 		local t = self.timer/self.period -- effective timer
 		local pi = math.pi
 		
-		if self.type ~= 'anchor' then -- don't do it for anchor, because otherwise the hook would have to bounce, too
-			self.vis[3].relY = sign*0.03*math.cos(4*pi*t) -- body of walker bounced on walk
-		end
+		self.vis[3].relY = sign*0.03*math.cos(4*pi*t) -- body of walker bounced on walk
+		self.anchorRy = self.vis[3].relY
 		
 		if self.collisionResult >= 8 then -- walking
 			if t < .5 then -- set animation (feed position)
