@@ -73,7 +73,7 @@ function Goalie:postStep(dt)
 	end
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
-    p.dead = true
+    p:kill()
     levelEnd:addDeath("death_goalie")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
     self:playSound('goalieDeath')

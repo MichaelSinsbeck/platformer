@@ -59,7 +59,7 @@ end
 
 function Imitator:postStep(dt)
 	if not p.dead and self:touchPlayer(dx,dy) then
-    p.dead = true
+    p:kill()
     levelEnd:addDeath("death_imitator")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
   end  

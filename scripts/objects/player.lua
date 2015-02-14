@@ -770,4 +770,9 @@ function Player:disconnect()
 	end
 end
 
+function Player:kill()
+	self.dead = true
+	spriteEngine:DoAll('disconnect')
+end
+
 return Player

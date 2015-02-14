@@ -6,7 +6,7 @@ local Spikey = object:New({
 
 function Spikey:setAcceleration(dt)
 	if not p.dead and self:touchPlayer() then
-    p.dead = true
+		p:kill()
     self:playSound('spikeDeath')
     levelEnd:addDeath("death_spikey")
     objectClasses.Meat:spawn(p.oldx,p.oldy,self.vx,self.vy,12)

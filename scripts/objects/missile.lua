@@ -49,7 +49,7 @@ function Missile:postStep(dt)
 	local dy = self.y-p.y
 	if self:touchPlayer(dx,dy) and not p.dead then
 		self:detonate()
-    p.dead = true
+    p:kill()
     levelEnd:addDeath("death_missile")
     objectClasses.Meat:spawn(self.x,self.y,self.vx,self.vy)
   end

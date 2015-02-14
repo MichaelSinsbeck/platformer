@@ -50,7 +50,7 @@ function Medusa:update(dt)
 	end
 	
 	if self:touchPlayer() and not p.dead then
-		p.dead = true
+		p:kill()
 		levelEnd:addDeath("death_medusa")
 		local vx = self.velocity
 		local vy = self.amplitude*math.cos(2*math.pi*self.timer/self.period+2*self.phase*math.pi)*2*math.pi/self.period
