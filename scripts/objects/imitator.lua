@@ -15,7 +15,18 @@ local Imitator = object:New({
   jumpSpeed = -13,
   unjumpSpeed = 6,
   vis = {Visualizer:New('imitatorStand'),},
+	properties = {
+		type = utility.newCycleProperty({'normal','anchor'}),
+	},  
 })
+
+function Imitator:applyOptions()
+	if self.type == 'anchor' then
+		self.anchorRadii = {.25,.5}
+	else
+		self.anchorRadii = nil
+	end
+end
 
 function Imitator:setAcceleration(dt)
 	game:checkControls()

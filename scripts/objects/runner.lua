@@ -13,7 +13,18 @@ local Runner = object:New({
   marginx = 0.7,
   marginy = 0.6,
   isInEditor = true,
+	properties = {
+		type = utility.newCycleProperty({'normal','anchor'}),
+	},    
 })
+
+function Runner:applyOptions()
+	if self.type == 'anchor' then
+		self.anchorRadii = {.25,.5}
+	else
+		self.anchorRadii = nil
+	end
+end
 
 function Runner:setAcceleration(dt)
   local dx = self.x-p.x

@@ -40,12 +40,6 @@ function Walker:applyOptions()
 	else
 		self:setAnim(prefix .. 'prewalker')
 	end
-	
-	--[[if self.type == 'anchor' then
-		self.anchorRadii = {.6,.4}
-	else
-		self.anchorRadii = nil
-	end]]
 end
 
 function Walker:postStep(dt)

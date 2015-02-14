@@ -16,6 +16,7 @@ local Goalie = object:New({
   },
 	properties = {
 		direction = utility.newCycleProperty({0, .5, 1, -.5}, {'vertical', 'diagonal1','horizontal','diagonal2'}),
+		type = utility.newCycleProperty({'normal','anchor'}),
 	},  
 })
 
@@ -24,6 +25,13 @@ function Goalie:applyOptions()
 	self.sin = math.sin(self.angle)
 	self.cos = math.cos(self.angle)
 	self.vis[1].angle = self.angle
+	
+	if self.type == 'anchor' then
+		self.anchorRadii = {.25,.5}
+	else
+		self.anchorRadii = nil
+	end
+	
 end
 
 function Goalie:setAcceleration(dt)
