@@ -2,7 +2,7 @@ local FixedCannon = object:New({
 	tag = 'Fixedcannon',
 	category = 'Enemies',
   --firerate = 1.2, -- in seconds
-  velocity = 15,
+  --velocity = 15,
   marginx = .8,
   marginy = .8,
   isInEditor = true,
@@ -15,6 +15,7 @@ local FixedCannon = object:New({
 		angle = utility.newCycleProperty({0, 1, 2, -1}, {'right', 'down', 'left', 'up'}),
 		firerate = utility.newProperty({.4, .6, .8, 1, 1.2, 1.4, 1.6, 1.8, 2},nil,5),
 		phase = utility.newCycleProperty({0, .1, .2, .3, .4, .5, .6, .7, .8, .9}),
+		velocity = utility.newCycleProperty({5,10,15,20},{'slow','semi-slow', 'normal', 'fast'},3),
 		ammo = utility.newCycleProperty({'Shuriken','Anchor'}),
 	},
 })
