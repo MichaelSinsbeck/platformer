@@ -204,6 +204,10 @@ function game.joystickpressed(joystick, button)
 	if button == keys.PAD.JUMP then
 		spriteEngine:DoAll('jump')
 	end
+	
+	if button == keys.PAD.DASH then
+		spriteEngine:DoAll('dash')
+	end	
 	if p.dead then
 		if button == keys.PAD.CHOOSE then
 			myMap:start(p)
@@ -219,8 +223,8 @@ function game.joystickpressed(joystick, button)
 		end
 	end  
 
-	if button == keys.PAD.ACTION and p.bandana == "red" then
-		Bungee:throw()
+	if button == keys.PAD.ACTION then
+		p:throwBungee()
 	end
 end
 

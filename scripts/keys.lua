@@ -178,6 +178,8 @@ function keys.load()
 	if key then keys.PAD.JUMP = key end
 	key = config.getValue( "ACTION", "gamepad.txt")
 	if key then keys.PAD.ACTION = key end
+	key = config.getValue( "DASH", "gamepad.txt")
+	if key then keys.PAD.DASH = key end
 
 	key = config.getValue( "BACK", "gamepad.txt")
 	if key then keys.PAD.BACK = key end
