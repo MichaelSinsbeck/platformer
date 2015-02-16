@@ -55,6 +55,7 @@ function Bungee:draw()
 	
 	love.graphics.setColor(color[1],color[2],color[3],thisAlpha)
 	if self.status == 'fly' then
+	love.graphics.setLineWidth(Camera.scale*0.4)
 	love.graphics.line(
 		math.floor(self.x*myMap.tileSize),
 		math.floor(self.y*myMap.tileSize),
@@ -63,6 +64,7 @@ function Bungee:draw()
 	else
 		local curve = love.math.newBezierCurve(self.nodes)
 		local nodesToDraw = curve:render()
+		love.graphics.setLineWidth(Camera.scale*0.4)
 		love.graphics.line(nodesToDraw)
 	end
 	

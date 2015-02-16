@@ -3,6 +3,7 @@ local Anchor = object:New({
   marginx = 0.2,
   marginy = 0.2,
   isInEditor = true,
+  layout = 'center',
   isCurrentTarget = false,
   zoomState = 0,
   anchorRadii = {.5,.5},
