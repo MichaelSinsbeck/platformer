@@ -93,10 +93,7 @@ function Missile:detonate()
 			local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
 			local newParticle = spriteFactory('Particle',{x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed})
 			spriteEngine:insert(newParticle)
-		end
-		
-
-		
+		end	
 		-- remove missile
 		self:kill()
 	end

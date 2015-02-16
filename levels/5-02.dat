@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 33,27
+Dimensions: 33,34
 
 Author: Micha
 Description:
@@ -39,24 +39,38 @@ Background:
 --------------------------------
 --------------------------------
 --------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
 endBackground
 
 Ground:
-cccccccccccccccccccccccccccccccc
-ccccccccc-------cccccccccccccccc
-ccccccccc-------cccccccccccccccc
-ccccccccc-------cccccccccccccccc
-ccccccccccccccc-1ccccccccccccccc
--------------c1-1ccccc----------
--------------c1-1ccccc----------
--------------c1-1ccccc----------
-------------------cccc----------
-------------------cccc----------
--------cccccccccccccccccccc-----
 --------------------------------
 --------------------------------
 --------------------------------
 --------------------------------
+--------------------------------
+--------------------------------
+-------------------ccc----------
+------------1111111ccc----------
+----------------cccccc----------
+----------------cccccc----------
+----------------cccccc----------
+cccccccccccccccccccccc----------
+----------------cccccc----------
+----------------cccccc----------
+----------------cccccc----------
+ccccccccccccccc-1ccccc----------
+-------------11-1ccccc----------
+-------------11-1ccccc----------
+-------------11-1ccccc----------
+----------------1ccccc----------
+----------------cccccc----------
+-------ccccccccccccccc----------
 --------------------------------
 --------------------------------
 --------------------------------
@@ -75,28 +89,37 @@ endBgObjects
 
 Objects:
 Obj:Player
-	x:23
-	y:9
+	x:14
+	y:10
 	p:canHook=true
 	p:canParachute=true
 	p:canTeleport=true
 	p:canWalljump=true
 endObj
 Obj:Exit
-	x:11
-	y:3
+	x:7
+	y:14
 endObj
 Obj:Anchor
 	x:15
-	y:0
+	y:12
 endObj
 Obj:Anchor
-	x:22
-	y:10
+	x:21
+	y:21
 endObj
 Obj:Anchor
 	x:11
-	y:10
+	y:21
+endObj
+Obj:Fixedcannon
+	x:0
+	y:6
+	p:velocity=15
+	p:angle=0
+	p:ammo=Anchor
+	p:firerate=1.2
+	p:phase=0.9
 endObj
 endObjects
 
