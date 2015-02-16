@@ -71,7 +71,7 @@ function Bungee:draw()
 end
 
 function Bungee:postStep(dt)
-	if not self.target.anchorRadii then
+	if not self.target.anchorRadii or self.target.dead then
 		self:kill()
 		return
 	end

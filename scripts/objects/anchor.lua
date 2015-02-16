@@ -8,6 +8,8 @@ local Anchor = object:New({
   zoomState = 0,
   anchorRadii = {.5,.5},
   isActive = true,
+	spreadSpeed = 8,  -- For explosion
+  particleRotSpeed = 5, -- For explosion
   lifetime = .5, -- after hitting something
   vis = {
 		Visualizer:New('anchor'),
@@ -31,18 +33,36 @@ function Anchor:postStep(dt)
 	self.vis[2].sy = s
 	
 	if self.collisionResult > 0 then
-		--self:kill()
-		self:setAnim('anchorHit')
+		for i = 1,6 do -- spawn 6 particles
+			local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3
+			
+			local vx = math.cos(angle)*self.spreadSpeed*magnitude
+			local vy = (math.sin(angle)-0.2)*self.spreadSpeed*magnitude
+			local x,y = self.x + math.random()-0.3, self.y+math.random()-0.3
+			
+			local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
+			local animation = 'anchor' .. math.random(1,4)
+			local newParticle = spriteFactory('Particle',{x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed,vis = {Visualizer:New(animation)} })
+			spriteEngine:insert(newParticle)
+		end
+		self:kill()
+	--]]
+	
+	
+
+		--[[self:setAnim('anchorHit')
 		self.vis[1].angle = math.atan2(self.vy,self.vx)
 		self.vis[1].alpha = 127
 		self.anchorRadii = false
 		self.isActive = false
 		self.vx = 0
-		self.vy = 0	
+		self.vy = 0	--]]
 		if p.anchor and p.anchor.target == self then
+			local thisAnchor = p.anchor
 			spriteEngine:DoAll('disconnect')
+			--thisAnchor:kill()
 		end
-		self.deathTimer = 1
+		--self.deathTimer = 1
   end
   if not self.isActive then
 		self.vis[1].alpha = math.min(1, self.lifetime-self.vis[1].timer)*255

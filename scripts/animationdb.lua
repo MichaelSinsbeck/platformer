@@ -551,6 +551,10 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('door2','crumble',{18},{1e6})
 	AnimationDB:addAni('door3','crumble',{19},{1e6})
 	AnimationDB:addAni('door4','crumble',{20},{1e6})	
+	AnimationDB:addAni('anchor1','crumble',{21},{1e6})
+	AnimationDB:addAni('anchor2','crumble',{22},{1e6})
+	AnimationDB:addAni('anchor3','crumble',{23},{1e6})
+	AnimationDB:addAni('anchor4','crumble',{24},{1e6})	
 	
 	AnimationDB:addAni('fixedcannon','fixedcannon',{1},{1e6})
 	
