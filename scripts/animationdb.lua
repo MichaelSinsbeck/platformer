@@ -587,7 +587,6 @@ function AnimationDB:loadAnimations()
 	
 	AnimationDB:addAni('bumper','bumper',{1},{1e6})
 	AnimationDB:addAni('anchor','anchor',{1},{1e6})
-	AnimationDB:addAni('anchorHit','anchor',{3},{1e6})
 	AnimationDB:addAni('crosshairs','crosshairs',{1},{1e6})
 	
 	AnimationDB:addAni('clubber','clubber',{1},{1e6})	

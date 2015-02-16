@@ -6,11 +6,10 @@ local Anchor = object:New({
   layout = 'center',
   isCurrentTarget = false,
   zoomState = 0,
-  anchorRadii = {.5,.5},
+  anchorRadii = {.45,.45},
   isActive = true,
 	spreadSpeed = 8,  -- For explosion
   particleRotSpeed = 5, -- For explosion
-  lifetime = .5, -- after hitting something
   vis = {
 		Visualizer:New('anchor'),
 		Visualizer:New('crosshairs',{sx=0, sy=0}),
@@ -60,14 +59,7 @@ function Anchor:postStep(dt)
 		if p.anchor and p.anchor.target == self then
 			local thisAnchor = p.anchor
 			spriteEngine:DoAll('disconnect')
-			--thisAnchor:kill()
-		end
-		--self.deathTimer = 1
-  end
-  if not self.isActive then
-		self.vis[1].alpha = math.min(1, self.lifetime-self.vis[1].timer)*255
-		if self.vis[1].timer > self.lifetime then
-				self:kill()
+			thisAnchor:kill()
 		end
   end
 end

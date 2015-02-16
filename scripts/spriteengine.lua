@@ -29,10 +29,17 @@ function spriteEngine:addQueue()
 end
 
 function spriteEngine:update(dt)
+	local postpostList = {}
   for i,v in ipairs(self.objects) do
     if v.update then
       v:update(dt)
     end
+    if v.postpostStep then
+			table.insert(postpostList,v)
+    end
+  end
+  for i,v in ipairs(postpostList) do
+		v:postpostStep(dt)
   end
 	Sound:setPositions()  
   self:kill()

@@ -96,7 +96,7 @@ function Bungee:postStep(dt)
 				-- make connection
 				p:connect(self)
 				self.rx = self.x-self.target.x
-				self.ry = self.y-self.target.y				
+				self.ry = self.y-self.target.y
 				self.vis[1].angle = math.atan2(dx/rx,-dy/ry) - math.pi/2
 				
 				self.status = 'fix'
@@ -129,7 +129,19 @@ function Bungee:postStep(dt)
 				end
 			end
 		end
-	else
+	end
+	
+  if self.status == 'dangle' then
+		self.lifetime = self.lifetime - dt
+		if self.lifetime < 0 then
+			self:kill()
+		end
+  end	
+end
+
+function Bungee:postpostStep(dt)
+
+	if self.status ~= 'fly' then
 		self.x = self.target.x + self.rx
 		self.y = self.target.y + self.ry
 	end
@@ -232,13 +244,6 @@ function Bungee:postStep(dt)
 			-- insert node coordinates in list
 			self.nodes[2*i+1] = self.nodesX[i]*myMap.tileSize
 			self.nodes[2*i+2] = self.nodesY[i]*myMap.tileSize
-		end
-  end
-  
-  if self.status == 'dangle' then
-		self.lifetime = self.lifetime - dt
-		if self.lifetime < 0 then
-			self:kill()
 		end
   end
 end
