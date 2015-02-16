@@ -39,6 +39,8 @@ function game:draw()
 		table.insert(screenshots,love.graphics.newScreenshot())
 	end
 	love.graphics.print( love.timer.getFPS(), 20, love.graphics.getHeight() - 40 )
+	love.graphics.print( #spriteEngine.objects, 20, love.graphics.getHeight() - 20 )
+	
 end
 
 function game:checkControls()
@@ -106,6 +108,13 @@ function game:update(dt)
 end
 
 function game.keypressed(key)
+	--[[if key == ' ' then
+		print('\nObject inventory')
+		print('----------------\n')
+		for k,v in pairs(spriteEngine.objects) do
+			print(v.tag)
+		end
+	end--]]
 
 	if key == keys.PAUSE then
 		if editor.active then
