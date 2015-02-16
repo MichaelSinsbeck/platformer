@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 33,25
+Dimensions: 33,27
 
 Author: Micha
 Description:
@@ -37,20 +37,24 @@ Background:
 --------------------------------
 --------------------------------
 --------------------------------
+--------------------------------
+--------------------------------
 endBackground
 
 Ground:
 cccccccccccccccccccccccccccccccc
 ccccccccc-------cccccccccccccccc
 ccccccccc-------cccccccccccccccc
-ccccccccccccccc-cccccccccccccccc
--------------c1-1ccccc----------
+ccccccccc-------cccccccccccccccc
+ccccccccccccccc-1ccccccccccccccc
 -------------c1-1ccccc----------
 -------------c1-1ccccc----------
 -------------c1-1ccccc----------
 ------------------cccc----------
 ------------------cccc----------
 -------cccccccccccccccccccc-----
+--------------------------------
+--------------------------------
 --------------------------------
 --------------------------------
 --------------------------------
@@ -80,19 +84,19 @@ Obj:Player
 endObj
 Obj:Exit
 	x:11
-	y:2
+	y:3
 endObj
 Obj:Anchor
 	x:15
 	y:0
 endObj
 Obj:Anchor
-	x:20
-	y:11
+	x:22
+	y:10
 endObj
 Obj:Anchor
-	x:10
-	y:11
+	x:11
+	y:10
 endObj
 endObjects
 

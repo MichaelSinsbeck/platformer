@@ -192,5 +192,45 @@ Obj:Anchor
 	x:34
 	y:8
 endObj
+Obj:CameraGuide
+	x:38
+	y:48
+	p:offsetX=-5
+	p:transition=0.5
+	p:radius=8
+	p:offsetY=3
+endObj
+Obj:CameraGuide
+	x:29
+	y:36
+	p:offsetX=7
+	p:transition=0.5
+	p:radius=8
+	p:offsetY=3
+endObj
+Obj:CameraGuide
+	x:16
+	y:33
+	p:offsetX=1
+	p:transition=0.5
+	p:radius=8
+	p:offsetY=3
+endObj
+Obj:CameraGuide
+	x:14
+	y:23
+	p:offsetX=-1
+	p:transition=0.5
+	p:radius=8
+	p:offsetY=3
+endObj
+Obj:CameraGuide
+	x:23
+	y:14
+	p:offsetX=-6
+	p:transition=0.5
+	p:radius=8
+	p:offsetY=4
+endObj
 endObjects
 
