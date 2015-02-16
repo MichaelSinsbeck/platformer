@@ -84,11 +84,11 @@ Ground:
 -----------------------------------------------------------
 -----------------------------------------------------------
 -----------------------------------------------------------
------------------------cccc---cccc-------------------------
------------------------cccc---cccc-------------------------
------------------------cccc---cccc-------------------------
------------------------ccccccccccc-------------------------
 -----------------------------------------------------------
+-----------------------cccc---cccc-------------------------
+-----------------------cccc---cccc-------------------------
+-----------------------cccc---cccc-------------------------
+-------------------------ccccccc---------------------------
 -----------------------------------------------------------
 endGround
 
@@ -98,7 +98,7 @@ endBgObjects
 Objects:
 Obj:Player
 	x:28
-	y:30
+	y:31
 	p:canHook=true
 	p:canParachute=true
 	p:canTeleport=true
@@ -124,25 +124,25 @@ Obj:Button
 endObj
 Obj:Appearblock
 	x:27
-	y:31
+	y:32
 	p:state=solid
 	p:color=yellow
 endObj
 Obj:Appearblock
 	x:28
-	y:31
+	y:32
 	p:state=solid
 	p:color=yellow
 endObj
 Obj:Appearblock
 	x:29
-	y:31
+	y:32
 	p:state=solid
 	p:color=yellow
 endObj
 Obj:Exit
 	x:28
-	y:33
+	y:34
 endObj
 Obj:Walker
 	x:28
@@ -194,12 +194,8 @@ Obj:Appearblock
 	p:color=red
 endObj
 Obj:Anchor
-	x:21
-	y:25
-endObj
-Obj:Anchor
-	x:15
-	y:19
+	x:19
+	y:20
 endObj
 Obj:Anchor
 	x:8
@@ -265,6 +261,12 @@ Obj:Cannon
 	x:31
 	y:19
 	p:firerate=1.2
+endObj
+Obj:Bouncer
+	x:23
+	y:31
+	p:strength=23
+	p:angle=-1
 endObj
 endObjects
 
