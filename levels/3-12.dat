@@ -65,14 +65,14 @@ Objects:
 Obj:Walker
 	x:1
 	y:18
-	p:type=false
+	p:type=bouncy
 	p:direction=1
 	p:strength=23
 endObj
 Obj:Walker
 	x:4
 	y:18
-	p:type=false
+	p:type=bouncy
 	p:direction=1
 	p:strength=16
 endObj

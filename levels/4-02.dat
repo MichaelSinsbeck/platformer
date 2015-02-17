@@ -78,21 +78,21 @@ Obj:Fixedcannon
 	x:15
 	y:15
 	p:angle=-1
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:19
 	y:6
 	p:angle=-1
-	p:delay=0
+	p:phase=0
 	p:firerate=0.4
 endObj
 Obj:Fixedcannon
 	x:19
 	y:0
 	p:angle=1
-	p:delay=0.5
+	p:phase=0.5
 	p:firerate=0.4
 endObj
 Obj:Goalie
@@ -103,7 +103,7 @@ endObj
 Obj:Walker
 	x:11
 	y:5
-	p:type=true
+	p:type=enemy
 	p:direction=-1
 	p:strength=23
 endObj

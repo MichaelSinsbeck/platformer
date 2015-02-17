@@ -97,7 +97,7 @@ Objects:
 Obj:Walker
 	x:15
 	y:33
-	p:type=false
+	p:type=bouncy
 	p:direction=-1
 	p:strength=16
 endObj
@@ -112,21 +112,21 @@ endObj
 Obj:Walker
 	x:21
 	y:33
-	p:type=false
+	p:type=bouncy
 	p:direction=-1
 	p:strength=23
 endObj
 Obj:Walker
 	x:27
 	y:25
-	p:type=false
+	p:type=bouncy
 	p:direction=-1
 	p:strength=23
 endObj
 Obj:Walker
 	x:5
 	y:11
-	p:type=false
+	p:type=bouncy
 	p:direction=-1
 	p:strength=16
 endObj

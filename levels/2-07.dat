@@ -312,14 +312,14 @@ Obj:Fixedcannon
 	x:1
 	y:11
 	p:angle=-1
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:0
 	y:2
 	p:angle=0
-	p:delay=0.4
+	p:phase=0.4
 	p:firerate=1.2
 endObj
 Obj:Appearblock
@@ -338,7 +338,7 @@ Obj:Fixedcannon
 	x:9
 	y:8
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Appearblock

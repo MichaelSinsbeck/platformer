@@ -75,7 +75,7 @@ Objects:
 Obj:Npc
 	x:26
 	y:23
-	p:delay=0
+	p:phase=0
 	p:displayTime=10
 	p:regionSize=10
 	p:display=region

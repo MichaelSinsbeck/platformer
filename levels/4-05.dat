@@ -74,14 +74,14 @@ Obj:Fixedcannon
 	x:10
 	y:19
 	p:angle=-1
-	p:delay=0.4
+	p:phase=0.4
 	p:firerate=1.6
 endObj
 Obj:Fixedcannon
 	x:6
 	y:19
 	p:angle=-1
-	p:delay=0.9
+	p:phase=0.9
 	p:firerate=1.6
 endObj
 Obj:Crumbleblock

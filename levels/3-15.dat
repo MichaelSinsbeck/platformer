@@ -74,28 +74,28 @@ Obj:Fixedcannon
 	x:1
 	y:18
 	p:angle=0
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:12
 	y:15
 	p:angle=0
-	p:delay=0.2
+	p:phase=0.2
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:21
 	y:12
 	p:angle=0
-	p:delay=0.4
+	p:phase=0.4
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:1
 	y:9
 	p:angle=0
-	p:delay=0.6
+	p:phase=0.6
 	p:firerate=1.2
 endObj
 Obj:Upwind
@@ -115,7 +115,7 @@ Obj:Fixedcannon
 	x:12
 	y:6
 	p:angle=0
-	p:delay=0.8
+	p:phase=0.8
 	p:firerate=1.2
 endObj
 Obj:Rotator
@@ -230,7 +230,7 @@ Obj:Fixedcannon
 	x:21
 	y:3
 	p:angle=0
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Upwind

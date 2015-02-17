@@ -127,7 +127,7 @@ Obj:Fixedcannon
 	x:32
 	y:2
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 endObjects

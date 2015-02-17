@@ -248,7 +248,7 @@ Obj:Spawner
 	p:strength=23
 	p:phase=1
 	p:spawnTime=5
-	p:type=true
+	p:type=enemy
 	p:direction=left
 endObj
 Obj:Appearblock

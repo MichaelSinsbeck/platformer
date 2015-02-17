@@ -85,34 +85,34 @@ Obj:Spawner
 	p:strength=23
 	p:phase=1
 	p:spawnTime=3
-	p:type=true
+	p:type=enemy
 	p:direction=left
 endObj
 Obj:Fixedcannon
 	x:37
 	y:17
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:37
 	y:16
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Walker
 	x:14
 	y:16
-	p:type=true
+	p:type=enemy
 	p:direction=-1
 	p:strength=23
 endObj
 Obj:Walker
 	x:9
 	y:16
-	p:type=true
+	p:type=enemy
 	p:direction=-1
 	p:strength=23
 endObj

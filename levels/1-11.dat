@@ -73,14 +73,14 @@ Obj:Fixedcannon
 	x:29
 	y:13
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.6
 endObj
 Obj:Fixedcannon
 	x:29
 	y:14
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.6
 endObj
 Obj:Exit
@@ -91,7 +91,7 @@ Obj:Fixedcannon
 	x:0
 	y:11
 	p:angle=0
-	p:delay=0
+	p:phase=0
 	p:firerate=1.4
 endObj
 Obj:LineHook
@@ -106,14 +106,14 @@ Obj:Fixedcannon
 	x:15
 	y:8
 	p:angle=-1
-	p:delay=0.2
+	p:phase=0.2
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:16
 	y:8
 	p:angle=-1
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 endObjects

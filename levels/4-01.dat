@@ -82,7 +82,7 @@ endObj
 Obj:Npc
 	x:33
 	y:13
-	p:delay=0
+	p:phase=0
 	p:displayTime=10
 	p:regionSize=10
 	p:display=region

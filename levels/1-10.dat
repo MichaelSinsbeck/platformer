@@ -65,7 +65,7 @@ Obj:Fixedcannon
 	x:5
 	y:0
 	p:angle=1
-	p:delay=0.2
+	p:phase=0.2
 	p:firerate=1
 endObj
 Obj:Player
@@ -84,77 +84,77 @@ Obj:Fixedcannon
 	x:13
 	y:13
 	p:angle=0
-	p:delay=0.2
+	p:phase=0.2
 	p:firerate=1.4
 endObj
 Obj:Fixedcannon
 	x:13
 	y:7
 	p:angle=0
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:21
 	y:17
 	p:angle=-1
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:24
 	y:17
 	p:angle=-1
-	p:delay=0.5
+	p:phase=0.5
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:10
 	y:10
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.4
 endObj
 Obj:Fixedcannon
 	x:10
 	y:9
 	p:angle=2
-	p:delay=0
+	p:phase=0
 	p:firerate=1.4
 endObj
 Obj:Fixedcannon
 	x:6
 	y:17
 	p:angle=-1
-	p:delay=0.6
+	p:phase=0.6
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:7
 	y:17
 	p:angle=-1
-	p:delay=0.4
+	p:phase=0.4
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:8
 	y:17
 	p:angle=-1
-	p:delay=0.2
+	p:phase=0.2
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:9
 	y:17
 	p:angle=-1
-	p:delay=0
+	p:phase=0
 	p:firerate=1.2
 endObj
 Obj:Fixedcannon
 	x:10
 	y:17
 	p:angle=-1
-	p:delay=0.8
+	p:phase=0.8
 	p:firerate=1.2
 endObj
 endObjects
