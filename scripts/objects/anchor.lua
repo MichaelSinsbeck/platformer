@@ -1,7 +1,7 @@
 local Anchor = object:New({
 	tag = 'Anchor',
-  marginx = 0.2,
-  marginy = 0.2,
+  marginx = 0.6,
+  marginy = 0.6,
   isInEditor = true,
   layout = 'center',
   isCurrentTarget = false,
@@ -30,13 +30,16 @@ function Anchor:postStep(dt)
 	self.vis[2].angle = self.vis[2].angle + dt
 	self.vis[2].sx = s
 	self.vis[2].sy = s
-	
+
+	self.vx_const = self.vx_const or self.vx
+	self.vy_const = self.vy_const or self.vy
+
 	if self.collisionResult > 0 then
 		for i = 1,6 do -- spawn 6 particles
 			local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3
 			
-			local vx = math.cos(angle)*self.spreadSpeed*magnitude
-			local vy = (math.sin(angle)-0.2)*self.spreadSpeed*magnitude
+			local vx = math.cos(angle)*self.spreadSpeed*magnitude - 0.3 * self.vx_const
+			local vy = (math.sin(angle)-0.2)*self.spreadSpeed*magnitude - 0.3 * self.vy_const
 			local x,y = self.x + math.random()-0.3, self.y+math.random()-0.3
 			
 			local rotSpeed = self.particleRotSpeed * (math.random()*2-1)

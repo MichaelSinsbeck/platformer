@@ -67,19 +67,19 @@ function spriteEngine:kill()
 -- erase 'dead' objects
   for i = #self.objects,1,-1 do
 		local thisObject = self.objects[i]
+		if thisObject.tag~= 'Player' and
+			(thisObject.x < -1 or
+		   thisObject.x > myMap.width +3 or
+		   thisObject.y < -1 or
+		   thisObject.y > myMap.height+3) then
+			thisObject.dead = true
+		end
+		   
     if thisObject.dead then
 			Sound:stopLongSound(thisObject)
 			table.remove(self.objects,i)
 			if thisObject.onKill then thisObject:onKill() end
-		elseif thisObject.tag ~= 'Player' and -- erase objects outside the level
-		  (thisObject.x < -1 or
-		   thisObject.x > myMap.width +3 or
-		   thisObject.y < -1 or
-		   thisObject.y > myMap.height+3) then
-			Sound:stopLongSound(thisObject)
-		  table.remove(self.objects,i)
-		  if thisObject.onKill then thisObject:onKill() end
-    end
+		end
   end
 end
 
