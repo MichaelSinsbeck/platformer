@@ -152,7 +152,7 @@ function Walker:postStep(dt)
     elseif self.type == 'bouncy' then
 				if self.status == 'normal' or self.status == 'fall' then
 				p.vy = -self.strength;
-				self:setAnim('goodwalkerblink' .. self.arrows,false,3)
+				self:setAnim('bouncywalkerblink' .. self.arrows,false,3)
 				self:resetAnimation()
 				p.canUnJump = false		
 			end
