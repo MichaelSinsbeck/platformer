@@ -22,8 +22,12 @@ function Runner:setAcceleration(dt)
   local dx = self.x-p.x
   local dy = self.y-p.y
   
-
-  if p.visible and not p.dead and math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
+	local eps = 0.1
+  if p.visible and 
+		not p.dead and 
+		math.abs(dx) < self.xSensing and 
+		math.abs(dy) < self.ySensing and
+		math.abs(dx) > eps then
     self.vis[2].sy = math.max(0,1-math.sqrt(dx*dx+dy*dy)/self.mouthRadius)
 		self.vis[2].sx = self.vis[2].sy
   
@@ -39,15 +43,17 @@ function Runner:setAcceleration(dt)
 		end
 	else
 	  -- stop running
-	  self.vis[2].sx, self.vis[2].sy = 0,0
+	  
 	  if self.vx > self.acc * dt then
 	    self.vx = self.vx - self.acc * dt
 	  elseif self.vx < - self.acc * dt then
 	    self.vx = self.vx + self.acc * dt
 	  else
 	    self.vx = 0
+	    self.vis[2].sx, self.vis[2].sy = 0,0
+	    self:setAnim('runnerSleep')
 	  end
-	  self:setAnim('runnerSleep')
+	  
 	end
   
   if self.vx < -self.maxSpeed then

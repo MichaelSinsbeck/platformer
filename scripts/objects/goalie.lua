@@ -35,8 +35,13 @@ function Goalie:setAcceleration(dt)
   local dy = self.y-p.y
   
 	dx,dy = self.cos*dx+self.sin*dy, -self.sin*dx+self.cos*dy
+  local eps = 0.1
   
-  if p.visible and not p.dead and math.abs(dx) < self.xSensing and math.abs(dy) < self.ySensing then
+  if p.visible and 
+		not p.dead and 
+		math.abs(dx) < self.xSensing and 
+		math.abs(dy) < self.ySensing and
+		math.abs(dy) > eps then
 		-- run towards player
 		if dy > 0 then
 			speed = speed - self.acc * dt
