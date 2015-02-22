@@ -224,7 +224,8 @@ function Player:dash()
 		newWoosh.vis[1].alpha = 150
 		spriteEngine:insert(newWoosh)
 		
-		self.vis[1].alpha = 0
+		self.vis[1].alpha = 100
+		self.vis[2].alpha = 100
 		
 		self.x = newX
 		self.status = 'fly'
@@ -560,6 +561,7 @@ function Player:postStep(dt)
 	local newAnimation
 	
   self.vis[1].alpha = math.min(self.vis[1].alpha + 1000*dt,255)
+  self.vis[2].alpha = self.vis[1].alpha
   self.dashTimer = math.max(self.dashTimer-dt,0)
   
   -- Set animation
