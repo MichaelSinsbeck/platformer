@@ -16,12 +16,13 @@ local Crumbleblock = object:New({
   vis = {}, -- see below, definition in loop
 	properties = {
 		lifetime = utility.newProperty({.5 , 1, 1.5, 2, 2.5, 3},nil,2)
-	},  
+	},
 })
 
 for i=0,3 do
 	for j =0,3 do
-	Crumbleblock.vis[i+4*j+1] = Visualizer:New('crumble1',{relY = i*0.25-0.375,relX = j*0.25-0.375})
+	local thisAnimation = 'crumble' .. math.random(1,12)
+	Crumbleblock.vis[i+4*j+1] = Visualizer:New(thisAnimation,{relY = i*0.25-0.375,relX = j*0.25-0.375})
 	end
 end
  
