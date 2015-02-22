@@ -58,6 +58,7 @@ CameraGuideRect = require 'scripts/objects.cameraguiderectangle',
 ParallaxConfig = require 'scripts/objects.parallaxConfig',
 Upwind = require 'scripts/objects.upwind',
 Anchor = require 'scripts/objects.anchor',
+Follower = require 'scripts/objects.follower',
 }
 
 
