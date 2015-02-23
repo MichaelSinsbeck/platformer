@@ -2,22 +2,27 @@ local Follower = object:New({
 	tag = 'Follower',
 	category = 'Enemies',
 	layout = 'center',
-  maxSpeed = 20,
+  --maxSpeed = 20,
   range = 7, --how far can he see?
 	state = 'wait',
-	marginx = 0.8,
-  marginy = 0.8,
+	marginx = 0.7,
+  marginy = 0.7,
   acceleration = 60,
   isInEditor = true,
   zoomState = 0,
   vis = {
-		Visualizer:New('placeholder08'),
+		Visualizer:New('followerBack'),
+		Visualizer:New('followerPupil'),
+		Visualizer:New('followerClose',{frame = 2}),
 		Visualizer:New('crosshairs',{sx=0, sy=0}),
+  },
+  properties = {
+		maxSpeed = utility.newCycleProperty({10,15,20},{'slow','medium','fast'},2)
   },
 	--properties = {
 	--	direction = utility.newCycleProperty({0, .5, 1, -.5}, {'vertical', 'diagonal1','horizontal','diagonal2'}),
 	--},
-	--anchorRadii = {.45,.45},
+	anchorRadii = {.6,.6},
 })
 
 function Follower:applyOptions()
@@ -29,21 +34,21 @@ function Follower:setAcceleration(dt)
 	local dx, dy = p.x-self.x, p.y-self.y
 		if math.abs(dx) < self.semiwidth + p.semiwidth then
 			self.ax = 0
-			self.state = 'follow'
 			if dy > 0 then
 				self.ay = self.acceleration
 			else
 				self.ay = -self.acceleration
 			end
+			self:wake()
 			-- up or down
 		elseif math.abs(dy) < self.semiheight + p. semiheight then
 			self.ay = 0
-			self.state = 'follow'
 			if dx > 0 then
 				self.ax = self.acceleration
 			else
 				self.ax = -self.acceleration
 			end
+			self:wake()
 		end
 	else -- has a direction
 		self.vx = self.vx + self.ax * dt
@@ -58,17 +63,26 @@ function Follower:setAcceleration(dt)
 	end
 end
 
+function Follower:wake()
+	self.state = 'follow'
+	self:setAnim('followerOpen',nil,3)
+	local angle = math.atan2(self.ay,self.ax)
+	self.vis[2].relX = 0.15*math.cos(angle)
+	self.vis[2].relY = 0.15*math.sin(angle)
+end
+
 function Follower:postStep(dt)
 
 	if self.collisionResult > 0 then
 		self.state = 'wait'
+		self:setAnim('followerClose',nil,3)
 	end
 	
 	if self.state == 'wait' then
 		self.vx = 0
 		self.vy = 0
 	end
-	--[[  -- show crosshairs
+	-- show crosshairs
   if self.anchorRadii then
 		if self.isCurrentTarget then
 			self.zoomState = math.min(self.zoomState + 5*dt,1)
@@ -77,10 +91,10 @@ function Follower:postStep(dt)
 		end
 		local s = utility.easingOvershoot(self.zoomState)
 
-		self.vis[2].angle = self.vis[2].angle + dt
-		self.vis[2].sx = s
-		self.vis[2].sy = s 
-	end --]]
+		self.vis[4].angle = self.vis[4].angle + dt
+		self.vis[4].sx = s
+		self.vis[4].sy = s 
+	end 
 	
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
