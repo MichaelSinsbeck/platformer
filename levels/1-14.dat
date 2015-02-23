@@ -4,7 +4,8 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 33,21
+MapFileVersion:1
+Dimensions: 35,21
 
 Author: micha
 Description:
@@ -12,49 +13,49 @@ Description:
 endDescription
 
 Background:
----cccc-------------------------
----cccc-------------------------
----cccc-------------------------
----ccc--------------------------
----ccc--------------------------
----ccc--------------------------
-ccccccccc-----------------------
-ccccccccc-----------------------
-ccccccccc-----------------------
-ccccccccc---cccccc--------------
-ccccccccc-ccccccccc-------------
-ccccccccc-cccccccccc------------
-cccccccccccccccccccc------------
-cccccccccccccccccccc------------
-cccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccc
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
+----------------------------------
 endBackground
 
 Ground:
-ddddddddddddd-------------------
-dddd--ddddddggg-----------------
-dddd-dddddddddggg---------------
-dddd-dddddddddddgggg------------
-dddd-ddddddddddddddgg-----------
-dddd-dddddddddddddddgggg--------
-dddd-ddddddddddddddddddgg-------
-d-------ddddddddddddddddgg------
-d-ddddd-dddddddddddddddddg------
-d-d---d-dddddddddddddddddggg----
-d-d-ddd-ddddd----ddddddddddggggg
-d-------ddd-------dddddddddddddd
-dddd-dddddd--------ddddddddddddd
-d--d-dd---d--------ddddddddddddd
-d-----d---d-------dddddddddddddd
-d-d---d---ddddd----------------d
-d-ddddd---ddddddddddddddd------d
-d---------d------------------d-d
-d----------bbddddddddddddddddd-d
-dddddddddddddddddddddddddddddd-d
+cccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccc
+ccccccccccccccc--------ccccccccccc
+ccccccccccccccc--------ccccccccccc
+ccccccccccccccccccc----ccccccccccc
+c----------------cc----ccccccccccc
+ccccbccccccccccc-c-----------ccccc
+cccc-ccccccccccc-ccccccccccc-ccccc
+cccc-ccccccccccc-cc----------ccccc
+cccc-ccccccccccc-cc-cccccccccccccc
+cccc-ccccccccccc-cc-cccccccccccccc
+cccccccccccccccc-cc--------------c
+cccccccccccccccc-ccccccccccccccc-c
+cccccccccccccccc-ccccccc---------c
+cccccccccccccccc-ccccccc-ccccccccc
+cccccccccccccccc-ccccccc-ccccccccc
+cccccccccccccccc---------ccccccccc
+cccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccc
 endGround
 
 BgObjects:
@@ -62,24 +63,21 @@ endBgObjects
 
 Objects:
 Obj:Player
-	x:5
-	y:1
+	x:1
+	y:5
 	p:canHook=false
 	p:canParachute=false
 	p:canTeleport=false
 	p:canWalljump=false
 endObj
-Obj:Runner
-	x:4
-	y:9
-endObj
-Obj:Runner
-	x:15
-	y:15
-endObj
 Obj:Exit
-	x:12
-	y:14
+	x:16
+	y:3
+endObj
+Obj:Follower
+	x:4
+	y:10
+	p:maxSpeed=15
 endObj
 endObjects
 

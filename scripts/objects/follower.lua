@@ -30,18 +30,22 @@ function Follower:applyOptions()
 end
 
 function Follower:setAcceleration(dt)
-	if self.state == 'wait' and not p.dead then
+	if p.dead then return end
+	if self.state == 'wait' then
 	local dx, dy = p.x-self.x, p.y-self.y
 		if math.abs(dx) < self.semiwidth + p.semiwidth then
-			self.ax = 0
-			if dy > 0 then
-				self.ay = self.acceleration
-			else
-				self.ay = -self.acceleration
+			if myMap:lineOfSight(self.x,self.y,p.x,p.y) then
+				self.ax = 0
+				if dy > 0 then
+					self.ay = self.acceleration
+				else
+					self.ay = -self.acceleration
+				end
+				self:wake()
 			end
-			self:wake()
 			-- up or down
-		elseif math.abs(dy) < self.semiheight + p. semiheight then
+		elseif math.abs(dy) < self.semiheight + p. semiheight and
+					myMap:lineOfSight(self.x,self.y,p.x,p.y) then
 			self.ay = 0
 			if dx > 0 then
 				self.ax = self.acceleration
@@ -50,7 +54,7 @@ function Follower:setAcceleration(dt)
 			end
 			self:wake()
 		end
-	else -- has a direction
+	else -- is awake
 		self.vx = self.vx + self.ax * dt
 		self.vy = self.vy + self.ay * dt
 		

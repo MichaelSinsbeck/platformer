@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 33,21
 
 Author: micha
@@ -42,7 +43,7 @@ cccccccccccccccccccccccccccc---c
 c--------------------------c---c
 c------------------------------c
 c------------------ccc-------ccc
-c------------------ccc-------ccc
+c------------------cc---------cc
 c---------------cccccccccccccccc
 c---------------cccccc-------c-c
 c-------------cccccccc-------c-c
@@ -64,22 +65,27 @@ Objects:
 Obj:Goalie
 	x:30
 	y:11
+	p:direction=0
 endObj
 Obj:Goalie
 	x:16
 	y:14
+	p:direction=0
 endObj
 Obj:Goalie
 	x:5
 	y:13
+	p:direction=0
 endObj
 Obj:Goalie
 	x:10
 	y:10
+	p:direction=0
 endObj
 Obj:Goalie
 	x:17
 	y:6
+	p:direction=0
 endObj
 Obj:Player
 	x:23
@@ -89,13 +95,14 @@ Obj:Player
 	p:canTeleport=true
 	p:canWalljump=true
 endObj
-Obj:Runner
-	x:23
-	y:7
-endObj
 Obj:Exit
 	x:29
 	y:5
+endObj
+Obj:Follower
+	x:21
+	y:7
+	p:maxSpeed=15
 endObj
 endObjects
 

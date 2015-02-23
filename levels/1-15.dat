@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 35,25
 
 Author: micha
@@ -44,7 +45,7 @@ cc------------------cc----------cc
 c--------------------------------c
 c-------------------cc-----cc---cc
 c--------------c----cc-----cc---cc
-c------------bbc----ccc----ccccccc
+c------------bcc----ccc----ccccccc
 c--------------c-----------ccccccc
 cbbbbbbbbbbbbbbccccccccccccccccccc
 c--------------c-----------------c
@@ -80,22 +81,30 @@ endObj
 Obj:Walker
 	x:29
 	y:12
+	p:type=enemy
 	p:direction=1
+	p:strength=23
 endObj
 Obj:Walker
 	x:30
 	y:21
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:25
 	y:21
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:20
 	y:21
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Exit
 	x:30
@@ -104,16 +113,18 @@ endObj
 Obj:Walker
 	x:24
 	y:12
+	p:type=enemy
 	p:direction=1
+	p:strength=23
 endObj
 Obj:Spawner
 	x:20
 	y:11
+	p:strength=23
+	p:phase=1
+	p:spawnTime=3
+	p:type=enemy
 	p:direction=right
-endObj
-Obj:Runner
-	x:11
-	y:6
 endObj
 Obj:LineHook
 	x:19
@@ -126,9 +137,16 @@ endObj
 Obj:Fixedcannon
 	x:32
 	y:2
+	p:velocity=15
 	p:angle=2
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
+endObj
+Obj:Follower
+	x:11
+	y:6
+	p:maxSpeed=15
 endObj
 endObjects
 

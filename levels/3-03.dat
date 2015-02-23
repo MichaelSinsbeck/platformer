@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 34,53
 
 Author: micha
@@ -86,7 +87,7 @@ Ground:
 -oooooooooo--------o-------oooooo
 -ooooooooo---------o----ooooo-ooo
 -ooooooooo---------o-------ooooo-
--oooooooooo-o---o----------oooo--
+-oooooooooo-o---o-----------ooo--
 -oooooooooooo---oooooooooooooo---
 -ooooooooooo1---1----------------
 -ooooooooooo1---1----------------
@@ -137,13 +138,14 @@ Obj:Player
 	p:canTeleport=true
 	p:canWalljump=true
 endObj
-Obj:Runner
-	x:22
-	y:19
-endObj
 Obj:Bonus
 	x:6
 	y:48
+endObj
+Obj:Follower
+	x:27
+	y:19
+	p:maxSpeed=15
 endObj
 endObjects
 

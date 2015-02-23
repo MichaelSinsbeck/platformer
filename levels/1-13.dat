@@ -4,7 +4,8 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 33,31
+MapFileVersion:1
+Dimensions: 33,34
 
 Author: micha
 Description:
@@ -42,31 +43,37 @@ Background:
 --------------------------------
 --------------------------------
 --------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
 endBackground
 
 Ground:
 cccccccccccccccccccccccccccccccc
+cccccccc-cccccccc-cccccccccccccc
+c-----------------------------cc
+c-----------------------------cc
+c-----------------------------cc
+c-----------------------------cc
 c------------------------------c
-c------------------------------c
-c------------------------------c
-ccccccccccccccccccccccccccc----c
-c-------------------------c----c
-ccccccccccccccccccccccccccc----c
-c------------------------------c
-c------------------------------c
-c------------------------------c
-c------------------------------c
-c---c---cc----cc----ccc----ccccc
-c---c----------------------ccccc
+c--------cccccccccccccccccc---cc
+ccccccccccccccccccccccccccc---cc
+ccccc-c-cc-c-ccc-c-cccc-c-c---cc
+c-----------------------------cc
+c-----------------------------cc
+c-----------------------------cc
+c-----------------------------cc
+c---c---cc---ccc---cccc---cccccc
+c---c-c-cc-c-ccc-c-cccc-c-cccccc
 c---cccccccccccccccccccccccccccc
-c---c--------------------------c
-c------------------------------c
-c------------------------------c
-c------------------------------c
-c------------------------------c
-c------------------------------c
-ccccccc------------------------c
-cc------------------------c----c
+c---cccccccccccccccccccccccccccc
+c---cc-----------------cc------c
+c---cc----------cc-----cc------c
+c---------------cc-----cc------c
+c-------------cccc-----cc------c
+c-------------cccc-------------c
+cccccc-ccccccccccc--------c----c
+cccccc-cccccccccccccccccccc----c
 ccccccccccccccccccccccccccc----c
 c---------------c--------------c
 c---------------c--------------c
@@ -83,31 +90,75 @@ endBgObjects
 Objects:
 Obj:Exit
 	x:3
-	y:25
+	y:28
 endObj
 Obj:Player
 	x:2
-	y:3
+	y:7
 	p:canHook=false
 	p:canParachute=false
 	p:canTeleport=false
 	p:canWalljump=false
 endObj
-Obj:Runner
-	x:2
-	y:5
+Obj:Follower
+	x:14
+	y:30
+	p:maxSpeed=15
 endObj
-Obj:Runner
+Obj:Follower
+	x:5
+	y:15
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:7
+	y:15
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:10
+	y:15
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:12
+	y:15
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:16
+	y:15
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:18
+	y:15
+	p:maxSpeed=15
+endObj
+Obj:Follower
 	x:23
-	y:12
+	y:15
+	p:maxSpeed=15
 endObj
-Obj:Runner
-	x:4
-	y:21
+Obj:Follower
+	x:25
+	y:15
+	p:maxSpeed=15
 endObj
-Obj:Runner
-	x:24
-	y:27
+Obj:Follower
+	x:8
+	y:1
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:17
+	y:1
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:6
+	y:24
+	p:maxSpeed=15
 endObj
 endObjects
 

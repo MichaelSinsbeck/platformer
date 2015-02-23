@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 35,25
 
 Author: micha
@@ -48,10 +49,10 @@ c--------------------------------c
 c-------------ccc----------------c
 c-------------ccc----------------c
 c-------------ccc---cccccccccccccc
-c-------------ccc---c------------c
-c----c--------ccc----------------c
-c----cccccccccccc----------------c
-c----ccccccccccc-----------------c
+c------cccccccccc---c------------c
+c------cccccccccc----------------c
+c------cccccccccc----------------c
+c------ccccccccc-----------------c
 c----cccccccccccccccccccccccccc--c
 c----cccccccccccc-------c-----c--c
 c----ccccccccccc--------c-----c--c
@@ -94,9 +95,11 @@ endObj
 Obj:Fixedcannon
 	x:16
 	y:15
+	p:velocity=15
 	p:angle=0
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Goalie
 	x:27
@@ -111,9 +114,11 @@ endObj
 Obj:Fixedcannon
 	x:16
 	y:12
+	p:velocity=15
 	p:angle=0
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=2
+	p:phase=0
 endObj
 Obj:Exit
 	x:15
@@ -242,26 +247,6 @@ Obj:Crumbleblock
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:7
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:8
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:9
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:10
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
 	x:10
 	y:7
 	p:lifetime=0.5
@@ -269,16 +254,6 @@ endObj
 Obj:Crumbleblock
 	x:11
 	y:7
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:11
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:12
-	y:9
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
@@ -292,11 +267,6 @@ Obj:Crumbleblock
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:13
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
 	x:1
 	y:9
 	p:lifetime=0.5
@@ -305,15 +275,21 @@ Obj:Crumbleblock
 	x:1
 	y:7
 	p:lifetime=0.5
-endObj
-Obj:Runner
-	x:2
-	y:6
 endObj
 Obj:Crumbleblock
 	x:8
 	y:19
 	p:lifetime=1
+endObj
+Obj:Follower
+	x:2
+	y:8
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:2
+	y:6
+	p:maxSpeed=15
 endObj
 endObjects
 
