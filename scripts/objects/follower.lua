@@ -10,6 +10,8 @@ local Follower = object:New({
   acceleration = 60,
   isInEditor = true,
   zoomState = 0,
+	spreadSpeed = 8,  -- For explosion
+  particleRotSpeed = 5, -- For explosion  
   vis = {
 		Visualizer:New('followerBack'),
 		Visualizer:New('followerPupil'),
@@ -107,6 +109,31 @@ function Follower:postStep(dt)
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
     self:playSound('followerDeath')
   end
+end
+
+function Follower:postpostStep()
+	for k,v in pairs(spriteEngine.objects) do
+		if v ~= self and v.tag == 'Follower' then
+			local dx,dy = v.x-self.x,v.y-self.y
+			if math.abs(dx) < self.semiheight+v.semiheight and
+				 math.abs(dy) < self.semiwidth +v.semiwidth then
+				self:kill()
+				for i = 1,6 do -- spawn 6 particles
+					local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3
+					
+					local vx = math.cos(angle)*self.spreadSpeed*magnitude - 0.5 * v.vx
+					local vy = (math.sin(angle)-0.2)*self.spreadSpeed*magnitude - 0.5 * v.vy
+					local x,y = self.x + math.random()-0.3, self.y+math.random()-0.3
+					
+					local rotSpeed = self.particleRotSpeed * (math.random()*2-1)
+					local animation = 'anchor' .. math.random(1,4)
+					local newParticle = spriteFactory('Particle',{x=self.x,y=self.y,vx = vx,vy = vy,rotSpeed = rotSpeed,vis = {Visualizer:New(animation)} })
+					spriteEngine:insert(newParticle)
+				end
+				break
+			end
+		end
+	end
 end
 
 function Follower:onKill()
