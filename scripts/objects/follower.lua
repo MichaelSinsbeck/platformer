@@ -13,7 +13,7 @@ local Follower = object:New({
   vis = {
 		Visualizer:New('followerBack'),
 		Visualizer:New('followerPupil'),
-		Visualizer:New('followerClose',{frame = 2}),
+		Visualizer:New('followerClose',{frame = 4}),
 		Visualizer:New('crosshairs',{sx=0, sy=0}),
   },
   properties = {
