@@ -25,34 +25,38 @@ function Laser:applyOptions()
 	self.vis[1].angle = self.angle*0.5*math.pi
 	self.vis[2].angle = self.angle*0.5*math.pi
 	
-	self.sx = self.x + 0.5*math.cos(self.angle*0.5*math.pi)
-	self.sy = self.y + 0.5*math.sin(self.angle*0.5*math.pi)
+	-- determine normal and parallel vector
+	self.ex = math.cos(self.angle*0.5*math.pi)
+	self.ey = math.sin(self.angle*0.5*math.pi)
+	self.nx = -self.ey
+	self.ny = self.ex
+	
+	self.sx = self.x + 0.5*self.ex
+	self.sy = self.y + 0.5*self.ey
 	
 	-- determine endpoints:
 	if myMap then
 		if self.angle == 0 then
-			self.ex = myMap.width+1
-			self.ey = self.y
+			self.endx = myMap.width+1
+			self.endy = self.y
 		elseif self.angle == 1 then
-			self.ex = self.x
-			self.ey = myMap.height+1
+			self.endx = self.x
+			self.endy = myMap.height+1
 		elseif self.angle == 2 then
-			self.ex = -1
-			self.ey = self.y
+			self.endx = -1
+			self.endy = self.y
 		elseif self.angle == -1 then
-			self.ex = self.x
-			self.ey = -1
+			self.endx = self.x
+			self.endy = -1
 		end
 	else
-		self.ex = self.x
-		self.ey = self.y
-	end
-	self.tx = self.ex
-	self.ty = self.ey
+		self.endx = self.x
+		self.endy = self.y
+	end	
 end
 
 function Laser:draw()
-	if self.isFiring then
+	if self.isFiring and self.tx then
 		love.graphics.setLineWidth(Camera.scale*0.6)
 		love.graphics.setColor(127,0,0)
 		love.graphics.line(
@@ -73,9 +77,7 @@ function Laser:draw()
 		
 		
 	end
-	self.vis[2].active = self.isFiring
-	self.vis[2].relX = self.tx-self.x
-	self.vis[2].relY = self.ty-self.y
+	self.vis[2].active = (self.isFiring and self.tx)
 	object.draw(self)
 end
 
@@ -93,17 +95,44 @@ function Laser:postStep(dt)
 end
 
 function Laser:postpostStep(dt)
-	if self.isFiring and myMap then
-		local free,tx,ty = myMap:lineOfSight(self.sx,self.sy,self.ex,self.ey)
-		if not free then
-			self.tx = tx
-			self.ty = ty
-		else
-			self.tx = self.ex
-			self.ty = self.ey
+	-- relative position of player
+	local dx,dy = p.x-self.sx,p.y-self.sy
+	local distance = self.nx * dx + self.ny * dy
+	local position = self.ex * dx + self.ey*dy
+	
+	if self.isFiring then
+		if myMap then -- find endpoints
+			local free,tx,ty = myMap:lineOfSight(self.sx,self.sy,self.endx,self.endy)
+			if not free then
+				self.tx = tx
+				self.ty = ty
+			else
+				self.tx = self.endx
+				self.ty = self.endy
+			end
+			self.vis[2].relX = self.tx-self.x
+			self.vis[2].relY = self.ty-self.y			
 		end
-		--EditorMap:lineOfSight(x1,y1,x2,y2)
+		-- check for player hit
+		local length = utility.pyth(self.tx-self.sx,self.ty-self.sy)
+		
+		if position > 0 and position < length and not p.dead then
+			local crossed = (distance * self.distanceOld <= 0)
+			
+			local dd -- determine relevant dimension of player
+			if self.angle == 0 or self.angle == 2 then
+				dd = p.semiheight
+			else
+				dd = p.semiwidth 
+			end
+			
+			if (crossed or math.abs( distance) < dd ) then
+				p:kill()
+				objectClasses.Meat:spawn(p.x,p.y,0,0)
+			end
+		end
 	end
+	self.distanceOld = distance
 end
 
 return Laser
