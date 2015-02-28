@@ -15,7 +15,7 @@ local Laser = object:New({
 	properties = {
 		angle = utility.newCycleProperty({0, 1, 2, -1}, {'right', 'down', 'left', 'up'}),
 		timeOn = utility.newIntegerProperty(10,0.1,5,0.1),
-		timeOff = utility.newIntegerProperty(10,0.1,5,0.1),
+		timeOff = utility.newIntegerProperty(11,0,5,0.1),
 		phase = utility.newCycleProperty({0, .1, .2, .3, .4, .5, .6, .7, .8, .9}),
 
 	},
@@ -31,17 +31,17 @@ function Laser:applyOptions()
 	self.nx = -self.ey
 	self.ny = self.ex
 	
-	self.sx = self.x + 0.5*self.ex
-	self.sy = self.y + 0.5*self.ey
+	self.sx = self.x + 0.501*self.ex
+	self.sy = self.y + 0.501*self.ey
 	
 	-- determine endpoints:
 	if myMap then
 		if self.angle == 0 then
-			self.endx = myMap.width+1
+			self.endx = myMap.width+2
 			self.endy = self.y
 		elseif self.angle == 1 then
 			self.endx = self.x
-			self.endy = myMap.height+1
+			self.endy = myMap.height+2
 		elseif self.angle == 2 then
 			self.endx = -1
 			self.endy = self.y
@@ -53,6 +53,10 @@ function Laser:applyOptions()
 		self.endx = self.x
 		self.endy = self.y
 	end	
+end
+
+function Laser:dash()
+	self.distanceOld = nil
 end
 
 function Laser:draw()
@@ -88,9 +92,9 @@ function Laser:postStep(dt)
 	local timeTot = self.timeOn+self.timeOff
 	self.phase = (self.phase - dt / timeTot)%1
 	if self.phase < self.timeOff/timeTot then
-		self.isFiring = true
-	else
 		self.isFiring = false
+	else
+		self.isFiring = true
 	end
 end
 
@@ -117,7 +121,12 @@ function Laser:postpostStep(dt)
 		local length = utility.pyth(self.tx-self.sx,self.ty-self.sy)
 		
 		if position > 0 and position < length and not p.dead then
-			local crossed = (distance * self.distanceOld <= 0)
+			local crossed
+			if self.distanceOld then
+				crossed = (distance * self.distanceOld <= 0)
+			else
+				crossed = false
+			end
 			
 			local dd -- determine relevant dimension of player
 			if self.angle == 0 or self.angle == 2 then
