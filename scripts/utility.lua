@@ -74,10 +74,11 @@ function utility.newCycleProperty(values, names, default)
 	return newProp
 end
 
-function  utility.newIntegerProperty(default,min,max)
+function  utility.newIntegerProperty(default,min,max,step)
 	local values = {}
 	local counter = 1
-	for i = min,max do
+	step = step or 1
+	for i = min,max,step do
 		values[counter] = i
 		counter = counter + 1
 	end

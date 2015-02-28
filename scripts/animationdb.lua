@@ -359,6 +359,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('upwind.png','upwind')
 	AnimationDB:loadTiledImage('medusaSpawner.png','medusaSpawner',tileSize,tileSize)
 	AnimationDB:loadTiledImage('rotator.png','rotator',tileSize,tileSize)
+	AnimationDB:loadTiledImage('laser.png','laser',tileSize,tileSize)
 	AnimationDB:loadTiledImage('miniFlame.png','miniFlame',0.4*tileSize,0.4*tileSize)
 	AnimationDB:loadTiledImage('npc.png','npc')
 	AnimationDB:loadTiledImage('speechbubble.png','speechbubble',tileSize,tileSize)
@@ -479,6 +480,9 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('shurikenDead','shuriken',{2},{1e6})
 	AnimationDB:addAni('shuriken','shuriken',{1},{1e6})
+	
+	AnimationDB:addAni('laser','laser',{1},{1e6})
+	AnimationDB:addAni('laserDot','laser',{2,3},{0.1,0.1})
 
 	AnimationDB:addAni('runnerLeft','runner',{6},{1e6})
 	AnimationDB:addAni('runnerRight','runner',{5},{1e6})
