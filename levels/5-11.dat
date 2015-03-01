@@ -1,0 +1,146 @@
+BANDANA LEVEL
+----------------------------------------
+File created with Bandana level editor.
+To play the level, put it into the 'userlevels'
+subdirectory. To edit it, place this file into
+the 'mylevels' directory.
+MapFileVersion:1
+Dimensions: 34,27
+
+Author: micha
+Description:
+
+endDescription
+
+Background:
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+---------------------------------
+endBackground
+
+Ground:
+ccccccccccccccccccccccccccccccccc
+c--------cccccccccc--cccccccccccc
+c--------cccccccccc--cccccccccccc
+c----cc--cccccccccc--cccccccccccc
+c--cccc---------------------ccccc
+c--cc-----------------------ccccc
+c--ccccccccccccccccccccccc-----cc
+c--cccccccccc-cccccccccccc-----cc
+c--cccccccccc------------ccccb-cc
+c--cccccccccc------------cccc--cc
+c--cccccccccc-cccccccc--ccccc-bcc
+c--cccccccccc-cccccccc--ccccc--cc
+c--cccccccccc-cccccccc--cccccb-cc
+c--cccccccccc-cccccccc--ccccc--cc
+c--cccccccccc-cccccccc--ccccc-bcc
+c--cccccccccc-cccccc----ccccc--cc
+c--cccccccccc-cccccc----cccccb-cc
+c--cccccc-----ccccccc--cccccc--cc
+c--cccccc-----ccccccc--cccccc-bcc
+c--cccccccccccccccccc--cccccc--cc
+c--cccccccccccccccccc--ccccccb-cc
+c--cccccccccccccccccc--cccccc--cc
+c------------cccccccc----------cc
+c------------cccccccc----------cc
+c--ccccccccccccccccccc-cccccc--cc
+ccccccccccccccccccccccccccccccccc
+endGround
+
+BgObjects:
+endBgObjects
+
+Objects:
+Obj:Laser
+	x:1
+	y:24
+	p:timeOn=1
+	p:angle=-1
+	p:phase=0
+	p:timeOff=2
+endObj
+Obj:Laser
+	x:2
+	y:24
+	p:timeOn=1
+	p:angle=-1
+	p:phase=0.5
+	p:timeOff=2
+endObj
+Obj:Player
+	x:11
+	y:23
+	p:canHook=true
+	p:canParachute=true
+	p:canTeleport=true
+	p:canWalljump=true
+endObj
+Obj:Laser
+	x:4
+	y:5
+	p:timeOn=1
+	p:angle=0
+	p:phase=0
+	p:timeOff=2
+endObj
+Obj:Laser
+	x:30
+	y:24
+	p:timeOn=0.5
+	p:angle=-1
+	p:phase=0
+	p:timeOff=1.5
+endObj
+Obj:Laser
+	x:29
+	y:24
+	p:timeOn=0.5
+	p:angle=-1
+	p:phase=0.5
+	p:timeOff=1.5
+endObj
+Obj:Laser
+	x:22
+	y:24
+	p:timeOn=0.5
+	p:angle=-1
+	p:phase=0.5
+	p:timeOff=0
+endObj
+Obj:Exit
+	x:10
+	y:18
+endObj
+Obj:Laser
+	x:13
+	y:7
+	p:timeOn=1
+	p:angle=1
+	p:phase=0.5
+	p:timeOff=0
+endObj
+endObjects
+
