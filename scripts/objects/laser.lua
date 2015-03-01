@@ -62,20 +62,20 @@ end
 function Laser:draw()
 	if self.isFiring and self.tx then
 		love.graphics.setLineWidth(Camera.scale*0.6)
-		love.graphics.setColor(127,0,0)
+		love.graphics.setColor(127,0,127)
 		love.graphics.line(
-			math.floor(self.sx*myMap.tileSize),
-			math.floor(self.sy*myMap.tileSize),
-			math.floor(self.tx*myMap.tileSize),
-			math.floor(self.ty*myMap.tileSize))
+			math.floor(self.sx*myMap.tileSize)+0.5,
+			math.floor(self.sy*myMap.tileSize)+0.5,
+			math.floor(self.tx*myMap.tileSize)+0.5,
+			math.floor(self.ty*myMap.tileSize)+0.5)
 			
 		love.graphics.setLineWidth(Camera.scale*0.2)
-		love.graphics.setColor(255,0,0)
+		love.graphics.setColor(180,0,255)
 		love.graphics.line(
-			math.floor(self.sx*myMap.tileSize),
-			math.floor(self.sy*myMap.tileSize),
-			math.floor(self.tx*myMap.tileSize),
-			math.floor(self.ty*myMap.tileSize))			
+			math.floor(self.sx*myMap.tileSize)+0.5,
+			math.floor(self.sy*myMap.tileSize)+0.5,
+			math.floor(self.tx*myMap.tileSize)+0.5,
+			math.floor(self.ty*myMap.tileSize)+0.5)	
 			
 		love.graphics.setColor(255,255,255)
 		
