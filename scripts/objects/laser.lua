@@ -8,6 +8,7 @@ local Laser = object:New({
   isInEditor = true,
   solid = true,
   isFiring = false,
+  isWarning = false,
   vis = {
 		Visualizer:New('laser'),
 		Visualizer:New('laserDot',{active = false}),
@@ -60,26 +61,35 @@ function Laser:dash()
 end
 
 function Laser:draw()
+	if self.isWarning and self.tx then
+		love.graphics.setLineWidth(Camera.scale*0.2)
+		love.graphics.setColor(0,170,0,170)
+		love.graphics.line(
+			math.floor(self.sx*myMap.tileSize),
+			math.floor(self.sy*myMap.tileSize),
+			math.floor(self.tx*myMap.tileSize),
+			math.floor(self.ty*myMap.tileSize))
+		love.graphics.setColor(255,255,255)	
+	end
+	
 	if self.isFiring and self.tx then
 		love.graphics.setLineWidth(Camera.scale*0.6)
 		love.graphics.setColor(127,0,127)
 		love.graphics.line(
-			math.floor(self.sx*myMap.tileSize)+0.5,
-			math.floor(self.sy*myMap.tileSize)+0.5,
-			math.floor(self.tx*myMap.tileSize)+0.5,
-			math.floor(self.ty*myMap.tileSize)+0.5)
+			math.floor(self.sx*myMap.tileSize),
+			math.floor(self.sy*myMap.tileSize),
+			math.floor(self.tx*myMap.tileSize),
+			math.floor(self.ty*myMap.tileSize))
 			
 		love.graphics.setLineWidth(Camera.scale*0.2)
 		love.graphics.setColor(180,0,255)
 		love.graphics.line(
-			math.floor(self.sx*myMap.tileSize)+0.5,
-			math.floor(self.sy*myMap.tileSize)+0.5,
-			math.floor(self.tx*myMap.tileSize)+0.5,
-			math.floor(self.ty*myMap.tileSize)+0.5)	
+			math.floor(self.sx*myMap.tileSize),
+			math.floor(self.sy*myMap.tileSize),
+			math.floor(self.tx*myMap.tileSize),
+			math.floor(self.ty*myMap.tileSize))	
 			
-		love.graphics.setColor(255,255,255)
-		
-		
+		love.graphics.setColor(255,255,255)	
 	end
 	self.vis[2].active = (self.isFiring and self.tx)
 	object.draw(self)
@@ -91,8 +101,12 @@ end
 function Laser:postStep(dt)
 	local timeTot = self.timeOn+self.timeOff
 	self.phase = (self.phase - dt / timeTot)%1
+	self.isWarning = false
 	if self.phase < self.timeOff/timeTot then
 		self.isFiring = false
+		if self.phase < 0.5/timeTot then
+			self.isWarning = true
+		end
 	else
 		self.isFiring = true
 	end
@@ -104,19 +118,20 @@ function Laser:postpostStep(dt)
 	local distance = self.nx * dx + self.ny * dy
 	local position = self.ex * dx + self.ey*dy
 	
-	if self.isFiring then
-		if myMap then -- find endpoints
-			local free,tx,ty = myMap:lineOfSight(self.sx,self.sy,self.endx,self.endy)
-			if not free then
-				self.tx = tx
-				self.ty = ty
-			else
-				self.tx = self.endx
-				self.ty = self.endy
-			end
-			self.vis[2].relX = self.tx-self.x
-			self.vis[2].relY = self.ty-self.y			
+	if (self.isFiring or self.isWarning) and myMap then -- find endpoints
+		local free,tx,ty = myMap:lineOfSight(self.sx,self.sy,self.endx,self.endy)
+		if not free then
+			self.tx = tx
+			self.ty = ty
+		else
+			self.tx = self.endx
+			self.ty = self.endy
 		end
+		self.vis[2].relX = self.tx-self.x
+		self.vis[2].relY = self.ty-self.y			
+	end
+	
+	if self.isFiring then
 		-- check for player hit
 		local length = utility.pyth(self.tx-self.sx,self.ty-self.sy)
 		
