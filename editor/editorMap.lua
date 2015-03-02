@@ -1656,7 +1656,6 @@ function EditorMap:loadFromFile( fullName, isIcon )
 	-- if flag "isIcon"  is set, then parallax:init is not called
 
 	print('Loading Map: ' .. fullName)
-	print(debug.traceback())
 	local map = nil
 
 	local mapName = fullName:match("([^/]*).dat$")

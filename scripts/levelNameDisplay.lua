@@ -18,13 +18,18 @@ function LevelNameDisplay:new( name, time )
 	o.box.y = 0
 
 	o.textWidth = w
-	o.textY = o.box.y*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
+	o.textY = 0
+	o.textGoalY = o.box.y*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
+	o.textStartY = (o.box.y - o.box.box.pixelHeight)*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
 	o.textX = o.box.x*Camera.scale + (o.box.box.pixelWidth - o.textWidth)/2
 	o.lines = lines
+	o.boxGoalY = 0
+	o.boxStartY = -o.box.box.pixelHeight
 
 	o.active = true
 	o.timer = time
 	o.fullTime = time
+	o.pos = 0
 
 	return o
 end
@@ -37,13 +42,16 @@ end
 
 function LevelNameDisplay:update( dt )
 	self.timer = self.timer - dt
-	if self.timer > self.fullTime - 2 then
-		--[[local animHeight = self.box.box.pixelHeight
-		self.pos = - animHeight*Camera.scale + (self.fullTime - self.timer)*animHeight/2
-		self.box.y = self.pos
-		self.textY = self.box.y*Camera.scale +
-				(self.box.box.pixelHeight - self.lines*fontLarge:getHeight())/2]]
+	if self.timer > self.fullTime - 1 then
+		self.animation = (self.fullTime - self.timer)
+	elseif self.timer < 2 then
+		self.animation = self.timer/2
+	else
+		self.animation = 1
 	end
+	self.box.y = self.boxGoalY*self.animation + self.boxStartY*(1-self.animation)
+	self.textY = self.textGoalY*self.animation + self.textStartY*(1-self.animation)
+
 	if self.timer < 0 then
 		return false
 	end
