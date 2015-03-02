@@ -145,14 +145,16 @@ function loading.preload()
 	love.mouse.setVisible(false)
 	
 	local proverbs = {
-	{"Perseverence is strength",'Japanese Proverb'},
-	{"Experience is the mother of wisdom",'Japanese Proverb'},
-	{"If you do not enter the tiger's cave, you will not catch its cub.",'Japanese Proverb'},
-	{"Fall down seven times, stand up eight",'Japanese Proverb'},
-	{"The talented hawk hides its claws",'Japanese Proverb'},
-	{"Don't follow proverbs blindly",'Go Proverb'},
-	{"Big dragons never die",'Go Proverb'},
-	{"Don't go fishing while your house is on fire",'Go Proverb'},
+	{"Perseverence is strength.",'Japanese Proverb'},
+	{"Failure is the mother of success.",'Japanese Proverb'},
+	{"Fall down seven times, stand up eight.",'Japanese Proverb'},
+	{"Don't follow proverbs blindly!",'Proverb'},
+	{"Don't go fishing while your house is on fire.",'Proverb'},
+	{"An idiot won't be cured, unless he dies.",'Proverb'},
+	{"If pushing hard does not work, try pulling!",'Proverb'},
+	{"Many skills is no skill",'Proverb'},
+	{"A frog in a well does not know the great sea",'Proverb'},
+	{"I never said half the crap, people said I did",'Buddha'},
 	}
 	local nr = love.math.random(#proverbs)
 	proverb = proverbs[nr][1]
