@@ -117,15 +117,18 @@ function loading.draw()
 		love.graphics.print(str, Camera.scale*5, love.graphics.getHeight()-Camera.scale*8)
 	end
 	
+	local width, lines = fontLarge:getWrap(proverb, 0.6*w)
+	local textH = fontLarge:getHeight() * lines
+	
 	love.graphics.setColor(44,90,160)
 	love.graphics.setFont(fontLarge)
-	love.graphics.printf(proverb, 0.2*w, 0.5*h, 0.6*w, 'center')
+	love.graphics.printf(proverb, 0.2*w, 0.5*h-0.5*textH, 0.6*w, 'center')
 	
-	local width, lines = fontLarge:getWrap(proverb, 0.6*w)
+	
 	
 	love.graphics.setColor(150,150,150)
 	love.graphics.setFont(fontSmall)
-	love.graphics.printf(source, 0.5*w-0.5*width,0.5*h + lines * fontLarge:getHeight() * 1.25, width,'right')
+	love.graphics.printf(source, 0.5*w-0.5*width,0.5*h + textH * 1, width,'right')
 
 	if loading.done then
 		love.graphics.printf( "Any key to start",
@@ -147,14 +150,14 @@ function loading.preload()
 	local proverbs = {
 	{"Perseverence is strength.",'Japanese Proverb'},
 	{"Failure is the mother of success.",'Japanese Proverb'},
-	{"Fall down seven times, stand up eight.",'Japanese Proverb'},
+	{"Fall down seven times,\n stand up eight.",'Japanese Proverb'},
 	{"Don't follow proverbs blindly!",'Proverb'},
-	{"Don't go fishing while your house is on fire.",'Proverb'},
-	{"An idiot won't be cured, unless he dies.",'Proverb'},
-	{"If pushing hard does not work, try pulling!",'Proverb'},
+	{"Don't go fishing while\n your house is on fire.",'Proverb'},
+	{"An idiot won't be cured,\n unless he dies.",'Proverb'},
+	{"If pushing hard does not work,\n try pulling!",'Proverb'},
 	{"Many skills is no skill",'Proverb'},
-	{"A frog in a well does not know the great sea",'Proverb'},
-	{"I never said half the crap, people said I did",'Buddha'},
+	{"A frog in a well does not\n know the great sea",'Proverb'},
+	{"I never said half the crap,\n people said I did",'Buddha'},
 	}
 	local nr = love.math.random(#proverbs)
 	proverb = proverbs[nr][1]
