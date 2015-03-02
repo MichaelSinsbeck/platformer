@@ -26,6 +26,7 @@ keyTypes = {
 	"REFRESH",
 	"DELETE_LEVEL",
 	"RESET",
+	"CLEAR",
 }
 
 -- For each key, list the keys which it may NOT be the same as.
@@ -37,10 +38,16 @@ keys.conflictList = {
 	-- userlevel menu:
 	{"SCREENSHOT", "FULLSCREEN", "CHOOSE", "BACK", "FILTERS", "REFRESH", "DELETE_LEVEL", },
 	-- key assignment menu:
-	{"SCREENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "RESET", "CHOOSE", "BACK"}
+	{"SCREENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "RESET", "CHOOSE", "BACK", "CLEAR"}
 	
 	--{"SCREENSHOT", "FULLSCREEN", "RESTARTMAP", "RESTARTGAME", "NEXTMAP", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "PAUSE", "FILTERS", "REFRESH", "DELETE_LEVEL", "RESET" }
 }
+
+-- These keys NEED to be set in order for key assignment to succeed:
+keys.mandatoryKeys = {
+	"LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "FILTERS", "REFRESH", "RESET", "PAUSE", "BACK",
+}
+
 ---------------------------------------------------------
 -- Defaults
 ---------------------------------------------------------
@@ -70,6 +77,7 @@ function keys.setDefaults()
 	keys.REFRESH = "f5"
 	keys.DELETE_LEVEL = 'x'
 	keys.RESET = "r"
+	keys.CLEAR = "c"
 	
 	-- gamepad defaults:
 	keys.PAD = {}
@@ -97,6 +105,7 @@ function keys.setDefaults()
 	keys.PAD.REFRESH = 'none'
 
 	keys.PAD.RESET = 'none'
+	keys.PAD.CLEAR = 'none'
 
 	-- Reset all keys:
 	if keys.gamepadPressed then
@@ -187,7 +196,6 @@ function keys.load()
 	if key then keys.PAD.CHOOSE = key end
 	key = config.getValue( "PAUSE", "gamepad.txt")
 	if key then keys.PAD.PAUSE = key end
-
 end
 
 function keys.loadGamepad()
@@ -225,13 +233,15 @@ function nameForKey( key )
 		return "@"
 	elseif key == "escape" then
 		return "^"		
+	elseif key == "none" then
+		return ""
 	else
 		return key
 	end
 end
 
 function getImageForKey( str, font )
-	if str == "" then
+	if str == "" or str == "none" then
 		return "keyNone", "keyNone"
 	end
 
@@ -250,6 +260,9 @@ end
 
 function getAnimationForKey( str )
 	str = nameForKey( str )
+	if str == "" or str == "none" then
+		return "keyNone"
+	end
 	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyboardLarge"
 	end

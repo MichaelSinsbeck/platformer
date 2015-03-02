@@ -143,6 +143,10 @@ function KeyAssignmentSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		function() KeyAssignmentSubmenu:resetToDefault() end )
+	submenu:addHotkey( "CLEAR", "Clear",
+		-love.graphics.getWidth()/Camera.scale/2 + 72,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		function() KeyAssignmentSubmenu:clearCurrent() end )
 
 	submenu:setActivateFunction(
 		function()
@@ -261,6 +265,15 @@ function KeyAssignmentSubmenu:resetToDefault()
 	end
 end
 
+function KeyAssignmentSubmenu:clearCurrent()
+	print(keyTypes[selectedFunction], keysLocal[keyTypes[selectedFunction]] )
+	keysLocal[keyTypes[selectedFunction]] = "none"
+	padKeysLocal[keyTypes[selectedFunction]] = "none"
+	for i, f in ipairs( functions ) do
+		createFunction( f, f.keyType )
+	end
+end
+
 function KeyAssignmentSubmenu:checkForConflicts()
 	for k, conflictList in pairs( keys.conflictList ) do
 		for i, name in ipairs( conflictList ) do
@@ -294,6 +307,18 @@ function KeyAssignmentSubmenu:checkForConflicts()
 					end
 				end
 			end
+		end
+	end
+
+	-- The keys in the mandatory List MUST have a key assigned
+	for i, name in pairs( keys.mandatoryKeys ) do
+		print( i, name, keysLocal[name])
+		if keysLocal[name] == "none" then
+			submenu:clearLayer( "Error" )
+			submenu:addText( "You must assign a keyboard key for '" .. string.lower(name) .. "'!",
+			-LIST_WIDTH/2 + 32, 26, LIST_WIDTH - 64, "Error" )
+			submenu:setLayerVisible( "Error", true )	
+			return false
 		end
 	end
 	return true
