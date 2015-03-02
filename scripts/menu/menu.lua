@@ -542,6 +542,7 @@ end
 function menu:nextWorld( worldNumber )
 	self:switchToSubmenu( "Worldmap" )
 	WorldmapSubmenu:addBridge( worldNumber-1 )
+	WorldmapSubmenu:scroll()
 end
 ---------------------------------------------------------
 -- Handle connecting/disconnecting joysticks:

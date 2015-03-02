@@ -81,6 +81,10 @@ function fader.switchToLevel(lvlNum)
 	print('5')
 	-- Add all bandans the user has already received:
 	gui.clearBandanas()
+	if Campaign.names[Campaign[lvlNum]] then
+		gui:newLevelName( Campaign.names[Campaign[lvlNum]] )
+	end
+	
 	local bandanas = {"white","yellow","green","blue","red"}
 	local noShow = true
 	for i, col in ipairs( bandanas ) do
