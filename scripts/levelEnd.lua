@@ -34,6 +34,7 @@ function levelEnd:reset()
 	statList["death_water"] = 0
 	statList["death_medusa"] = 0
 	statList["death_follower"] = 0
+	statList["death_star"] = 0
 
 	statList["noDeaths"] = 0
 

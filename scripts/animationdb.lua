@@ -365,6 +365,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('speechbubble.png','speechbubble',tileSize,tileSize)
 	AnimationDB:loadTiledImage('camera.png','camera',tileSize,tileSize)
 	AnimationDB:loadTiledImage('horizon.png','horizon',tileSize,tileSize)
+	AnimationDB:loadTiledImage('star.png','star',2*tileSize,2*tileSize)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -601,6 +602,10 @@ function AnimationDB:loadAnimations()
 	
 	AnimationDB:addAni('clubber','clubber',{1},{1e6})	
 	AnimationDB:addAni('club','clubber',{2},{1e6})
+	
+	AnimationDB:addAni('starBody','star',{1},{1e6})
+	AnimationDB:addAni('starFace','star',{2},{1e6})
+	AnimationDB:addAni('starEyes','star',{3},{1e6})
 	
 	AnimationDB:addAni('candle','light',{1},{1e6})
 	AnimationDB:addAni('candlelight','light',{2,3,4,3},{.2,.2,.2,.2})

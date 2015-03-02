@@ -60,6 +60,7 @@ Upwind = require 'scripts/objects.upwind',
 Anchor = require 'scripts/objects.anchor',
 Follower = require 'scripts/objects.follower',
 Laser = require 'scripts/objects.laser',
+Star = require 'scripts/objects.star',
 }
 
 
