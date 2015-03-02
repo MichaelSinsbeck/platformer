@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 16,51
+Dimensions: 16,67
 
 Author: micha
 Description:
@@ -63,6 +63,22 @@ Background:
 ---------------
 ---------------
 ---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
+---------------
 endBackground
 
 Ground:
@@ -70,12 +86,28 @@ ccccccccccccccc
 ccccccccccccccc
 cc-----------cc
 cc-----------cc
-cc----bbb----cc
+ccbbbbbbbbbbbcc
 cc-----------cc
 cc-----------cc
 cc-----------cc
 cc-----------cc
 cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+c------------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+cc-----------cc
+c------------cc
 cc-----------cc
 cc-----------cc
 cc-----------cc
@@ -124,7 +156,7 @@ endBgObjects
 Objects:
 Obj:Laser
 	x:2
-	y:48
+	y:64
 	p:timeOn=1
 	p:angle=-1
 	p:phase=0
@@ -132,7 +164,7 @@ Obj:Laser
 endObj
 Obj:Player
 	x:6
-	y:47
+	y:63
 	p:canHook=true
 	p:canParachute=true
 	p:canTeleport=true
@@ -144,7 +176,7 @@ Obj:Exit
 endObj
 Obj:Laser
 	x:12
-	y:48
+	y:64
 	p:timeOn=1
 	p:angle=-1
 	p:phase=0.5
@@ -152,12 +184,12 @@ Obj:Laser
 endObj
 Obj:Follower
 	x:1
-	y:32
+	y:48
 	p:maxSpeed=15
 endObj
 Obj:Rotator
 	x:9
-	y:17
+	y:33
 	p:rOuter=6
 	p:rInner=1
 	p:nArms=1
@@ -166,7 +198,7 @@ Obj:Rotator
 endObj
 Obj:Rotator
 	x:5
-	y:17
+	y:33
 	p:rOuter=6
 	p:rInner=1
 	p:nArms=1
@@ -175,12 +207,12 @@ Obj:Rotator
 endObj
 Obj:Follower
 	x:13
-	y:36
+	y:52
 	p:maxSpeed=15
 endObj
 Obj:Fixedcannon
 	x:8
-	y:39
+	y:55
 	p:velocity=15
 	p:angle=0
 	p:ammo=Shuriken
@@ -189,12 +221,46 @@ Obj:Fixedcannon
 endObj
 Obj:Fixedcannon
 	x:6
-	y:39
+	y:55
 	p:velocity=15
 	p:angle=2
 	p:ammo=Shuriken
 	p:firerate=1.2
 	p:phase=0
+endObj
+Obj:Rotator
+	x:9
+	y:8
+	p:rOuter=6
+	p:rInner=1
+	p:nArms=2
+	p:angle=0
+	p:speed=-2
+endObj
+Obj:Rotator
+	x:5
+	y:8
+	p:rOuter=6
+	p:rInner=1
+	p:nArms=2
+	p:angle=1.5707963267949
+	p:speed=2
+endObj
+Obj:Laser
+	x:1
+	y:25
+	p:timeOn=2.5
+	p:angle=0
+	p:phase=0.5
+	p:timeOff=2
+endObj
+Obj:Laser
+	x:1
+	y:19
+	p:timeOn=2.5
+	p:angle=0
+	p:phase=0
+	p:timeOff=2
 endObj
 endObjects
 
