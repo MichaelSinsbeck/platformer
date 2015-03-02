@@ -9,7 +9,6 @@ local function generateSlots( num, width, yPos )
 	num = math.ceil(num)
 	local slots = {}
 	local startX = - (width*(num-1))/2
-	print("generate", num, startX, width, yPos )
 	for k = 1, num do
 		slots[k] = { x = startX + width*(k-1), y = yPos, taken = {} }
 --		slots[k] = { x = 0, y = 0, taken = {} }
@@ -58,8 +57,6 @@ function Pic:new( x, y, statType, num )
 				}
 	setmetatable( newPic, self )
 
-	print(statType)
-					
 	if statType == "death_fall" then
 		newPic.title = "Falls"
 		local width = tileSize

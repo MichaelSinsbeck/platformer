@@ -69,7 +69,7 @@ function Campaign:proceed()
 		--mode = 'game'
 		
 		fader:fadeTo(self.current)
-		--menu:newLevelName( self.names[ self[self.current] ] )
+		gui:newLevelName( self.names[ self[self.current] ] )
 	else
 		menu:proceedToNextLevel( self.current )
 		self:setLevel(self.current-1)  

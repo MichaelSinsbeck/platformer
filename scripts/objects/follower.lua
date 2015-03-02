@@ -105,7 +105,7 @@ function Follower:postStep(dt)
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
     p:kill()
-    levelEnd:addDeath("death_goalie")
+    levelEnd:addDeath("death_follower")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
     self:playSound('followerDeath')
   end

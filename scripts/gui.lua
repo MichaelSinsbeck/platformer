@@ -1,7 +1,10 @@
 local gui = {}
 local FullViz = Visualizer:New('guiBeanFull')
 local EmptyViz = Visualizer:New('guiBeanEmpty')
+
+local LevelNameDisplay = require("scripts/levelNameDisplay")
 local bandanaTimer = 0
+local levelNameDisplay
 
 local bandanaGuiViz = {
 	white = Visualizer:New('guiBandanaWhite'),
@@ -39,11 +42,20 @@ function gui.draw()
 		gui.drawBandanas( Camera.width/Camera.scale - 8,
 			Camera.height/Camera.scale - 8 )
 	end
+	if levelNameDisplay then
+		levelNameDisplay:draw()
+	end
 end
 
 function gui.update( dt )
 	if bandanaTimer > 0 then
 		bandanaTimer = bandanaTimer - dt
+	end
+	if levelNameDisplay then
+		local result = levelNameDisplay:update( dt )
+		if result == false then
+			levelNameDisplay = nil
+		end
 	end
 end
 
@@ -92,6 +104,11 @@ function gui.clearBandanas()
 	print("Clearing all bandanas")
 	bandanas = {}
 	bandanaTimer = 0
+end
+
+function gui:newLevelName( name )
+	-- Create a new level-name-display box and show for 5 seconds:
+	levelNameDisplay = LevelNameDisplay:new( name, 5 )
 end
 
 return gui

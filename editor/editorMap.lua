@@ -1857,7 +1857,7 @@ function EditorMap:loadFromFile( fullName, isIcon )
 		--end
 
 		if mode == "editor" then
-			--menu:newLevelName( "loaded: " .. mapName, true )
+			gui.newLevelName( "loaded: " .. mapName )
 		end
 	else
 		print( fullName .. " not found." )
