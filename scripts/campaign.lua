@@ -1,13 +1,11 @@
 Campaign = {
-	'1-00c.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
+	'1-01.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
 	'1-06.dat',	'1-07.dat',	'1-08.dat',	'1-09.dat',	'1-10.dat',
 	'1-11.dat',	'1-12.dat',	'1-13.dat',	'1-14.dat',	'1-15.dat',
 	
-	'2-01b.dat',	'2-02.dat',	'2-03.dat',	'2-04.dat',	'2-05.dat',
+	'2-01.dat',	'2-02.dat',	'2-03.dat',	'2-04.dat',	'2-05.dat',
 	'2-06.dat', '2-07.dat',	'2-08.dat',	'2-09.dat',	'2-10.dat',
 	'2-11.dat',	'2-12.dat',	'2-13.dat',	'2-14.dat',	'2-15.dat',
-	
-	--'endofdemo.dat',
 	
 	'3-01.dat',	'3-02.dat',	'3-03.dat',	'3-04.dat',	'3-05.dat',
 	'3-06.dat', '3-07.dat',	'3-08.dat',	'3-09.dat',	'3-10.dat',
@@ -115,7 +113,7 @@ function Campaign:setLevel(lvlnum)
 end
 
 Campaign.names = {}
-Campaign.names['n13.dat'] = 'learn to walk'
+--[[Campaign.names['n13.dat'] = 'learn to walk'
 Campaign.names['n1.dat'] = 'jump'
 Campaign.names['n10.dat'] = 'the chimney'
 Campaign.names['n2.dat'] = 'le parcours'
@@ -171,9 +169,8 @@ Campaign.names['l10.dat'] = 'Bowel'
 Campaign.names['l11.dat'] = 'Push the Button'
 Campaign.names['l14.dat'] = 'Where is the Ground'
 Campaign.names['l15.dat'] = 'Bullet Hell'
-Campaign.names['l22.dat'] = 'The End'
+Campaign.names['l22.dat'] = 'The End']]
 
-Campaign.names['1-00b.dat'] = 'Welcome'
 Campaign.names['1-01.dat'] = 'Welcome'
 Campaign.names['1-02.dat'] = 'Windmill'
 Campaign.names['1-03.dat'] = 'You can die'
@@ -190,7 +187,6 @@ Campaign.names['1-13.dat'] = 'Hungry'
 Campaign.names['1-14.dat'] = 'Its a trap'
 Campaign.names['1-15.dat'] = 'Finale'
 
-Campaign.names['2-01b.dat'] = 'The Tower'
 Campaign.names['2-01.dat'] = 'The Tower'
 Campaign.names['2-02.dat'] = 'Cellar'
 Campaign.names['2-03.dat'] = 'Advanced Jumping'
@@ -223,4 +219,34 @@ Campaign.names['3-13.dat'] = 'Touch sensitive'
 Campaign.names['3-14.dat'] = 'Curtain'
 Campaign.names['3-15.dat'] = 'Access granted'
 
-Campaign.names['endofdemo.dat'] = 'End of Demo'
+Campaign.names['4-01.dat'] = 'Clouds!'
+Campaign.names['4-02.dat'] = 'Land'
+Campaign.names['4-03.dat'] = 'Bowel'
+Campaign.names['4-04.dat'] = 'Up'
+Campaign.names['4-05.dat'] = 'Bounce'
+Campaign.names['4-06.dat'] = 'Tunnel of Thorns'
+Campaign.names['4-07.dat'] = 'Companion'
+Campaign.names['4-08.dat'] = 'Vertical'
+Campaign.names['4-09.dat'] = 'Horizontal'
+Campaign.names['4-10.dat'] = 'Crab'
+Campaign.names['4-11.dat'] = 'SMB'
+Campaign.names['4-12.dat'] = 'Blender'
+Campaign.names['4-13.dat'] = 'Touch sensitive'
+Campaign.names['4-14.dat'] = 'Curtain'
+Campaign.names['4-15.dat'] = 'Access granted'
+
+Campaign.names['5-01.dat'] = 'Clouds!'
+Campaign.names['5-02.dat'] = 'Land'
+Campaign.names['5-03.dat'] = 'Bowel'
+Campaign.names['5-04.dat'] = 'Up'
+Campaign.names['5-05.dat'] = 'Bounce'
+Campaign.names['5-06.dat'] = 'Tunnel of Thorns'
+Campaign.names['5-07.dat'] = 'Companion'
+Campaign.names['5-08.dat'] = 'Vertical'
+Campaign.names['5-09.dat'] = 'Horizontal'
+Campaign.names['5-10.dat'] = 'Crab'
+Campaign.names['5-11.dat'] = 'SMB'
+Campaign.names['5-12.dat'] = 'Blender'
+Campaign.names['5-13.dat'] = 'Touch sensitive'
+Campaign.names['5-14.dat'] = 'Curtain'
+Campaign.names['5-15.dat'] = 'Access granted'
