@@ -61,6 +61,7 @@ Anchor = require 'scripts/objects.anchor',
 Follower = require 'scripts/objects.follower',
 Laser = require 'scripts/objects.laser',
 Star = require 'scripts/objects.star',
+Blockblock = require 'scripts/objects.blockblock',
 }
 
 

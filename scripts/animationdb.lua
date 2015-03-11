@@ -366,6 +366,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('camera.png','camera',tileSize,tileSize)
 	AnimationDB:loadTiledImage('horizon.png','horizon',tileSize,tileSize)
 	AnimationDB:loadTiledImage('star.png','star',2*tileSize,2*tileSize)
+	AnimationDB:loadTiledImage('blockblock.png','blockblock',tileSize,tileSize)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -484,6 +485,7 @@ function AnimationDB:loadAnimations()
 	
 	AnimationDB:addAni('laser','laser',{1},{1e6})
 	AnimationDB:addAni('laserDot','laser',{2,3},{0.1,0.1})
+	AnimationDB:addAni('blockblock','blockblock',{1},{1e6})
 
 	AnimationDB:addAni('runnerLeft','runner',{6},{1e6})
 	AnimationDB:addAni('runnerRight','runner',{5},{1e6})
