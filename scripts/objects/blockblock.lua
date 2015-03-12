@@ -5,8 +5,8 @@ local Blockblock = object:New({
   marginy = 0.8,
   isInEditor = true,
   state = 'open',
-  scaleTime = 0.1,
-  scaling = 0.1,
+  scaleTime = 0.2,
+  scaling = 0.2,
   vis = {Visualizer:New('blockblock')},
 	properties = {
 		height = utility.newIntegerProperty(1,1,30),
@@ -14,29 +14,78 @@ local Blockblock = object:New({
 	},  
 })
 
+function Blockblock:addVertice(x,y,dx,dy,t)
+	local mean,std = 0, 1/64
+	local s = 0.3
+	local thisX = (x + love.math.randomNormal(std,mean))*8*Camera.scale
+	local thisY = (y + love.math.randomNormal(std,mean))*8*Camera.scale
+	local thisDx = dx * 8 * Camera.scale * s
+	local thisDy = dy * 8 * Camera.scale * s
+	local newVert = {x=thisX,y=thisY,dx=thisDx,dy=thisDy,t=t}
+	table.insert(self.vertsRef,newVert)
+end
+
 function Blockblock:applyOptions()
-	local verts = {}
-	local std = 0.5/(8*Camera.scale)
-	local mean = 0
-	for i = 1,2*self.width do -- top to left
-		table.insert(verts,(self.x-0.5 + 0.5*i+love.math.randomNormal(std,mean)) * 8 * Camera.scale)
-		table.insert(verts,(self.y-0.5+love.math.randomNormal(std,mean)) * 8 * Camera.scale)
+	self.vertsRef = {}
+
+	local thisX,thisY,thisDx,thisDy,t
+	-- top left corner
+	self:addVertice(self.x-0.5,self.y-0.5,1,1,1)
+	-- top 
+	for i = 1,2*self.width-1 do
+		thisX = self.x-0.5+0.5*i
+		thisY = self.y-0.5
+		self:addVertice(thisX,thisY,0,1,1)
 	end
-	for i = 1,2*self.height do -- right downwards
-		table.insert(verts,(self.x-0.5+self.width+love.math.randomNormal(std,mean))*8*Camera.scale)
-		table.insert(verts,(self.y-0.5+0.5*i+love.math.randomNormal(std,mean)) * 8 * Camera.scale)
+	-- top right corner
+	self:addVertice(self.x-0.5+self.width,self.y-0.5,-1,1,1)
+	-- right
+	for i = 1,2*self.height-1 do
+		thisX = self.x-0.5+self.width
+		thisY = self.y-0.5 + 0.5*i
+		self:addVertice(thisX,thisY,-1,0,1)
 	end
-	for i = 1,2*self.width do -- top to left
-		table.insert(verts,(self.x-0.5 + self.width - 0.5*i+love.math.randomNormal(std,mean)) * 8 * Camera.scale)
-		table.insert(verts,(self.y-0.5 + self.height+love.math.randomNormal(std,mean)) * 8 * Camera.scale)
+	-- bottom right corner
+	self:addVertice(self.x-0.5+self.width,self.y-0.5+self.height,-1,-1,1)
+	-- bottom
+	for i = 1,2*self.width-1 do
+		thisX = self.x-0.5 +self.width-0.5*i
+		thisY = self.y-0.5 + self.height
+		self:addVertice(thisX,thisY,0,-1,1)
 	end
-	for i = 1,2*self.height do -- right downwards
-		table.insert(verts,(self.x-0.5+love.math.randomNormal(std,mean))*8*Camera.scale)
-		table.insert(verts,(self.y-0.5 + self.height - 0.5*i+love.math.randomNormal(std,mean)) * 8 * Camera.scale)
+	-- bottom left corner
+	self:addVertice(self.x-0.5,self.y-0.5+self.height,1,-1,1)
+	-- left
+	for i = 1,2*self.height-1 do
+		thisX = self.x-0.5
+		thisY = self.y-0.5 + self.height - 0.5*i
+		self:addVertice(thisX,thisY,1,0,1)
 	end	
-	self.vertices = verts
-	--self.semiheight = self.height/2
-	--self.semiwidth = self.width/2
+
+	self:makeOutline()
+end
+
+function Blockblock:tween(t)
+	local thisT = t/self.scaleTime -- normalize
+	return 1-utility.easingOvershoot(1-thisT)
+	--if thisT > 1 then return 1 end
+	--if thisT < 0 then return 0 end
+	
+	--return 0.5*(1-math.cos(thisT * math.pi))
+	
+end
+
+function Blockblock:makeOutline()
+	local newVerts = {}
+	for i,v in ipairs(self.vertsRef) do
+		local newX,newY
+		local tween = Blockblock:tween(v.t)
+		newX = v.x + v.dx * tween
+		newY = v.y + v.dy * tween
+		table.insert(newVerts,newX)
+		table.insert(newVerts,newY)
+	end
+	self.vertices = newVerts
 end
 
 function Blockblock:draw()
@@ -71,8 +120,8 @@ function Blockblock:draw()
 		
 		if self.vertices then
 			love.graphics.setColor(fillColor)
-			love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
-			--love.graphics.polygon('fill',self.vertices)
+			--love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
+			love.graphics.polygon('fill',self.vertices)
 			love.graphics.setColor(lineColor)		
 			love.graphics.polygon('line',self.vertices)
 		end
@@ -99,8 +148,29 @@ function Blockblock:postStep(dt)
 		self.state = 'solid'
 		self:blockTiles()
 		self.scaling = self.scaleTime
+		-- find minimum distance
+		local distMin = math.huge
+		for i,v in ipairs(self.vertsRef) do
+			local s = 8 * Camera.scale
+			local dx,dy = p.x-v.x/s,p.y-v.y/s
+			local dist = utility.pyth(dx,dy)
+			distMin = math.min(distMin,dist)
+		end
+		-- set easing parameters
+		for i,v in ipairs(self.vertsRef) do
+			local s = 8 * Camera.scale
+			local dx,dy = p.x-v.x/s,p.y-v.y/s
+			local dist = utility.pyth(dx,dy)
+			--v.t = self.scaleTime + (dist-distMin) * 0.1
+			v.t = self.scaleTime + math.log(dist-distMin+1) * 0.1
+		end
+		
 	elseif self.state == 'solid' then
+		for i,v in ipairs(self.vertsRef) do
+			v.t = math.max(v.t-dt,0)
+		end
 		self.scaling = math.max(self.scaling - dt,0)
+		self:makeOutline()
 	end
 end
 
@@ -125,75 +195,4 @@ function Blockblock:touchPlayer()
   return math.abs(dx) < p.semiwidth+0.5*self.width and
      math.abs(dy) < p.semiheight+0.5*self.height
 end
-
---[[function Blockblock:postStep(dt)
-	self.vis[1].sx = math.min(self. vis[1].sx+dt,1)
-	self.vis[1].sy = self.vis[1].sx	
-	
-	if self.state == 'solid'
-			and self.vis[1]
-			and self.vis[1].animation:sub(-8) == 'Passable'
-	    and not self:touchPlayer() then
-		self:setAnim(self.color .. 'BlockSolid')
-		self.vis[1].sx = 0.77
-		self.vis[1].sy = self.vis[1].sx
-	end
-end
-
-function Blockblock:buttonPress(color)
-	if self.color == color then
-		self:invert()
-  end
-end
-
-function Blockblock:invert()
-	if self.state == 'solid' then
-		self:setAnim(self.color .. 'BlockPassable')
-		self.state = 'passable'
-		if myMap then
-			if myMap.collision and myMap.collision[math.floor(self.x)] then
-				myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
-			end
-			myMap:queueShadowUpdate()
-		end
-	else
-		self.state = 'solid'
-		if myMap then
-			if myMap.collision and myMap.collision[math.floor(self.x)] then
-				myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
-			end
-			myMap:queueShadowUpdate()
-		end
-		if not self:touchPlayer() then
-			self:setAnim(self.color .. 'BlockSolid')
-			self.vis[1].sx = 0.77
-			self.vis[1].sy = self.vis[1].sx
-		end
-	end
-end
-
-function Blockblock:setState( newState )
-	if newState == 'passable' then
-		self:setAnim(self.color .. 'BlockPassable')
-		self.state = 'passable'
-		if myMap then
-			if myMap.collision and myMap.collision[math.floor(self.x)] then
-				myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
-			end
-			myMap:queueShadowUpdate()
-		end
-	else
-		self.state = 'solid'
-		if myMap then
-			if myMap.collision and myMap.collision[math.floor(self.x)] then
-				myMap.collision[math.floor(self.x)][math.floor(self.y)] = 1
-			end
-			myMap:queueShadowUpdate()
-		end
-		self:setAnim(self.color .. 'BlockSolid')
-		self.vis[1].sx = 1
-		self.vis[1].sy = self.vis[1].sx
-	end
-end--]]
-
 return Blockblock
