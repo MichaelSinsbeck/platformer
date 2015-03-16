@@ -367,6 +367,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('horizon.png','horizon',tileSize,tileSize)
 	AnimationDB:loadTiledImage('star.png','star',2*tileSize,2*tileSize)
 	AnimationDB:loadTiledImage('blockblock.png','blockblock',tileSize,tileSize)
+	AnimationDB:loadTiledImage('shurikenlarge.png','shurikenlarge')
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -601,6 +602,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('bumper','bumper',{1},{1e6})
 	AnimationDB:addAni('anchor','anchor',{1},{1e6})
 	AnimationDB:addAni('crosshairs','crosshairs',{1},{1e6})
+	AnimationDB:addAni('shurikenlarge','shurikenlarge',{1},{1e6})
 	
 	AnimationDB:addAni('clubber','clubber',{1},{1e6})	
 	AnimationDB:addAni('club','clubber',{2},{1e6})
