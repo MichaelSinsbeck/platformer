@@ -368,6 +368,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('star.png','star',2*tileSize,2*tileSize)
 	AnimationDB:loadTiledImage('blockblock.png','blockblock',tileSize,tileSize)
 	AnimationDB:loadTiledImage('shurikenlarge.png','shurikenlarge')
+	AnimationDB:loadTiledImage('sign.png','sign',tileSize,tileSize)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -458,12 +459,8 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('starBandana','bandana',{1},{1e6})
 	AnimationDB:addAni('whiteBandana','bandana',{2},{1e6})
-	AnimationDB:addAni('yellowBandana','bandana',{9},{1e6}) --todo
-	AnimationDB:addAni('greenBandana','bandana',{3},{1e6})
-	AnimationDB:addAni('blueBandana','bandana',{4},{1e6})
-	AnimationDB:addAni('redBandana','bandana',{5},{1e6})
-	AnimationDB:addAni('chickenleg','bandana',{6},{1e6})
-	AnimationDB:addAni('bean','bandana',{7},{1e6})
+	AnimationDB:addAni('chickenleg','bandana',{3},{1e6})
+	AnimationDB:addAni('bean','bandana',{4},{1e6})
 
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 	AnimationDB:addAni('smoke','smoke',{1,2,3,4,5,5},{.1,.1,.15,.15,.1,1e6})
@@ -610,6 +607,13 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('starBody','star',{1},{1e6})
 	AnimationDB:addAni('starFace','star',{2},{1e6})
 	AnimationDB:addAni('starEyes','star',{3},{1e6})
+	
+	AnimationDB:addAni('signEmpty','sign',{1},{1e6})
+	AnimationDB:addAni('signBandana','sign',{2},{1e6})
+	AnimationDB:addAni('signCross','sign',{3},{1e6})
+	AnimationDB:addAni('signText','sign',{4},{1e6})
+	AnimationDB:addAni('signLeft','sign',{5},{1e6})
+	AnimationDB:addAni('signRight','sign',{6},{1e6})
 	
 	AnimationDB:addAni('candle','light',{1},{1e6})
 	AnimationDB:addAni('candlelight','light',{2,3,4,3},{.2,.2,.2,.2})

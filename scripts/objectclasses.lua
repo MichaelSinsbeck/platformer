@@ -63,6 +63,8 @@ Laser = require 'scripts/objects.laser',
 Star = require 'scripts/objects.star',
 Blockblock = require 'scripts/objects.blockblock',
 Sweeper = require 'scripts/objects.sweeper',
+Infosign = require 'scripts/objects.infosign',
+Bandanasign = require 'scripts/objects.bandanasign',
 }
 
 
