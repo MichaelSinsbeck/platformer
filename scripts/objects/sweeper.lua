@@ -37,7 +37,6 @@ function Sweeper:applyOptions()
 		local idx = #self.vis+1
 		self.vis[idx] = newVis 
 		
-		
 		local dir = 10*(love.math.random()*0.5 + 0.75)
 		if love.math.random() < 0.5 then dir = - dir end
 		self.directions[idx] = dir
