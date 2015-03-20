@@ -54,22 +54,26 @@ local Player = object:New({
 		Visualizer:New('bandanaStand'),
   },
   properties = {
-		bandana = utility.newCycleProperty({'blank','white','yellow','green','blue','red'})
+		bandana = utility.newCycleProperty({'blank','white','yellow','green','blue','red'},nil,2)
   },   
   })
 
 function Player:applyOptions()
-	self:setBandana()
-end
-
-function Player:setBandana()
-	
-	if not editor.active then
-		self.bandana = Campaign.bandana
+	local color
+	if editor.active or menu.state == 'userlevels' then
+		color = self.bandana
+	else
+		color = Campaign.bandana
 	end
 
+	self:setBandana(color)
+end
+
+function Player:setBandana(color)
+	self.bandana = color
+
 	local bandana2num = {blank=1,white=2,yellow=3,green=4,blue=5,red=6}
-	local number = bandana2num[self.bandana]
+	local number = bandana2num[color]
 
 	self.canWalljump = false
 	self.canParachute= false

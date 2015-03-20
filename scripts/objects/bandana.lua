@@ -23,6 +23,7 @@ function Bandana:setAcceleration(dt)
 	self.vis[2].sx = 0.9+0.1*math.sin(10*self.vis[1].timer)
 	self.vis[2].sy = 0.9+0.1*math.sin(10*self.vis[1].timer)
 	if self:touchPlayer() then
+		print('bandana collected')
 		if editor.active or menu.state == 'userlevels' then
 			p:setBandana(self.color)
 			gui.addBandana( self.color )
