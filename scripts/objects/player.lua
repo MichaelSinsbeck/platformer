@@ -40,7 +40,7 @@ local Player = object:New({
   marginy = 0.6,
   linePointx = 0,
   linePointy = -0.55,
-  bandana = 'white',
+  --bandana = 'white',
   alpha = 255,
   poffTimer = 0,
   visible = true,
@@ -54,29 +54,23 @@ local Player = object:New({
 		Visualizer:New('bandanaStand'),
   },
   properties = {
-		canWalljump  = utility.newCycleProperty({true,false},{'true','false'}),
-		canParachute = utility.newCycleProperty({true,false},{'true','false'}),
-		canTeleport  = utility.newCycleProperty({true,false},{'true','false'}),
-		canHook      = utility.newCycleProperty({true,false},{'true','false'}),
+		bandana = utility.newCycleProperty({'blank','white','yellow','green','blue','red'})
   },   
   })
 
 function Player:applyOptions()
-	if not editor.active then
-		self:setBandana(Campaign.bandana)
-	else
-		self.jumpSpeed = Player.jumpSpeedNormal
-	  self.walkSpeed = Player.walkSpeedNormal
-	end
+	self:setBandana()
 end
 
-function Player:setBandana(color)
+function Player:setBandana()
+	
+	if not editor.active then
+		self.bandana = Campaign.bandana
+	end
 
 	local bandana2num = {blank=1,white=2,yellow=3,green=4,blue=5,red=6}
-	local number = bandana2num[color]
-	
-	self.bandana = color	
-	
+	local number = bandana2num[self.bandana]
+
 	self.canWalljump = false
 	self.canParachute= false
 	self.Teleport    = false
