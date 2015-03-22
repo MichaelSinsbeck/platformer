@@ -54,8 +54,8 @@ ccccccc--cc--cc--cc--cc--ccccccc
 ccccccccccc--cc-ccc--ccccccccccc
 ccccccccccc--cccccc--ccccccccccc
 ccccccccccc--cccccc--ccccccccccc
-ccccccccccccccccccc11ccccccccccc
-cccccccccccccccccccccccccccccccc
+ccccccccccccccccccc--ccccccccccc
+ccccccccccccccccccc--ccccccccccc
 endGround
 
 BgObjects:
@@ -65,10 +65,7 @@ Objects:
 Obj:Player
 	x:3
 	y:11
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=blue
 endObj
 Obj:Exit
 	x:3
@@ -77,23 +74,29 @@ endObj
 Obj:Fixedcannon
 	x:15
 	y:15
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:19
 	y:6
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=0.4
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:19
 	y:0
+	p:velocity=15
 	p:angle=1
-	p:phase=0.5
+	p:ammo=Shuriken
 	p:firerate=0.4
+	p:phase=0.5
 endObj
 Obj:Goalie
 	x:28

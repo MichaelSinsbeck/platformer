@@ -48,10 +48,10 @@ Ground:
 -----------o-o------111-----------ooo----111----------o
 --------------------------------------------------ooooo
 -----------111------111-----------111------------------
------------111------111-----------111------------------
+-----------111------111-----------111---------o-o------
 -------------------------------------------------------
 -----------111------111-----------111------------------
------------111------111-----------111------------------
+-----------111------111-----------111--o-o-------------
 -------------------------------------------------------
 -----------111------111-----------111------------------
 -----------111------111-----------111------------------
@@ -73,30 +73,38 @@ Objects:
 Obj:Fixedcannon
 	x:1
 	y:18
+	p:velocity=15
 	p:angle=0
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:12
 	y:15
+	p:velocity=15
 	p:angle=0
-	p:phase=0.2
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0.2
 endObj
 Obj:Fixedcannon
 	x:21
 	y:12
+	p:velocity=15
 	p:angle=0
-	p:phase=0.4
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0.4
 endObj
 Obj:Fixedcannon
 	x:1
 	y:9
+	p:velocity=15
 	p:angle=0
-	p:phase=0.6
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0.6
 endObj
 Obj:Upwind
 	x:7
@@ -106,17 +114,16 @@ endObj
 Obj:Player
 	x:9
 	y:20
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=green
 endObj
 Obj:Fixedcannon
 	x:12
 	y:6
+	p:velocity=15
 	p:angle=0
-	p:phase=0.8
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0.8
 endObj
 Obj:Rotator
 	x:12
@@ -169,15 +176,6 @@ Obj:Bouncer
 	p:angle=2
 endObj
 Obj:Rotator
-	x:48
-	y:8
-	p:rOuter=4
-	p:rInner=1
-	p:nArms=1
-	p:angle=1.5707963267949
-	p:speed=-1
-endObj
-Obj:Rotator
 	x:47
 	y:8
 	p:rOuter=4
@@ -187,34 +185,7 @@ Obj:Rotator
 	p:speed=-1
 endObj
 Obj:Rotator
-	x:46
-	y:8
-	p:rOuter=4
-	p:rInner=1
-	p:nArms=1
-	p:angle=1.5707963267949
-	p:speed=-1
-endObj
-Obj:Rotator
-	x:41
-	y:11
-	p:rOuter=4
-	p:rInner=1
-	p:nArms=1
-	p:angle=4.7123889803847
-	p:speed=1
-endObj
-Obj:Rotator
 	x:40
-	y:11
-	p:rOuter=4
-	p:rInner=1
-	p:nArms=1
-	p:angle=4.7123889803847
-	p:speed=1
-endObj
-Obj:Rotator
-	x:39
 	y:11
 	p:rOuter=4
 	p:rInner=1
@@ -229,9 +200,11 @@ endObj
 Obj:Fixedcannon
 	x:21
 	y:3
+	p:velocity=15
 	p:angle=0
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Upwind
 	x:6
