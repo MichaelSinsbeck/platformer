@@ -102,11 +102,8 @@ endBgObjects
 Objects:
 Obj:Player
 	x:4
-	y:29
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	y:30
+	p:bandana=white
 endObj
 Obj:Exit
 	x:1
