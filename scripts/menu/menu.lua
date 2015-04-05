@@ -81,15 +81,6 @@ function menu:init()
 		nil, self:setPlayerPositionEvent( -17, 35), nil, 'Credits' )
 	mainMenu:addButton( "exitOff", "exitOn", -11, 40,
 		quit, self:setPlayerPositionEvent( -17, 45), nil, 'Quit' )
-		
-	-- Add description to buttons
-	--mainMenu:addText( 'Start Game' , 0, -8, 40, nil, 'left' )
-	--mainMenu:addText( 'User Levels', 0,  2, 40, nil, 'left' )
-	--mainMenu:addText( 'Options'    , 0, 12, 40, nil, 'left' )
-	--mainMenu:addText( 'Leveleditor', 0, 22, 40, nil, 'left' )
-	--mainMenu:addText( 'Credits'    , 0, 32, 40, nil, 'left' )
-	--mainMenu:addText( 'Quit'       , 0, 42, 40, nil, 'left' )
-		
 
 	mainMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
@@ -112,12 +103,7 @@ function menu:init()
 	local worldMapMenu = WorldmapSubmenu:new( 0, -700 )
 	submenus["Worldmap"] = worldMapMenu
 
-	--local switchToSound = function()
-	--	menu:switchToSubmenu( "Sound" )
-	--end
-	--local switchToGraphics = function()
-	--	menu:switchToSubmenu( "Graphics" )
-	--end
+	-- functions needed in options menu
 	local switchToKeyAssignment = function()
 		menu:switchToSubmenu( "KeyAssignment" )
 	end
@@ -127,14 +113,26 @@ function menu:init()
 	local changeMusicVolume = function( val )
 		settings:setMusicVolume( (val-1)*20 )
 	end
-
-	
+	local toggleFullscreen = function( bool )
+		settings:toggleFullScreen()
+	end
+	local toggleShaders = function( bool )
+		settings:setShadersEnabled( bool )
+	end
+	local setBackgroundDetail = function( val )
+		settings:setBackgroundDetail( val )
+	end	
+	local backToMain = function()
+		settings:saveAudio()
+		settings:saveGraphics()		
+		menu:switchToSubmenu( "Main" )
+	end	
+	-- options menu
 	local settingsMenu = Submenu:new( -700, 0 )
 	
 	local p = settingsMenu:addPanel( -52, -40, 122, 80 )
-	--p:turnIntoList( 10, 1 ) 	
-	--local p = settingsMenu:addPanel( -32, -20, 64, 50 )
-	--p:turnIntoList( 10, 1 ) -- make vertical "table-like" lines for readability
+
+	p:turnIntoList( 10, 1.1 ) -- make vertical "table-like" lines for readability
 	
 	local s = settingsMenu:addSlider( "soundOptionsOff", "soundOptionsOn", -32, -30, 40, 6,
 		self:setPlayerPositionEvent( settingsMenu.x - 38, -25), changeEffectVolume,
@@ -165,77 +163,19 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -32, 20, 
 		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 38, 25 ),nil,'Key Bindings' )
 
-	local backToMain = function()
-		menu:switchToSubmenu( "Main" )
-	end
+
 
 	settingsMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		nil )
-	settingsMenu:addHotkey( "BACK", "Back",
+	settingsMenu:addHotkey( "BACK", "Save & back\n to main menu",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		backToMain )
 
 	submenus["Settings"] = settingsMenu
 
-	--local soundMenu = Submenu:new( -1400, 0 )
-	--local p = soundMenu:addPanel( -64, -20, 112, 40 )
-	--p:turnIntoList( 10, 1 ) 
-
-
-
-	local backToSettingsSaveAudio = function()
-		settings:saveAudio()
-		menu:switchToSubmenu( "Settings" )
-	end
-
-	
-
-	--[[soundMenu:addHotkey( "CHOOSE", "Choose",
-		love.graphics.getWidth()/Camera.scale/2 - 24,
-		love.graphics.getHeight()/Camera.scale/2 - 24,
-		nil )
-	soundMenu:addHotkey( "BACK", "Back",
-		-love.graphics.getWidth()/Camera.scale/2 + 24,
-		love.graphics.getHeight()/Camera.scale/2 - 24,
-		backToSettingsSaveAudio )
-
-	submenus["Sound"] = soundMenu--]]
-
-	local graphicsMenu = Submenu:new( -1400, 0 )
-	local p = graphicsMenu:addPanel( -64, -20, 112, 50 )
-	p:turnIntoList( 10, 1 )
-
-	local backToSettingsSaveGraphics = function()
-		settings:saveGraphics()
-		menu:switchToSubmenu( "Settings" )
-	end
-	local toggleFullscreen = function( bool )
-		--settings:toggleFullScreen( bool )
-		settings:toggleFullScreen()
-		self:switchToSubmenu( "Graphics" )
-	end
-	local toggleShaders = function( bool )
-		settings:setShadersEnabled( bool )
-	end
-	local setBackgroundDetail = function( val )
-		settings:setBackgroundDetail( val )
-	end
-
-	
-
-	graphicsMenu:addHotkey( "CHOOSE", "Choose",
-		love.graphics.getWidth()/Camera.scale/2 - 24,
-		love.graphics.getHeight()/Camera.scale/2 - 24,
-		nil )
-	graphicsMenu:addHotkey( "BACK", "Back",
-		-love.graphics.getWidth()/Camera.scale/2 + 24,
-		love.graphics.getHeight()/Camera.scale/2 - 24,
-		backToSettingsSaveGraphics )
-
-	submenus["Graphics"] = graphicsMenu
 
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
