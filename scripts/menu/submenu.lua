@@ -69,7 +69,7 @@ function Submenu:draw()
 
 			for j, t in ipairs( l.texts ) do
 				love.graphics.printf( t.text, t.x*Camera.scale, t.y*Camera.scale,
-						t.width*Camera.scale, "center" )
+						t.width*Camera.scale, t.align )
 			end
 
 			--if self.transition then
@@ -286,9 +286,10 @@ function Submenu:addImage( image, x, y, layerName )
 	end
 end
 
-function Submenu:addText( text, x, y, width, layerName )
+function Submenu:addText( text, x, y, width, layerName, align )
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
+	align = align or "center"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
@@ -297,6 +298,7 @@ function Submenu:addText( text, x, y, width, layerName )
 				x = x,
 				y = y,
 				width = width,
+				align = align,
 			}
 			table.insert( l.texts, t )
 		end

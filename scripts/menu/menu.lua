@@ -40,7 +40,7 @@ function menu:init()
 	-- Create the main menu:
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
-	mainMenu:addPanel( -24, -20, 48, 80 )
+	mainMenu:addPanel( -30, -20, 50, 80 )
 
 	local switchToWorldMap = function()
 		--mainMenu:startExitTransition(
@@ -64,24 +64,32 @@ function menu:init()
 		self:switchToSubmenu( "Editor" )
 	end
 
-	mainMenu:addButton( "startOff", "startOn", -3, -10,
-		switchToWorldMap, self:setPlayerPositionEvent( -6, -5) )
-	mainMenu:addButton( "downloadOff", "downloadOn", -2, 0,
-		switchToUserlevels, self:setPlayerPositionEvent( -6, 5) )
-	mainMenu:addButton( "settingsOff", "settingsOn", -2, 10,
-		switchToSettings, self:setPlayerPositionEvent( -6, 15) )
-	mainMenu:addButton( "editorOff", "editorOn", -2, 20,
-		switchToEditor, self:setPlayerPositionEvent( -6, 25) )
-	mainMenu:addButton( "creditsOff", "creditsOn", -2, 30,
-		nil, self:setPlayerPositionEvent( -6, 35) )
-
 	local quit = function()
 		--mainMenu:startExitTransition( love.event.quit )
 		love.event.quit()
 	end
 
-	mainMenu:addButton( "exitOff", "exitOn", -2, 40,
-		quit, self:setPlayerPositionEvent( -6, 45) )
+	mainMenu:addButton( "startOff", "startOn", -12, -10,
+		switchToWorldMap, self:setPlayerPositionEvent( -16, -5) )
+	mainMenu:addButton( "downloadOff", "downloadOn", -12, 0,
+		switchToUserlevels, self:setPlayerPositionEvent( -16, 5) )
+	mainMenu:addButton( "settingsOff", "settingsOn", -12, 10,
+		switchToSettings, self:setPlayerPositionEvent( -16, 15) )
+	mainMenu:addButton( "editorOff", "editorOn", -12, 20,
+		switchToEditor, self:setPlayerPositionEvent( -16, 25) )
+	mainMenu:addButton( "creditsOff", "creditsOn", -12, 30,
+		nil, self:setPlayerPositionEvent( -16, 35) )
+	mainMenu:addButton( "exitOff", "exitOn", -12, 40,
+		quit, self:setPlayerPositionEvent( -16, 45) )
+		
+	-- Add description to buttons
+	mainMenu:addText( 'Start Game' , 0, -8, 40, nil, 'left' )
+	mainMenu:addText( 'User Levels', 0,  2, 40, nil, 'left' )
+	mainMenu:addText( 'Options'    , 0, 12, 40, nil, 'left' )
+	mainMenu:addText( 'Leveleditor', 0, 22, 40, nil, 'left' )
+	mainMenu:addText( 'Credits'    , 0, 32, 40, nil, 'left' )
+	mainMenu:addText( 'Quit'       , 0, 42, 40, nil, 'left' )
+		
 
 	mainMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
