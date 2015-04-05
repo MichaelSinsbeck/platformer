@@ -55,7 +55,8 @@ function KeyAssignmentSubmenu:new( x, y )
 		self.keyCurrentlyAssigning = nil
 	end]]
 	
-	local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
+	--local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
+	local p = submenu:addPanel( -55, -LIST_HEIGHT/2 - 8, 105, LIST_HEIGHT )	
 	p:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
 
 	submenu:addLayer("Assignment")
@@ -82,8 +83,9 @@ function KeyAssignmentSubmenu:new( x, y )
 	-- Add invisible buttons to list which allow level selection:
 	local lineHover = function()
 		local cy = (20 - LIST_HEIGHT/2 + LIST_ENTRY_HEIGHT*(selectedFunction-firstDisplayedFunction-1))
-		local cx = -LIST_WIDTH/2 + 12
-		menu:setPlayerPosition( x + cx, y + cy )	-- player position must be in global coordinates
+		--local cx = -LIST_WIDTH/2 + 12
+		--menu:setPlayerPosition( x + cx, y + cy )	-- player position must be in global coordinates
+		menu:setPlayerPosition( x-42, y + cy )	-- player position must be in global coordinates		
 	end
 
 	local startReassignment = function()
@@ -169,12 +171,15 @@ function KeyAssignmentSubmenu:draw()
 	local w = LIST_WIDTH - 8
 	local h = LIST_HEIGHT
 
-	local xName = (x + 12)*Camera.scale
-	local xKeyboard = (x + 0.5*w)*Camera.scale
-	local xKeyboardCenter = (x + 0.625*w)*Camera.scale
-	local xPad = (x + 0.75*w)*Camera.scale
-	local xPadCenter = (x + 0.875*w)*Camera.scale
-	local xEnd = (x + w)*Camera.scale
+	local x = -52
+	local y = -64
+	
+	local xName = (x + 15)*Camera.scale
+	local xKeyboard = (x + 42)*Camera.scale
+	local xKeyboardCenter = (x + 56)*Camera.scale
+	local xPad = (x + 72)*Camera.scale
+	local xPadCenter = (x + 86)*Camera.scale
+	local xEnd = (x + 102)*Camera.scale	
 
 	-- draw headers:
 	love.graphics.setColor( 30,0,0,75 )
@@ -192,7 +197,7 @@ function KeyAssignmentSubmenu:draw()
 	for i = firstDisplayedFunction, lastDisplayedFunction do
 		local curY = (2 + y + LIST_ENTRY_HEIGHT*(i-firstDisplayedFunction+1))*Camera.scale
 		local visY = curY + 2*Camera.scale
-		love.graphics.print( functions[i].name .. ":", xName, curY )
+		love.graphics.print( functions[i].name, xName, curY )
 		functions[i].keyVis:draw( xKeyboardCenter, visY )
 		functions[i].keyNameVis:draw( xKeyboardCenter, visY )
 		functions[i].padVis:draw( xPadCenter, visY )
