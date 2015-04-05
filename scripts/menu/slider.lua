@@ -3,11 +3,13 @@
 local Slider = {}
 Slider.__index = Slider
 
-function Slider:new( x, y, width, segments, eventHover, eventChange, captions, name )
+function Slider:new(imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name )
 	local o = {}
 	setmetatable( o, self )
 	o.x = x + 4
 	o.y = y + 4
+	o.imgOff = imgOff
+	o.imgOn = imgOn	
 	o.selected = false
 	o.isSlider = true	-- The outside world handles a slider just like a button. So make sure they can know I'm a slider!
 	o.eventChange = eventChange
@@ -32,6 +34,8 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions, n
 		-- make sure the right image is chosen for this visualizer:
 		Slider.chooseImage( o, i, "off" )
 	end
+	o.vis[segments+1] = Visualizer:New(o.imgOff)
+	o.vis[segments+1]:init()
 
 	o.text = ""
 
@@ -40,26 +44,38 @@ function Slider:new( x, y, width, segments, eventHover, eventChange, captions, n
 end
 
 function Slider:draw()
+	
+	self.vis[#self.vis]:draw( Camera.scale*self.x, Camera.scale*self.y )
+	
+	if self.text then
+		love.graphics.print( self.text,
+		Camera.scale*(self.x + 8), (self.y - 2) *Camera.scale )
+	end
+
 	local y = Camera.scale*self.y
 	for i = 1, self.numSegments do
-		self.vis[i]:draw( Camera.scale*(self.x+self.dx*(i-1)), y )
+		self.vis[i]:draw( Camera.scale*(self.x+self.dx*(i+7)), y )
 	end
-	love.graphics.print( self.text,
-		Camera.scale*(self.x+self.dx*self.numSegments), y - 2*Camera.scale )
-	--love.graphics.printf( self.name,
-	--	Camera.scale*(self.x - 13) - 500, y - 2*Camera.scale,  500, "right" )
+	--love.graphics.print( self.text,
+	--	Camera.scale*(self.x), y - 2*Camera.scale )
+	--love.graphics.print( self.text,
+	--	Camera.scale*(self.x+self.dx*self.numSegments), y - 2*Camera.scale )		
+
 end
 
 function Slider:update( dt )
-	if self.selected then
-		for i = 1, self.numSegments do
+	--if self.selected then
+		for i = 1, self.numSegments + 1 do
 			self.vis[i]:update( dt )
 		end
-	end
+	--end
 end
 
 function Slider:select()
 	self.selected = true
+	if self.vis then
+		self.vis[#self.vis]:setAni( self.imgOn )
+	end	
 	if self.eventHover then
 		self.eventHover()
 	end
@@ -67,6 +83,9 @@ end
 
 function Slider:deselect()
 	self.selected = false
+	if self.vis then
+		self.vis[#self.vis]:setAni( self.imgOff )
+	end	
 end
 
 function Slider:setNextLeft( b )

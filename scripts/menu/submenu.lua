@@ -221,14 +221,14 @@ function Submenu:addPanel( x, y, w, h, layerName )
 	end
 end
 
-function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName )
+function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName, text )
 	
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local b = Button:new( imgOff, imgOn, x, y, event, eventHover )
+			local b = Button:new( imgOff, imgOn, x, y, event, eventHover, text )
 			table.insert( l.buttons, b )
 			self:linkButtons( layerName )
 			return b
@@ -253,7 +253,7 @@ function Submenu:addToggleButton( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
 	end
 end
 
-function Submenu:addSlider( x, y, width, segments, eventHover,
+function Submenu:addSlider( imgOff, imgOn, x, y, width, segments, eventHover,
 		eventChange, captions, name, layerName )
 	
 	-- Per default, add to the main layer:
@@ -261,7 +261,7 @@ function Submenu:addSlider( x, y, width, segments, eventHover,
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local b = Slider:new( x, y, width, segments, eventHover, eventChange, captions, name )
+			local b = Slider:new( imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name )
 			table.insert( l.buttons, b )
 			self:linkButtons( layerName )
 			return b

@@ -69,26 +69,26 @@ function menu:init()
 		love.event.quit()
 	end
 
-	mainMenu:addButton( "startOff", "startOn", -12, -10,
-		switchToWorldMap, self:setPlayerPositionEvent( -16, -5) )
-	mainMenu:addButton( "downloadOff", "downloadOn", -12, 0,
-		switchToUserlevels, self:setPlayerPositionEvent( -16, 5) )
-	mainMenu:addButton( "settingsOff", "settingsOn", -12, 10,
-		switchToSettings, self:setPlayerPositionEvent( -16, 15) )
-	mainMenu:addButton( "editorOff", "editorOn", -12, 20,
-		switchToEditor, self:setPlayerPositionEvent( -16, 25) )
-	mainMenu:addButton( "creditsOff", "creditsOn", -12, 30,
-		nil, self:setPlayerPositionEvent( -16, 35) )
-	mainMenu:addButton( "exitOff", "exitOn", -12, 40,
-		quit, self:setPlayerPositionEvent( -16, 45) )
+	mainMenu:addButton( "startOff", "startOn", -11, -10,
+		switchToWorldMap, self:setPlayerPositionEvent( -17, -5), nil, 'Start Game' )
+	mainMenu:addButton( "downloadOff", "downloadOn", -11, 0,
+		switchToUserlevels, self:setPlayerPositionEvent( -17, 5), nil, 'User Levels' )
+	mainMenu:addButton( "settingsOff", "settingsOn", -11, 10,
+		switchToSettings, self:setPlayerPositionEvent( -17, 15), nil, 'Settings' )
+	mainMenu:addButton( "editorOff", "editorOn", -11, 20,
+		switchToEditor, self:setPlayerPositionEvent( -17, 25), nil, 'Leveleditor' )
+	mainMenu:addButton( "creditsOff", "creditsOn", -11, 30,
+		nil, self:setPlayerPositionEvent( -17, 35), nil, 'Credits' )
+	mainMenu:addButton( "exitOff", "exitOn", -11, 40,
+		quit, self:setPlayerPositionEvent( -17, 45), nil, 'Quit' )
 		
 	-- Add description to buttons
-	mainMenu:addText( 'Start Game' , 0, -8, 40, nil, 'left' )
-	mainMenu:addText( 'User Levels', 0,  2, 40, nil, 'left' )
-	mainMenu:addText( 'Options'    , 0, 12, 40, nil, 'left' )
-	mainMenu:addText( 'Leveleditor', 0, 22, 40, nil, 'left' )
-	mainMenu:addText( 'Credits'    , 0, 32, 40, nil, 'left' )
-	mainMenu:addText( 'Quit'       , 0, 42, 40, nil, 'left' )
+	--mainMenu:addText( 'Start Game' , 0, -8, 40, nil, 'left' )
+	--mainMenu:addText( 'User Levels', 0,  2, 40, nil, 'left' )
+	--mainMenu:addText( 'Options'    , 0, 12, 40, nil, 'left' )
+	--mainMenu:addText( 'Leveleditor', 0, 22, 40, nil, 'left' )
+	--mainMenu:addText( 'Credits'    , 0, 32, 40, nil, 'left' )
+	--mainMenu:addText( 'Quit'       , 0, 42, 40, nil, 'left' )
 		
 
 	mainMenu:addHotkey( "CHOOSE", "Choose",
@@ -112,24 +112,58 @@ function menu:init()
 	local worldMapMenu = WorldmapSubmenu:new( 0, -700 )
 	submenus["Worldmap"] = worldMapMenu
 
-	local switchToSound = function()
-		menu:switchToSubmenu( "Sound" )
-	end
-	local switchToGraphics = function()
-		menu:switchToSubmenu( "Graphics" )
-	end
+	--local switchToSound = function()
+	--	menu:switchToSubmenu( "Sound" )
+	--end
+	--local switchToGraphics = function()
+	--	menu:switchToSubmenu( "Graphics" )
+	--end
 	local switchToKeyAssignment = function()
 		menu:switchToSubmenu( "KeyAssignment" )
 	end
+	local changeEffectVolume = function( val )
+		settings:setEffectVolume( (val-1)*20 )
+	end
+	local changeMusicVolume = function( val )
+		settings:setMusicVolume( (val-1)*20 )
+	end
 
+	
 	local settingsMenu = Submenu:new( -700, 0 )
-	settingsMenu:addPanel( -32, -20, 64, 50 )
-	settingsMenu:addButton( "soundOptionsOff", "soundOptionsOn", -3, -10, 
-		switchToSound, self:setPlayerPositionEvent( settingsMenu.x - 10, -5 ) )
-	settingsMenu:addButton( "graphicsOptionsOff", "graphicsOptionsOn", -3, 0, 
-		switchToGraphics, self:setPlayerPositionEvent( settingsMenu.x - 10, 5 ) )
-	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -3, 10, 
-		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 14, 15 ) )
+	
+	local p = settingsMenu:addPanel( -52, -40, 122, 80 )
+	--p:turnIntoList( 10, 1 ) 	
+	--local p = settingsMenu:addPanel( -32, -20, 64, 50 )
+	--p:turnIntoList( 10, 1 ) -- make vertical "table-like" lines for readability
+	
+	local s = settingsMenu:addSlider( "soundOptionsOff", "soundOptionsOn", -32, -30, 40, 6,
+		self:setPlayerPositionEvent( settingsMenu.x - 38, -25), changeEffectVolume,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
+	s:setValue( settings:getEffectVolume()/20+1 )
+	local s = settingsMenu:addSlider( "musicOff", "musicOn", -32, -20, 40, 6,
+		self:setPlayerPositionEvent( settingsMenu.x - 38, -15), changeMusicVolume,
+		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
+	s:setValue( settings:getMusicVolume()/20+1 )
+	
+local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
+		"toWindowedOff", "toWindowedOn", -32, -10, 
+		toggleFullscreen, self:setPlayerPositionEvent( settingsMenu.x - 38, -5 ),
+		{[true]="Fullscreen", [false]="Windowed"} )
+	b:setValue( settings:getFullscreen() )
+
+	local b = settingsMenu:addToggleButton( "noShadersOff", "noShadersOn",
+		"shadersOff", "shadersOn", -32, 0, 
+		toggleShaders, self:setPlayerPositionEvent( settingsMenu.x - 38, 5 ),
+		{[true]="on", [false]="off"}, "Shaders: " )
+	b:setValue( settings:getShadersEnabled() )
+
+	local s = settingsMenu:addSlider( "musicOff", "musicOn", -32, 10, 20, 3,
+		self:setPlayerPositionEvent( settingsMenu.x - 38, 15), setBackgroundDetail,
+		{ "No Background", "Simple Background", "Detailed background" } )
+	s:setValue( settings:getBackgroundDetail() )	
+		
+	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -32, 20, 
+		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 38, 25 ),nil,'Key Bindings' )
 
 	local backToMain = function()
 		menu:switchToSubmenu( "Main" )
@@ -146,32 +180,20 @@ function menu:init()
 
 	submenus["Settings"] = settingsMenu
 
-	local soundMenu = Submenu:new( -1400, 0 )
-	local p = soundMenu:addPanel( -64, -20, 112, 40 )
-	p:turnIntoList( 10, 1 )
+	--local soundMenu = Submenu:new( -1400, 0 )
+	--local p = soundMenu:addPanel( -64, -20, 112, 40 )
+	--p:turnIntoList( 10, 1 ) 
 
-	local changeEffectVolume = function( val )
-		settings:setEffectVolume( (val-1)*20 )
-	end
-	local changeMusicVolume = function( val )
-		settings:setMusicVolume( (val-1)*20 )
-	end
+
 
 	local backToSettingsSaveAudio = function()
 		settings:saveAudio()
 		menu:switchToSubmenu( "Settings" )
 	end
 
-	local s = soundMenu:addSlider( -46, -10, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 50, -5), changeEffectVolume,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
-	s:setValue( settings:getEffectVolume()/20+1 )
-	local s = soundMenu:addSlider( -46, 0, 40, 6,
-		self:setPlayerPositionEvent( soundMenu.x - 50, 5), changeMusicVolume,
-		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
-	s:setValue( settings:getMusicVolume()/20+1 )
+	
 
-	soundMenu:addHotkey( "CHOOSE", "Choose",
+	--[[soundMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		nil )
@@ -180,7 +202,7 @@ function menu:init()
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		backToSettingsSaveAudio )
 
-	submenus["Sound"] = soundMenu
+	submenus["Sound"] = soundMenu--]]
 
 	local graphicsMenu = Submenu:new( -1400, 0 )
 	local p = graphicsMenu:addPanel( -64, -20, 112, 50 )
@@ -202,22 +224,7 @@ function menu:init()
 		settings:setBackgroundDetail( val )
 	end
 
-	local b = graphicsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
-		"toWindowedOff", "toWindowedOn", -32, -10, 
-		toggleFullscreen, self:setPlayerPositionEvent( graphicsMenu.x - 36, -5 ),
-		{[true]="Fullscreen", [false]="Windowed"} )
-	b:setValue( settings:getFullscreen() )
-
-	local b = graphicsMenu:addToggleButton( "noShadersOff", "noShadersOn",
-		"shadersOff", "shadersOn", -32, 0, 
-		toggleShaders, self:setPlayerPositionEvent( graphicsMenu.x - 36, 5 ),
-		{[true]="on", [false]="off"}, "Shaders: " )
-	b:setValue( settings:getShadersEnabled() )
-
-	local s = graphicsMenu:addSlider( -32, 10, 20, 3,
-		self:setPlayerPositionEvent( graphicsMenu.x - 36, 15), setBackgroundDetail,
-		{ "No Background", "Simple Background", "Detailed background" } )
-	s:setValue( settings:getBackgroundDetail() )
+	
 
 	graphicsMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
