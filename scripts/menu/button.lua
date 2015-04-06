@@ -26,8 +26,10 @@ function Button:draw()
 		self.vis:draw( Camera.scale*self.x, Camera.scale*self.y )
 	end
 	if self.text then
+		love.graphics.setColor(247,237,222)
 		love.graphics.print( self.text,
 		Camera.scale*(self.x + 8), (self.y - 2) *Camera.scale )
+		love.graphics.setColor(255,255,255)
 	end
 end
 
