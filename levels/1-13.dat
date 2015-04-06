@@ -58,16 +58,16 @@ c-----------------------------cc
 c------------------------------c
 c--------cccccccccccccccccc---cc
 ccccccccccccccccccccccccccc---cc
-ccccc-c-cc-c-ccc-c-cccc-c-c---cc
+ccccc-ccccccc-c-ccccccc-c-c---cc
 c-----------------------------cc
 c-----------------------------cc
 c-----------------------------cc
 c-----------------------------cc
-c---c---cc---ccc---cccc---cccccc
-c---c-c-cc-c-ccc-c-cccc-c-cccccc
+c---c-ccccccc---ccccccc---cccccc
+c---c-ccccccc-c-ccccccc-c-cccccc
 c---cccccccccccccccccccccccccccc
 c---cccccccccccccccccccccccccccc
-c---cc-----------------cc------c
+c---cc------------------c------c
 c---cc----------cc-----cc------c
 c---------------cc-----cc------c
 c-------------cccc-----cc------c
@@ -95,10 +95,7 @@ endObj
 Obj:Player
 	x:2
 	y:7
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	p:bandana=white
 endObj
 Obj:Follower
 	x:14
@@ -111,27 +108,17 @@ Obj:Follower
 	p:maxSpeed=15
 endObj
 Obj:Follower
-	x:7
+	x:5
+	y:9
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:13
 	y:15
 	p:maxSpeed=15
 endObj
 Obj:Follower
-	x:10
-	y:15
-	p:maxSpeed=15
-endObj
-Obj:Follower
-	x:12
-	y:15
-	p:maxSpeed=15
-endObj
-Obj:Follower
-	x:16
-	y:15
-	p:maxSpeed=15
-endObj
-Obj:Follower
-	x:18
+	x:15
 	y:15
 	p:maxSpeed=15
 endObj
@@ -158,6 +145,11 @@ endObj
 Obj:Follower
 	x:6
 	y:24
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:23
+	y:18
 	p:maxSpeed=15
 endObj
 endObjects

@@ -13,21 +13,21 @@ Description:
 endDescription
 
 Background:
-----------------ccccccccccccccccc-
-----------------ccccccccccccccccc-
-----------------ccccccccccccccccc-
----------------cccccccccccccccccc-
----------------cccccccccccccccccc-
----------------cccccccccccccccccc-
----------------cccccccccccccccccc-
----------------cccccccccccccccccc-
-----------------------------------
-----------------------------------
---------------------sssss---------
--------------------sssssss--------
--------------------ssssssss-------
--------------------sssssssss------
---------------------sssssssss-----
+cccccccccccccccccccccc------------
+ccccccccccccccccccccc-------------
+cccccccccccccccccccc--------------
+cccccccccccccccccc----------------
+ccccccccccccccccc-----------------
+cccccccccccccccc------------------
+cccccccccccccccc------------------
+cccccccccccccccc------------------
+cccccccccccccccc------------------
+cccccccc--------------------------
+ccccc---------------sssss---------
+cccc---------------sssssss--------
+ccc----------------ssssssss-------
+cc-----------------sssssssss------
+c-------------------sssssssss-----
 --------------------ssssssssss----
 --------------------ssssssssss----
 --------------------ssssssssss----
@@ -42,18 +42,18 @@ endBackground
 Ground:
 cccccccccccccccccccccccccccccccccc
 cc------------------cc----------cc
+cc-----------bbbb----------------c
+cc------------cc----cc-----cc---cc
+cc------------cc----cc-----cc---cc
+cc---------bbbcc----ccc----ccccccc
+cc------------cc-----------ccccccc
+c--------------ccccccccccccccccccc
+cbbbbbbbbbbbbbbc-----------------c
 c--------------------------------c
-c-------------------cc-----cc---cc
-c--------------c----cc-----cc---cc
-c------------bcc----ccc----ccccccc
-c--------------c-----------ccccccc
-cbbbbbbbbbbbbbbccccccccccccccccccc
-c--------------c-----------------c
-cbbbbb---------------------------c
-c------------------gggggg--------c
+cbbb---------------gggggg--------c
 c------------------g-ggggbbbbb---c
 c------------------g-------------c
-c------------------ggggggbbbbbb--c
+cb-----------------ggggggbbbbbb--c
 c------------------ggggg---------c
 c-------------------ggg----------c
 c-------------------ggg---bbb----c
@@ -73,10 +73,7 @@ Objects:
 Obj:Player
 	x:3
 	y:19
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	p:bandana=white
 endObj
 Obj:Walker
 	x:29
@@ -126,14 +123,6 @@ Obj:Spawner
 	p:type=enemy
 	p:direction=right
 endObj
-Obj:LineHook
-	x:19
-	y:11
-endObj
-Obj:LineHook
-	x:0
-	y:11
-endObj
 Obj:Fixedcannon
 	x:32
 	y:2
@@ -144,9 +133,17 @@ Obj:Fixedcannon
 	p:phase=0
 endObj
 Obj:Follower
-	x:11
-	y:6
+	x:14
+	y:7
 	p:maxSpeed=15
+endObj
+Obj:LineHook
+	x:19
+	y:11
+endObj
+Obj:LineHook
+	x:0
+	y:11
 endObj
 endObjects
 

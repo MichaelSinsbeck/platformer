@@ -86,27 +86,27 @@ Ground:
 -ooooooooooo-------o-------oooooo
 -oooooooooo--------o-------oooooo
 -ooooooooo---------o----ooooo-ooo
--ooooooooo---------o-------ooooo-
--oooooooooo-o---o-----------ooo--
--oooooooooooo---oooooooooooooo---
--ooooooooooo1---1----------------
--ooooooooooo1---1----------------
--ooooooooooo1---1----------------
--ooooooooooo1---1----------------
--ooooooooooo1---1----------------
--ooooooooooo1---111111111111111--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo1111111111111-----1--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo1-----------------1--
--ooooooooooo11---11111111111111--
+-ooooooooo---------o-------oooooo
+-oooooooooo-o---o-----------ooooo
+-oooooooooooo---ooooooooooooooooo
+-ooooooooooo1---1oooooooooooooooo
+-ooooooooooo1---1oooooooooooooooo
+-ooooooooooo1---1oooooooooooooooo
+-ooooooooooo1---1oooooooooooooooo
+-ooooooooooo1---111111111111111oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo111111111111-------oo
+-ooooooooooo1111111111111-----1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo1-----------------1oo
+-ooooooooooo11---11111111111111oo
 -oooooooooooo1---1ooooooooooooooo
 -oooooooooooo1---1o-------------o
 -oooooooooooo1-1-1o-------------o
@@ -118,8 +118,8 @@ Ground:
 -ooo-----oooo1---oo-------------o
 ---------oooo1------------------o
 -oooooooooooo1------------------o
--oooooooooooo1-o----------------o
--oooooooooooo11111ooooooooooooooo
+-oooooooooooo1------------------o
+-oooooooooooo1---oooooooooooooooo
 endGround
 
 BgObjects:
@@ -133,10 +133,7 @@ endObj
 Obj:Player
 	x:17
 	y:7
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=green
 endObj
 Obj:Bonus
 	x:6
@@ -145,6 +142,11 @@ endObj
 Obj:Follower
 	x:27
 	y:19
+	p:maxSpeed=15
+endObj
+Obj:Follower
+	x:30
+	y:31
 	p:maxSpeed=15
 endObj
 endObjects

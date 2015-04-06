@@ -38,19 +38,19 @@ endBackground
 Ground:
 --------------------------------------------
 --------------------------------------------
----------------------------oooooooooooooooo-
----------------------------o--------------o-
----------------------------o--------------o-
----------------------------o--------------o-
--ooooooooooooooooooooooooooooo---o---ooo-oo-
+-------ooooooooooooooooooo-oooooooooooooooo-
+-------o-----------------o-o--------------o-
+-------oooooooooooooooo--o-o--------------o-
+----------------------o--o-o--------------o-
+-oooooooooooooooooooooo--ooooo---o---ooo-oo-
 -o-----------------------o---o---o----oooo--
--o-----------------------o---o---o----o-----
+-o-----------------------oo--o---o----o-----
 -o-----------------------o---o---oo---o-----
 -ooooo---ooooooooooooooooo---o---o----o-----
--o---------------------------o---o----o-----
--o---------------------------o---o---oo-----
--o---------------------------o---o----o-----
--oooooooooooooooooo--ooooooooo---o----ooooo-
+--o--------------------------o---o----o-----
+--o--------------------------o---o---oo-----
+--o--------------------------o---o----o-----
+--ooooooooooooooooo--ooooooooo---o----ooooo-
 ------------------o---------------o-------o-
 ------------------o-----------------------o-
 ------------------o-----------------------o-
@@ -73,15 +73,12 @@ Obj:Rotator
 endObj
 Obj:Imitator
 	x:8
-	y:9
+	y:3
 endObj
 Obj:Player
 	x:2
 	y:9
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=green
 endObj
 Obj:Button
 	x:23
@@ -185,6 +182,30 @@ Obj:CameraGuideRect
 	p:sensorH=14
 	p:sensorW=13
 	p:offsetX=8
+endObj
+Obj:Appearblock
+	x:21
+	y:7
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:21
+	y:8
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:21
+	y:9
+	p:state=solid
+	p:color=green
+endObj
+Obj:Button
+	x:26
+	y:7
+	p:lifetime=1
+	p:color=green
 endObj
 endObjects
 

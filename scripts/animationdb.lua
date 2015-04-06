@@ -367,6 +367,8 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('horizon.png','horizon',tileSize,tileSize)
 	AnimationDB:loadTiledImage('star.png','star',2*tileSize,2*tileSize)
 	AnimationDB:loadTiledImage('blockblock.png','blockblock',tileSize,tileSize)
+	AnimationDB:loadTiledImage('shurikenlarge.png','shurikenlarge')
+	AnimationDB:loadTiledImage('sign.png','sign',tileSize,tileSize)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',tileSize,tileSize)
@@ -457,12 +459,8 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('starBandana','bandana',{1},{1e6})
 	AnimationDB:addAni('whiteBandana','bandana',{2},{1e6})
-	AnimationDB:addAni('yellowBandana','bandana',{9},{1e6}) --todo
-	AnimationDB:addAni('greenBandana','bandana',{3},{1e6})
-	AnimationDB:addAni('blueBandana','bandana',{4},{1e6})
-	AnimationDB:addAni('redBandana','bandana',{5},{1e6})
-	AnimationDB:addAni('chickenleg','bandana',{6},{1e6})
-	AnimationDB:addAni('bean','bandana',{7},{1e6})
+	AnimationDB:addAni('chickenleg','bandana',{3},{1e6})
+	AnimationDB:addAni('bean','bandana',{4},{1e6})
 
 	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 	AnimationDB:addAni('smoke','smoke',{1,2,3,4,5,5},{.1,.1,.15,.15,.1,1e6})
@@ -601,6 +599,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('bumper','bumper',{1},{1e6})
 	AnimationDB:addAni('anchor','anchor',{1},{1e6})
 	AnimationDB:addAni('crosshairs','crosshairs',{1},{1e6})
+	AnimationDB:addAni('shurikenlarge','shurikenlarge',{1},{1e6})
 	
 	AnimationDB:addAni('clubber','clubber',{1},{1e6})	
 	AnimationDB:addAni('club','clubber',{2},{1e6})
@@ -608,6 +607,13 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('starBody','star',{1},{1e6})
 	AnimationDB:addAni('starFace','star',{2},{1e6})
 	AnimationDB:addAni('starEyes','star',{3},{1e6})
+	
+	AnimationDB:addAni('signEmpty','sign',{1},{1e6})
+	AnimationDB:addAni('signBandana','sign',{2},{1e6})
+	AnimationDB:addAni('signCross','sign',{3},{1e6})
+	AnimationDB:addAni('signText','sign',{4},{1e6})
+	AnimationDB:addAni('signLeft','sign',{5},{1e6})
+	AnimationDB:addAni('signRight','sign',{6},{1e6})
 	
 	AnimationDB:addAni('candle','light',{1},{1e6})
 	AnimationDB:addAni('candlelight','light',{2,3,4,3},{.2,.2,.2,.2})
@@ -771,16 +777,16 @@ function AnimationDB:loadAnimations()
 		vectorAnimations.startAniUpdate )
 	AnimationDB:addAni('startOff','menuButtons',{2},{1e6} )
 	AnimationDB:addAni('exitOn','menuButtons',{3},{1e6},
-		vectorAnimations.exitAniUpdate )
+		vectorAnimations.defaultAniUpdate )
 	AnimationDB:addAni('exitOff','menuButtons',{4},{1e6})
 	AnimationDB:addAni('downloadOn','menuButtons',{5},{1e6}, 
-		vectorAnimations.userlevelsAniUpdate )
+		vectorAnimations.defaultAniUpdate )
 	AnimationDB:addAni('downloadOff','menuButtons',{6},{1e6})
 	AnimationDB:addAni('restartOn','menuButtons',{7},{1e6},
 		vectorAnimations.restartAniUpdate )
 	AnimationDB:addAni('restartOff','menuButtons',{8},{1e6})
 	AnimationDB:addAni('editorOn','menuButtons',{9},{1e6},
-		vectorAnimations.editorAniUpdate )
+		vectorAnimations.defaultAniUpdate )
 	AnimationDB:addAni('editorOff','menuButtons',{10},{1e6})
 	AnimationDB:addAni('acceptOn','menuButtons',{11},{1e6})
 	AnimationDB:addAni('acceptOff','menuButtons',{12},{1e6})
@@ -790,23 +796,32 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('cancelOn','menuButtons',{15},{1e6})
 	AnimationDB:addAni('cancelOff','menuButtons',{16},{1e6})
 	AnimationDB:addAni('creditsOn','menuButtons',{17},{1e6},
-		vectorAnimations.creditsAniUpdate )
+		vectorAnimations.defaultAniUpdate )
 	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
 	AnimationDB:addAni('worldItemOn','menuButtons',{19},{1e6},
-		vectorAnimations.userlevelsAniUpdate )
+		vectorAnimations.defaultAniUpdate )
 	AnimationDB:addAni('worldItemOff','menuButtons',{20},{1e6})
 
 	AnimationDB:addAni('sliderSegmentOff','menuButtons',{21},{1e6})
 	AnimationDB:addAni('sliderSegmentOn','menuButtons',{22},{1e6})
 	AnimationDB:addAni('sliderSegmentOffEnd','menuButtons',{23},{1e6})
 	AnimationDB:addAni('sliderSegmentOnEnd','menuButtons',{24},{1e6})
+	
+	AnimationDB:addAni('keyAssignmentOn','menuButtons',{25,26},{0.25,0.25})
+	AnimationDB:addAni('keyAssignmentOff','menuButtons',{27},{1e6})
+	AnimationDB:addAni('musicOn','menuButtons',{29,30,29,31},{0.2,0.2,0.2,0.2})
+	AnimationDB:addAni('musicOff','menuButtons',{28},{1e6})
+	AnimationDB:addAni('soundOptionsOn','menuButtons',{32,33,34,35},{0.15, 0.15, 0.15, 0.5})
+	AnimationDB:addAni('soundOptionsOff','menuButtons',{35},{1e6})	
+		
+	--AnimationDB:addAni('sliderSegmentOnEnd','menuButtons',{24},{1e6})
 
-	AnimationDB:addAni('keyAssignmentOn','keyAssignment',{1},{1e6},
-		vectorAnimations.userlevelsAniUpdate )
-	AnimationDB:addAni('keyAssignmentOff','keyAssignment',{2},{1e6})
-	AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},
-		{0.15, 0.15, 0.15, 0.5}, vectorAnimations.soundAniUpdate )
-	AnimationDB:addAni('soundOptionsOff','soundButton',{5},{1e6})
+	--AnimationDB:addAni('keyAssignmentOn','keyAssignment',{1},{1e6},
+	--	vectorAnimations.userlevelsAniUpdate )
+	--AnimationDB:addAni('keyAssignmentOff','keyAssignment',{2},{1e6})
+	--AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},
+	--	{0.15, 0.15, 0.15, 0.5}, vectorAnimations.soundAniUpdate )
+	--AnimationDB:addAni('soundOptionsOff','soundButton',{5},{1e6})
 	AnimationDB:addAni('graphicsOptionsOn','graphicsButton',{1,2,3,4,5},
 		{0.5, 0.25, 0.25, 0.25, 1.25}, vectorAnimations.graphicsAniUpdate )
 	AnimationDB:addAni('graphicsOptionsOff','graphicsButton',{1},{1e6})
@@ -933,7 +948,7 @@ end
 
 
 function vectorAnimations.startAniUpdate( anim )
-	anim.ox = 4 + 1-2*math.abs(math.sin(5*anim.vectorTimer))
+	anim.ox = 6 - 1.5*math.abs(math.sin(5*anim.vectorTimer))
 	anim.sy = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
 	anim.sx = 1/anim.sy
 end
@@ -942,9 +957,11 @@ function vectorAnimations.settingsAniRestart( anim )
 	anim.angle = anim.vectorTimer * 5
 end
 
+function vectorAnimations.defaultAniUpdate( anim )
+	anim.angle = 0+0.1 * math.sin(7*anim.vectorTimer)
+end
+
 function vectorAnimations.creditsAniUpdate( anim )
-	--anim.sx = 1-0.1*math.abs(math.cos(6*anim.vectorTimer))
-	--anim.sx = 1-2*math.abs(math.sin(6*anim.vectorTimer))
 	anim.sx = 1+0.15*math.abs(math.sin(6*anim.vectorTimer))
 	anim.sy = anim.sx
 	anim.angle = 0.2*math.sin(- anim.vectorTimer * 6)
@@ -952,13 +969,14 @@ function vectorAnimations.creditsAniUpdate( anim )
 end
 function vectorAnimations.exitAniUpdate( anim )
 	anim.oy = 4+1-2*math.abs(math.sin(5*anim.vectorTimer))
-	anim.sx = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
-	anim.sy = 1/anim.sx
+	anim.sy = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sx = 1/anim.sy
 end
 function vectorAnimations.editorAniUpdate( anim )
-	anim.oy = 4 -1*math.abs(math.sin(5*anim.vectorTimer))
-	anim.sx = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
-	anim.sy = 1/anim.sx
+	anim.angle = 0+0.1 * math.sin(7*anim.vectorTimer)
+	--anim.oy = 4 -1*math.abs(math.sin(5*anim.vectorTimer))
+	--anim.sx = 1-0.05*math.abs(math.cos(5*anim.vectorTimer))
+	--anim.sy = 1/anim.sx
 end
 function vectorAnimations.userlevelsAniUpdate( anim )
 	anim.yShift = -0.4*math.sin(5*anim.vectorTimer)

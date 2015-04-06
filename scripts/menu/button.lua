@@ -3,13 +3,14 @@
 local Button = {}
 Button.__index = Button
 
-function Button:new( imgOff, imgOn, x, y, event, eventHover )
+function Button:new( imgOff, imgOn, x, y, event, eventHover, text )
 	local o = {}
 	setmetatable( o, self )
 	o.imgOff = imgOff
 	o.imgOn = imgOn
 	o.event = event
 	o.eventHover = eventHover
+	o.text = text
 	o.x = x + 4
 	o.y = y + 4
 	o.selected = false
@@ -21,9 +22,14 @@ function Button:new( imgOff, imgOn, x, y, event, eventHover )
 end
 
 function Button:draw()
-	--print( self.imgOff, Animate
 	if self.vis then
 		self.vis:draw( Camera.scale*self.x, Camera.scale*self.y )
+	end
+	if self.text then
+		love.graphics.setColor(247,237,222)
+		love.graphics.print( self.text,
+		Camera.scale*(self.x + 8), (self.y - 2) *Camera.scale )
+		love.graphics.setColor(255,255,255)
 	end
 end
 

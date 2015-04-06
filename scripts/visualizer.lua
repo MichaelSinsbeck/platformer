@@ -71,6 +71,10 @@ end
 function Visualizer:reset()
 	self.frame = 1
 	self.timer = 0
+	--self.vectorTimer = 0
+end
+
+function Visualizer:resetVector()
 	self.vectorTimer = 0
 end
 
@@ -189,9 +193,7 @@ end
 function Visualizer:setAni(name)
 	if self.animation ~= name then
 		self.animation = name
-		if not continue then
-			self:reset()
-		end
+		self:reset()
 		if AnimationDB.animation[self.animation].updateFunction then
 			self.vectorUpdate = AnimationDB.animation[self.animation].updateFunction
 		else

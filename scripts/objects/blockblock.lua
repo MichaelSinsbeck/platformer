@@ -30,7 +30,7 @@ function Blockblock:applyOptions()
 
 	local thisX,thisY,thisDx,thisDy,t
 	-- top left corner
-	self:addVertice(self.x-0.5,self.y-0.5,1,1,1)
+	self:addVertice(self.x-0.5,self.y-0.5,1.2,1.2,1)
 	-- top 
 	for i = 1,2*self.width-1 do
 		thisX = self.x-0.5+0.5*i
@@ -38,7 +38,7 @@ function Blockblock:applyOptions()
 		self:addVertice(thisX,thisY,0,1,1)
 	end
 	-- top right corner
-	self:addVertice(self.x-0.5+self.width,self.y-0.5,-1,1,1)
+	self:addVertice(self.x-0.5+self.width,self.y-0.5,-1.2,1.2,1)
 	-- right
 	for i = 1,2*self.height-1 do
 		thisX = self.x-0.5+self.width
@@ -46,7 +46,7 @@ function Blockblock:applyOptions()
 		self:addVertice(thisX,thisY,-1,0,1)
 	end
 	-- bottom right corner
-	self:addVertice(self.x-0.5+self.width,self.y-0.5+self.height,-1,-1,1)
+	self:addVertice(self.x-0.5+self.width,self.y-0.5+self.height,-1.2,-1.2,1)
 	-- bottom
 	for i = 1,2*self.width-1 do
 		thisX = self.x-0.5 +self.width-0.5*i
@@ -54,7 +54,7 @@ function Blockblock:applyOptions()
 		self:addVertice(thisX,thisY,0,-1,1)
 	end
 	-- bottom left corner
-	self:addVertice(self.x-0.5,self.y-0.5+self.height,1,-1,1)
+	self:addVertice(self.x-0.5,self.y-0.5+self.height,1.2,-1.2,1)
 	-- left
 	for i = 1,2*self.height-1 do
 		thisX = self.x-0.5
@@ -86,6 +86,12 @@ function Blockblock:makeOutline()
 		table.insert(newVerts,newY)
 	end
 	self.vertices = newVerts
+	
+	if love.math.isConvex(self.vertices) then
+		self.inside = {self.vertices}
+	else
+		self.inside = love.math.triangulate(self.vertices)
+	end	
 end
 
 function Blockblock:draw()
@@ -119,20 +125,20 @@ function Blockblock:draw()
 		end
 		
 		if self.vertices then
+			-- draw inside (fill)
 			love.graphics.setColor(fillColor)
-			--love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
-			love.graphics.polygon('fill',self.vertices)
+			if self.state == 'solid' then
+				love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
+			else
+				for k,v in ipairs(self.inside) do
+					love.graphics.polygon('fill',v)
+				end
+			end
+			-- draw outline (line)
 			love.graphics.setColor(lineColor)		
 			love.graphics.polygon('line',self.vertices)
 		end
-				
-		
-	--[[	local thisWidth = self.width * Camera.scale*8
-		local thisHeight = self.height * Camera.scale*8
-		local x = (self.x - 0.5) * Camera.scale*8
-		local y = (self.y - 0.5) * Camera.scale*8
 
-		love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)--]]
 		love.graphics.setColor(255,255,255)
 	end
 end
@@ -145,7 +151,7 @@ function Blockblock:postStep(dt)
 	if self.state == 'open' and isTouching then
 		self.state = 'hover'
 	elseif self.state == 'hover' and not isTouching then
-		self.state = 'solid'
+		self.state = 'transition'
 		self:blockTiles()
 		self.scaling = self.scaleTime
 		-- find minimum distance
@@ -165,12 +171,19 @@ function Blockblock:postStep(dt)
 			v.t = self.scaleTime + math.log(dist-distMin+1) * 0.1
 		end
 		
-	elseif self.state == 'solid' then
+	elseif self.state == 'transition' then
+		local restTime = 0
 		for i,v in ipairs(self.vertsRef) do
+			restTime = math.max(restTime,v.t)
 			v.t = math.max(v.t-dt,0)
 		end
+		restTime = math.max(restTime,self.scaling)
 		self.scaling = math.max(self.scaling - dt,0)
 		self:makeOutline()
+		
+		if restTime == 0 then
+			self.state = 'solid'
+		end
 	end
 end
 
