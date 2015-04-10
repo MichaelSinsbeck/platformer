@@ -70,6 +70,7 @@ function Campaign:proceed()
 		
 		fader:fadeTo(self.current)
 		gui:newLevelName( self.names[ self[self.current] ] )
+		menu:proceedToNextLevel( self.current )
 	else
 		menu:proceedToNextLevel( self.current )
 		self:setLevel(self.current-1)  

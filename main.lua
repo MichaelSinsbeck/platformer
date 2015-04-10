@@ -125,9 +125,6 @@ function love.draw()
 				--controlKeys:draw("death")
 			end
 		end
-		if menu.curLevelName then
-			menu:drawLevelName()
-		end
 		if DEBUG then
 			love.graphics.setFont(fontSmall)
 			love.graphics.print("fps: " .. love.timer.getFPS(), 10, 20)

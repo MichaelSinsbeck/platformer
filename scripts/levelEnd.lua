@@ -197,7 +197,6 @@ end
 
 function levelEnd:keypressed( key, unicode )
 	if key == keys.BACK or key == keys.PAD.BACK then
-		print("state", menu.state)
 		if editor.active then
 			editor.resume()
 		elseif menu.currentlyPlayingUserlevels then
