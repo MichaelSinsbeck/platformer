@@ -302,6 +302,7 @@ function AnimationDB:loadAllImages()
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
 	AnimationDB:loadTiledImage('guiBandanas.png','guiBandanas',tileSize*2,tileSize*2,'gui')
+	AnimationDB:loadTiledImage('upgrades.png','upgrades',tileSize*4,tileSize*4,'gui')
 	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player.png','player',tileSize,tileSize)
@@ -662,6 +663,13 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('guiBandanaGreen','guiBandanas',{3},{1e6})
 	AnimationDB:addAni('guiBandanaBlue','guiBandanas',{4},{1e6})
 	AnimationDB:addAni('guiBandanaRed','guiBandanas',{5},{1e6})
+	
+	AnimationDB:addAni('upgradeRice','upgrades',{1},{1e6})
+	AnimationDB:addAni('upgradeWhite','upgrades',{1},{1e6})
+	AnimationDB:addAni('upgradeYellow','upgrades',{1},{1e6})
+	AnimationDB:addAni('upgradeGreen','upgrades',{1},{1e6})
+	AnimationDB:addAni('upgradeBlue','upgrades',{1},{1e6})
+	AnimationDB:addAni('upgradeRed','upgrades',{1},{1e6})
 	
 	-- editor stuff
 	AnimationDB:addAni('lineHook'  ,'lineHook',{1},{1e6})
