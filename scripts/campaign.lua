@@ -70,7 +70,7 @@ function Campaign:proceed()
 		
 		fader:fadeTo(self.current)
 		gui:newLevelName( self.names[ self[self.current] ] )
-	else
+	else -- if there is no next level
 		menu:proceedToNextLevel( self.current )
 		self:setLevel(self.current-1)  
 		menu:switchToSubmenu( "Worldmap" )

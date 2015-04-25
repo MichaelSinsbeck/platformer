@@ -278,7 +278,7 @@ end
 function menu:update( dt )
 	--if menu.state == "main" then
 		--parallax:update(dt)
-	parallax:setPosition( -self.xCamera )
+	
 	--end
 	if self.cameraSlideTime then
 		self.cameraPassedTime = self.cameraPassedTime + dt
@@ -295,6 +295,7 @@ function menu:update( dt )
 			submenus[self.activeSubmenu]:activate()
 		end
 	end
+	parallax:setPosition( -self.xCamera )
 
 	menuPlayer.vis:update(dt/2)
 	menuPlayer.visBandana:update(dt/2)
@@ -494,10 +495,17 @@ function menu:proceedToNextLevel( levelNumber )
 	WorldmapSubmenu:createButtons( levelNumber, levelNumber )
 end
 
+function menu:createWorldButtons()
+	local lastLevel = Campaign.last
+	local currentLevel = Campaign.current
+	WorldmapSubmenu:createButtons( lastLevel, currentLevel)
+end
+
 function menu:nextWorld( worldNumber )
 	self:switchToSubmenu( "Worldmap" )
 	WorldmapSubmenu:addBridge( worldNumber-1 )
-	WorldmapSubmenu:scroll()
+	--WorldmapSubmenu:scroll()
+	WorldmapSubmenu:halfScroll()
 end
 ---------------------------------------------------------
 -- Handle connecting/disconnecting joysticks:

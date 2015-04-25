@@ -148,9 +148,25 @@ function WorldmapSubmenu:update( dt )
 end
 
 function WorldmapSubmenu:scroll( )
-	local b = submenu:getSelectedButton()
+	local b = submenu:getSelectedButton() 
 	if b then
 		local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + singleWorldWidth -- set Camera position
+		local y = -700
+		menu:slideCameraTo( x, y, 1 )
+		Campaign.worldNumber = math.floor((b.x + singleWorldWidth*0.5)/singleWorldWidth)+1 -- calculate worldNumber
+
+		-- Create function which will set ninja coordinates. Then call that function:
+		--local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
+		--menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
+		--func()
+		menu:setPlayerPosition( submenu.x + b.x, submenu.y + b.y-3 )
+	end
+end
+
+function WorldmapSubmenu:halfScroll() -- same as previous function but scroll between two worlds
+	local b = submenu:getSelectedButton() 
+	if b then
+		local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + 1.5*singleWorldWidth -- set Camera position
 		local y = -700
 		menu:slideCameraTo( x, y, 1 )
 		Campaign.worldNumber = math.floor((b.x + singleWorldWidth*0.5)/singleWorldWidth)+1 -- calculate worldNumber

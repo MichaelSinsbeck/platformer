@@ -122,9 +122,10 @@ function game.keypressed(key)
 			editor.resume()
 			return
 		end
-		menu:switchToSubmenu( "Pause" )
+		menu:createWorldButtons()
+		menu:switchToSubmenu( "Worldmap" )
 		menu:show()
-		Sound:play('menuPause')
+		--Sound:play('menuPause')
 	end
 	if key == "r" then
 		p.status = 'stand'
@@ -146,6 +147,7 @@ function game.keypressed(key)
 				menu:switchToSubmenu( "Userlevels" )
 				menu:show()
 			else
+				menu:createWorldButtons()
 				menu:switchToSubmenu( "Worldmap" )
 				menu:show()
 			end
