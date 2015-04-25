@@ -141,7 +141,6 @@ function love.draw()
 end
 
 function love.keypressed( key, repeated )
-
 	if repeated then
 		-- only let the menu receive multiple keypresses
 		if mode == 'menu' then

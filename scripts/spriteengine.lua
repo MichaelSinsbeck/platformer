@@ -65,7 +65,10 @@ end
 
 function spriteEngine:kill()
 -- erase 'dead' objects
-  for i = #self.objects,1,-1 do
+	--print('total number: ' .. #self.objects)
+  --for i = #self.objects,1,-1 do
+  for i = 1,#self.objects do
+		--print(i)
 		local thisObject = self.objects[i]
 		if thisObject.tag~= 'Player' and
 			(thisObject.x < -1 or
@@ -77,10 +80,29 @@ function spriteEngine:kill()
 		   
     if thisObject.dead then
 			Sound:stopLongSound(thisObject)
-			table.remove(self.objects,i)
 			if thisObject.onKill then thisObject:onKill() end
 		end
-  end
+	end
+
+	-- remove dead things from table
+	-- this procedure here is O(n) (using table.remove is O(n^2))
+	local n=#self.objects
+	for i=1,n do
+		if self.objects[i].dead then
+				self.objects[i]=nil
+		end
+	end
+
+	local j=0
+	for i=1,n do
+		if self.objects[i]~=nil then
+			j=j+1
+			if i~=j then
+				self.objects[j]=self.objects[i]
+				self.objects[i] = nil
+			end
+		end
+	end
 end
 
 function spriteEngine:DoAll(functionName,args)
