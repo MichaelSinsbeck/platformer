@@ -1,2 +1,4 @@
 *.*~
 *.love
+tests/*
+ignore/*
