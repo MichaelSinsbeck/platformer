@@ -33,7 +33,7 @@ function WorldmapSubmenu:new( x, y )
 	submenu:addImage( "world4", singleWorldWidth*2.5, -42 )
 	submenu:addImage( "world5", singleWorldWidth*3.5, -42 )
 
-	local currentLevel = config.getValue("level")
+	local currentLevel = config.getValue("level") or Campaign[1]
 	local lastLevel = config.getValue("lastLevel") or Campaign[1]
 
 --[[	for k, v in ipairs(Campaign) do

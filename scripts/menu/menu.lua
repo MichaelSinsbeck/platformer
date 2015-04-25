@@ -350,13 +350,6 @@ function menu:clear()
 	submenus = {}
 end
 
-function menu:drawTransition()
-end
-
--- Todo: move this to GUI?
-function menu:drawLevelName()
-end
-
 function menu:keypressed( key, repeated )
 	if self.activeSubmenu then
 		if self.activeSubmenu == "KeyAssignment" and
