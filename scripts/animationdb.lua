@@ -796,16 +796,17 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('cancelOn','menuButtons',{15},{1e6})
 	AnimationDB:addAni('cancelOff','menuButtons',{16},{1e6})
 	AnimationDB:addAni('creditsOn','menuButtons',{17},{1e6},
-		vectorAnimations.defaultAniUpdate )
+		vectorAnimations.pulseAniUpdate )
 	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
-	AnimationDB:addAni('worldItemOn','menuButtons',{19},{1e6},
-		vectorAnimations.defaultAniUpdate )
-	AnimationDB:addAni('worldItemOff','menuButtons',{20},{1e6})
+	AnimationDB:addAni('worldItemOn','menuButtons',{23},{1e6},
+		vectorAnimations.pulseAniUpdate )
+	AnimationDB:addAni('worldItemOff','menuButtons',{24},{1e6},
+		vectorAnimations.resetAniUpdate )
 
-	AnimationDB:addAni('sliderSegmentOff','menuButtons',{21},{1e6})
-	AnimationDB:addAni('sliderSegmentOn','menuButtons',{22},{1e6})
-	AnimationDB:addAni('sliderSegmentOffEnd','menuButtons',{23},{1e6})
-	AnimationDB:addAni('sliderSegmentOnEnd','menuButtons',{24},{1e6})
+	AnimationDB:addAni('sliderSegmentOff','menuButtons',{19},{1e6})
+	AnimationDB:addAni('sliderSegmentOn','menuButtons',{20},{1e6})
+	AnimationDB:addAni('sliderSegmentOffEnd','menuButtons',{21},{1e6})
+	AnimationDB:addAni('sliderSegmentOnEnd','menuButtons',{22},{1e6})
 	
 	AnimationDB:addAni('keyAssignmentOn','menuButtons',{25,26},{0.25,0.25})
 	AnimationDB:addAni('keyAssignmentOff','menuButtons',{27},{1e6})
@@ -959,6 +960,20 @@ end
 
 function vectorAnimations.defaultAniUpdate( anim )
 	anim.angle = 0+0.1 * math.sin(7*anim.vectorTimer)
+end
+
+function vectorAnimations.pulseAniUpdate( anim )
+	anim.sx = 1 + 0.3*math.max(0,1-5*anim.vectorTimer)
+	anim.sy = anim.sx
+	--anim.sx = 1 + 0.1 * math.sin(7*anim.vectorTimer)
+	--anim.sy = anim.sx
+end
+
+function vectorAnimations.resetAniUpdate( anim )
+	anim.sx = 1
+	anim.sy = 1
+	anim.angle = 0
+	anim.vectorTimer = 0
 end
 
 function vectorAnimations.creditsAniUpdate( anim )
