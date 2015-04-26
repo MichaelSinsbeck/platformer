@@ -34,7 +34,12 @@ function TButton:draw()
 	if self.vis then
 		self.vis:draw( Camera.scale*self.x, y )
 	end
-	love.graphics.setColor(247,237,222)
+	if self.selected then
+		love.graphics.setColor(colors.text)
+	else
+		love.graphics.setColor(colors.text2)
+	end
+	
 	love.graphics.print( self.text,
 		Camera.scale*(self.x + 8), y - 2*Camera.scale )
 	love.graphics.setColor(255,255,255)

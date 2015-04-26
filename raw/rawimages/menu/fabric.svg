@@ -25,17 +25,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.95222508"
-     inkscape:cx="68.155161"
-     inkscape:cy="324.51126"
+     inkscape:zoom="0.67332481"
+     inkscape:cx="535.32833"
+     inkscape:cy="220.78797"
      inkscape:document-units="px"
-     inkscape:current-layer="g4649"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:showpageshadow="true"
-     inkscape:window-width="1916"
-     inkscape:window-height="1057"
+     inkscape:window-width="1280"
+     inkscape:window-height="750"
      inkscape:window-x="0"
-     inkscape:window-y="19"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      inkscape:snap-global="true">
     <inkscape:grid
@@ -70,7 +70,7 @@
      id="layer1"
      transform="translate(0,-652.3622)">
     <path
-       style="fill:#b79f7b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
        d="m 0,652.3622 400,0 0,400 -400,0 z"
        id="path8192"
        inkscape:connector-curvature="0"
@@ -312,18 +312,6 @@
        inkscape:export-filename="/home/micha/Projects/Bandana/raw/ideas/BambooColor.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
-    <path
-       sodipodi:nodetypes="ccccc"
-       inkscape:connector-curvature="0"
-       id="path9060"
-       d="m 76.69718,708.98202 c 9.799384,12.29694 18.876124,20.12926 28.11945,28.9908 -9.690235,-6.96252 -14.059255,-7.34994 -29.2346,-21.09003 -16.257301,-22.78599 -14.62575,-26.82303 -21.875674,-40.16857 7.663608,10.75593 2.878478,6.40448 22.990824,32.2678 z"
-       style="fill:#ad9369;fill-opacity:0.23148148;fill-rule:nonzero;stroke:none" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path4734"
-       d="M 116.18131,734.60098 98.007403,721.87945 75.446697,700.86126 56.019421,667.12155 92.367229,708.6048 124.32823,734.04787 c 1.98658,3.41227 0.47295,4.42177 -8.14692,0.55311 z"
-       style="fill:#ad9369;fill-opacity:0.23148148;fill-rule:nonzero;stroke:none"
-       sodipodi:nodetypes="ccccccc" />
     <g
        id="g4982"
        transform="matrix(0,1,-1,0,736.8166,680.75946)">
@@ -746,12 +734,6 @@
          inkscape:export-xdpi="90"
          inkscape:export-ydpi="90" />
     </g>
-    <path
-       sodipodi:nodetypes="cacacaacccccccccccccccccc"
-       inkscape:connector-curvature="0"
-       id="path5302"
-       d="m 216.43609,680.74584 c 0.269,0.77583 0.69868,1.48866 1.00961,2.25003 1.19878,2.56647 2.21374,5.21303 3.3349,7.81347 0.51485,1.28658 1.03503,2.57072 1.69483,3.79149 1.01818,1.94328 2.00287,3.91594 3.22851,5.7385 1.47928,2.08965 2.87015,4.25133 4.56745,6.17569 1.17856,1.60526 2.50722,3.09249 3.76102,4.63854 2.14403,2.55607 4.31423,5.09884 6.7413,7.39404 1.77932,1.66366 3.67901,3.19479 5.56599,4.73387 3.48762,2.6956 7.02915,5.33994 10.80522,7.62148 2.49081,1.39986 5.20502,2.4195 8.02607,2.89711 1.39836,0.23659 2.82277,0.40008 4.24298,0.36931 1.20891,-0.007 2.40329,-0.21856 3.58923,-0.43409 0.77084,-0.32198 0.97952,-1.52738 0.26981,-2.0279 -2.62575,-2.55668 -5.35226,-5.00756 -8.0638,-7.47177 -3.06205,-2.48672 -6.05987,-5.08004 -9.41001,-7.1793 -4.82091,-3.16353 -9.86714,-5.99577 -14.45969,-9.49731 -0.69284,-0.5083 -1.29757,-1.12444 -2.00913,-1.6119 -1.68662,-1.36699 -3.17256,-2.9621 -4.65181,-4.54611 -1.65076,-1.86762 -3.21379,-3.81339 -4.6319,-5.864 -1.65287,-2.19817 -3.26063,-4.4397 -5.07962,-6.50475 -2.06162,-2.20507 -3.93523,-4.6047 -6.25718,-6.55158 -0.66605,-0.57599 -1.31213,-1.20164 -2.02359,-1.7098 -0.0863,0.0101 -0.16704,-0.0985 -0.25019,-0.025 z"
-       style="fill:#ad9369;fill-opacity:0.23148148;fill-rule:nonzero;stroke:none" />
   </g>
   <g
      inkscape:groupmode="layer"

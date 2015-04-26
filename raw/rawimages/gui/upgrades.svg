@@ -10,7 +10,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="600"
-   height="400"
+   height="600"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -26,11 +26,11 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="260.01318"
-     inkscape:cy="247.14056"
+     inkscape:cx="141.6578"
+     inkscape:cy="292.99318"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:showpageshadow="true"
      inkscape:window-width="1280"
      inkscape:window-height="750"
@@ -237,7 +237,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -245,31 +245,31 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-652.3622)">
+     transform="translate(0,-452.3622)">
     <rect
        style="opacity:0.4620253;fill:#cccccc;fill-opacity:1;stroke:none"
        id="rect3830"
-       width="200"
-       height="200"
-       x="200"
-       y="652.36218" />
+       width="300"
+       height="199.99998"
+       x="300"
+       y="452.36221" />
     <rect
        style="opacity:0.4620253;fill:#cccccc;fill-opacity:1;stroke:none"
        id="rect3832"
-       width="200"
-       height="200"
+       width="300"
+       height="200.00002"
        x="0"
-       y="852.36218" />
+       y="652.36218" />
     <rect
        style="opacity:0.4620253;fill:#cccccc;fill-opacity:1;stroke:none"
        id="rect3834"
-       width="200"
-       height="200"
-       x="400"
+       width="300"
+       height="199.99998"
+       x="300"
        y="852.36218" />
     <g
        id="g9063"
-       transform="matrix(1.2155156,0,0,1.2155156,-25.518257,-167.94184)">
+       transform="matrix(1.2155156,0,0,1.2155156,24.481743,-367.94181)">
       <path
          sodipodi:nodetypes="ccscscscsscscscsscscsccscscscsscccccccscscscsccsscccscccscccc"
          inkscape:connector-curvature="0"

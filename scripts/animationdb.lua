@@ -302,7 +302,7 @@ function AnimationDB:loadAllImages()
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
 	AnimationDB:loadTiledImage('guiBandanas.png','guiBandanas',tileSize*2,tileSize*2,'gui')
-	AnimationDB:loadTiledImage('upgrades.png','upgrades',tileSize*4,tileSize*4,'gui')
+	AnimationDB:loadTiledImage('upgrades.png','upgrades',tileSize*4,tileSize*6,'gui')
 	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player.png','player',tileSize,tileSize)
@@ -804,7 +804,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('cancelOn','menuButtons',{15},{1e6})
 	AnimationDB:addAni('cancelOff','menuButtons',{16},{1e6})
 	AnimationDB:addAni('creditsOn','menuButtons',{17},{1e6},
-		vectorAnimations.pulseAniUpdate )
+		vectorAnimations.defaultAniUpdate )
 	AnimationDB:addAni('creditsOff','menuButtons',{18},{1e6})
 	AnimationDB:addAni('worldItemOn','menuButtons',{23},{1e6},
 		vectorAnimations.pulseAniUpdate )

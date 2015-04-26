@@ -48,7 +48,11 @@ function Slider:draw()
 	self.vis[#self.vis]:draw( Camera.scale*self.x, Camera.scale*self.y )
 	
 	if self.text then
-		love.graphics.setColor(247,237,222)
+		if self.selected then
+			love.graphics.setColor(colors.text)
+		else
+			love.graphics.setColor(colors.text2)
+		end
 		love.graphics.print( self.text,
 		Camera.scale*(self.x + 8), (self.y - 2) *Camera.scale )
 		love.graphics.setColor(255,255,255)

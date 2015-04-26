@@ -71,7 +71,7 @@ function upgrade.draw()
 	love.graphics.printf(thisExplanation, x, y, box.pixelWidth-2*boundary, 'center' )
 	
 	if love.timer.getTime() > startTime + minTime then -- press key to continue
-		love.graphics.setColor(colors.darkText)
+		love.graphics.setColor(colors.text2)
 		y = 0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - fontSmall:getHeight()
 		love.graphics.printf('Press any key to continue', x, y, box.pixelWidth-2*boundary, 'center' )
 	end

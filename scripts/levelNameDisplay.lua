@@ -36,8 +36,10 @@ end
 
 function LevelNameDisplay:draw()
 	self.box:draw()
+	love.graphics.setColor(colors.text)
 	love.graphics.setFont( fontLarge )
 	love.graphics.printf( self.name, self.textX, self.textY, self.textWidth, "center" )
+	love.graphics.setColor(colors.white)
 end
 
 function LevelNameDisplay:update( dt )

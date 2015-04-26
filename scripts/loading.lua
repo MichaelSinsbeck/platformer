@@ -105,14 +105,14 @@ end
 
 function loading.draw()
 	--os.execute("sleep .5")
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(colors.white)
 	local str = "Loading: " .. loading.msg
 	--print(str)
 	local w = love.graphics.getWidth()
 	local h = love.graphics.getHeight()
 
 	if not loading.done then
-		love.graphics.setColor(150,150,150)
+		love.graphics.setColor(colors.grayText)
 		love.graphics.setFont(fontSmall)
 		love.graphics.print(str, Camera.scale*5, love.graphics.getHeight()-Camera.scale*8)
 	end
@@ -120,13 +120,11 @@ function loading.draw()
 	local width, lines = fontLarge:getWrap(proverb, 0.6*w)
 	local textH = fontLarge:getHeight() * lines
 	
-	love.graphics.setColor(44,90,160)
+	love.graphics.setColor(colors.blueText)
 	love.graphics.setFont(fontLarge)
 	love.graphics.printf(proverb, 0.2*w, 0.5*h-0.5*textH, 0.6*w, 'center')
 	
-	
-	
-	love.graphics.setColor(150,150,150)
+	love.graphics.setColor(colors.grayText)
 	love.graphics.setFont(fontSmall)
 	love.graphics.printf(source, 0.5*w-0.5*width,0.5*h + textH * 1, width,'right')
 
