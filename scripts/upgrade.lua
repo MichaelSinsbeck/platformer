@@ -34,7 +34,7 @@ local visNames = {
 	yellow = 'upgradeYellow',
 	green = 'upgradeGreen',
 	blue = 'upgradeBlue',
-	red = 'Red Bandana',
+	red = 'upgradeRed',
 }
 
 function upgrade:newBandana(color)

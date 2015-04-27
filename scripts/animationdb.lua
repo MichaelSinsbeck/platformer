@@ -665,11 +665,11 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('guiBandanaRed','guiBandanas',{5},{1e6})
 	
 	AnimationDB:addAni('upgradeRice','upgrades',{1},{1e6})
-	AnimationDB:addAni('upgradeWhite','upgrades',{1},{1e6})
-	AnimationDB:addAni('upgradeYellow','upgrades',{1},{1e6})
-	AnimationDB:addAni('upgradeGreen','upgrades',{1},{1e6})
-	AnimationDB:addAni('upgradeBlue','upgrades',{1},{1e6})
-	AnimationDB:addAni('upgradeRed','upgrades',{1},{1e6})
+	AnimationDB:addAni('upgradeWhite','upgrades',{2},{1e6})
+	AnimationDB:addAni('upgradeYellow','upgrades',{3},{1e6})
+	AnimationDB:addAni('upgradeGreen','upgrades',{4},{1e6})
+	AnimationDB:addAni('upgradeBlue','upgrades',{5},{1e6})
+	AnimationDB:addAni('upgradeRed','upgrades',{6},{1e6})
 	
 	-- editor stuff
 	AnimationDB:addAni('lineHook'  ,'lineHook',{1},{1e6})
