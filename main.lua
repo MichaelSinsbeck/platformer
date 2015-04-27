@@ -6,6 +6,7 @@ settings = require("scripts/settings")
 profiler = require("scripts/profiler")
 require 'scripts/camera'
 require 'scripts/font'
+colors = require("scripts/colors")
 
 threadInterface = require("scripts/threadInterface")
 
