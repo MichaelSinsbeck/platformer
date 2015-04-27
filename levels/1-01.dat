@@ -52,9 +52,9 @@ cccc-----------------------------c--cc
 cccc-----------------------------c--cc
 cccc--------------------------------cc
 cccccccccccccccc--------------------cc
-cccccccccccccccc------------------cccc
-cccccccccccccccc-------ccccccccccccccc
-cccccccccccccccc-------ccccccccccccccc
+cccccc--------cc------------------cccc
+cccccc-----------------ccccccccccccccc
+cccccc-----------------ccccccccccccccc
 cccccccccccccccccccccccccccccccccccccc
 endGround
 
@@ -67,12 +67,12 @@ Obj:Exit
 	y:4
 endObj
 Obj:Bandana
-	x:18
+	x:6
 	y:18
 	p:color=white
 endObj
 Obj:Npc
-	x:19
+	x:10
 	y:18
 	p:delay=0
 	p:displayTime=10
@@ -86,14 +86,14 @@ Obj:Player
 	p:bandana=blank
 endObj
 Obj:Text
-	x:19
+	x:10
 	y:14
 	p:hasPointer=true
 	p:offsetX=0
-	p:offsetY=3.5
+	p:offsetY=3
 	p:location=here
-	p:sensorH=2
-	p:sensorW=7
+	p:sensorH=3
+	p:sensorW=9
 	p:text=Take this bandana and start being awesome.
 endObj
 endObjects
