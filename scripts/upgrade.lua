@@ -1,14 +1,14 @@
 local upgrade = {color = 'none'}
 
-local width = 128
-local height = 80
+local width = 100
+local height = 100
 local minTime = .5 -- minimum time, the player has to wait, before continue is possible
 local box = BambooBox:new( "", width, height )
 local color
 local thisTitle
 local thisExplanation
 local startTime
-local vis
+local vis,bvis
 
 local title ={
 	none   = 'Nothing',
@@ -20,12 +20,12 @@ local title ={
 }
 
 local explanation = {
-	none   = '\n\n\n\n\n\n\n\nYou already have this bandana.\nEnjoy a bowl of rice instead',
-	white  = '\n\n\n\n\n\n\n\nBe a ninja, jump higher, run faster!',
-	yellow = '\n\n\n\n\n\n\n\nLearn the wall-jump.',
-	green = '\n\n\n\n\n\n\n\nUse it as a parachute.',
-	blue = '\n\n\n\n\n\n\n\nLearn the woosh.',
-	red = '\n\n\n\n\n\n\n\nUse it as grappling hook.',
+	none   = '\n\n\n\n\n\n\n\n\n\nYou already have this bandana.\nEnjoy a bowl of rice instead',
+	white  = '\n\n\n\n\n\n\n\n\n\nBe a ninja, jump higher, run faster!',
+	yellow = '\n\n\n\n\n\n\n\n\n\nLearn the wall-jump.',
+	green = '\n\n\n\n\n\n\n\n\n\nUse it as a parachute.',
+	blue = '\n\n\n\n\n\n\n\n\n\nLearn the woosh.',
+	red = '\n\n\n\n\n\n\n\n\n\nUse it as grappling hook.',
 }
 
 local visNames = {
@@ -37,20 +37,46 @@ local visNames = {
 	red = 'upgradeRed',
 }
 
+local buttonNames = {
+  yellow = 'JUMP',
+  green = 'JUMP',
+  blue = 'DASH',
+  red = 'ACTION', 
+}
+
+local function getButtonVis(color)
+	local device
+	local button = buttonNames[color]
+	if not button then return nil end
+	
+	if love.joystick.getJoystickCount() == 0 then
+		--return Visualizer:New( getAnimationForKey( keys[button] ) )
+		return Visualizer:New( getAnimationForKey( keys[button] ), nil, nameForKey(keys[button]) )		
+	else
+		return Visualizer:New(  getAnimationForPad( keys.PAD[button] ) )
+	end
+end
+
 function upgrade:newBandana(color)
 	mode = 'upgrade'
 	shaders:setDeathEffect( .8 )
 	color = Campaign:upgradeBandana(color)
 	thisTitle = title[color]
-	print(thisTitle)
+	--print(thisTitle)
 	thisExplanation = explanation[color]
-	print(visNames[color])
+	--print(visNames[color])
+	-- Image
 	vis = Visualizer:New(visNames[color])
 	vis:init()
+	-- Which button to press.
+	bvis = getButtonVis(color)
+	if bvis then bvis:init() end
+	
+	
 	startTime = love.timer.getTime()
 
 	gui.addBandana( color );
-end			
+end
 
 function upgrade.draw()
 	--game:draw()
@@ -78,8 +104,19 @@ function upgrade.draw()
 	
 	-- Draw image
 	x = 0.5 * love.graphics.getWidth()
-	y = 0.5*love.graphics.getHeight() - 0.05*box.pixelHeight
-	vis:draw(x,y)	
+	y = 0.5*love.graphics.getHeight() - 0.15*box.pixelHeight
+	vis:draw(x,y)
+	
+	-- Show new button
+	if bvis then
+		y = 0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - 3*fontSmall:getHeight()
+		bvis:draw(x,y)
+			
+		love.graphics.setColor(colors.text)
+		x = 0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary
+		y = 0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - 5*fontSmall:getHeight()
+		love.graphics.printf('Button:', x, y, box.pixelWidth-2*boundary, 'center' )
+	end		
 end
 
 function upgrade.keypressed()

@@ -60,13 +60,13 @@ function updateInputDisplays()
 		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.JUMP ) )
 		InputJump.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.JUMP) )
 		
-		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.ACTION ) )
+		InputAction.vis[1] = Visualizer:New(  getAnimationForKey( keys.ACTION ) )
 		InputAction.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.ACTION) )
 		
-		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.LEFT ) )
+		InputLeft.vis[1] = Visualizer:New(  getAnimationForKey( keys.LEFT ) )
 		InputLeft.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.LEFT) )
 		
-		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.RIGHT ) )
+		InputRight.vis[1] = Visualizer:New(  getAnimationForKey( keys.RIGHT ) )
 		InputRight.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.RIGHT) )
 	else
 

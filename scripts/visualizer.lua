@@ -12,10 +12,10 @@ function Visualizer:New(name,input,text)
   o.angle = o.angle or 0
   o.alpha = o.alpha or 255
   o.text = o.text or text
-  if o.text then
-	o.ox = 0.5*fontSmall:getWidth(o.text)/Camera.scale
-	o.oy = 0.5*fontSmall:getHeight()/Camera.scale
-  end
+  --[[if o.text then
+		o.ox = 0.5*fontSmall:getWidth(o.text)/Camera.scale
+		o.oy = 0.5*fontSmall:getHeight()/Camera.scale
+  end--]]
 	if o.active == nil then o.active = true end
 	setmetatable(o, self)
 	self.__index = self
@@ -95,7 +95,8 @@ function Visualizer:draw(x,y, useExternalColor)
 				self.sx,self.sy,
 				self.ox*Camera.scale,self.oy*Camera.scale)
 			love.graphics.setColor(r,g,b)
-		elseif self.text then
+		end
+		if self.text then
 			local width = self.width or Camera.scale*8*6 -- standard width is 6 tiles
 			local r,g,b,a= love.graphics.getColor()
 			
@@ -109,7 +110,8 @@ function Visualizer:draw(x,y, useExternalColor)
 			y = y + self.relY * Camera.scale*8-- - self.oy*Camera.scale
 			love.graphics.printf(self.text, x-0.5*width, y-0.5*height-correction,width,'center')
 			love.graphics.setColor(r,g,b,a)
-		else
+		end
+		if not (img and self.currentQuad) and not self.text then
 			print('Nothing to draw here')
 			if self.imgName then
 				print(selfimgName)
