@@ -62,17 +62,14 @@ function upgrade:newBandana(color)
 	shaders:setDeathEffect( .8 )
 	color = Campaign:upgradeBandana(color)
 	thisTitle = title[color]
-	--print(thisTitle)
 	thisExplanation = explanation[color]
-	--print(visNames[color])
 	-- Image
 	vis = Visualizer:New(visNames[color])
 	vis:init()
 	-- Which button to press.
 	bvis = getButtonVis(color)
 	if bvis then bvis:init() end
-	
-	
+
 	startTime = love.timer.getTime()
 
 	gui.addBandana( color );

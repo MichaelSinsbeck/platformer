@@ -87,10 +87,12 @@ function fader.switchToLevel(lvlNum)
 	
 	local bandanas = {"white","yellow","green","blue","red"}
 	local noShow = true
-	for i, col in ipairs( bandanas ) do
-		gui.addBandana( col, noShow )
-		if col == Campaign.bandana then
-			break
+	if Campaign.bandana ~= 'blank' then
+		for i, col in ipairs( bandanas ) do
+			gui.addBandana( col, noShow )
+			if col == Campaign.bandana then
+				break
+			end
 		end
 	end
 end

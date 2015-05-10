@@ -663,6 +663,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('guiBandanaGreen','guiBandanas',{3},{1e6})
 	AnimationDB:addAni('guiBandanaBlue','guiBandanas',{4},{1e6})
 	AnimationDB:addAni('guiBandanaRed','guiBandanas',{5},{1e6})
+	AnimationDB:addAni('guiBandanaNone','guiBandanas',{6},{1e6})	
 	
 	AnimationDB:addAni('upgradeRice','upgrades',{1},{1e6})
 	AnimationDB:addAni('upgradeWhite','upgrades',{2},{1e6})

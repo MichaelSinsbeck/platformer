@@ -42,6 +42,7 @@ function loading.update()
 		objectClasses = require 'scripts/objectclasses'
 
 		gui = require('scripts/gui')
+
 		fader = require('scripts/fader')
 
 		loading.msg = "Camera"
@@ -55,6 +56,7 @@ function loading.update()
 		keys.loadGamepad()
 		loading.msg = "Menu"
 	elseif loading.step == 4 then
+		gui.init()	
 		menu:init()	-- must be called after AnimationDB:loadAll()
 		--BambooBox:init()
 		upgrade = require("scripts/upgrade")		
