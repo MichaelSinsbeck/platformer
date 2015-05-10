@@ -1,95 +1,32 @@
-InputJump = object:New({
-	tag = 'InputJump',
-	layout = 'center',
-  marginx = 0.4,
-  marginy = 0.4,
+local Input = object:New({
+	tag = 'Input',
+  marginx = 0.8,
+  marginy = 0.8,
+  layout = 'center',
+  isInEditor = true,
   vis = {
 		Visualizer:New('keyboardSmall'),
-		--Visualizer:New('candle'),
-		},
+  },
+	properties = {
+		button = utility.newCycleProperty({'RIGHT', 'LEFT', 'JUMP', 'DASH', 'ACTION'}, {'right', 'left', 'jump', 'dash','rope'}),
+	},
 })
 
-function InputJump:setAcceleration(dt)
-end
-
-InputAction = object:New({
-	tag = 'InputAction',
-	layout = 'center',
-  marginx = 0.4,
-  marginy = 0.4,
-  vis = {
-		Visualizer:New('keyboardSmall'),
-		--Visualizer:New('candle'),
-		},
-})
-
-function InputAction:setAcceleration(dt)
-end
-
-InputLeft = object:New({
-	tag = 'InputLeft',
-	layout = 'center',
-  marginx = 0.4,
-  marginy = 0.4,
-  vis = {
-		Visualizer:New('keyboardSmall'),
-		--Visualizer:New('candle'),
-		},
-})
-
-function InputLeft:setAcceleration(dt)
-end
-
-
-InputRight = object:New({
-	tag = 'InputRight',
-	layout = 'center',
-  marginx = 0.4,
-  marginy = 0.4,
-  vis = {
-		Visualizer:New('keyboardSmall'),
-		--Visualizer:New('candle'),
-		},
-})
-
-function InputRight:setAcceleration(dt)
-end
-
-function updateInputDisplays()
+function Input:applyOptions()
+	local visName, text
 	if love.joystick.getJoystickCount() == 0 then
-		InputJump.vis[1] = Visualizer:New(  getAnimationForKey( keys.JUMP ) )
-		InputJump.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.JUMP) )
-		
-		InputAction.vis[1] = Visualizer:New(  getAnimationForKey( keys.ACTION ) )
-		InputAction.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.ACTION) )
-		
-		InputLeft.vis[1] = Visualizer:New(  getAnimationForKey( keys.LEFT ) )
-		InputLeft.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.LEFT) )
-		
-		InputRight.vis[1] = Visualizer:New(  getAnimationForKey( keys.RIGHT ) )
-		InputRight.vis[2] = Visualizer:New( nil, nil, nameForKey(keys.RIGHT) )
+		visName = getAnimationForKey(keys[self.button])
+		text = nameForKey(keys[self.button])
 	else
-
-		InputJump.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.JUMP ) )
-		InputJump.vis[2] = nil
-		
-		InputAction.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.ACTION ) )
-		InputAction.vis[2] = nil
-		
-		InputLeft.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.LEFT ) )
-		InputLeft.vis[2] = nil
-		
-		InputRight.vis[1] = Visualizer:New(  getAnimationForPad( keys.PAD.RIGHT ) )
-		InputRight.vis[2] = nil
+		visName = getAnimationForPad( keys.PAD[self.button])
+		text = nil
 	end
+	self.vis[1] = Visualizer:New(visName,nil,text)
+	self.vis[1]:init()
 end
---[[
-function Input:postStep(dt)
-	if self:touchPlayer() then
-		if self.on then
-			self:switch(false)
-			--print("TURNED OFF")
-			--myMap:setShadowActive( self.x, self.y, false )
-		end
-	end
-end]]--
+
+
+function Input:setAcceleration(dt)
+end
+ 
+return Input
