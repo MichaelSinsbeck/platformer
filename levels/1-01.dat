@@ -41,7 +41,7 @@ Ground:
 --------------------------------------
 --------------------------------------
 --------------------------------------
----ccc------------------------cccccccc
+--ccc-------------------------cccccccc
 cccccccccccc------------------cccccccc
 cc----------------------------------cc
 cc--------------------cccccccccccc--cc
@@ -81,7 +81,7 @@ Obj:Npc
 	p:text=
 endObj
 Obj:Player
-	x:4
+	x:3
 	y:4
 	p:bandana=blank
 endObj
@@ -95,6 +95,21 @@ Obj:Text
 	p:sensorH=3
 	p:sensorW=9
 	p:text=Take this bandana and start being awesome.
+endObj
+Obj:Input
+	x:4
+	y:2
+	p:button=RIGHT
+endObj
+Obj:Input
+	x:2
+	y:2
+	p:button=LEFT
+endObj
+Obj:Input
+	x:3
+	y:1
+	p:button=JUMP
 endObj
 endObjects
 
