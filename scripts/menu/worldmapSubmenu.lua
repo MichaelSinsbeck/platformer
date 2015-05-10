@@ -35,6 +35,7 @@ function WorldmapSubmenu:new( x, y )
 
 	local currentLevel = config.getValue("level") or Campaign[1]
 	local lastLevel = config.getValue("lastLevel") or Campaign[1]
+	  -- hier
 
 --[[	for k, v in ipairs(Campaign) do
 
@@ -99,6 +100,7 @@ function WorldmapSubmenu:new( x, y )
 		-- Find the ID of the level which is the last "open" level:
 		if v == lastLevel then
 			lastLevelNum = k
+			Campaign.last = k
 		end
 		-- Find the ID of the level which is the last played level:
 		if v == currentLevel then
