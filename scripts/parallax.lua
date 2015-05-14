@@ -87,7 +87,10 @@ end
 
 
 local function index2z(i)
-	return math.exp((i-1)/5)
+	--return math.exp((i-1)/5)
+	--return 2^(i)
+	local distances = {2,3,8}
+	return distances[i]
 end
 
 function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
@@ -98,7 +101,7 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	self:clear()
 	local w,h = love.window.getDimensions()
 	
-	location = location or 'town'
+	location = location or 'silhouette1'
 	color = color or blue
 	baseLevel = yLevel or 18
 	nLayers = frontlayers or 2
@@ -120,9 +123,11 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 		self.showGround = true
 	end
 	
-	local img = AnimationDB.image.silhouettes
+	local img = AnimationDB.image.silhouette2
+	local imgback = AnimationDB.image.silhouetteback
 	
 	-- generate layers
+	local zRef = index2z(1)
 	for i = 1,nLayers do
 		self.layers[i]={}
 		
@@ -133,13 +138,14 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 		local objects = {}
 		while x < w do
 			x = x + love.math.random()*60*Camera.scale/self.layers[i].z
-			local nQuads = #AnimationDB.silhouette[location]
+			local nQuads = #AnimationDB.silhouette
 			local number = love.math.random(nQuads)
-			local quad = AnimationDB.silhouette[location][number]
+			local quad = AnimationDB.silhouette[number]
 			local _, _, wq, hq = quad:getViewport( )--- hier
 			local ox = wq/2
 			local oy = hq
-			local s = 1/self.layers[i].z-- either -1 or 1
+			local s = zRef/self.layers[i].z
+			--local s = 1/self.layers[i].z-- either -1 or 1
 			local y = 0
 			if location == 'sky' then
 				y = (love.math.random()-0.5)*60*Camera.scale*s
@@ -159,33 +165,37 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	end
 	-- generate mountain layer
 	if location ~= 'sky' then
-		local zRef = 2*index2z(nLayers+1)
+		--local zRef = 2*index2z(nLayers+1)
+		local zRef = index2z(nLayers+1)
 		for i=nLayers+1,nLayers+nMountainLayers do
 			self.layers[i] = {}
 			self.layers[i].x = 0
-			self.layers[i]. z = 2*index2z(i+offset)
-			self.layers[i].batch = love.graphics.newSpriteBatch(img)
+			--self.layers[i].z = 2*index2z(i+offset)
+			self.layers[i].z = index2z(i+offset)
+			self.layers[i].batch = love.graphics.newSpriteBatch(imgback)
 			local x = 0
 			local objects = {}
 			while x < w do
-				local nQuads = #AnimationDB.silhouette.mountain
+				local nQuads = #AnimationDB.silhouette
 				local number = love.math.random(nQuads)
-				local quad = AnimationDB.silhouette.mountain[number]
+				local quad = AnimationDB.silhouette[number]
 				local _, _, wq, hq = quad:getViewport( )--- hier
 				local ox = wq/2
 				local oy = hq
+				local flip = 1
+				if love.math.random() < 0.5 then flip = -1 end
 			
 				local s = zRef/self.layers[i].z
-				self.layers[i].batch:add(quad,x-w,0,0,s,s,ox,oy)
-				self.layers[i].batch:add(quad,x,0,0,s,s,ox,oy)
+				self.layers[i].batch:add(quad,x-w,0,0,flip*s,s,ox,oy)
+				self.layers[i].batch:add(quad,x,0,0,flip*s,s,ox,oy)
 				if x-ox < 0 then
-					self.layers[i].batch:add(quad,x+w,0,0,s,s,ox,oy)
+					self.layers[i].batch:add(quad,x+w,0,0,flip*s,s,ox,oy)
 				end
 				if x+ox > w then
-					self.layers[i].batch:add(quad,x-2*w,0,0,s,s,ox,oy)
+					self.layers[i].batch:add(quad,x-2*w,0,0,flip*s,s,ox,oy)
 				end	
-				x = math.floor(x + ox)
-				x = x + love.math.random()*100
+				x = math.floor(x + 1.25*ox*s)
+				--x = x + love.math.random()*100
 			end	
 		
 		end

@@ -1864,7 +1864,9 @@ function EditorMap:loadFromFile( fullName, isIcon )
 	end
 	
 	if not isIcon then
-		parallax:init(location,bgColor,yLevel,frontlayers,backlayers,1)
+		--parallax:init(location,bgColor,yLevel,frontlayers,backlayers,1)
+		-- (last parameter is "offset")
+		parallax:init(location,bgColor,yLevel,frontlayers,backlayers,0)
 	end
 
 	-- After adding all those tiles, the editor will think the map has been changed.

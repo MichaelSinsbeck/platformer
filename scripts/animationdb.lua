@@ -172,13 +172,13 @@ function AnimationDB:loadBackgrounds()
 	 
 end
 
-function AnimationDB:addSilhouette(name,x,y,width,height,sw,sh)
+function AnimationDB:addSilhouette(x,y,width,height,sw,sh)
 
 	local tileSize = Camera.scale*8 -- (Different from the other code, there it is *10)
 	local quad = love.graphics.newQuad(tileSize*x,tileSize*y+1,tileSize*width,tileSize*height-1,sw,sh)
 	
-	if not self.silhouette[name] then self.silhouette[name] = {} end
-	table.insert(self.silhouette[name],quad)
+	if not self.silhouette then self.silhouette = {} end
+	table.insert(self.silhouette,quad)
 end
 
 function AnimationDB:loadAll()
@@ -934,16 +934,22 @@ end
 function AnimationDB:addAllSilhouettes()
 	--local img,sw,sh = self:loadImage('silhouettes.png','silhouettes','silhouettes')
 	--local img,sw,sh = self:loadImage('mountain.png','silhouettes','silhouettes')
-	local img,sw,sh = self:loadImage('village.png','silhouettes','silhouettes')
+	local img,sw,sh = self:loadImage('village.png','silhouette1','silhouettes')
 	
-	self:addSilhouette('mountain',0,0,8,4,sw,sh)
-	self:addSilhouette('mountain',8,0,8,4,sw,sh)
-	self:addSilhouette('mountain',0,4,8,4,sw,sh)
-	self:addSilhouette('mountain',8,4,8,4,sw,sh)
-	self:addSilhouette('mountain',0,8,8,4,sw,sh)
-	self:addSilhouette('mountain',8,8,8,4,sw,sh)
-	self:addSilhouette('mountain',0,12,8,4,sw,sh)
-	self:addSilhouette('mountain',8,12,8,4,sw,sh)
+	self:loadImage('forest.png','silhouette2','silhouettes')
+	self:loadImage('mountain.png','silhouette3','silhouettes')
+	self:loadImage('mountain.png','silhouette4','silhouettes')
+	self:loadImage('mountain.png','silhouette5','silhouettes')
+	self:loadImage('mountain.png','silhouetteback','silhouettes')
+	
+	self:addSilhouette(0,0,8,4,sw,sh)
+	self:addSilhouette(8,0,8,4,sw,sh)
+	self:addSilhouette(0,4,8,4,sw,sh)
+	self:addSilhouette(8,4,8,4,sw,sh)
+	self:addSilhouette(0,8,8,4,sw,sh)
+	self:addSilhouette(8,8,8,4,sw,sh)
+	self:addSilhouette(0,12,8,4,sw,sh)
+	self:addSilhouette(8,12,8,4,sw,sh)
 	
 	--[[self:addSilhouette('town',0,6,8,1,sw,sh)
 	self:addSilhouette('town',0,7,5,5,sw,sh)
