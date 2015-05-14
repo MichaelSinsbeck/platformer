@@ -8,7 +8,7 @@ local color
 local thisTitle
 local thisExplanation
 local startTime
-local vis,bvis
+local vis, bvis, banner
 
 local title ={
 	none   = 'Nothing',
@@ -57,15 +57,20 @@ local function getButtonVis(color)
 	end
 end
 
-function upgrade:newBandana(color)
+function upgrade:newBandana(newColor)
 	mode = 'upgrade'
 	shaders:setDeathEffect( .8 )
-	color = Campaign:upgradeBandana(color)
+	color = Campaign:upgradeBandana(newColor)
 	thisTitle = title[color]
 	thisExplanation = explanation[color]
 	-- Image
 	vis = Visualizer:New(visNames[color])
 	vis:init()
+	
+	-- Banner
+	banner = Visualizer:New('banner')
+	banner:init()
+	
 	-- Which button to press.
 	bvis = getButtonVis(color)
 	if bvis then bvis:init() end
@@ -77,23 +82,41 @@ end
 
 function upgrade.draw()
 	--game:draw()
+	
+	-- box
 	local x = 0.5*love.graphics.getWidth()/Camera.scale - 0.5*box.width
 	local y = 0.5*love.graphics.getHeight()/Camera.scale - 0.5*box.height
 	box:draw(x,y)
-	local boundary = Camera.scale * 10
-	x = 0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary
+
+	local boundary = Camera.scale * 10	
 	y = 0.5*love.graphics.getHeight() - 0.5*box.pixelHeight + boundary
 	
-	love.graphics.setColor(colors.text) -- title
+	-- banner
+	local bannerColor = utility.bandana2color[color]
+	if bannerColor then
+		x = 0.5*love.graphics.getWidth()	
+		love.graphics.setColor(bannerColor)
+		banner:draw(x,y+6*Camera.scale,true)
+	end
+
+	x = 0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary
+	-- title
+	if color == 'blue' or color == 'green' or color == 'red' then
+		love.graphics.setColor(colors.text3)
+	else
+		love.graphics.setColor(colors.text)
+	end
 	love.graphics.setFont(fontLarge)
 	love.graphics.printf(thisTitle, x, y, box.pixelWidth-2*boundary, 'center' )
 	
-	y = y + fontLarge:getHeight() -- explanation
+	 -- explanation
+	y = y + fontLarge:getHeight()
 	love.graphics.setColor(colors.text)
 	love.graphics.setFont(fontSmall)
 	love.graphics.printf(thisExplanation, x, y, box.pixelWidth-2*boundary, 'center' )
 	
-	if love.timer.getTime() > startTime + minTime then -- press key to continue
+	 -- press key to continue
+	if love.timer.getTime() > startTime + minTime then
 		love.graphics.setColor(colors.text2)
 		y = 0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - fontSmall:getHeight()
 		love.graphics.printf('Press any key to continue', x, y, box.pixelWidth-2*boundary, 'center' )

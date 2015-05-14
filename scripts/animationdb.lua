@@ -303,6 +303,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('bean.png','bean',tileSize,tileSize,'gui')
 	AnimationDB:loadTiledImage('guiBandanas.png','guiBandanas',tileSize*2,tileSize*2,'gui')
 	AnimationDB:loadTiledImage('upgrades.png','upgrades',tileSize*4,tileSize*6,'gui')
+	AnimationDB:loadTiledImage('banner.png','banner',tileSize*2,tileSize*9,'gui')
 	
 	-- ingame stuff
 	AnimationDB:loadTiledImage('player.png','player',tileSize,tileSize)
@@ -664,6 +665,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('guiBandanaBlue','guiBandanas',{4},{1e6})
 	AnimationDB:addAni('guiBandanaRed','guiBandanas',{5},{1e6})
 	AnimationDB:addAni('guiBandanaNone','guiBandanas',{6},{1e6})	
+	AnimationDB:addAni('banner','banner',{1},{1e6})
 	
 	AnimationDB:addAni('upgradeRice','upgrades',{1},{1e6})
 	AnimationDB:addAni('upgradeWhite','upgrades',{2},{1e6})
@@ -930,9 +932,20 @@ function AnimationDB:loadAnimations()
 end
 
 function AnimationDB:addAllSilhouettes()
-	local img,sw,sh = self:loadImage('silhouettes.png','silhouettes','silhouettes')
+	--local img,sw,sh = self:loadImage('silhouettes.png','silhouettes','silhouettes')
+	--local img,sw,sh = self:loadImage('mountain.png','silhouettes','silhouettes')
+	local img,sw,sh = self:loadImage('village.png','silhouettes','silhouettes')
 	
-	self:addSilhouette('town',0,6,8,1,sw,sh)
+	self:addSilhouette('mountain',0,0,8,4,sw,sh)
+	self:addSilhouette('mountain',8,0,8,4,sw,sh)
+	self:addSilhouette('mountain',0,4,8,4,sw,sh)
+	self:addSilhouette('mountain',8,4,8,4,sw,sh)
+	self:addSilhouette('mountain',0,8,8,4,sw,sh)
+	self:addSilhouette('mountain',8,8,8,4,sw,sh)
+	self:addSilhouette('mountain',0,12,8,4,sw,sh)
+	self:addSilhouette('mountain',8,12,8,4,sw,sh)
+	
+	--[[self:addSilhouette('town',0,6,8,1,sw,sh)
 	self:addSilhouette('town',0,7,5,5,sw,sh)
 	self:addSilhouette('town',0,14,1,2,sw,sh)
 	self:addSilhouette('town',0,16,1,1,sw,sh)
@@ -953,7 +966,7 @@ function AnimationDB:addAllSilhouettes()
 	self:addSilhouette('mountain',14,3,8,4,sw,sh)
 	
 	self:addSilhouette('sky',0,12,3,1,sw,sh)
-	self:addSilhouette('sky',5,12,3,1,sw,sh)
+	self:addSilhouette('sky',5,12,3,1,sw,sh)--]]
 end
 
 
