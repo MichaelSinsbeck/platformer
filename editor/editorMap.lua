@@ -1863,10 +1863,22 @@ function EditorMap:loadFromFile( fullName, isIcon )
 		print( fullName .. " not found." )
 	end
 	
+	-- generate parallax background
 	if not isIcon then
-		--parallax:init(location,bgColor,yLevel,frontlayers,backlayers,1)
-		-- (last parameter is "offset")
-		parallax:init(location,bgColor,yLevel,frontlayers,backlayers,0)
+		local parallaxReady = false
+		local seed
+		if not editor.active then
+			seed = Campaign.current
+		end
+		for i, obj in ipairs(map.objectList) do
+			if obj.tag == "ParallaxConfig" then
+				parallaxReady = true
+				parallax:init(obj.location,obj.color,obj.y-0.5,obj.frontlayers,obj.backlayers,0,seed)
+			end
+		end
+		if not parallaxReady then -- default parallax
+		  parallax:init(nil,nil,nil,nil,nil,0,seed)
+		end
 	end
 
 	-- After adding all those tiles, the editor will think the map has been changed.
@@ -2248,7 +2260,7 @@ function EditorMap:start()
 			newObj:update(0)	
 			spriteEngine:insert(newObj)
 		end
-		if obj.tag == "ParallaxConfig" then
+		--[[if obj.tag == "ParallaxConfig" then
 			parallaxReady = true
 			local newObj = obj:New()
 			
@@ -2257,7 +2269,11 @@ function EditorMap:start()
 			bgColor = newObj.color
 			frontlayers = newObj.frontlayers
 			backlayers = newObj.backlayers
-		end
+			if editor.active then
+				love.math.setRandomSeed(1)
+			end 
+			--parallax:init(location,bgColor,yLevel,frontlayers,backlayers,0)
+		end--]]
 	end	
 	
 	for i, obj in ipairs(self.objectList) do

@@ -10,7 +10,7 @@ local ParallaxConfig = object:New({
 	properties = {
 		frontlayers = utility.newProperty({1,2,3,4,5,6,7,8}),
 		backlayers = utility.newProperty({1,2,3,4,5}),
-		location = utility.newCycleProperty({'town','forest','clouds'}),
+		location = utility.newCycleProperty({1,2,3,4,5}),
 		color = utility.newCycleProperty({'blue','red','yellow','green','gray'})
 	}, 
 })

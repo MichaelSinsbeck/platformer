@@ -94,6 +94,8 @@ local function index2z(i)
 end
 
 function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
+	print('Parallax init')
+	print('-------------')
 	if seed then
 		love.math.setRandomSeed(seed)
 	end
@@ -101,7 +103,8 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	self:clear()
 	local w,h = love.window.getDimensions()
 	
-	location = location or 'silhouette1'
+	location = location or 1
+	location = 'silhouette' .. location
 	color = color or blue
 	baseLevel = yLevel or 18
 	nLayers = frontlayers or 2
@@ -117,13 +120,13 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	self.mesh = love.graphics.newMesh(vertices)
 	
 	-- turn ground on or off
-	if location == 'sky' then
+	if location == 'silhouette5' then
 		self.showGround = false
 	else
 		self.showGround = true
 	end
 	
-	local img = AnimationDB.image.silhouette2
+	local img = AnimationDB.image[location]
 	local imgback = AnimationDB.image.silhouetteback
 	
 	-- generate layers
@@ -145,26 +148,28 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 			local ox = wq/2
 			local oy = hq
 			local s = zRef/self.layers[i].z
+			local flip = 1
+			if love.math.random() < 0.5 then flip = -1 end
 			--local s = 1/self.layers[i].z-- either -1 or 1
 			local y = 0
-			if location == 'sky' then
+			if location == 'silhouette5' then
 				y = (love.math.random()-0.5)*60*Camera.scale*s
 			end
 			
 			
-			self.layers[i].batch:add(quad,x-w,y,0,s,s,ox,oy)
-			self.layers[i].batch:add(quad,x,y,0,s,s,ox,oy)
+			self.layers[i].batch:add(quad,x-w,y,0,flip*s,s,ox,oy)
+			self.layers[i].batch:add(quad,x,y,0,flip*s,s,ox,oy)
 			if x-ox < 0 then
-				self.layers[i].batch:add(quad,x+w,y,0,s,s,ox,oy)
+				self.layers[i].batch:add(quad,x+w,y,0,flip*s,s,ox,oy)
 			end
 			if x+ox > w then
-				self.layers[i].batch:add(quad,x-2*w,y,0,s,s,ox,oy)
+				self.layers[i].batch:add(quad,x-2*w,y,0,flip*s,s,ox,oy)
 			end
 			x = math.floor(x + ox/self.layers[i].z)
 		end
 	end
 	-- generate mountain layer
-	if location ~= 'sky' then
+	if location ~= 'silhouette5' then
 		--local zRef = 2*index2z(nLayers+1)
 		local zRef = index2z(nLayers+1)
 		for i=nLayers+1,nLayers+nMountainLayers do

@@ -939,7 +939,7 @@ function AnimationDB:addAllSilhouettes()
 	self:loadImage('forest.png','silhouette2','silhouettes')
 	self:loadImage('mountain.png','silhouette3','silhouettes')
 	self:loadImage('mountain.png','silhouette4','silhouettes')
-	self:loadImage('mountain.png','silhouette5','silhouettes')
+	self:loadImage('sky.png','silhouette5','silhouettes')
 	self:loadImage('mountain.png','silhouetteback','silhouettes')
 	
 	self:addSilhouette(0,0,8,4,sw,sh)
