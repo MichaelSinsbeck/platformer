@@ -4,7 +4,8 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 55,22
+MapFileVersion:1
+Dimensions: 55,24
 
 Author: micha
 Description:
@@ -12,6 +13,8 @@ Description:
 endDescription
 
 Background:
+------------------------------------------------------
+------------------------------------------------------
 ------------------------------------------------------
 ------------------------------------------------------
 ------------------------------------------------------
@@ -57,6 +60,8 @@ ccccccccc---ccccccccccccccccccccc---------------------
 --------cccccccccccccccccb--------c-------------------
 ------------------------ccccccc---c-------------------
 ------------------------------ccccc-------------------
+------------------------------------------------------
+------------------------------------------------------
 endGround
 
 BgObjects:
@@ -120,7 +125,9 @@ endObj
 Obj:Walker
 	x:10
 	y:10
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Button
 	x:1
@@ -137,10 +144,7 @@ endObj
 Obj:Player
 	x:6
 	y:14
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Appearblock
 	x:12
@@ -311,16 +315,20 @@ endObj
 Obj:Fixedcannon
 	x:1
 	y:11
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:0
 	y:2
+	p:velocity=15
 	p:angle=0
-	p:phase=0.4
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0.4
 endObj
 Obj:Appearblock
 	x:11
@@ -337,9 +345,11 @@ endObj
 Obj:Fixedcannon
 	x:9
 	y:8
+	p:velocity=15
 	p:angle=2
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Appearblock
 	x:18
@@ -358,6 +368,12 @@ Obj:Appearblock
 	y:14
 	p:state=passable
 	p:color=green
+endObj
+Obj:ParallaxConfig
+	x:27
+	y:22
+	p:location=2
+	p:color=blue
 endObj
 endObjects
 

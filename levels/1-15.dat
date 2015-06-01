@@ -145,5 +145,11 @@ Obj:LineHook
 	x:0
 	y:11
 endObj
+Obj:ParallaxConfig
+	x:16
+	y:23
+	p:location=1
+	p:color=blue
+endObj
 endObjects
 

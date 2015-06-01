@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 33,24
 
 Author: micha
@@ -85,10 +86,7 @@ endObj
 Obj:Player
 	x:5
 	y:20
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Exit
 	x:7
@@ -258,6 +256,12 @@ Obj:Crumbleblock
 	x:29
 	y:1
 	p:lifetime=0.5
+endObj
+Obj:ParallaxConfig
+	x:17
+	y:22
+	p:location=2
+	p:color=blue
 endObj
 endObjects
 

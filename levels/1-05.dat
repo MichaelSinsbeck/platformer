@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 33,21
 
 Author: micha
@@ -64,57 +65,79 @@ Objects:
 Obj:Walker
 	x:5
 	y:12
+	p:type=enemy
 	p:direction=1
+	p:strength=23
 endObj
 Obj:Walker
 	x:6
 	y:17
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:17
 	y:6
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:12
 	y:6
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:13
 	y:6
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:14
 	y:6
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:15
 	y:6
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:16
 	y:6
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:17
 	y:18
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:20
 	y:12
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:21
 	y:12
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Exit
 	x:29
@@ -123,10 +146,13 @@ endObj
 Obj:Player
 	x:1
 	y:16
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	p:bandana=white
+endObj
+Obj:ParallaxConfig
+	x:15
+	y:19
+	p:location=1
+	p:color=blue
 endObj
 endObjects
 

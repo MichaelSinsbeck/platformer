@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 41,21
 
 Author: micha
@@ -64,73 +65,88 @@ Objects:
 Obj:Player
 	x:2
 	y:11
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	p:bandana=white
 endObj
 Obj:Fixedcannon
 	x:12
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:13
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:14
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:15
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:16
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:24
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:25
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:26
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:27
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Exit
 	x:37
@@ -139,23 +155,35 @@ endObj
 Obj:Fixedcannon
 	x:28
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:29
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:17
 	y:12
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
+endObj
+Obj:ParallaxConfig
+	x:19
+	y:19
+	p:location=1
+	p:color=blue
 endObj
 endObjects
 

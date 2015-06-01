@@ -4,7 +4,8 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 61,21
+MapFileVersion:1
+Dimensions: 61,24
 
 Author: micha
 Description:
@@ -12,6 +13,9 @@ Description:
 endDescription
 
 Background:
+------------------------------------------------------------
+------------------------------------------------------------
+------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
@@ -55,6 +59,9 @@ ddddddddddddddddddddd--------------d2222222dd2222222ddcccccc
 -----------------------dddddddddddddddddddddddddddddddcccccc
 -----------------------dddddddddddddddddddddddddddddddcccccc
 ddddddddddddddddddddddddddddddddddddddddddddddddddddddcccccc
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 endGround
 
 BgObjects:
@@ -98,10 +105,7 @@ endObj
 Obj:Player
 	x:2
 	y:18
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Appearblock
 	x:29
@@ -222,6 +226,12 @@ Obj:Appearblock
 	y:8
 	p:state=passable
 	p:color=green
+endObj
+Obj:ParallaxConfig
+	x:26
+	y:22
+	p:location=2
+	p:color=blue
 endObj
 endObjects
 

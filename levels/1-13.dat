@@ -152,5 +152,11 @@ Obj:Follower
 	y:18
 	p:maxSpeed=15
 endObj
+Obj:ParallaxConfig
+	x:14
+	y:32
+	p:location=1
+	p:color=blue
+endObj
 endObjects
 

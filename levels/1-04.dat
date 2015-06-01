@@ -4,7 +4,8 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
-Dimensions: 57,21
+MapFileVersion:1
+Dimensions: 57,24
 
 Author: micha
 Description:
@@ -32,9 +33,13 @@ Background:
 --------------------------------------------------------
 --------------------------------------------------------
 --------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
 endBackground
 
 Ground:
+--------------------------------------------------------
 --------------------------------------------------------
 --------------------------------------------------------
 --------------------------------------------------------
@@ -45,16 +50,18 @@ Ground:
 ---------------------------------c----------------------
 ---------------------------------c----------------------
 ccccccccccccc-------------cccccc-c----------------------
-ccccccccccccc-------------cccccc------------------------
-ccccccccccccc1111111111111cccccc------------------------
-cccccccccccccccccccccccccccccccc------------------------
-cccccccccccccccccccccccccccccccc------------------------
-ccccccccccccccccccccccccccccccccb-----------c-----------
-cccccccccccccccccccccccccccccccc------------c-----------
-cccccccccccccccccccccccccccccccc------------cc----------
-ccccccccccccccccccccccccccccccc-------------cc----------
-ccccccccccccccccccccccccccccccc--------------ccccccccccc
-cccccccccccccccccccccccccccccc---------------ccccccccccc
+ccccccccccccc-------------ccccc-------------------------
+ccccccccccccc1111111111111ccccc-------------------------
+cccccccccccccccccccccccccccccc--------------------------
+cccccccccccccccccccccccccccccc--------------------------
+cccccccccccccccccccccccccccccc--------------------------
+cccccccccccccccccccccccccccccc--------------------------
+ccccccccccccccccccccccccccccc---c-----------c-----------
+ccccccccccccccccccccccccccccc---------------c-----------
+cccccccccccccccccccccccccccc----------------cc----------
+ccccccccccccccccccccccccccc-----------------cc----------
+cccccccccccccccccccccccccc-------------------ccccccccccc
+ccccccccccccccccccccccccc--------------------ccccccccccc
 endGround
 
 BgObjects:
@@ -63,15 +70,18 @@ endBgObjects
 Objects:
 Obj:Player
 	x:2
-	y:8
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	y:9
+	p:bandana=white
 endObj
 Obj:Exit
 	x:54
-	y:17
+	y:20
+endObj
+Obj:ParallaxConfig
+	x:36
+	y:22
+	p:location=1
+	p:color=blue
 endObj
 endObjects
 

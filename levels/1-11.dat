@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 33,21
 
 Author: micha
@@ -64,24 +65,25 @@ Objects:
 Obj:Player
 	x:30
 	y:5
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	p:bandana=white
 endObj
 Obj:Fixedcannon
 	x:29
 	y:13
+	p:velocity=15
 	p:angle=2
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.6
+	p:phase=0
 endObj
 Obj:Fixedcannon
 	x:29
 	y:14
+	p:velocity=15
 	p:angle=2
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.6
+	p:phase=0
 endObj
 Obj:Exit
 	x:29
@@ -90,9 +92,11 @@ endObj
 Obj:Fixedcannon
 	x:0
 	y:11
+	p:velocity=15
 	p:angle=0
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.4
+	p:phase=0
 endObj
 Obj:LineHook
 	x:30
@@ -105,16 +109,26 @@ endObj
 Obj:Fixedcannon
 	x:15
 	y:8
+	p:velocity=15
 	p:angle=-1
-	p:phase=0.2
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0.2
 endObj
 Obj:Fixedcannon
 	x:16
 	y:8
+	p:velocity=15
 	p:angle=-1
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
+endObj
+Obj:ParallaxConfig
+	x:16
+	y:19
+	p:location=1
+	p:color=blue
 endObj
 endObjects
 

@@ -111,5 +111,11 @@ Obj:Input
 	y:1
 	p:button=JUMP
 endObj
+Obj:ParallaxConfig
+	x:19
+	y:19
+	p:location=1
+	p:color=blue
+endObj
 endObjects
 

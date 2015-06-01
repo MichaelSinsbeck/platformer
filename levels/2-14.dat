@@ -70,10 +70,7 @@ endObj
 Obj:Player
 	x:1
 	y:10
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Exit
 	x:30
@@ -208,6 +205,12 @@ Obj:Crumbleblock
 	x:18
 	y:13
 	p:lifetime=0.5
+endObj
+Obj:ParallaxConfig
+	x:13
+	y:19
+	p:location=2
+	p:color=blue
 endObj
 endObjects
 

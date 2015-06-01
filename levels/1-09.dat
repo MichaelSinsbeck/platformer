@@ -4,6 +4,7 @@ File created with Bandana level editor.
 To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
+MapFileVersion:1
 Dimensions: 34,21
 
 Author: micha
@@ -64,10 +65,7 @@ Objects:
 Obj:Player
 	x:3
 	y:14
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	p:bandana=white
 endObj
 Obj:Exit
 	x:29
@@ -108,22 +106,36 @@ endObj
 Obj:Walker
 	x:21
 	y:14
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
 endObj
 Obj:Walker
 	x:11
 	y:14
+	p:type=enemy
 	p:direction=1
+	p:strength=23
 endObj
 Obj:Walker
 	x:14
 	y:7
+	p:type=enemy
 	p:direction=1
+	p:strength=23
 endObj
 Obj:Walker
 	x:18
 	y:7
+	p:type=enemy
 	p:direction=-1
+	p:strength=23
+endObj
+Obj:ParallaxConfig
+	x:15
+	y:17
+	p:location=1
+	p:color=blue
 endObj
 endObjects
 

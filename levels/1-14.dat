@@ -65,10 +65,7 @@ Objects:
 Obj:Player
 	x:1
 	y:5
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=false
+	p:bandana=white
 endObj
 Obj:Exit
 	x:16
@@ -78,6 +75,12 @@ Obj:Follower
 	x:4
 	y:10
 	p:maxSpeed=15
+endObj
+Obj:ParallaxConfig
+	x:16
+	y:19
+	p:location=1
+	p:color=blue
 endObj
 endObjects
 

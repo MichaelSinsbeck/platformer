@@ -90,10 +90,7 @@ endObj
 Obj:Player
 	x:23
 	y:10
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Exit
 	x:29
@@ -103,6 +100,12 @@ Obj:Follower
 	x:21
 	y:7
 	p:maxSpeed=15
+endObj
+Obj:ParallaxConfig
+	x:14
+	y:19
+	p:location=2
+	p:color=blue
 endObj
 endObjects
 

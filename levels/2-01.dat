@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 45,28
+Dimensions: 45,30
 
 Author: micha
 Description:
@@ -13,6 +13,8 @@ Description:
 endDescription
 
 Background:
+--------------------------------------------
+--------------------------------------------
 --------------------------------------------
 --------------------------------------------
 --------------------------------------------
@@ -69,7 +71,9 @@ Ground:
 --------------------cccccc------------------
 ---------sss--------cccccc-----------------c
 ssssssssssssssssssssccccccsssccccccccccddddc
-sssssssssssssssssssddddddddsddddddddddddsssc
+sssssssssssssssssssddddddddsdddddddddddddddd
+dddddddddddddddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddddddddddddddd
 endGround
 
 BgObjects:
@@ -83,15 +87,12 @@ endObj
 Obj:Player
 	x:2
 	y:24
-	p:canHook=false
-	p:canParachute=false
-	p:canTeleport=false
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Npc
 	x:7
 	y:24
-	p:phase=0
+	p:delay=0
 	p:displayTime=10
 	p:regionSize=10
 	p:display=region
@@ -101,6 +102,12 @@ Obj:Bandana
 	x:10
 	y:23
 	p:color=yellow
+endObj
+Obj:ParallaxConfig
+	x:19
+	y:28
+	p:location=2
+	p:color=blue
 endObj
 endObjects
 

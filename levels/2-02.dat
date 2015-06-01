@@ -89,5 +89,11 @@ Obj:Player
 	y:26
 	p:bandana=yellow
 endObj
+Obj:ParallaxConfig
+	x:21
+	y:28
+	p:location=2
+	p:color=blue
+endObj
 endObjects
 

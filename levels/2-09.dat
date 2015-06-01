@@ -79,10 +79,7 @@ Objects:
 Obj:Player
 	x:2
 	y:19
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Goalie
 	x:33
@@ -112,6 +109,12 @@ Obj:Goalie
 	x:25
 	y:8
 	p:direction=1
+endObj
+Obj:ParallaxConfig
+	x:23
+	y:26
+	p:location=2
+	p:color=blue
 endObj
 endObjects
 

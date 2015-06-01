@@ -1873,7 +1873,7 @@ function EditorMap:loadFromFile( fullName, isIcon )
 		for i, obj in ipairs(map.objectList) do
 			if obj.tag == "ParallaxConfig" then
 				parallaxReady = true
-				parallax:init(obj.location,obj.color,obj.y-0.5,obj.frontlayers,obj.backlayers,0,seed)
+				parallax:init(obj.location,obj.color,obj.y-0.5,nil,nil,0,seed)
 			end
 		end
 		if not parallaxReady then -- default parallax
