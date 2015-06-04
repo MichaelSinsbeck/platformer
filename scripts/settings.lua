@@ -44,6 +44,7 @@ function settings:setWindowSize()
 			math.min(self.xScreen,scale*8*32),
 			math.min(self.yScreen,scale*8*20), {fullscreen = false} )
 	end
+	love.window.setTitle( 'Bandana' )
 		print("3")
 	Camera:setScale(scale)
 
