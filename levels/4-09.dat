@@ -287,14 +287,6 @@ Obj:Appearblock
 	p:state=solid
 	p:color=red
 endObj
-Obj:ParallaxConfig
-	x:15
-	y:1
-	p:location=town
-	p:color=blue
-	p:backlayers=1
-	p:frontlayers=1
-endObj
 Obj:Appearblock
 	x:23
 	y:1
