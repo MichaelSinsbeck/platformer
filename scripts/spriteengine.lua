@@ -57,6 +57,7 @@ end
 function spriteEngine:empty()
 	Sound:stopAllLongSounds()
   self.objects = {}
+  self.queue = {}
 end
 
 function spriteEngine:sort()

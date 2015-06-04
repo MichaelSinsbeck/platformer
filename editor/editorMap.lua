@@ -1888,7 +1888,6 @@ function EditorMap:loadFromFile( fullName, isIcon )
 end
 
 function EditorMap:generateParallax()
-	print('Möp')
 	print('generating parallax background')
 	local nLayers = 2
 	wLevel = self.width
