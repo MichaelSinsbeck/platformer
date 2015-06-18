@@ -13,7 +13,7 @@
    height="60"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="log.svg"
    inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/64appearblock.png"
    inkscape:export-xdpi="144"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.9999998"
-     inkscape:cx="43.763047"
-     inkscape:cy="30.967537"
+     inkscape:zoom="2.828427"
+     inkscape:cx="15.937777"
+     inkscape:cy="6.8098609"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -119,13 +119,13 @@
        id="g6325"
        transform="translate(40.262585,1.9457278)">
       <path
-         style="fill:#28170b;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#321d0e;stroke:#0f0803;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
          d="m -27.646187,1043.9186 c 1.20163,-3.0562 1.840588,-5.3617 3.037053,-8.4282 0.688912,-1.7656 15.0851172,-38.77382 15.7393928,-40.54783 0.9028813,-2.44809 -2.0396088,-3.53309 -3.5320238,-4.0163 -1.690218,-0.54724 -5.09258,-0.85812 -6.047171,1.7075 -0.377152,0.84641 -0.263061,0.88673 -0.960786,2.38358 -0.664655,1.42593 -14.06533,36.36655 -14.705594,37.79555 -0.895066,1.9977 -1.014099,2.8471 -1.820709,4.5731 -0.668555,1.4306 -1.273435,3.7308 -1.860372,5.1968"
          id="path5077-9"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cssscsssc" />
       <path
-         style="fill:#a05a2c;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#a05a2c;stroke:#0f0803;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          d="m -32.009621,1039.9981 c -0.979551,-0.1767 -2.437187,-0.6531 -4.038959,0.4006 -1.202391,0.7911 -2.634757,2.6247 -1.357302,3.893 1.109938,1.1021 2.78754,1.532 4.326691,1.6786 1.774703,0.1689 3.779447,0.012 5.05954,-1.4614 1.310311,-1.5083 -0.278069,-2.7447 -1.49562,-3.5811 -0.581016,-0.3991 -1.657091,-0.7784 -2.49435,-0.9297 z"
          id="path5079-1"
          inkscape:connector-curvature="0"

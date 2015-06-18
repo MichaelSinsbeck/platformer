@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8"
-     inkscape:cx="31.568354"
-     inkscape:cy="23.956954"
+     inkscape:cx="4.8472589"
+     inkscape:cy="23.943358"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -68,15 +68,18 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Ebene 1">
+    <g
+       id="g8391">
+      <path
+         inkscape:transform-center-x="2.6249998"
+         sodipodi:nodetypes="ccccscccccc"
+         inkscape:connector-curvature="0"
+         id="path4167"
+         d="m 7.865866,1037.6122 c 0,0 17.727917,1.5793 22.25,0.125 6.544449,-1.4371 9.076472,-5.4546 9.125,-10.375 0.03679,-4.1704 -1.210403,-7.8428 -4.18934,-9.7866 -1.508546,-0.9425 -4.24013,-1.4701 -5.93566,-1.7134 -4.498636,-0.6456 -21.625,0.5 -21.625,0.5 l -0.25,-1.625 -3.5000005,-0.375 0.5,25.625 3.5000005,0.125 z"
+         style="fill:#1a1a1a;fill-opacity:1;stroke:#0a0a0a;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
     <path
-       style="fill:#1a1a1a;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 7.865866,1037.6122 c 0,0 17.727917,1.5793 22.25,0.125 6.544449,-1.4371 9.076472,-5.4546 9.125,-10.375 0.03679,-4.1704 -1.210403,-7.8428 -4.18934,-9.7866 -1.508546,-0.9425 -4.24013,-1.4701 -5.93566,-1.7134 -4.498636,-0.6456 -21.625,0.5 -21.625,0.5 l -0.25,-1.625 -3.5000005,-0.375 0.5,25.625 3.5000005,0.125 z"
-       id="path4167"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccscccccc"
-       inkscape:transform-center-x="2.6249998" />
-    <path
-       style="fill:#28170b;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#28170b;stroke:#100a05;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m 24.162625,1024.0244 c -2.8607,1.2009 -3.649009,6.5218 0.217371,6.7593 3.782132,0.9165 5.256206,-4.2952 2.324565,-6.2556 -0.670115,-0.6104 -1.688477,-0.9203 -2.541936,-0.5037 z"
        id="path3089"
        inkscape:connector-curvature="0" />
