@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 61,24
+Dimensions: 61,22
 
 Author: micha
 Description:
@@ -34,31 +34,27 @@ Background:
 ------------------------------------------------------------
 ------------------------------------------------------------
 ------------------------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
 endBackground
 
 Ground:
-dddddddddddddddddddddddddddddddddddd------------------------
-dddddddddddddddddddddddddddddddddddddd--------------cccccccc
 ddddddddddddddddddddddddddddddddddddddddddddddddddddd-------
 ddddddddddddddddddddddddddddddddddddddddddddddddddd---------
 dddddddddddddddddddddddddddddddddddddddddddddddd------------
 ddddddddddddddddddddddddddddddddddddddddddd-----------------
-dddddddddddddddddddddddddddddd------------------------cccccc
-dddddddddddddddddddddddddddddd--------------s-------ddcccccc
-ddddddddddddddddddddddddddddddddd--d-------ss-------ddcccccc
-ddddddddddddddddddddd--------dddd--d-------ds-------ddcccccc
-ddddddddddddddddddddd--------------d2222222dd2222222ddcccccc
-----ddddddddddddddddd--dddd--------dddddddddddddddddddcccccc
-------ddddddddddddddd--------------dddddddddddddddddddcccccc
--------------------dd--------------dddddddddddddddddddcccccc
--------------------dd--dddddddddddddddddddddddddddddddcccccc
--------------------dd--dddddddddddddddddddddddddddddddcccccc
----------ddd-------dd--dddddddddddddddddddddddddddddddcccccc
------------------------dddddddddddddddddddddddddddddddcccccc
------------------------dddddddddddddddddddddddddddddddcccccc
-ddddddddddddddddddddddddddddddddddddddddddddddddddddddcccccc
+dddddddddddddddddddddddddddddd------------------------------
+dddddddddddddddddddddddddddddd--------------s-------dddddddd
+ddddddddddddddddddddddddddddddddd--d-------ss-------dddddddd
+ddddddddddddddddddddd--------dddd--d-------ds-------dddddddd
+ddddddddddddddddddddd--------------d2222222dd2222222dddddddd
+----ddddddddddddddddd--dddd--------ddddddddddddddddddddddddd
+------ddddddddddddddd--------------ddddddddddddddddddddddddd
+-------------------dd--------------ddddddddddddddddddddddddd
+-------------------dd--ddddddddddddddddddddddddddddddddddddd
+-------------------dd--ddddddddddddddddddddddddddddddddddddd
+---------ddd-------dd--ddddddddddddddddddddddddddddddddddddd
+-----------------------ddddddddddddddddddddddddddddddddddddd
+-----------------------ddddddddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
@@ -70,42 +66,54 @@ endBgObjects
 Objects:
 Obj:Button
 	x:10
-	y:15
+	y:13
 	p:lifetime=1
 	p:color=red
 endObj
 Obj:Appearblock
 	x:19
-	y:17
+	y:15
 	p:state=solid
 	p:color=red
 endObj
 Obj:Appearblock
 	x:19
-	y:18
+	y:16
 	p:state=solid
 	p:color=red
 endObj
 Obj:Button
 	x:24
-	y:13
+	y:11
 	p:lifetime=3
 	p:color=blue
 endObj
 Obj:Button
 	x:31
-	y:7
+	y:5
 	p:lifetime=2
 	p:color=green
 endObj
 Obj:Exit
-	x:57
-	y:5
+	x:55
+	y:4
 endObj
 Obj:Player
 	x:2
-	y:18
+	y:16
 	p:bandana=white
+endObj
+Obj:Appearblock
+	x:29
+	y:8
+	p:state=solid
+	p:color=blue
+endObj
+Obj:Appearblock
+	x:29
+	y:9
+	p:state=solid
+	p:color=blue
 endObj
 Obj:Appearblock
 	x:29
@@ -120,116 +128,104 @@ Obj:Appearblock
 	p:color=blue
 endObj
 Obj:Appearblock
-	x:29
-	y:12
-	p:state=solid
-	p:color=blue
-endObj
-Obj:Appearblock
-	x:29
-	y:13
-	p:state=solid
-	p:color=blue
-endObj
-Obj:Appearblock
 	x:37
-	y:8
+	y:6
 	p:state=passable
 	p:color=green
 endObj
 Obj:Appearblock
 	x:38
-	y:8
+	y:6
 	p:state=passable
 	p:color=green
 endObj
 Obj:Appearblock
 	x:39
-	y:8
+	y:6
 	p:state=passable
 	p:color=green
 endObj
 Obj:Appearblock
 	x:40
-	y:8
+	y:6
 	p:state=passable
 	p:color=green
 endObj
 Obj:Appearblock
 	x:41
-	y:8
+	y:6
 	p:state=passable
 	p:color=green
 endObj
 Obj:Appearblock
 	x:42
-	y:8
+	y:6
 	p:state=passable
 	p:color=green
 endObj
 Obj:Appearblock
 	x:45
-	y:7
+	y:5
 	p:state=solid
 	p:color=green
 endObj
 Obj:Appearblock
 	x:46
-	y:7
+	y:5
 	p:state=solid
 	p:color=green
 endObj
 Obj:Appearblock
 	x:47
-	y:7
+	y:5
 	p:state=solid
 	p:color=green
 endObj
 Obj:Appearblock
 	x:26
-	y:12
+	y:10
 	p:state=passable
 	p:color=blue
 endObj
 Obj:Appearblock
 	x:26
-	y:13
+	y:11
 	p:state=passable
 	p:color=blue
 endObj
 Obj:Appearblock
 	x:48
-	y:7
+	y:5
 	p:state=solid
 	p:color=green
 endObj
 Obj:Appearblock
 	x:49
-	y:7
+	y:5
 	p:state=solid
 	p:color=green
 endObj
 Obj:Appearblock
 	x:50
-	y:7
+	y:5
 	p:state=solid
 	p:color=green
 endObj
 Obj:Appearblock
 	x:51
-	y:7
+	y:5
 	p:state=solid
 	p:color=green
 endObj
 Obj:Appearblock
 	x:36
-	y:8
+	y:6
 	p:state=passable
 	p:color=green
 endObj
 Obj:ParallaxConfig
 	x:26
-	y:22
+	y:20
 	p:location=2
 	p:color=blue
 endObj

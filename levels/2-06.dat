@@ -87,13 +87,13 @@ Ground:
 ----------c-----------c---------
 ----------c-----------c---------
 ----------cccccc-111--c---------
-----------c-----------c---cccccc
-----------------------c--------c
--------------------------------c
--------------------------------c
-ssssssssssssssssssssssssssssssss
-ssssssssssssssssssssssssssssssss
-ssssssssssssssssssssssssssssssss
+----------c-----------c---gggggg
+----------c-----------c---------
+--------------------------------
+--------------------------------
+gggggggggggggggggggggggggggggggg
+gggggggggggggggggggggggggggggggg
+gggggggggggggggggggggggggggggggg
 endGround
 
 BgObjects:

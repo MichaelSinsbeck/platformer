@@ -36,26 +36,26 @@ Background:
 endBackground
 
 Ground:
-cccccccccccccccccccccccccccccccc
-c------cccc-------------cccc-c-c
-c------cccc-------------cccc---c
-cbb----cccc-------------cccc---c
-c------cccc-----cccc----cccc-b-c
-c------cccc-----cccc----cccc---c
-c------cccc-----cccc----cccc---c
-c------cccc-----cccc----cccc---c
-c-------ccc-----cccc----cccc---c
-c------cccc-----cccc----cccc---c
-c------cccc-----cccc----cccc---c
-c------cccc-----cccc----cccc---c
---------cc-------ccc----cccc---c
-c---------------cccc----cccc---c
-c---------------cccc-----------c
-c---------------cccc-----------c
-c----------------ccc-----------c
-c---------------cccc-----------c
-c----------------ccc-----------c
-c---------------cccc-----------c
+oooooooooooooooooooooooooooooooo
+o------oooo-------------oooo-o-o
+o------oooo-------------oooo---o
+obb----oooo-------------oooo---o
+o------oooo-----oooo----oooo-b-o
+o------oooo-----oooo----oooo---o
+o------oooo-----oooo----oooo---o
+o------oooo-----oooo----oooo---o
+o-------ooo-----oooo----oooo---o
+o------oooo-----oooo----oooo---o
+o------oooo-----oooo----oooo---o
+o------oooo-----oooo----oooo---o
+--------oo-------ooo----oooo---o
+o---------------oooo----oooo---o
+o---------------oooo-----------o
+o---------------oooo-----------o
+o----------------ooo-----------o
+o---------------oooo-----------o
+o----------------ooo-----------o
+o---------------oooo-----------o
 endGround
 
 BgObjects:
@@ -73,10 +73,7 @@ endObj
 Obj:Player
 	x:2
 	y:2
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Exit
 	x:29
@@ -156,6 +153,12 @@ Obj:Fixedcannon
 	p:ammo=Shuriken
 	p:firerate=1.2
 	p:phase=0
+endObj
+Obj:ParallaxConfig
+	x:15
+	y:19
+	p:location=5
+	p:color=blue
 endObj
 endObjects
 

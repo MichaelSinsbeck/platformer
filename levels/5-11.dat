@@ -42,32 +42,32 @@ Background:
 endBackground
 
 Ground:
-ccccccccccccccccccccccccccccccccc
-c--------cccccccccc--cccccccccccc
-c--------cccccccccc--cccccccccccc
-c----cc--cccccccccc--cccccccccccc
-c--cccc---------------------ccccc
-c--cc-----------------------ccccc
-c--ccccccccccccccccccccccc-----cc
-c--cccccccccc-cccccccccccc-----cc
-c--cccccccccc------------ccccb-cc
-c--cccccccccc------------cccc--cc
-c--cccccccccc-cccccccc--ccccc-bcc
-c--cccccccccc-cccccccc--ccccc--cc
-c--cccccccccc-cccccccc--cccccb-cc
-c--cccccccccc-cccccccc--ccccc--cc
-c--cccccccccc-cccccccc--ccccc-bcc
-c--cccccccccc-cccccc----ccccc--cc
-c--cccccccccc-cccccc----cccccb-cc
-c--cccccc-----ccccccc--cccccc--cc
-c--cccccc-----ccccccc--cccccc-bcc
-c--cccccccccccccccccc--cccccc--cc
-c--cccccccccccccccccc--ccccccb-cc
-c--cccccccccccccccccc--cccccc--cc
-c------------cccccccc----------cc
-c------------cccccccc----------cc
-c--ccccccccccccccccccc-cccccc--cc
-ccccccccccccccccccccccccccccccccc
+ooooooooooooooooooooooooooooooooo
+o--------oooooooooo--oooooooooooo
+o--------oooooooooo--oooooooooooo
+o----oo--oooooooooo--oooooooooooo
+o--oooo---------------------ooooo
+o--oo-----------------------ooooo
+o--ooooooooooooooooooooooo-----oo
+o--oooooooooo-oooooooooooo-----oo
+o--oooooooooo------------oooob-oo
+o--oooooooooo------------oooo--oo
+o--oooooooooo-oooooooo--ooooo-boo
+o--oooooooooo-oooooooo--ooooo--oo
+o--oooooooooo-oooooooo--ooooob-oo
+o--oooooooooo-oooooooo--ooooo--oo
+o--oooooooooo-oooooooo--ooooo-boo
+o--oooooooooo-oooooo----ooooo--oo
+o--oooooooooo-oooooo----ooooob-oo
+o--oooooo-----ooooooo--oooooo--oo
+o--oooooo-----ooooooo--oooooo-boo
+o--oooooooooooooooooo--oooooo--oo
+o--oooooooooooooooooo--oooooob-oo
+o--oooooooooooooooooo--oooooo--oo
+o------------oooooooo----------oo
+o------------oooooooo----------oo
+o--ooooooooooooooooooo-oooooo--oo
+ooooooooooooooooooooooooooooooooo
 endGround
 
 BgObjects:
@@ -93,10 +93,7 @@ endObj
 Obj:Player
 	x:11
 	y:23
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=red
 endObj
 Obj:Laser
 	x:4
@@ -141,6 +138,12 @@ Obj:Laser
 	p:angle=1
 	p:phase=0.5
 	p:timeOff=0
+endObj
+Obj:ParallaxConfig
+	x:13
+	y:18
+	p:location=5
+	p:color=blue
 endObj
 endObjects
 

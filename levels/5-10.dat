@@ -29,19 +29,19 @@ Background:
 endBackground
 
 Ground:
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-c---------------------------cccc---------------ccccc----------
-c---------------------------cccc---------------ccccc----------
-c---------------------------cccc---------------ccccc----------
-c---------------------------cccc----cccc------------------cccc
-cccccccc-ccccccccc-ccc------cccc-----ccc----------------------
-ccccccccccccccccccccccc-----cccc----cccc----------------------
-ccccccccccccccccccccccc-----cccc----cccc----------------------
-ccccccccccccccccccccccc-----cccc----cccc----------------------
-cccccccccccccccccccccc------cccc-----ccc----------------------
-ccccccccccccccccccccccc-------------cccc----------------------
-ccccccccccccccccccccccc-------------cccc----------------------
-cccccccccccccccccccccccccccccccccccccccc----------------------
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+o---------------------------oooo---------------ooooo----------
+o---------------------------oooo---------------ooooo----------
+o---------------------------oooo---------------ooooo----------
+o---------------------------oooo----oooo------------------oooo
+oooooooo-ooooooooo-ooo------oooo-----ooo----------------------
+ooooooooooooooooooooooo-----oooo----oooo----------------------
+ooooooooooooooooooooooo-----oooo----oooo----------------------
+ooooooooooooooooooooooo-----oooo----oooo----------------------
+oooooooooooooooooooooo------oooo-----ooo----------------------
+ooooooooooooooooooooooo-------------oooo----------------------
+ooooooooooooooooooooooo-------------oooo----------------------
+oooooooooooooooooooooooooooooooooooooooo----------------------
 endGround
 
 BgObjects:
@@ -67,10 +67,7 @@ endObj
 Obj:Player
 	x:3
 	y:4
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=red
 endObj
 Obj:Laser
 	x:22
@@ -135,6 +132,12 @@ endObj
 Obj:Exit
 	x:59
 	y:3
+endObj
+Obj:ParallaxConfig
+	x:23
+	y:6
+	p:location=5
+	p:color=blue
 endObj
 endObjects
 
