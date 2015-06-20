@@ -1724,7 +1724,7 @@ function EditorMap:loadFromFile( fullName, isIcon )
 
 		map.collisionSrc = {}
 
-		local order = {'b','c','d','g','s','w','o','1','2'}
+		local order = {'b','c','d','g','s','w','o','1','2','3'}
 		
 		for tileCounter, currentTile in ipairs(order) do
 			y = 0
@@ -1736,7 +1736,7 @@ function EditorMap:loadFromFile( fullName, isIcon )
 						if groundsList[matchName] then
 							if matchName == "b" then	-- bridge
 								map.collisionSrc[x][y] = 2
-							elseif matchName == "1" or matchName == "2" then	-- spikes
+							elseif matchName == "1" or matchName == "2" or matchName == "3" then	-- spikes
 								map.collisionSrc[x][y] = 3
 								map:addObject( x, y, "Spikey" ) -- +1 because collision map starts at 0
 							else

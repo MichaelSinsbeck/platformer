@@ -345,7 +345,7 @@ function editor.start()
 				
 	-- Panel for choosing the ground type:
 	local w = 32
-	local h = 8*10 + 2*16
+	local h = 8*10 + 3*16
 	--groundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
 	groundPanel = Panel:new( love.graphics.getWidth()/Camera.scale - w, 17, w, h )
 	x,y = 16, 16
@@ -359,7 +359,7 @@ function editor.start()
 				'LEGround1Hover',
 				"draw concrete ground", nil, "1" )
 	groundButtons[1] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[2]:setActive(true)
@@ -369,7 +369,7 @@ function editor.start()
 				'LEGround2Hover',
 				"draw dirt ground", nil, "2" )
 	groundButtons[2] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[3]:setActive(true)
@@ -379,7 +379,7 @@ function editor.start()
 				'LEGround3Hover',
 				"draw grass ground", nil,"3" )
 	groundButtons[3] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[4]:setActive(true)
@@ -389,7 +389,7 @@ function editor.start()
 				'LEGround4Hover',
 				"draw stone ground", nil, "4" )
 	groundButtons[4] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[5]:setActive(true)
@@ -399,7 +399,7 @@ function editor.start()
 				'LEGround5Hover',
 				"draw wood ground", nil, "5" )
 	groundButtons[5] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[6]:setActive(true)
@@ -409,7 +409,7 @@ function editor.start()
 				'LEGround6Hover',
 				"draw bridges", nil, "6" )
 	groundButtons[6] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[7]:setActive(true)
@@ -419,7 +419,7 @@ function editor.start()
 				'LESpikes1Hover',
 				"draw grey spikes", nil, "7" )
 	groundButtons[7] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[8]:setActive(true)
@@ -429,7 +429,7 @@ function editor.start()
 				'LESpikes2Hover',
 				"draw brown spikes", nil, "8" )
 	groundButtons[8] = b
-  y = y + 10
+  y = y + 11
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[9]:setActive(true)
@@ -439,6 +439,16 @@ function editor.start()
 				'LECloudHover',
 				"draw clouds", nil, "9" )
 	groundButtons[9] = b	
+  y = y + 11
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[10]:setActive(true)
+										editor.currentGround = editor.groundList[10] end,
+				'LESpikes3Off',
+				'LESpikes3On',
+				'LESpikes3OHover',
+				"draw cloud spikes", nil, "0" )
+	groundButtons[10] = b	
 
 	-- Panel for choosing the background type:
 	--backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )

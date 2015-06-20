@@ -7,9 +7,11 @@
 -- c: concrete
 -- d: dirt
 -- w: wood
--- s: stonr
+-- s: stone
+-- 0: cloud
 -- 1: spikes grey
 -- 2: spikes brown
+-- 3: spikes cloud
 --
 -- A dot represents any tile and a space an empty tile.
 --

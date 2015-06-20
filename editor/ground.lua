@@ -10,6 +10,7 @@
 -- s: stone
 -- 1: spikes grey
 -- 2: spikes brown
+-- 3: spikes clouds
 -- o: cloud
 --
 -- A dot represents any tile and a space an empty tile.
@@ -626,6 +627,7 @@ function Ground:init()
 	table.insert( list, new )
 
 	local new = Ground:new("cloud", 'o' )
+	new:addSimilar( '3' )	-- similar to cloud
 	new:setSingleTile( {11, 0} )
 	new:setThickTiles( {8,1}, {9,1}, {10,1},
 						{8,2}, {9,2}, {10,2},
@@ -635,6 +637,16 @@ function Ground:init()
 
 	new:addVariation( "single", {11,4})
 
+	table.insert( list, new )
+	
+	new = Ground:new("spikesCloud", '3')
+	new:addSimilar( 'o' )	-- similar to cloud
+	new:setSingleTile( {11,12} )
+	new:setThickTiles( {8,13}, {9,13}, {10,13},
+						{8,14}, {9,14}, {10,14},
+						{8,15}, {9,15}, {10,15})
+	new:setHorizontalLine( {8,12}, {9,12}, {10,12} )
+	new:setVerticalLine( {11,13}, {11,14}, {11,15} )
 	table.insert( list, new )
 
 	return list
