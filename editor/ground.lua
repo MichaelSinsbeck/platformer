@@ -6,7 +6,7 @@
 -- g: grass
 -- c: concrete
 -- d: dirt
--- w: wood
+-- w: pyramid
 -- s: stone
 -- 1: spikes grey
 -- 2: spikes brown
@@ -52,7 +52,7 @@ Ground.__index = Ground
 local DONT_CARE = "."	-- match any character
 
 -- Each ground object will hold one type of ground
--- (Wood, Stone, Concrete, Grass etc)
+-- (pyramid, Stone, Concrete, Grass etc)
 function Ground:new( name, matchName )
 	local o = {}
 	setmetatable( o, Ground )
@@ -520,13 +520,14 @@ function Ground:init()
 			{2,6}, "sg" )
 	table.insert( list, new )
 	
-	new = Ground:new("wood", 'w')
+	new = Ground:new("pyramid", 'w')
 	new:setSingleTile( {7, 8} )
 	new:setThickTiles( {4,9}, {5,9}, {6,9},
 						{4,10}, {5,10}, {6,10},
 						{4,11}, {5,11}, {6,11})
 	new:setHorizontalLine( {4,8}, {5,8}, {6,8} )
 	new:setVerticalLine( {7,9}, {7,10}, {7,11} )
+	new:addVariation( "cm", {4,16})
 	table.insert( list, new )
 
 	new = Ground:new("bridge", 'b' )
