@@ -30,20 +30,20 @@ Background:
 endBackground
 
 Ground:
-cccccccccccccwwwwccccccccccccccwwwwccccccccccccccwwwwccccccccccccc
-c---cccccccccwwwwc------------cwwwwc------------cwwwwccccccccc---c
-c-ccc---cccccwwwwc------------cwwwwc------------cwwwwccccc---ccc-c
-c-cc-----ccccwwwwc------------cwwwwc------------cwwwwcccc-----cc-c
-c-c-------cccwwwwc------------cwwwwc------------cwwwwccc-------c-c
-c----------ccccccc----cccc----cccccc----cccc----ccccccc----------c
-c---------------------cccc--------------cccc---------------------c
-c---------------------cccc--------------cccc---------------------c
-cc---------cccccccc---cccc---cccccccc---cccc---cccccccc---------cc
-ccc-------cccwwwwc----cccc----cwwwwc----cccc----cwwwwccc-------ccc
-cccc-----ccccwwwwc------------cwwwwc------------cwwwwcccc-----cccc
-ccccc---cccccwwwwc------------cwwwwc------------cwwwwccccc---ccccc
-cccccccccccccwwwwc------------cwwwwc------------cwwwwccccccccccccc
-cccccccccccccwwwwccccccccccccccwwwwccccccccccccccwwwwccccccccccccc
+wwwwwwwwwwwwwccccwwwwwwwwwwwwwwccccwwwwwwwwwwwwwwccccwwwwwwwwwwwww
+w---wwwwwwwwwccccw------------wccccw------------wccccwwwwwwwww---w
+w-www---wwwwwccccw------------wccccw------------wccccwwwww---www-w
+w-ww-----wwwwccccw------------wccccw------------wccccwwww-----ww-w
+w-w-------wwwccccw------------wccccw------------wccccwww-------w-w
+w----------wwwwwww----wwww----wwwwww----wwww----wwwwwww----------w
+w---------------------wwww--------------wwww---------------------w
+w---------------------wwww--------------wwww---------------------w
+ww---------wwwwwwww---wwww---wwwwwwww---wwww---wwwwwwww---------ww
+www-------wwwccccw----wwww----wccccw----wwww----wccccwww-------www
+wwww-----wwwwccccw------------wccccw------------wccccwwww-----wwww
+wwwww---wwwwwccccw------------wccccw------------wccccwwwww---wwwww
+wwwwwwwwwwwwwccccw------------wccccw------------wccccwwwwwwwwwwwww
+wwwwwwwwwwwwwccccwwwwwwwwwwwwwwccccwwwwwwwwwwwwwwccccwwwwwwwwwwwww
 endGround
 
 BgObjects:
@@ -59,10 +59,7 @@ endObj
 Obj:Player
 	x:3
 	y:1
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Launcher
 	x:19

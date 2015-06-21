@@ -36,26 +36,26 @@ Background:
 endBackground
 
 Ground:
-cccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccc
-cc-------------11-------------cc
-cc-------------11-------------cc
-cc-------------11-------------cc
-cc-------------11-------------cc
-cc-------------11-------------cc
-cc---------cccccccccc---------cc
-cc---------cccccccccc---------cc
-cc---------cccccccccc---------cc
-cc---------cccccccccc---------cc
-cc---------cccccccccc---------cc
-cc---------cccccccccc---------cc
-cc---------cccccccccc---------cc
-cc------------cccc------------cc
-cc------------cccc------------cc
-ccccccccccc---cccc---ccccccccccc
-ccccccccccc---cccc---ccccccccccc
-ccccccccccc---cccc---ccccccccccc
-cccccccccccccccccccccccccccccccc
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+ww-------------11-------------ww
+ww-------------11-------------ww
+ww-------------11-------------ww
+ww-------------11-------------ww
+ww-------------11-------------ww
+ww---------wwwwwwwwww---------ww
+ww---------wwwwwwwwww---------ww
+ww---------wwwwwwwwww---------ww
+ww---------wwwwwwwwww---------ww
+ww---------wwwwwwwwww---------ww
+ww---------wwwwwwwwww---------ww
+ww---------wwwwwwwwww---------ww
+ww------------wwww------------ww
+ww------------wwww------------ww
+wwwwwwwwwww---wwww---wwwwwwwwwww
+wwwwwwwwwww---wwww---wwwwwwwwwww
+wwwwwwwwwww---wwww---wwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 endGround
 
 BgObjects:
@@ -89,10 +89,14 @@ endObj
 Obj:Launcher
 	x:9
 	y:8
+	p:velocity=15
+	p:distance=3
 endObj
 Obj:Launcher
 	x:22
 	y:8
+	p:velocity=15
+	p:distance=3
 endObj
 Obj:Exit
 	x:12
@@ -101,10 +105,7 @@ endObj
 Obj:Player
 	x:12
 	y:15
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 endObjects
 

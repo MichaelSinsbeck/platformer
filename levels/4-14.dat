@@ -49,31 +49,31 @@ Ground:
 --------------------------------
 --------------------------------
 --------------------------------
---------------------------c-----
---------------------------c-----
+--------------------------w-----
+--------------------------w-----
 --------------------------------
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc----------------cccccccc
-cccccccc------cccc------cccccccc
-cccccccc----------------cccccccc
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww----------------wwwwwwww
+wwwwwwww------wwww------wwwwwwww
+wwwwwwww----------------wwwwwwww
 endGround
 
 BgObjects:
@@ -1315,10 +1315,7 @@ endObj
 Obj:Player
 	x:30
 	y:6
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Cannon
 	x:15

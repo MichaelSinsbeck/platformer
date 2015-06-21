@@ -36,26 +36,26 @@ Background:
 endBackground
 
 Ground:
-cccccccccccccccccccccccccccccccccccccccccc
-cccccccccccccccccccccccccccccccccccccccccc
-c-------cccccccccccccccccccccccccccccccccc
-c-------cccccccccccccccccccccccccccccccccc
-c-------cccccccccccccccccccccccccccccccccc
-c-------cccccccccccccccccccccccccccccccccc
-c---cccccccccccccccccccccccccccccccccccccc
-c----------------------------------------c
-cccccccccccccccccccccccccccccccc----cccccc
-cccccccccccccccccccccccccccccccc--------cc
-cccccccccccccccccccccccccccccccc----cc--cc
-cccccccccccccccccccccccccccccccccccccc--cc
-cc--------cccc-----------cccccccc-------cc
-cc--------cccc-----------cccccccc-------cc
-cc--------cccc-----------cccccccc-------cc
-cccccc----cccc-----cc----cccccccc-------cc
-cccccc-------------cc-------------------cc
-cccccc--ccccccccccccc-------------------cc
-cccccc--cccccccccccccccccccccccccccccccccc
-cccccc--cccccccccccccccccccccccccccccccccc
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w---wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w----------------------------------------w
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww----wwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww--------ww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww----ww--ww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww--ww
+ww--------wwww-----------wwwwwwww-------ww
+ww--------wwww-----------wwwwwwww-------ww
+ww--------wwww-----------wwwwwwww-------ww
+wwwwww----wwww-----ww----wwwwwwww-------ww
+wwwwww-------------ww--------------------w
+wwwwww--wwwwwwwwwwwww--------------------w
+wwwwww--wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wwwwww--wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 endGround
 
 BgObjects:
@@ -65,10 +65,7 @@ Objects:
 Obj:Player
 	x:3
 	y:14
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Exit
 	x:5
@@ -89,18 +86,22 @@ Obj:Spawner
 	p:direction=left
 endObj
 Obj:Fixedcannon
-	x:37
+	x:40
 	y:17
+	p:velocity=15
 	p:angle=2
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Fixedcannon
-	x:37
+	x:40
 	y:16
+	p:velocity=15
 	p:angle=2
-	p:phase=0
+	p:ammo=Shuriken
 	p:firerate=1.2
+	p:phase=0
 endObj
 Obj:Walker
 	x:14

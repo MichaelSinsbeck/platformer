@@ -36,26 +36,26 @@ Background:
 endBackground
 
 Ground:
----ccccccccccccccccccccccccccccccc------
----ccccccccccccccccccccccccccccccc------
----cc------------c--------------ccccc---
----cc------------c--------------ccccc---
-ccccc------------c-----------------ccccc
-ccccc----11111---c------ccccc------c---c
-ccccc----11c-----c------cccc1------c---c
-ccccc------c-----c------cccc1------c---c
-ccccc------c-----c------cccc1------cbbbc
-cccccc11---c-----c------cccc1----------c
-cccccc11---c-----c11----cccc1----------c
-cc---cc----c---11111----cccc1-------bbbc
-cc---cc----c------------c1111----------c
-cc---cc----c---------------------------c
-cc---cccccccccccccccccccc11ccccccccccccc
-cc---cccccccccccccccccccc--ccccccccccccc
-cc---cccccccccccccccccccc--ccccccccccccc
-ccccccccccccccccccccccccc--ccccccccccccc
-ccccccccccccccccccccccccc--ccccccccccccc
-ccccccccccccccccccccccccc--ccccccccccccc
+---wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww------
+---wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww------
+---ww------------w--------------wwwww---
+---ww------------w--------------wwwww---
+wwwww------------w-----------------wwwww
+wwwww----11111---w------ccccc------w---w
+wwwww----11w-----w------cccc1------w---w
+wwwww------w-----w------cccc1------w---w
+wwwww------w-----w------cccc1------wbbbw
+wwwwww11---w-----w------cccc1----------w
+wwwwww11---w-----w11----cccc1----------w
+ww---ww----w---11111----cccc1-------bbbw
+ww---ww----w------------c1111----------w
+ww---ww----w---------------------------w
+ww---wwwwwwwwwwwwwwwwwwww11wwwwwwwwwwwww
+ww---wwwwwwwwwwwwwwwwwwww--wwwwwwwwwwwww
+ww---wwwwwwwwwwwwwwwwwwww--wwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwww--wwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwww--wwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwww--wwwwwwwwwwwww
 endGround
 
 BgObjects:
@@ -65,10 +65,7 @@ Objects:
 Obj:Player
 	x:8
 	y:13
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Exit
 	x:3
@@ -82,7 +79,7 @@ endObj
 Obj:Npc
 	x:33
 	y:13
-	p:phase=0
+	p:delay=0
 	p:displayTime=10
 	p:regionSize=10
 	p:display=region

@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 34,21
+Dimensions: 34,22
 
 Author: Micha
 Description:
@@ -33,29 +33,31 @@ Background:
 ---------------------------------
 ---------------------------------
 ---------------------------------
+---------------------------------
 endBackground
 
 Ground:
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-ccccccccccc-----------ccccccc---c
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-c---ccccccc-----------ccccccccccc
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-ccccccccccc-----------ccccccc---c
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-c-------------------------------c
-ccccccccccc-----------ccccccccccc
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+wwwwwwwwwww-----------wwwwwww---w
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+w---wwwwwww-----------wwwwwwwwwww
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+wwwwwwwwwww-----------wwwwwww---w
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+w-------------------------------w
+wwwwwwwwwww-----------wwwwwwwwwww
 endGround
 
 BgObjects:
@@ -64,20 +66,17 @@ endBgObjects
 Objects:
 Obj:Cannon
 	x:16
-	y:3
+	y:4
 	p:firerate=1
 endObj
 Obj:Player
 	x:2
-	y:18
-	p:canHook=false
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	y:19
+	p:bandana=blue
 endObj
 Obj:Exit
 	x:3
-	y:3
+	y:4
 endObj
 endObjects
 

@@ -43,33 +43,33 @@ Background:
 endBackground
 
 Ground:
-cccccccc1--------
-cccccccc1--------
-cccc11111--------
-cccc----1--------
-cccc----1--------
-cccc----11111cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc11111----cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc----11111cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc11111----cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc----1----cccc
-cccc----ccccccccc
-cccc----ccccccccc
-cccc----ccccccccc
-cccc----ccccccccc
-ccccccccccccccccc
-ccccccccccccccccc
+wwwwwwww1--------
+wwwwwwww1--------
+wwww11111--------
+wwww----1--------
+wwww----1--------
+wwww----11111wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww11111----wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww----11111wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww11111----wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww----1----wwww
+wwww----wwwwwwwww
+wwww----wwwwwwwww
+wwww----wwwwwwwww
+wwww----wwwwwwwww
+wwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwww
 endGround
 
 BgObjects:
@@ -79,10 +79,7 @@ Objects:
 Obj:Player
 	x:5
 	y:24
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Exit
 	x:15

@@ -39,29 +39,29 @@ Background:
 endBackground
 
 Ground:
-cccccccccccccccccccccccccccccccccccccccccccccc
-c-------------cccccccccccccccccccccccccccccccc
-c-------------cccccccccccccccccccccccccccccccc
-c-------------cccccccccccccccccccccccccccccccc
-c-------------cccccccccccccccccccccccccccccccc
-c-----cccccccccccccccccccccccccccccccccccccccc
-c--------------------------------------------c
-c--------------------------------------------c
-c--------------------------------------------c
-c--------------------------------------------c
-c--ccc---------------------------------------c
-c--ccc---------------------------------------c
-c--ccccccccccccccccccccccccccccccccccccccccccc
-c--------------------------------------------c
-c-------------------------------------------bc
-c--------------------------------------------c
-c--------------------------------------------c
-cccccccccccccccccccccccccccccccccccccccccc---c
-c--------------------------------------------c
-c--------------------------------------------c
-c--------------------------------------------c
-c---c----------------------------------------c
-cccccccccccccccccccccccccccccccccccccccccccccc
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-------------wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w-----wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w--------------------------------------------w
+w--------------------------------------------w
+w--------------------------------------------w
+w--------------------------------------------w
+w--www---------------------------------------w
+w--www---------------------------------------w
+w--wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w--------------------------------------------w
+w-------------------------------------------bw
+w--------------------------------------------w
+w--------------------------------------------w
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww---w
+w--------------------------------------------w
+w--------------------------------------------w
+w--------------------------------------------w
+w---w----------------------------------------w
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 endGround
 
 BgObjects:
@@ -76,10 +76,7 @@ endObj
 Obj:Player
 	x:2
 	y:21
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=blue
 endObj
 Obj:Exit
 	x:9

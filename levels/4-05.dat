@@ -36,26 +36,26 @@ Background:
 endBackground
 
 Ground:
-ccccccccccccc
-ccccccc---ccc
-cccccc-----cc
-cccccc-----cc
-cccccc-----cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-cccccc-ccc-cc
-c---cc-ccc-cc
-c---cc-ccc-cc
-cccccc-ccc-cc
+wwwwwwwwwwwww
+wwwwwww---www
+wwwwww-----ww
+wwwwww-----ww
+wwwwww-----ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+wwwwww-www-ww
+w---ww-www-ww
+w---ww-www-ww
+wwwwww-www-ww
 endGround
 
 BgObjects:
@@ -65,24 +65,25 @@ Objects:
 Obj:Player
 	x:3
 	y:18
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Fixedcannon
 	x:10
 	y:19
+	p:velocity=15
 	p:angle=-1
-	p:phase=0.4
+	p:ammo=Shuriken
 	p:firerate=1.6
+	p:phase=0.4
 endObj
 Obj:Fixedcannon
 	x:6
 	y:19
+	p:velocity=15
 	p:angle=-1
-	p:phase=0.9
+	p:ammo=Shuriken
 	p:firerate=1.6
+	p:phase=0.9
 endObj
 Obj:Crumbleblock
 	x:6
