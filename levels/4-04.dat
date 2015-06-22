@@ -117,5 +117,11 @@ Obj:Walker
 	p:direction=-1
 	p:strength=23
 endObj
+Obj:ParallaxConfig
+	x:21
+	y:19
+	p:location=4
+	p:color=blue
+endObj
 endObjects
 

@@ -89,5 +89,11 @@ Obj:Bonus
 	x:36
 	y:1
 endObj
+Obj:ParallaxConfig
+	x:22
+	y:18
+	p:location=4
+	p:color=blue
+endObj
 endObjects
 

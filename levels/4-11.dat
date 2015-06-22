@@ -78,5 +78,11 @@ Obj:Exit
 	x:3
 	y:4
 endObj
+Obj:ParallaxConfig
+	x:16
+	y:17
+	p:location=4
+	p:color=blue
+endObj
 endObjects
 

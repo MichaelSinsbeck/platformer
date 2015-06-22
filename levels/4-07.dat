@@ -83,5 +83,11 @@ Obj:Launcher
 	p:velocity=15
 	p:distance=3
 endObj
+Obj:ParallaxConfig
+	x:17
+	y:13
+	p:location=4
+	p:color=blue
+endObj
 endObjects
 

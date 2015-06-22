@@ -471,5 +471,11 @@ Obj:Crumbleblock
 	y:16
 	p:lifetime=0.5
 endObj
+Obj:ParallaxConfig
+	x:20
+	y:21
+	p:location=4
+	p:color=blue
+endObj
 endObjects
 

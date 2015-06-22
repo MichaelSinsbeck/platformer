@@ -125,5 +125,11 @@ Obj:Bouncer
 	p:strength=23
 	p:angle=-1
 endObj
+Obj:ParallaxConfig
+	x:17
+	y:31
+	p:location=4
+	p:color=blue
+endObj
 endObjects
 

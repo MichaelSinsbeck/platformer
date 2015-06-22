@@ -114,7 +114,13 @@ endObj
 Obj:Player
 	x:3
 	y:12
-	p:bandana=white
+	p:bandana=blue
+endObj
+Obj:ParallaxConfig
+	x:22
+	y:19
+	p:location=4
+	p:color=blue
 endObj
 endObjects
 

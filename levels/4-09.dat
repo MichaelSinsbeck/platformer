@@ -302,5 +302,11 @@ Obj:Appearblock
 	p:state=solid
 	p:color=blue
 endObj
+Obj:ParallaxConfig
+	x:15
+	y:14
+	p:location=4
+	p:color=blue
+endObj
 endObjects
 
