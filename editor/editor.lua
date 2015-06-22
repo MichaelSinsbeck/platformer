@@ -23,7 +23,7 @@ local cam = nil
 local objectPanel 
 local bgObjectPanel
 local toolPanel
-local menuPanel
+--local menuPanel
 local groundPanel
 local backgroundPanel
 --local editPanel
@@ -192,10 +192,62 @@ function editor.start()
 	toolButtons = {}
 
 	local toolPanelHeight = 10*10
-	toolPanel = Panel:new( 0, 16, 16, toolPanelHeight)
+	toolPanel = Panel:new( -9, 16, 40, toolPanelHeight)
 	
-	local x,y = 16,16
+	local x,y = 18,18
 	local b
+
+	toolPanel:addClickable( x, y,
+				editor.newMapAttempt,
+				'LENewOff',
+				'LENewOn',
+				'LENewHover',
+				"New map" , nil, KEY_NEW, true )
+	x = x + 14
+	
+	toolPanel:addClickable( x, y,
+				editor.testMapAttempt,
+				'LEPlayOff',
+				'LEPlayOn',
+				'LEPlayHover',
+				"Test the map",nil, KEY_TEST, true )
+				
+	y = y + 14
+	x = 18
+	toolPanel:addClickable( x, y,
+				editor.loadFileListAttempt,
+				'LEOpenOff',
+				'LEOpenOn',
+				'LEOpenHover',
+				"Load another map", nil, KEY_OPEN, true )
+	x = x + 14
+	toolPanel:addClickable( x, y,
+				editor.saveFileStart,
+				'LESaveOff',
+				'LESaveOn',
+				'LESaveHover',
+				"Save the map", nil, KEY_SAVE, true )
+	y = y + 14
+	x = 18
+	
+	toolPanel:addClickable( x, y,
+				editor.attemptUpload,
+				'LEUploadOff',
+				'LEUploadOn',
+				'LEUploadHover',
+				"Share level online" , nil, KEY_UPLOAD, true )
+	x = x + 14	
+				
+	toolPanel:addClickable( x, y,
+				editor.closeAttempt,
+				'LEMenuOff',
+				'LEMenuOn',
+				'LEMenuHover',
+				"Editor menu",nil,KEY_MENU,true )		
+				
+	-- tools start here
+	y = y + 20
+	x = 18						
 	b = toolPanel:addClickable( x, y, function() editor.setTool("pen") end,
 				'LEPenOff',
 				'LEPenOn',
@@ -204,16 +256,16 @@ function editor.start()
 	toolButtons["pen"] = b
 	--x = x + 5
 	--x = x + 10
-	y = y + 12
+	x = x + 14
 	b = toolPanel:addClickable( x, y, function() editor.setTool("bgPen") end,
 				'LEPenOff',
 				'LEPenOn',
 				'LEPenHover',
 				"Background tile tool: Draw tiles onto the background", nil,KEY_BGPEN,true )
 	toolButtons["bgPen"] = b
-	--x = x + 5
-	--x = x + 10
-	y = y + 12
+	
+	y = y + 14
+	x = 18	
 	b = toolPanel:addClickable( x, y, function()
 					if objectPanel.visible then
 						editor.closeObjectPanel()
@@ -226,8 +278,8 @@ function editor.start()
 				'LEObjectHover',
 				"Object tool: Select and place foreground objects", nil,KEY_STAMP,true )
 	toolButtons["object"] = b
-	--x = x +10
-	y = y + 12
+	x = x + 14
+	
 	b = toolPanel:addClickable( x, y, function()
 					if bgObjectPanel.visible then
 						editor.closeBgObjectPanel()
@@ -240,9 +292,8 @@ function editor.start()
 				'LEStampHover',
 				"Background object tool: Select and place background objects", nil,KEY_BGSTAMP,true )
 	toolButtons["bgObject"] = b
-	--x = x +5
-	--x = x +10
-	y = y + 12
+	y = y + 14
+	x = 18	
 	b = toolPanel:addClickable( x, y, function() editor.setTool("edit") end,
 				'LEEditOff',
 				'LEEditOn',
@@ -251,43 +302,7 @@ function editor.start()
 	y = y + 16
 	toolButtons["edit"] = b
 
-	toolPanel:addClickable( x, y,
-				function()
-					menuPanel.visible = false
-					editor.testMapAttempt()
-				end,
-				'LEPlayOff',
-				'LEPlayOn',
-				'LEPlayHover',
-				"Test the map",nil, KEY_TEST, true )
-
-	y = y + 16
-	toolPanel:addClickable( x, y,
-				function()
-					menuPanel.visible = true
-					bgObjectPanel.visible = false
-					objectPanel.visible = false
-					savePanel.visible = false
-					loadPanel.visible = false
-				end,
-				'LEMenuOff',
-				'LEMenuOn',
-				'LEMenuHover',
-				"Editor menu",nil,KEY_MENU,true )
 	--[[
-	toolPanel:addClickable( x, y, function() editor.setTool("editBg") end,
-				'LEEditOff',
-				'LEEditOn',
-				'LEEditHover',
-				KEY_STAMP .. " - Stamp Tool: Select and place background objects.")]]
-				
-	--[[toolPanel:addClickable( x, y, function() editor.setTool("erase") end,
-				'LEEraserOff',
-				'LEEraserOn',
-				'LEEraserHover',
-				"Eraser - remove tiles or objects.")]]
-
-	--menuPanel = Panel:new( -10 + toolPanelWidth - 2, -7,	toolPanelWidth, 16 )
 	
 	local menuWidth, menuHeight = 16*3, 64
 	menuPanel = Panel:new( (love.graphics.getWidth()/Camera.scale - menuWidth)/2,
@@ -342,7 +357,7 @@ function editor.start()
 				'LEExitOn',
 				'LEExitHover',
 				"Close editor and return to main menu", nil, KEY_QUIT, true )
-				
+				--]]
 	-- Panel for choosing the ground type:
 	local w = 32
 	local h = 8*10 + 3*16
@@ -764,7 +779,7 @@ function editor:update( dt )
 	if msgBox.visible then msgBox:unhighlightAll() end
 	if loadPanel.visible then loadPanel:unhighlightAll() end
 	if savePanel.visible then savePanel:unhighlightAll() end
-	if menuPanel.visible then menuPanel:unhighlightAll() end
+	--if menuPanel.visible then menuPanel:unhighlightAll() end
 	if bgObjectPanel.visible then bgObjectPanel:unhighlightAll() end
 	if objectPanel.visible then objectPanel:unhighlightAll() end
 	if toolPanel.visible then toolPanel:unhighlightAll() end
@@ -783,9 +798,6 @@ function editor:update( dt )
 		elseif savePanel.visible then
 			hit = true
 			savePanel:collisionCheck( x, y )
-		elseif menuPanel.visible then
-			menuPanel:collisionCheck( x, y )
-			hit = true
 		else
 			if toolPanel.visible then
 				hit = hit or toolPanel:collisionCheck( x, y )
@@ -972,9 +984,6 @@ function editor:update( dt )
 	--editPanel:update( dt )
 	if propertiesPanel.visible then
 		propertiesPanel:update( dt )
-	end
-	if menuPanel.visible then
-		menuPanel:update( dt )
 	end
 	if loadPanel.visible then
 		loadPanel:update( dt )
@@ -1246,13 +1255,6 @@ function editor:mousepressed( button, x, y )
 			if savePanel:collisionCheck(x, y) then
 				savePanel:click( x, y, button )
 			end
-		elseif menuPanel.visible then
-			mouseOnCanvas = false
-			if menuPanel:collisionCheck(x, y) then
-				menuPanel:click( x, y, button )
-			else
-				menuPanel.visible = false
-			end
 		elseif bgObjectPanel.visible then
 			mouseOnCanvas = false
 			if bgObjectPanel:collisionCheck(x, y) and button == "l" then
@@ -1284,12 +1286,6 @@ function editor:mousepressed( button, x, y )
 		end
 
 		if mouseOnCanvas or panelRemoved then
-			if menuPanel.visible then
-				if menuPanel:collisionCheck(x, y) then
-					menuPanel:click( x, y, button )
-					mouseOnCanvas = false
-				end
-			end
 			if toolPanel.visible then
 				if toolPanel:collisionCheck(x, y) then
 					toolPanel:click( x, y, button )
@@ -1788,8 +1784,6 @@ function editor.keypressed( key, repeated )
 		panelsToCheck = {loadPanel}
 	elseif savePanel.visible then
 		panelsToCheck = {savePanel}
-	elseif menuPanel.visible then
-		panelsToCheck = {menuPanel}
 	elseif bgObjectPanel.visible then
 		panelsToCheck = {bgObjectPanel, toolPanel}
 	elseif objectPanel.visible then
@@ -1972,9 +1966,6 @@ function editor:draw()
 	end]]
 
 	toolPanel:draw()
-	if menuPanel.visible then
-		menuPanel:draw()
-	end
 	if statusPanel.visible then
 		statusPanel:draw()
 	end
@@ -2444,7 +2435,6 @@ end
 
 function editor.closeAttempt()
 	if map and map.unsavedChanges then
-		menuPanel.visible = false
 		msgBox:new( "There are unsaved changes. Are you sure you want to quit?",
 			editor.closeNow, nil )
 	else

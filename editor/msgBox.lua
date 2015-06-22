@@ -20,7 +20,7 @@ function msgBox:new( msg, eventAccept, eventDecline )
 	end
 
 	local width = love.graphics.getWidth()/3/Camera.scale
-	local __,lines = fontSmall:getWrap(msgBox.msg, (width-16)*Camera.scale)
+	local __,lines = fontSmall:getWrap(msgBox.msg, (width)*Camera.scale)
 	local textHeight = lines*fontSmall:getHeight()
 	local height = textHeight/Camera.scale + 25
 	local x = love.graphics.getWidth()/2/Camera.scale - width/2
@@ -29,14 +29,14 @@ function msgBox:new( msg, eventAccept, eventDecline )
 
 	msgBox.textX = (x + 8)*Camera.scale
 	msgBox.textY = (y + 8)*Camera.scale
-	msgBox.textWidth = (width-16)*Camera.scale
+	msgBox.textWidth = (width)*Camera.scale
 
-	msgBox.panel:addClickable( 15, textHeight/Camera.scale + 16, msgBox.eventAccept,
+	msgBox.panel:addClickable( 0.5*width-6, textHeight/Camera.scale + 16, msgBox.eventAccept,
 				'LEAcceptOff',
 				'LEAcceptOn',
 				'LEAcceptHover',
 				'Accept', nil, 'return', true )
-	msgBox.panel:addClickable( 28, textHeight/Camera.scale + 16, msgBox.eventDecline,
+	msgBox.panel:addClickable( 0.5*width +18, textHeight/Camera.scale + 16, msgBox.eventDecline,
 				'LEDeleteOff',
 				'LEDeleteOn',
 				'LEDeleteHover',
