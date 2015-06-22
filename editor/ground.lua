@@ -536,6 +536,7 @@ function Ground:init()
 	new:addSimilar( 'g' )
 	new:addSimilar( 'd' )
 	new:addSimilar( 'w' )
+	new:addSimilar( 'o' )
 	new:setSingleTile( {2,16} )
 	new:setThickTiles( {0,9}, {1,10}, {1,9},
 						{0,9}, {1,10}, {1,9},
@@ -544,26 +545,26 @@ function Ground:init()
 	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cdgsw]', '[cdgsw]',
+			'[cdgswo]', '[cdgswo]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{3,16} )
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cdgsw]', 'similar',
+			'[cdgswo]', 'similar',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{0,10} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar','[cdgsw]',
+			'similar','[cdgswo]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{2,10} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, '[cdgsw]',
+			nil, '[cdgswo]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{0,16} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cdgsw]', nil,
+			'[cdgswo]', nil,
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{1,16} )
 
@@ -572,37 +573,6 @@ function Ground:init()
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{2,16} )
 
-
-	--[[new:addTransition( "l", "concrete", {0, 10} )
-	new:addTransition( "l", "dirt", {0, 10} )
-	new:addTransition( "l", "grass", {0, 10} )
-	new:addTransition( "l", "stone", {0, 10} )
-	new:addTransition( "l", "wood", {0, 10} )
-	new:addTransition( "lt", "concrete", {0, 10} )
-	new:addTransition( "lt", "dirt", {0, 10} )
-	new:addTransition( "lt", "grass", {0, 10} )
-	new:addTransition( "lt", "stone", {0, 10} )
-	new:addTransition( "lt", "wood", {0, 10} )
-	new:addTransition( "lb", "concrete", {0, 10} )
-	new:addTransition( "lb", "dirt", {0, 10} )
-	new:addTransition( "lb", "grass", {0, 10} )
-	new:addTransition( "lb", "stone", {0, 10} )
-	new:addTransition( "lb", "wood", {0, 10} )
-	new:addTransition( "r", "concrete", {2, 10} )
-	new:addTransition( "r", "dirt", {2, 10} )
-	new:addTransition( "r", "grass", {2, 10} )
-	new:addTransition( "r", "stone", {2, 10} )
-	new:addTransition( "r", "wood", {2, 10} )
-	new:addTransition( "rt", "concrete", {2, 10} )
-	new:addTransition( "rt", "dirt", {2, 10} )
-	new:addTransition( "rt", "grass", {2, 10} )
-	new:addTransition( "rt", "stone", {2, 10} )
-	new:addTransition( "rt", "wood", {2, 10} )
-	new:addTransition( "rb", "concrete", {2, 10} )
-	new:addTransition( "rb", "dirt", {2, 10} )
-	new:addTransition( "rb", "grass", {2, 10} )
-	new:addTransition( "rb", "stone", {2, 10} )
-	new:addTransition( "rb", "wood", {2, 10} )]]
 	table.insert( list, new )
 
 	new = Ground:new("spikesConcrete", '1')
