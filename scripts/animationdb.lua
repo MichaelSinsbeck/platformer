@@ -941,7 +941,7 @@ function AnimationDB:addAllSilhouettes()
 	
 	self:loadImage('forest.png','silhouette2','silhouettes')
 	self:loadImage('mountain.png','silhouette3','silhouettes')
-	self:loadImage('mountain.png','silhouette4','silhouettes')
+	self:loadImage('desert.png','silhouette4','silhouettes')
 	self:loadImage('sky.png','silhouette5','silhouettes')
 	self:loadImage('mountain.png','silhouetteback','silhouettes')
 	
@@ -954,28 +954,7 @@ function AnimationDB:addAllSilhouettes()
 	self:addSilhouette(0,12,8,4,sw,sh)
 	self:addSilhouette(8,12,8,4,sw,sh)
 	
-	--[[self:addSilhouette('town',0,6,8,1,sw,sh)
-	self:addSilhouette('town',0,7,5,5,sw,sh)
-	self:addSilhouette('town',0,14,1,2,sw,sh)
-	self:addSilhouette('town',0,16,1,1,sw,sh)
-	self:addSilhouette('town',1,12,6,5,sw,sh)
-	self:addSilhouette('town',7,12,8,5,sw,sh)
-	self:addSilhouette('town',5,7,7,5,sw,sh)
-	self:addSilhouette('town',12,7,5,4,sw,sh)
-	self:addSilhouette('town',17,7,5,4,sw,sh)
-	self:addSilhouette('town',12,11,2,1,sw,sh)
-	self:addSilhouette('town',15,11,5,6,sw,sh)
-	self:addSilhouette('town',20,15,2,2,sw,sh)
 
-	self:addSilhouette('mountain',0,0,7,3,sw,sh)
-	self:addSilhouette('mountain',7,0,8,3,sw,sh)
-	self:addSilhouette('mountain',15,0,7,3,sw,sh)
-	self:addSilhouette('mountain',0,3,6,3,sw,sh)
-	self:addSilhouette('mountain',6,3,8,3,sw,sh)
-	self:addSilhouette('mountain',14,3,8,4,sw,sh)
-	
-	self:addSilhouette('sky',0,12,3,1,sw,sh)
-	self:addSilhouette('sky',5,12,3,1,sw,sh)--]]
 end
 
 
