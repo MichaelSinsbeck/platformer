@@ -14,25 +14,25 @@ endDescription
 
 Background:
 ------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
-------------------------------------------
+ddddddddd---------------------------------
+ddddddddd---------------------------------
+ddddddddd---------------------------------
+ddddddddd---------------------------------
+ddddddddd---------------------------------
+dddddddddddddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddddddddddddd
+-------------------------------dddddddddd-
+-------------------------------dddddddddd-
+-dddddddddd--ddddddddddddd-----dddddddddd-
+-dddddddddd--ddddddddddddd------ddddddddd-
+-dddddddddd--ddddddddddddd------ddddddddd-
+-dddddddddd--ddddddddddddd------ddddddddd-
+-dddddddddddddddddddddddddddddddddddddddd-
+-----dddddddddddddddddddddddddddddddddddd-
+-----dddddddddddddddddddddddddddddddddddd-
+-----dddd-----------ddddddddddddddddddddd-
+-----dddd---------------------------------
 endBackground
 
 Ground:
@@ -65,7 +65,7 @@ Objects:
 Obj:Player
 	x:3
 	y:14
-	p:bandana=white
+	p:bandana=blue
 endObj
 Obj:Exit
 	x:5

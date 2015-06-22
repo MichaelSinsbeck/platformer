@@ -26,29 +26,29 @@ Background:
 --------------------------------
 --------------------------------
 --------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
---------------------------------
+dddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddd
+dddddddddddddddddddddddddddddddd
 endBackground
 
 Ground:
-wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
-w------------------------------w
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
 wwwwwwww---www-wwwwwwwwwwwwwwwww
 wwwwwwww---www-----------------w
 wwwwwwwwwwwwwwwwwwwwwwwwwwwww--w
@@ -307,6 +307,42 @@ Obj:ParallaxConfig
 	y:14
 	p:location=4
 	p:color=blue
+endObj
+Obj:Appearblock
+	x:12
+	y:0
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:13
+	y:0
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:14
+	y:0
+	p:state=solid
+	p:color=red
+endObj
+Obj:Appearblock
+	x:17
+	y:0
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:18
+	y:0
+	p:state=solid
+	p:color=yellow
+endObj
+Obj:Appearblock
+	x:19
+	y:0
+	p:state=solid
+	p:color=yellow
 endObj
 endObjects
 

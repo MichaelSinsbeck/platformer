@@ -8,7 +8,8 @@ local MAX_NUMBER_BG_OBJECTS = 50000
 local MIN_MAP_SIZE = 3
 
 --local defaultBackgroundColor = {0.21*255, 0.34*255, 0.435*255, 1.0*255}
-local defaultBackgroundColor = {80, 80, 1128, 255}
+--local defaultBackgroundColor = {80, 80, 1128, 255}
+local defaultBackgroundColor = {255, 255, 255, 255}
 
 -- Offset for the markers in the corners of the map border (pin needles).
 -- This offset is the offset between the position where the image should be drawn

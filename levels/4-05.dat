@@ -13,26 +13,26 @@ Description:
 endDescription
 
 Background:
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
--------------
+------ddddd--
+-----ddddddd-
+-----ddddddd-
+-----ddddddd-
+-----ddddddd-
+-----ddddddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+-----ddd-ddd-
+dddddddd-ddd-
+dddddddd-ddd-
+dddddddd-ddd-
+dddddddddddd-
 endBackground
 
 Ground:
@@ -65,7 +65,7 @@ Objects:
 Obj:Player
 	x:3
 	y:18
-	p:bandana=white
+	p:bandana=blue
 endObj
 Obj:Fixedcannon
 	x:10

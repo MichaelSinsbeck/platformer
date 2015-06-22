@@ -14,42 +14,42 @@ endDescription
 
 Background:
 ----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
-----------------------------------------
+----ddddddddddddddddddddddddddddd-------
+----ddddddddddddddddddddddddddddd-------
+----ddddddddddddddddddddddddddddddd-----
+----ddddddddddddddddddddddddddddddd-----
+----ddddddddddddddddddddddddddddddddddd-
+----ddddddddddddddddddddddddddddddddddd-
+----ddddddddddddddddddddddddddddddddddd-
+----ddddddddddddddddddddddddddddddddddd-
+----ddddddddddddddddddddddddddddddddddd-
+-dddddddddddddddddddddddddddddddddddddd-
+-dddddddddddddddddddddddddddddddddddddd-
+-dddddddddddddddddddddddddddddddddddddd-
+-dddddddddddddddddddddddddddddddddddddd-
+-dddddddddddddddddddddddddddddddddddddd-
+-ddddd------------------dddd------------
+-ddddd------------------dddd------------
+-ddddd------------------dddd------------
+------------------------dddd------------
+------------------------dddd------------
 endBackground
 
 Ground:
----wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww------
----wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww------
----ww------------w--------------wwwww---
----ww------------w--------------wwwww---
-wwwww------------w-----------------wwwww
-wwwww----11111---w------ccccc------w---w
-wwwww----11w-----w------cccc1------w---w
-wwwww------w-----w------cccc1------w---w
-wwwww------w-----w------cccc1------wbbbw
-wwwwww11---w-----w------cccc1----------w
-wwwwww11---w-----w11----cccc1----------w
-ww---ww----w---11111----cccc1-------bbbw
-ww---ww----w------------c1111----------w
-ww---ww----w---------------------------w
+----wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww-----
+----wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww-----
+--www------------w--------------wwwww---
+--www------------w--------------wwwww---
+wwwww------------w----------------wwwww-
+wwwww----11111---w------wwwww-----wwwww-
+wwwww----11w-----w------wwww1-----w---ww
+wwwww------w-----w------wwww1-----w---ww
+wwwww------w-----w------wwww1-----wbbbww
+wwwwww11---w-----w------wwww1---------ww
+wwwwww11---w-----w11----wwww1---------ww
+ww---ww----w---11111----wwww1------bbbww
+ww---ww----w------------w1111---------ww
+ww---ww----w--------------------------ww
 ww---wwwwwwwwwwwwwwwwwwww11wwwwwwwwwwwww
 ww---wwwwwwwwwwwwwwwwwwww--wwwwwwwwwwwww
 ww---wwwwwwwwwwwwwwwwwwww--wwwwwwwwwwwww
@@ -65,15 +65,15 @@ Objects:
 Obj:Player
 	x:8
 	y:13
-	p:bandana=white
+	p:bandana=green
 endObj
 Obj:Exit
 	x:3
 	y:16
 endObj
 Obj:Bandana
-	x:37
-	y:6
+	x:36
+	y:7
 	p:color=blue
 endObj
 Obj:Npc
