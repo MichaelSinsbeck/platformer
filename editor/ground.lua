@@ -6,12 +6,11 @@
 -- g: grass
 -- c: concrete
 -- d: dirt
--- w: pyramid
--- s: stone
--- 1: spikes grey
--- 2: spikes brown
--- 3: spikes clouds
+-- y: pyramid
+-- r: rock (mountain)
 -- o: cloud
+-- b: bridge
+-- gs,cs,ys,rs,os - spike alternatives of the main ground types
 --
 -- A dot represents any tile and a space an empty tile.
 --
@@ -359,6 +358,7 @@ end
 
 function Ground:init()
 	local list = {}
+	
 	local new = Ground:new("concrete", 'c' )
 	new:addSimilar( '1' )	--I'm similar to the spikesConcrete
 	new:setSingleTile( {3, 0} )
@@ -367,7 +367,6 @@ function Ground:init()
 						{0,3}, {1,3}, {2,3})
 	new:setHorizontalLine( {0,0}, {1,0}, {2,0} )
 	new:setVerticalLine( {3,1}, {3,2}, {3,3} )
-
 	new:addVariation( "lm", {0,11})
 	new:addVariation( "c", {1,11})
 	new:addVariation( "rm", {2,11})
@@ -375,206 +374,8 @@ function Ground:init()
 	new:addVariation( "ct", {2,9})
 	new:addVariation( "cb", {3,9})
 	new:addVariation( "cm", {3,10})
-
 	table.insert( list, new )
 	
-	new = Ground:new("dirt", 'd')
-	new:addSimilar( 'g' )	-- similar to grass
-	new:addSimilar( 's' )	-- similar to stone
-	new:addSimilar( '2' ) 	-- similar to spikesSoil
-	new:setSingleTile( {7, 4} )
-	new:setThickTiles( {4,5}, {5,5}, {6,5},
-						{4,2}, {5,2}, {6,2},
-						{4,3}, {5,3}, {6,3})
-	new:setHorizontalLine( {4,4}, {5,4}, {6,4} )
-	new:setVerticalLine( {7,5}, {7,2}, {7,3} )
-
-	-- dirt to grass transitions:
-	new:addTransition( nil, nil, nil,
-			'g', 'd',
-			nil, "similar", nil,
-			{1,7}, "gd" )
-	new:addTransition( nil, nil, nil,
-			'g', 'd',
-			nil, nil, nil,
-			{3,7}, "gd")
-	new:addTransition( nil, nil, nil,
-			'd', 'g',
-			nil, "similar", nil,
-			{1,8}, "dg" )
-	new:addTransition( nil, nil, nil,
-			'd', 'g',
-			nil, nil, nil,
-			{3,8}, "dg" )
-	-- dirt to stone transitions:
-	new:addTransition( nil, nil, nil,
-			's', 'd',
-			nil, "similar", nil,
-			{1,6}, "sd" )
-	new:addTransition( nil, nil, nil,
-			's', 'd',
-			nil, nil, nil,
-			{4,6}, "sd" )
-	new:addTransition( nil, nil, nil,
-			'd', 's',
-			nil, "similar", nil,
-			{0,8}, "ds" )
-	new:addTransition( nil, nil, nil,
-			'd', 's',
-			nil, nil, nil,
-			{2,8}, "ds" )
-
-	table.insert( list, new )	
-	
-	new = Ground:new("grass", 'g')
-	new:addSimilar( 'd' )	-- similar to dirt
-	new:addSimilar( 's' )	-- similar to stone
-	new:addSimilar( '2' )	-- similar to spikesSoil
-	new:setSingleTile( {3, 4} )
-	new:setThickTiles( {0,5}, {1,5}, {2,5},
-						{4,2}, {5,2}, {6,2},
-						{4,3}, {5,3}, {6,3})
-	new:setHorizontalLine( {0,4}, {1,4}, {2,4} )
-	new:setVerticalLine( {3,5}, {7,2}, {7,3} )
-
-	-- grass to dirt transitions:
-	new:addTransition( nil, nil, nil,
-			'd', 'g',
-			nil, "similar", nil,
-			{1,8}, "dg" )
-	new:addTransition( nil, nil, nil,
-			'd', 'g',
-			nil, nil, nil,
-			{3,8}, "dg" )
-	new:addTransition( nil, nil, nil,
-			'g', 'd',
-			nil, "similar", nil,
-			{1,7}, "gd" )
-	new:addTransition( nil, nil, nil,
-			'g', 'd',
-			nil, nil, nil,
-			{3,7}, "gd" )
-	-- grass to dirt:
-	new:addTransition( nil, nil, nil,
-			's', 'g',
-			nil, "similar", nil,
-			{0,6}, "sg" )
-	new:addTransition( nil, nil, nil,
-			's', 'g',
-			nil, nil, nil,
-			{2,6}, "sg" )
-	new:addTransition( nil, nil, nil,
-			'g', 's',
-			nil, "similar", nil,
-			{0,7}, "gs" )
-	new:addTransition( nil, nil, nil,
-			'g', 's',
-			nil, nil, nil,
-			{2,7}, "gs" )
-	table.insert( list, new )
-
-	new = Ground:new("stone", 's' )
-	new:addSimilar( 'd' )	-- similar to dirt
-	new:addSimilar( 'g' )	-- similar to grass
-	new:addSimilar( '2' )	-- similar to spikesSoil
-	new:setSingleTile( {7, 6} )
-	new:setThickTiles( {4,7}, {5,7}, {6,7},
-						{4,2}, {5,2}, {6,2},
-						{4,3}, {5,3}, {6,3})
-	new:setHorizontalLine( {4,6}, {5,6}, {6,6} )
-	new:setVerticalLine( {7,7}, {7,2}, {7,3} )
-
-	-- stone to dirt:
-	new:addTransition( nil, nil, nil,
-			'd', 's',
-			nil, "similar", nil,
-			{0,8}, "ds" )
-	new:addTransition( nil, nil, nil,
-			'd', 's',
-			nil, nil, nil,
-			{2,8}, "ds" )
-	new:addTransition( nil, nil, nil,
-			's', 'd',
-			nil, "similar", nil,
-			{1,6}, "sd" )
-	new:addTransition( nil, nil, nil,
-			's', 'd',
-			nil, nil, nil,
-			{3,6}, "sd" )
-	-- stone to grass:
-	new:addTransition( nil, nil, nil,
-			'g', 's',
-			nil, "similar", nil,
-			{0,7}, "gs" )
-	new:addTransition( nil, nil, nil,
-			'g', 's',
-			nil, nil, nil,
-			{2,7}, "gs" )
-	new:addTransition( nil, nil, nil,
-			's', 'g',
-			nil, "similar", nil,
-			{0,6}, "sg" )
-	new:addTransition( nil, nil, nil,
-			's', 'g',
-			nil, nil, nil,
-			{2,6}, "sg" )
-	table.insert( list, new )
-	
-	new = Ground:new("pyramid", 'w')
-	new:setSingleTile( {7, 8} )
-	new:setThickTiles( {4,9}, {5,9}, {6,9},
-						{4,10}, {5,10}, {6,10},
-						{4,11}, {5,11}, {6,11})
-	new:setHorizontalLine( {4,8}, {5,8}, {6,8} )
-	new:setVerticalLine( {7,9}, {7,10}, {7,11} )
-	new:addVariation( "cm", {4,16})
-	table.insert( list, new )
-
-	new = Ground:new("bridge", 'b' )
-	new:addSimilar( 'c' )	-- similar to concrete
-	new:addSimilar( 's' )	-- similar to stone
-	new:addSimilar( 'g' )
-	new:addSimilar( 'd' )
-	new:addSimilar( 'w' )
-	new:addSimilar( 'o' )
-	new:setSingleTile( {2,16} )
-	new:setThickTiles( {0,9}, {1,10}, {1,9},
-						{0,9}, {1,10}, {1,9},
-						{0,9}, {1,10}, {1,9})
-	new:setHorizontalLine( {0,9}, {1,10}, {1,9} )
-	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
-
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cdgswo]', '[cdgswo]',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{3,16} )
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cdgswo]', 'similar',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,10} )
-
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar','[cdgswo]',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,10} )
-
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, '[cdgswo]',
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,16} )
-
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cdgswo]', nil,
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{1,16} )
-
-	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, nil,
-			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,16} )
-
-	table.insert( list, new )
-
 	new = Ground:new("spikesConcrete", '1')
 	new:addSimilar( 'c' )	-- similar to concrete
 	new:setSingleTile( {3,12} )
@@ -583,12 +384,67 @@ function Ground:init()
 						{0,15}, {1,15}, {2,15})
 	new:setHorizontalLine( {0,12}, {1,12}, {2,12} )
 	new:setVerticalLine( {3,13}, {3,14}, {3,15} )
-	table.insert( list, new )
+	table.insert( list, new )	
 
+	new = Ground:new("dirt", 'd')
+	new:addSimilar( 'g' )	-- similar to grass
+	new:addSimilar( '2' ) 	-- similar to grass Spikes
+	new:setSingleTile( {3,5} )
+	new:setThickTiles( {0,5}, {1,5}, {2,5},
+						{4,2}, {5,2}, {6,2},
+						{4,3}, {5,3}, {6,3})
+	new:setHorizontalLine( {0,4}, {1,4}, {2,4} )
+	new:setVerticalLine( {3,5}, {7,2}, {7,3} )
+	-- dirt to grass transitions:
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, "similar", nil,
+			{0,6}, "gd" )
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, nil, nil,
+			{1,6}, "gd")
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, "similar", nil,
+			{0,7}, "dg" )
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, nil, nil,
+			{1,7}, "dg" )
+	table.insert( list, new )	
+	
+	new = Ground:new("grass", 'g')
+	new:addSimilar( 'd' )	-- similar to dirt
+	new:addSimilar( '2' )	-- similar to grass spikes
+	new:setSingleTile( {7, 0} )
+	new:setThickTiles( {4,1}, {5,1}, {6,1},
+						{4,2}, {5,2}, {6,2},
+						{4,3}, {5,3}, {6,3})
+	new:setHorizontalLine( {4,0}, {5,0}, {6,0} )
+	new:setVerticalLine( {7,1}, {7,2}, {7,3} )
+	-- grass to dirt transitions:
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, "similar", nil,
+			{0,7}, "dg" )
+	new:addTransition( nil, nil, nil,
+			'd', 'g',
+			nil, nil, nil,
+			{1,7}, "dg" )
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, "similar", nil,
+			{0,6}, "gd" )
+	new:addTransition( nil, nil, nil,
+			'g', 'd',
+			nil, nil, nil,
+			{1,6}, "gd" )
+	table.insert( list, new )
+	
 	new = Ground:new("spikesSoil", '2')
 	new:addSimilar( 'd' )	-- similar to dirt
 	new:addSimilar( 'g' )	-- similar to grass
-	new:addSimilar( 's' )	-- similar to stone
 	new:setSingleTile( {7,12} )
 	new:setThickTiles( {4,13}, {5,13}, {6,13},
 						{4,14}, {5,14}, {6,14},
@@ -596,21 +452,60 @@ function Ground:init()
 	new:setHorizontalLine( {4,12}, {5,12}, {6,12} )
 	new:setVerticalLine( {7,13}, {7,14}, {7,15} )
 	table.insert( list, new )
-
+	
+	local new = Ground:new("rock", 'r' )
+	new:addSimilar( '3' )	-- similar to rock spikes
+	new:setSingleTile( {11, 4} )
+	new:setThickTiles( {8,5}, {9,5}, {10,5},
+						{8,6}, {9,6}, {10,6},
+						{8,7}, {9,7}, {10,7})
+	new:setHorizontalLine( {8,4}, {9,4}, {10,4} )
+	new:setVerticalLine( {11,5}, {11,6}, {11,7} )
+	table.insert( list, new )
+	
+	new = Ground:new("spikesRock", '3')
+	new:addSimilar( 'r' )	-- similar to rock
+	new:setSingleTile( {11,8} )
+	new:setThickTiles( {8,9}, {9,9}, {10,9},
+						{8,10}, {9,10}, {10,10},
+						{8,11}, {9,11}, {10,11})
+	new:setHorizontalLine( {8,8}, {9,8}, {10,8} )
+	new:setVerticalLine( {11,9}, {11,10}, {11,11} )
+	table.insert( list, new )		
+	
+	new = Ground:new("pyramid", 'y')
+	new:addSimilar( '4' )	-- similar to pyramid spikes
+	new:setSingleTile( {7, 4} )
+	new:setThickTiles( {4,5}, {5,5}, {6,5},
+						{4,6}, {5,6}, {6,6},
+						{4,7}, {5,7}, {6,7})
+	new:setHorizontalLine( {4,4}, {5,4}, {6,4} )
+	new:setVerticalLine( {7,5}, {7,6}, {7,7} )
+	new:addVariation( "cm", {5,10})
+	table.insert( list, new )
+	
+	new = Ground:new("spikesPyramid", '4')
+	new:addSimilar( 'y' )	-- similar to pyramid
+	new:setSingleTile( {7,8} )
+	new:setThickTiles( {4,9}, {5,9}, {6,9},
+						{4,10}, {5,10}, {6,10},
+						{4,11}, {5,11}, {6,11})
+	new:setHorizontalLine( {4,8}, {5,8}, {6,8} )
+	new:setVerticalLine( {7,9}, {7,10}, {7,11} )
+	table.insert( list, new )
+	
 	local new = Ground:new("cloud", 'o' )
-	new:addSimilar( '3' )	-- similar to cloud
+	new:addSimilar( '5' )	-- similar to cloud
 	new:setSingleTile( {11, 0} )
 	new:setThickTiles( {8,1}, {9,1}, {10,1},
 						{8,2}, {9,2}, {10,2},
 						{8,3}, {9,3}, {10,3})
 	new:setHorizontalLine( {8,0}, {9,0}, {10,0} )
 	new:setVerticalLine( {11,1}, {11,2}, {11,3} )
-
 	new:addVariation( "single", {11,4})
-
 	table.insert( list, new )
 	
-	new = Ground:new("spikesCloud", '3')
+	new = Ground:new("spikesCloud", '5')
 	new:addSimilar( 'o' )	-- similar to cloud
 	new:setSingleTile( {11,12} )
 	new:setThickTiles( {8,13}, {9,13}, {10,13},
@@ -618,6 +513,53 @@ function Ground:init()
 						{8,15}, {9,15}, {10,15})
 	new:setHorizontalLine( {8,12}, {9,12}, {10,12} )
 	new:setVerticalLine( {11,13}, {11,14}, {11,15} )
+	table.insert( list, new )
+
+	
+
+	new = Ground:new("bridge", 'b' )
+	new:addSimilar( 'c' )	-- similar to concrete
+	new:addSimilar( 'g' )
+	new:addSimilar( 'd' )
+	new:addSimilar( 'r' )
+	new:addSimilar( 'y' )	
+	new:addSimilar( 'o' )
+	new:setSingleTile( {2,8} )
+	new:setThickTiles( {0,9}, {1,10}, {1,9},
+						{0,9}, {1,10}, {1,9},
+						{0,9}, {1,10}, {1,9})
+	new:setHorizontalLine( {0,9}, {1,10}, {1,9} )
+	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'[cgdryo]', '[cgdryo]',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{3,8} )
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'[cgdryo]', 'similar',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,10} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'similar','[cgdryo]',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,10} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, '[cgdryo]',
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{0,8} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			'[cgdryo]', nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{1,8} )
+
+	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
+			nil, nil,
+			DONT_CARE, DONT_CARE, DONT_CARE,
+			{2,8} )
+
 	table.insert( list, new )
 
 	return list

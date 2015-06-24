@@ -123,11 +123,23 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	local oldGroundType = ""
 	local newGroundType = ""
 	if self.groundArray[x][y].gType then
-		oldGroundType = (self.groundArray[x][y].gType.name == "spikesConcrete" or
-					self.groundArray[x][y].gType.name == "spikesSoil") and "spikes" or "noSpikes"
+		local oldName = self.groundArray[x][y].gType
+		if oldName == "spikesConcrete" or
+			 oldName == "spikesSoil" or
+	     oldName == "spikesRock" or
+	     oldName == "spikesPyramid" or
+	     oldName == "spikesCloud" then
+			oldGroundType = "spikes"
+		else
+			oldGroundType = "noSpikes"
+		end
 	end
 
-	if ground.name == "spikesConcrete" or ground.name == "spikesSoil" then
+	if ground.name == "spikesConcrete" or
+	   ground.name == "spikesSoil" or
+	   ground.name == "spikesRock" or
+	   ground.name == "spikesPyramid" or
+	   ground.name == "spikesCloud" then
 		newGroundType = "spikes"
 	else
 		newGroundType = "noSpikes"
@@ -229,7 +241,11 @@ function EditorMap:updateGroundTile( x, y, recursion )
 	-- get the quad for the current tile which depends on the surrounding ground types:
 	local quad, foundTransition = ground:getQuad( l, r, t, b, nil,nil,nil,nil, forbiddenTransitions )
 	
-	if ground.name == "spikesConcrete" or ground.name == "spikesSoil" then
+	if ground.name == "spikesConcrete" or
+	   ground.name == "spikesSoil" or
+	   ground.name == "spikesRock" or
+	   ground.name == "spikesPyramid" or
+	   ground.name == "spikesCloud" then
 		newGroundType = "spikes"
 	else
 		newGroundType = "noSpikes"
@@ -292,8 +308,12 @@ function EditorMap:eraseGroundTile( x, y, updateSurrounding )
 	-- determine whether to remove a spike or a normal wall/ground:
 	local batchID, batch
 	if self.groundArray[x][y].gType then
-		if self.groundArray[x][y].gType.name == "spikesConcrete" or
-				self.groundArray[x][y].gType.name == "spikesSoil" then
+		local thisName = self.groundArray[x][y].gType.name
+		if thisName == "spikesConcrete" or
+			 thisName == "spikesSoil" or
+			 thisName == "spikesRock" or
+			 thisName == "spikesPyramid" or
+			 thisName == "spikesCloud" then
 			batchID = self.groundArray[x][y].batchID["spikes"]
 			batch = self.spikeBatch
 		else
@@ -1725,7 +1745,7 @@ function EditorMap:loadFromFile( fullName, isIcon )
 
 		map.collisionSrc = {}
 
-		local order = {'b','c','d','g','s','w','o','1','2','3'}
+		local order = {'b','c','d','g','r','y','o','1','2','3','4','5'}
 		
 		for tileCounter, currentTile in ipairs(order) do
 			y = 0
@@ -1737,7 +1757,8 @@ function EditorMap:loadFromFile( fullName, isIcon )
 						if groundsList[matchName] then
 							if matchName == "b" then	-- bridge
 								map.collisionSrc[x][y] = 2
-							elseif matchName == "1" or matchName == "2" or matchName == "3" then	-- spikes
+							elseif matchName == "1" or matchName == "2" or matchName == "3" 
+							    or matchName == "4" or matchName == "5" then	-- spikes
 								map.collisionSrc[x][y] = 3
 								map:addObject( x, y, "Spikey" ) -- +1 because collision map starts at 0
 							else
