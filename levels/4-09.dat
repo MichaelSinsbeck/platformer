@@ -49,13 +49,13 @@ Ground:
 --------------------------------
 --------------------------------
 --------------------------------
-wwwwwwww---www-wwwwwwwwwwwwwwwww
-wwwwwwww---www-----------------w
-wwwwwwwwwwwwwwwwwwwwwwwwwwwww--w
-w------------------------------w
-w--wwwwwwwwwwwwwwwwwwwwwwwwwwwww
-w------------------------------w
-wwwwwwwwwwwwwwwwwwwwwwwwwwwww--w
+yyyyyyyy---yyy-yyyyyyyyyyyyyyyyy
+yyyyyyyy---yyy-----------------y
+yyyyyyyyyyyyyyyyyyyyyyyyyyyyy--y
+y------------------------------y
+y--yyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+y------------------------------y
+yyyyyyyyyyyyyyyyyyyyyyyyyyyyy--y
 endGround
 
 BgObjects:

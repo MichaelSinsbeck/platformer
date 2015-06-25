@@ -47,15 +47,15 @@ Ground:
 --------------------------------
 --------------------------------
 --------------------------------
----------2-----------2----------
-oooooooooooooooooooooooooooo---o
-oooooooooo------ooo-----oooo---o
-ooooooo----oooooo---ooo-oooo---o
-ooooooo-oo-oooooo-ooooo----o---o
-ooo-----ooooooooo-oooooooo-ooooo
-ooo-ooooo----ooo--o----ooo-ooooo
-ooo--------------oo-oo-----ooooo
-oooooooooooooooooooooooooooooooo
+---------3-----------3----------
+rrrrrrrrrrrrrrrrrrrrrrrrrrrr---r
+rrrrrrrrrr------rrr-----rrrr---r
+rrrrrrr----rrrrrr---rrr-rrrr---r
+rrrrrrr-rr-rrrrrr-rrrrr----r---r
+rrr-----rrrrrrrrr-rrrrrrrr-rrrrr
+rrr-rrrrr----rrr--r----rrr-rrrrr
+rrr--------------rr-rr-----rrrrr
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 endGround
 
 BgObjects:
@@ -65,10 +65,7 @@ Objects:
 Obj:Player
 	x:15
 	y:11
-	p:canHook=true
-	p:canParachute=true
-	p:canTeleport=true
-	p:canWalljump=true
+	p:bandana=white
 endObj
 Obj:Imitator
 	x:15
@@ -101,6 +98,12 @@ endObj
 Obj:Exit
 	x:29
 	y:15
+endObj
+Obj:ParallaxConfig
+	x:15
+	y:19
+	p:location=3
+	p:color=blue
 endObj
 endObjects
 

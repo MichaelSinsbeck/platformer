@@ -30,20 +30,20 @@ ddddddddddddddddddddddd--dddddddddddddddd--ddddddddddddddddddddddd
 endBackground
 
 Ground:
-wwwwwwwwwwwww----wwwwwwwwwwwwww----wwwwwwwwwwwwww----wwwwwwwwwwwww
-w---wwwwwwwww----w------------w----w------------w----wwwwwwwww---w
-w-www---wwwww----w------------w----w------------w----wwwww---www-w
-w-ww-----wwww----w------------w----w------------w----wwww-----ww-w
-w-w-------www----w------------w----w------------w----www-------w-w
-w----------wwwwwww----wwww----wwwwww----wwww----wwwwwww----------w
-w---------------------wwww--------------wwww---------------------w
-w---------------------wwww--------------wwww---------------------w
-ww---------wwwwwwww---wwww---wwwwwwww---wwww---wwwwwwww---------ww
-www-------www----w----wwww----w----w----wwww----w----www-------www
-wwww-----wwww----w------------w----w------------w----wwww-----wwww
-wwwww---wwwww----w------------w----w------------w----wwwww---wwwww
-wwwwwwwwwwwww----w------------w----w------------w----wwwwwwwwwwwww
-wwwwwwwwwwwww----wwwwwwwwwwwwww----wwwwwwwwwwwwww----wwwwwwwwwwwww
+yyyyyyyyyyyyy----yyyyyyyyyyyyyy----yyyyyyyyyyyyyy----yyyyyyyyyyyyy
+y---yyyyyyyyy----y------------y----y------------y----yyyyyyyyy---y
+y-yyy---yyyyy----y------------y----y------------y----yyyyy---yyy-y
+y-yy-----yyyy----y------------y----y------------y----yyyy-----yy-y
+y-y-------yyy----y------------y----y------------y----yyy-------y-y
+y----------yyyyyyy----yyyy----yyyyyy----yyyy----yyyyyyy----------y
+y---------------------yyyy--------------yyyy---------------------y
+y---------------------yyyy--------------yyyy---------------------y
+yy---------yyyyyyyy---yyyy---yyyyyyyy---yyyy---yyyyyyyy---------yy
+yyy-------yyy----y----yyyy----y----y----yyyy----y----yyy-------yyy
+yyyy-----yyyy----y------------y----y------------y----yyyy-----yyyy
+yyyyy---yyyyy----y------------y----y------------y----yyyyy---yyyyy
+yyyyyyyyyyyyy----y------------y----y------------y----yyyyyyyyyyyyy
+yyyyyyyyyyyyy----yyyyyyyyyyyyyy----yyyyyyyyyyyyyy----yyyyyyyyyyyyy
 endGround
 
 BgObjects:
