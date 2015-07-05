@@ -320,19 +320,22 @@ function object:getPreviewSize()
 	end
 end
 
-function object:playSound(event)
-	Sound:playSpatial(event,self.x,self.y)
+function object:playSound(event,volume,pitch,variance)
+--	print('Playing sound of event: '..event)
+	Sound:playSpatial(event,self.x,self.y,volume,pitch,variance)
 end
 
 -- set the current long sound of the object
-function object:haveSound(sound)
+function object:haveSound(sound,volume,pitch)
 	self.newSound = sound
+	self.longSoundVolume = volume
+	self.longSoundPitch = pitch
 end
 -- send the long sound of the object to the sound module
 -- is done automatically in the update
 function object:sendSound()
 	if self.newSound then
-		Sound:playLongSound(self.newSound,self)
+		Sound:playLongSound(self.newSound,self,self.longSoundVolume,self.longSoundPitch)
 		self.newSound = nil
 		self.hasSound = true
 	else

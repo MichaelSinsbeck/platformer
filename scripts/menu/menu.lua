@@ -351,6 +351,9 @@ function menu:clear()
 end
 
 function menu:keypressed( key, repeated )
+	if key == 'escape' then
+		Sound:play('menuBack')
+	end
 	if self.activeSubmenu then
 		if self.activeSubmenu == "KeyAssignment" and
 			KeyAssignmentSubmenu.keyCurrentlyAssigning ~= nil then
@@ -362,14 +365,19 @@ function menu:keypressed( key, repeated )
 
 			if key == keys.LEFT then
 				submenus[self.activeSubmenu]:goLeft()
+				Sound:play('menuMove')
 			elseif key == keys.RIGHT then
 				submenus[self.activeSubmenu]:goRight()
+				Sound:play('menuMove')
 			elseif key == keys.UP then
 				submenus[self.activeSubmenu]:goUp()
+				Sound:play('menuMove')
 			elseif key == keys.DOWN then
 				submenus[self.activeSubmenu]:goDown()
+				Sound:play('menuMove')
 			elseif key == keys.CHOOSE then
 				submenus[self.activeSubmenu]:startButtonEvent()
+				Sound:play('menuEnter')
 			else
 				submenus[self.activeSubmenu]:hotkey( key )
 			end

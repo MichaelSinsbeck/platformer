@@ -75,6 +75,7 @@ function Follower:wake()
 	local angle = math.atan2(self.ay,self.ax)
 	self.vis[2].relX = 0.15*math.cos(angle)
 	self.vis[2].relY = 0.15*math.sin(angle)
+	self:playSound('followerWake')
 end
 
 function Follower:postStep(dt)
@@ -82,6 +83,7 @@ function Follower:postStep(dt)
 	if self.collisionResult > 0 then
 		self.state = 'wait'
 		self:setAnim('followerClose',nil,3)
+		self:playSound('wall5')
 	end
 	
 	if self.state == 'wait' then
@@ -107,7 +109,7 @@ function Follower:postStep(dt)
     p:kill()
     levelEnd:addDeath("death_follower")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
-    self:playSound('followerDeath')
+    self:playSound('death')
   end
 end
 
@@ -118,6 +120,9 @@ function Follower:postpostStep()
 			if math.abs(dx) < self.semiheight+v.semiheight and
 				 math.abs(dy) < self.semiwidth +v.semiwidth then
 				self:kill()
+				if not v.dead then
+					self:playSound('followerDie')
+				end
 				for i = 1,6 do -- spawn 6 particles
 					local angle, magnitude = math.pi*2*math.random(), 0.7+math.random()*0.3
 					

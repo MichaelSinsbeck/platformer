@@ -52,11 +52,13 @@ function Missile:postStep(dt)
     p:kill()
     levelEnd:addDeath("death_missile")
     objectClasses.Meat:spawn(self.x,self.y,self.vx,self.vy)
+    p:playSound('death')
   end
 
   if self.collisionResult > 0 then
 		self:detonate()
   end
+	self:haveSound('missileFly',volume)
 end
 
 function Missile:detonate()
@@ -68,7 +70,7 @@ function Missile:detonate()
 		args.radius2 = self.explosionRadius
 		spriteEngine:DoAll('explode',args)
 
-		self:playSound('missileExplode')
+		self:playSound('missileExplode',1,1,0.03)
 		-- generate Explosion
 		local newExplo = spriteFactory('Explosion',{x=self.x,y=self.y, vis = {Visualizer:New('explosionExplode',{angle=2*math.pi*math.random()})}   })
 		spriteEngine:insert(newExplo)

@@ -26,7 +26,6 @@ function Bouncer:applyOptions()
 	self.vis[1].angle = self.angle*0.5*math.pi+0.5*math.pi
 	local s = self.properties.strength.names[self.strength]
 	self:setAnim(s..'Bouncer',true)
-	self:playSound(s..'BouncerBump')
 end
 
 function Bouncer:setAcceleration(dt)
@@ -44,6 +43,9 @@ function Bouncer:postStep(dt)
 		if self.angle == -1 then
 			p.canUnJump = false
 		end
+		local pitch = self.strength/23
+		
+		self:playSound('bouncerBump',1,pitch) 
   end
 end
 

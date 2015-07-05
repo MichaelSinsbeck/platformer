@@ -1,4 +1,4 @@
-local sound = {sources = {},event2file={},longSounds={}}
+local sound = {sources = {},event2file={},longSounds={},eventVolume = {},eventDistance = {}}
 
 -- sources is a table of sources: key = filename, value = source
 -- event2file is a table of sounds: key = sound/event, value = filename
@@ -6,16 +6,18 @@ local sound = {sources = {},event2file={},longSounds={}}
 
 local attenuationModel = 'linear clamped'
 local dist_ref = 2
-local dist_max = 10
+--local dist_max = 10
 local roll_off = 1
 local doppler = 1
 love.audio.setDistanceModel(attenuationModel)
 
 -- add a sound to the database, the ... are filenames.
-function sound:add(name,...)
+function sound:add(name,volume,maxDistance,...)
 	if not self.event2file[name] then
 			self.event2file[name] = {}
 	end
+	self.eventVolume[name] = volume
+	self.eventDistance[name] = maxDistance
 	local arg = {...}
 	for k,filename in pairs(arg) do
 		-- load the file to the sources, it not done already
@@ -51,11 +53,11 @@ local function getRandomFilename(event)
 	return sound.event2file[event][randomNumber]
 end
 
-function sound:playLongSound(sound,object)
+function sound:playLongSound(event,object,volume,pitch)
 	-- first check if the object has a sound already and if yes it if is the same
 	local thisFilename
-	if self.event2file[sound] then
-		thisFilename = self.event2file[sound][1]
+	if self.event2file[event] then
+		thisFilename = self.event2file[event][1]
 	end
 	if not thisFilename then
 		return
@@ -64,18 +66,27 @@ function sound:playLongSound(sound,object)
 	if not self.longSounds[object] then
 		self.longSounds[object] = {}
 	end
-	if self.longSounds[object].filename ~= thisFilename then
+	if self.longSounds[object].filename ~= thisFilename then -- sound changed
 		if self.longSounds[object].source then
 			self.longSounds[object].source:stop()
 		end
 		local newSource = getFreeSource(thisFilename)
 		newSource:setLooping(true)
-		newSource:setAttenuationDistances(dist_ref,dist_max)
+		newSource:setAttenuationDistances(dist_ref,self.eventDistance[event])
+		
 		newSource:play()
 		
 		self.longSounds[object].source = newSource
 		self.longSounds[object].filename = thisFilename
 	end
+	
+	-- apply volume and pitch
+	volume = volume or 1
+	volume = math.min(volume,1) * self.eventVolume[event]
+	pitch = pitch or 1
+	self.longSounds[object].source:setVolume(volume)
+	self.longSounds[object].source:setPitch(pitch)
+	
 end
 
 function sound:stopLongSound(object)
@@ -123,23 +134,32 @@ function sound:setPositions()
 	end
 end
 
-function sound:play(sound)
-	local thisFilename = getRandomFilename(sound)
+function sound:play(event,volume,pitch,variance)
+	local thisFilename = getRandomFilename(event)
+	volume = volume or 1
+	pitch = pitch or 1
+	if variance then
+		pitch = pitch * math.exp(variance * love.math.randomNormal())
+	end
 	if thisFilename then
 		local newSource = getFreeSource(thisFilename)	
 		newSource:stop()
 		newSource:setLooping(false)
-		newSource:setAttenuationDistances(dist_ref,dist_max)
+		newSource:setAttenuationDistances(dist_ref,self.eventDistance[event])
 		newSource:setPosition(0,0,0)
 		newSource:setVelocity(0,0,0)
 		newSource:setRelative(true)
+		newSource:setVolume(self.eventVolume[event]*volume)
+		newSource:setPitch(pitch)
 		newSource:play()
 		return newSource
+	else
+		print('Sound file missing for event: ' .. event)
 	end
 end
 
-function sound:playSpatial(sound,x,y)
-	local newSource = self:play(sound)
+function sound:playSpatial(sound,x,y,volume,pitch,variance)
+	local newSource = self:play(sound,volume,pitch,variance)
 	if newSource then
 		local lx,ly,lz = love.audio.getPosition()
 		-- doing the relative calculations by hand turns of doppler effect for short sounds

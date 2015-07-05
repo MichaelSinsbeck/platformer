@@ -142,7 +142,7 @@ function loading.preload()
 -- screen can be shown: Set graphical mode and load font.
 	settings:loadAll()
 	Camera:init()	
-	loadFont()	
+	loadFont()
 
 	-- hide mouse
 	love.mouse.setVisible(false)

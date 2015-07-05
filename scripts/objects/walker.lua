@@ -114,7 +114,9 @@ function Walker:postStep(dt)
 				
 			end
 			if self.status == 'fall' then
-				self:playSound('walkerLand')
+			local volume = self.vy/20
+			volume = math.min(math.max(volume,0),1)
+			self:playSound('walkerLand',volume)
 			end
 			self.status = 'normal'
 		else -- falling
@@ -137,7 +139,9 @@ function Walker:postStep(dt)
 		end
 	else -- status == ball
 		if self.collisionResult > 0 then
-			self:playSound('walkerLand')
+			local volume = self.vy/20
+			volume = math.min(math.max(volume,0),1)
+			self:playSound('walkerLand',volume)
 			self:wake()
 		end
 	end
@@ -148,7 +152,7 @@ function Walker:postStep(dt)
     p.dead = true
     levelEnd:addDeath("death_walker")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
-    self:playSound('walkerDeath')
+    self:playSound('death')
     elseif self.type == 'bouncy' then
 				if self.status == 'normal' or self.status == 'fall' then
 				p.vy = -self.strength;

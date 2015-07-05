@@ -128,7 +128,7 @@ function Player:jump()
 				self:flip(false)
 			end
     self.status = 'fly'
-    self:playSound('wallJump')
+    self:playSound('jump')
   elseif self.status == 'rightwall' then
     self.vy = self.walljumpSpeedy
     self.canUnJump = true
@@ -140,13 +140,13 @@ function Player:jump()
 				self:flip(true)
 			end
     self.status = 'fly'
-    self:playSound('wallJump')
+    self:playSound('jump')
   elseif self.status == 'online' then
 		self.status = 'fly'
 		self.vy = self.jumpSpeed
 		self.line = nil
 		self.canUnJump = true
-		self:playSound('jumpOfLine')
+		self:playSound('jump')
   end
 end
 
@@ -232,6 +232,9 @@ function Player:dash()
 		if self.vx*direction < 0 then
 			self.vx = 0
 		end
+
+		Sound:setListener(self)
+    self:playSound('dash')
 	end
 	
 	-- disconnect from rope, if existant
@@ -539,7 +542,9 @@ function Player:collision(dt)
 	end
 	
 	if self.status == 'stand' and self.laststatus ~= 'stand' then
-		self:playSound('land')
+		volume = (self.vy-5)/20
+		volume = math.max(math.min(volume,1),0)
+		self:playSound('land', volume^2)
 	end
 
 	-- check for rope length	
@@ -643,9 +648,26 @@ function Player:postStep(dt)
 	
 	-- Set long sound
 	if newAnimation == 'Sliding' then
-		self:haveSound('slide')
+		local speed = utility.pyth(self.vx,self.vy)
+		local volume = math.min(speed/10,1)
+		self:haveSound('groundSlide',volume*0.2)
+	elseif newAnimation == 'Wall' then
+		local speed = utility.pyth(self.vx,self.vy)
+		local volume = math.max(math.min(speed/10-0.3,1),0)
+		self:haveSound('wallSlide',volume)
 	elseif newAnimation == 'Run' then
-		--self:haveSound('run')
+		local speed = utility.pyth(self.vx,self.vy)
+		local volume = math.min(speed/10,1)
+		self:haveSound('run',volume)
+	elseif newAnimation == 'Walk' then
+		local speed = utility.pyth(self.vx,self.vy)
+		local volume = math.min(speed/10,1)
+		self:haveSound('run',volume)
+	elseif newAnimation == 'LineSlide' or newAnimation == 'LineMove' then
+		local speed = utility.pyth(self.vx,self.vy)
+		local volume = math.min(speed/10,1)
+		local pitch = 0.5 + speed/20
+		self:haveSound('lineSlide',volume,pitch)
 	end
 	
 	-- report own position as listener
@@ -754,6 +776,7 @@ if not self.dead and self.closestAnchor then
 	if self.status == 'online' then
 		self.status = 'fly'
 	end
+	self:playSound('shootBungee')
 end
 end
 

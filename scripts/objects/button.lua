@@ -40,7 +40,7 @@ function Button:applyOptions()
 end
 
 function Button:postStep(dt)
-	
+
 	-- find out if button is touched by a player, walker or imitator
 	local touched = false
 	if self:touchPlayer() then 
@@ -67,14 +67,15 @@ function Button:postStep(dt)
 	elseif self.state == 'pressed' and not touched then
 
 		self.state = 'released'
-		self:playSound('buttonRelease')
+		--self:playSound('buttonRelease')
+		self:playSound('buttonUnPress',0.1,2)
 		
 	elseif self.state == 'released' then
 
 		if touched then
 			self.timer2 = self.lifetime
 			self.state = 'pressed'
-			self:playSound('buttonPress')
+			self:playSound('buttonPress',0.1,2)
 		else
 			self.timer2 = self.timer2-dt
 			if self.timer2 < 0 then
@@ -82,6 +83,13 @@ function Button:postStep(dt)
 				spriteEngine:DoAll('buttonPress',self.color)
 				self.timer2 = 0
 				self:playSound('buttonUnPress')
+			else
+			local pitch
+				if self.lifetime >0 then
+					pitch = 2/math.sqrt(self.lifetime)
+				end
+				
+				self:haveSound('ticktock',nil,pitch)
 			end
 		end
 

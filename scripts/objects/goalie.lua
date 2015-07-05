@@ -77,7 +77,8 @@ end
 
 function Goalie:postStep(dt)
 	if self.collisionResult > 0 and self.oldCollisionResult == 0 then
-		self:playSound('goalieCollide')
+		local volume = utility.pyth(self.vx,self.vy)/self.maxSpeed
+		self:playSound('wall1',volume)
 	end
 	
 	  -- show crosshairs
@@ -99,7 +100,7 @@ function Goalie:postStep(dt)
     p:kill()
     levelEnd:addDeath("death_goalie")
     objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
-    self:playSound('goalieDeath')
+    self:playSound('death')
   end
 end
 

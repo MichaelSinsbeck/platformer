@@ -20,7 +20,7 @@ end
 
 function Shuriken:postStep(dt)
   if self.collisionResult > 0 then
-		self:playSound('shurikenHit')
+		self:playSound('shurikenHit',1,1,0.03)
 		self:setAnim('shurikenDead')
 		self.vx = 0
 		self.vy = 0	

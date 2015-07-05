@@ -40,7 +40,7 @@ function Launcher:setAcceleration(dt)
 			local newShuriken = spriteFactory('Shuriken',{x=self.x,y=self.y,vx=vx,vy=vy,vis={Visualizer:New('shuriken',{angle=newAngle})} })
 			spriteEngine:insert(newShuriken)
 			self.timeleft = self.distance/self.velocity
-			self:playSound('launcherShoot')
+			self:playSound('launcherShoot',1,(10+self.velocity/3)/15,0.03)
     end
   end
   self.vis[2].angle = self.vis[2].angle + 5*dt

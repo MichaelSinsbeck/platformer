@@ -16,7 +16,7 @@ function Glassblock:explode(args)
 	local dx,dy = args.x-self.x,args.y-self.y
 	-- check if explosion is within range
 	if dx*dx+dy*dy < args.radius2 then
-		self:playSound('glassBreak')
+		self:playSound('glassBreak',1,1,0.1)
 		myMap.collision[math.floor(self.x)][math.floor(self.y)] = nil
 		
 		for i = 1,6 do -- spawn 6 particles
