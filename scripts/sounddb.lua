@@ -26,7 +26,7 @@ function Sound:loadAll()
 	self:add('wallSlide',0.05,10,'slide.wav')
 	self:add('groundSlide',1,10,'Rutschen_3.wav')
 	self:add('lineSlide',.3,10,'lineSlide.wav')
-	--self:add('shootBungee',1,10,'playerDash1.wav')
+	self:add('shootBungee',.1,10,'freesound/rope1.wav','freesound/rope2.wav','freesound/rope3.wav')
 --	self:add('win',1,10,'hits/hit12.mp3.ogg')
 
 	-- deathes:
@@ -62,6 +62,8 @@ function Sound:loadAll()
 	self:add('walkerLand',.4,15,'lukas/walkerLand_1.wav','lukas/walkerLand_3.wav')
 	self:add('glassBreak',.2,20,'freesound/glass_break1.wav','freesound/glass_break2.wav','freesound/glass_break3.wav','freesound/glass_break4.wav','freesound/glass_break5.wav')
 	self:add('bouncerBump',1,10,'freesound/bouncer.wav')
+
+	
 	--self:add('spawnWalker',1,10,'silence.wav')
 	
 	
@@ -81,7 +83,7 @@ function Sound:loadAll()
 	--self:add('mediumBouncerBump',1,10,'silence.wav')
 	--self:add('strongBouncerBump',1,10,'silence.wav')
 	--self:add('crumbleblockTouch',1,10,'silence.wav')
-	--self:add('crumbleblockCrumble',1,10,'silence.wav')
+
 	--self:add('collectKey',1,10,'silence.wav')
 	--self:add('doorOpen',1,10,'silence.wav')
 	--self:add('rotatorLong',1,10,'silence.wav')
