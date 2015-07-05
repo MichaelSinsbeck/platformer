@@ -33,6 +33,7 @@ function Bandana:setAcceleration(dt)
 			--shaders:setDeathEffect( .8 )
 		end
 		--p.bandana = self.color
+		self:playSound('upgrade')
 		self:kill()
   end
 end
