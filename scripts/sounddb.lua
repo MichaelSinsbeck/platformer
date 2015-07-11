@@ -62,10 +62,12 @@ function Sound:loadAll()
 	self:add('walkerLand',.4,15,'lukas/walkerLand_1.wav','lukas/walkerLand_3.wav')
 	self:add('glassBreak',.2,20,'freesound/glass_break1.wav','freesound/glass_break2.wav','freesound/glass_break3.wav','freesound/glass_break4.wav','freesound/glass_break5.wav')
 	self:add('bouncerBump',1,10,'freesound/bouncer.wav')
-	self:add('rotator',.2,15,'freesound/engine3.wav')
+	self:add('rotator',.1,8,'freesound/engine3.wav')
 	
 	self:add('textAppear',.1,10,'freesound/text-appear.wav')
 	self:add('textDisappear',.1,10,'freesound/text-disappear.wav')
+	self:add('plop',1,10,'Plop_1.wav')
+	self:add('win',.1,10,'opengameart/exit.wav')	
 	
 	--self:add('spawnWalker',1,10,'silence.wav')
 	

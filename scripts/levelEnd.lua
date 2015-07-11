@@ -68,6 +68,7 @@ function levelEnd:addDeath( deathType )
 end
 
 function levelEnd:update( dt )
+	local timerOld = self.timer
 	self.timer = self.timer + dt
 	for k, p in pairs( picList ) do
 		if boxes[k].timer <= self.timer then
@@ -77,7 +78,10 @@ function levelEnd:update( dt )
 end
 
 function levelEnd:draw()
-	shaders:setDeathEffect( .8 )
+	love.graphics.setColor(0,0,0,80)
+	love.graphics.rectangle('fill',0,0,love.graphics.getWidth(),love.graphics.getHeight())
+	love.graphics.setColor(255,255,255)
+	--shaders:setDeathEffect( .8 )
 	--shaders.grayScale:send( "amount", .8 )
 	--love.graphics.setPixelEffect( shaders.grayScale )
 	--game:draw()
@@ -89,6 +93,11 @@ function levelEnd:draw()
 	-- draw boxes:	
 	for k,element in pairs(boxes) do
 		if element.timer <= self.timer then
+			if not element.hasPlayed then
+				element.hasPlayed = true
+				Sound:play('plop',1,0.75+0.5*element.timer)
+				--print('playing plop sound')
+			end
 			-- scale box coordinates according to scale
 			local scaled = {}
 			for i = 1,#element.points do
@@ -145,18 +154,6 @@ function levelEnd:display( )	-- called when level is won:
 		statList["noDeaths"] = 1
 	end
 
-	--statList["death_fall"] = math.random(10)
-	--statList["death_spikey"] = math.random(10)
-	--[[
-	for k,v in pairs( statList ) do
-		statList[k] = 0
-	end]]--
-	--statList["numberOfButtons"] = math.random(5)
-	--[[
-	statList["death_walker"] = math.random(5)
-	statList["death_spikey"] = math.random(5)
-	statList["death_fall"] = math.random(5)]]
-
 	-- create a list which holds all the values which were relevant for this
 	-- level (i.e. their values are not zero - the event happened)
 	--print("Level Statistics:")
@@ -186,7 +183,7 @@ function levelEnd:display( )	-- called when level is won:
 		k = math.random(#relevantList)
 		pos = -fullWidth/2 + width*i
 		
-		self:addBox(pos - 30,-40,60,70, (i-1)*STAT_TIME )
+		self:addBox(pos - 30,-40,60,70, i*STAT_TIME )
 		picList[#picList + 1] = 
 			Pic:new( pos, 0, relevantList[k].statType, relevantList[k].num, (i-1)*2 + 1 )
 
@@ -217,9 +214,9 @@ function levelEnd:keypressed( key, unicode )
 	elseif key == keys.CHOOSE or key == keys.PAD.CHOOSE then
 		-- if you're not displaying all stats yet,then display them now
 		-- otherwise, proceed to next level.
-		if self.timer < (self.numOfStats -1)*STAT_TIME then
-			self.timer = self.timer + self.numOfStats*STAT_TIME
-		else
+		--if self.timer < (self.numOfStats -1)*STAT_TIME then
+		--	self.timer = self.timer + self.numOfStats*STAT_TIME
+		--else
 			if editor.active then
 				editor.resume()
 			elseif menu.currentlyPlayingUserlevels then
@@ -232,7 +229,7 @@ function levelEnd:keypressed( key, unicode )
 				--menu.startTransition(function () Campaign:proceed() end)()
 				Campaign:proceed()
 			end
-		end
+		--end
 	end
 end
 

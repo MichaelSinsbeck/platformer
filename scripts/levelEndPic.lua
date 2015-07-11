@@ -53,7 +53,7 @@ function Pic:new( x, y, statType, num )
 
 	local newPic = { x=x, y=y, statType = statType,
 					visFG = {}, visBG = {},
-					list = {},
+					list = {}, hasPlayed = false,
 				}
 	setmetatable( newPic, self )
 
