@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 39,21
+Dimensions: 39,29
 
 Author: micha
 Description:
@@ -13,6 +13,14 @@ Description:
 endDescription
 
 Background:
+--------------------------------------
+--------------------------------------
+--------------------------------------
+--------------------------------------
+--------------------------------------
+--------------------------------------
+--------------------------------------
+--------------------------------------
 --------------------------------------
 --------------------------------------
 --------------------------------------
@@ -41,6 +49,10 @@ Ground:
 --------------------------------------
 --------------------------------------
 --------------------------------------
+--------------------------------------
+--------------------------------------
+--------------------------------------
+--------------------------------------
 --ccc-------------------------cccccccc
 cccccccccccc------------------cccccccc
 cc----------------------------------cc
@@ -48,9 +60,13 @@ cc--------------------cccccccccccc--cc
 cc-------cc--------bb-cccccccccccc--cc
 cc-------cc-------bb--cccccccccccc--cc
 cc-------ccccccccccccccccccccccccc--cc
-cccc-----------------------------c--cc
-cccc-----------------------------c--cc
-cccc--------------------------------cc
+cccc------cccccccccccccccccccccccc--cc
+cccc-------ccccccccccccccccccccccc--cc
+cccc-----------ccccccccccccccccccc--cc
+cccccc------------cccccccccccccccc--cc
+cccccc------------------cccccccccc--cc
+cccccc---ccc------------------------cc
+cccccc---ccc------------------------cc
 cccccccccccccccc--------------------cc
 cccccc--------cc------------------cccc
 cccccc-----------------ccccccccccccccc
@@ -64,16 +80,16 @@ endBgObjects
 Objects:
 Obj:Exit
 	x:35
-	y:4
+	y:8
 endObj
 Obj:Bandana
 	x:6
-	y:18
+	y:26
 	p:color=white
 endObj
 Obj:Npc
 	x:10
-	y:18
+	y:26
 	p:delay=0
 	p:displayTime=10
 	p:regionSize=10
@@ -82,12 +98,12 @@ Obj:Npc
 endObj
 Obj:Player
 	x:3
-	y:4
+	y:8
 	p:bandana=blank
 endObj
 Obj:Text
 	x:10
-	y:14
+	y:22
 	p:hasPointer=true
 	p:offsetX=0
 	p:offsetY=3
@@ -98,22 +114,22 @@ Obj:Text
 endObj
 Obj:Input
 	x:4
-	y:2
+	y:6
 	p:button=RIGHT
 endObj
 Obj:Input
 	x:2
-	y:2
+	y:6
 	p:button=LEFT
 endObj
 Obj:Input
 	x:3
-	y:1
+	y:5
 	p:button=JUMP
 endObj
 Obj:ParallaxConfig
 	x:19
-	y:19
+	y:27
 	p:location=1
 	p:color=blue
 endObj

@@ -49,9 +49,9 @@ c------------ccccccccccccccccccc
 c------------cc-------cccccccccc
 ------------ccc-------cccccccccc
 c--cccccccccccc-------cccccccccc
-c--cc----------bbb------------cc
-c--cc-------------------------cc
-c-------ccc--ccccccccccc-----ccc
+c--cc----------bbb-------------c
+c--cc--------------------------c
+c-------ccc--ccccccccccc-------c
 c------ccccccccccccccccccc-----c
 cccccccccccccccccccccccccccc---c
 cccccccccccccccccccccccccccccccc
@@ -68,7 +68,7 @@ Obj:Player
 	p:bandana=white
 endObj
 Obj:Fixedcannon
-	x:29
+	x:30
 	y:13
 	p:velocity=15
 	p:angle=2
@@ -77,7 +77,7 @@ Obj:Fixedcannon
 	p:phase=0
 endObj
 Obj:Fixedcannon
-	x:29
+	x:30
 	y:14
 	p:velocity=15
 	p:angle=2

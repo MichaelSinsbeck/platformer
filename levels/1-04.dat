@@ -49,15 +49,15 @@ Ground:
 ---------------------------------c----------------------
 ---------------------------------c----------------------
 ---------------------------------c----------------------
-ccccccccccccc-------------cccccc-c----------------------
-ccccccccccccc-------------ccccc-------------------------
+ccccccccccccc-------------wwwwww-c----------------------
+ccccccccccccc-------------wwwww-------------------------
 ccccccccccccc1111111111111ccccc-------------------------
 cccccccccccccccccccccccccccccc--------------------------
 cccccccccccccccccccccccccccccc--------------------------
 cccccccccccccccccccccccccccccc--------------------------
 cccccccccccccccccccccccccccccc--------------------------
-ccccccccccccccccccccccccccccc---c-----------c-----------
-ccccccccccccccccccccccccccccc---------------c-----------
+ccccccccccccccccccccccccccccc---w-----------w-----------
+ccccccccccccccccccccccccccccc---------------w-----------
 cccccccccccccccccccccccccccc----------------cc----------
 ccccccccccccccccccccccccccc-----------------cc----------
 cccccccccccccccccccccccccc-------------------ccccccccccc
@@ -82,6 +82,12 @@ Obj:ParallaxConfig
 	y:22
 	p:location=1
 	p:color=blue
+endObj
+Obj:Infosign
+	x:44
+	y:16
+	p:type=Right
+	p:rotation=0
 endObj
 endObjects
 

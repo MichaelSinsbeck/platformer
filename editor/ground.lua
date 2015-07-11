@@ -524,6 +524,7 @@ function Ground:init()
 	new:addSimilar( 'r' )
 	new:addSimilar( 'y' )	
 	new:addSimilar( 'o' )
+	new:addSimilar( 'w' )
 	new:setSingleTile( {12,2} )
 	new:setThickTiles( {12,4}, {12,7}, {12,5},
 						{12,4}, {12,7}, {12,5},
@@ -532,26 +533,26 @@ function Ground:init()
 	new:setVerticalLine( {12,7}, {12,7}, {12,7} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cgdryo]', '[cgdryo]',
+			'[cgdryow]', '[cgdryow]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{12,3} )
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cgdryo]', 'similar',
+			'[cgdryow]', 'similar',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{12,6} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'similar','[cgdryo]',
+			'similar','[cgdryow]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{12,8} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			nil, '[cgdryo]',
+			nil, '[cgdryow]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{12,0} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
-			'[cgdryo]', nil,
+			'[cgdryow]', nil,
 			DONT_CARE, DONT_CARE, DONT_CARE,
 			{12,1} )
 

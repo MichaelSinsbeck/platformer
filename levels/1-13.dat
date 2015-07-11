@@ -68,10 +68,10 @@ c---c-ccccccc-c-ccccccc-c-cccccc
 c---cccccccccccccccccccccccccccc
 c---cccccccccccccccccccccccccccc
 c---cc------------------c------c
-c---cc----------cc-----cc------c
-c---------------cc-----cc------c
-c-------------cccc-----cc------c
-c-------------cccc-------------c
+c---cc----------ww-----cc------c
+c---------------ww-----cc------c
+c-------------wwww-----cc------c
+c-------------wwww-------------c
 cccccc-ccccccccccc--------c----c
 cccccc-cccccccccccccccccccc----c
 ccccccccccccccccccccccccccc----c

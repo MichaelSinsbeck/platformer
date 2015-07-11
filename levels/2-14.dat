@@ -5,7 +5,7 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 33,21
+Dimensions: 33,18
 
 Author: micha
 Description:
@@ -30,32 +30,26 @@ Background:
 --------------------------------
 --------------------------------
 --------------------------------
---------------------------------
---------------------------------
---------------------------------
 endBackground
 
 Ground:
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 --------------------------------
 --------------------------------
 --------------------------------
 --------------------------------
 --------------------------------
 --------------------------------
-ggggg---------------------gggggg
-gg------------------------gggggg
---------------------------gggggg
----------------------------ggggg
-----------------------------gggg
------------------------------ggg
------------------------------ggg
------------------------------ggg
-------------------------------gg
+wwwww---------------------wwwwww
+wwwww---------------------wwwwww
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
+--------------------------------
 endGround
 
 BgObjects:
@@ -64,32 +58,17 @@ endBgObjects
 Objects:
 Obj:Crumbleblock
 	x:9
-	y:11
+	y:8
 	p:lifetime=0.5
 endObj
 Obj:Player
 	x:1
-	y:10
-	p:bandana=white
+	y:7
+	p:bandana=yellow
 endObj
 Obj:Exit
 	x:30
-	y:10
-endObj
-Obj:Crumbleblock
-	x:9
-	y:10
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:9
-	y:9
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:9
-	y:8
-	p:lifetime=0.5
+	y:7
 endObj
 Obj:Crumbleblock
 	x:9
@@ -107,18 +86,18 @@ Obj:Crumbleblock
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:13
-	y:11
+	x:9
+	y:4
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:13
-	y:10
+	x:9
+	y:3
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:13
-	y:9
+	x:9
+	y:2
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
@@ -142,18 +121,18 @@ Obj:Crumbleblock
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:18
-	y:11
+	x:13
+	y:4
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:18
-	y:10
+	x:13
+	y:3
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:18
-	y:9
+	x:13
+	y:2
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
@@ -177,38 +156,53 @@ Obj:Crumbleblock
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
-	x:9
-	y:12
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:9
-	y:13
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:13
-	y:12
-	p:lifetime=0.5
-endObj
-Obj:Crumbleblock
-	x:13
-	y:13
+	x:18
+	y:4
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
 	x:18
-	y:12
+	y:3
 	p:lifetime=0.5
 endObj
 Obj:Crumbleblock
 	x:18
-	y:13
+	y:2
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:9
+	y:10
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:13
+	y:10
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:9
+	p:lifetime=0.5
+endObj
+Obj:Crumbleblock
+	x:18
+	y:10
 	p:lifetime=0.5
 endObj
 Obj:ParallaxConfig
 	x:13
-	y:19
+	y:16
 	p:location=2
 	p:color=blue
 endObj

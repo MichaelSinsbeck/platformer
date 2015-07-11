@@ -74,8 +74,8 @@ Ground:
 ----------------------------ccccbbbbbcccccccccc------------
 -------------------------------------cccccccccc------------
 -------------------------------------cccccccccc------------
-ssssssssssssssssssssssssssssssssssssddddddddddddsssssssssss
-dddddddddddddddddddddddddddddddddddddddddddddddssssssssssss
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 endGround
 
 BgObjects:
@@ -108,7 +108,7 @@ Obj:Player
 endObj
 Obj:Windmill
 	x:26
-	y:4
+	y:3
 	p:wings=5
 	p:speed=0.5
 endObj

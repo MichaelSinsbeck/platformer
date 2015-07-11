@@ -42,9 +42,9 @@ ddddddddddddddddddddddddddddddddddddddddddddddddddd---------
 dddddddddddddddddddddddddddddddddddddddddddddddd------------
 ddddddddddddddddddddddddddddddddddddddddddd-----------------
 dddddddddddddddddddddddddddddd------------------------------
-dddddddddddddddddddddddddddddd--------------s-------dddddddd
-ddddddddddddddddddddddddddddddddd--d-------ss-------dddddddd
-ddddddddddddddddddddd--------dddd--d-------ds-------dddddddd
+dddddddddddddddddddddddddddddd--------------d-------dddddddd
+ddddddddddddddddddddddddddddddddd--d-------dd-------dddddddd
+ddddddddddddddddddddd--------dddd--d-------dd-------dddddddd
 ddddddddddddddddddddd--------------d2222222dd2222222dddddddd
 ----ddddddddddddddddd--dddd--------ddddddddddddddddddddddddd
 ------ddddddddddddddd--------------ddddddddddddddddddddddddd
@@ -101,7 +101,7 @@ endObj
 Obj:Player
 	x:2
 	y:16
-	p:bandana=white
+	p:bandana=yellow
 endObj
 Obj:Appearblock
 	x:29
@@ -228,6 +228,18 @@ Obj:ParallaxConfig
 	y:20
 	p:location=2
 	p:color=blue
+endObj
+Obj:Appearblock
+	x:35
+	y:5
+	p:state=solid
+	p:color=green
+endObj
+Obj:Appearblock
+	x:35
+	y:4
+	p:state=solid
+	p:color=green
 endObj
 endObjects
 
