@@ -107,7 +107,8 @@ function Rotator:postStep(dt)
 		end
 	end
 
-	self:haveSound('rotatorLong')
+	local pitch = (math.abs(self.speed)+2)/4
+	self:haveSound('rotator',1,pitch)
 end
 
 return Rotator

@@ -17,7 +17,7 @@ function Sound:loadAll()
 
 	-- ninja:
 	self:add('jump',.1,10,'Jump_1.wav','Jump_2.wav','Jump_3.wav','Jump_4.wav','Jump_5.wav','Jump_6.wav','Jump_7.wav','Jump_9.wav','Jump_10.wav','Jump_11.wav')
-	self:add('dash',1,10,'playerDash1.wav','playerDash2.wav')
+	self:add('dash',.1,10,'playerDash1.wav','playerDash2.wav')
 	self:add('openParachute',.1,10,'lukas/openParachuteII.wav')
 	self:add('land',1,10, 'playerLand1.wav', 'playerLand2.wav', 'playerLand3.wav')
 	self:add('run',.2,10,'playerRunII.wav')
@@ -37,7 +37,7 @@ function Sound:loadAll()
 	self:add('meatCollide',.1,20,'mash_v1.wav', 'mash_v2.wav', 'mash_v3.wav', 'mash_v4.wav', 'mash_v5.wav', 'mash_v6.wav')
 	
 	
-	self:add('upgrade',1,10,'opengameart/hit12.wav')
+	self:add('upgrade',.1,10,'opengameart/hit12.wav')
 
 	-- enemies:
 	self:add('shurikenShoot',.5,10,'lukas/shurikenShoot.wav')
@@ -62,9 +62,10 @@ function Sound:loadAll()
 	self:add('walkerLand',.4,15,'lukas/walkerLand_1.wav','lukas/walkerLand_3.wav')
 	self:add('glassBreak',.2,20,'freesound/glass_break1.wav','freesound/glass_break2.wav','freesound/glass_break3.wav','freesound/glass_break4.wav','freesound/glass_break5.wav')
 	self:add('bouncerBump',1,10,'freesound/bouncer.wav')
-
-	self:add('textAppear',1,10,'freesound/text-appear.wav')
-	self:add('textDisappear',1,10,'freesound/text-disappear.wav')
+	self:add('rotator',.2,15,'freesound/engine3.wav')
+	
+	self:add('textAppear',.1,10,'freesound/text-appear.wav')
+	self:add('textDisappear',.1,10,'freesound/text-disappear.wav')
 	
 	--self:add('spawnWalker',1,10,'silence.wav')
 	
@@ -88,6 +89,6 @@ function Sound:loadAll()
 
 	--self:add('collectKey',1,10,'silence.wav')
 	--self:add('doorOpen',1,10,'silence.wav')
-	--self:add('rotatorLong',1,10,'silence.wav')
+
 	
 end
