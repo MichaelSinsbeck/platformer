@@ -367,13 +367,13 @@ function Ground:init()
 						{0,3}, {1,3}, {2,3})
 	new:setHorizontalLine( {0,0}, {1,0}, {2,0} )
 	new:setVerticalLine( {3,1}, {3,2}, {3,3} )
-	new:addVariation( "lm", {0,11})
-	new:addVariation( "c", {1,11})
-	new:addVariation( "rm", {2,11})
-	new:addVariation( "m", {3,11})
-	new:addVariation( "ct", {2,9})
-	new:addVariation( "cb", {3,9})
-	new:addVariation( "cm", {3,10})
+	new:addVariation( "lm", {12,12})
+	new:addVariation( "c", {12,13})
+	new:addVariation( "rm", {12,14})
+	new:addVariation( "m", {12,15})
+	new:addVariation( "ct", {12,9})
+	new:addVariation( "cb", {12,10})
+	new:addVariation( "cm", {12,11})
 	table.insert( list, new )
 	
 	new = Ground:new("spikesConcrete", '1')
@@ -524,42 +524,51 @@ function Ground:init()
 	new:addSimilar( 'r' )
 	new:addSimilar( 'y' )	
 	new:addSimilar( 'o' )
-	new:setSingleTile( {2,8} )
-	new:setThickTiles( {0,9}, {1,10}, {1,9},
-						{0,9}, {1,10}, {1,9},
-						{0,9}, {1,10}, {1,9})
-	new:setHorizontalLine( {0,9}, {1,10}, {1,9} )
-	new:setVerticalLine( {1,10}, {1,10}, {1,10} )
+	new:setSingleTile( {12,2} )
+	new:setThickTiles( {12,4}, {12,7}, {12,5},
+						{12,4}, {12,7}, {12,5},
+						{12,4}, {12,7}, {12,5})
+	new:setHorizontalLine( {12,4}, {12,7}, {12,5} )
+	new:setVerticalLine( {12,7}, {12,7}, {12,7} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
 			'[cgdryo]', '[cgdryo]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
-			{3,8} )
+			{12,3} )
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
 			'[cgdryo]', 'similar',
 			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,10} )
+			{12,6} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
 			'similar','[cgdryo]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,10} )
+			{12,8} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
 			nil, '[cgdryo]',
 			DONT_CARE, DONT_CARE, DONT_CARE,
-			{0,8} )
+			{12,0} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
 			'[cgdryo]', nil,
 			DONT_CARE, DONT_CARE, DONT_CARE,
-			{1,8} )
+			{12,1} )
 
 	new:addTransition( DONT_CARE, DONT_CARE, DONT_CARE,
 			nil, nil,
 			DONT_CARE, DONT_CARE, DONT_CARE,
-			{2,8} )
+			{12,2} )
 
+	table.insert( list, new )
+	
+	local new = Ground:new("wood", 'w' )
+	new:setSingleTile( {3, 8} )
+	new:setThickTiles( {0,9}, {1,9}, {2,9},
+						{0,10}, {1,10}, {2,10},
+						{0,11}, {1,11}, {2,11})
+	new:setHorizontalLine( {0,8}, {1,8}, {2,8} )
+	new:setVerticalLine( {3,9}, {3,10}, {3,11} )
 	table.insert( list, new )
 
 	return list

@@ -45,21 +45,21 @@ local propertiesPanelHeight
 local panelsWithShortcuts
 
 local KEY_CLOSE = "escape"
-local KEY_STAMP = "s"
-local KEY_PEN = "g"
-local KEY_BGPEN = "b"
-local KEY_BGSTAMP = "f"
-local KEY_EDIT = "e"
+local KEY_STAMP = "3"
+local KEY_PEN = "1"
+local KEY_BGPEN = "2"
+local KEY_BGSTAMP = "4"
+local KEY_EDIT = "5"
 local KEY_DELETE = "delete"
 local KEY_DUPLICATE = "d"
-local KEY_UPLOAD = "u"
+local KEY_UPLOAD = "f8"
 
 local KEY_NEW = "f1"
 local KEY_OPEN = "f2"
 local KEY_SAVE = "f3"
 local KEY_QUIT = "escape"
 local KEY_MENU = "escape"
-local KEY_TEST = "f4"
+local KEY_TEST = "f5"
 
 local EDITOR_SCROLL_SPEED = 300
 
@@ -198,19 +198,22 @@ function editor.start()
 	local b
 
 	toolPanel:addClickable( x, y,
+				editor.closeAttempt,
+				'LEMenuOff',
+				'LEMenuOn',
+				'LEMenuHover',
+				"Editor menu",nil,KEY_MENU,true )		
+
+	
+	x = x + 14
+	
+	toolPanel:addClickable( x, y,
 				editor.newMapAttempt,
 				'LENewOff',
 				'LENewOn',
 				'LENewHover',
 				"New map" , nil, KEY_NEW, true )
-	x = x + 14
-	
-	toolPanel:addClickable( x, y,
-				editor.testMapAttempt,
-				'LEPlayOff',
-				'LEPlayOn',
-				'LEPlayHover',
-				"Test the map",nil, KEY_TEST, true )
+
 				
 	y = y + 14
 	x = 18
@@ -236,14 +239,16 @@ function editor.start()
 				'LEUploadOn',
 				'LEUploadHover',
 				"Share level online" , nil, KEY_UPLOAD, true )
-	x = x + 14	
-				
+	x = x + 14
+	
 	toolPanel:addClickable( x, y,
-				editor.closeAttempt,
-				'LEMenuOff',
-				'LEMenuOn',
-				'LEMenuHover',
-				"Editor menu",nil,KEY_MENU,true )		
+				editor.testMapAttempt,
+				'LEPlayOff',
+				'LEPlayOn',
+				'LEPlayHover',
+				"Test the map",nil, KEY_TEST, true )
+				
+  -- tool
 				
 	-- tools start here
 	y = y + 20
@@ -302,62 +307,6 @@ function editor.start()
 	y = y + 16
 	toolButtons["edit"] = b
 
-	--[[
-	
-	local menuWidth, menuHeight = 16*3, 64
-	menuPanel = Panel:new( (love.graphics.getWidth()/Camera.scale - menuWidth)/2,
-					(love.graphics.getHeight()/Camera.scale - menuHeight)/2,
-					menuWidth, menuHeight )
-	menuPanel.visible = false
-	x, y = 18, 16
-	menuPanel:addClickable( x, y,
-				function()
-					menuPanel.visible = false
-					editor.newMapAttempt()
-				end,
-				'LENewOff',
-				'LENewOn',
-				'LENewHover',
-				"New map" , nil, KEY_NEW, true )
-	x = x + 12
-	menuPanel:addClickable( x, y,
-				function()
-					menuPanel.visible = false
-					editor.attemptUpload()
-				end,
-				'LEUploadOff',
-				'LEUploadOn',
-				'LEUploadHover',
-				"Share level online" , nil, KEY_UPLOAD, true )
-	y = y + 16
-	x = 18
-	menuPanel:addClickable( x, y,
-				function()
-					menuPanel.visible = false
-					editor.loadFileListAttempt()
-				end,
-				'LEOpenOff',
-				'LEOpenOn',
-				'LEOpenHover',
-				"Load another map", nil, KEY_OPEN, true )
-	x = x + 12
-	menuPanel:addClickable( x, y,
-				function()
-					menuPanel.visible = false
-					editor.saveFileStart()
-				end,
-				'LESaveOff',
-				'LESaveOn',
-				'LESaveHover',
-				"Save the map", nil, KEY_SAVE, true )
-	y = y + 16
-	x = 24
-	menuPanel:addClickable( x, y, editor.closeAttempt,
-				'LEExitOff',
-				'LEExitOn',
-				'LEExitHover',
-				"Close editor and return to main menu", nil, KEY_QUIT, true )
-				--]]
 	-- Panel for choosing the ground type:
 	local w = 40
 	local h = 8*10 + 3*16
@@ -372,7 +321,7 @@ function editor.start()
 				'LEcOff',
 				'LEcOn',
 				'LEcHover',
-				"draw concrete ground", nil, "1" )
+				"draw concrete ground", nil, "q" )
 	groundButtons[1] = b
   x = x + 14
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
@@ -382,7 +331,7 @@ function editor.start()
 				'LE1Off',
 				'LE1On',
 				'LE1Hover',
-				"draw concrete spikes", nil, "2" )
+				"draw concrete spikes", nil, "a" )
 	groundButtons[2] = b
   y = y + 16
   x = x - 14
@@ -393,7 +342,7 @@ function editor.start()
 				'LEdOff',
 				'LEdOn',
 				'LEdHover',
-				"draw dirt ground", nil,"3" )
+				"draw dirt ground", nil,"w" )
 	groundButtons[3] = b
   y = y + 14
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
@@ -403,7 +352,7 @@ function editor.start()
 				'LEgOff',
 				'LEgOn',
 				'LEgHover',
-				"draw grass ground", nil, "4" )
+				"draw grass ground", nil, "e" )
 	groundButtons[4] = b
   x = x + 14
   y = y - 7
@@ -414,7 +363,7 @@ function editor.start()
 				'LE2Off',
 				'LE2On',
 				'LE2Hover',
-				"draw dirt spikes", nil, "5" )
+				"draw dirt spikes", nil, "s" )
 	groundButtons[5] = b
   y = y + 23
   x = x - 14
@@ -425,7 +374,7 @@ function editor.start()
 				'LErOff',
 				'LErOn',
 				'LErHover',
-				"draw rock ground", nil, "6" )
+				"draw rock ground", nil, "r" )
 	groundButtons[6] = b
   x = x + 14
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
@@ -435,7 +384,7 @@ function editor.start()
 				'LE3Off',
 				'LE3On',
 				'LE3Hover',
-				"draw rock spikes", nil, "7" )
+				"draw rock spikes", nil, "f" )
 	groundButtons[7] = b
   y = y + 14
   x = x - 14
@@ -446,7 +395,7 @@ function editor.start()
 				'LEyOff',
 				'LEyOn',
 				'LEyHover',
-				"draw pyramid ground", nil, "8" )
+				"draw pyramid ground", nil, "t" )
 	groundButtons[8] = b
   x = x + 14
 	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
@@ -456,7 +405,7 @@ function editor.start()
 				'LE4Off',
 				'LE4On',
 				'LE4Hover',
-				"draw pyramid spikes", nil, "9" )
+				"draw pyramid spikes", nil, "g" )
 	groundButtons[9] = b	
   y = y + 14
   x = x - 14
@@ -467,7 +416,7 @@ function editor.start()
 				'LEoOff',
 				'LEoOn',
 				'LEoHover',
-				"draw cloud ground", nil, "0" )
+				"draw cloud ground", nil, "y" )
 	groundButtons[10] = b
 	
   x = x + 14
@@ -478,7 +427,7 @@ function editor.start()
 				'LE5Off',
 				'LE5On',
 				'LE5Hover',
-				"draw cloud spikes", nil, "0" )
+				"draw cloud spikes", nil, "h" )
 	groundButtons[11] = b		
 	
 	y = y + 14
@@ -490,8 +439,19 @@ function editor.start()
 				'LEbOff',
 				'LEbOn',
 				'LEbHover',
-				"draw bridge", nil, "0" )
+				"draw bridge", nil, "u" )
 	groundButtons[12] = b			
+
+  x = x + 14
+	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+										groundPanel:deactivateAll()
+										groundButtons[13]:setActive(true)
+										editor.currentGround = editor.groundList[13] end,
+				'LEwOff',
+				'LEwOn',
+				'LEwHover',
+				"draw wood tiles", nil, "j" )
+	groundButtons[13] = b	
 
 	-- Panel for choosing the background type:
 	--backgroundPanel = Panel:new( love.graphics.getWidth()/2/Camera.scale - w/2, 4, w, 32 )
@@ -507,7 +467,7 @@ function editor.start()
 				'LEBGround1Off',
 				'LEBGround1On',
 				'LEBGround1Hover',
-				"draw concrete background", nil, "1" )
+				"draw concrete background", nil, "q" )
 	backgroundButtons[1] = b
   y = y + 10
 	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
@@ -517,7 +477,7 @@ function editor.start()
 				'LEBGround2Off',
 				'LEBGround2On',
 				'LEBGround2Hover',
-				"draw soil background", nil, "2" )
+				"draw soil background", nil, "w" )
 	backgroundButtons[2] = b
   y = y + 10
 	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
@@ -527,7 +487,7 @@ function editor.start()
 				'LEBGround2Off',
 				'LEBGround2On',
 				'LEBGround2Hover',
-				"draw dark soil background", nil, "3" )
+				"draw dark soil background", nil, "e" )
 	backgroundButtons[3] = b
 
 	editor.createBgObjectPanel()
@@ -618,7 +578,7 @@ function editor.createBgObjectPanel()
 		"LEAcceptOff",
 		"LEAcceptOn",
 		"LEAcceptHover",
-		"Accept selection", 0, KEY_BGSTAMP, true )
+		"Accept selection", 0, 'return', true )
 					
 end
 
@@ -783,7 +743,7 @@ function editor.createObjectPanel()
 		"LEAcceptOff",
 		"LEAcceptOn",
 		"LEAcceptHover",
-		"Accept selection", 0, KEY_STAMP, true )
+		"Accept selection", 0, 'return', true )
 end
 
 -- called as long as editor is running:

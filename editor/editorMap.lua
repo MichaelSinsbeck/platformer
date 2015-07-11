@@ -1745,7 +1745,7 @@ function EditorMap:loadFromFile( fullName, isIcon )
 
 		map.collisionSrc = {}
 
-		local order = {'b','c','d','g','r','y','o','1','2','3','4','5'}
+		local order = {'b','c','d','g','r','y','o','w','1','2','3','4','5'}
 		
 		for tileCounter, currentTile in ipairs(order) do
 			y = 0
