@@ -486,7 +486,7 @@ function menu:startGame( lvl )
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start()		
-		config.setValue( "level", lvl )
+		
 
 		gui.clearBandanas()
 	end
