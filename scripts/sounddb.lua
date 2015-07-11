@@ -16,7 +16,7 @@ function Sound:loadAll()
 	-- in-game short sounds
 
 	-- ninja:
-	self:add('jump',.1,10,'Jump_1.wav','Jump_2.wav','Jump_3.wav','Jump_4.wav','Jump_5.wav','Jump_6.wav','Jump_7.wav','Jump_9.wav','Jump_10.wav','Jump_11.wav')
+	self:add('jump',.1,10,'Jump_1.wav','Jump_2.wav','Jump_3.wav','Jump_4.wav','Jump_5.wav','Jump_6.wav','Jump_7.wav','Jump_9.wav','Jump_10.wav')
 	self:add('dash',.1,10,'playerDash1.wav','playerDash2.wav')
 	self:add('openParachute',.1,10,'lukas/openParachuteII.wav')
 	self:add('land',1,10, 'playerLand1.wav', 'playerLand2.wav', 'playerLand3.wav')
