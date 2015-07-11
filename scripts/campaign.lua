@@ -54,11 +54,14 @@ function Campaign:reset()
 end
 
 function Campaign:proceed()
+	menu:createWorldButtons()
 	local worldChange, nextIsNew = self:setLevel(self.current+1)
 
 	if worldChange and nextIsNew then
 		-- go to animation for world transition
-		--menu:proceedToNextLevel( self.current )
+		--menu:proceedToNextLevel( self.current )	
+		
+		
 		menu:nextWorld( self.worldNumber )	-- (shows new bridge)
 		menu:show()
 	elseif self[self.current] then

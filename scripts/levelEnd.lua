@@ -193,7 +193,7 @@ function levelEnd:display( )	-- called when level is won:
 end
 
 function levelEnd:keypressed( key, unicode )
-	if key == keys.BACK or key == keys.PAD.BACK then
+	if key == keys.BACK or key == keys.PAD.BACK or key == keys.CHOOSE or key == keys.PAD.CHOOSE then
 		if editor.active then
 			editor.resume()
 		elseif menu.currentlyPlayingUserlevels then
@@ -201,35 +201,8 @@ function levelEnd:keypressed( key, unicode )
 			--menu.startTransition(menu.initRatingMenu)()
 			menu.initRatingMenu()
 		else
-			Campaign:saveState()
-			--menu.startTransition(menu.initWorldMap)()	-- start the transition and fade into world map
-			local worldChange, nextIsNew = Campaign:setLevel(Campaign.current+1)
-			if worldChange and nextIsNew then
-				menu:nextWorld( Campaign.worldNumber )	-- (shows new bridge)
-			else
-				menu:switchToSubmenu( "Worldmap" )	-- start the transition and fade into world map
-			end
-			menu:show()
+			Campaign:proceed()
 		end
-	elseif key == keys.CHOOSE or key == keys.PAD.CHOOSE then
-		-- if you're not displaying all stats yet,then display them now
-		-- otherwise, proceed to next level.
-		--if self.timer < (self.numOfStats -1)*STAT_TIME then
-		--	self.timer = self.timer + self.numOfStats*STAT_TIME
-		--else
-			if editor.active then
-				editor.resume()
-			elseif menu.currentlyPlayingUserlevels then
-				--menu.startTransition(menu.initUserlevels)()
-				--menu.initRatingMenu()
-				menu:switchToSubmenu( "Userlevels" )
-				menu:show()
-				--menu.startTransition(menu.initRatingMenu)()
-			else
-				--menu.startTransition(function () Campaign:proceed() end)()
-				Campaign:proceed()
-			end
-		--end
 	end
 end
 
