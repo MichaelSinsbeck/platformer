@@ -389,7 +389,7 @@ function Ground:init()
 	new = Ground:new("dirt", 'd')
 	new:addSimilar( 'g' )	-- similar to grass
 	new:addSimilar( '2' ) 	-- similar to grass Spikes
-	new:setSingleTile( {3,5} )
+	new:setSingleTile( {3,4} )
 	new:setThickTiles( {0,5}, {1,5}, {2,5},
 						{4,2}, {5,2}, {6,2},
 						{4,3}, {5,3}, {6,3})
@@ -502,7 +502,7 @@ function Ground:init()
 						{8,3}, {9,3}, {10,3})
 	new:setHorizontalLine( {8,0}, {9,0}, {10,0} )
 	new:setVerticalLine( {11,1}, {11,2}, {11,3} )
-	new:addVariation( "single", {11,4})
+	new:addVariation( "single", {3,6})
 	table.insert( list, new )
 	
 	new = Ground:new("spikesCloud", '5')

@@ -76,9 +76,7 @@ function Panel:addNextButton( pageNumber )
 		self:goToPage( pageNumber + 1 )
 	end
 	local c = Clickable:new( self.x + self.width - 12, self.y + self.height - 9, ev,
-			'LERightOff',
-			'LERightOn',
-			'LERightHover',
+			'LERight',
 			"Go to next page", "right", true )
 	table.insert( self.pages[pageNumber], c )
 end
@@ -88,9 +86,7 @@ function Panel:addPrevButton( pageNumber )
 		self:goToPage( pageNumber - 1 )
 	end
 	local c = Clickable:new( self.x + 12, self.y + self.height - 9, ev,
-			'LELeftOff',
-			'LELeftOn',
-			'LELeftHover',
+			'LELeft',
 			"Go to previous page", "left", true )
 	table.insert( self.pages[pageNumber], c )
 end
@@ -118,10 +114,10 @@ function Panel:addClickableLabel( x, y, event, width, text, page )
 	return c
 end
 
-function Panel:addClickable( x, y, event, imgOff, imgOn, imgHover, toolTip, page, shortcut, useMesh,
+function Panel:addClickable( x, y, event, img, toolTip, page, shortcut, useMesh,
 	tag )
 	local c = Clickable:new( x+self.x, y+self.y, event,
-					imgOff, imgOn, imgHover, toolTip, shortcut, useMesh, tag )
+					img, toolTip, shortcut, useMesh, tag )
 	page = page or 0
 	if not self.pages[page] then
 		self.pages[page] = {}
@@ -567,15 +563,11 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 		end
 
 		self:addClickable( x + 1, y + 7, decrease,
-		'LEUpOff',
-		'LEUpOn',
-		'LEUpHover',
+		'LEUp',
 		"Choose next value", nil,nil, true)
 
 		self:addClickable( x + 30, y + 7, increase,
-		'LEDownOff',
-		'LEDownOn',
-		'LEDownHover',
+		'LEDown',
 		"Choose next value", nil,nil, true)
 	end
 

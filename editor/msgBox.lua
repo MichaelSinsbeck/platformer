@@ -32,14 +32,10 @@ function msgBox:new( msg, eventAccept, eventDecline )
 	msgBox.textWidth = (width)*Camera.scale
 
 	msgBox.panel:addClickable( 0.5*width-6, textHeight/Camera.scale + 16, msgBox.eventAccept,
-				'LEAcceptOff',
-				'LEAcceptOn',
-				'LEAcceptHover',
+				'LEAccept',
 				'Accept', nil, 'return', true )
 	msgBox.panel:addClickable( 0.5*width +18, textHeight/Camera.scale + 16, msgBox.eventDecline,
-				'LEDeleteOff',
-				'LEDeleteOn',
-				'LEDeleteHover',
+				'LEDelete',
 				'Decline', nil, 'escape', true )
 
 	msgBox.visible = true

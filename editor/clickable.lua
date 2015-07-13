@@ -16,7 +16,7 @@
 -- Mouse interaction:
 -- The clickable needs to be updated every frame.
 -- it will react when the mouse is within the 
--- dimensions of imgOff.
+-- dimensions of img.
 --
 -- If "centered" is set to true, it will draw the button
 -- centered at the x and y position.
@@ -31,13 +31,11 @@ local Clickable = {}
 Clickable.__index = Clickable
 local PADDING = 5	-- padding around labeled buttons
 
-function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut, useMesh )
+function Clickable:new( x, y, event, img, toolTip, shortcut, useMesh )
 	local o = {}
 	setmetatable(o, self)
 
-	o.imgOff = imgOff
-	o.imgOn = imgOn
-	o.imgHover = imgHover or imgOn
+	o.img = img
 	o.centered = centered
 	o.toolTip = toolTip  or ""
 	o.shortcut = shortcut
@@ -46,12 +44,17 @@ function Clickable:new( x, y, event, imgOff, imgOn, imgHover, toolTip, shortcut,
 
 	-- Add visualizer
 	o.vis = {}
-	o.vis[1] = Visualizer:New(imgOff)
+	o.vis[1] = Visualizer:New(img)
 	o.vis[1]:init()
 	if useMesh then
 		o.vis[1]:useMesh()
 	end
 	o.width, o.height = o.vis[1]:getSize()
+	
+	o.HighlightVis = Visualizer:New('clickableHighlight')
+	o.HighlightVis:init()
+	o.ActiveVis = Visualizer:New('clickableActive')
+	o.ActiveVis:init()
 
 	o.x = x or 0
 	o.y = y or 0
@@ -93,6 +96,7 @@ function Clickable:newFromObject( x, y, event, obj, toolTip, centered )
 	o.centered = centered
 	o.toolTip = toolTip  or ""
 	o.hasHighligh = false
+	o.isObject = true
 
 	-- Add visualizer
 	o.vis = {}
@@ -188,13 +192,20 @@ end
 
 function Clickable:draw()
 	love.graphics.setColor(255,255,255,255)
+	
+	
+	if self.active and self.ActiveVis then -- draw frame is selected
+		self.ActiveVis:draw(self.x*Camera.scale,self.y*Camera.scale)
+	end	
+	
 	if self.vis then
-		local iW, iH = AnimationDB.image.highlight:getWidth(), AnimationDB.image.highlight:getHeight()
-		local dX, dY = (self.width-iW)*0.5, (self.height-iH)*0.5
-		for k = 1, #self.vis do
-			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale)
+		if not self.highlighted and not self.active and not self.isObject then
+			love.graphics.setColor(180,180,180,255) -- draw slightly darker
 		end
-
+		for k = 1, #self.vis do
+			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale,true)
+		end
+		love.graphics.setColor(255,255,255,255)
 	elseif self.batch then
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
 		love.graphics.setColor(50,50,50)
@@ -211,6 +222,7 @@ function Clickable:draw()
 		love.graphics.setColor(255,255,255)
 		love.graphics.print( self.text, self.textX, self.textY )
 	end
+	
 	if self.shortcutBox then
 		local shortcut = self.shortcutText
 		if #shortcut > 3 then
@@ -227,6 +239,7 @@ function Clickable:draw()
 		love.graphics.print( shortcut, self.offsetX, self.offsetY )
 		love.graphics.pop()
 	end
+
 	--love.graphics.rectangle( 'line', self.minX, self.minY, self.width, self.height )
 end
 
@@ -246,47 +259,19 @@ function Clickable:drawOutline()
 end
 
 function Clickable:click( mouseX, mouseY, clicked, msgBoxActive )
-	if msgBoxActive then
-		if self.imgOff then
-			self:setAnim(self.imgOff)
-		end
-	else
+	if not msgBoxActive then
 		if self:collisionCheck( mouseX, mouseY ) then
 			editor.setToolTip( self.toolTip )
-			if clicked then
-				-- new click?
-				--if self.active ~= "click" then
-					--self:setSelected( true )	-- IMPORTANT! set to selected before running event!
-					-- if new click, run the event:
-					if self.event then
-						self.event()
-					end
-
-					--[[if self.imgOn then
-						self:setAnim(self.imgOn)
-					end]]
-				--end
-			else
-				--[[self.active = "hover"
-				if self.imgHover then
-					self:setAnim(self.imgHover)
-				end]]
+			if clicked and self.event then
+				self.event()
 			end
 			return true
-		else
-			--[[if self.imgOff then
-				self:setAnim(self.imgOff)
-			end]]
 		end
 	end
-
 	return false
 end
 
 function Clickable:highlight()
-	if self.imgHover then
-		self:setAnim(self.imgHover)
-	end
 	if self.toolTip then
 		editor.setToolTip(self.toolTip)
 	end
@@ -294,25 +279,11 @@ function Clickable:highlight()
 end
 
 function Clickable:unhighlight()
-	if self.active == true and self.imgOn then
-		self:setAnim(self.imgOn)
-	elseif self.imgOff then
-		self:setAnim(self.imgOff)
-	end
 	self.highlighted = false
 end
 
 function Clickable:setSelected( bool )
 	self.selected = bool
-	if self.selected and self.imgHover then
-		self:setAnim(self.imgHover)
-	else
-		if self.active == true and self.imgOn then
-			self:setAnim(self.imgOn)
-		elseif self.imgOff then
-			self:setAnim(self.imgOff)
-		end
-	end
 end
 
 function Clickable:setSelectionPreview( bool )
@@ -335,18 +306,7 @@ function Clickable:setAnim(name,continue) -- Go to specified animation and reset
 end
 
 function Clickable:setActive( bool )
-	if self.active ~= bool then
-		self.active = bool
-		if self.active then
-			if self.imgOn then
-				self:setAnim(self.imgOn)
-			end
-		else
-			if self.imgOff then
-				self:setAnim(self.imgOff)
-			end
-		end
-	end
+	self.active = bool
 end
 
 return Clickable
