@@ -9,9 +9,10 @@ function LevelNameDisplay:new( name, time )
 
 	o.name = name
 
-	local w, lines = fontLarge:getWrap( name, 400 )
-	o.h = lines*fontLarge:getHeight()/8
-	o.w = w/8 + 32
+	local w, lines = fontLarge:getWrap( name, 80*Camera.scale ) -- in pixel
+	o.h = lines*fontLarge:getHeight()/Camera.scale + 8
+	o.w = w/Camera.scale + 8
+	print(o.w)
 
 	o.box = Panel:new( 0, 0, o.w, o.h )
 	o.box.x = ( love.graphics.getWidth() - o.box.box.pixelWidth )/2/Camera.scale
@@ -19,12 +20,12 @@ function LevelNameDisplay:new( name, time )
 
 	o.textWidth = w
 	o.textY = 0
-	o.textGoalY = o.box.y*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
+	o.textGoalY = o.box.y*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2 
 	o.textStartY = (o.box.y - o.box.box.pixelHeight)*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
 	o.textX = o.box.x*Camera.scale + (o.box.box.pixelWidth - o.textWidth)/2
 	o.lines = lines
-	o.boxGoalY = 0
-	o.boxStartY = -o.box.box.pixelHeight
+	o.boxGoalY = 0 
+	o.boxStartY = -o.box.box.pixelHeight 
 
 	o.active = true
 	o.timer = time
