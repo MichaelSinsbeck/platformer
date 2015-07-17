@@ -10,6 +10,7 @@ local distBetweenWorlds = singleWorldWidth-levelsPerWorld*distBetweenButtons
 local bridges = {}
 local numLevelButtons = 0
 local levelButtons = {}
+local levelNameText
 
 function WorldmapSubmenu:new( x, y )
 	submenu = Submenu:new( x, y )
@@ -35,8 +36,11 @@ function WorldmapSubmenu:new( x, y )
 
 	local currentLevel = config.getValue("level") or Campaign[1]
 	local lastLevel = config.getValue("lastLevel") or Campaign[1]
-	  -- hier
 
+	
+	local levelName = Campaign.names[currentLevel]
+	levelNameText = submenu:addText(levelName, -45, 35, 80, nil, 'center' )
+	levelNameText.color = colors.black
 --[[	for k, v in ipairs(Campaign) do
 
 		local curButton
@@ -150,13 +154,17 @@ function WorldmapSubmenu:update( dt )
 end
 
 function WorldmapSubmenu:scroll( )
-	local b = submenu:getSelectedButton() 
+	local b = submenu:getSelectedButton()
 	if b then
 		local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + singleWorldWidth -- set Camera position
 		local y = -700
 		menu:slideCameraTo( x, y, 1 )
 		Campaign.worldNumber = math.floor((b.x + singleWorldWidth*0.5)/singleWorldWidth)+1 -- calculate worldNumber
 
+		if b.bottomText then
+			levelNameText.text = b.bottomText
+			levelNameText.x = -45 + singleWorldWidth * (Campaign.worldNumber-1)
+		end
 		-- Create function which will set ninja coordinates. Then call that function:
 		--local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
 		--menuPlayer.vis:setAni(Campaign.bandana .. "Walk")
@@ -198,12 +206,18 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBrid
 			local curButton
 			-- add buttons until the current level is found:
 			if not lastLevelFound then
+				local levelName = ''
+				if type(v) == 'string' then
+					levelName = levelName .. v:sub(1,4) .. '  '
+				end
+				levelName = levelName .. Campaign.names[v]
+				print(levelName)
 				curButton = submenu:addButton(
 				'worldItemOff',
 				'worldItemOn',
 				x, y, --menu:startCampaignLevel( k ),
 				fader:switchFunction(k),
-				self.scroll )
+				self.scroll,nil,nil, levelName )
 
 				numLevelButtons = k
 

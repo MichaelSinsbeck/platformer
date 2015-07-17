@@ -68,9 +68,13 @@ function Submenu:draw()
 			end
 
 			for j, t in ipairs( l.texts ) do
+				if t.color then
+					love.graphics.setColor(t.color)
+				end
 				love.graphics.printf( t.text, t.x*Camera.scale, t.y*Camera.scale,
 						t.width*Camera.scale, t.align )
 			end
+			love.graphics.setColor(255,255,255)
 
 			--if self.transition then
 				--self.transition:pop()
@@ -221,14 +225,14 @@ function Submenu:addPanel( x, y, w, h, layerName )
 	end
 end
 
-function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName, text )
+function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName, text, bottomText )
 	
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local b = Button:new( imgOff, imgOn, x, y, event, eventHover, text )
+			local b = Button:new( imgOff, imgOn, x, y, event, eventHover, text, bottomText )
 			table.insert( l.buttons, b )
 			self:linkButtons( layerName )
 			return b
@@ -301,6 +305,7 @@ function Submenu:addText( text, x, y, width, layerName, align )
 				align = align,
 			}
 			table.insert( l.texts, t )
+			return t
 		end
 	end
 end

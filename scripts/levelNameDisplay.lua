@@ -20,11 +20,11 @@ function LevelNameDisplay:new( name, time )
 
 	o.textWidth = w
 	o.textY = 0
-	o.textGoalY = o.box.y*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2 
+	o.textGoalY = o.box.y*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
 	o.textStartY = (o.box.y - o.box.box.pixelHeight)*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
 	o.textX = o.box.x*Camera.scale + (o.box.box.pixelWidth - o.textWidth)/2
 	o.lines = lines
-	o.boxGoalY = 0 
+	o.boxGoalY = 0
 	o.boxStartY = -o.box.box.pixelHeight 
 
 	o.active = true

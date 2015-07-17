@@ -3,7 +3,7 @@
 local Button = {}
 Button.__index = Button
 
-function Button:new( imgOff, imgOn, x, y, event, eventHover, text )
+function Button:new( imgOff, imgOn, x, y, event, eventHover, text, bottomText )
 	local o = {}
 	setmetatable( o, self )
 	o.imgOff = imgOff
@@ -11,6 +11,7 @@ function Button:new( imgOff, imgOn, x, y, event, eventHover, text )
 	o.event = event
 	o.eventHover = eventHover
 	o.text = text
+	o.bottomText = bottomText
 	o.x = x + 4
 	o.y = y + 4
 	o.selected = false
