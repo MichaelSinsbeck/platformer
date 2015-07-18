@@ -16,16 +16,19 @@ function LevelNameDisplay:new( name, time )
 
 	o.box = Panel:new( 0, 0, o.w, o.h )
 	o.box.x = ( love.graphics.getWidth() - o.box.box.pixelWidth )/2/Camera.scale
-	o.box.y = 0
+	--o.box.y = 0
 
 	o.textWidth = w
-	o.textY = 0
+	--o.textY = 0
 	o.textGoalY = o.box.y*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
 	o.textStartY = (o.box.y - o.box.box.pixelHeight)*Camera.scale + (o.box.box.pixelHeight - lines*fontLarge:getHeight())/2
 	o.textX = o.box.x*Camera.scale + (o.box.box.pixelWidth - o.textWidth)/2
 	o.lines = lines
 	o.boxGoalY = 0
 	o.boxStartY = -o.box.box.pixelHeight 
+	
+	o.box.y = o.boxStartY
+	o.textY = o.textStartY
 
 	o.active = true
 	o.timer = time
