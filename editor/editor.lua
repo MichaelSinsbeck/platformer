@@ -121,6 +121,13 @@ function editor.createPropertiesPanel()
 			propertiesPanel.visible = false end,
 			'LEDelete',
 			"remove", nil, KEY_DELETE, true)
+			
+		if not noBg or not bg then
+			propertiesPanel:addClickable( x+14, y,
+				editor.duplicateSelection,
+				'LEDuplicate',
+				"Duplicate selection", nil, KEY_DUPLICATE, true)
+		end	
 
 		if #map.selectedObjects == 1 then
 			if map.selectedObjects[1].isBackgroundObject then
@@ -135,7 +142,6 @@ function editor.createPropertiesPanel()
 			else
 				x,y = 8, 26
 				if map.selectedObjects[1].properties then
-					print("new")
 					for name, p in pairs(map.selectedObjects[1].properties) do
 						propertiesPanel:addProperty( name, x, y, p, map.selectedObjects[1] )
 						y = y + 12
@@ -154,12 +160,6 @@ function editor.createPropertiesPanel()
 			else
 				noBg = true
 			end
-		end
-		if not noBg or not bg then
-			propertiesPanel:addClickable( 16, propertiesPanelHeight - 16,
-				editor.duplicateSelection,
-				'LEDuplicate',
-				"Duplicate selection", nil, KEY_DUPLICATE, true)
 		end
 	end
 end
@@ -431,10 +431,10 @@ function editor.start()
 	editor.createBgObjectPanel()
 	editor.createObjectPanel()
 
-	w = 48
+	w = 40
 	local panelX = love.graphics.getWidth()/Camera.scale - w
-	propertiesPanelHeight = love.graphics.getHeight()/Camera.scale - 32
-	propertiesPanel = Panel:new( panelX, 17, w, propertiesPanelHeight )
+	propertiesPanelHeight = love.graphics.getHeight()/Camera.scale - 16
+	propertiesPanel = Panel:new( panelX, 8, w, propertiesPanelHeight )
 	propertiesPanel.visible = false
 
 	local x = love.graphics.getWidth()/3/Camera.scale

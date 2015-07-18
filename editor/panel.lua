@@ -218,7 +218,7 @@ function Panel:draw()
 			love.graphics.setColor(255,255,255,255)
 
 			local displayName = p.names[p.obj[k]] or p.obj[k]
-			love.graphics.print( displayName, (p.x+5)*Camera.scale, (p.y+5)*Camera.scale )
+			love.graphics.print( displayName, (p.x+7)*Camera.scale, (p.y+5)*Camera.scale )
 		end
 		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
 	end
@@ -562,11 +562,11 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 			obj:applyOptions()
 		end
 
-		self:addClickable( x + 1, y + 7, decrease,
+		self:addClickable( x + 3, y + 7, decrease,
 		'LEUp',
 		"Choose next value", nil,nil, true)
 
-		self:addClickable( x + 30, y + 7, increase,
+		self:addClickable( x + 25, y + 7, increase,
 		'LEDown',
 		"Choose next value", nil,nil, true)
 	end
