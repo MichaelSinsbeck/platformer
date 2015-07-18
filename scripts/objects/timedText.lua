@@ -16,7 +16,7 @@ local TimedText = object:New({
 	properties = {
 		text = utility.newTextProperty(),
 		location = utility.newCycleProperty( {"here", "player"},
-				{"here", "on player"} , 1 ),
+				{"here", "player"} , 1 ),
 		startTime = utility.newNumericTextProperty (0, 0, math.huge),
 		duration = utility.newNumericTextProperty (0, 0, math.huge),
 		hasPointer = utility.newCycleProperty({true,false},{'true','false'}),

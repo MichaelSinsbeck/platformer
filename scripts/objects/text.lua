@@ -15,7 +15,7 @@ local Text = object:New({
 	properties = {
 		text = utility.newTextProperty(),
 		location = utility.newCycleProperty( {"here", "player"},
-				{"here", "on player"} , 1 ),
+				{"here", "player"} , 1 ),
 		offsetX = utility.newNumericTextProperty( 0, -math.huge, math.huge ),
 		offsetY = utility.newNumericTextProperty( 3, -math.huge, math.huge ),
 		sensorW = utility.newNumericTextProperty( 5, 0, math.huge ),
