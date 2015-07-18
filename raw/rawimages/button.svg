@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.828427"
-     inkscape:cx="92.424734"
-     inkscape:cy="70.694879"
+     inkscape:zoom="1.9999999"
+     inkscape:cx="53.126131"
+     inkscape:cy="13.38447"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -99,15 +99,15 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="scccs" />
     <path
-       style="fill:#002255;fill-opacity:1;stroke:#000c1e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 60.878179,1029.8857 c 8.902071,-0.037 20.159284,-0.393 28.848661,0.1343 2.044831,0.3562 3.026356,3.8425 2.026123,5.2232 -10.629907,0.1171 -28.152012,-0.2946 -33.922176,0.034 -0.270163,-3.2964 0.0063,-5.3788 3.047392,-5.3915 z"
-       id="path3791-86-3"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="scccs" />
-    <path
        style="fill:#00aa00;fill-opacity:1;stroke:#003c00;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m 110.87817,1029.8857 c 8.90208,-0.037 20.15929,-0.393 28.84866,0.1343 2.04484,0.3562 3.02636,3.8425 2.02613,5.2232 -10.62991,0.1171 -28.15201,-0.2946 -33.92218,0.034 -0.27016,-3.2964 0.006,-5.3788 3.04739,-5.3915 z"
        id="path3791-86-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="scccs" />
+    <path
+       style="fill:#0058dd;fill-opacity:1;stroke:#001385;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 60.878179,1029.8857 c 8.902071,-0.037 20.159284,-0.393 28.848661,0.1343 2.044831,0.3562 3.026356,3.8425 2.026123,5.2232 -10.629907,0.1171 -28.152012,-0.2946 -33.922176,0.034 -0.270163,-3.2964 0.0063,-5.3788 3.047392,-5.3915 z"
+       id="path3791-86-3-8-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="scccs" />
   </g>

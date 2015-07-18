@@ -331,7 +331,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('cannon.png','cannon',tileSize,tileSize)
 	AnimationDB:loadTiledImage('goalie.png','goalie',tileSize,tileSize)
 	AnimationDB:loadTiledImage('launcher.png','launcher',tileSize,tileSize)
-	AnimationDB:loadTiledImage('launcherSon.png','launcherSon',tileSize,tileSize)
+	--AnimationDB:loadTiledImage('launcherSon.png','launcherSon',tileSize,tileSize)
 	AnimationDB:loadTiledImage('missile.png','missile',tileSize,tileSize)
 	AnimationDB:loadTiledImage('windmillwing.png','windmillwing')
 	AnimationDB:loadTiledImage('windmillpreview.png','windmillpreview')
@@ -532,7 +532,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('medusaVortex','medusaSpawner',{2},{1e6})
 
 	AnimationDB:addAni('launcher','launcher',{1},{1e6})
-	AnimationDB:addAni('launcherSon','launcherSon',{1},{1e6})
+	AnimationDB:addAni('launcherSon','shuriken',{1},{1e6})
 
 	AnimationDB:addAni('missile','missile',{1},{1e6})
 
