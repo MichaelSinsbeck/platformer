@@ -10,6 +10,7 @@ local Walker = object:New({
   isInEditor = true,
   period = 0.5, -- should be (0.8/speed)
   zoomState = 0, -- for cross hairs
+  soundCoolDown = 0,
 	properties = {
 		type = utility.newCycleProperty({'enemy','bouncy'}),	
 		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
@@ -43,6 +44,8 @@ function Walker:applyOptions()
 end
 
 function Walker:postStep(dt)
+	self.soundCoolDown = self.soundCoolDown - dt
+	
 	local t0 = self.timer / self.period
 	if self.collisionResult >= 8 then
 		self.timer = (self.timer + dt)%self.period
@@ -158,7 +161,13 @@ function Walker:postStep(dt)
 				p.vy = -self.strength;
 				self:setAnim('bouncywalkerblink' .. self.arrows,false,3)
 				self:resetAnimation()
-				p.canUnJump = false		
+				p.canUnJump = false
+				
+				if self.soundCoolDown < 0 then
+					local pitch = self.strength/23
+					self:playSound('bouncerBump',1,pitch) 
+					self.soundCoolDown = 0.1
+				end
 			end
     end
   end
