@@ -123,23 +123,15 @@ function EditorMap:setGroundTile( x, y, ground, updateSurrounding )
 	local oldGroundType = ""
 	local newGroundType = ""
 	if self.groundArray[x][y].gType then
-		local oldName = self.groundArray[x][y].gType
-		if oldName == "spikesConcrete" or
-			 oldName == "spikesSoil" or
-	     oldName == "spikesRock" or
-	     oldName == "spikesPyramid" or
-	     oldName == "spikesCloud" then
+		local oldName = self.groundArray[x][y].gType.name
+		if oldName:sub(1,6) == 'spikes' then
 			oldGroundType = "spikes"
 		else
 			oldGroundType = "noSpikes"
 		end
 	end
 
-	if ground.name == "spikesConcrete" or
-	   ground.name == "spikesSoil" or
-	   ground.name == "spikesRock" or
-	   ground.name == "spikesPyramid" or
-	   ground.name == "spikesCloud" then
+	if ground.name:sub(1,6) == 'spikes' then
 		newGroundType = "spikes"
 	else
 		newGroundType = "noSpikes"
