@@ -94,7 +94,7 @@ function credits:init()
 	creditEntries[2] = {title = "graphics", person = "Michael Sinsbeck\ngermanunkol", img = 'creditsGraphics'}
 	creditEntries[3] = {title = "programming", person = "Michael Sinsbeck\ngermanunkol", img = 'creditsProgramming'}
 	creditEntries[4] = {title = "music", person = "Max Ackermann", img = 'creditsMusic'}
-	creditEntries[5] = {title = "sound", person = "Thomas Stoetzner\nMichael Sinsbeck\nLukas Nowok", img = 'creditsMusic'}
+	creditEntries[5] = {title = "sound", person = "Thomas Stoetzner\nMichael Sinsbeck\nLukas Nowok", img = 'creditsSound'}
 	
 	creditsNum = 1
 	ct = 0

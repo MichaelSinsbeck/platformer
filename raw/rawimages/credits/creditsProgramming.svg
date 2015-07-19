@@ -14,8 +14,8 @@
    height="75"
    id="svg8753"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="creditsMusic.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="creditsProgramming.svg">
   <defs
      id="defs8755">
     <linearGradient
@@ -95,11 +95,11 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1-3"
      showgrid="false"
-     inkscape:window-width="958"
-     inkscape:window-height="1024"
+     inkscape:window-width="1280"
+     inkscape:window-height="750"
      inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="0" />
+     inkscape:window-y="25"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata8758">
     <rdf:RDF>
@@ -108,7 +108,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -123,7 +123,7 @@
        inkscape:label="Layer 1">
       <g
          id="g3295"
-         transform="translate(-56.568542,-9.0913735)">
+         transform="matrix(1.0811757,0,0,1.0811757,-60.338634,-90.101131)">
         <path
            style="fill:#bb6325;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
            d="m 59.18444,1035.4879 -0.0914,13.6747 2.65694,-0.043 -0.70921,-13.7352 z"
