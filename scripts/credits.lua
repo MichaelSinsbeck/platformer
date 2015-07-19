@@ -36,7 +36,7 @@ function credits:draw()
 	local x,y,scale
 	
 	love.graphics.setColor(44,90,160)
-	love.graphics.rectangle("fill", 0, love.graphics.getHeight()/2 - AnimationDB.image[creditEntries[1].img]:getHeight()/2 , love.graphics.getWidth(), AnimationDB.image[creditEntries[1].img]:getHeight())
+	love.graphics.rectangle("fill", 0, love.graphics.getHeight()/2 - 1.1*AnimationDB.image[creditEntries[1].img]:getHeight()/2 , love.graphics.getWidth(), 1.1*AnimationDB.image[creditEntries[1].img]:getHeight())
 
 	-- Draw two lines
 	love.graphics.setColor(0,0,0)
@@ -90,19 +90,19 @@ end
 function credits:init()
 	local prefix = Camera.scale * 8
 	
-	creditEntries[1] = {title = "idea & design", person = "micha", img = 'creditsDesign'}
-	creditEntries[2] = {title = "graphics", person = "micha", img = 'creditsGraphics'}
-	creditEntries[3] = {title = "programming", person = "micha\ngermanunkol", img = 'creditsProgramming'}
-	
-	creditEntries[4] = {title = "music & sound", person = "none", img = 'creditsMusic'}
+	creditEntries[1] = {title = "idea & design", person = "Michael Sinsbeck", img = 'creditsDesign'}
+	creditEntries[2] = {title = "graphics", person = "Michael Sinsbeck\ngermanunkol", img = 'creditsGraphics'}
+	creditEntries[3] = {title = "programming", person = "Michael Sinsbeck\ngermanunkol", img = 'creditsProgramming'}
+	creditEntries[4] = {title = "music", person = "Max Ackermann", img = 'creditsMusic'}
+	creditEntries[5] = {title = "sound", person = "Thomas Stoetzner\nMichael Sinsbeck\nLukas Nowok", img = 'creditsMusic'}
 	
 	creditsNum = 1
 	ct = 0
 	
 	local imax = math.floor(love.graphics.getWidth()/20)
 	local dx = love.graphics.getWidth()/imax
-	local top = love.graphics.getHeight()/2 - AnimationDB.image[creditEntries[1].img]:getHeight()/2
-	local bottom = love.graphics.getHeight()/2 + AnimationDB.image[creditEntries[1].img]:getHeight()/2		
+	local top = love.graphics.getHeight()/2 - 1.1*AnimationDB.image[creditEntries[1].img]:getHeight()/2
+	local bottom = love.graphics.getHeight()/2 + 1.1*AnimationDB.image[creditEntries[1].img]:getHeight()/2		
 	
 	coordinatesTop = {}
 	coordinatesBottom = {}
