@@ -284,7 +284,7 @@ function editor.start()
 	groundPanel = Panel:new( love.graphics.getWidth()/Camera.scale - w, 17, w, h )
 	x,y = 16, 16
 
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[1]:setActive(true)
 										editor.currentGround = editor.groundList[1] end,
@@ -292,7 +292,7 @@ function editor.start()
 				"draw concrete ground", nil, "q" )
 	groundButtons[1] = b
   x = x + 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[2]:setActive(true)
 										editor.currentGround = editor.groundList[2] end,
@@ -301,7 +301,7 @@ function editor.start()
 	groundButtons[2] = b
   y = y + 16
   x = x - 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[3]:setActive(true)
 										editor.currentGround = editor.groundList[3] end,
@@ -309,7 +309,7 @@ function editor.start()
 				"draw dirt ground", nil,"w" )
 	groundButtons[3] = b
   y = y + 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[4]:setActive(true)
 										editor.currentGround = editor.groundList[4] end,
@@ -318,7 +318,7 @@ function editor.start()
 	groundButtons[4] = b
   x = x + 14
   y = y - 7
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[5]:setActive(true)
 										editor.currentGround = editor.groundList[5] end,
@@ -327,7 +327,7 @@ function editor.start()
 	groundButtons[5] = b
   y = y + 23
   x = x - 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[6]:setActive(true)
 										editor.currentGround = editor.groundList[6] end,
@@ -335,7 +335,7 @@ function editor.start()
 				"draw rock ground", nil, "r" )
 	groundButtons[6] = b
   x = x + 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[7]:setActive(true)
 										editor.currentGround = editor.groundList[7] end,
@@ -344,7 +344,7 @@ function editor.start()
 	groundButtons[7] = b
   y = y + 14
   x = x - 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[8]:setActive(true)
 										editor.currentGround = editor.groundList[8] end,
@@ -352,7 +352,7 @@ function editor.start()
 				"draw pyramid ground", nil, "t" )
 	groundButtons[8] = b
   x = x + 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[9]:setActive(true)
 										editor.currentGround = editor.groundList[9] end,
@@ -361,7 +361,7 @@ function editor.start()
 	groundButtons[9] = b	
   y = y + 14
   x = x - 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[10]:setActive(true)
 										editor.currentGround = editor.groundList[10] end,
@@ -370,7 +370,7 @@ function editor.start()
 	groundButtons[10] = b
 	
   x = x + 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[11]:setActive(true)
 										editor.currentGround = editor.groundList[11] end,
@@ -380,7 +380,7 @@ function editor.start()
 	
 	y = y + 14
 	x = x - 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[12]:setActive(true)
 										editor.currentGround = editor.groundList[12] end,
@@ -389,7 +389,7 @@ function editor.start()
 	groundButtons[12] = b			
 
   x = x + 14
-	b = groundPanel:addClickable( x, y, function() editor.setTool("pen")
+	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
 										groundPanel:deactivateAll()
 										groundButtons[13]:setActive(true)
 										editor.currentGround = editor.groundList[13] end,
@@ -404,7 +404,7 @@ function editor.start()
 	backgroundPanel = Panel:new( love.graphics.getWidth()/Camera.scale - w, 17, w, h )
 	x,y = 16, 16
 
-	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[1]:setActive(true)
 										editor.currentBackground = editor.backgroundList[1] end,
@@ -412,7 +412,7 @@ function editor.start()
 				"draw concrete background", nil, "q" )
 	backgroundButtons[1] = b
   y = y + 10
-	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[2]:setActive(true)
 										editor.currentBackground = editor.backgroundList[2] end,
@@ -420,7 +420,7 @@ function editor.start()
 				"draw soil background", nil, "w" )
 	backgroundButtons[2] = b
   y = y + 10
-	b = backgroundPanel:addClickable( x, y, function() editor.setTool("bgPen")
+	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[3]:setActive(true)
 										editor.currentBackground = editor.backgroundList[3] end,
@@ -1943,6 +1943,7 @@ function editor:draw()
 end
 
 function editor.setTool( tool )
+	print('Set tool: '..tool)
 	--map:selectNoBgObject()
 	map:selectNoObject()
 	propertiesPanel.visible = false
@@ -1965,8 +1966,20 @@ function editor.setTool( tool )
 		editor.propertiesClipboard = nil
 	elseif tool == "pen" then
 		groundPanel.visible = true
+		-- find previously selected button and press it again (continue with previously selected ground type)
+		for k,v in ipairs(groundPanel.pages[0]) do
+			if v.active then
+				v.event()
+			end
+		end
 	elseif tool == "bgPen" then
 		backgroundPanel.visible = true
+		-- find previously selected background type and select it again
+		for k,v in ipairs(backgroundPanel.pages[0]) do
+			if v.active then
+				v.event()
+			end
+		end
 	end
 
 	if toolButtons[tool] then
