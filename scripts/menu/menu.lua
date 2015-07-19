@@ -60,6 +60,9 @@ function menu:init()
 					self:switchToSubmenu( "Settings" )
 				--end )
 	end
+	local switchToCredits = function()
+		self:switchToSubmenu( "Credits")
+	end
 	local switchToEditor = function()
 		self:switchToSubmenu( "Editor" )
 	end
@@ -78,7 +81,7 @@ function menu:init()
 	mainMenu:addButton( "editorOff", "editorOn", -11, 20,
 		switchToEditor, self:setPlayerPositionEvent( -17, 25), nil, 'Leveleditor' )
 	mainMenu:addButton( "creditsOff", "creditsOn", -11, 30,
-		nil, self:setPlayerPositionEvent( -17, 35), nil, 'Credits' )
+		switchToCredits, self:setPlayerPositionEvent( -17, 35), nil, 'Credits' )
 	mainMenu:addButton( "exitOff", "exitOn", -11, 40,
 		quit, self:setPlayerPositionEvent( -17, 45), nil, 'Quit' )
 
@@ -192,8 +195,26 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 	end
 
 	editorMenu:setActivateFunction( showEditor )
-
 	submenus["Editor"] = editorMenu
+	
+	-- Dummy menu for credits (doesn't display anything)
+	local creditsMenu = Submenu:new(0,1000)
+	local function showCredits()
+		Credits:start()
+	end
+	creditsMenu.update = Credits.update
+	creditsMenu.draw = Credits.draw
+	creditsMenu:setActivateFunction( showCredits)
+	local function quitCredits()
+		Credits:stop()
+		menu:switchToSubmenu( "Main" )
+		
+	end
+	creditsMenu:addHotkey( "BACK", "Exit",
+		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		love.graphics.getHeight()/Camera.scale/2 - 24,
+		quitCredits )
+	submenus["Credits"] = creditsMenu
 
 	if love.joystick.getJoystickCount() ~= 0 then
 		self:connectedGamepad()
@@ -248,6 +269,8 @@ function menu:switchToSubmenu( menuName )
 		self:slideCameraTo( -1400, 0, 0.5 )
 	elseif menuName == "Editor" then
 		self:slideCameraTo( 0, 1000, 0.5 )
+	elseif menuName == "Credits" then
+		self:slideCameraTo(1000,0,0.5)
 	end
 
 	menu:setPlayerDirection( "right" )

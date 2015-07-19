@@ -19,6 +19,7 @@ function loading.update()
 		
 		love.filesystem.createDirectory("userlevels")
 
+		Credits = require("scripts/credits")
 		menu = require("scripts/menu/menu")
 		parallax = require("scripts/parallax")
 		BambooBox = require("scripts/bambooBox")
@@ -58,6 +59,7 @@ function loading.update()
 	elseif loading.step == 4 then
 		gui.init()	
 		menu:init()	-- must be called after AnimationDB:loadAll()
+		Credits:init()
 		--BambooBox:init()
 		upgrade = require("scripts/upgrade")		
 		love.keyboard.setKeyRepeat( true )

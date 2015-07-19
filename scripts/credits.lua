@@ -13,22 +13,26 @@ local creditsNum = 1
 local ct = 0
 local coordinatesTop
 local coordinatesBottom
+local active = false
 
 function credits:update( dt )
+	if not active then return end
 	ct = ct + dt
+	if ct > 5 then
+		creditsNum = creditsNum + 1		-- go on to displaying the next credit entry
+		ct = 0
+	end
+		
 	if creditsNum > #creditEntries then
-		if ct > 1 then
-			menu.startTransition(menu.initMain)()
-		end
-	else
-		if ct > 5 then
-			creditsNum = creditsNum + 1		-- go on to displaying the next credit entry
-			ct = 0
-		end
+		menu:switchToSubmenu( "Main" )
+		active = false
+			--menu.startTransition(menu.initMain)()
 	end
 end
 
 function credits:draw()
+	if not active then return end
+	love.graphics.origin()
 	local x,y,scale
 	
 	love.graphics.setColor(44,90,160)
@@ -73,9 +77,19 @@ function credits:draw()
 	
 end
 
-function credits:init( prefix )
+function credits:start() -- set timer back to zero and stuff
+	active = true
+	creditsNum = 1
+	ct = 0
+end
+
+function credits:stop()
+	active = false
+end
+
+function credits:init()
 	local prefix = Camera.scale * 8
-		
+	
 	creditEntries[1] = {title = "idea & design", person = "micha", img = 'creditsDesign'}
 	creditEntries[2] = {title = "graphics", person = "micha", img = 'creditsGraphics'}
 	creditEntries[3] = {title = "programming", person = "micha\ngermanunkol", img = 'creditsProgramming'}
