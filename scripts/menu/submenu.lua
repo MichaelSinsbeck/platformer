@@ -28,32 +28,19 @@ function Submenu:new( x, y )
 end
 
 function Submenu:draw()
-
 	love.graphics.push()
 	love.graphics.translate( self.x*Camera.scale, self.y*Camera.scale )
 
 	for k,l in ipairs( self.layers ) do
 		if l.visible then
-
-			--if self.imageTransition then
-				--self.imageTransition:push()
-			--end
-
+			-- Draw the panels on this layer: (bamboo box)
+			for j, p in ipairs( l.panels ) do
+				p:draw()
+			end
+			
 			-- Draw all images on this layer:
 			for j, i in ipairs( l.images ) do
 				love.graphics.draw( AnimationDB.image[i.image], i.x*Camera.scale, i.y*Camera.scale )
-			end
-
-			--if self.imageTransition then
-				--self.imageTransition:pop()
-			--end
-
-			--if self.transition then
-				--self.transition:push()
-			--end
-			-- Draw the panels on this layer:
-			for j, p in ipairs( l.panels ) do
-				p:draw()
 			end
 
 			-- Draw the buttons on this layer:
@@ -70,6 +57,11 @@ function Submenu:draw()
 			for j, t in ipairs( l.texts ) do
 				if t.color then
 					love.graphics.setColor(t.color)
+				end
+				if t.font then
+					love.graphics.setFont(t.font)
+				else
+					love.graphics.setFont(fontSmall)
 				end
 				love.graphics.printf( t.text, t.x*Camera.scale, t.y*Camera.scale,
 						t.width*Camera.scale, t.align )
@@ -290,7 +282,7 @@ function Submenu:addImage( image, x, y, layerName )
 	end
 end
 
-function Submenu:addText( text, x, y, width, layerName, align )
+function Submenu:addText( text, x, y, width, layerName, align, color,font )
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 	align = align or "center"
@@ -303,6 +295,8 @@ function Submenu:addText( text, x, y, width, layerName, align )
 				y = y,
 				width = width,
 				align = align,
+				color = color,
+				font = font,
 			}
 			table.insert( l.texts, t )
 			return t

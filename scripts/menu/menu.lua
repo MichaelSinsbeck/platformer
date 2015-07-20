@@ -198,22 +198,49 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 	submenus["Editor"] = editorMenu
 	
 	-- Dummy menu for credits (doesn't display anything)
-	local creditsMenu = Submenu:new(0,1000)
-	local function showCredits()
-		Credits:start()
-	end
-	creditsMenu.update = Credits.update
-	creditsMenu.draw = Credits.draw
-	creditsMenu:setActivateFunction( showCredits)
+	local creditsMenu = Submenu:new(700,0)
+	local t
+	creditsMenu:addPanel(-104, -70, 200, 100)
+	
+	creditsMenu:addImage( "creditsDesign", -80, -64 ) 
+	creditsMenu:addImage( "creditsGraphics", -85, -32 )
+	creditsMenu:addImage( "creditsProgramming", -85, 0)
+	creditsMenu:addImage( "creditsMusic", 10, -64 )
+	creditsMenu:addImage( "creditsSound", -5, -32 )
+
+	
+	creditsMenu:addText( 'Design', -55, -60, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Art', -55, -28, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Programming', -55, 4, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Music', 40, -60, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Sound', 40, -28, 40 ,nil,'left',colors.text,fontLarge)
+	
+	creditsMenu:addText( 'Michael Sinsbeck', -50, -52, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -50, -20, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -50, 12, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Max Ackermann', 45, -52, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Thomas Stoetzner\nMichael Sinsbeck\nLukas Nowok', 45, -20, 40 ,nil,'left',colors.blueText)
+	 
+	--	levelNameText = submenu:addText(levelName, -45, 35, 80, nil, 'center' )
+	--levelNameText.color = colors.black
+	
+	
+	--local function showCredits()
+		--Credits:start()
+	--end
+	--creditsMenu.update = Credits.update
+	--creditsMenu.draw = Credits.draw
+	--creditsMenu:setActivateFunction( showCredits)
 	local function quitCredits()
-		Credits:stop()
-		menu:switchToSubmenu( "Main" )
-		
+	--	Credits:stop()
+		menu:switchToSubmenu( "Main" )	
 	end
-	creditsMenu:addHotkey( "BACK", "Exit",
+	
+	creditsMenu:addHotkey( "BACK", "Back to Main",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		quitCredits )
+		
 	submenus["Credits"] = creditsMenu
 
 	if love.joystick.getJoystickCount() ~= 0 then
@@ -270,7 +297,7 @@ function menu:switchToSubmenu( menuName )
 	elseif menuName == "Editor" then
 		self:slideCameraTo( 0, 1000, 0.5 )
 	elseif menuName == "Credits" then
-		self:slideCameraTo(1000,0,0.5)
+		self:slideCameraTo(700,0,0.5)
 	end
 
 	menu:setPlayerDirection( "right" )

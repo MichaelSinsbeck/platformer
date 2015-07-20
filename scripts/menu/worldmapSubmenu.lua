@@ -39,8 +39,7 @@ function WorldmapSubmenu:new( x, y )
 
 	
 	local levelName = Campaign.names[currentLevel]
-	levelNameText = submenu:addText(levelName, -45, 35, 80, nil, 'center' )
-	levelNameText.color = colors.black
+	levelNameText = submenu:addText(levelName, -45, 35, 80, nil, 'center', colors.black )
 --[[	for k, v in ipairs(Campaign) do
 
 		local curButton

@@ -32,6 +32,7 @@ function Button:draw()
 		else
 			love.graphics.setColor(colors.text2)
 		end
+		love.graphics.setFont(fontSmall)
 		love.graphics.print( self.text,
 		Camera.scale*(self.x + 8), (self.y - 2) *Camera.scale )
 		love.graphics.setColor(colors.white)
