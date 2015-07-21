@@ -202,24 +202,26 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 	local t
 	creditsMenu:addPanel(-104, -70, 200, 100)
 	
-	creditsMenu:addImage( "creditsDesign", -80, -64 ) 
-	creditsMenu:addImage( "creditsGraphics", -85, -32 )
-	creditsMenu:addImage( "creditsProgramming", -85, 0)
-	creditsMenu:addImage( "creditsMusic", 10, -64 )
-	creditsMenu:addImage( "creditsSound", -5, -32 )
+	creditsMenu:addImage( "creditsDesign", -85, -62 ) 
+	creditsMenu:addImage( "creditsGraphics", -44, -29 )
+	creditsMenu:addImage( "creditsProgramming", -85, 6)
+	creditsMenu:addImage( "creditsMusic", 8, -62 )
+	creditsMenu:addImage( "creditsSound", 52, -29 )
+	creditsMenu:addImage( "creditsFramework", 8, 6 )
 
-	
 	creditsMenu:addText( 'Design', -55, -60, 40 ,nil,'left',colors.text,fontLarge)
-	creditsMenu:addText( 'Art', -55, -28, 40 ,nil,'left',colors.text,fontLarge)
-	creditsMenu:addText( 'Programming', -55, 4, 40 ,nil,'left',colors.text,fontLarge)
-	creditsMenu:addText( 'Music', 40, -60, 40 ,nil,'left',colors.text,fontLarge)
-	creditsMenu:addText( 'Sound', 40, -28, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Art', -90, -25, 40 ,nil,'right',colors.text,fontLarge)
+	creditsMenu:addText( 'Programming', -55, 10, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Music', 53, -60, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Sound', 8, -25, 40 ,nil,'right',colors.text,fontLarge)
+	creditsMenu:addText( 'Framework', 53, 10, 40 ,nil,'left',colors.text,fontLarge)
 	
 	creditsMenu:addText( 'Michael Sinsbeck', -50, -52, 40 ,nil,'left',colors.blueText)
-	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -50, -20, 40 ,nil,'left',colors.blueText)
-	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -50, 12, 40 ,nil,'left',colors.blueText)
-	creditsMenu:addText( 'Max Ackermann', 45, -52, 40 ,nil,'left',colors.blueText)
-	creditsMenu:addText( 'Thomas Stoetzner\nMichael Sinsbeck\nLukas Nowok', 45, -20, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -95, -17, 40 ,nil,'right',colors.blueText)
+	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -50, 18, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Max Ackermann', 58, -52, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Thomas Stoetzner\nMichael Sinsbeck\nLukas Nowok', -3, -17, 40 ,nil,'right',colors.blueText)
+	creditsMenu:addText( 'www.love2d.org', 58, 18, 40 ,nil,'left',colors.blueText)
 	 
 	--	levelNameText = submenu:addText(levelName, -45, 35, 80, nil, 'center' )
 	--levelNameText.color = colors.black

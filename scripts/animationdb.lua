@@ -399,6 +399,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('creditsProgramming.png', 'creditsProgramming', 'credits')
 	AnimationDB:loadImage('creditsMusic.png', 'creditsMusic', 'credits')
 	AnimationDB:loadImage('creditsSound.png', 'creditsSound', 'credits')
+	AnimationDB:loadImage('creditsFramework.png', 'creditsFramework', 'credits')
 end
 
 function AnimationDB:loadAnimations()
