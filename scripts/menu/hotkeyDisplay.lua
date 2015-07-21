@@ -32,7 +32,8 @@ function HotkeyDisplay:draw()
 		self.vis:draw( self.x*Camera.scale, self.y*Camera.scale )
 		self.textVis:draw( self.x*Camera.scale, self.y*Camera.scale )
 	end
-	self.captionVis:draw( self.x*Camera.scale, (self.y + 6)*Camera.scale )
+	love.graphics.setColor(colors.white)
+	self.captionVis:draw( self.x*Camera.scale, (self.y + 6)*Camera.scale, true )
 end
 
 function HotkeyDisplay:getKey()
