@@ -127,6 +127,7 @@ function TButton:startEvent()
 	self:toggle()
 	if self.event then
 		self.event( self.value )
+		Sound:play('menuEnter')
 	end
 end
 

@@ -120,10 +120,16 @@ function Slider:getNextDown( b )
 end
 
 function Slider:increaseValue()
+	if self.value < self.numSegments then
+		Sound:play('menuMove')
+	end
 	self:setValue( math.min( self.value +1, self.numSegments ) )
 end
 
 function Slider:decreaseValue()
+	if self.value > 1 then
+		Sound:play('menuMove')
+	end
 	self:setValue( math.max( self.value -1, 1 ) )
 end
 

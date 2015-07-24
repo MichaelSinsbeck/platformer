@@ -90,6 +90,7 @@ end
 function Button:startEvent()
 	if self.event then
 		self.event()
+		Sound:play('menuEnter')
 	end
 end
 

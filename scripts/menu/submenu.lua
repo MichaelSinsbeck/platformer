@@ -495,6 +495,7 @@ function Submenu:goLeft()
 						l.layerName
 					)
 					menu:setPlayerDirection( "left" )
+					Sound:play('menuMove')
 				end
 			end
 		end
@@ -515,6 +516,7 @@ function Submenu:goRight()
 						l.layerName
 					)
 					menu:setPlayerDirection( "right" )
+					Sound:play('menuMove')
 				end
 			end
 		end
@@ -531,6 +533,7 @@ function Submenu:goUp()
 				l.selectedButton:getNextUp(),
 				l.layerName
 				)
+				Sound:play('menuMove')
 			end
 		end
 	end
@@ -546,6 +549,7 @@ function Submenu:goDown()
 					l.selectedButton:getNextDown(),
 					l.layerName
 				)
+				Sound:play('menuMove')
 			end
 		end
 	end
