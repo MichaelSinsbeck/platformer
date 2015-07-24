@@ -200,39 +200,32 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 	-- Dummy menu for credits (doesn't display anything)
 	local creditsMenu = Submenu:new(700,0)
 	local t
-	creditsMenu:addPanel(-104, -70, 200, 100)
+	creditsMenu:addPanel(-104, -70, 200, 120)
 	
-	creditsMenu:addImage( "creditsDesign", -85, -62 ) 
-	creditsMenu:addImage( "creditsGraphics", -44, -29 )
-	creditsMenu:addImage( "creditsProgramming", -85, 6)
-	creditsMenu:addImage( "creditsMusic", 8, -62 )
-	creditsMenu:addImage( "creditsSound", 52, -29 )
-	creditsMenu:addImage( "creditsFramework", 8, 6 )
+	creditsMenu:addImage( "creditsDesign", -75, -62 ) 
+	creditsMenu:addImage( "creditsGraphics", -48, -32 )
+	creditsMenu:addImage( "creditsProgramming", -85, 0)
+	creditsMenu:addImage( "creditsMusic", 10, -62 )
+	creditsMenu:addImage( "creditsSound", 52, -32 )
+	creditsMenu:addImage( "creditsFramework", 8, 0 )
 
 	creditsMenu:addText( 'Design', -55, -60, 40 ,nil,'left',colors.text,fontLarge)
-	creditsMenu:addText( 'Art', -90, -25, 40 ,nil,'right',colors.text,fontLarge)
-	creditsMenu:addText( 'Programming', -55, 10, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Art', -90, -28, 40 ,nil,'right',colors.text,fontLarge)
+	creditsMenu:addText( 'Programming', -55, 4, 40 ,nil,'left',colors.text,fontLarge)
 	creditsMenu:addText( 'Music', 53, -60, 40 ,nil,'left',colors.text,fontLarge)
-	creditsMenu:addText( 'Sound', 8, -25, 40 ,nil,'right',colors.text,fontLarge)
-	creditsMenu:addText( 'Framework', 53, 10, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Sound', 8, -28, 40 ,nil,'right',colors.text,fontLarge)
+	creditsMenu:addText( 'Framework', 53, 4, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Special Thanks to', -90, 30, 100 ,nil,'left',colors.text,fontLarge)
 	
 	creditsMenu:addText( 'Michael Sinsbeck', -50, -52, 40 ,nil,'left',colors.blueText)
-	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -95, -17, 40 ,nil,'right',colors.blueText)
-	creditsMenu:addText( 'Michael Sinsbeck\nGermanunkol', -50, 18, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Michael Sinsbeck\nMicha Pfeiffer', -95, -20, 40 ,nil,'right',colors.blueText)
+	creditsMenu:addText( 'Michael Sinsbeck\nMicha Pfeiffer', -50, 12, 40 ,nil,'left',colors.blueText)
 	creditsMenu:addText( 'Max Ackermann', 58, -52, 40 ,nil,'left',colors.blueText)
-	creditsMenu:addText( 'Thomas Stoetzner\nMichael Sinsbeck\nLukas Nowok', -3, -17, 40 ,nil,'right',colors.blueText)
-	creditsMenu:addText( 'www.love2d.org', 58, 18, 40 ,nil,'left',colors.blueText)
-	 
-	--	levelNameText = submenu:addText(levelName, -45, 35, 80, nil, 'center' )
-	--levelNameText.color = colors.black
+	creditsMenu:addText( 'Thomas Stötzner\nMichael Sinsbeck\nLukas Nowok', 3, -20, 40 ,nil,'right',colors.blueText)
+	creditsMenu:addText( 'www.love2d.org', 58, 12, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Sibel, Ramona B.', -85, 38, 40 ,nil,'left',colors.blueText)
 	
-	
-	--local function showCredits()
-		--Credits:start()
-	--end
-	--creditsMenu.update = Credits.update
-	--creditsMenu.draw = Credits.draw
-	--creditsMenu:setActivateFunction( showCredits)
+
 	local function quitCredits()
 	--	Credits:stop()
 		menu:switchToSubmenu( "Main" )	
@@ -240,7 +233,7 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 	
 	creditsMenu:addHotkey( "BACK", "Back to Main",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
-		love.graphics.getHeight()/Camera.scale/2 - 24,
+		love.graphics.getHeight()/Camera.scale/2 - 12,
 		quitCredits )
 		
 	submenus["Credits"] = creditsMenu
