@@ -18,6 +18,7 @@ function Light:applyOptions()
 	else
 		self:setAnim('torch')
 	end
+	self.vis[1]:update(love.math.random())
 end
 
 function Light:setAcceleration()
