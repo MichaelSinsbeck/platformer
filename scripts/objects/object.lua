@@ -43,7 +43,7 @@ function object:init()
   if self.vis then
 		if self.vis[1] then
 			--self.width, self.height = self.vis[1]:getSize()
-
+			print(self.tag)
 			local name = AnimationDB.animation[self.vis[1].animation].source
 			self.semiwidth = self.semiwidth or 0.5*AnimationDB.source[name].width/(Camera.scale*8)*self.marginx
 			self.semiheight = self.semiheight or 0.5*AnimationDB.source[name].height/(Camera.scale*8)*self.marginy

@@ -2,13 +2,12 @@ local Particle = object:New({
 	tag = 'Particle',
   marginx = 0.4,
   marginy = 0.4,
-  --animation = 'particle',
   angle = 0,
   rotating = true,
   rotSpeed = 5,
   acceleration = 5,
   lifetime = 0.6,
-  vis = {Visualizer:New('particle'),},
+  vis = {Visualizer:New('particle1'),},
 })
 
 function Particle:setAcceleration(dt)

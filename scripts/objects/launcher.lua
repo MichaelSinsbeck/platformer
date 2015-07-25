@@ -11,7 +11,7 @@ local Launcher = object:New({
   isInEditor = true,
   vis = {
 		Visualizer:New('launcher',{angle = -0.5*math.pi}),
-		Visualizer:New('launcherSon'),
+		Visualizer:New('shuriken'),
   },
 	properties = {
 		distance = utility.newIntegerProperty(3,1,10),
