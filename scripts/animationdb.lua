@@ -274,27 +274,20 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('icons.png','icons',1,1)
 	AnimationDB:loadImage('irregular.png','irregular')
 	
-	AnimationDB:addTile('irregular',0,0,0.6,0.6) -- poff
-	AnimationDB:addTile('irregular',0.6,0,0.6,0.6)
-	AnimationDB:addTile('irregular',1.2,0,0.6,0.6)
-	AnimationDB:addTile('irregular',1.8,0,0.6,0.6)
-	AnimationDB:addTile('irregular',2.4,0,0.6,0.6)
-	AnimationDB:addTile('irregular',3,0,1,2) -- npc
-	AnimationDB:addTile('irregular',0,0.6,1.4,1.4) -- cross
-	AnimationDB:addTile('irregular',1.4,0.8,0.8,1.2) -- log
-	AnimationDB:addTile('irregular',2.4,1.4,0.2,0.6) -- winddots
-	AnimationDB:addTile('irregular',2.6,1.4,0.2,0.6)
-	AnimationDB:addTile('irregular',2.8,1.4,0.2,0.6)
-	AnimationDB:addTile('irregular',0,2,4,1) -- woosh
-	AnimationDB:addTile('irregular',0,3,4,2.2)
-	
-
-	AnimationDB:loadTiledImage('door.png','door',1,1)	
-	AnimationDB:loadTiledImage('bumper.png','bumper')
-	AnimationDB:loadTiledImage('light.png','light',1,1)	
-	AnimationDB:loadTiledImage('menuPlayer.png','menuPlayer',1,1, "menu")
-	AnimationDB:loadTiledImage('blockblock.png','blockblock',1,1)
-	AnimationDB:loadTiledImage('shurikenlarge.png','shurikenlarge')
+	AnimationDB:addTile('irregular', 0, 0, 0.6, 0.6) -- poff
+	AnimationDB:addTile('irregular', 0.6, 0, 0.6, 0.6)
+	AnimationDB:addTile('irregular', 1.2, 0, 0.6, 0.6)
+	AnimationDB:addTile('irregular', 0, 0.6, 0.6, 0.6)
+	AnimationDB:addTile('irregular', 0.6, 0.6, 0.6, 0.6)
+	AnimationDB:addTile('irregular', 3, 0.6, 1, 2) -- npc
+	AnimationDB:addTile('irregular', 0, 1.2, 1.4,1.4) -- cross
+	AnimationDB:addTile('irregular', 1.8, 0, 0.8, 1.2) -- log
+	AnimationDB:addTile('irregular', 2.8, 1.4, 0.2, 0.6) -- winddots
+	AnimationDB:addTile('irregular', 2.6, 2.0, 0.2, 0.6)
+	AnimationDB:addTile('irregular', 2.8, 2.0, 0.2, 0.6)
+	AnimationDB:addTile('irregular', 0, 2.6, 4, 1) -- woosh
+	AnimationDB:addTile('irregular', 0, 3.6, 4, 2.2) -- windmill wing
+	AnimationDB:addTile('irregular', 1.4, 1.4, 1.2, 1.2) -- large shuriken
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',1,1)
@@ -382,6 +375,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('mediumBouncer','objects',{20,19},{0.1,1e6})
 
 	AnimationDB:addAni('weakBouncer','objects',{22,21},{0.1,1e6})
+	AnimationDB:addAni('bumper','objects',{23},{1e6})
 	AnimationDB:addAni('button','objects',{24},{1e6})
 	AnimationDB:addAni('buttonPressed','objects',{26},{1e6})
 	AnimationDB:addAni('buttonReleased','objects',{25},{1e6})
@@ -390,7 +384,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('greenButton','objects',{29},{1e6})
 	AnimationDB:addAni('yellowButton','objects',{30},{1e6})
 
-	AnimationDB:addAni('cannon','objects',{33},{1e6})
+	AnimationDB:addAni('torch','objects',{31,32,31,33},{.2,.2,.2,.2})
 	AnimationDB:addAni('followerBack','objects',{38},{1e6})
 	AnimationDB:addAni('followerOpen','objects',{34,35,36,37},{0.1,0.1,0.1,1e6})
 	AnimationDB:addAni('followerClose','objects',{37,36,35,34},{0.1,0.1,0.1,1e6})
@@ -398,10 +392,11 @@ function AnimationDB:loadAnimations()
 
 	AnimationDB:addAni('exit','objects',{40,41,42,43,40,44,45},{.1,.1,.1,.1,.1,.1,.1})
 	AnimationDB:addAni('explosionExplode','objects',{46,47,48,49,50,51,51},{.05,.05,.1,.1,.1,.1,1e6})
-	AnimationDB:addAni('fixedcannon','objects',{54},{1e6})
+	AnimationDB:addAni('fixedcannon','objects',{52},{1e6})
 	AnimationDB:addAni('glassblock','objects',{53},{1e6})
 	AnimationDB:addAni('goalie','objects',{54},{1e6})
-
+	AnimationDB:addAni('cannon','objects',{55},{1e6})
+	
 	AnimationDB:addAni('imitatorRun','objects',{58,56,57,56},{.08,.04,.08,.04})
 	AnimationDB:addAni('imitatorWalk','objects',{65,63,64,63},{.08,.04,.08,.04})
 	AnimationDB:addAni('imitatorJump','objects',{60},{1e6})
@@ -430,6 +425,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('spawnerbar','objects',{83},{1e6})
 	AnimationDB:addAni('spawnersymbolenemy','objects',{84},{1e6})
 	AnimationDB:addAni('spawnersymbolbouncy','objects',{85},{1e6})
+	AnimationDB:addAni('candle','objects',{86,87,88,87},{0.2,0.2,0.2,0.2})
 
 	AnimationDB:addAni('enemyprewalker','objects',{97},{1e6})
 	AnimationDB:addAni('enemywalker','objects',{90},{1e6})
@@ -495,6 +491,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('speechbubbleTimer','icons',{7},{1e6})
 	AnimationDB:addAni('speechbubblepointer','icons',{8},{1e6})
 	AnimationDB:addAni('upwind','icons',{9},{1e6})
+	AnimationDB:addAni('blockblock','icons',{10},{1e6})
 
 	AnimationDB:addAni('listCount1','icons',{11},{1e6})
 	AnimationDB:addAni('listCount2','icons',{12},{1e6})
@@ -512,22 +509,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('wind3','irregular',{11},{1e6})
 	AnimationDB:addAni('woosh','irregular',{12},{1e6})
 	AnimationDB:addAni('windmillwing','irregular',{13},{1e6})
+	AnimationDB:addAni('shurikenlarge','irregular',{14},{1e6})			
 	
-
-	-- maybe delete these
-	AnimationDB:addAni('blockblock','blockblock',{1},{1e6})
-	AnimationDB:addAni('shurikenlarge','shurikenlarge',{1},{1e6})
-	AnimationDB:addAni('keyhole','door',{1},{1e6})	
-	AnimationDB:addAni('door','door',{2},{1e6})	
-	AnimationDB:addAni('key','door',{3},{1e6})				
-	AnimationDB:addAni('bumper','bumper',{1},{1e6})
-	AnimationDB:addAni('candle','light',{1},{1e6})
-	AnimationDB:addAni('candlelight','light',{2,3,4,3},{.2,.2,.2,.2})
-	AnimationDB:addAni('torch','light',{6},{1e6})		
-	AnimationDB:addAni('flame','light',{7,8,7,9},{.2,.2,.2,.2})
-	AnimationDB:addAni('lamp','light',{5},{1e6})
-	AnimationDB:addAni('lamplight','light',{10},{1e6})
-
 	-- gui stuff
 	AnimationDB:addAni('guiBeanFull','bean',{1},{1e6})
 	AnimationDB:addAni('guiBeanEmpty','bean',{2},{1e6})
@@ -625,6 +608,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('worldItemOn','menuButtons',{23},{1e6},
 		vectorAnimations.pulseAniUpdate )
 	AnimationDB:addAni('worldItemOff','menuButtons',{24},{1e6},
+		vectorAnimations.resetAniUpdate )
+	AnimationDB:addAni('worldItemInactive','menuButtons',{59},{1e6},
 		vectorAnimations.resetAniUpdate )
 
 	AnimationDB:addAni('sliderSegmentOff','menuButtons',{19},{1e6})

@@ -110,7 +110,7 @@ function WorldmapSubmenu:new( x, y )
 			selectLevelNum = k
 		end
 
-		submenu:addImage( "worldItemInactive", x -1 , y-1 )
+		--submenu:addImage( "worldItemInactive", x -1 , y-1 )
 
 		if k/levelsPerWorld == math.floor(k/levelsPerWorld) then
 			x = x + distBetweenWorlds

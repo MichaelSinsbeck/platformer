@@ -12,7 +12,7 @@
    inkscape:export-ydpi="144"
    inkscape:export-xdpi="144"
    inkscape:export-filename="/home/micha/Programmieren/git/platformer/images/64bumper.png"
-   sodipodi:docname="preview-icons.svg"
+   sodipodi:docname="icons.svg"
    inkscape:version="0.48.4 r9939"
    version="1.1"
    id="svg2"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710675"
-     inkscape:cx="-39.255213"
-     inkscape:cy="-10.74688"
+     inkscape:zoom="1.9999999"
+     inkscape:cx="271.42614"
+     inkscape:cy="82.291731"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -74,7 +74,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -291,7 +291,7 @@
        sodipodi:cy="24.625"
        sodipodi:rx="19.75"
        sodipodi:ry="19.75"
-       d="m 44,24.625 a 19.75,19.75 0 1 1 -39.5,0 19.75,19.75 0 1 1 39.5,0 z"
+       d="M 44,24.625 C 44,35.532624 35.157624,44.375 24.25,44.375 13.342376,44.375 4.5,35.532624 4.5,24.625 4.5,13.717376 13.342376,4.875 24.25,4.875 35.157624,4.875 44,13.717376 44,24.625 z"
        transform="matrix(0.92168675,0,0,0.39759036,152.7741,964.9465)" />
     <g
        id="g3974-6-7"
@@ -336,7 +336,7 @@
        sodipodi:cy="24.75"
        sodipodi:rx="2.875"
        sodipodi:ry="2.875"
-       d="m 27.25,24.75 a 2.875,2.875 0 1 1 -5.75,0 2.875,2.875 0 1 1 5.75,0 z"
+       d="m 27.25,24.75 c 0,1.587819 -1.287181,2.875 -2.875,2.875 -1.587819,0 -2.875,-1.287181 -2.875,-2.875 0,-1.587819 1.287181,-2.875 2.875,-2.875 1.587819,0 2.875,1.287181 2.875,2.875 z"
        transform="matrix(1,0,0,0.43137255,150.5,964.0607)" />
     <g
        id="g3977"
@@ -780,5 +780,11 @@
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cscsc" />
     </g>
+    <path
+       sodipodi:nodetypes="ssscssscssscssscs"
+       inkscape:connector-curvature="0"
+       id="rect5672-9"
+       d="m 214.30057,957.3353 c 3.71132,0.092 7.40976,0.5452 11.12201,0.585 2.97992,0.032 5.95707,-0.1926 8.93593,-0.2781 3.54695,-0.1019 10.64154,-0.28 10.64154,-0.28 0,0 -0.57964,6.589 -0.69174,9.8928 -0.11205,3.3021 -0.0316,6.6083 0.0195,9.9119 0.0557,3.5997 0.19187,7.1979 0.31279,10.796 0.1053,3.1336 0.35941,9.3993 0.35941,9.3993 0,0 -7.05767,-0.3663 -10.58983,-0.377 -2.90807,-0.01 -5.81603,0.1114 -8.72043,0.2576 -3.64688,0.1836 -7.27534,0.7712 -10.92682,0.778 -3.26171,0.01 -9.76293,-0.6586 -9.76293,-0.6586 0,0 -0.6462,-6.3754 -0.55155,-9.569 0.10499,-3.5428 1.05885,-7.0208 1.23944,-10.5606 0.17534,-3.4368 -0.0319,-6.8836 -0.15363,-10.3227 C 205.42147,963.7244 205,957.3622 205,957.3622 c 0,0 6.20129,-0.1039 9.30052,-0.027 z"
+       style="fill:#b3b3b3;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1" />
   </g>
 </svg>
