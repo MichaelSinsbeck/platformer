@@ -1,79 +1,66 @@
-
-shadows
-BambooBox
-editor
-Campaign
-game
-
-
-
--- getImageForPad
-
-selectButton (function) -> local to menu?
-loading
-bridge
-object
-keys
-
-Panel
-
-objectClasses
-Camera
-
-timer -> game.timer?
-debug
-menuPlayer -> menu.menuPlayer or menu.cursor?
-recorderTimer -> make a class for the recorder?
-screenshots -> move to recorder
-Map
-recorder
-DEBUG
-paused
-nameForKey
-spriteFactory
-fontLarge -> make a font table font.large and font.small
-initAll -> move to objectClasses
-fullscreenCanvas -> bundle with "shaders"
-
-levelEnd
-msgBox
-arg
-spriteEngine
-utility -> should stay
-Visualizer
-shaders
-setfenv
-config
-getAnimationForPad
-getfenv
-getImageForKey
-setmetatable
-pairs
-getAnimationForKey
-getmetatable
-settings
-error
-menu
-loadfile
-dofile
-type
-USE_SHADERS
-USE_SHADOWS
-AnimationDB
-os
-loadstring
-controlKeys
-collectgarbage
-math
-next
-mode
-require
-table
-_G
-select
-profiler
-unpack
-loadFont
-fontSmall
-ipairs
+Sound: table
+rawget: function
+shadows: table
+BambooBox: table
+editor: table
+newGroundType: string
+screenshots: table
+Campaign: table
+parallax: table
+game: table
+fader: table
+getImageForPad: function
+loading: table
+threadInterface: table
+object: table
+keys: table
+love: table
+Bridge: table
+Camera: table
+profiler: table
+string: table
+debug: table
+ipairs: function
+Map: table
+utility: table
+coroutine: table
+DEBUG: boolean
+paused: boolean
+nameForKey: function
+timer: number
+fontLarge: userdata
+recorderTimer: number
+recorder: boolean
+upgrade: table
+new: table
+initAll: function
+fullscreenCanvas: userdata
+Panel: table
+msgBox: table
+gui: table
+objectClasses: table
+spriteFactory: function
+levelEnd: table
+spriteEngine: table
+load: function
+Visualizer: table
+bit: table
+newObject: table
+shaders: table
+getAnimationForPad: function
+config: table
+getImageForKey: function
+getAnimationForKey: function
+keyTypes: table
+error: function
+menu: table
+GAME_VERSION: string
+settings: table
+AnimationDB: table
+controlKeys: table
+mode: string
+MAPFILE_VERSION: string
+loadFont: function
+layerName: string
+fontSmall: userdata
 

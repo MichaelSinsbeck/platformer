@@ -1,0 +1,114 @@
+small images
+------------
+meat.svg
+crumble.svg
+droplet.svg
+particle.svg
+bungee.svg
+
+normal sized objects
+--------------------
+shuriken.svg
+anchor.svg
+appearblock.svg
+bandana.svg
+bouncer.svg
+bumper.svg  <- entfernen?
+button.svg
+cannon.svg
+exit.svg
+explosion.svg
+fixedcannon.svg
+follower.svg
+glassblock.svg
+goalie.svg
+imitator.svg
+laser.svg
+launcher.svg
+missile.svg
+rock.svg
+rotator.svg
+sign.svg
+spawner.svg
+walker.svg
+
+preview-icons
+-------------
+speechbubble.svg -> editor
+upwind.svg  -> editor
+horizon.svg -> editor
+camera.svg -> editor
+lineHook.svg -> editor
+listCount.svg -> stats?
+windmillpreview.svg
+
+Player (separate)
+-----------------
+player.svg <- separat lassen
+smoke.svg
+
+Unique size
+-----------
+log.svg
+npc.svg <- größer
+winddot.svg
+windmillwing.svg <- separat
+crosshairs.svg
+poff.svg
+woosh.svg
+
+Statistics
+----------
+statHighestJump.svg
+statIdle.svg
+statLongestJump.svg
+statNoDeath1.svg
+statNoDeath2.svg
+statNumberOfButtons.svg
+statNumberOfJumps.svg
+statTimeInAir.svg
+statTime.svg
+statVelocity.svg
+statWallHang.svg
+deaths.svg
+wins.svg
+
+Keep or delete?
+---------------
+blockblock.svg 
+door.svg -> coupled to corresponding crumbles?
+light.svg
+shurikenlarge.svg
+
+
+
+
+
+Delete
+------
+launcherSon.svg <- kann weg
+medusaSpawner.svg <- entfernen
+medusa.svg <- entfernen
+miniFlame.svg <- entfernen
+player_blank.svg
+player_blue.svg
+player_green.svg
+player_red.svg
+player_white.svg
+player_yellow.svg
+placeholder.svg
+spikey.svg <- weg
+star.svg <- weg
+targetline.svg <- weg
+vorlage.svg <- weg
+waitbar.svg <- weg?
+runnermouth.svg
+runner.svg
+shuriken-launcher.svg
+sleepy.svg
+crumbleblock.svg
+bullet.svg
+butterfly.svg
+chimney.svg
+clubber.svg
+bubble.svg -> delete bubble.lua, too

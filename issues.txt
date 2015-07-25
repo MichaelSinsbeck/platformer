@@ -1,0 +1,12 @@
+- Spikes more dangerous
+- New walker: Intelligent, does not fall
+- New walker + bouncer
+- parallax background
+
+- gegner, die an wänden laufen
+- Gegner, die aus der Erde Springen?
+- Obtaining new Bandanas (Splash screen)
+- Text objects (speech bubble)
+- Drawing order (rotators)
+- level design
+

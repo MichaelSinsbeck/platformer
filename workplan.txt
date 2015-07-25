@@ -1,26 +1,34 @@
-Infrastruktur
--------------
+Bandana-Sign implementieren (für Leveleditor)
+Fehlende Statistiken
+Schatten/Licht entfernen
 
-• Title screen: Zeige ein Titelbild mit dem Namen des Spiels “Bandana” und sowas wie “press start”
-• Menü: Hauptmenü (Start, Optionen, Credits, Beenden, etc.). Layout/Design ist noch offen. Vielleicht mit Titlescreen vereinen (Oben dickes Logo unten die optionen, so ähnlich wie bei alten SNES spielen).
-• Level-win: screen Wird angezeigt, wenn der Spieler das Ziel erreicht. Es gibt nicht viel Anzuzeigen (Keine Punktzahl...) daher soll das kurz sein.
-• Abspann: Zeigt die Namen der beteiligten.
+Farbliche Animationen für die Bandana-Fähigkeiten
+
+Key-Assignment ok?
+Font überarbeiten
+Level-Editor: Auswahl von Objekten aus Palette ist komisch
+Walker, maximale Lebensdauer
+Optionsmenu vom Pause-Menu aus
+Globale Variable
+Wartezeit-Level austauschen
+Hintergrund (Parallax)
+Bosskampf
+Text für Sensei schreiben
+Grafikkonzept überlegen
 
 
-In-game Items
--------------
+Done:
+GUI kaputt
+Upgrade-Screen fertig machen
+Layout Hauptmenu: Mit Text
 
-Gegner
+Altes:
 ------
-
-• Flammenwerfer: eine Öffnung, aus der in regelmäßigen abständen eine Flamme herauskommt (feste Größe). Der Spieler muss davor stehen bleiben und warten.
-
 
 Technisches
 -----------
 
 • Globals: Das aktuelle Level und der Spieler liegen in den globalen Variablen myMap und p. Vielleicht kann man die beiden Variablen noch lokal als game.map und game.player verlegen.
-• Objekte entfernen: ,wenn sie das Spielfeld verlassen. Was ist mit dem Spieler? Soll der sterben, wenn er den Rand verlässt? Wenn nein, dann bietet das eine Gelegenheit für Geheimgänge.
 • Auflösung: Das Spiel auf verschiedenen Bildschirmauflösungen gut laufen lassen. Eine Lösung finden, die gut auf verschiedenen Auflösungen aussieht (Skalieren oder Letterboxing ??)
 
 
@@ -31,12 +39,6 @@ Grafik
 • Verschönerungsobjekte: Es soll noch gitterunabhängige Objekte ohne Spielmechanische Funktion geben, die zur Verschönerung der Levels angezeigt werden (z.B. Knochen im Untergrund, Wiese, Bäume etc...). Die Windmühle ist schonmal ein Anfang.
 • Shader: Vielleicht kann man mit Shadern noch was aus der Grafik rausholen. Ich habe da allerdings keine Erfahrung damit.
 
-
-Design
-------
-
-• Welten: Die Levels (angepeilt sind ca 60 Levels) sollen in verschiedene Welten geteilt werden. Das soll etwas Abwechslung schaffen und dem Spieler den Fortschritt deutlich machen. Zu entscheiden ist: Was für Welten werden das und wie viele? Die aktuelle Spielatmosphäre ist eher nett und freundlich. Vielleicht kann man das schrittweise von Welt zu Welt immer düsterer werden lassen. Eine Idee, die mir auch gut gefällt: Eine 8-bit-Welt. Alles (außer dem Spieler) ist pixelig.
-• Secrets: Ich will ein paar Bonuslevel einbauen. Das sollen Levels außer der Reihe sein, bei denen sich die Regeln leicht verändern. Z.B. könnte in diesen Levels die Zeit gestoppt werden, die man braucht um ans Ziel zu kommen. Oder man steuert einen der Gegner.
 
 Sound
 

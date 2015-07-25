@@ -2,3 +2,5 @@
 *.love
 tests/*
 ignore/*
+screenshots/*
+raw/sounds/*
