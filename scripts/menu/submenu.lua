@@ -40,7 +40,6 @@ function Submenu:draw()
 			
 			-- Draw all images on this layer:
 			for j, i in ipairs( l.images ) do
-				print(i.image)
 				love.graphics.draw( AnimationDB.image[i.image], i.x*Camera.scale, i.y*Camera.scale )
 			end
 
