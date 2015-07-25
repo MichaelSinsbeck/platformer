@@ -141,6 +141,7 @@ function AnimationDB:addTile(name,x,y,width,height) -- only use for irregular sp
 end
 
 function AnimationDB:addAni(name,source,frames,duration,updateFunction)
+	print(source)
 	-- check, iff both input tables have the same length and add zeros, if necessary
 	local frameLength = #frames
 	local durationLength = #duration
@@ -210,14 +211,14 @@ end
 
 function AnimationDB:loadAllImages()
 	local tileSize = Camera.scale*10
-	-- tiles
+	-- tilesets
 	AnimationDB:loadImage('grounds.png','tilesetGround','tilesets')
 	AnimationDB:loadImage('backgrounds.png','tilesetBackground','tilesets')
 	AnimationDB:loadImage('background1.png','background1','tilesets')
+	
 	-- editor stuff
 	AnimationDB:loadImage('cell.png','cell','editor')
 	AnimationDB.image['cell']:setWrap('repeat', 'repeat')
-	
 	AnimationDB:loadImage('fill.png','fill','editor')
 	AnimationDB:loadImage('pinLeft.png','pinLeft','editor')
 	AnimationDB:loadImage('pinRight.png','pinRight','editor')
@@ -228,91 +229,37 @@ function AnimationDB:loadAllImages()
 	
 	-- menu stuff
 	AnimationDB:loadImage('logo.png','logo','menu')
-	AnimationDB:loadImage('startOff.png','startOff','menu')
-	AnimationDB:loadImage('startOn.png','startOn','menu')
-	AnimationDB:loadImage('settingsOff.png','settingsOff','menu')
-	AnimationDB:loadImage('settingsOn.png','settingsOn','menu')
-	AnimationDB:loadImage('editorOff.png','editorOff','menu')
-	AnimationDB:loadImage('editorOn.png','editorOn','menu')
-	AnimationDB:loadImage('exitOff.png','exitOff','menu')
-	AnimationDB:loadImage('exitOn.png','exitOn','menu')
-	AnimationDB:loadImage('downloadOff.png','downloadOff','menu')
-	AnimationDB:loadImage('downloadOn.png','downloadOn','menu')
-	AnimationDB:loadImage('creditsOff.png','creditsOff','menu')
-	AnimationDB:loadImage('creditsOn.png','creditsOn','menu')
-	AnimationDB:loadImage('worldItemOff.png','worldItemOff','menu')
-	AnimationDB:loadImage('worldItemOn.png','worldItemOn','menu')
-	AnimationDB:loadImage('worldItemInactive.png','worldItemInactive','menu')
-	--[[AnimationDB:loadImage('gamepadA.png','gamepadA','menu')
-	AnimationDB:loadImage('gamepadB.png','gamepadB','menu')
-	AnimationDB:loadImage('gamepadX.png','gamepadX','menu')
-	AnimationDB:loadImage('gamepadY.png','gamepadY','menu')
-	AnimationDB:loadImage('gamepadUp.png','gamepadUp','menu')
-	AnimationDB:loadImage('gamepadDown.png','gamepadDown','menu')
-	AnimationDB:loadImage('gamepadRight.png','gamepadRight','menu')
-	AnimationDB:loadImage('gamepadLeft.png','gamepadLeft','menu')
-	AnimationDB:loadImage('gamepadLB.png','gamepadLB','menu')
-	AnimationDB:loadImage('gamepadRB.png','gamepadRB','menu')
-	AnimationDB:loadImage('gamepadStart.png','gamepadStart','menu')
-	AnimationDB:loadImage('gamepadBack.png','gamepadBack','menu')]]
-	AnimationDB:loadImage('keyNone.png','keyNone','menu')
-	AnimationDB:loadImage('restartOff.png','restartOff','menu')
-	AnimationDB:loadImage('restartOn.png','restartOn','menu')
+	AnimationDB:loadTiledImage('menuButtons.png','menuButtons', 1, 1, 'menu')
+	AnimationDB:loadTiledImage('stars.png','stars', 1, 2, 'menu')
+	AnimationDB:loadTiledImage('skulls.png','skulls', 1, 2, 'menu')	
 	AnimationDB:loadImage('paused.png','paused','menu')
+	
+	AnimationDB:loadImage('keys_buttons.png','keys_buttons', 'menu')
+	AnimationDB:addTile('keys_buttons',0,0,1,1) -- 1 down
+	AnimationDB:addTile('keys_buttons',1,0,1,1) -- 2 left
+	AnimationDB:addTile('keys_buttons',2,0,1,1) -- 3 right
+	AnimationDB:addTile('keys_buttons',3,0,1,1) -- 4 up
+	AnimationDB:addTile('keys_buttons',0,1,1,1) -- 5 A
+	AnimationDB:addTile('keys_buttons',1,1,1,1) -- 6 B
+	AnimationDB:addTile('keys_buttons',2,1,1,1) -- 7 X
+	AnimationDB:addTile('keys_buttons',3,1,1,1) -- 8 Y
+	AnimationDB:addTile('keys_buttons',0,2,1,1) -- 9 back
+	AnimationDB:addTile('keys_buttons',1,2,1,1) --10 start
+	AnimationDB:addTile('keys_buttons',0,3,2,1) --11 LB
+	AnimationDB:addTile('keys_buttons',2,3,2,1) --12 RB
+	
+	AnimationDB:addTile('keys_buttons',0,4,2,1) --13 large key off
+	AnimationDB:addTile('keys_buttons',2,4,2,1) --14 large key on
+	AnimationDB:addTile('keys_buttons',0,5,1,1) --15 small key off
+	AnimationDB:addTile('keys_buttons',1,5,1,1) --16 small key of
+	AnimationDB:addTile('keys_buttons',2,5,1,1) --17 no key
+
+	-- worlds
 	AnimationDB:loadImage('world1.png','world1','world')
 	AnimationDB:loadImage('world2.png','world2','world')
 	AnimationDB:loadImage('world3.png','world3','world')
 	AnimationDB:loadImage('world4.png','world4','world')
 	AnimationDB:loadImage('world5.png','world5','world')
-	AnimationDB:loadImage('silhouette1.png','silhouette1','menu')
-	AnimationDB:loadImage('silhouette2.png','silhouette2','menu')
-	AnimationDB:loadImage('silhouette3.png','silhouette3','menu')
-	AnimationDB:loadImage('silhouette4.png','silhouette4','menu')
-	AnimationDB:loadImage('silhouette5.png','silhouette5','menu')
-	AnimationDB:loadImage('silhouette6.png','silhouette6','menu')
-	AnimationDB:loadImage('silhouette7.png','silhouette7','menu')
-	AnimationDB:loadImage('silhouette8.png','silhouette8','menu')
-	AnimationDB:loadImage('silhouette9.png','silhouette9','menu')
-	AnimationDB:loadImage('silhouette10.png','silhouette10','menu')
-	AnimationDB:loadImage('silhouette11.png','silhouette11','menu')
-	AnimationDB:loadImage('mountain1.png','mountain1','menu')
-	AnimationDB:loadImage('mountain2.png','mountain2','menu')
-	AnimationDB:loadImage('mountain3.png','mountain3','menu')
-	AnimationDB:loadImage('mountain4.png','mountain4','menu')
-	AnimationDB:loadImage('mountain5.png','mountain5','menu')
-	
-	AnimationDB:loadTiledImage('stars.png','stars', 1, 2, 'menu')
-	AnimationDB:loadTiledImage('skulls.png','skulls', 1, 2, 'menu')
-	AnimationDB:loadTiledImage('userlevelState.png','userlevelStates', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('authorizationState.png','authorizationState', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('acceptOff.png','acceptOff', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('acceptOn.png','acceptOn', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('cancelOff.png','cancelOff', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('cancelOn.png','cancelOn', 1, 1, 'menu')
-
-	AnimationDB:loadTiledImage('menuButtons.png','menuButtons', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('keyLargeOn.png','keyLargeOn', 1, 2, 'menu')
-	AnimationDB:loadTiledImage('keyLargeOff.png','keyLargeOff', 1, 2, 'menu')
-	AnimationDB:loadTiledImage('keyOn.png','keyOn', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('keyOff.png','keyOff', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('keyAssignment.png','keyAssignment', 1, 3, 'menu')
-	AnimationDB:loadTiledImage('soundButton.png','soundButton', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('graphicsButton.png','graphicsButton', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('fullscreenButton.png','fullscreenButton', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('shadersButton.png','shadersButton', 1, 1, 'menu')
-	AnimationDB:loadTiledImage('gamepadA.png','gamepadA',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadB.png','gamepadB',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadX.png','gamepadX',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadY.png','gamepadY',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadUp.png','gamepadUp',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadDown.png','gamepadDown',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadRight.png','gamepadRight',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadLeft.png','gamepadLeft',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadLB.png','gamepadLB',1,2,'menu')
-	AnimationDB:loadTiledImage('gamepadRB.png','gamepadRB',1,2,'menu')
-	AnimationDB:loadTiledImage('gamepadStart.png','gamepadStart',1,1,'menu')
-	AnimationDB:loadTiledImage('gamepadBack.png','gamepadBack',1,1,'menu')
-	AnimationDB:loadTiledImage('keyNone.png','keyNone',1,1,'menu')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',1,1,'gui')
@@ -351,10 +298,8 @@ function AnimationDB:loadAllImages()
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',1,1)
-	
-	--AnimationDB:loadTiledImage('lineHook.png','lineHook',1,1)
 
-	--AnimationDB:loadTiledImage('listCount.png','listCount',1,1)
+	-- level-end statistics
 	AnimationDB:loadTiledImage('deaths.png','deaths',2,2,'statistics')
 	AnimationDB:loadTiledImage('statIdle.png', 'statIdle', 2, 3 ,'statistics')
 	AnimationDB:loadTiledImage('statNoDeath1.png', 'statNoDeath1', 3, 3,'statistics')
@@ -367,6 +312,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('statVelocity.png', 'statVelocity', 2, 4 ,'statistics')
 	AnimationDB:loadTiledImage('statTime.png', 'statTime', 4, 2 ,'statistics')
 	AnimationDB:loadTiledImage('statNumberOfButtons.png', 'statNumberOfButtons', 4, 4,'statistics')
+	
 	-- credits
 	AnimationDB:loadImage('creditsDesign.png', 'creditsDesign', 'credits')
 	AnimationDB:loadImage('creditsGraphics.png', 'creditsGraphics', 'credits')
@@ -557,7 +503,6 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('listCount5','icons',{15},{1e6})
 
 	-- irregular sprites
-	
 	AnimationDB:addAni('poff','irregular',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
 	AnimationDB:addAni('npc','irregular',{6},{1e6})
 	AnimationDB:addAni('crosshairs','irregular',{7},{1e6})
@@ -568,8 +513,6 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('woosh','irregular',{12},{1e6})
 	AnimationDB:addAni('windmillwing','irregular',{13},{1e6})
 	
-	
-
 
 	-- maybe delete these
 	AnimationDB:addAni('blockblock','blockblock',{1},{1e6})
@@ -585,24 +528,6 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('lamp','light',{5},{1e6})
 	AnimationDB:addAni('lamplight','light',{10},{1e6})
 
-
-	
-	AnimationDB:addAni('lookWhite','menuPlayer',{1},{1e6})
-	AnimationDB:addAni('moveUpWhite','menuPlayer',{6,7,8,9,10,9,8,7,},{.01,.02,.03,.06,.1,.06,.03,.02})
-	AnimationDB:addAni('moveDownWhite','menuPlayer',{11,12,13,14,15,14,13,12},{.01,.02,.03,.06,.1,.06,.03,.02})
-	AnimationDB:addAni('bandanaColor','menuPlayer',{2,3,4,5},{.05,.05,.05,.05})
---	AnimationDB:addAni('jumpFallWhite','whitePlayer',{17,5,6,5,17},{.05,.05,.5,.05,.5})
-	AnimationDB:addAni('playerScreenshot','menuPlayer',{21,22,23,24,25,21},{0.1,.01,.05,.02,.02,1})
-	AnimationDB:addAni('playerFullscreen','menuPlayer',{26,27,28,29,30,31,32,33,34,35},{0.08,.04,.08,0.04,.2,.3,0.04,0.08,.08,.5})
-
-	
-	
-
-	--[[AnimationDB:addAni('anchorprewalker','walker',{12},{1e6})
-	AnimationDB:addAni('anchorwalker','walker',{15},{1e6})
-	AnimationDB:addAni('anchorwalkerfoot','walker',{13},{1e6})
-	AnimationDB:addAni('anchorwalkerfoot2','walker',{14},{1e6})--]]
-	
 	-- gui stuff
 	AnimationDB:addAni('guiBeanFull','bean',{1},{1e6})
 	AnimationDB:addAni('guiBeanEmpty','bean',{2},{1e6})
@@ -668,8 +593,8 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('LERight'   ,'editorButtonPages',{2},{1e6})
 
 
-	AnimationDB:addAni('cancelOn'   ,'cancelOn',{1},{1e6})
-	AnimationDB:addAni('acceptOn'   ,'acceptOn',{1},{1e6})
+	AnimationDB:addAni('cancelOn'   ,'menuButtons',{15},{1e6})
+	AnimationDB:addAni('acceptOn'   ,'menuButtons',{11},{1e6})
 
 	-- Menu Buttons:
 	AnimationDB:addAni('startOn','menuButtons',{1},{1e6}, 
@@ -713,49 +638,34 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('musicOff','menuButtons',{28},{1e6})
 	AnimationDB:addAni('soundOptionsOn','menuButtons',{32,33,34,35},{0.15, 0.15, 0.15, 0.5})
 	AnimationDB:addAni('soundOptionsOff','menuButtons',{35},{1e6})	
-		
-	--AnimationDB:addAni('sliderSegmentOnEnd','menuButtons',{24},{1e6})
-
-	--AnimationDB:addAni('keyAssignmentOn','keyAssignment',{1},{1e6},
-	--	vectorAnimations.userlevelsAniUpdate )
-	--AnimationDB:addAni('keyAssignmentOff','keyAssignment',{2},{1e6})
-	--AnimationDB:addAni('soundOptionsOn','soundButton',{1,2,3,4},
-	--	{0.15, 0.15, 0.15, 0.5}, vectorAnimations.soundAniUpdate )
-	--AnimationDB:addAni('soundOptionsOff','soundButton',{5},{1e6})
-	AnimationDB:addAni('graphicsOptionsOn','graphicsButton',{1,2,3,4,5},
-		{0.5, 0.25, 0.25, 0.25, 1.25}, vectorAnimations.graphicsAniUpdate )
-	AnimationDB:addAni('graphicsOptionsOff','graphicsButton',{1},{1e6})
-	AnimationDB:addAni('fullscreenOn','fullscreenButton',{2,3,4,5,6,7,6,5,4,3,2},
-		{.15, .15, .15, .15, .15, .5, .15, .15, .15, .15, .5} )
-	AnimationDB:addAni('fullscreenOff','fullscreenButton',{1},{1e6})
-	AnimationDB:addAni('toFullscreenOff','fullscreenButton',{1},{1e6} )
-	AnimationDB:addAni('toFullscreenOn','fullscreenButton',{2,3,4,5,6},{.1,.1,.1,.1,.6},
+	AnimationDB:addAni('toFullscreenOff','menuButtons',{43},{1e6} )
+	AnimationDB:addAni('toFullscreenOn','menuButtons',{44,45,46,47,48},{.1,.1,.1,.1,.6},
 		vectorAnimations.fullscreenAniUpdate )
-	AnimationDB:addAni('toWindowedOff','fullscreenButton',{7},{1e6} )
-	AnimationDB:addAni('toWindowedOn','fullscreenButton',{8,9,10,11,12},{.1,.1,.1,.1,.6},
+	AnimationDB:addAni('toWindowedOff','menuButtons',{49},{1e6} )
+	AnimationDB:addAni('toWindowedOn','menuButtons',{50,51,52,53,54},{.1,.1,.1,.1,.6},
 		vectorAnimations.fullscreenAniUpdate )
-	AnimationDB:addAni('shadersOff','shadersButton',{1},{1e6} )
-	AnimationDB:addAni('shadersOn','shadersButton',{2},{1e6}, vectorAnimations.userlevelsAniUpdate )
-	AnimationDB:addAni('noShadersOff','shadersButton',{3},{1e6} )
-	AnimationDB:addAni('noShadersOn','shadersButton',{4},{1e6}, vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('shadersOff','menuButtons',{55},{1e6} )
+	AnimationDB:addAni('shadersOn','menuButtons',{56},{1e6}, vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('noShadersOff','menuButtons',{57},{1e6} )
+	AnimationDB:addAni('noShadersOn','menuButtons',{58},{1e6}, vectorAnimations.userlevelsAniUpdate )
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
-	AnimationDB:addAni('keyboardSmall','keyOff',{1},{1e6})
-	AnimationDB:addAni('keyboardLarge','keyLargeOff',{1},{1e6})
-	AnimationDB:addAni('gamepadA','gamepadA',{1},{1e6})
-	AnimationDB:addAni('gamepadB','gamepadB',{1},{1e6})
-	AnimationDB:addAni('gamepadBack','gamepadBack',{1},{1e6})
-	AnimationDB:addAni('gamepadDown','gamepadDown',{1},{1e6})
-	AnimationDB:addAni('gamepadLB','gamepadLB',{1},{1e6})
-	AnimationDB:addAni('gamepadLeft','gamepadLeft',{1},{1e6})
-	AnimationDB:addAni('gamepadRB','gamepadRB',{1},{1e6})
-	AnimationDB:addAni('gamepadRight','gamepadRight',{1},{1e6})
-	AnimationDB:addAni('gamepadStart','gamepadStart',{1},{1e6})
-	AnimationDB:addAni('gamepadUp','gamepadUp',{1},{1e6})
-	AnimationDB:addAni('gamepadY','gamepadY',{1},{1e6})
-	AnimationDB:addAni('gamepadX','gamepadX',{1},{1e6})
-	AnimationDB:addAni('keyNone','keyNone',{1},{1e6})
-
+	AnimationDB:addAni('gamepadDown','keys_buttons',{1},{1e6})
+	AnimationDB:addAni('gamepadLeft','keys_buttons',{2},{1e6})
+	AnimationDB:addAni('gamepadRight','keys_buttons',{3},{1e6})
+	AnimationDB:addAni('gamepadUp','keys_buttons',{4},{1e6})
+	AnimationDB:addAni('gamepadA','keys_buttons',{5},{1e6})
+	AnimationDB:addAni('gamepadB','keys_buttons',{6},{1e6})
+	AnimationDB:addAni('gamepadX','keys_buttons',{7},{1e6})
+	AnimationDB:addAni('gamepadY','keys_buttons',{8},{1e6})
+	AnimationDB:addAni('gamepadBack','keys_buttons',{9},{1e6})
+	AnimationDB:addAni('gamepadStart','keys_buttons',{10},{1e6})
+	AnimationDB:addAni('gamepadLB','keys_buttons',{11},{1e6})
+	AnimationDB:addAni('gamepadRB','keys_buttons',{12},{1e6})
+	AnimationDB:addAni('keyboardLarge','keys_buttons',{14},{1e6})
+	AnimationDB:addAni('keyboardSmall','keys_buttons',{16},{1e6})
+	AnimationDB:addAni('keyNone','keys_buttons',{17},{1e6})
+	
 	AnimationDB:addAni('stars0','stars',{1},{1e6})
 	AnimationDB:addAni('stars1','stars',{2},{1e6})
 	AnimationDB:addAni('stars2','stars',{3},{1e6})
@@ -768,12 +678,12 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('skulls3','skulls',{4},{1e6})
 	AnimationDB:addAni('skulls4','skulls',{5},{1e6})
 	AnimationDB:addAni('skulls5','skulls',{6},{1e6})
-	AnimationDB:addAni('userlevelDownload','userlevelStates',{1},{1e6})
-	AnimationDB:addAni('userlevelPlay','userlevelStates',{2},{1e6})
-	AnimationDB:addAni('userlevelBusy','userlevelStates',{3},{1e6})
-	AnimationDB:addAni('userlevelError','userlevelStates',{4},{1e6})
-	AnimationDB:addAni('authorizationFalse','authorizationState', {1}, {1e6} )
-	AnimationDB:addAni('authorizationTrue','authorizationState', {2}, {1e6} )
+	AnimationDB:addAni('userlevelDownload','menuButtons',{39},{1e6})
+	AnimationDB:addAni('userlevelPlay','menuButtons',{40},{1e6})
+	AnimationDB:addAni('userlevelBusy','menuButtons',{41},{1e6})
+	AnimationDB:addAni('userlevelError','menuButtons',{42},{1e6})
+	AnimationDB:addAni('authorizationFalse','menuButtons', {37}, {1e6} )
+	AnimationDB:addAni('authorizationTrue','menuButtons', {38}, {1e6} )
 	
 	-- level end statistics:
 	AnimationDB:addAni('deathSpikes1','deaths',{1},{1e6})
