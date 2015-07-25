@@ -1,9 +1,9 @@
 -- Animation Database
 
 AnimationDB = {
-image = {},
-source = {},
-animation = {},
+image = {}, -- pure image
+source = {}, -- collection of quad for an image
+animation = {}, -- collection of specific frames and times to make an animation
 silhouette = {}, -- these are only for the background silhouettes
 }
 
@@ -44,20 +44,24 @@ function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,ge
 		width =  imageWidth
 	end
 
-	self.source[name] = {}
-	self.source[name].name = name
-	--self.source[name].image = image
-
-	self.source[name].height = height
-	self.source[name].width = width
-	self.source[name].quads = {}
-	self.source[name].meshes = {}
-  
+	local thisSource = {}
+	self.source[name] = thisSource
+	
+	thisSource.name = name
+	thisSource.height = {}
+	thisSource.width = {}
+	thisSource.quads = {}
+	thisSource.meshes = {}
+   
 
   local tilesX, tilesY = math.floor(imageWidth/width), math.floor(imageHeight/height)
   for j = 1,tilesY do
     for i = 1,tilesX do
-      self.source[name].quads[i+(j-1)*math.floor(imageWidth/width)] = 
+			local thisIndex = i+(j-1)*math.floor(imageWidth/width)
+			thisSource.width[thisIndex] = width
+			thisSource.height[thisIndex] = height
+			
+     thisSource.quads[thisIndex] = 
         love.graphics.newQuad((i-1)*(width),(j-1)*(height), width, height,
         imageWidth,imageHeight)
 
@@ -102,45 +106,38 @@ function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,ge
 				(i-1)/tilesX, (j-0.5)/tilesY,
 			} k = k + 1
 			verts[k] = verts[2]
-			--[[
-			-- upper:
-			for x = 0,1,STEP_SIZE do
-				print(x)
-				verts[k] = {
-					50*x, 0,
-					x, 0,
-				}
-				k = k+1
-			end
-			-- right:
-			for y = 0,1,STEP_SIZE do
-				verts[k] = {
-					50*1, y*50,
-					1, y,
-				}
-				k = k+1
-			end
-			-- bottom:
-			for x = 1,0,-STEP_SIZE do
-				verts[k] = {
-					50*x, 1,
-					x, 1,
-				}
-				k = k+1
-			end
-			-- left:
-			for y = 1,0,-STEP_SIZE do
-				verts[k] = {
-					0, y*50,
-					0, y,
-				}
-				k = k+1
-			end]]
-      		self.source[name].meshes[i+(j-1)*math.floor(imageWidth/width)] = 
+			
+			thisSource.meshes[thisIndex] = 
 				love.graphics.newMesh( verts, image )
 		end
     end
   end
+end
+
+function AnimationDB:addTile(name,x,y,width,height) -- only use for irregular sprite atlasses
+	local tileSize = Camera.scale*10 
+	
+	-- if source does not exist, create
+	if not self.source[name] then
+		self.source[name] = {}
+		self.source[name].name = name
+		self.source[name].width = {}
+		self.source[name].height = {}
+		self.source[name].quads = {}
+		self.source[name].meshes = {}
+	end
+	local thisSource = self.source[name]
+	local thisImage = self.image[name]
+	local imageWidth, imageHeight = thisImage:getWidth(), thisImage:getHeight()
+	
+	local newIndex = #thisSource.quads + 1
+	
+	thisSource.width[newIndex] = tileSize * width
+	thisSource.height[newIndex] = tileSize * height
+	thisSource.quads[newIndex] = 
+		love.graphics.newQuad(tileSize*x,tileSize*y,tileSize*width,tileSize*height,
+		  imageWidth,imageHeight)
+	
 end
 
 function AnimationDB:addAni(name,source,frames,duration,updateFunction)
@@ -152,12 +149,17 @@ function AnimationDB:addAni(name,source,frames,duration,updateFunction)
 			duration[excess] = 0
 		end
 	end
-	self.animation[name] = {}
-	self.animation[name].source = source
-	self.animation[name].frames = frames
-	self.animation[name].duration = duration
-
-	self.animation[name].updateFunction = updateFunction
+	local thisAnimation = {}
+	self.animation[name] = thisAnimation
+	thisAnimation.source = source
+	thisAnimation.frames = frames
+	thisAnimation.duration = duration
+	-- take first frame of the animation to determine size
+	local thisSource = self.source[source]
+	thisAnimation.width = thisSource.width[frames[1]]
+	thisAnimation.height = thisSource.height[frames[1]]
+	
+	thisAnimation.updateFunction = updateFunction
 	if name == "gamepadRB" then
 		print( self.animation[name],
 			source, frames, duration, updateFunction )
@@ -220,6 +222,9 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadImage('pinLeft.png','pinLeft','editor')
 	AnimationDB:loadImage('pinRight.png','pinRight','editor')
 	AnimationDB:loadTiledImage('highlight.png','highlight',1.4,1.4,'editor')
+	AnimationDB:loadTiledImage('button.png','editorButton',1,1, "editor", true)
+	AnimationDB:loadTiledImage('buttonProperties.png','editorButtonProperties',0.5,0.5, "editor", true )
+	AnimationDB:loadTiledImage('buttonPages.png','editorButtonPages',0.5,1, "editor", true)
 	
 	-- menu stuff
 	AnimationDB:loadImage('logo.png','logo','menu')
@@ -320,79 +325,35 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('small_objects.png','small',0.4,0.4)
 	AnimationDB:loadTiledImage('player.png','player',1,1)
 	AnimationDB:loadTiledImage('icons.png','icons',1,1)
+	AnimationDB:loadImage('irregular.png','irregular')
 	
-	--AnimationDB:loadTiledImage('player_white.png','whitePlayer',1,1)
-	--AnimationDB:loadTiledImage('player_blue.png','bluePlayer',1,1)
-	--AnimationDB:loadTiledImage('player_red.png','redPlayer',1,1)
-	--AnimationDB:loadTiledImage('player_blank.png','blankPlayer',1,1)
-	--AnimationDB:loadTiledImage('player_green.png','greenPlayer',1,1)
-	--AnimationDB:loadTiledImage('player_yellow.png','yellowPlayer',1,1)
-	--AnimationDB:loadTiledImage('imitator.png','imitator',1,1)
-	--AnimationDB:loadTiledImage('explosion.png','explosion',1,1)
-	--AnimationDB:loadTiledImage('bandana.png','bandana',1,1)
-	AnimationDB:loadTiledImage('poff.png','poff',.6,.6)
-	--AnimationDB:loadTiledImage('smoke.png','smoke',1,1)
-	--AnimationDB:loadTiledImage('particle.png','particle',0.4,0.4)
-	--AnimationDB:loadTiledImage('shuriken.png','shuriken',1,1)
-	--AnimationDB:loadTiledImage('runner.png','runner',1,1)
-	--AnimationDB:loadTiledImage('runnermouth.png','runnerMouth')
-	--AnimationDB:loadTiledImage('bouncer.png','bouncer',1,1)
-	--AnimationDB:loadTiledImage('button.png','button',1,1)
-	--AnimationDB:loadTiledImage('waitbar.png','waitbar')
-	--AnimationDB:loadTiledImage('appearblock.png','appearBlock',1,1)
-	AnimationDB:loadTiledImage('winddot.png','winddot',.6,.2)
-	--AnimationDB:loadTiledImage('cannon.png','cannon',1,1)
-	--AnimationDB:loadTiledImage('goalie.png','goalie',1,1)
-	--AnimationDB:loadTiledImage('launcher.png','launcher',1,1)
-	--AnimationDB:loadTiledImage('launcherSon.png','launcherSon',1,1)
-	--AnimationDB:loadTiledImage('missile.png','missile',1,1)
-	AnimationDB:loadTiledImage('windmillwing.png','windmillwing')
-	--AnimationDB:loadTiledImage('windmillpreview.png','windmillpreview')
-	--AnimationDB:loadTiledImage('crumbleblock.png','crumbleblock',1,1)
-	--AnimationDB:loadTiledImage('glassblock.png','glassblock',1,1)
-	--AnimationDB:loadTiledImage('bubble.png','bubble')
-	--AnimationDB:loadTiledImage('crumble.png','crumble',.4,.4)	
-	--AnimationDB:loadTiledImage('fixedcannon.png','fixedcannon')
-	--AnimationDB:loadTiledImage('butterfly.png','butterfly',.4,.4)
-	--AnimationDB:loadTiledImage('meat.png','meat',.4,.4)	
-	--AnimationDB:loadTiledImage('droplet.png','droplet',.4,.4)	
-	--AnimationDB:loadTiledImage('exit.png','exit',1,1)	
-	--AnimationDB:loadTiledImage('bungee.png','bungee',0.4,0.4)	
+	AnimationDB:addTile('irregular',0,0,0.6,0.6) -- poff
+	AnimationDB:addTile('irregular',0.6,0,0.6,0.6)
+	AnimationDB:addTile('irregular',1.2,0,0.6,0.6)
+	AnimationDB:addTile('irregular',1.8,0,0.6,0.6)
+	AnimationDB:addTile('irregular',2.4,0,0.6,0.6)
+	AnimationDB:addTile('irregular',3,0,1,2) -- npc
+	AnimationDB:addTile('irregular',0,0.6,1.4,1.4) -- cross
+	AnimationDB:addTile('irregular',1.4,0.8,0.8,1.2) -- log
+	AnimationDB:addTile('irregular',2.4,1.4,0.2,0.6) -- winddots
+	AnimationDB:addTile('irregular',2.6,1.4,0.2,0.6)
+	AnimationDB:addTile('irregular',2.8,1.4,0.2,0.6)
+	AnimationDB:addTile('irregular',0,2,4,1) -- woosh
+	AnimationDB:addTile('irregular',0,3,4,2.2)
+	
+
 	AnimationDB:loadTiledImage('door.png','door',1,1)	
 	AnimationDB:loadTiledImage('bumper.png','bumper')
-	--AnimationDB:loadTiledImage('anchor.png','anchor',1,1)
-	--AnimationDB:loadTiledImage('follower.png','follower',1,1)
-	AnimationDB:loadTiledImage('crosshairs.png','crosshairs')
-	--AnimationDB:loadTiledImage('clubber.png','clubber',1,1)	
 	AnimationDB:loadTiledImage('light.png','light',1,1)	
 	AnimationDB:loadTiledImage('menuPlayer.png','menuPlayer',1,1, "menu")
-	AnimationDB:loadTiledImage('log.png','log')
-	--AnimationDB:loadTiledImage('walker.png','walker',1,1)
-	--AnimationDB:loadTiledImage('spawner.png','spawner',1,1)
-	--AnimationDB:loadTiledImage('rock.png','rock',1,1)	
-	AnimationDB:loadTiledImage('woosh.png','woosh')
-	--AnimationDB:loadTiledImage('medusa.png','medusa')
-	--AnimationDB:loadTiledImage('upwind.png','upwind')
-	--AnimationDB:loadTiledImage('medusaSpawner.png','medusaSpawner',1,1)
-	--AnimationDB:loadTiledImage('rotator.png','rotator',1,1)
-	--AnimationDB:loadTiledImage('laser.png','laser',1,1)
-	--AnimationDB:loadTiledImage('miniFlame.png','miniFlame',0.4,0.4)
-	AnimationDB:loadTiledImage('npc.png','npc')
-	--AnimationDB:loadTiledImage('speechbubble.png','speechbubble',1,1)
-	--AnimationDB:loadTiledImage('camera.png','camera',1,1)
-	--AnimationDB:loadTiledImage('horizon.png','horizon',1,1)
-	--AnimationDB:loadTiledImage('star.png','star',2,2)
 	AnimationDB:loadTiledImage('blockblock.png','blockblock',1,1)
 	AnimationDB:loadTiledImage('shurikenlarge.png','shurikenlarge')
-	--AnimationDB:loadTiledImage('sign.png','sign',1,1)
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',1,1)
 	
 	--AnimationDB:loadTiledImage('lineHook.png','lineHook',1,1)
-	AnimationDB:loadTiledImage('button.png','editorButton',1,1, "editor", true)
-	AnimationDB:loadTiledImage('buttonProperties.png','editorButtonProperties',0.5,0.5, "editor", true )
-	AnimationDB:loadTiledImage('buttonPages.png','editorButtonPages',0.5,1, "editor", true)
+
 	--AnimationDB:loadTiledImage('listCount.png','listCount',1,1)
 	AnimationDB:loadTiledImage('deaths.png','deaths',2,2,'statistics')
 	AnimationDB:loadTiledImage('statIdle.png', 'statIdle', 2, 3 ,'statistics')
@@ -595,20 +556,24 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('listCount4','icons',{14},{1e6})
 	AnimationDB:addAni('listCount5','icons',{15},{1e6})
 
-	-- image with unique size
-	AnimationDB:addAni('npc','npc',{1},{1e6})
-	AnimationDB:addAni('poff','poff',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
-	AnimationDB:addAni('woosh','woosh',{1},{1e6})
-	AnimationDB:addAni('blockblock','blockblock',{1},{1e6})
-	AnimationDB:addAni('wind1','winddot',{1},{1e6})
-	AnimationDB:addAni('wind2','winddot',{2},{1e6})
-	AnimationDB:addAni('wind3','winddot',{3},{1e6})
-	AnimationDB:addAni('windmillwing','windmillwing',{1},{1e6})
-	AnimationDB:addAni('crosshairs','crosshairs',{1},{1e6})
-	AnimationDB:addAni('shurikenlarge','shurikenlarge',{1},{1e6})
+	-- irregular sprites
+	
+	AnimationDB:addAni('poff','irregular',{1,2,3,4,5,5},{.05,.075,.15,.15,.1,1e6})
+	AnimationDB:addAni('npc','irregular',{6},{1e6})
+	AnimationDB:addAni('crosshairs','irregular',{7},{1e6})
+	AnimationDB:addAni('log','irregular',{8},{1e6})
+	AnimationDB:addAni('wind1','irregular',{9},{1e6})
+	AnimationDB:addAni('wind2','irregular',{10},{1e6})
+	AnimationDB:addAni('wind3','irregular',{11},{1e6})
+	AnimationDB:addAni('woosh','irregular',{12},{1e6})
+	AnimationDB:addAni('windmillwing','irregular',{13},{1e6})
+	
+	
 
 
 	-- maybe delete these
+	AnimationDB:addAni('blockblock','blockblock',{1},{1e6})
+	AnimationDB:addAni('shurikenlarge','shurikenlarge',{1},{1e6})
 	AnimationDB:addAni('keyhole','door',{1},{1e6})	
 	AnimationDB:addAni('door','door',{2},{1e6})	
 	AnimationDB:addAni('key','door',{3},{1e6})				
@@ -626,11 +591,11 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('moveUpWhite','menuPlayer',{6,7,8,9,10,9,8,7,},{.01,.02,.03,.06,.1,.06,.03,.02})
 	AnimationDB:addAni('moveDownWhite','menuPlayer',{11,12,13,14,15,14,13,12},{.01,.02,.03,.06,.1,.06,.03,.02})
 	AnimationDB:addAni('bandanaColor','menuPlayer',{2,3,4,5},{.05,.05,.05,.05})
-	AnimationDB:addAni('jumpFallWhite','whitePlayer',{17,5,6,5,17},{.05,.05,.5,.05,.5})
+--	AnimationDB:addAni('jumpFallWhite','whitePlayer',{17,5,6,5,17},{.05,.05,.5,.05,.5})
 	AnimationDB:addAni('playerScreenshot','menuPlayer',{21,22,23,24,25,21},{0.1,.01,.05,.02,.02,1})
 	AnimationDB:addAni('playerFullscreen','menuPlayer',{26,27,28,29,30,31,32,33,34,35},{0.08,.04,.08,0.04,.2,.3,0.04,0.08,.08,.5})
 
-	AnimationDB:addAni('log','log',{1},{1e6})
+	
 	
 
 	--[[AnimationDB:addAni('anchorprewalker','walker',{12},{1e6})

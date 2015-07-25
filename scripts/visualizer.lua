@@ -25,9 +25,12 @@ end
 
 function Visualizer:init()
 	if self.animation and AnimationDB.animation[self.animation] then
-		local name = AnimationDB.animation[self.animation].source
-		self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
-		self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
+		local thisAnimation = AnimationDB.animation[self.animation]
+		--local name = AnimationDB.animation[self.animation].source
+		self.ox = self.ox or 0.5*thisAnimation.width/Camera.scale
+		self.oy = self.oy or 0.5*thisAnimation.height/Camera.scale
+		--self.ox = self.ox or 0.5*AnimationDB.source[name].width/Camera.scale
+		--self.oy = self.oy or 0.5*AnimationDB.source[name].height/Camera.scale
 
 		-- If there is a special update function, overwrite my own update function:
 		if AnimationDB.animation[self.animation].updateFunction then
@@ -44,10 +47,12 @@ end
 
 function Visualizer:getSize() -- returns size in pixels (screen coordinates)
 	if self.animation and AnimationDB.animation[self.animation] then
-		local name	= AnimationDB.animation[self.animation].source
-		local width = AnimationDB.source[name].width
-		local height = AnimationDB.source[name].height
-		return width,height
+		local thisAnimation = AnimationDB.animation[self.animation]
+		--local name	= AnimationDB.animation[self.animation].source
+		--local width = AnimationDB.source[name].width
+		--local height = AnimationDB.source[name].height
+		return thisAnimation.width, thisAnimation.height
+		--return width,height
 	else
 		return 0,0
 	end
