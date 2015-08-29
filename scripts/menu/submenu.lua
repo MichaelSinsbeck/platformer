@@ -81,7 +81,7 @@ function Submenu:draw()
 	love.graphics.pop()
 end
 
--- An activation function is called every time the submen is set to visible
+-- An activation function is called every time the submenu is set to visible
 function Submenu:activate()
 	if self.activateFunction then
 		self.activateFunction()
@@ -250,14 +250,15 @@ function Submenu:addToggleButton( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
 end
 
 function Submenu:addSlider( imgOff, imgOn, x, y, width, segments, eventHover,
-		eventChange, captions, name, layerName )
+		eventChange, captions, name, eventChoose, layerName )
 	
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local b = Slider:new( imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name )
+			local b = Slider:new( imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name,
+					eventChoose )
 			table.insert( l.buttons, b )
 			self:linkButtons( layerName )
 			return b
@@ -436,7 +437,6 @@ end
 function Submenu:setSelectedButton( b, layerName )
 	-- Per default, choose the main layer:
 	layerName = layerName or "MainLayer"
-
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
 			if l.selectedButton then
@@ -564,9 +564,9 @@ function Submenu:startButtonEvent()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		if l.selectedButton then
-			if not l.selectedButton.isSlider then
+			--if not l.selectedButton.isSlider then
 				l.selectedButton:startEvent()
-			end
+			--end
 		end
 	end
 end

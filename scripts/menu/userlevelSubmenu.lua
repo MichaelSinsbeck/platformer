@@ -77,7 +77,6 @@ function UserlevelSubmenu:new( x, y )
 
 	-- Add invisible buttons to list which allow level selection:
 	local chooseLevel = function()
-		print("now", selectedUserlevel, userlevels[selectedUserlevel] )
 		if userlevels[selectedUserlevel] then
 			if userlevels[selectedUserlevel]:getIsDownloaded() then
 				userlevels[selectedUserlevel]:play()

@@ -3,7 +3,7 @@
 local Slider = {}
 Slider.__index = Slider
 
-function Slider:new(imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name )
+function Slider:new(imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name, eventChoose )
 	local o = {}
 	setmetatable( o, self )
 	o.x = x + 4
@@ -14,6 +14,7 @@ function Slider:new(imgOff, imgOn, x, y, width, segments, eventHover, eventChang
 	o.isSlider = true	-- The outside world handles a slider just like a button. So make sure they can know I'm a slider!
 	o.eventChange = eventChange
 	o.eventHover = eventHover
+	o.event = eventChoose
 	o.numSegments = segments
 	o.width = width
 	o.name = name or ""
@@ -178,5 +179,13 @@ function Slider:setValue( val, dontCallEvent )
 		self.eventChange( self.value )
 	end
 end
+
+function Slider:startEvent()
+	if self.event then
+		self.event()
+		Sound:play('menuEnter')
+	end
+end
+
 
 return Slider
