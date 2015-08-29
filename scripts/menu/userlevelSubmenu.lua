@@ -360,4 +360,10 @@ function UserlevelSubmenu:hideFilters()
 	submenu:setLayerVisible( "Filters", false )
 end
 
+function UserlevelSubmenu:getSelectedLevelData()
+	if userlevels[selectedUserlevel] then
+		return userlevels[selectedUserlevel].levelname, userlevels[selectedUserlevel].author
+	end
+end
+
 return UserlevelSubmenu
