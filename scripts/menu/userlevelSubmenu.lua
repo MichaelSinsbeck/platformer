@@ -136,6 +136,10 @@ function UserlevelSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		UserlevelSubmenu.showFilters )
+	submenu:addHotkey( "REFRESH", "Refresh",
+		-love.graphics.getWidth()/Camera.scale/2 + 72,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		UserlevelSubmenu.refresh )
 
 	submenu:addHotkey( "FILTERS", "Hide Filters",
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
@@ -144,17 +148,10 @@ function UserlevelSubmenu:new( x, y )
 	submenu:addHiddenHotkey( keys.BACK, keys.PAD.BACK,
 		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
 
-	-- Start downloading level list:
-	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
-						function(data) UserlevelSubmenu:userlevelsLoaded(data, "unauthorized") end,
-						nil, "unauthorized" )
-	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
-						function(data) UserlevelSubmenu:userlevelsLoaded(data, "authorized") end,
-						nil, "authorized" )
-
 	submenu:setActivateFunction(
 		function()
 			submenu:setSelectedButton( buttonCenter )
+			self:refresh()
 		end )
 
 	return submenu
@@ -263,7 +260,7 @@ function UserlevelSubmenu:applyUserlevelFilters()
 end
 
 function UserlevelSubmenu:insertUserlevelIntoList( level )
-	-- Use this function to insert all levels found locally and online into the list of user levels.
+	-- Use this function to insert all levels found locally AND online into the list of user levels.
 	-- If a level exists twice (once online and once already downloaded) this function sets the
 	-- rating info of the local level to the rating info received from the server.
 	if userlevelsByAuthor[level.author] and userlevelsByAuthor[level.author][level.levelname] then
@@ -364,6 +361,16 @@ function UserlevelSubmenu:getSelectedLevelData()
 	if userlevels[selectedUserlevel] then
 		return userlevels[selectedUserlevel].levelname, userlevels[selectedUserlevel].author
 	end
+end
+
+function UserlevelSubmenu:refresh()
+	-- Start downloading level list:
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+			function(data) UserlevelSubmenu:userlevelsLoaded(data, "unauthorized") end,
+			nil, "unauthorized" )
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+			function(data) UserlevelSubmenu:userlevelsLoaded(data, "authorized") end,
+			nil, "authorized" )
 end
 
 return UserlevelSubmenu
