@@ -137,11 +137,11 @@ function menu:init()
 
 	p:turnIntoList( 10, 1.1 ) -- make vertical "table-like" lines for readability
 	
-	local s = settingsMenu:addSlider( "soundOptionsOff", "soundOptionsOn", -32, -30, 40, 6,
+	local s = settingsMenu:addBambooSlider( "soundOptionsOff", "soundOptionsOn", -32, -30, 40, 6,
 		self:setPlayerPositionEvent( settingsMenu.x - 38, -25), changeEffectVolume,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
 	s:setValue( settings:getEffectVolume()/20+1 )
-	local s = settingsMenu:addSlider( "musicOff", "musicOn", -32, -20, 40, 6,
+	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -32, -20, 40, 6,
 		self:setPlayerPositionEvent( settingsMenu.x - 38, -15), changeMusicVolume,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
 	s:setValue( settings:getMusicVolume()/20+1 )
@@ -158,7 +158,7 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		{[true]="on", [false]="off"}, "Shaders: " )
 	b:setValue( settings:getShadersEnabled() )
 
-	local s = settingsMenu:addSlider( "musicOff", "musicOn", -32, 10, 20, 3,
+	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -32, 10, 20, 3,
 		self:setPlayerPositionEvent( settingsMenu.x - 38, 15), setBackgroundDetail,
 		{ "No Background", "Simple Background", "Detailed background" } )
 	s:setValue( settings:getBackgroundDetail() )	

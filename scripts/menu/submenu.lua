@@ -3,6 +3,7 @@
 
 local Panel = require( "scripts/menu/menuPanel" )
 local Button = require( "scripts/menu/button" )
+local BambooSlider = require( "scripts/menu/bambooslider" )
 local Slider = require( "scripts/menu/slider" )
 local ToggleButton = require( "scripts/menu/toggleButton" )
 local Transition = require( "scripts/menu/transition" )
@@ -249,7 +250,7 @@ function Submenu:addToggleButton( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
 	end
 end
 
-function Submenu:addSlider( imgOff, imgOn, x, y, width, segments, eventHover,
+function Submenu:addBambooSlider( imgOff, imgOn, x, y, width, segments, eventHover,
 		eventChange, captions, name, eventChoose, layerName )
 	
 	-- Per default, add to the main layer:
@@ -257,15 +258,42 @@ function Submenu:addSlider( imgOff, imgOn, x, y, width, segments, eventHover,
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local b = Slider:new( imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name,
-					eventChoose )
-			table.insert( l.buttons, b )
+			local b = BambooSlider:new( imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name )
+			b:setEventChoose( eventChoose )
+
+			table.insert( l.buttons, b )	-- treat like a button
 			self:linkButtons( layerName )
 			return b
 		end
 	end
-
 end
+
+function Submenu:addSlider( imageType, x, y, width, eventHover,
+		eventChange, name, eventChoose, layerName )
+	
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	local images
+	if imageType == "stars" then
+		images = { "stars1", "stars2", "stars3", "stars4", "stars5" }
+	else
+		images = { "skulls1", "skulls2", "skulls3", "skulls4", "skulls5" }
+	end
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local b = Slider:new( images, x, y, width, eventHover, eventChange, name )
+			b:setEventChoose( eventChoose )
+
+			table.insert( l.buttons, b )	-- treat like a button
+			self:linkButtons( layerName )
+			return b
+		end
+	end
+end
+
+
 
 function Submenu:addImage( image, x, y, layerName )
 	-- Per default, add to the main layer:
