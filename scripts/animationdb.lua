@@ -633,6 +633,10 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('shadersOn','menuButtons',{56},{1e6}, vectorAnimations.userlevelsAniUpdate )
 	AnimationDB:addAni('noShadersOff','menuButtons',{57},{1e6} )
 	AnimationDB:addAni('noShadersOn','menuButtons',{58},{1e6}, vectorAnimations.userlevelsAniUpdate )
+	AnimationDB:addAni('listArrowUp','menuButtons',{60},{1e6}, 
+		vectorAnimations.listArrowAniUpdate )
+	AnimationDB:addAni('listArrowDown','menuButtons',{61},{1e6}, 
+		vectorAnimations.listArrowAniUpdate )
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('gamepadDown','keys_buttons',{1},{1e6})
@@ -810,3 +814,10 @@ function vectorAnimations.fullscreenAniUpdate( anim )
 	anim.sx = 1+0.1*math.abs(math.sin(math.pi*anim.vectorTimer))
 	anim.sy = anim.sx
 end
+
+function vectorAnimations.listArrowAniUpdate( anim )
+	anim.oy = 6 - 1.5*math.abs(math.sin(5*anim.vectorTimer))
+	anim.sx = 1-0.1*math.abs(math.cos(5*anim.vectorTimer))
+	anim.sy = 1/anim.sx
+end
+

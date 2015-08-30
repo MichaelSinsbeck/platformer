@@ -13,6 +13,7 @@ local numDisplayedFunctions = 8
 local functions = {}
 local keysLocal = {}
 local padKeysLocal = {}
+local arrowUpVis, arrowDownVis
 
 -- Assignment:
 --local keyCurrentlyAssigning = nil
@@ -161,13 +162,20 @@ function KeyAssignmentSubmenu:new( x, y )
 
 	-- Extend the original drawing functions of the submenu class:
 	submenu:addCustomDrawFunction( KeyAssignmentSubmenu.draw, "MainLayer" )
+	submenu:addCustomUpdateFunction( function(dt) KeyAssignmentSubmenu:update( dt ) end, "MainLayer" )
+
+	-- Arrows indicating whether the whole list is visible of not:
+	arrowUpVis = Visualizer:New( "listArrowUp" );
+	arrowUpVis:init()
+	arrowDownVis = Visualizer:New( "listArrowDown" );
+	arrowDownVis:init()
 
 	return submenu
 end
 
 function KeyAssignmentSubmenu:draw()
-	local x = -LIST_WIDTH/2 + 4
-	local y = -LIST_HEIGHT/2
+	--local x = -LIST_WIDTH/2 + 4
+	--local y = -LIST_HEIGHT/2
 	local w = LIST_WIDTH - 8
 	local h = LIST_HEIGHT
 
@@ -201,6 +209,16 @@ function KeyAssignmentSubmenu:draw()
 		functions[i].keyVis:draw( xKeyboardCenter, visY )
 		functions[i].keyNameVis:draw( xKeyboardCenter, visY )
 		functions[i].padVis:draw( xPadCenter, visY )
+	end
+
+	-- If not all functions fit onto the currently displayed list, indicate this using arrows:
+	if firstDisplayedFunction > 1 then
+		local posY = (y + LIST_ENTRY_HEIGHT)*Camera.scale
+		arrowUpVis:draw( xName - 29, posY )
+	end
+	if lastDisplayedFunction < #functions then
+		local posY = (8 + y + LIST_ENTRY_HEIGHT*numDisplayedFunctions)*Camera.scale
+		arrowDownVis:draw( xName - 29, posY )
 	end
 
 	--[[
@@ -341,6 +359,11 @@ function KeyAssignmentSubmenu:close()
 	end
 	menu:updateHotkeys()
 	keys:exitSubMenu()
+end
+
+function KeyAssignmentSubmenu:update( dt )
+	arrowUpVis:update(dt)
+	arrowDownVis:update(dt)
 end
 
 return KeyAssignmentSubmenu

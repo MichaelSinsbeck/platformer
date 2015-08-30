@@ -39,7 +39,6 @@ function RatingSubmenu:new( x, y )
 		menu:show()
 	end
 
-
 	submenu:addText( "Would you like to rate this level?", -34, -14, width, "MainLayer", "left", {0,0,0} )
 
 	local sX, sY = -32, -8

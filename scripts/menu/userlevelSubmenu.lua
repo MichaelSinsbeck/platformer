@@ -26,6 +26,7 @@ local LIST_ENTRY_HEIGHT = 8
 local selectedUserlevel
 local firstDisplayedUserlevel
 local displayedUserlevels = 8
+local arrowUpVis, arrowDownVis
 
 function UserlevelSubmenu:new( x, y )
 	local width = love.graphics.getWidth()/Camera.scale - 16
@@ -72,6 +73,7 @@ function UserlevelSubmenu:new( x, y )
 
 	-- Extend the original drawing functions of the submenu class:
 	submenu:addCustomDrawFunction( UserlevelSubmenu.drawUserlevels, "MainLayer" )
+	submenu:addCustomUpdateFunction( function(dt) UserlevelSubmenu:update( dt ) end, "MainLayer" )
 
 	UserlevelSubmenu:loadDownloadedUserlevels()
 
@@ -153,6 +155,12 @@ function UserlevelSubmenu:new( x, y )
 			submenu:setSelectedButton( buttonCenter )
 			self:refresh()
 		end )
+
+	-- Arrows indicating whether the whole list is visible of not:
+	arrowUpVis = Visualizer:New( "listArrowUp" );
+	arrowUpVis:init()
+	arrowDownVis = Visualizer:New( "listArrowDown" );
+	arrowDownVis:init()
 
 	return submenu
 end
@@ -345,6 +353,16 @@ function UserlevelSubmenu:drawUserlevels()
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 	end
 
+	-- If not all functions fit onto the currently displayed list, indicate this using arrows:
+	if firstDisplayedUserlevel > 1 then
+		local posY = (y + LIST_ENTRY_HEIGHT)*Camera.scale
+		arrowUpVis:draw( xStatus - 24, posY )
+	end
+	if lastDisplayedLevel < #userlevelsFiltered then
+		local posY = (8 + y + LIST_ENTRY_HEIGHT*displayedUserlevels)*Camera.scale
+		arrowDownVis:draw( xStatus - 24, posY )
+	end
+
 	--[[if userlevelFilterBox.visible then
 		userlevelFilterBox.box:draw( userlevelFilterBox.x, userlevelFilterBox.y )
 	end]]
@@ -371,6 +389,11 @@ function UserlevelSubmenu:refresh()
 	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
 			function(data) UserlevelSubmenu:userlevelsLoaded(data, "authorized") end,
 			nil, "authorized" )
+end
+
+function UserlevelSubmenu:update( dt )
+	arrowUpVis:update(dt)
+	arrowDownVis:update(dt)
 end
 
 return UserlevelSubmenu
