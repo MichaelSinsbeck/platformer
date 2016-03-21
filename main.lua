@@ -65,15 +65,15 @@ function love.update( dt )
 			fader:update(dt)
 		end
 	
-		if menu.transitionActive then
-			menu:transition( dt )
-		end
 		if menu.curLevelName then
 			menu:updateLevelName( dt )
 		end
 
-		if mode == 'levelEnd' and not menu.transitionActive then
+		if mode == 'levelEnd' then
 			levelEnd:update( dt )
+		end
+		if menu.overlaySubmenu then
+			menu:update( dt )
 		end
 
 		-- Must be called every frame, otherwise gamepad buttons
@@ -98,9 +98,10 @@ function love.draw()
 	
 		shaders.draw()
 	
-		if mode == 'game' or mode == 'levelEnd' or mode == 'upgrade' or (mode == 'menu' and (menu.state == 'pause' or menu.state == 'rating')) then
+		if mode == 'game' or mode == 'levelEnd' or mode == 'upgrade' or
+				(mode == 'menu' and (menu.activeSubmenu == 'Pause' or menu.activeSubmenu == 'Rating')) then
 			game:draw()
-		elseif mode == 'menu' and menu.state ~= 'pause' then
+		elseif mode == 'menu' and (menu.activeSubmenu ~= 'Pause' and menu.activeSubmenu ~= 'Rating') then
 			menu:draw()
 		elseif mode == 'bridge' then
 			bridge:draw()
@@ -109,23 +110,21 @@ function love.draw()
 		end
 
 	
-		if menu.transitionActive then
-			menu:drawTransition()
-		end
-
 		shaders:stop()
 		
-		if not menu.transitionActive then
 			if mode == 'levelEnd' then
 				levelEnd:draw()
-			elseif mode == 'menu' and (menu.state == 'pause' or menu.state == 'rating') then	-- draw AFTER grey shader!
-				menu:draw()
+			--elseif mode == 'menu' and (menu.activeSubmenu == 'Pause' or menu.activeSubmenu == 'Rating') then	-- draw AFTER grey shader!
+				--menu:draw()
 			elseif mode == 'upgrade' then
 				upgrade:draw()				
 			--elseif mode == 'game' and game.isDead() then
 				--controlKeys:draw("death")
 			end
-		end
+			if menu.overlaySubmenu then
+				menu:draw()
+			end
+
 		if DEBUG then
 			love.graphics.setFont(fontSmall)
 			love.graphics.print("fps: " .. love.timer.getFPS(), 10, 20)
@@ -141,7 +140,7 @@ end
 function love.keypressed( key, scancode, repeated )
 	if repeated then
 		-- only let the menu receive multiple keypresses
-		if mode == 'menu' then
+		if mode == 'menu' or menu.overlaySubmenu then
 			menu:keypressed( key, repeated )
 		end
 		return
@@ -168,8 +167,6 @@ function love.keypressed( key, scancode, repeated )
 		end
 	end
 	
-	--if menu.transitionActive and menu.transitionPercentage < 50 then return end
-	
 	if keys.currentlyAssigning then
 		if menu.state == 'keyboard' then
 			keys.assign( key )
@@ -185,7 +182,7 @@ function love.keypressed( key, scancode, repeated )
 		--	settings:toggleFullScreen()
 		--end
 
-		if mode == 'menu' then
+		if mode == 'menu' or menu.overlaySubmenu then
 			menu:keypressed( key, repeated )
 		elseif mode == 'game' then
 			game.keypressed( key )

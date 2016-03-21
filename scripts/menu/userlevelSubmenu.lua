@@ -26,6 +26,7 @@ local LIST_ENTRY_HEIGHT = 8
 local selectedUserlevel
 local firstDisplayedUserlevel
 local displayedUserlevels = 8
+local arrowUpVis, arrowDownVis
 
 function UserlevelSubmenu:new( x, y )
 	local width = love.graphics.getWidth()/Camera.scale - 16
@@ -72,12 +73,12 @@ function UserlevelSubmenu:new( x, y )
 
 	-- Extend the original drawing functions of the submenu class:
 	submenu:addCustomDrawFunction( UserlevelSubmenu.drawUserlevels, "MainLayer" )
+	submenu:addCustomUpdateFunction( function(dt) UserlevelSubmenu:update( dt ) end, "MainLayer" )
 
 	UserlevelSubmenu:loadDownloadedUserlevels()
 
 	-- Add invisible buttons to list which allow level selection:
 	local chooseLevel = function()
-		print("now", selectedUserlevel, userlevels[selectedUserlevel] )
 		if userlevels[selectedUserlevel] then
 			if userlevels[selectedUserlevel]:getIsDownloaded() then
 				userlevels[selectedUserlevel]:play()
@@ -137,6 +138,10 @@ function UserlevelSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		UserlevelSubmenu.showFilters )
+	submenu:addHotkey( "REFRESH", "Refresh",
+		-love.graphics.getWidth()/Camera.scale/2 + 72,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		UserlevelSubmenu.refresh )
 
 	submenu:addHotkey( "FILTERS", "Hide Filters",
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
@@ -145,18 +150,17 @@ function UserlevelSubmenu:new( x, y )
 	submenu:addHiddenHotkey( keys.BACK, keys.PAD.BACK,
 		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
 
-	-- Start downloading level list:
-	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
-						function(data) UserlevelSubmenu:userlevelsLoaded(data, "unauthorized") end,
-						nil, "unauthorized" )
-	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
-						function(data) UserlevelSubmenu:userlevelsLoaded(data, "authorized") end,
-						nil, "authorized" )
-
 	submenu:setActivateFunction(
 		function()
 			submenu:setSelectedButton( buttonCenter )
+			self:refresh()
 		end )
+
+	-- Arrows indicating whether the whole list is visible of not:
+	arrowUpVis = Visualizer:New( "listArrowUp" );
+	arrowUpVis:init()
+	arrowDownVis = Visualizer:New( "listArrowDown" );
+	arrowDownVis:init()
 
 	return submenu
 end
@@ -264,7 +268,7 @@ function UserlevelSubmenu:applyUserlevelFilters()
 end
 
 function UserlevelSubmenu:insertUserlevelIntoList( level )
-	-- Use this function to insert all levels found locally and online into the list of user levels.
+	-- Use this function to insert all levels found locally AND online into the list of user levels.
 	-- If a level exists twice (once online and once already downloaded) this function sets the
 	-- rating info of the local level to the rating info received from the server.
 	if userlevelsByAuthor[level.author] and userlevelsByAuthor[level.author][level.levelname] then
@@ -349,6 +353,16 @@ function UserlevelSubmenu:drawUserlevels()
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 	end
 
+	-- If not all functions fit onto the currently displayed list, indicate this using arrows:
+	if firstDisplayedUserlevel > 1 then
+		local posY = (y + LIST_ENTRY_HEIGHT)*Camera.scale
+		arrowUpVis:draw( xStatus - 24, posY )
+	end
+	if lastDisplayedLevel < #userlevelsFiltered then
+		local posY = (8 + y + LIST_ENTRY_HEIGHT*displayedUserlevels)*Camera.scale
+		arrowDownVis:draw( xStatus - 24, posY )
+	end
+
 	--[[if userlevelFilterBox.visible then
 		userlevelFilterBox.box:draw( userlevelFilterBox.x, userlevelFilterBox.y )
 	end]]
@@ -359,6 +373,27 @@ function UserlevelSubmenu:showFilters()
 end
 function UserlevelSubmenu:hideFilters()
 	submenu:setLayerVisible( "Filters", false )
+end
+
+function UserlevelSubmenu:getSelectedLevelData()
+	if userlevels[selectedUserlevel] then
+		return userlevels[selectedUserlevel].levelname, userlevels[selectedUserlevel].author
+	end
+end
+
+function UserlevelSubmenu:refresh()
+	-- Start downloading level list:
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+			function(data) UserlevelSubmenu:userlevelsLoaded(data, "unauthorized") end,
+			nil, "unauthorized" )
+	threadInterface.new( "listlevels", "scripts/levelsharing/list.lua", "getLevelNames",
+			function(data) UserlevelSubmenu:userlevelsLoaded(data, "authorized") end,
+			nil, "authorized" )
+end
+
+function UserlevelSubmenu:update( dt )
+	arrowUpVis:update(dt)
+	arrowDownVis:update(dt)
 end
 
 return UserlevelSubmenu

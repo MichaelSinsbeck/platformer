@@ -2,7 +2,7 @@
 local Pic = require("scripts/levelEndPic")
 
 levelEnd = {
-	levels = {}
+	levels = {},
 }
 
 local statList = {}
@@ -68,13 +68,13 @@ function levelEnd:addDeath( deathType )
 end
 
 function levelEnd:update( dt )
-	local timerOld = self.timer
-	self.timer = self.timer + dt
-	for k, p in pairs( picList ) do
-		if boxes[k].timer <= self.timer then
-			p:update( dt )
+		local timerOld = self.timer
+		self.timer = self.timer + dt
+		for k, p in pairs( picList ) do
+			if boxes[k].timer <= self.timer then
+				p:update( dt )
+			end
 		end
-	end
 end
 
 function levelEnd:draw()
@@ -90,33 +90,33 @@ function levelEnd:draw()
 	love.graphics.translate(love.graphics.getWidth()/2,love.graphics.getHeight()/2)
 	-- for now, just show a simple list:
 	
-	-- draw boxes:	
-	for k,element in pairs(boxes) do
-		if element.timer <= self.timer then
-			if not element.hasPlayed then
-				element.hasPlayed = true
-				Sound:play('plop',1,0.75+0.5*element.timer)
-				--print('playing plop sound')
-			end
-			-- scale box coordinates according to scale
-			local scaled = {}
-			for i = 1,#element.points do
-				scaled[i] = element.points[i] * Camera.scale
-			end
-			-- draw
-			love.graphics.setColor(44,90,160)
-			love.graphics.setLineWidth(Camera.scale*0.5)
-			love.graphics.rectangle('fill',
-			element.left*Camera.scale,
-			element.top*Camera.scale,
-			element.width*Camera.scale,
-			element.height*Camera.scale)
-			love.graphics.setColor(0,0,10)
-			love.graphics.line(scaled)
+	-- draw boxes:
+		for k,element in pairs(boxes) do
+			if element.timer <= self.timer then
+				if not element.hasPlayed then
+					element.hasPlayed = true
+					Sound:play('plop',1,0.75+0.5*element.timer)
+					--print('playing plop sound')
+				end
+				-- scale box coordinates according to scale
+				local scaled = {}
+				for i = 1,#element.points do
+					scaled[i] = element.points[i] * Camera.scale
+				end
+				-- draw
+				love.graphics.setColor(44,90,160)
+				love.graphics.setLineWidth(Camera.scale*0.5)
+				love.graphics.rectangle('fill',
+				element.left*Camera.scale,
+				element.top*Camera.scale,
+				element.width*Camera.scale,
+				element.height*Camera.scale)
+				love.graphics.setColor(0,0,10)
+				love.graphics.line(scaled)
 
-			picList[k]:draw()
+				picList[k]:draw()
+			end
 		end
-	end
 
 	--[[love.graphics.setFont( fontSmall )
 	local font = love.graphics.getFont()
@@ -190,6 +190,7 @@ function levelEnd:display( )	-- called when level is won:
 		-- don't display a second time:
 		table.remove( relevantList, k )
 	end
+
 end
 
 function levelEnd:keypressed( key, unicode )
@@ -197,9 +198,7 @@ function levelEnd:keypressed( key, unicode )
 		if editor.active then
 			editor.resume()
 		elseif menu.currentlyPlayingUserlevels then
-			--menu.startTransition(menu.initUserlevels)()
-			--menu.startTransition(menu.initRatingMenu)()
-			menu.initRatingMenu()
+			menu:setOverlaySubmenu( "Rating" )
 		else
 			Campaign:proceed()
 		end

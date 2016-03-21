@@ -1,20 +1,20 @@
 
 local menu = {
 	curLevelName = "",
-	transitionActive = false,
 	transitionPercentage = 0,
-	state = "main",
 	activeSubmenu = "Main",
 	parallaxPos = 0,
 	xCamera = 0,
 	yCamera = 0,
 	initialized = false,
+	overlaySubmenu = nil,
 }
 
 local Submenu = require( "scripts/menu/submenu" )
 local UserlevelSubmenu = require( "scripts/menu/userlevelSubmenu" )
 local KeyAssignmentSubmenu = require( "scripts/menu/keyAssignmentSubmenu" )
 local WorldmapSubmenu = require( "scripts/menu/worldmapSubmenu" )
+local RatingSubmenu = require( "scripts/menu/ratingSubmenu" )
 
 local submenus = {}
 
@@ -137,11 +137,11 @@ function menu:init()
 
 	p:turnIntoList( 10, 1.1 ) -- make vertical "table-like" lines for readability
 	
-	local s = settingsMenu:addSlider( "soundOptionsOff", "soundOptionsOn", -32, -30, 40, 6,
+	local s = settingsMenu:addBambooSlider( "soundOptionsOff", "soundOptionsOn", -32, -30, 40, 6,
 		self:setPlayerPositionEvent( settingsMenu.x - 38, -25), changeEffectVolume,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
 	s:setValue( settings:getEffectVolume()/20+1 )
-	local s = settingsMenu:addSlider( "musicOff", "musicOn", -32, -20, 40, 6,
+	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -32, -20, 40, 6,
 		self:setPlayerPositionEvent( settingsMenu.x - 38, -15), changeMusicVolume,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
 	s:setValue( settings:getMusicVolume()/20+1 )
@@ -158,7 +158,7 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		{[true]="on", [false]="off"}, "Shaders: " )
 	b:setValue( settings:getShadersEnabled() )
 
-	local s = settingsMenu:addSlider( "musicOff", "musicOn", -32, 10, 20, 3,
+	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -32, 10, 20, 3,
 		self:setPlayerPositionEvent( settingsMenu.x - 38, 15), setBackgroundDetail,
 		{ "No Background", "Simple Background", "Detailed background" } )
 	s:setValue( settings:getBackgroundDetail() )	
@@ -242,6 +242,10 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		self:connectedGamepad()
 	end
 
+	-- Create the Rating Submenu:
+	local ratingMenu = RatingSubmenu:new( 700, 0 )
+	submenus["Rating"] = ratingMenu
+
 	menu.initialized = true
 
 end
@@ -263,6 +267,8 @@ function menu:switchToSubmenu( menuName )
 	if menuName == "Pause" then
 		menuName = "Worldmap"		-- DEBUG
 	end
+
+	self.overlaySubmenu = nil		-- Remove any possible active overlay menus
 
 	self.previousSubmenu = self.activeSubmenu
 	-- Clean up sub menu:
@@ -293,9 +299,13 @@ function menu:switchToSubmenu( menuName )
 		self:slideCameraTo( 0, 1000, 0.5 )
 	elseif menuName == "Credits" then
 		self:slideCameraTo(700,0,0.5)
+	--elseif menuName == "Rating" then
+		--self:slideCameraTo(1400,0,0.5)
 	end
 
 	menu:setPlayerDirection( "right" )
+
+	print("New active Submenu:", self.activeSubmenu )
 end
 
 -- Slide camera to a position over a short period of time
@@ -321,31 +331,31 @@ function menu:setCameraTo( x, y )
 end
 
 function menu:update( dt )
-	--if menu.state == "main" then
-		--parallax:update(dt)
-	
-	--end
-	if self.cameraSlideTime then
-		self.cameraPassedTime = self.cameraPassedTime + dt
-		if self.cameraPassedTime < self.cameraSlideTime then
-			local amount = utility.interpolateCos( self.cameraPassedTime/self.cameraSlideTime )
-			self.xCamera = self.xCameraStart + 
+	if not self.overlaySubmenu then
+		if self.cameraSlideTime then
+			self.cameraPassedTime = self.cameraPassedTime + dt
+			if self.cameraPassedTime < self.cameraSlideTime then
+				local amount = utility.interpolateCos( self.cameraPassedTime/self.cameraSlideTime )
+				self.xCamera = self.xCameraStart + 
 				(self.xTarget - self.xCameraStart)*amount
-			self.yCamera = self.yCameraStart + 
+				self.yCamera = self.yCameraStart + 
 				(self.yTarget - self.yCameraStart)*amount
-		else
-			self.xCamera = self.xTarget
-			self.yCamera = self.yTarget
-			self.cameraSlideTime = nil
-			submenus[self.activeSubmenu]:activate()
+			else
+				self.xCamera = self.xTarget
+				self.yCamera = self.yTarget
+				self.cameraSlideTime = nil
+				submenus[self.activeSubmenu]:activate()
+			end
 		end
+		parallax:setPosition( -self.xCamera )
+
+		submenus[self.activeSubmenu]:update( dt )
+	else
+		submenus[self.overlaySubmenu]:update( dt )
 	end
-	parallax:setPosition( -self.xCamera )
 
 	menuPlayer.vis:update(dt/2)
 	menuPlayer.visBandana:update(dt/2)
-
-	submenus[self.activeSubmenu]:update(dt)
 end
 
 function menu:updateLevelName( dt )
@@ -353,38 +363,39 @@ end
 
 function menu:draw()
 
-	--if menu.state == 'main' then
+	if not self.overlaySubmenu then
 		parallax:draw()
-	--end
+	end
 
 	love.graphics.push()
 	love.graphics.translate(
-		-math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
-		-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2 )
+	-math.floor(self.xCamera*Camera.scale)+love.graphics.getWidth()/2,
+	-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2 )
 
-	if self.previousSubmenu then
-		submenus[self.previousSubmenu]:draw()
+	if not self.overlaySubmenu then
+		if self.previousSubmenu then
+			submenus[self.previousSubmenu]:draw()
+		end
+		-- Draw all visible panels:
+		if self.activeSubmenu then
+			submenus[self.activeSubmenu]:draw()
+		end
+	else
+		-- If there is an active overlaySubmenu, then draw this instead.
+		submenus[self.overlaySubmenu]:draw()
 	end
 
-	-- Draw all visible panels:
-	if self.activeSubmenu then
-		submenus[self.activeSubmenu]:draw()
+	-- Draw the menu ninja:
+	local x = menuPlayer.x*Camera.scale
+	local y = menuPlayer.y*Camera.scale
+	menuPlayer.vis:draw(x,y,true)
 
-		-- If there's no transition in progress...
-		--if not submenus[self.activeSubmenu]:getTransition() then
-			-- Draw the menu ninja:
-			local x = menuPlayer.x*Camera.scale
-			local y = menuPlayer.y*Camera.scale
-			menuPlayer.vis:draw(x,y,true)
-
-			local color = utility.bandana2color[Campaign.bandana]
-			if color then
-				local r,g,b = love.graphics.getColor()
-				love.graphics.setColor(color[1],color[2],color[3],255)
-				menuPlayer.visBandana:draw(x,y,true)
-				love.graphics.setColor(r,g,b)
-			end
-		--end
+	local color = utility.bandana2color[Campaign.bandana]
+	if color then
+		local r,g,b = love.graphics.getColor()
+		love.graphics.setColor(color[1],color[2],color[3],255)
+		menuPlayer.visBandana:draw(x,y,true)
+		love.graphics.setColor(r,g,b)
 	end
 
 	love.graphics.pop()
@@ -399,54 +410,65 @@ function menu:keypressed( key, repeated )
 	if key == keys.BACK then
 		Sound:play('menuBack')
 	end
-	if self.activeSubmenu then
-		if self.activeSubmenu == "KeyAssignment" and
+
+	local currentMenu = self.activeSubmenu
+	if self.overlaySubmenu then
+		currentMenu = self.overlaySubmenu
+	end
+
+	if currentMenu then
+		if currentMenu == "KeyAssignment" and
 			KeyAssignmentSubmenu.keyCurrentlyAssigning ~= nil then
 			-- Only assign if not taken by hotkey:
-			if not submenus[self.activeSubmenu]:hotkey( key ) then
+			if not submenus[currentMenu]:hotkey( key ) then
 				KeyAssignmentSubmenu:assignKey( key )
 			end
 		else
-
 			if key == keys.LEFT then
-				submenus[self.activeSubmenu]:goLeft()
+				submenus[currentMenu]:goLeft()
 			elseif key == keys.RIGHT then
-				submenus[self.activeSubmenu]:goRight()
+				submenus[currentMenu]:goRight()
 			elseif key == keys.UP then
-				submenus[self.activeSubmenu]:goUp()
+				submenus[currentMenu]:goUp()
 			elseif key == keys.DOWN then
-				submenus[self.activeSubmenu]:goDown()
+				submenus[currentMenu]:goDown()
 			elseif key == keys.CHOOSE then
-				submenus[self.activeSubmenu]:startButtonEvent()
+				submenus[currentMenu]:startButtonEvent()
 			else
-				submenus[self.activeSubmenu]:hotkey( key )
+				submenus[currentMenu]:hotkey( key )
 			end
 		end
 	end
 end
 
 function menu:gamepadpressed( button )
-	if self.activeSubmenu then
+
+	local currentMenu = self.activeSubmenu
+	if self.overlaySubmenu then
+		currentMenu = self.overlaySubmenu
+	end
+
+	if currentMenu then
 		key = tostring( button )
-		if self.activeSubmenu == "KeyAssignment" and
+		if currentMenu == "KeyAssignment" and
 			KeyAssignmentSubmenu.keyCurrentlyAssigning ~= nil then
 			-- Only assign if not taken by hotkey:
-			if not submenus[self.activeSubmenu]:gamepadHotkey( key ) then
+			if not submenus[currentMenu]:gamepadHotkey( key ) then
 				KeyAssignmentSubmenu:assignPad( key )
 			end
 		else
 			if key == keys.PAD.LEFT then
-				submenus[self.activeSubmenu]:goLeft()
+				submenus[currentMenu]:goLeft()
 			elseif key == keys.PAD.RIGHT then
-				submenus[self.activeSubmenu]:goRight()
+				submenus[currentMenu]:goRight()
 			elseif key == keys.PAD.UP then
-				submenus[self.activeSubmenu]:goUp()
+				submenus[currentMenu]:goUp()
 			elseif key == keys.PAD.DOWN then
-				submenus[self.activeSubmenu]:goDown()
+				submenus[currentMenu]:goDown()
 			elseif key == keys.PAD.CHOOSE then
-				submenus[self.activeSubmenu]:startButtonEvent()
+				submenus[currentMenu]:startButtonEvent()
 			else
-				submenus[self.activeSubmenu]:gamepadHotkey( key )
+				submenus[currentMenu]:gamepadHotkey( key )
 			end
 		end
 	end
@@ -495,7 +517,7 @@ function menu:startCampaignLevel( lvlNum )
 		Campaign.current = lvlNum		
 		--p = spriteFactory('Player')
 		mode = 'game'
-		
+
 		gravity = 22
 		--Campaign.current = lvlNum
 		myMap = Map:loadFromFile( lvl )
@@ -526,7 +548,7 @@ function menu:startGame( lvl )
 		myMap = Map:loadFromFile( lvl )
 		levelEnd:reset()		-- resets the counters of all deaths etc
 		myMap:start()		
-		
+
 
 		gui.clearBandanas()
 	end
@@ -570,6 +592,22 @@ end
 function menu:updateHotkeys()
 	for k, submenu in pairs( submenus ) do
 		submenu:updateHotkeys()
+	end
+end
+
+---------------------------------------------------------
+-- Handle Overlay Submenus
+---------------------------------------------------------
+-- Overlay submenus are menus which will be displayed above the current game.
+-- These do NOT slide.
+-- Used for Pause menu and Rating Menu
+
+function menu:setOverlaySubmenu( name )
+	self.overlaySubmenu = name
+	menu:setPlayerDirection( "right" )
+	if submenus[self.overlaySubmenu] then
+		submenus[self.overlaySubmenu]:activate()
+		submenus[self.overlaySubmenu]:reselectButton()
 	end
 end
 

@@ -12,8 +12,8 @@ function Userlevel:new( levelname, author, ratingFun, ratingDifficulty, authoriz
 
 	o.downloaded = false
 
-	o.ratingFun = math.floor(ratingDifficulty + 0.5)
-	o.ratingDifficulty = math.floor(ratingFun + 0.5)
+	o.ratingFun = math.floor(ratingFun + 0.5)
+	o.ratingDifficulty = math.floor(ratingDifficulty + 0.5)
 
 	-- construct the file name as it must be on the server:
 	if o.authorized then

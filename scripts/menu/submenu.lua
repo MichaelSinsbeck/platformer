@@ -3,6 +3,7 @@
 
 local Panel = require( "scripts/menu/menuPanel" )
 local Button = require( "scripts/menu/button" )
+local BambooSlider = require( "scripts/menu/bambooslider" )
 local Slider = require( "scripts/menu/slider" )
 local ToggleButton = require( "scripts/menu/toggleButton" )
 local Transition = require( "scripts/menu/transition" )
@@ -81,7 +82,7 @@ function Submenu:draw()
 	love.graphics.pop()
 end
 
--- An activation function is called every time the submen is set to visible
+-- An activation function is called every time the submenu is set to visible
 function Submenu:activate()
 	if self.activateFunction then
 		self.activateFunction()
@@ -249,22 +250,50 @@ function Submenu:addToggleButton( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
 	end
 end
 
-function Submenu:addSlider( imgOff, imgOn, x, y, width, segments, eventHover,
-		eventChange, captions, name, layerName )
+function Submenu:addBambooSlider( imgOff, imgOn, x, y, width, segments, eventHover,
+		eventChange, captions, name, eventChoose, layerName )
 	
 	-- Per default, add to the main layer:
 	layerName = layerName or "MainLayer"
 
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
-			local b = Slider:new( imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name )
-			table.insert( l.buttons, b )
+			local b = BambooSlider:new( imgOff, imgOn, x, y, width, segments, eventHover, eventChange, captions, name )
+			b:setEventChoose( eventChoose )
+
+			table.insert( l.buttons, b )	-- treat like a button
 			self:linkButtons( layerName )
 			return b
 		end
 	end
-
 end
+
+function Submenu:addSlider( imageType, x, y, width, eventHover,
+		eventChange, name, eventChoose, layerName )
+	
+	-- Per default, add to the main layer:
+	layerName = layerName or "MainLayer"
+
+	local images
+	if imageType == "stars" then
+		images = { "stars1", "stars2", "stars3", "stars4", "stars5" }
+	else
+		images = { "skulls1", "skulls2", "skulls3", "skulls4", "skulls5" }
+	end
+
+	for k, l in ipairs( self.layers ) do
+		if l.name == layerName then
+			local b = Slider:new( images, x, y, width, eventHover, eventChange, name )
+			b:setEventChoose( eventChoose )
+
+			table.insert( l.buttons, b )	-- treat like a button
+			self:linkButtons( layerName )
+			return b
+		end
+	end
+end
+
+
 
 function Submenu:addImage( image, x, y, layerName )
 	-- Per default, add to the main layer:
@@ -436,7 +465,6 @@ end
 function Submenu:setSelectedButton( b, layerName )
 	-- Per default, choose the main layer:
 	layerName = layerName or "MainLayer"
-
 	for k, l in ipairs( self.layers ) do
 		if l.name == layerName then
 			if l.selectedButton then
@@ -564,9 +592,9 @@ function Submenu:startButtonEvent()
 	if self.activeLayer then
 		local l = self.layers[self.activeLayer]
 		if l.selectedButton then
-			if not l.selectedButton.isSlider then
+			--if not l.selectedButton.isSlider then
 				l.selectedButton:startEvent()
-			end
+			--end
 		end
 	end
 end
