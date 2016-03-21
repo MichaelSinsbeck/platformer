@@ -50,14 +50,15 @@ function fader:draw()
 		local stencilFunction = function()
 			love.graphics.circle('fill',x,y,radius)
 		end
-		love.graphics.setInvertedStencil( stencilFunction)
-		
+		love.graphics.stencil( stencilFunction, "replace", 1)
+		--love.graphics.setInvertedStencil( stencilFunction)
+		love.graphics.setStencilTest("equal", 0)
 		
 		love.graphics.setColor(0,0,0)
 		love.graphics.rectangle('fill',0,0,Camera.width,Camera.height)
 		--love.graphics.circle('fill',x,y,radius)
 		
-		love.graphics.setStencil()
+		love.graphics.setStencilTest()
 		love.graphics.circle('line',x,y,radius)
 	end
 end

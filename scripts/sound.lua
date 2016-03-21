@@ -4,7 +4,7 @@ local sound = {sources = {},event2file={},longSounds={},eventVolume = {},eventDi
 -- event2file is a table of sounds: key = sound/event, value = filename
 -- longSounds: key:object (from spriteEngine), value: source
 
-local attenuationModel = 'linear clamped'
+local attenuationModel = 'linearclamped'
 local dist_ref = 2
 --local dist_max = 10
 local roll_off = 1

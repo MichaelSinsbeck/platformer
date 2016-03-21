@@ -164,7 +164,8 @@ function Box:new( borders, width, height )
 		dir = -dir
 	end
 	
-	b.mesh = love.graphics.newMesh( b.vertList, fabric_IMG, "strip" )
+	b.mesh = love.graphics.newMesh( b.vertList, "strip" )
+	b.mesh:setTexture(fabric_IMG)
 	-- b.mesh2 = love.graphics.newMesh( b.vertList, fabric_IMG, "points" )
 
 	-- random starting time for animation:

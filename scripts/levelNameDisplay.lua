@@ -10,6 +10,7 @@ function LevelNameDisplay:new( name, time )
 	o.name = name
 
 	local w, lines = fontLarge:getWrap( name, 80*Camera.scale ) -- in pixel
+	lines = #lines
 	o.h = lines*fontLarge:getHeight()/Camera.scale + 8
 	o.w = w/Camera.scale + 8
 	print(o.w)

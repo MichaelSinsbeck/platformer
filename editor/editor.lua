@@ -465,7 +465,7 @@ function editor.start()
 	--groundPanel.pages[0][1]:setSelected( true )
 	--backgroundPanel.pages[0][1]:setSelected( true )
 
-	love.graphics.setPointStyle( "smooth" )
+	--love.graphics.setPointStyle( "smooth" )
 	love.graphics.setPointSize( 6 )
 	
 	panelsWithShortcuts = {toolPanel, propertiesPanel, groundPanel, backgroundPanel}
@@ -684,7 +684,7 @@ end
 function editor:update( dt )
 	self.toolTip.text = ""
 
-	local clicked = love.mouse.isDown("l", "r")
+	local clicked = love.mouse.isDown(1, 2)
 	local x, y = love.mouse.getPosition()
 	local wX, wY = cam:screenToWorld( x, y )
 
@@ -1130,29 +1130,9 @@ function editor:mousepressed( button, x, y )
 end]]
 
 function editor:mousepressed( button, x, y )
-	if button == "m" then
+	if button == 3 then
 		cam:setMouseAnchor()
-	elseif button == "wu" then
-		if objectPanel.visible then
-			objectPanel:goToPrevPage()
-		elseif bgObjectPanel.visible then
-			bgObjectPanel:goToPrevPage()
-		elseif loadPanel.visible then
-			loadPanel:goToPrevPage()
-		else
-			cam:zoomIn()
-		end
-	elseif button == "wd" then
-		if objectPanel.visible then
-			objectPanel:goToNextPage()
-		elseif bgObjectPanel.visible then
-			bgObjectPanel:goToNextPage()
-		elseif loadPanel.visible then
-			loadPanel:goToNextPage()
-		else
-			cam:zoomOut()
-		end
-	elseif button == "l" or button == "r" then
+	elseif button == 1 or button == 2 then
 		
 		local wX, wY = cam:screenToWorld( x, y )
 		local tileX = math.floor(wX/(Camera.scale*8))
@@ -1179,7 +1159,7 @@ function editor:mousepressed( button, x, y )
 			end
 		elseif bgObjectPanel.visible then
 			mouseOnCanvas = false
-			if bgObjectPanel:collisionCheck(x, y) and button == "l" then
+			if bgObjectPanel:collisionCheck(x, y) and button == 1 then
 				-- bgObjectPanel:addToSelectionClick( x, y, button )
 				--if love.keyboard.isDown( "lshift", "rshift" ) then
 				--	bgObjectPanel:addToSelectionClick( x, y )
@@ -1197,7 +1177,7 @@ function editor:mousepressed( button, x, y )
 			end
 		elseif objectPanel.visible then
 			mouseOnCanvas = false
-			if objectPanel:collisionCheck(x, y) and button == "l" then
+			if objectPanel:collisionCheck(x, y) and button == 1 then
 				--objectPanel:click( x, y, button )
 				editor.startBoxSelect( x, y )
 			else
@@ -1254,33 +1234,57 @@ function editor:mousepressed( button, x, y )
 	end
 end
 
+function editor:wheelmoved(x,y)
+	if y > 0 then
+		if objectPanel.visible then
+			objectPanel:goToPrevPage()
+		elseif bgObjectPanel.visible then
+			bgObjectPanel:goToPrevPage()
+		elseif loadPanel.visible then
+			loadPanel:goToPrevPage()
+		else
+			cam:zoomIn()
+		end
+	elseif y < 0 then
+		if objectPanel.visible then
+			objectPanel:goToNextPage()
+		elseif bgObjectPanel.visible then
+			bgObjectPanel:goToNextPage()
+		elseif loadPanel.visible then
+			loadPanel:goToNextPage()
+		else
+			cam:zoomOut()
+		end
+	end
+end
+
 function editor:useTool( tileX, tileY, button )
 	if self.currentTool == "pen" then
 		if self.shift and self.lastClickX and self.lastClickY then
 			-- draw a line
-			if button == "l" then
+			if button == 1 then
 				map:line( tileX, tileY,
 				self.lastClickX, self.lastClickY, false,
 				function(x, y) map:setGroundTile(x, y, self.currentGround, true ) end )
-			elseif button == "r" then
+			elseif button == 2 then
 				map:line( tileX, tileY,
 				self.lastClickX, self.lastClickY, false,
 				function(x, y) map:eraseGroundTile(x, y, true ) end )
 			end
 		elseif self.ctrl then
 			-- fill the area
-			if button == "l" then
+			if button == 1 then
 				map:startFillGround( tileX, tileY, "set", self.currentGround )
-			elseif button == "r" then
+			elseif button == 2 then
 				map:startFillGround( tileX, tileY, "erase" )
 			end
 		else
-			if button == "l" then
+			if button == 1 then
 				-- paint:
 				self.drawing = true
 				-- force to draw one tile:
 				map:setGroundTile( tileX, tileY, self.currentGround, true )
-			elseif button == "r" then
+			elseif button == 2 then
 				-- start erasing
 				self.erasing = true
 				-- force to erase one tile:
@@ -1291,26 +1295,26 @@ function editor:useTool( tileX, tileY, button )
 	elseif self.currentTool == "bgPen" then
 		if self.shift and self.lastClickX and self.lastClickY then
 			-- draw a line
-			if button == "l" then
+			if button == 1 then
 				map:line( tileX, tileY,
 				self.lastClickX, self.lastClickY, false,
 				function(x, y) map:setBackgroundTile(x, y, self.currentBackground, true ) end )
-			elseif button == "r" then
+			elseif button == 2 then
 				map:line( tileX, tileY,
 				self.lastClickX, self.lastClickY, false,
 				function(x, y) map:eraseBackgroundTile(x, y, true ) end )
 			end
 		elseif self.ctrl then
-			if button == "l" then
+			if button == 1 then
 				map:startFillBackground( tileX, tileY, "set", self.currentBackground )
-			elseif button == "r" then
+			elseif button == 2 then
 				map:startFillBackground( tileX, tileY, "erase" )
 			end
 		else
-			if button == "l" then
+			if button == 1 then
 				self.drawing = true
 				map:setBackgroundTile( tileX, tileY, self.currentBackground, true )
-			elseif button == "r" then
+			elseif button == 2 then
 				self.erasing = true
 				map:eraseBackgroundTile( tileX, tileY, true )
 			end
@@ -1318,7 +1322,7 @@ function editor:useTool( tileX, tileY, button )
 		end
 		self.lastClickX, self.lastClickY = tileX, tileY
 	elseif self.currentTool == "bgObject" and self.currentBgObjects then
-		if button == "l" then
+		if button == 1 then
 			if not love.keyboard.isDown("lctrl", "rctrl") then
 				editor.setTool("edit")
 			end
@@ -1334,7 +1338,7 @@ function editor:useTool( tileX, tileY, button )
 				end
 				editor.createPropertiesPanel()
 			end
-		elseif button == "r" then
+		elseif button == 2 then
 			local wX, wY = cam:screenToWorld( love.mouse.getPosition() )
 			local tX = wX/(Camera.scale*8)
 			local tY = wY/(Camera.scale*8)
@@ -1343,7 +1347,7 @@ function editor:useTool( tileX, tileY, button )
 			end
 		end
 	elseif self.currentTool == "object" and self.currentObjects then
-		if button == "l" then
+		if button == 1 then
 			if not love.keyboard.isDown("lctrl", "rctrl") then
 				editor.setTool("edit")
 			end
@@ -1370,13 +1374,13 @@ function editor:useTool( tileX, tileY, button )
 				end
 				editor.createPropertiesPanel()
 			end
-		elseif button == "r" then
+		elseif button == 2 then
 			if not map:removeObjectAt( tileX, tileY ) then
 				map:removeBgObjectAt( tileX, tileY )
 			end
 		end
 	elseif self.currentTool == "edit" then
-		if button == "l" then
+		if button == 1 then
 			--[[if not self.shift then
 				map:selectNoObject()
 				map:selectNoBgObject()
@@ -1425,7 +1429,7 @@ function editor:useTool( tileX, tileY, button )
 					editor.startBoxSelect( love.mouse.getPosition() )
 				end
 			--end
-		elseif button == "r" then
+		elseif button == 2 then
 			if not map:removeObjectAt( tileX, tileY ) then
 				map:removeBgObjectAt( tileX, tileY )
 			end
@@ -1474,9 +1478,9 @@ function editor.duplicateSelection()
 end
 
 function editor:mousereleased( button, x, y )
-	if button == "m" then
+	if button == 3 then
 		cam:releaseMouseAnchor()
-	elseif button == "l" then
+	elseif button == 1 then
 		if editor.selectBox then
 			editor.endBoxSelect( "notAborted" )
 		end
@@ -1485,7 +1489,7 @@ function editor:mousereleased( button, x, y )
 		end
 		self.drawing = false
 		self.dragging = false
-	elseif button == "r" then
+	elseif button == 2 then
 		self.erasing = false
 	end
 end
@@ -1869,8 +1873,8 @@ function editor:draw()
 			love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale, sX+4*Camera.scale, sY+4*Camera.scale )
 
 			love.graphics.setColor( 255,188,128,255)
-			love.graphics.point( rX + 4*Camera.scale, rY+4*Camera.scale )
-			love.graphics.point( sX + 4*Camera.scale, sY+4*Camera.scale )
+			love.graphics.points( rX + 4*Camera.scale, rY+4*Camera.scale )
+			love.graphics.points( sX + 4*Camera.scale, sY+4*Camera.scale )
 			love.graphics.setColor(255,255,255,255)
 		end
 	end

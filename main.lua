@@ -138,7 +138,7 @@ function love.draw()
 	end
 end
 
-function love.keypressed( key, repeated )
+function love.keypressed( key, scancode, repeated )
 	if repeated then
 		-- only let the menu receive multiple keypresses
 		if mode == 'menu' then
@@ -316,6 +316,12 @@ end
 function love.mousereleased( x, y, button )
 	if mode == 'editor' then
 		editor:mousereleased( button, x, y )
+	end
+end
+
+function love.wheelmoved( x, y )
+	if mode == 'editor' then
+		editor:wheelmoved(x,y)
 	end
 end
 

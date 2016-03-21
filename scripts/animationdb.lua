@@ -107,8 +107,10 @@ function AnimationDB:loadTiledImage(imagefilename,name,height,width,subfolder,ge
 			} k = k + 1
 			verts[k] = verts[2]
 			
-			thisSource.meshes[thisIndex] = 
-				love.graphics.newMesh( verts, image )
+			local thisMesh = love.graphics.newMesh( verts )
+			thisMesh:setTexture(image)
+			thisSource.meshes[thisIndex] = thisMesh
+				
 		end
     end
   end

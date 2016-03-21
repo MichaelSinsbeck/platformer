@@ -48,7 +48,7 @@ function settings:setWindowSize()
 		print("3")
 	Camera:setScale(scale)
 
-	local w, h = love.window.getDimensions()
+	local w, h = love.graphics.getDimensions()
 	fullscreenCanvas = love.graphics.newCanvas(w, h)
 
 	return success

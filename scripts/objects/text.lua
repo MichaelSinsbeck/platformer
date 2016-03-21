@@ -31,6 +31,7 @@ function Text:applyOptions()
 	
 	local maxWidth = Camera.scale*8*6
 	local width, nLines = fontSmall:getWrap(self.text, maxWidth)
+	nLines = #nLines
 	self.width = width+Camera.scale*4
 	self.height = nLines * fontSmall:getHeight()+Camera.scale*4
 

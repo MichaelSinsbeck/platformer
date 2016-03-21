@@ -13,7 +13,7 @@ local baseLevel = 0.9
 
 
 function Parallax:update(dt)
-	local w,h = love.window.getDimensions()
+	local w,h = love.graphics.getDimensions()
 	local dx = -velocity * dt
 	if mode == 'game' or mode == 'levelEnd' then
 		dx = Camera.dx
@@ -26,7 +26,7 @@ function Parallax:update(dt)
 end
 
 function Parallax:setPosition( posX )
-	local w,h = love.window.getDimensions()
+	local w,h = love.graphics.getDimensions()
 	-- move layers horizontally (left/right)
 	for i, layer in ipairs(self.layers) do
 		local x = posX/layer.z
@@ -53,7 +53,7 @@ local function mix2color(factor)
 end
 
 function Parallax:draw()
-	local w,h = love.window.getDimensions()
+	local w,h = love.graphics.getDimensions()
 	
 	-- sky-color
 	love.graphics.setColor(colorBack[1],colorBack[2],colorBack[3])
@@ -100,7 +100,7 @@ function Parallax:init(location,color,yLevel,frontlayers,backlayers,offset,seed)
 	end
 
 	self:clear()
-	local w,h = love.window.getDimensions()
+	local w,h = love.graphics.getDimensions()
 	
 	location = location or 1
 	

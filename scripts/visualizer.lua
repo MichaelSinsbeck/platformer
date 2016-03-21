@@ -106,11 +106,12 @@ function Visualizer:draw(x,y, useExternalColor)
 			local r,g,b,a= love.graphics.getColor()
 			
 			local _, lines = fontSmall:getWrap(self.text,width)
+			lines = #lines
 			local height = lines * fontSmall:getHeight()
 			local correction = fontSmall:getBaseline() - fontSmall:getAscent()
-			if not useExternalColor then
+			--if not useExternalColor then
 				love.graphics.setColor(0,0,0, self.alpha)
-			end
+			--end
 			love.graphics.setFont(fontSmall)
 			x = x + self.relX * Camera.scale*8-- - self.ox*Camera.scale
 			y = y + self.relY * Camera.scale*8-- - self.oy*Camera.scale

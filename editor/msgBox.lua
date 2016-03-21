@@ -21,6 +21,7 @@ function msgBox:new( msg, eventAccept, eventDecline )
 
 	local width = love.graphics.getWidth()/3/Camera.scale
 	local __,lines = fontSmall:getWrap(msgBox.msg, (width)*Camera.scale)
+	lines = #lines
 	local textHeight = lines*fontSmall:getHeight()
 	local height = textHeight/Camera.scale + 25
 	local x = love.graphics.getWidth()/2/Camera.scale - width/2

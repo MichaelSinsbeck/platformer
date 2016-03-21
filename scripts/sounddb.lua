@@ -67,7 +67,7 @@ function Sound:loadAll()
 	self:add('textAppear',.1,10,'freesound/text-appear.wav')
 	self:add('textDisappear',.1,10,'freesound/text-disappear.wav')
 	self:add('plop',1,10,'Plop_1.wav')
-	self:add('win',.1,10,'opengameart/exit.wav')	
+	self:add('win',.1,10,'opengameart/exit_mono.wav')	
 	
 	--self:add('spawnWalker',1,10,'silence.wav')
 	

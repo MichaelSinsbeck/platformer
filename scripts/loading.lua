@@ -120,6 +120,7 @@ function loading.draw()
 	end
 	
 	local width, lines = fontLarge:getWrap(proverb, 0.6*w)
+	lines = #lines
 	local textH = fontLarge:getHeight() * lines
 	
 	love.graphics.setColor(colors.blueText)
