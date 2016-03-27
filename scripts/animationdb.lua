@@ -197,7 +197,7 @@ end
 
 function AnimationDB:loadAll()
 	local tileSize = Camera.scale*10
-	AnimationDB:loadBackgrounds()
+--	AnimationDB:loadBackgrounds()
 	
 	AnimationDB:clearImages()	
 	AnimationDB:loadAllImages()

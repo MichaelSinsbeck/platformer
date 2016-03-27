@@ -211,10 +211,10 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 
 	creditsMenu:addText( 'Design', -55, -60, 40 ,nil,'left',colors.text,fontLarge)
 	creditsMenu:addText( 'Art', -90, -28, 40 ,nil,'right',colors.text,fontLarge)
-	creditsMenu:addText( 'Programming', -55, 4, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Programming', -55, 4, 50 ,nil,'left',colors.text,fontLarge)
 	creditsMenu:addText( 'Music', 53, -60, 40 ,nil,'left',colors.text,fontLarge)
 	creditsMenu:addText( 'Sound', 8, -28, 40 ,nil,'right',colors.text,fontLarge)
-	creditsMenu:addText( 'Framework', 53, 4, 40 ,nil,'left',colors.text,fontLarge)
+	creditsMenu:addText( 'Framework', 53, 4, 45 ,nil,'left',colors.text,fontLarge)
 	creditsMenu:addText( 'Special Thanks to', -90, 30, 100 ,nil,'left',colors.text,fontLarge)
 	
 	creditsMenu:addText( 'Michael Sinsbeck', -50, -52, 40 ,nil,'left',colors.blueText)
