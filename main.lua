@@ -138,6 +138,10 @@ function love.draw()
 end
 
 function love.keypressed( key, scancode, repeated )
+	-- do not accept keypressed before loading is done
+	if not loading.done then
+		return
+	end
 	if repeated then
 		-- only let the menu receive multiple keypresses
 		if mode == 'menu' or menu.overlaySubmenu then
