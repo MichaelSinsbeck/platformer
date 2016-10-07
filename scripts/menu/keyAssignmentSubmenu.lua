@@ -143,7 +143,7 @@ function KeyAssignmentSubmenu:new( x, y )
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		nil )
-	submenu:addHotkey( "BACK", "Back",
+	submenu:addHotkey( "BACK", "Save & Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
