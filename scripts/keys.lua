@@ -226,9 +226,9 @@ function nameForKey( key )
 	elseif key == "down" then
 		return "]"
 	elseif key == "left" then
-		return "<"
+		return "{"
 	elseif key == "right" then
-		return ">"
+		return "}"
 	elseif key == "backspace" then
 		return "bspace"
 	elseif key == "return" then
@@ -243,6 +243,7 @@ function nameForKey( key )
 end
 
 function getImageForKey( str, font )
+	print('getImageForKey: '..str)
 	if str == "" or str == "none" then
 		return "keyNone", "keyNone"
 	end
@@ -253,7 +254,7 @@ function getImageForKey( str, font )
 	if str == "left" then str = "C" end
 	if str == "right" then str = "D" end
 	if str == "escape" then str = "^" end
-	if str == "return" then str = "@" end
+	if str == "return" then str = "A" end
 	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyLargeOff", "keyLargeOn"
 	end

@@ -6,8 +6,11 @@ function loadFont()
 		--' abcdefghijklmnopqrstuvwxyz0123456789.,?+&ABCD-:!/')
 	--fontLarge = love.graphics.newImageFont('images/font/'.. prefix ..'fontLarge.png',
 		--' abcdefghijklmnopqrstuvwxyz0123456789.,?+&ABCD-:!/')
-	local size = Camera.scale*6
-	fontSmall = love.graphics.newFont('font/bandana.ttf',size)
-	fontLarge = love.graphics.newFont('font/bandana.ttf',2*size)	
+--	local size = Camera.scale*6
+	--local filename = 'font/bandana.ttf'
+	local size = Camera.scale*6*0.8	
+	local filename = 'font/bandana.ttf'
+	fontSmall = love.graphics.newFont(filename,size)
+	fontLarge = love.graphics.newFont(filename,2*size)	
 	love.graphics.setFont(fontSmall)
 end

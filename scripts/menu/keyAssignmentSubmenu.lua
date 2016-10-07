@@ -24,7 +24,7 @@ local function createFunction( f, keyType )
 	f.keyType = keyType
 	f.keyVis = Visualizer:New( getAnimationForKey( keysLocal[keyType] ) )
 	f.keyVis:init()
-	f.keyNameVis = Visualizer:New( nil, nil, nameForKey( keysLocal[keyType] ) )
+	f.keyNameVis = Visualizer:New( nil, nil, nameForKey( keysLocal[keyType] ):upper() )
 	f.keyNameVis:init()
 	f.padVis = Visualizer:New( getAnimationForPad( padKeysLocal[keyType] ) )
 	f.padVis:init()

@@ -15,7 +15,7 @@ function HotkeyDisplay:new( func, caption, x, y, event )
 	if caption then	-- Add display
 		o.vis = Visualizer:New( getAnimationForKey( o.key ) )
 		o.vis:init()
-		o.textVis = Visualizer:New( nil, nil, nameForKey( o.key ) )
+		o.textVis = Visualizer:New( nil, nil, nameForKey( o.key ):upper() ) -- convert to upper case
 		o.textVis:init()
 		o.captionVis = Visualizer:New( nil, nil, caption )
 		o.captionVis:init()

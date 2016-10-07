@@ -44,10 +44,10 @@ function controlKeys:draw( drawMode )
 		for k = 1, #toDraw do
 			x, y = toDraw[k].x, toDraw[k].y
 			love.graphics.draw( toDraw[k].img, x*Camera.scale, y*Camera.scale)
-			love.graphics.print( toDraw[k].txt,
+			love.graphics.print( toDraw[k].txt:upper(),
 							(x+toDraw[k].offset)*Camera.scale,
-							(y+3)*Camera.scale )
-			love.graphics.print( toDraw[k].label,
+							(y+3)*Camera.scale )							
+			love.graphics.print( toDraw[k].label:upper(),
 							(toDraw[k].labelX)*Camera.scale,
 							(y-3)*Camera.scale )
 		end
@@ -56,7 +56,7 @@ function controlKeys:draw( drawMode )
 			x, y = toDraw[k].x, toDraw[k].y
 			love.graphics.draw( toDraw[k].img, x*Camera.scale, y*Camera.scale)
 			
-			love.graphics.print( toDraw[k].label,
+			love.graphics.print( toDraw[k].label:upper(),
 							(toDraw[k].labelX)*Camera.scale,
 							(y-3)*Camera.scale )
 		end

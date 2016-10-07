@@ -74,10 +74,10 @@ function Clickable:new( x, y, event, img, toolTip, shortcut, useMesh )
 		o.offsetY = offsetY + 5
 
 		o.shortcutBox = {
-			offsetX -1 + math.random()*2, offsetY + math.random()*2,
-			offsetX -1 + math.random()*2 + sizeX, offsetY + math.random()*2,
-			offsetX -1 + math.random()*2 + sizeX, offsetY + math.random()*2 + sizeY,
-			offsetX -1 + math.random()*2, offsetY + math.random()*2 + sizeY,
+			offsetX -1 + love.math.random()*2,         offsetY +1 + love.math.random()*2,
+			offsetX +2 + love.math.random()*2 + sizeX, offsetY +1 + love.math.random()*2,
+			offsetX +2 + love.math.random()*2 + sizeX, offsetY +1 + love.math.random()*2 + sizeY,
+			offsetX -1 + love.math.random()*2,         offsetY +1 + love.math.random()*2 + sizeY,
 		}
 	end
 
@@ -236,7 +236,7 @@ function Clickable:draw()
 		love.graphics.setColor(0,0,0,255)
 		love.graphics.polygon( 'line', self.shortcutBox )
 		--love.graphics.setColor(255,255,255,255)
-		love.graphics.print( shortcut, self.offsetX, self.offsetY )
+		love.graphics.print( shortcut:upper(), self.offsetX, self.offsetY )
 		love.graphics.pop()
 	end
 

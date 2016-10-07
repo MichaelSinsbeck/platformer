@@ -48,7 +48,7 @@ function Button:postStep(dt)
 	else
 		for k,v in pairs(spriteEngine.objects) do
 			local dx,dy = v.x-self.x,v.y-self.y
-			if (v.tag == 'Imitator' or v.tag == 'Walker' or v.tag == 'Rock' or v.tag == 'Follower') and
+			if (v.tag == 'Imitator' or v.tag == 'Walker' or v.tag == 'Follower') and
 				 math.abs(dx) < self.semiheight+v.semiheight and
 				 math.abs(dy) < self.semiwidth +v.semiwidth then
 				touched = true
