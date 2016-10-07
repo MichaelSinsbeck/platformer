@@ -230,7 +230,7 @@ function nameForKey( key )
 	elseif key == "backspace" then
 		return "bspace"
 	elseif key == "return" then
-		return "@"
+		return "£"
 	elseif key == "escape" then
 		return "^"		
 	elseif key == "none" then
@@ -241,7 +241,6 @@ function nameForKey( key )
 end
 
 function getImageForKey( str, font )
-	print('getImageForKey: '..str)
 	if str == "" or str == "none" then
 		return "keyNone", "keyNone"
 	end
@@ -264,7 +263,7 @@ function getAnimationForKey( str )
 	if str == "" or str == "none" then
 		return "keyNone"
 	end
-	if #str > 1 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
+	if #str > 2 then --font:getWidth(str) > menu.images.keyOn:getWidth()/2 then
 		return "keyboardLarge"
 	end
 	return "keyboardSmall"
