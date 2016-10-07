@@ -57,7 +57,7 @@ function keys.setDefaults()
 	keys.FULLSCREEN = 'f9'
 	keys.RESTARTMAP = 'p'
 	keys.RESTARTGAME = 'o'
-	keys.NEXTMAP = 'q'
+	keys.NEXTMAP = DEBUG and 'q' or 'invalid_key'
 
 	keys.LEFT = 'left'
 	keys.RIGHT = 'right'
@@ -139,7 +139,7 @@ function keys.load()
 	key = config.getValue( "RESTARTGAME", "keyboard.txt")
 	if key then keys.RESTARTGAME = key end
 	key = config.getValue( "NEXTMAP", "keyboard.txt")
-	if key then keys.NEXTMAP = key end
+	if key then keys.NEXTMAP = DEBUG and key or 'invalid_key' end
 	
 	key = config.getValue( "LEFT", "keyboard.txt")
 	if key then keys.LEFT = key end
@@ -816,7 +816,7 @@ function keys:save()
 				config.setValue( "FULLSCREEN", keys.FULLSCREEN, "keyboard.txt")
 				config.setValue( "RESTARTMAP", keys.RESTARTMAP, "keyboard.txt")
 				config.setValue( "RESTARTGAME", keys.RESTARTGAME, "keyboard.txt")
-				config.setValue( "NEXTMAP", keys.NEXTMAP, "keyboard.txt")
+				if DEBUG then config.setValue( "NEXTMAP", keys.NEXTMAP, "keyboard.txt") end
 
 				config.setValue( "LEFT", keys.LEFT, "keyboard.txt")
 				config.setValue( "RIGHT", keys.RIGHT, "keyboard.txt")
