@@ -116,7 +116,14 @@ function game.keypressed(key)
 			return
 		end
 		menu:createWorldButtons()
-		menu:switchToSubmenu( "Worldmap" )
+
+		if menu.currentlyPlayingUserlevels then
+			--menu.startTransition( menu.initUserlevels, true )()
+			menu:switchToSubmenu( "Userlevels" )
+		else
+			menu:createWorldButtons()
+			menu:switchToSubmenu( "Worldmap" )
+		end
 		menu:show()
 		--Sound:play('menuPause')
 	end
@@ -138,12 +145,11 @@ function game.keypressed(key)
 			if menu.currentlyPlayingUserlevels then
 				--menu.startTransition( menu.initUserlevels, true )()
 				menu:switchToSubmenu( "Userlevels" )
-				menu:show()
 			else
 				menu:createWorldButtons()
 				menu:switchToSubmenu( "Worldmap" )
-				menu:show()
 			end
+			menu:show()
 		end
 	end  
 
