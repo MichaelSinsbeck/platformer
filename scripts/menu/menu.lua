@@ -175,7 +175,7 @@ function menu:init()
 	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -44, 25, 
 		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 51, 30 ),nil,'Key Bindings' )
 
-	settingsMenu:addButton( "startOff", "startOn", -44, 35,
+	settingsMenu:addButton( "resetOff", "resetOn", -44, 35,
 		resetCampaign, self:setPlayerPositionEvent( settingsMenu.x -51, 40), nil, 'Reset Campaign' )
 
 

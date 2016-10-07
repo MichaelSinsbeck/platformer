@@ -638,6 +638,8 @@ function AnimationDB:loadAnimations()
 		vectorAnimations.listArrowAniUpdate )
 	AnimationDB:addAni('listArrowDown','menuButtons',{61},{1e6}, 
 		vectorAnimations.listArrowAniUpdate )
+	AnimationDB:addAni('resetOff','menuButtons',{62},{1e6})
+	AnimationDB:addAni('resetOn','menuButtons',{62,63,62,64},{0.1,0.1,0.1,0.1})
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('gamepadDown','keys_buttons',{1},{1e6})
