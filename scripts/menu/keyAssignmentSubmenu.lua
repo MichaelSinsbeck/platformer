@@ -45,9 +45,11 @@ function KeyAssignmentSubmenu:new( x, y )
 
 	functions = {}
 	for i = 1, #keyTypes do
-		local f = {}
-		createFunction( f, keyTypes[i] )
-		table.insert( functions, f )
+		if keyTypes[i] ~= "NEXTMAP" or DEBUG then	-- Don't show NEXTMAP unless in DEBUG mode.
+			local f = {}
+			createFunction( f, keyTypes[i] )
+			table.insert( functions, f )
+		end
 	end
 
 	submenu = Submenu:new( x, y )
@@ -82,7 +84,7 @@ function KeyAssignmentSubmenu:new( x, y )
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		cancelAssignment, "Assignment" )]]
 
-	-- Add invisible buttons to list which allow level selection:
+	-- Add invisible buttons to list which allow selection:
 	local lineHover = function()
 		local cy = (20 - LIST_HEIGHT/2 + LIST_ENTRY_HEIGHT*(selectedFunction-firstDisplayedFunction-1))
 		--local cx = -LIST_WIDTH/2 + 12
