@@ -146,7 +146,7 @@ function menu:init()
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
 	s:setValue( settings:getMusicVolume()/20+1 )
 	
-local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
+	local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		"toWindowedOff", "toWindowedOn", -32, -10, 
 		toggleFullscreen, self:setPlayerPositionEvent( settingsMenu.x - 38, -5 ),
 		{[true]="Fullscreen", [false]="Windowed"} )
@@ -172,7 +172,7 @@ local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		nil )
-	settingsMenu:addHotkey( "BACK", "Save & back\n to main menu",
+	settingsMenu:addHotkey( "BACK", "Save & Back",
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		backToMain )
