@@ -12,7 +12,7 @@ local sortingSchemes = {
 	"Difficulty rating descending",
 }
 local userlevels = {}
-local userlevelsFiltered = {}
+--local userlevelsFiltered = {}
 local userlevelsByAuthor = {}
 
 local Submenu = require( "scripts/menu/submenu" )
@@ -40,19 +40,19 @@ function UserlevelSubmenu:new( x, y )
 	
 	local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
 	p:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
-	local l = submenu:addLayer( "Filters" )
-	submenu:setLayerVisible( "Filters", false )
-	submenu:addPanel( -LIST_WIDTH/2 + 8, 0, LIST_WIDTH - 16, LIST_HEIGHT/2 - 8, "Filters" )
+	--local l = submenu:addLayer( "Filters" )
+	--submenu:setLayerVisible( "Filters", false )
+	--submenu:addPanel( -LIST_WIDTH/2 + 8, 0, LIST_WIDTH - 16, LIST_HEIGHT/2 - 8, "Filters" )
 
 	selectedUserlevel = 1
 	firstDisplayedUserlevel = 1
 
 	userlevels = {}
 	userlevelsByAuthor = {}
-	userlevelsFiltered = {}
+	--userlevelsFiltered = {}
 
 	-- Only load settings when starting the userlevel list for the first time:
-	if not self.userlevelFilters then
+	--[[if not self.userlevelFilters then
 		userlevelFilters = {
 			sorting = 1,
 			authorizedOnly = true,
@@ -69,7 +69,7 @@ function UserlevelSubmenu:new( x, y )
 			userlevelFilters.sorting =
 				math.min(math.max(math.floor(tonumber(val)), 1), #sortingSchemes )
 		end
-	end
+	end]]
 
 	-- Extend the original drawing functions of the submenu class:
 	submenu:addCustomDrawFunction( UserlevelSubmenu.drawUserlevels, "MainLayer" )
@@ -107,7 +107,7 @@ function UserlevelSubmenu:new( x, y )
 		submenu:setSelectedButton( buttonCenter )
 	end
 	local moveDown = function()
-		selectedUserlevel = math.min( #userlevelsFiltered, selectedUserlevel + 1 )
+		selectedUserlevel = math.min( #userlevels, selectedUserlevel + 1 )
 
 		if selectedUserlevel - firstDisplayedUserlevel + 1 > displayedUserlevels then
 			firstDisplayedUserlevel = selectedUserlevel - displayedUserlevels + 1
@@ -134,80 +134,80 @@ function UserlevelSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
-	submenu:addHotkey( "FILTERS", "Show Filters",
+	--[[submenu:addHotkey( "FILTERS", "Show Filters",
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
-		UserlevelSubmenu.showFilters )
+		UserlevelSubmenu.showFilters )]]
 	submenu:addHotkey( "REFRESH", "Refresh",
-		-love.graphics.getWidth()/Camera.scale/2 + 72,
+		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		UserlevelSubmenu.refresh )
 
-	submenu:addHotkey( "FILTERS", "Hide Filters",
+	--[[submenu:addHotkey( "FILTERS", "Hide Filters",
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
-		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
-	submenu:addHiddenHotkey( keys.BACK, keys.PAD.BACK,
-		UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
+			UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer
+		submenu:addHiddenHotkey( keys.BACK, keys.PAD.BACK,
+			UserlevelSubmenu.hideFilters, "Filters" )	-- turn off on Filters layer]]
 
-	submenu:setActivateFunction(
-		function()
-			submenu:setSelectedButton( buttonCenter )
-			self:refresh()
-		end )
+		submenu:setActivateFunction(
+			function()
+				submenu:setSelectedButton( buttonCenter )
+				self:refresh()
+			end )
 
-	-- Arrows indicating whether the whole list is visible of not:
-	arrowUpVis = Visualizer:New( "listArrowUp" );
-	arrowUpVis:init()
-	arrowDownVis = Visualizer:New( "listArrowDown" );
-	arrowDownVis:init()
+		-- Arrows indicating whether the whole list is visible of not:
+		arrowUpVis = Visualizer:New( "listArrowUp" );
+		arrowUpVis:init()
+		arrowDownVis = Visualizer:New( "listArrowDown" );
+		arrowDownVis:init()
 
-	return submenu
-end
+		return submenu
+	end
 
--- Load a list of all levels which have already been downloaded previously and are available
--- locally
-function UserlevelSubmenu:loadDownloadedUserlevels()
-	local list = love.filesystem.getDirectoryItems( "userlevels/authorized/" )
-	for i, author in pairs(list) do
-		local levels = love.filesystem.getDirectoryItems( "userlevels/authorized/" .. author )
-		for j, levelname in pairs(levels) do
-			local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, true )
-			UserlevelSubmenu:insertUserlevelIntoList( newLevel )
+	-- Load a list of all levels which have already been downloaded previously and are available
+	-- locally
+	function UserlevelSubmenu:loadDownloadedUserlevels()
+		local list = love.filesystem.getDirectoryItems( "userlevels/authorized/" )
+		for i, author in pairs(list) do
+			local levels = love.filesystem.getDirectoryItems( "userlevels/authorized/" .. author )
+			for j, levelname in pairs(levels) do
+				local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, true )
+				UserlevelSubmenu:insertUserlevelIntoList( newLevel )
+			end
 		end
-	end
 
-	list = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" )
-	for i, author in pairs(list) do
-		local levels = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" .. author )
-		for j, levelname in pairs(levels) do
-			local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, false )
-			UserlevelSubmenu:insertUserlevelIntoList( newLevel )
+		list = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" )
+		for i, author in pairs(list) do
+			local levels = love.filesystem.getDirectoryItems( "userlevels/unauthorized/" .. author )
+			for j, levelname in pairs(levels) do
+				local newLevel = Userlevel:new( levelname:sub(1,#levelname-4), author, 0, 0, false )
+				UserlevelSubmenu:insertUserlevelIntoList( newLevel )
+			end
 		end
+		--UserlevelSubmenu:applyUserlevelFilters()
 	end
-	UserlevelSubmenu:applyUserlevelFilters()
-end
 
--- Called whenever a new level has been downloaded:
-function UserlevelSubmenu:userlevelsLoaded( data, authorizationLevel )
-	for line in data:gmatch("([^\n]-)\n") do
-		local author, levelname, ratingFun, ratingDifficulty = line:match("(.*)\t(.*)\t.*\t(.*)\t(.*)")
-		if author and levelname and ratingFun and ratingDifficulty then
-			local level = Userlevel:new( levelname, author, ratingFun, ratingDifficulty, authorizationLevel == "authorized" )
-			UserlevelSubmenu:insertUserlevelIntoList( level )
+	-- Called whenever a new level has been downloaded:
+	function UserlevelSubmenu:userlevelsLoaded( data, authorizationLevel )
+		for line in data:gmatch("([^\n]-)\n") do
+			local author, levelname, ratingFun, ratingDifficulty = line:match("(.*)\t(.*)\t.*\t(.*)\t(.*)")
+			if author and levelname and ratingFun and ratingDifficulty then
+				local level = Userlevel:new( levelname, author, ratingFun, ratingDifficulty, authorizationLevel == "authorized" )
+				UserlevelSubmenu:insertUserlevelIntoList( level )
+			end
 		end
-	end
-	--menu:updateTextForCurrentUserlevel()	--display name of currently selected level
-	UserlevelSubmenu:applyUserlevelFilters()
-end
-
-function UserlevelSubmenu:applyUserlevelFilters()
-	--[[
-	if userlevelFilterBox and userlevelFilterBox.visible then
-		menu:hideUserlevelFilters()
+		--menu:updateTextForCurrentUserlevel()	--display name of currently selected level
+		--UserlevelSubmenu:applyUserlevelFilters()
 	end
 
-	userlevelsFiltered = {}
+	--function UserlevelSubmenu:applyUserlevelFilters()
+		--[[
+		if userlevelFilterBox and userlevelFilterBox.visible then
+			menu:hideUserlevelFilters()
+		end
+
+		userlevelsFiltered = {}
 
 	-- Go through all levels and see if they fullfill the filter requirements:
 	for k,level in pairs(userlevels) do
@@ -265,7 +265,7 @@ function UserlevelSubmenu:applyUserlevelFilters()
 	config.setValue( "LevelsFilterAuthorized", userlevelFilters.authorizedOnly )
 	--config.setValue( "LevelsFilterDownloaded", userlevelFilters.downloadedOnly )
 	config.setValue( "LevelsSorting", userlevelFilters.sorting )]]
-end
+	--end
 
 function UserlevelSubmenu:insertUserlevelIntoList( level )
 	-- Use this function to insert all levels found locally AND online into the list of user levels.
@@ -301,7 +301,7 @@ function UserlevelSubmenu:insertUserlevelIntoList( level )
 	end
 	userlevelsByAuthor[level.author][level.levelname] = level
 
-	userlevelsFiltered = userlevels 
+	--userlevelsFiltered = userlevels 
 end
 
 function UserlevelSubmenu:drawUserlevels()
@@ -336,11 +336,11 @@ function UserlevelSubmenu:drawUserlevels()
 	love.graphics.print( "Authorized", xAuthorized + 2*Camera.scale, (y + 2)*Camera.scale )
 	
 	--for i, level in ipairs( userlevels ) do
-	local lastDisplayedLevel = math.min( displayedUserlevels + firstDisplayedUserlevel - 1, #userlevelsFiltered )
+	local lastDisplayedLevel = math.min( displayedUserlevels + firstDisplayedUserlevel - 1, #userlevels )
 
 	--print(#userlevels, lastDisplayedLevel, displayedUserlevels, firstDisplayedUserlevel )
 	for i = firstDisplayedUserlevel, lastDisplayedLevel do
-		local level = userlevelsFiltered[i]
+		local level = userlevels[i]
 
 		local curY = (2 + y + LIST_ENTRY_HEIGHT*(i-firstDisplayedUserlevel+1))*Camera.scale
 
@@ -358,7 +358,7 @@ function UserlevelSubmenu:drawUserlevels()
 		local posY = (y + LIST_ENTRY_HEIGHT)*Camera.scale
 		arrowUpVis:draw( xStatus - 24, posY )
 	end
-	if lastDisplayedLevel < #userlevelsFiltered then
+	if lastDisplayedLevel < #userlevels then
 		local posY = (8 + y + LIST_ENTRY_HEIGHT*displayedUserlevels)*Camera.scale
 		arrowDownVis:draw( xStatus - 24, posY )
 	end
