@@ -14,6 +14,7 @@ local functions = {}
 local keysLocal = {}
 local padKeysLocal = {}
 local arrowUpVis, arrowDownVis
+local changeNotificationVis
 
 -- Assignment:
 --local keyCurrentlyAssigning = nil
@@ -134,6 +135,10 @@ function KeyAssignmentSubmenu:new( x, y )
 		--	end )
 	end
 
+
+	changeNotificationVis =
+		Visualizer:New( nil, nil, "Changes will be saved when you return to the previous menu!" )
+
 	submenu:addHotkey( "CHOOSE", "Reassign",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
@@ -221,27 +226,11 @@ function KeyAssignmentSubmenu:draw()
 		arrowDownVis:draw( xName - 29, posY )
 	end
 
-	--[[
-	--for i, level in ipairs( userlevels ) do
-	local lastDisplayedLevel = math.min( displayedUserlevels + firstDisplayedUserlevel - 1, #userlevelsFiltered )
-
-	--print(#userlevels, lastDisplayedLevel, displayedUserlevels, firstDisplayedUserlevel )
-	for i = firstDisplayedUserlevel, lastDisplayedLevel do
-		local level = userlevelsFiltered[i]
-
-		local curY = (2 + y + LIST_ENTRY_HEIGHT*(i-firstDisplayedUserlevel+1))*Camera.scale
-
-		-- draw indicator showing if level is ready to play or needs to be downloaded first:
-		level.statusVis:draw( xStatus + 4*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-		love.graphics.print( i .. ": " .. level.levelname, xLevelname, curY )
-		love.graphics.print( level.author, xAuthor, curY )
-		level.ratingFunVis:draw( xFun + 12*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-		level.ratingDifficultyVis:draw( xDifficulty + 12*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
+	if keys.changed then
+		changeNotificationVis:draw( 0,
+			Camera.scale*(love.graphics.getHeight()/Camera.scale/2 - 16) )
 	end
 
-
-	]]
 end
 
 function KeyAssignmentSubmenu:assignKey( key )
