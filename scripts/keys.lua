@@ -154,6 +154,8 @@ function keys.load()
 	if key then keys.JUMP = key end
 	key = config.getValue( "ACTION", "keyboard.txt")
 	if key then keys.ACTION = key end
+	key = config.getValue( "DASH", "keyboard.txt")
+	if key then keys.DASH = key end
 
 	key = config.getValue( "BACK", "keyboard.txt")
 	if key then keys.BACK = key end
@@ -806,7 +808,7 @@ function keys:checkInvalid()
 	return false
 end
 
-function keys:exitSubMenu()
+function keys:save()
 	--if not keys.currentlyAssigning then
 		if keys.changed then
 			--if menu.state == "keyboard" then	-- save keyboard layout:
@@ -823,6 +825,7 @@ function keys:exitSubMenu()
 			
 				config.setValue( "JUMP", keys.JUMP, "keyboard.txt")
 				config.setValue( "ACTION", keys.ACTION, "keyboard.txt")
+				config.setValue( "DASH", keys.DASH, "keyboard.txt")
 
 				config.setValue( "CHOOSE", keys.CHOOSE, "keyboard.txt")
 				config.setValue( "BACK", keys.BACK, "keyboard.txt")
@@ -841,6 +844,7 @@ function keys:exitSubMenu()
 			
 				config.setValue( "JUMP", keys.PAD.JUMP, "gamepad.txt")
 				config.setValue( "ACTION", keys.PAD.ACTION, "gamepad.txt")
+				config.setValue( "DASH", keys.PAD.DASH, "gamepad.txt")
 
 				config.setValue( "CHOOSE", keys.PAD.CHOOSE, "gamepad.txt")
 				config.setValue( "BACK", keys.PAD.BACK, "gamepad.txt")

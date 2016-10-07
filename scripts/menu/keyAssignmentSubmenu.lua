@@ -358,7 +358,7 @@ function KeyAssignmentSubmenu:close()
 		keys.PAD[name] = key
 	end
 	menu:updateHotkeys()
-	keys:exitSubMenu()
+	keys:save()
 end
 
 function KeyAssignmentSubmenu:update( dt )
