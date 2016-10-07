@@ -49,12 +49,12 @@ r-------------333rrr-------------r
 r------------33rrr---------------r
 r-----------33rr-----------------r
 r----------33rrr-----------------r
-r----------rrrrr-----------------r
-rrrrrrrr---r---r-----------------r
-r----------r---r-----------------r
-r----------r---r-----------------r
-r----------r---r-----------------r
-r----------r---r-----------------r
+r----------rrrr------------------r
+rrrrrrrr---r--r------------------r
+r----------r--r------------------r
+r----------r--r------------------r
+r----------r--r------------------r
+r----------r--r------------------r
 rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 endGround
 
@@ -71,7 +71,7 @@ endObj
 Obj:Player
 	x:2
 	y:7
-	p:bandana=white
+	p:bandana=green
 endObj
 Obj:Appearblock
 	x:29
@@ -112,7 +112,7 @@ endObj
 Obj:Button
 	x:13
 	y:18
-	p:lifetime=0
+	p:lifetime=2
 	p:color=yellow
 endObj
 Obj:Appearblock
@@ -120,10 +120,6 @@ Obj:Appearblock
 	y:16
 	p:state=solid
 	p:color=red
-endObj
-Obj:Rock
-	x:13
-	y:15
 endObj
 Obj:Appearblock
 	x:8
@@ -152,6 +148,19 @@ Obj:ParallaxConfig
 	y:19
 	p:location=3
 	p:color=blue
+endObj
+Obj:Appearblock
+	x:12
+	y:16
+	p:state=solid
+	p:color=red
+endObj
+Obj:Walker
+	x:12
+	y:15
+	p:type=enemy
+	p:direction=-1
+	p:strength=23
 endObj
 endObjects
 

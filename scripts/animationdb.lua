@@ -411,7 +411,6 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('launcher','objects',{69},{1e6})
 
 	AnimationDB:addAni('missile','objects',{70},{1e6})
-	AnimationDB:addAni('rock','objects',{71},{1e6})
 	AnimationDB:addAni('rotatorBlock','objects',{72},{1e6})
 	AnimationDB:addAni('rotatorCap','objects',{73},{1e6})
 	AnimationDB:addAni('rotatorStick','objects',{74},{1e6})
