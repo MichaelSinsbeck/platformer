@@ -8,7 +8,6 @@ local distBetweenButtons = 10
 local levelsPerWorld = 15
 local distBetweenWorlds = singleWorldWidth-levelsPerWorld*distBetweenButtons
 local bridges = {}
-local numLevelButtons = 0
 local levelButtons = {}
 local levelNameText
 
@@ -37,7 +36,6 @@ function WorldmapSubmenu:new( x, y )
 	local currentLevel = config.getValue("level") or Campaign[1]
 	local lastLevel = config.getValue("lastLevel") or Campaign[1]
 
-	
 	local levelName = Campaign.names[currentLevel]
 	levelNameText = submenu:addText(levelName, -45, 35, 80, nil, 'center', colors.black )
 --[[	for k, v in ipairs(Campaign) do
@@ -121,7 +119,8 @@ function WorldmapSubmenu:new( x, y )
 	-- Create a list of buttons.
 	-- Stop at the last "open" level.
 	-- Select the level which was last played:
-	self:createButtons( lastLevelNum, selectLevelNum, true )
+	self:createButtons( lastLevelNum, true )
+	self:selectCurrentLevel( selectLevelNum )
 
 	-- fallback:
 	if not currentLevelFound and firstButton then
@@ -189,7 +188,7 @@ function WorldmapSubmenu:halfScroll() -- same as previous function but scroll be
 	end
 end
 
-function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBridges )
+function WorldmapSubmenu:createButtons( lastLevelNumber, addBridges )
 
 	print('*** createButtons ***')
 
@@ -200,7 +199,9 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBrid
 			break
 		end
 
-		if k > numLevelButtons then
+		print(#levelButtons)
+		if k > #levelButtons then
+
 
 			local curButton
 			-- add buttons until the current level is found:
@@ -217,8 +218,6 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBrid
 				x, y, --menu:startCampaignLevel( k ),
 				fader:switchFunction(k),
 				self.scroll,nil,nil, levelName )
-
-				numLevelButtons = k
 
 				levelButtons[k] = curButton
 			else
@@ -237,11 +236,12 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, selectLevelNum, addBrid
 		end
 		x = x + distBetweenButtons
 	end
+end
 
-	if selectLevelNum then
-		if levelButtons[selectLevelNum] then
-			submenu:setSelectedButton( levelButtons[selectLevelNum] )
-		end
+
+function WorldmapSubmenu:selectCurrentLevel( selectLevelNum )
+	if selectLevelNum and levelButtons[selectLevelNum] then
+		submenu:setSelectedButton( levelButtons[selectLevelNum] )
 	end
 end
 
@@ -259,5 +259,11 @@ function WorldmapSubmenu:addBridge( worldNumber, noAnimation )
 		menu:setCameraTo( submenu.x + x, submenu.y + y )
 	end
 end
+
+function WorldmapSubmenu:resetButtons()
+	submenu:clearButtons()
+	levelButtons = {}
+end
+
 
 return WorldmapSubmenu

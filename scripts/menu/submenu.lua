@@ -233,6 +233,13 @@ function Submenu:addButton( imgOff, imgOn, x, y, event, eventHover, layerName, t
 	end
 end
 
+function Submenu:clearButtons()
+	for k, l in ipairs( self.layers ) do
+		l.buttons = {}
+		self:linkButtons( l.name )
+	end
+end
+
 function Submenu:addToggleButton( imgOffOff, imgOffOn, imgOnOff, imgOnOn,
 		x, y, event, eventHover, captions, name, layerName )
 	

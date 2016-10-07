@@ -48,8 +48,29 @@ function Campaign:upgradeBandana(color)
 	return 'none'
 end
 
+function Campaign:init()
+	print("Initializing Campaign")
+	local lastIndex = 1
+	local lastLevel = config.getValue( "lastLevel")
+	if lastLevel then
+		lastIndex = utility.tableFind(self, lastLevel)
+	end
+	self.last = lastIndex
+	local currentLevel = config.getValue( "level")
+	local currentIndex = 1
+	if currentLevel then
+		currentIndex = utility.tableFind(self, currentLevel)
+	end
+	self:setLevel(currentIndex)
+end
 function Campaign:reset()
-  self:setLevel(1)
+	print("Resetting Campaign")
+	self.last = 1
+	self:setLevel(1)
+	menu:resetWorldButtons()
+	menu:createWorldButtons()
+	self.bandana = 'blank'
+	config.setValue('bandana', self.bandana )
   --myMap = Map:loadFromFile( "levels/" .. self[self.current])  
 end
 
@@ -97,8 +118,12 @@ function Campaign:saveState()
 	else
 		local curIndex = utility.tableFind(self, self[self.current]) 
 		local lastIndex = utility.tableFind(self, lastLevel)
+		-- If the saved lastlevel is higher than my current last level, then we just reset the game.
+		-- In this case, overwrite what's written in the file:
+		if lastIndex and curIndex then
+		lastIndex = math.min( self.last, lastIndex )
+		lastIndex = math.max( curIndex, lastIndex )
 		--print("curIndex, lastIndex", curIndex, lastIndex, #lastLevel, #self[self.current])
-		if curIndex and lastIndex and curIndex > lastIndex then
 			config.setValue( "lastLevel", self[self.current])
 		end
 	end--]]

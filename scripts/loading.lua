@@ -76,7 +76,7 @@ function loading.update()
 		screenshots = {}
 		recorderTimer = 0
 		timer = 0
-		Campaign:reset()
+		Campaign:init()
 		Campaign.bandana = config.getValue("bandana") or 'blank'
 		loading.msg = "Shadows"
 	elseif loading.step == 8 then

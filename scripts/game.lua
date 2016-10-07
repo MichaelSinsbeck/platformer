@@ -116,12 +116,14 @@ function game.keypressed(key)
 			return
 		end
 		menu:createWorldButtons()
+		menu:selectCurrentLevel()
 
 		if menu.currentlyPlayingUserlevels then
 			--menu.startTransition( menu.initUserlevels, true )()
 			menu:switchToSubmenu( "Userlevels" )
 		else
 			menu:createWorldButtons()
+			menu:selectCurrentLevel()
 			menu:switchToSubmenu( "Worldmap" )
 		end
 		menu:show()
@@ -147,6 +149,7 @@ function game.keypressed(key)
 				menu:switchToSubmenu( "Userlevels" )
 			else
 				menu:createWorldButtons()
+				menu:selectCurrentLevel( Campaign.current )
 				menu:switchToSubmenu( "Worldmap" )
 			end
 			menu:show()

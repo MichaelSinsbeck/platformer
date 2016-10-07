@@ -45,6 +45,7 @@ function menu:init()
 	local switchToWorldMap = function()
 		--mainMenu:startExitTransition(
 				--function()
+				WorldmapSubmenu:selectCurrentLevel( Campaign.current )
 					self:switchToSubmenu( "Worldmap" )
 				--end )
 	end
@@ -106,6 +107,9 @@ function menu:init()
 	local worldMapMenu = WorldmapSubmenu:new( 0, -700 )
 	submenus["Worldmap"] = worldMapMenu
 
+	---------------------------------------------------------------
+	-- options menu
+	
 	-- functions needed in options menu
 	local switchToKeyAssignment = function()
 		menu:switchToSubmenu( "KeyAssignment" )
@@ -130,41 +134,49 @@ function menu:init()
 		settings:saveGraphics()		
 		menu:switchToSubmenu( "Main" )
 	end	
-	-- options menu
+	local resetCampaign= function()
+		Campaign:reset()
+		Campaign:saveState()
+	end
+
+	-- Generate the actual menu:
 	local settingsMenu = Submenu:new( -700, 0 )
 	
-	local p = settingsMenu:addPanel( -52, -40, 122, 80 )
+	local p = settingsMenu:addPanel( -64, -40, 128, 88 )
 
-	p:turnIntoList( 10, 1.1 ) -- make vertical "table-like" lines for readability
+	--p:turnIntoList( 10, 1.5 ) -- make vertical "table-like" lines for readability
 	
-	local s = settingsMenu:addBambooSlider( "soundOptionsOff", "soundOptionsOn", -32, -30, 40, 6,
-		self:setPlayerPositionEvent( settingsMenu.x - 38, -25), changeEffectVolume,
+	local s = settingsMenu:addBambooSlider( "soundOptionsOff", "soundOptionsOn", -44, -25, 40, 6,
+		self:setPlayerPositionEvent( settingsMenu.x - 51, -20), changeEffectVolume,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Effect volume: " )
 	s:setValue( settings:getEffectVolume()/20+1 )
-	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -32, -20, 40, 6,
-		self:setPlayerPositionEvent( settingsMenu.x - 38, -15), changeMusicVolume,
+	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -44, -15, 40, 6,
+		self:setPlayerPositionEvent( settingsMenu.x - 51, -10), changeMusicVolume,
 		{ "0%", "20%", "40%", "60%", "80%", "100%" }, "Music volume: " )
 	s:setValue( settings:getMusicVolume()/20+1 )
 	
 	local b = settingsMenu:addToggleButton( "toFullscreenOff", "toFullscreenOn",
-		"toWindowedOff", "toWindowedOn", -32, -10, 
-		toggleFullscreen, self:setPlayerPositionEvent( settingsMenu.x - 38, -5 ),
+		"toWindowedOff", "toWindowedOn", -44, -5, 
+		toggleFullscreen, self:setPlayerPositionEvent( settingsMenu.x - 51, 0 ),
 		{[true]="Fullscreen", [false]="Windowed"} )
 	b:setValue( settings:getFullscreen() )
 
 	local b = settingsMenu:addToggleButton( "noShadersOff", "noShadersOn",
-		"shadersOff", "shadersOn", -32, 0, 
-		toggleShaders, self:setPlayerPositionEvent( settingsMenu.x - 38, 5 ),
+		"shadersOff", "shadersOn", -44, 5, 
+		toggleShaders, self:setPlayerPositionEvent( settingsMenu.x - 51, 10 ),
 		{[true]="on", [false]="off"}, "Shaders: " )
 	b:setValue( settings:getShadersEnabled() )
 
-	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -32, 10, 20, 3,
-		self:setPlayerPositionEvent( settingsMenu.x - 38, 15), setBackgroundDetail,
+	local s = settingsMenu:addBambooSlider( "musicOff", "musicOn", -44, 15, 20, 3,
+		self:setPlayerPositionEvent( settingsMenu.x - 51, 20), setBackgroundDetail,
 		{ "No Background", "Simple Background", "Detailed background" } )
 	s:setValue( settings:getBackgroundDetail() )	
 		
-	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -32, 20, 
-		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 38, 25 ),nil,'Key Bindings' )
+	settingsMenu:addButton( "keyAssignmentOff", "keyAssignmentOn", -44, 25, 
+		switchToKeyAssignment, self:setPlayerPositionEvent( settingsMenu.x - 51, 30 ),nil,'Key Bindings' )
+
+	settingsMenu:addButton( "startOff", "startOn", -44, 35,
+		resetCampaign, self:setPlayerPositionEvent( settingsMenu.x -51, 40), nil, 'Reset Campaign' )
 
 
 
@@ -555,13 +567,23 @@ function menu:startGame( lvl )
 end
 
 function menu:proceedToNextLevel( levelNumber )
-	WorldmapSubmenu:createButtons( levelNumber, levelNumber )
+	WorldmapSubmenu:createButtons( levelNumber )
+	WorldmapSubmenu:selectCurrentLevel( levelNumber )
 end
 
 function menu:createWorldButtons()
 	local lastLevel = Campaign.last
 	local currentLevel = Campaign.current
-	WorldmapSubmenu:createButtons( lastLevel, currentLevel)
+	WorldmapSubmenu:createButtons( lastLevel )
+end
+function menu:resetWorldButtons()
+	WorldmapSubmenu:resetButtons()
+	--local lastLevel = Campaign.last
+	--local currentLevel = Campaign.current
+	--WorldmapSubmenu:createButtons( lastLevel, currentLevel )
+end
+function menu:selectCurrentLevel()
+	WorldmapSubmenu:selectCurrentLevel( Campaign.current )
 end
 
 function menu:nextWorld( worldNumber )
