@@ -32,20 +32,15 @@ function settings:setWindowSize()
 	local scale
 	print("FULLSCREEN:", self.fullscreen)
 	if self.fullscreen then
-		print("1")
 		scale = self:fullscreenScale()
-		print("1.1")
 		success = love.window.setMode( 0, 0, {fullscreen = true} )
 	else
-		print("2")
 		scale = self:windowScale()
-		print("2.1")
 		success = love.window.setMode(
 			math.min(self.xScreen,scale*8*32),
 			math.min(self.yScreen,scale*8*20), {fullscreen = false} )
 	end
 	love.window.setTitle( 'Bandana' )
-		print("3")
 	Camera:setScale(scale)
 
 	local w, h = love.graphics.getDimensions()
