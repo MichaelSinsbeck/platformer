@@ -220,9 +220,9 @@ function nameForKey( key )
 	if key == " " then
 		return "space"
 	elseif key == "up" then
-		return "["
-	elseif key == "down" then
 		return "]"
+	elseif key == "down" then
+		return "["
 	elseif key == "left" then
 		return "{"
 	elseif key == "right" then
