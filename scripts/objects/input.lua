@@ -8,7 +8,7 @@ local Input = object:New({
 		Visualizer:New('keyboardSmall'),
   },
 	properties = {
-		button = utility.newCycleProperty({'RIGHT', 'LEFT', 'JUMP', 'DASH', 'ACTION'}, {'right', 'left', 'jump', 'dash','rope'}),
+		button = utility.newCycleProperty({'RIGHT', 'LEFT' , 'UP' , 'DOWN' , 'JUMP', 'DASH', 'ACTION'}, {'right', 'left', 'up', 'down', 'jump', 'dash','rope'}),
 	},
 })
 
