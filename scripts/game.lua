@@ -1,6 +1,5 @@
 require 'scripts/spriteengine'
 require 'scripts/visualizer'
-local color = require 'scripts/colors'
 local deathScreen = require 'scripts/deathScreen'
 
 game = {
@@ -117,7 +116,7 @@ end
 
 function game.keypressed(key)
 
-	if key == keys.PAUSE then
+	if key == keys.BACK then
 		if editor.active then
 			Sound:stopAllLongSounds()
 			editor.resume()
@@ -212,7 +211,7 @@ function game.joystickpressed(joystick, button)
 	--[[if button == 7 or button == 8 then
 		menu.startTransition(menu.initWorldMap)()
 	end]]--
-	if button == keys.PAD.PAUSE then
+	if button == keys.PAD.BACK then
 		if editor.active then
 			Sound:stopAllLongSounds()
 			editor.resume()

@@ -21,7 +21,6 @@ keyTypes = {
 	"DASH",
 	"CHOOSE",
 	"BACK",
-	"PAUSE",
 	"FILTERS",
 	"REFRESH",
 	"DELETE_LEVEL",
@@ -32,7 +31,7 @@ keyTypes = {
 -- For each key, list the keys which it may NOT be the same as.
 keys.conflictList = {
 	-- In game:
-	{"SCEENSHOT", "FULLSCREEN", "RESTARTMAP", "RESTARTGAME", "NEXTMAP", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "PAUSE"},
+	{"SCEENSHOT", "FULLSCREEN", "RESTARTMAP", "RESTARTGAME", "NEXTMAP", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH"},
 	-- menu:
 	{"SCEENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "CHOOSE", "BACK",},
 	-- userlevel menu:
@@ -40,12 +39,11 @@ keys.conflictList = {
 	-- key assignment menu:
 	{"SCREENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "RESET", "CHOOSE", "BACK", "CLEAR"}
 	
-	--{"SCREENSHOT", "FULLSCREEN", "RESTARTMAP", "RESTARTGAME", "NEXTMAP", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "PAUSE", "FILTERS", "REFRESH", "DELETE_LEVEL", "RESET" }
 }
 
 -- These keys NEED to be set in order for key assignment to succeed:
 keys.mandatoryKeys = {
-	"LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "FILTERS", "REFRESH", "RESET", "PAUSE", "BACK",
+	"LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "FILTERS", "REFRESH", "RESET", "BACK",
 }
 
 ---------------------------------------------------------
@@ -70,8 +68,6 @@ function keys.setDefaults()
 
 	keys.CHOOSE = 'return'
 	keys.BACK = 'escape'
-
-	keys.PAUSE = 'escape'
 
 	keys.FILTERS = 'f'
 	keys.REFRESH = "f5"
@@ -98,8 +94,6 @@ function keys.setDefaults()
 
 	keys.PAD.CHOOSE = '1'
 	keys.PAD.BACK = '2'
-
-	keys.PAD.PAUSE = '7'
 
 	keys.PAD.FILTERS = '7'
 	keys.PAD.REFRESH = 'none'
@@ -161,8 +155,6 @@ function keys.load()
 	if key then keys.BACK = key end
 	key = config.getValue( "CHOOSE", "keyboard.txt")
 	if key then keys.CHOOSE = key end
-	key = config.getValue( "PAUSE", "keyboard.txt")
-	if key then keys.PAUSE = key end
 	
 	-- Load gamepad setup:
 	key = config.getValue( "SCREENSHOT", "gamepad.txt")
@@ -196,8 +188,6 @@ function keys.load()
 	if key then keys.PAD.BACK = key end
 	key = config.getValue( "CHOOSE", "gamepad.txt")
 	if key then keys.PAD.CHOOSE = key end
-	key = config.getValue( "PAUSE", "gamepad.txt")
-	if key then keys.PAD.PAUSE = key end
 end
 
 function keys.loadGamepad()
@@ -580,13 +570,13 @@ function keys.initKeyboard()
 	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3,	"ACTION", "use bandana")
 	y = y + 10
 
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	--[[hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
 	imgOff, imgOn = getImageForKey( keys.PAUSE, 'fontSmall' )
 	menu:addButtonLabeled( x, y,
 					imgOff, imgOn, "key_PAUSE",
 					keys.startAssign( "PAUSE" ), hoverEvent,
 					nameForKey(keys.PAUSE), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("pause")/Camera.scale, y+3, "PAUSE", "pause")
+	menu:addText( x-8 - fontSmall:getWidth("pause")/Camera.scale, y+3, "PAUSE", "pause")]]
 
 	local x,y = 3, 10
 
@@ -710,14 +700,13 @@ function keys.initGamepad()
 	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3, "ACTION", "use bandana")
 	y = y + 10
 	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
+	--[[hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
 	imgOff,imgOn = getImageForPad( keys.PAD.PAUSE )
 	menu:addButton( x, y,
 					imgOff, imgOn, "key_PAD_PAUSE",
 					keys.startAssign( "PAUSE" ), hoverEvent )
 	menu:addText( x-8 - fontSmall:getWidth("pause")/Camera.scale, y+3, "PAUSE", "pause")
-	y = y + 14
-	
+	y = y + 14]]
 
 
 	local x,y = 3, 10
@@ -829,7 +818,7 @@ function keys:save()
 
 				config.setValue( "CHOOSE", keys.CHOOSE, "keyboard.txt")
 				config.setValue( "BACK", keys.BACK, "keyboard.txt")
-				config.setValue( "PAUSE", keys.PAUSE, "keyboard.txt")
+				--config.setValue( "PAUSE", keys.PAUSE, "keyboard.txt")
 			--else
 				config.setValue( "SCREENSHOT", keys.PAD.SCREENSHOT, "gamepad.txt")
 				config.setValue( "FULLSCREEN", keys.PAD.FULLSCREEN, "gamepad.txt")
@@ -848,7 +837,7 @@ function keys:save()
 
 				config.setValue( "CHOOSE", keys.PAD.CHOOSE, "gamepad.txt")
 				config.setValue( "BACK", keys.PAD.BACK, "gamepad.txt")
-				config.setValue( "PAUSE", keys.PAD.PAUSE, "gamepad.txt")
+				--config.setValue( "PAUSE", keys.PAD.PAUSE, "gamepad.txt")
 			--end
 			keys.changed = false
 		end
