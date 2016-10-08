@@ -31,6 +31,8 @@ local arrowUpVis, arrowDownVis
 function UserlevelSubmenu:new( x, y )
 	local width = love.graphics.getWidth()/Camera.scale - 16
 	local height = love.graphics.getHeight()/Camera.scale - 32
+	width = 8*math.floor(width/8)
+	height = 8*math.floor(height/8)
 
 	LIST_WIDTH = width
 	LIST_HEIGHT = height
