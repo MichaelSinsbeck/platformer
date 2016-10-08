@@ -1,4 +1,6 @@
 require 'scripts/spriteengine'
+require 'scripts/visualizer'
+local deathScreen = require 'scripts/deathScreen'
 
 game = {
 	deathtimer = 0,
@@ -34,6 +36,8 @@ function game:draw()
 	Camera:free()
 
 	gui.draw()
+
+
 	if recorderTimer > 1/30 then
 		recorderTimer = recorderTimer-1/30
 		table.insert(screenshots,love.graphics.newScreenshot())
@@ -81,6 +85,9 @@ function game:update(dt)
 	end
 
 	if p.dead then
+		if self.deathtimer == 0 then
+			deathScreen:chooseMotivationalMessage()
+		end
 		self.deathtimer = self.deathtimer + dt
 		-- finish fade-to-black in less time than full death sequence:
 		shaders:setDeathEffect(	self.deathtimer/(self.fullDeathtimer*0.3) )
@@ -109,7 +116,7 @@ end
 
 function game.keypressed(key)
 
-	if key == keys.PAUSE then
+	if key == keys.BACK then
 		if editor.active then
 			Sound:stopAllLongSounds()
 			editor.resume()
@@ -204,7 +211,7 @@ function game.joystickpressed(joystick, button)
 	--[[if button == 7 or button == 8 then
 		menu.startTransition(menu.initWorldMap)()
 	end]]--
-	if button == keys.PAD.PAUSE then
+	if button == keys.PAD.BACK then
 		if editor.active then
 			Sound:stopAllLongSounds()
 			editor.resume()
@@ -252,4 +259,8 @@ end
 
 function game.isDead()
 	return p and p.dead or false
+end
+
+function game:drawDeathScreen()
+	deathScreen:draw()
 end

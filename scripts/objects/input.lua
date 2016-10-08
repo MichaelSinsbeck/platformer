@@ -21,7 +21,10 @@ function Input:applyOptions()
 		visName = getAnimationForPad( keys.PAD[self.button])
 		text = nil
 	end
-	self.vis[1] = Visualizer:New(visName,nil,text:upper())
+	if text then
+		text = text:upper()
+	end
+	self.vis[1] = Visualizer:New(visName,nil,text)
 	self.vis[1]:init()
 end
 

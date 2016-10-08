@@ -31,12 +31,15 @@ local function createFunction( f, keyType )
 end
 
 function KeyAssignmentSubmenu:new( x, y )
-	local width = 0.6*love.graphics.getWidth()/Camera.scale - 16
+	--local width = 0.6*love.graphics.getWidth()/Camera.scale - 16
+	--width = 16*math.floor(width/16)
+	local width = 16*7
 	local height = love.graphics.getHeight()/Camera.scale - 32
+	height = 16*math.floor(height/16)
 
 	LIST_WIDTH = width
 	LIST_HEIGHT = height
-	numDisplayedFunctions = (LIST_HEIGHT-16)/(LIST_ENTRY_HEIGHT) - 1
+	numDisplayedFunctions = ((LIST_HEIGHT-16)/(LIST_ENTRY_HEIGHT) - 1)
 
 	for i = 1, #keyTypes do
 		keysLocal[keyTypes[i]] = keys[keyTypes[i]]
@@ -60,7 +63,7 @@ function KeyAssignmentSubmenu:new( x, y )
 	end]]
 	
 	--local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
-	local p = submenu:addPanel( -55, -LIST_HEIGHT/2 - 8, 105, LIST_HEIGHT )	
+	local p = submenu:addPanel( -55, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )	
 	p:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
 
 	submenu:addLayer("Assignment")
@@ -182,11 +185,12 @@ end
 function KeyAssignmentSubmenu:draw()
 	--local x = -LIST_WIDTH/2 + 4
 	--local y = -LIST_HEIGHT/2
+	--
 	local w = LIST_WIDTH - 8
 	local h = LIST_HEIGHT
 
-	local x = -52
-	local y = -64
+	local x = -LIST_WIDTH/2 + 4
+	local y = -LIST_HEIGHT/2
 	
 	local xName = (x + 15)*Camera.scale
 	local xKeyboard = (x + 42)*Camera.scale

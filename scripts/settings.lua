@@ -105,6 +105,7 @@ function settings:fullscreenScale()
 		end
 	end
 	return suggestedScale
+	--return 8
 end
 
 function settings.init()

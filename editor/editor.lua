@@ -487,14 +487,15 @@ function editor.createBgObjectPanel()
 	local PADDING = 0
 	local BORDER_PADDING = 10
 
-	local panelWidth = love.graphics.getWidth()/Camera.scale - 32
-	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
+	local panelWidth = 16*math.ceil(love.graphics.getWidth()/Camera.scale/16) - 64
+	local panelHeight = 16*math.ceil(love.graphics.getHeight()/Camera.scale/16) - 64
 
 	bgObjectPanel = Panel:new(-- 0, 16, panelWidth, panelHeight )
 		(love.graphics.getWidth()/Camera.scale-panelWidth)*0.5,
 		(love.graphics.getHeight()/Camera.scale-panelHeight)*0.5,
 		panelWidth, panelHeight )
 	bgObjectPanel.visible = false
+
 
 	--local x, y = BORDER_PADDING, BORDER_PADDING + 8 --PADDING, PADDING
 	local page = 1
@@ -512,10 +513,13 @@ function editor.createBgObjectPanel()
 	end
 
 	-- Add "end" button
-	bgObjectPanel:addClickable( panelWidth - 13, panelHeight - 18, editor.closeBgObjectPanel,
+	bgObjectPanel:addClickable( panelWidth - 12, panelHeight - 18, editor.closeBgObjectPanel,
 		"LEAccept",
 		"Accept selection", 0, 'return', true )
-					
+	-- Add "close" button				
+	bgObjectPanel:addClickable( panelWidth - 12, 12, editor.cancelBgObjectPanel,
+		"LEDelete",
+		"Cancel", 0, "escape", true )
 end
 
 function editor.closeBgObjectPanel()
@@ -528,6 +532,10 @@ function editor.closeBgObjectPanel()
 
 	editor.sortSelectedObjects()
 end
+function editor.cancelBgObjectPanel()
+	bgObjectPanel.visible = false
+	editor.currentBgObjects = {}
+end
 
 function editor.closeObjectPanel()
 	objectPanel.visible = false
@@ -538,6 +546,11 @@ function editor.closeObjectPanel()
 	end
 
 	editor.sortSelectedObjects()
+end
+
+function editor.cancelObjectPanel()
+	editor.currentObjects = {}
+	objectPanel.visible = false
 end
 
 
@@ -604,13 +617,14 @@ function editor.createObjectPanel()
 	local PADDING = 3
 	local BORDER_PADDING = 10
 
-	local panelWidth = love.graphics.getWidth()/Camera.scale - 64
-	local panelHeight = love.graphics.getHeight()/Camera.scale - 64
+	local panelWidth = 16*math.ceil(love.graphics.getWidth()/Camera.scale/16) - 64
+	local panelHeight = 16*math.ceil(love.graphics.getHeight()/Camera.scale/16) - 64
 
 	objectPanel = Panel:new(
 		(love.graphics.getWidth()/Camera.scale-panelWidth)*0.5,
 		(love.graphics.getHeight()/Camera.scale-panelHeight)*0.5,
 		panelWidth, panelHeight )
+
 	objectPanel.visible = false
 
 	local x, y = BORDER_PADDING, BORDER_PADDING
@@ -675,9 +689,13 @@ function editor.createObjectPanel()
 	end
 
 	-- Add "end" button
-	objectPanel:addClickable( panelWidth - 13, panelHeight - 18, editor.closeObjectPanel,
+	objectPanel:addClickable( panelWidth - 12, panelHeight - 18, editor.closeObjectPanel,
 		"LEAccept",
 		"Accept selection", 0, 'return', true )
+	-- Add "close" button:
+	objectPanel:addClickable( panelWidth - 12, 12, editor.cancelObjectPanel,
+		"LEDelete",
+		"Cancel", 0, "escape", true )
 end
 
 -- called as long as editor is running:
@@ -1924,7 +1942,7 @@ function editor:draw()
 			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
 			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
 			
-			if DEBUG then
+			--[[if DEBUG then
 				local tileSize = Camera.scale*8
 				local points = editor.createBoxSelectPoints( tileSize )
 
@@ -1933,7 +1951,7 @@ function editor:draw()
 						love.graphics.point( p.x, p.y )
 					end
 				love.graphics.setColor( 255, 255, 255, 255 )
-			end
+			end]]
 		end
 	
 	love.graphics.setFont( fontSmall )

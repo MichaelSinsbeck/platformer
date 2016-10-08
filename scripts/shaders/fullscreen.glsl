@@ -7,7 +7,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 {
 	col = texture2D(texture, texture_coords);
 	
-	float gray = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+	float gray = dot(col.rgb, vec3(0.299, 0.587, 0.114))*0.75;
 	
 	col.r = (gray-col.r)*grayAmount + col.r;
 	col.g = (gray-col.g)*grayAmount + col.g;
