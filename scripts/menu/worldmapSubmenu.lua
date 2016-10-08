@@ -138,12 +138,12 @@ function WorldmapSubmenu:new( x, y )
 end
 
 function WorldmapSubmenu:draw()
-	for k, b in ipairs( bridges ) do
+	for k, b in pairs( bridges ) do
 		b:draw()
 	end
 end
 function WorldmapSubmenu:update( dt )
-	for k, b in ipairs( bridges ) do
+	for k, b in pairs( bridges ) do
 		if not b.animationFinished then
 			b:update( dt )
 			if b.animationFinished then
@@ -233,8 +233,8 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, addBridges )
 		end
 		
 		-- add bridges before each new world
-		if addBridges and (k-1)/levelsPerWorld == math.floor((k-1)/levelsPerWorld)then
-			WorldmapSubmenu:addBridge( math.floor((k-1)/levelsPerWorld), true )
+		if addBridges and (k-2)/levelsPerWorld == math.floor((k-2)/levelsPerWorld)then
+			WorldmapSubmenu:addBridge( math.floor((k-2)/levelsPerWorld), true )
 		end
 
 		-- add extra distance after each world
@@ -270,6 +270,8 @@ end
 function WorldmapSubmenu:resetButtons()
 	submenu:clearButtons()
 	levelButtons = {}
+	-- also delete bridges
+	bridges = {}
 end
 
 
