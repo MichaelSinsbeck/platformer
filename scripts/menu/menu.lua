@@ -382,7 +382,6 @@ function menu:updateLevelName( dt )
 end
 
 function menu:draw()
-
 	if not self.overlaySubmenu then
 		parallax:draw()
 	end
@@ -393,7 +392,7 @@ function menu:draw()
 	-math.floor(self.yCamera*Camera.scale)+love.graphics.getHeight()/2 )
 
 	if not self.overlaySubmenu then
-		if self.previousSubmenu then
+		if self.previousSubmenu and self.previousSubmenu ~= self.activeSubmenu then
 			submenus[self.previousSubmenu]:draw()
 		end
 		-- Draw all visible panels:

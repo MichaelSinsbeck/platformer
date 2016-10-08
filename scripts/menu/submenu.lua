@@ -64,7 +64,7 @@ function Submenu:draw()
 				else
 					love.graphics.setFont(fontSmall)
 				end
-				love.graphics.printf( t.text, t.x*Camera.scale, t.y*Camera.scale,
+				love.graphics.printf( t.text, math.floor(t.x*Camera.scale), math.floor(t.y*Camera.scale),
 						t.width*Camera.scale, t.align )
 			end
 			love.graphics.setColor(255,255,255)
