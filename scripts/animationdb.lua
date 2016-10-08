@@ -257,11 +257,13 @@ function AnimationDB:loadAllImages()
 	AnimationDB:addTile('keys_buttons',2,5,1,1) --17 no key
 
 	-- worlds
+	AnimationDB:loadImage('world0.png','world0','world')
 	AnimationDB:loadImage('world1.png','world1','world')
 	AnimationDB:loadImage('world2.png','world2','world')
 	AnimationDB:loadImage('world3.png','world3','world')
 	AnimationDB:loadImage('world4.png','world4','world')
 	AnimationDB:loadImage('world5.png','world5','world')
+	AnimationDB:loadImage('world6.png','world6','world')
 	
 	-- gui stuff
 	AnimationDB:loadTiledImage('bean.png','bean',1,1,'gui')

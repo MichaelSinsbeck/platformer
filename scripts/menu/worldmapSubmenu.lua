@@ -27,11 +27,13 @@ function WorldmapSubmenu:new( x, y )
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
 
+	submenu:addImage( "world0", -singleWorldWidth*0.72, -42 )
 	submenu:addImage( "world1", -singleWorldWidth*0.5, -42 )
 	submenu:addImage( "world2", singleWorldWidth*0.5, -42 )
 	submenu:addImage( "world3", singleWorldWidth*1.5, -42 )
 	submenu:addImage( "world4", singleWorldWidth*2.5, -42 )
 	submenu:addImage( "world5", singleWorldWidth*3.5, -42 )
+	submenu:addImage( "world6", singleWorldWidth*4.5, -42 )
 
 	local currentLevel = config.getValue("level") or Campaign[1]
 	local lastLevel = config.getValue("lastLevel") or Campaign[1]
@@ -152,16 +154,22 @@ function WorldmapSubmenu:update( dt )
 end
 
 function WorldmapSubmenu:scroll( )
+
 	local b = submenu:getSelectedButton()
 	if b then
-		local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + singleWorldWidth -- set Camera position
+		Campaign.worldNumber = math.floor((b.x + singleWorldWidth*0.5)/singleWorldWidth)+1 -- calculate worldNumber
+		--local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + singleWorldWidth -- set Camera position
+		local x = (Campaign.worldNumber-1) * singleWorldWidth
+		if Campaign.worldNumber == 0 then x = -0.64 * singleWorldWidth end
+		if Campaign.worldNumber == 6 then x = 4.7 * singleWorldWidth end
 		local y = -700
 		menu:slideCameraTo( x, y, 1 )
-		Campaign.worldNumber = math.floor((b.x + singleWorldWidth*0.5)/singleWorldWidth)+1 -- calculate worldNumber
-
+		
+		
 		if b.bottomText then
 			levelNameText.text = b.bottomText
-			levelNameText.x = -45 + singleWorldWidth * (Campaign.worldNumber-1)
+			levelNameText.x = x - 45
+			--levelNameText.x = -45 + singleWorldWidth * (Campaign.worldNumber-1)
 		end
 		-- Create function which will set ninja coordinates. Then call that function:
 		--local func = menu.setPlayerPosition( selButton.x+5, selButton.y+2 )
@@ -171,7 +179,7 @@ function WorldmapSubmenu:scroll( )
 	end
 end
 
-function WorldmapSubmenu:halfScroll() -- same as previous function but scroll between two worlds
+function WorldmapSubmenu:halfScroll() -- same as previous function but scroll between two worlds (onto bridge)
 	local b = submenu:getSelectedButton() 
 	if b then
 		local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + 1.5*singleWorldWidth -- set Camera position
