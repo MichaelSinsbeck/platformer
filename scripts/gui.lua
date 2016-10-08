@@ -106,7 +106,7 @@ function gui.drawBandanas( x, y )
 end
 
 function gui.addBandana( color, noShow )
-	print("Adding bandana: ".. color )
+	--print("Adding bandana: ".. color )
 	newBandana = nil
 	local number = bandana2num[color]
 	if number == nil then 
@@ -133,7 +133,7 @@ function gui.addBandana( color, noShow )
 end
 
 function gui.clearBandanas()
-	print("Clearing all bandanas")
+	--print("Clearing all bandanas")
 	bandanaTimes = {math.huge,math.huge,math.huge,math.huge,math.huge}
 	bandanaTimer = 0
 	iconState = 0

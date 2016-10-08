@@ -4,7 +4,8 @@ function msgBox:new( msg, eventAccept, eventDecline )
 	--[[if msgBox.visible then
 		msgBox:delete()
 	end]]
-	msgBox.msg = string.lower(msg)
+	--msgBox.msg = string.lower(msg)
+	msgBox.msg = msg
 
 	msgBox.eventAccept = function()
 		msgBox:delete() -- must be called before event, in case event creates new message box!
@@ -24,13 +25,13 @@ function msgBox:new( msg, eventAccept, eventDecline )
 	lines = #lines
 	local textHeight = lines*fontSmall:getHeight()
 	local height = textHeight/Camera.scale + 25
-	local x = love.graphics.getWidth()/2/Camera.scale - width/2
-	local y = love.graphics.getHeight()/2/Camera.scale - height/2
+	local x = math.floor(love.graphics.getWidth()/2/Camera.scale - width/2)
+	local y = math.floor(love.graphics.getHeight()/2/Camera.scale - height/2)
 	msgBox.panel = Panel:new( x, y, width, height )
 
 	msgBox.textX = (x + 8)*Camera.scale
 	msgBox.textY = (y + 8)*Camera.scale
-	msgBox.textWidth = (width)*Camera.scale
+	msgBox.textWidth = (width-8)*Camera.scale
 
 	msgBox.panel:addClickable( 0.5*width-6, textHeight/Camera.scale + 16, msgBox.eventAccept,
 				'LEAccept',
