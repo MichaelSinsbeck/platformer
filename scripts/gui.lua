@@ -6,11 +6,10 @@ local LevelNameDisplay = require("scripts/levelNameDisplay")
 local bandanaTimer = 0 -- time until bandana icons fade away
 local levelNameDisplay
 local bandanaDuration = 4
-local bandanaReveal
-local newBandana
 local iconState = 0
 
 local bandana2num = {white=1,yellow=2,green=3,blue=4,red=5}
+local bandanaTimes = {math.huge,math.huge,math.huge,math.huge,math.huge} -- time until icon appears
 
 local bandanaGuiViz = {
 	Visualizer:New('guiBandanaWhite'),
@@ -20,9 +19,6 @@ local bandanaGuiViz = {
 	Visualizer:New('guiBandanaRed'),
 	Visualizer:New('guiBandanaNone'),
 }
-
---local bandanas = {false,false,false,false,false}
-local bandanaTimes = {math.huge,math.huge,math.huge,math.huge,math.huge} -- time until icon appears
 
 function gui.init() 
 	for k,v in pairs(bandanaGuiViz) do
@@ -71,13 +67,8 @@ function gui.update( dt )
 		else
 			iconState = math.max(bandanaTimer,0)
 		end
-		
-		--if bandanaReveal and bandanaTimer < 0.75*bandanaDuration - 0.1*bandanaReveal then
-		--	bandanas[bandanaReveal] = true
-		--	newBandana = bandanaReveal
-		--	bandanaReveal = nil
-			-- todo: play a sound for the upgrade
-		--end
+
+		-- todo: play a sound for the upgrade
 	end
 	if levelNameDisplay then
 		local result = levelNameDisplay:update( dt )
@@ -94,21 +85,15 @@ function gui.drawBandanas( x, y )
 		-- calculate position
 		local lX = x - (5-1)/2*16 + (idx-1)*16-40
 		local lY = y + 20*(1-utility.easingOvershoot(3*iconState-0.1*idx))
-		--if bandanaDuration - bandanaTimer < 1 then
-		--	lY = y + 20*(1-utility.easingOvershoot(3*(bandanaDuration-bandanaTimer-0.1*idx)))
-		--else
-		--	lY = y + 20*(1-utility.easingOvershoot(3*bandanaTimer-0.5+0.1*idx))
-		--end
+
 		-- calculate scaling factor
 		local s = 1
 		if thisTime > 0 and thisTime < 0.1 then
 		s = 0.5 + 0.5*math.exp(20*bandanaTimes[idx])
 		end
-		--if idx ==newBandana then
-		--  s = 1 + 0.5*math.exp(20* (bandanaTimer - 0.75*bandanaDuration + 0.1*newBandana))
-		--end
-		local thisVis
+
 		-- draw
+		local thisVis
 		if thisTime < 0.1 then	
 			thisVis = bandanaGuiViz[idx]
 		else
@@ -117,7 +102,6 @@ function gui.drawBandanas( x, y )
 		thisVis.sx = s
 		thisVis.sy = s
 		thisVis:draw(Camera.scale*lX,Camera.scale*lY)
-		
 	end
 end
 
@@ -142,9 +126,6 @@ function gui.addBandana( color, noShow )
 				bandanaTimes[i] = 1+0.1*i
 			end
 		end
-		--print(number)
-		--bandanaTimes[number] = 1
-		--bandanaReveal = number
 		if needToShow then
 			bandanaTimer = bandanaDuration
 		end
@@ -153,7 +134,6 @@ end
 
 function gui.clearBandanas()
 	print("Clearing all bandanas")
-	--bandanas = {false,false,false,false,false}
 	bandanaTimes = {math.huge,math.huge,math.huge,math.huge,math.huge}
 	bandanaTimer = 0
 	iconState = 0
