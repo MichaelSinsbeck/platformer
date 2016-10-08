@@ -49,7 +49,7 @@ function settings:setWindowSize()
 	return success
 end
 
-function settings:toggleFullScreen(switch)
+function settings:toggleFullscreen(switch)
 	
 	if switch == nil then
 		self.fullscreen = not self.fullscreen

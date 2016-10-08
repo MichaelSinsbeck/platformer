@@ -121,7 +121,7 @@ function menu:init()
 		settings:setMusicVolume( (val-1)*20 )
 	end
 	local toggleFullscreen = function( bool )
-		settings:toggleFullScreen()
+		settings:toggleFullscreen()
 	end
 	local toggleShaders = function( bool )
 		settings:setShadersEnabled( bool )

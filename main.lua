@@ -183,7 +183,7 @@ function love.keypressed( key, scancode, repeated )
 	else
 	
 		--if key == keys.FULLSCREEN then
-		--	settings:toggleFullScreen()
+		--	settings:toggleFullscreen()
 		--end
 
 		if mode == 'menu' or menu.overlaySubmenu then
