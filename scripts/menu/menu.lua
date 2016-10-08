@@ -174,10 +174,8 @@ function menu:init()
 		{ "No Background", "Simple Background", "Detailed background" } )
 	s:setValue( settings:getBackgroundDetail() )	
 		
-
-	settingsMenu:addButton( "startOff", "startOn", -44, 34,
+	settingsMenu:addButton( "resetOff", "resetOn", -44, 34,
 		resetCampaign, self:setPlayerPositionEvent( settingsMenu.x -51, 39), nil, 'Reset Campaign' )
-
 
 
 	settingsMenu:addHotkey( "CHOOSE", "Choose",

@@ -437,8 +437,8 @@ function editor.start()
 	propertiesPanel = Panel:new( panelX, 8, w, propertiesPanelHeight )
 	propertiesPanel.visible = false
 
-	local x = love.graphics.getWidth()/3/Camera.scale
-	local y = love.graphics.getHeight()/3/Camera.scale
+	local x = math.floor(love.graphics.getWidth()/3/Camera.scale)
+	local y = math.floor(love.graphics.getHeight()/3/Camera.scale)
 	local panelWidth = x
 	local panelHeight = y + 16
 	loadPanel = Panel:new( x, y, panelWidth, panelHeight )
