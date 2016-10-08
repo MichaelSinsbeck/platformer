@@ -96,7 +96,7 @@ function upgrade.draw()
 	if bannerColor then
 		x = 0.5*love.graphics.getWidth()	
 		love.graphics.setColor(bannerColor)
-		banner:draw(x,y+6*Camera.scale,true)
+		banner:draw(x,y+7*Camera.scale,true)
 	end
 
 	x = 0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary
