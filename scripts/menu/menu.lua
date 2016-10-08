@@ -177,7 +177,6 @@ function menu:init()
 	settingsMenu:addButton( "resetOff", "resetOn", -44, 34,
 		resetCampaign, self:setPlayerPositionEvent( settingsMenu.x -51, 39), nil, 'Reset Campaign' )
 
-
 	settingsMenu:addHotkey( "CHOOSE", "Choose",
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
@@ -186,6 +185,17 @@ function menu:init()
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 24,
 		backToMain )
+
+	local restartNotificationVis = 
+		Visualizer:New( nil, nil, "Restart game to apply changes!" )
+	local curstomSettingsDrawFnc = function()
+		if settings.needsRestart then
+			restartNotificationVis:draw( 0,
+				Camera.scale*(love.graphics.getHeight()/Camera.scale/2 - 16) )
+		end
+	end
+
+	settingsMenu:addCustomDrawFunction( curstomSettingsDrawFnc )
 
 	submenus["Settings"] = settingsMenu
 

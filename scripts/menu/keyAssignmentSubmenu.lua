@@ -137,7 +137,6 @@ function KeyAssignmentSubmenu:new( x, y )
 		--	end )
 	end
 
-
 	changeNotificationVis =
 		Visualizer:New( nil, nil, "Changes will be saved when you return to the previous menu!" )
 

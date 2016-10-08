@@ -6,6 +6,7 @@ local settings = {
 	fullscreen = false,
 	effectVolume = 60,
 	musicVolume = 40,
+	needsRestart = false
 }
 
 --settings.fullscreen = false
@@ -57,9 +58,11 @@ function settings:toggleFullscreen(switch)
 		self.fullscreen = switch
 	end
 
-	self:setWindowSize()
-	Camera:applyScale()
+	--self:setWindowSize()
+	--Camera:applyScale()
 
+	self.needsRestart = not self.needsRestart
+	self:saveGraphics()
 	--collectgarbage()
 end
 
