@@ -2329,7 +2329,10 @@ function EditorMap:start()
 
 		end
 	end --end if USE_SHADOWS
-
+	
+	if editor.active or menu.currentlyPlayingUserlevels then
+		gui.clearBandanas()
+	end
 	levelEnd:registerStart()
 end
 

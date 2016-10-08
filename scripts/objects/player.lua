@@ -60,20 +60,27 @@ local Player = object:New({
 
 function Player:applyOptions()
 	local color
-	if editor.active or menu.state == 'userlevels' then
-		color = self.bandana
+	if editor.active or menu.currentlyPlayingUserlevels then
+	--if editor.active or menu.state == 'userlevels' then
+		color = self.bandana 
 	else
 		color = Campaign.bandana
 	end
 
 	self:setBandana(color)
+	gui.clearBandanas()
+	gui.addBandana( color, true )
 end
 
-function Player:setBandana(color)
-	self.bandana = color
-
+function Player:setBandana(color, onlyUpgrade)
 	local bandana2num = {blank=1,white=2,yellow=3,green=4,blue=5,red=6}
 	local number = bandana2num[color]
+	
+	if onlyUpgrade and number <= bandana2num[self.bandana] then
+		return
+	end
+	
+	self.bandana = color
 
 	self.canWalljump = false
 	self.canParachute= false
