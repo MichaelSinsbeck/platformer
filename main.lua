@@ -230,6 +230,9 @@ function love.keyreleased(key)
 end
 
 function love.joystickpressed(joystick, button)
+	if not loading.done then
+		return
+	end
 	if keys.currentlyAssigning then
 		if menu.state == 'gamepad' then
 			keys.assign( tostring(button) )
@@ -238,7 +241,7 @@ function love.joystickpressed(joystick, button)
 	end
 	keys.pressGamepadKey( joystick, button )
 
-	if mode == 'menu' then
+	if mode == 'menu' or menu.overlaySubmenu then
 		menu:gamepadpressed( button )
 	elseif mode == 'loading' then
 		loading.keypressed()
@@ -277,7 +280,7 @@ function love.joystickhat( joystick, hat, direction )
 		keys.pressGamepadKey( joystick, direction )
 
 		-- Treat joystick hat like a button:
-		if mode == 'menu' then
+		if mode == 'menu' or menu.overlaySubmenu then
 			menu:gamepadpressed( direction )
 		end
 	end

@@ -258,13 +258,13 @@ function menu:init()
 		
 	submenus["Credits"] = creditsMenu
 
-	if love.joystick.getJoystickCount() ~= 0 then
-		self:connectedGamepad()
-	end
-
 	-- Create the Rating Submenu:
 	local ratingMenu = RatingSubmenu:new( 700, 0 )
 	submenus["Rating"] = ratingMenu
+
+	if love.joystick.getJoystickCount() ~= 0 then
+		self:connectedGamepad()
+	end
 
 	menu.initialized = true
 
