@@ -675,34 +675,34 @@ function Panel:keypressed( key )
 			inp.front = ""
 			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		elseif key == "end" then
-		inp.front = inp.front .. inp.back
-		inp.back = ""
-		inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
-	elseif key == "tab" then
-		inp.txt = inp.front .. inp.back
-		--[[if love.keyboard.isDown("lshift", "rshift") then
-		jump = "backward"
-		else
-		jump = "forward"
-		end]]
-		stop = true
-		if inp.returnEvent then
-			inp.returnEvent( inp )
+			inp.front = inp.front .. inp.back
+			inp.back = ""
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
+		elseif key == "tab" then
+			inp.txt = inp.front .. inp.back
+			--[[if love.keyboard.isDown("lshift", "rshift") then
+			jump = "backward"
+			else
+			jump = "forward"
+			end]]
+			stop = true
+			if inp.returnEvent then
+				inp.returnEvent( inp )
+			end
+			inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
 		end
-		inp.wrappedText,inp.curX,inp.curY = utility.wrap( inp.front, inp.back, inp.pixelWidth )
-	end
-
-	if stop then
-		self.activeInput = nil
-		editor.activeInputPanel = nil
-		return "stop"
-	elseif jump then
-		self.activeInput = nil
-		editor.activeInputPanel = nil
-		return jump
+	
+		if stop then
+			self.activeInput = nil
+			editor.activeInputPanel = nil
+			return "stop"
+		elseif jump then
+			self.activeInput = nil
+			editor.activeInputPanel = nil
+			return jump
+		end
 	end
 end
-		end
 
 
-		return Panel
+return Panel
