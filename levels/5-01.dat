@@ -315,5 +315,10 @@ Obj:ParallaxConfig
 	p:location=5
 	p:color=blue
 endObj
+Obj:Input
+	x:12
+	y:7
+	p:button=ACTION
+endObj
 endObjects
 

@@ -95,5 +95,10 @@ Obj:ParallaxConfig
 	p:location=4
 	p:color=blue
 endObj
+Obj:Input
+	x:36
+	y:5
+	p:button=DASH
+endObj
 endObjects
 

@@ -52,10 +52,10 @@ Ground:
 -----------------------------------rrr-------------------
 -----------------------------------rrr-------------------
 -----------------------------------rrr-------------------
-----------rrr---------------------rrrr-------------------
-rrrrrrrrrrrr---------------------rrrrrrrrrr--------------
-rrrrrrrrrrrr----------------------rrrrrrrr---------------
-rrrrrrrrrrr------------------------rrrrrr----------------
+-------rrrbbb---------------------rrrr-------------------
+rrrrrrrrr------------------------rrrrrrrrrr--------------
+rrrrrrrr--------------------------rrrrrrrr---------------
+rrrrrrrr---------------------------rrrrrr----------------
 endGround
 
 BgObjects:
@@ -71,17 +71,8 @@ Obj:Exit
 	x:40
 	y:16
 endObj
-Obj:Npc
-	x:4
-	y:16
-	p:delay=0
-	p:displayTime=10
-	p:regionSize=10
-	p:display=region
-	p:text=
-endObj
 Obj:Bandana
-	x:8
+	x:5
 	y:16
 	p:color=green
 endObj
@@ -96,6 +87,11 @@ Obj:ParallaxConfig
 	y:18
 	p:location=3
 	p:color=blue
+endObj
+Obj:Input
+	x:22
+	y:11
+	p:button=JUMP
 endObj
 endObjects
 
