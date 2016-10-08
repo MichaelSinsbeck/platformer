@@ -487,8 +487,8 @@ function editor.createBgObjectPanel()
 	local PADDING = 0
 	local BORDER_PADDING = 10
 
-	local panelWidth = 16*math.ceil(love.graphics.getWidth()/Camera.scale)/16 - 64
-	local panelHeight = 16*math.ceil(love.graphics.getHeight()/Camera.scale)/16 - 64
+	local panelWidth = 16*math.ceil(love.graphics.getWidth()/Camera.scale/16) - 64
+	local panelHeight = 16*math.ceil(love.graphics.getHeight()/Camera.scale/16) - 64
 
 	bgObjectPanel = Panel:new(-- 0, 16, panelWidth, panelHeight )
 		(love.graphics.getWidth()/Camera.scale-panelWidth)*0.5,
@@ -513,11 +513,11 @@ function editor.createBgObjectPanel()
 	end
 
 	-- Add "end" button
-	bgObjectPanel:addClickable( panelWidth, panelHeight - 18, editor.closeBgObjectPanel,
+	bgObjectPanel:addClickable( panelWidth - 12, panelHeight - 18, editor.closeBgObjectPanel,
 		"LEAccept",
 		"Accept selection", 0, 'return', true )
 	-- Add "close" button				
-	bgObjectPanel:addClickable( panelWidth, 12, editor.cancelBgObjectPanel,
+	bgObjectPanel:addClickable( panelWidth - 12, 12, editor.cancelBgObjectPanel,
 		"LEDelete",
 		"Cancel", 0, "escape", true )
 end
@@ -617,13 +617,14 @@ function editor.createObjectPanel()
 	local PADDING = 3
 	local BORDER_PADDING = 10
 
-	local panelWidth = 16*math.ceil(love.graphics.getWidth()/Camera.scale)/16 - 64
-	local panelHeight = 16*math.ceil(love.graphics.getHeight()/Camera.scale)/16 - 64
+	local panelWidth = 16*math.ceil(love.graphics.getWidth()/Camera.scale/16) - 64
+	local panelHeight = 16*math.ceil(love.graphics.getHeight()/Camera.scale/16) - 64
 
 	objectPanel = Panel:new(
 		(love.graphics.getWidth()/Camera.scale-panelWidth)*0.5,
 		(love.graphics.getHeight()/Camera.scale-panelHeight)*0.5,
 		panelWidth, panelHeight )
+
 	objectPanel.visible = false
 
 	local x, y = BORDER_PADDING, BORDER_PADDING
@@ -688,11 +689,11 @@ function editor.createObjectPanel()
 	end
 
 	-- Add "end" button
-	objectPanel:addClickable( panelWidth, panelHeight - 18, editor.closeObjectPanel,
+	objectPanel:addClickable( panelWidth - 12, panelHeight - 18, editor.closeObjectPanel,
 		"LEAccept",
 		"Accept selection", 0, 'return', true )
 	-- Add "close" button:
-	objectPanel:addClickable( panelWidth, 12, editor.cancelObjectPanel,
+	objectPanel:addClickable( panelWidth - 12, 12, editor.cancelObjectPanel,
 		"LEDelete",
 		"Cancel", 0, "escape", true )
 end
