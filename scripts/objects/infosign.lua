@@ -7,7 +7,7 @@ local Infosign = object:New({
   layout = 'center',
   vis = {Visualizer:New('signText'),},
 	properties = {
-		type = utility.newCycleProperty({'Text','Left','Right'}),
+		type = utility.newCycleProperty({'Text','Paper','Left','Right'}),
 		rotation = utility.newCycleProperty({0, 1, 2, 3},{'bottom','left','top','right'}),
 	},
 })
