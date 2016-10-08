@@ -20,7 +20,7 @@ end
 function shaders:load()
 
 	print("Loading Shaders...")
-	print("\tLooking for canvas support...")
+	--[[print("\tLooking for canvas support...")
 	if love.graphics.isSupported("canvas") then
 		print("\t\t...supported!")
 	else
@@ -48,7 +48,7 @@ function shaders:load()
 		print("Disabling shaders")
 		settings:setShadersEnabled( false )
 		return
-	end
+	end]]
 
 	--shaders.grayScale = love.graphics.newPixelEffect( textFromFile ("grayscale.glsl") )
 	--shaders.fadeToBlack = love.graphics.newPixelEffect( textFromFile ("fadeToBlack.glsl") )
@@ -88,7 +88,7 @@ function shaders:draw()
 		renderedToCanvas = false
 		if menu.transitionActive or deathEffect.active then
 			renderedToCanvas = true
-			fullscreenCanvas:clear(love.graphics.getBackgroundColor())
+			--fullscreenCanvas:clear(love.graphics.getBackgroundColor())
 			love.graphics.setCanvas(fullscreenCanvas)
 			--love.graphics.setColor(l)
 			--love.graphics.rectangle('fill', 0, 0,

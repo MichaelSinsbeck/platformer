@@ -108,9 +108,14 @@ function love.draw()
 		elseif mode == 'editor' then
 			editor:draw()
 		end
-
 	
 		shaders:stop()
+
+		if mode == 'game' then
+			if game.isDead() then
+				game:drawDeathScreen()
+			end
+		end
 		
 			if mode == 'levelEnd' then
 				levelEnd:draw()
