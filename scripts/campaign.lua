@@ -1,4 +1,6 @@
 Campaign = {
+	'0-01.dat',
+
 	'1-01.dat',	'1-02.dat',	'1-03.dat',	'1-04.dat',	'1-05.dat',
 	'1-06.dat',	'1-07.dat',	'1-08.dat',	'1-09.dat',	'1-10.dat',
 	'1-11.dat',	'1-12.dat',	'1-13.dat',	'1-14.dat',	'1-15.dat',
@@ -19,7 +21,7 @@ Campaign = {
 	'5-06.dat', '5-07.dat',	'5-08.dat',	'5-09.dat',	'5-10.dat',
 	'5-11.dat',	'5-12.dat',	'5-13.dat',	'5-14.dat',	'5-15.dat',
 
-	'6-00.dat',
+	'6-01.dat', '6-02.dat',
 	}
 
 Campaign.current = 0
@@ -133,7 +135,7 @@ function Campaign:setLevel(lvlnum)
 	local nextIsNew = (lvlnum > self.last)
 	self.current = lvlnum
 	self.last = math.max(self.last, self.current)
-	local newWorld = math.floor((self.current-1)/15)+1
+	local newWorld = math.floor((self.current-2)/15)+1
 	if newWorld == self.worldNumber then
 		return false, nextIsNew
 	else
@@ -143,63 +145,8 @@ function Campaign:setLevel(lvlnum)
 end
 
 Campaign.names = {}
---[[Campaign.names['n13.dat'] = 'learn to walk'
-Campaign.names['n1.dat'] = 'jump'
-Campaign.names['n10.dat'] = 'the chimney'
-Campaign.names['n2.dat'] = 'le parcours'
-Campaign.names['n3.dat'] = 'by the way, you can die'
-Campaign.names['n15.dat'] = 'leap of faith i'
-Campaign.names['n38.dat'] = 'jumping advanced'
-Campaign.names['n11.dat'] = 'all you can eat'
-Campaign.names['n12.dat'] = 'tight'
-Campaign.names['n5.dat'] = 'where is the ground?'
-Campaign.names['n24.dat']	 = 'free climbing'
-Campaign.names['n6.dat'] = 'the launcher'
-Campaign.names['n7.dat'] = 'zig zag'
-Campaign.names['n8.dat'] = 'vertical'
-Campaign.names['n9.dat'] = 'ascension'
-Campaign.names['n14.dat'] = 'up, up, around'
-Campaign.names['n17.dat'] = 'get over it'
-Campaign.names['n18.dat'] = 'no pain, no gain'
-Campaign.names['n16.dat'] = 'leap of faith ii'
-Campaign.names['n20.dat'] = 'its a trap'
-Campaign.names['n19.dat'] = 'bowel'
-Campaign.names['n21.dat'] = 'uprising'
-Campaign.names['n23.dat'] = 'vertical ii'
-Campaign.names['n27.dat'] = 'following'
-Campaign.names['n26.dat'] = 'the one'
-Campaign.names['n28.dat'] = 'stairway'
-Campaign.names['n25.dat'] = 'calm'
-Campaign.names['n22.dat'] = 'weeeee'
-Campaign.names['n29.dat'] = 'the crown'
-Campaign.names['n31.dat'] = 'leap of faith iii'
-Campaign.names['n30.dat'] = 'half pipe'
-Campaign.names['n32.dat'] = 'dont hesitate'
-Campaign.names['n33.dat'] = 'where am i?'
-Campaign.names['n34.dat'] = 'push the button'-- button
-Campaign.names['n35.dat'] = 'timed'
-Campaign.names['n36.dat'] = 'back and forth'
-Campaign.names['n37.dat'] = 'i wanna be like you' -- imitator
-Campaign.names['n39.dat'] = 'who is faster?'
-Campaign.names['n40.dat']	 = 'meditation'
-Campaign.names['n41.dat'] = 'upwind' -- wind
-Campaign.names['n42.dat']  = 'only once'-- breaking block
-Campaign.names['n44.dat'] = 'the elephant' -- glass tutorial
-Campaign.names['n43.dat'] = 'dig' -- glass long level			
-Campaign.names['n45.dat'] = 'station' -- fixed cannon	
-Campaign.names['n46.dat'] = 'testlevel' -- small level
-Campaign.names['n47.dat'] = 'leap of faith iv' -- hook intro
-Campaign.names['n48.dat'] = 'floorless' -- more hook
-Campaign.names['n49.dat'] = 'hooks law' -- hook intro
-Campaign.names['n50.dat'] = 'welcome castle' -- hook intro
 
-Campaign.names['l07.dat'] = 'It Moves'
-Campaign.names['l08.dat'] = 'Crunch'
-Campaign.names['l10.dat'] = 'Bowel'
-Campaign.names['l11.dat'] = 'Push the Button'
-Campaign.names['l14.dat'] = 'Where is the Ground'
-Campaign.names['l15.dat'] = 'Bullet Hell'
-Campaign.names['l22.dat'] = 'The End']]
+Campaign.names['0-01.dat'] = "Master Kenji's House"
 
 Campaign.names['1-01.dat'] = 'White'
 Campaign.names['1-02.dat'] = 'Windmill'
@@ -278,7 +225,8 @@ Campaign.names['5-10.dat'] = 'Secret Agent'
 Campaign.names['5-11.dat'] = 'Air conditioner'
 Campaign.names['5-12.dat'] = 'Get up'
 Campaign.names['5-13.dat'] = 'Elevator ride'
-Campaign.names['5-14.dat'] = 'W'
+Campaign.names['5-14.dat'] = 'Double You'
 Campaign.names['5-15.dat'] = 'Wee'
 
-Campaign.names['6-00.dat'] = 'The End'
+Campaign.names['6-01.dat'] = 'Cutscene (boooring!)'
+Campaign.names['6-02.dat'] = 'The End'
