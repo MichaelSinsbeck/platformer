@@ -25,7 +25,7 @@ function Bird:applyOptions()
 	end
 end
 
-function object:collision()
+function Bird:collision()
 end
 
 function Bird:setAcceleration(dt)
