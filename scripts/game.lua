@@ -117,6 +117,8 @@ end
 function game.keypressed(key)
 
 	if key == keys.BACK then
+		
+		shaders:resetDeathEffect()
 		if editor.active then
 			Sound:stopAllLongSounds()
 			editor.resume()
