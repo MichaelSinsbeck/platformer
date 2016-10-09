@@ -236,10 +236,10 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "death_goalie" then
 		newPic.title = "Goalie Deaths:"
 		newPic.map = levelEnd.levels["end_air"]
-		newPic.visBG[1] = Visualizer:New( 'deathGoalie' )
-		newPic.visBG[1]:init()
-		newPic.visBG[1].posX = 0
-		newPic.visBG[1].posY = -tileSize*( 0.05 )
+		newPic.visFG[1] = Visualizer:New( 'deathGoalie' )
+		newPic.visFG[1]:init()
+		newPic.visFG[1].posX = 0
+		newPic.visFG[1].posY = -tileSize*( 0.05 )
 
 		if num <= 20 then
 			newPic.list = generateCountList( num, tileSize )
@@ -249,10 +249,10 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "death_follower" then
 		newPic.title = "Follower Deaths:"
 		newPic.map = levelEnd.levels["end_follower"]
-		newPic.visBG[1] = Visualizer:New( 'deathFollower' )
-		newPic.visBG[1]:init()
-		newPic.visBG[1].posX = 0
-		newPic.visBG[1].posY = tileSize*( 0.95 )
+		newPic.visFG[1] = Visualizer:New( 'deathFollower' )
+		newPic.visFG[1]:init()
+		newPic.visFG[1].posX = 0
+		newPic.visFG[1].posY = tileSize*( 0.95 )
 
 		if num <= 20 then
 			newPic.list = generateCountList( num, tileSize )
@@ -262,10 +262,10 @@ function Pic:new( x, y, statType, num )
 	elseif statType == "death_laser" then
 		newPic.title = "Laser Deaths:"
 		newPic.map = levelEnd.levels["end"]
-		newPic.visBG[1] = Visualizer:New( 'deathLaser' )
-		newPic.visBG[1]:init()
-		newPic.visBG[1].posX = 0
-		newPic.visBG[1].posY = -tileSize*( 0.8 )
+		newPic.visFG[1] = Visualizer:New( 'deathLaser' )
+		newPic.visFG[1]:init()
+		newPic.visFG[1].posX = 0
+		newPic.visFG[1].posY = -tileSize*( 0.8 )
 
 		if num <= 20 then
 			newPic.list = generateCountList( num, tileSize )
