@@ -443,6 +443,11 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('bouncywalkerfoot2','objects',{95},{1e6})	
 	AnimationDB:addAni('bouncywalkerblink1','objects',{98,93},{0.1,1e6})
 	AnimationDB:addAni('bouncywalkerblink2','objects',{100,99},{0.1,1e6})
+	
+	AnimationDB:addAni('birdStand1','objects',{101},{1e6})
+	AnimationDB:addAni('birdFly1','objects',{102,103,102,104},{0.075,0.15,0.075,0.15})
+	AnimationDB:addAni('birdStand2','objects',{105},{1e6})
+	AnimationDB:addAni('birdFly2','objects',{106,107,106,108},{0.05,0.1,0.05,0.1})
 
 	-- small objects
 	AnimationDB:addAni('crumble1','small',{1},{1e6})
