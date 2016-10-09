@@ -94,14 +94,14 @@ function Goalie:postStep(dt)
 		self.vis[2].sx = s
 		self.vis[2].sy = s 
 	end
-	
-  -- Kill player, if touching
+
+	-- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
-    p:kill()
-    levelEnd:addDeath("death_goalie")
-    objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
-    self:playSound('death')
-  end
+		p:kill()
+		levelEnd:addDeath("death_goalie")
+		objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
+		self:playSound('death')
+	end
 end
 
 function Goalie:onKill()

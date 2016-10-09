@@ -52,6 +52,7 @@ function levelEnd:levelRestart()
 	statList["fastestVelocity"] = 0
 	statList["time"] = 0
 	statList["distWalked"] = 0
+	statList["keypresses"] = 0
 	self.jump = nil
 	self.wallHang = nil
 end
@@ -144,7 +145,6 @@ function levelEnd:display( )	-- called when level is won:
 		statList["death_imitator"] + statList["death_missile"] +
 		statList["death_spikey"] + statList["death_walker"] +
 		statList["death_follower"]
-		print(deaths, "deaths")
 
 	if deaths == 0 then
 		statList["noDeaths"] = 1
@@ -177,6 +177,14 @@ function levelEnd:display( )	-- called when level is won:
 	for i = 1,self.numOfStats do
 		-- randomly choose a stat to display:
 		k = math.random(#relevantList)
+		if i == 1 then
+			for j = 1,self.numOfStats do
+				if relevantList[j].statType == "keypresses" then
+					k = j
+					break
+				end
+			end
+		end
 		pos = -fullWidth/2 + width*i
 		
 		self:addBox(pos - 30,-40,60,70, i*STAT_TIME )
@@ -311,4 +319,8 @@ end
 
 function levelEnd:registerWalkedDist( dist )
 	statList["distWalked"] = statList["distWalked"] + dist
+end
+
+function levelEnd:registerKeypress()
+	statList["keypresses"] = statList["keypresses"] + 1
 end

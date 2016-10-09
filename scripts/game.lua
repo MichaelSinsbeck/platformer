@@ -137,6 +137,8 @@ function game.keypressed(key)
 		end
 		menu:show()
 		--Sound:play('menuPause')
+	else
+		levelEnd:registerKeypress()
 	end
 	if key == "r" then
 		p.status = 'stand'
@@ -188,7 +190,7 @@ function game.keypressed(key)
 	end
 
 	-- Debug:
-	if key == "1" then
+	--[[if key == "1" then
 		gui.addBandana( "white" )
 	elseif key == "2" then
 		gui.addBandana( "yellow" )
@@ -196,7 +198,7 @@ function game.keypressed(key)
 		gui.addBandana( "green" )
 	elseif key == "4" then
 		gui.addBandana( "red" )
-	end
+	end]]
 
 end
 
