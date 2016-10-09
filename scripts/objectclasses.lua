@@ -65,6 +65,7 @@ Blockblock = require 'scripts/objects.blockblock',
 Sweeper = require 'scripts/objects.sweeper',
 Infosign = require 'scripts/objects.infosign',
 --Bandanasign = require 'scripts/objects.bandanasign',
+Bird = require 'scripts/objects.bird',
 }
 
 
