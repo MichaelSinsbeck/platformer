@@ -26,13 +26,13 @@ Background:
 --------------------------------
 --------------------------------
 --------------------------------
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
-dddddddddddddddddddddddddddddddd
+cccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccc
 endBackground
 
 Ground:
@@ -49,13 +49,13 @@ Ground:
 --------------------------------
 --------------------------------
 --------------------------------
-yyyyyyyy---yyy-yyyyyyyyyyyyyyyyy
-yyyyyyyy---yyy-----------------y
-yyyyyyyyyyyyyyyyyyyyyyyyyyyyy--y
-y------------------------------y
-y--yyyyyyyyyyyyyyyyyyyyyyyyyyyyy
-y------------------------------y
-yyyyyyyyyyyyyyyyyyyyyyyyyyyyy--y
+rrrrrrrr---rrr-rrrrrrrrrrrrrrrrr
+rrrrrrrr---rrr-----------------r
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrr--r
+r------------------------------r
+r--rrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+r------------------------------r
+rrrrrrrrrrrrrrrrrrrrrrrrrrrrr--r
 endGround
 
 BgObjects:

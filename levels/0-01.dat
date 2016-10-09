@@ -84,7 +84,7 @@ Obj:Exit
 endObj
 Obj:Bandana
 	x:6
-	y:26
+	y:9
 	p:color=white
 endObj
 Obj:Npc

@@ -47,15 +47,15 @@ Ground:
 ----------------------------------------
 ----------------------------------------
 ----------------------------------------
-rr------------------------------------rr
-rrrrrrrrrrrrrrrrr---------------------rr
-rrrrr---------------------------------rr
-rrr-----------------------------------rr
-rr------------------------------------rr
-rr------------------------------------rr
-rr-----------------------------r------rr
-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr-rrrrrrrrr
-rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+gg------------------------------------gg
+ggggggggggggggggg---------------------gg
+ggggg---------------------------------gg
+ggg-----------------------------------gg
+gg------------------------------------gg
+gg------------------------------------gg
+gg-----------------------------g------gg
+gddddddddddddddggggggggggggggg-ggggggggg
+gggggggggggggggggggggggggggggggggggggggg
 endGround
 
 BgObjects:
