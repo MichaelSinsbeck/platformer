@@ -27,6 +27,17 @@ function Droplet:setAcceleration(dt)
 end
 
 function Droplet:postStep(dt)
+	
+	for k,v in pairs(spriteEngine.objects) do
+		local dx,dy = v.x-self.x,v.y-self.y
+		if (v.tag == 'Water') and
+			 math.abs(dx) < self.semiheight+v.semiheight and
+			 math.abs(dy) < self.semiwidth +v.semiwidth then
+			self:kill()
+			break
+		end
+	end
+	
 	if self.collisionResult == 1 then
 		self:setAnim('dropletWall')
 		self.rotSpeed = 0
@@ -43,7 +54,7 @@ function Droplet:postStep(dt)
 		self:setAnim('dropletWall')
 		self.rotSpeed = 0
 		self.vis[1].angle = 0
-	end
+	end	
 end
 
 function Droplet:spawn(x,y,vx,vy,number)
@@ -54,8 +65,9 @@ function Droplet:spawn(x,y,vx,vy,number)
 		local vx = cos*self.spreadSpeed*magnitude+0.5*vx
 		local vy = sin*self.spreadSpeed*magnitude-0.5*vy
 		local lifetime = self.lifetime * 0.8+ 0.4*math.random()
-		local animation = 'droplet' .. math.random(1,4)
-		local newPiece = self:New({x=x,y=y,vx = vx,vy = vy,vis={Visualizer:New(animation)},lifetime = lifetime})
+		local animation = 'droplet' .. math.random(1,3)
+		local thisX = x + cos*magnitude
+		local newPiece = self:New({x=thisX,y=y,vx = vx,vy = vy,vis={Visualizer:New(animation)},lifetime = lifetime})
 		spriteEngine:insert(newPiece)
 	end
 end

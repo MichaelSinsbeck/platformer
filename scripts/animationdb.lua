@@ -309,6 +309,7 @@ function AnimationDB:loadAllImages()
 	AnimationDB:loadTiledImage('statVelocity.png', 'statVelocity', 2, 4 ,'statistics')
 	AnimationDB:loadTiledImage('statTime.png', 'statTime', 4, 2 ,'statistics')
 	AnimationDB:loadTiledImage('statNumberOfButtons.png', 'statNumberOfButtons', 4, 4,'statistics')
+	AnimationDB:loadTiledImage('statKeypresses.png', 'statNumberOfKeys', 3, 3,'statistics')
 	
 	-- credits
 	AnimationDB:loadImage('creditsDesign.png', 'creditsDesign', 'credits')
@@ -473,7 +474,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('droplet1','small',{25},{1e6})
 	AnimationDB:addAni('droplet2','small',{26},{1e6})
 	AnimationDB:addAni('droplet3','small',{27},{1e6})
-	AnimationDB:addAni('droplet4','small',{28},{1e6})
+	AnimationDB:addAni('lock','small',{28},{1e6})
 	AnimationDB:addAni('meatWall','small',{29},{1e6})
 	AnimationDB:addAni('meatCorner','small',{30},{1e6})
 	AnimationDB:addAni('dropletWall','small',{31},{1e6})
@@ -716,6 +717,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('statNumberOfButtons','statNumberOfButtons',
 	{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,16,18,19,18,19,20,21,22,21,22,21,22,21,22,21,22,23,24,25,26,27,28,29,30,31},
 	{1.5,.3,.03,.04,.06,.04,.03,.1,.9,.08,.05,.05,.08,.05,.2,1,.2,.5,.1,.1,.1,.1,.05,.2,.1,.3,.1,.2,.2,.1,.2,.1,.1,1,.03,.03,.03,.03,.9,.01,.9,1e6})
+	AnimationDB:addAni('statNumberOfKeys','statNumberOfKeys',{1,3,2,3},{.1,.1,.1,.1} )
 end
 
 function AnimationDB:addAllSilhouettes()
