@@ -233,7 +233,19 @@ function Pic:new( x, y, statType, num )
 		else
 			newPic.subTitle = num
 		end
+	elseif statType == "death_laser" then
+		newPic.title = "Laser Deaths:"
+		newPic.map = levelEnd.levels["end"]
+		newPic.visBG[1] = Visualizer:New( 'deathLaser' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = -tileSize*( 0.8 )
 
+		if num <= 20 then
+			newPic.list = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
 	elseif statType == "timeInAir" then
 		newPic.title = "Time in Air:"
 		newPic.subTitle = num .. " s"

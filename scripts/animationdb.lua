@@ -299,6 +299,7 @@ function AnimationDB:loadAllImages()
 	-- level-end statistics
 	AnimationDB:loadTiledImage('deaths.png','deaths',2,2,'statistics')
 	AnimationDB:loadTiledImage('deathImitator.png', 'deathImitator', 2, 4,'statistics')
+	AnimationDB:loadTiledImage('deathLaser.png', 'deathLaser', 2, 4,'statistics')
 	AnimationDB:loadTiledImage('statIdle.png', 'statIdle', 2, 3 ,'statistics')
 	AnimationDB:loadTiledImage('statNoDeath1.png', 'statNoDeath1', 3, 3,'statistics')
 	AnimationDB:loadTiledImage('statNoDeath2.png', 'statNoDeath2', 3, 3,'statistics')
@@ -720,6 +721,8 @@ function AnimationDB:loadAnimations()
 	{1.5,.3,.03,.04,.06,.04,.03,.1,.9,.08,.05,.05,.08,.05,.2,1,.2,.5,.1,.1,.1,.1,.05,.2,.1,.3,.1,.2,.2,.1,.2,.1,.1,1,.03,.03,.03,.03,.9,.01,.9,1e6})
 	AnimationDB:addAni('statNumberOfKeys','statNumberOfKeys',{1,3,2,3},{.1,.1,.1,.1} )
 	AnimationDB:addAni('deathImitator','deathImitator',{1},{1e6})
+	AnimationDB:addAni('deathLaser','deathLaser',{1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,3},
+		{.05,.2,.05,.1,.2,.1,.05,.05,.05,.2,.05,.1,.2,.1,.05,.05,.1,.05,.2})
 end
 
 function AnimationDB:addAllSilhouettes()
