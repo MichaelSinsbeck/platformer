@@ -2264,7 +2264,7 @@ function editor.loadFile( fileName, testFile )
 	
 	-- Warn if the editor has a newever version than the map file:
 	if map.mapFileVersion ~= MAPFILE_VERSION then
-		editor.addWarning( "Level is made with older version\nof the game. There may be errors." )
+		editor.addWarning( "Level is made with another version\nof the game. There may be errors." )
 	end
 
 	cam.zoom = 1

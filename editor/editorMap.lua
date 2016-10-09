@@ -2601,4 +2601,17 @@ function EditorMap:setBackgroundColor( col )
 	self.backgroundColor = col
 end
 
+function EditorMap:checkFileVersion( fullName )
+
+	print('Checking file version of map: ' .. fullName)
+	local mapName = fullName:match("([^/]*).dat$")
+	local str = love.filesystem.read( fullName )
+
+	if str then
+		local mapFileVersion = str:match("MapFileVersion:(.-)\n")
+		return mapFileVersion
+	end
+	return "0"
+end
+
 return EditorMap
