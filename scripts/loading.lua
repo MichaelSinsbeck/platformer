@@ -1,7 +1,7 @@
 local startTime
 local loading = {
 	step = -1,
-	msg = "scripts",
+	msg = "Scripts",
 	done = false,		-- set to true when everything has been loaded
 }
 local proverb
@@ -116,7 +116,7 @@ function loading.draw()
 	if not loading.done then
 		love.graphics.setColor(colors.grayText)
 		love.graphics.setFont(fontSmall)
-		love.graphics.print(str, Camera.scale*5, love.graphics.getHeight()-Camera.scale*8)
+		love.graphics.print(str, math.floor(Camera.scale*5), math.floor(love.graphics.getHeight()-Camera.scale*8))
 	end
 	
 	local width, lines = fontLarge:getWrap(proverb, 0.6*w)
@@ -125,15 +125,15 @@ function loading.draw()
 	
 	love.graphics.setColor(colors.blueText)
 	love.graphics.setFont(fontLarge)
-	love.graphics.printf(proverb, 0.2*w, 0.5*h-0.5*textH, 0.6*w, 'center')
+	love.graphics.printf(proverb, math.floor(0.2*w), math.floor(0.5*h-0.5*textH), 0.6*w, 'center')
 	
 	love.graphics.setColor(colors.grayText)
 	love.graphics.setFont(fontSmall)
-	love.graphics.printf(source, 0.5*w-0.5*width,0.5*h + textH * 1, width,'right')
+	love.graphics.printf(source, math.floor(0.5*w-0.5*width), math.floor(0.5*h + textH * 1), width,'right')
 
 	if loading.done then
-		love.graphics.printf( "Any key to start",
-			0.2*w, love.graphics.getHeight()-Camera.scale*8,
+		love.graphics.printf( "Any Key to Start",
+			math.floor(0.2*w), math.floor(love.graphics.getHeight()-Camera.scale*8),
 			0.6*w, 'center' )
 	end
 end
