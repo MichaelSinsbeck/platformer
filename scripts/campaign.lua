@@ -114,24 +114,18 @@ function Campaign:saveState()
 	-- saved "last level", then save the current level
 	-- as the "last level":
 	local lastLevel = config.getValue( "lastLevel")
-	print("Save: lastlevel: ", lastLevel )
-	print("Save: self[self.current]: ", self[self.current] )
 	if not lastLevel then
 		--print("saving new last level:", self[self.current])
 		config.setValue( "lastLevel", self[self.current])
 	else
 		local curIndex = utility.tableFind(self, self[self.current]) 
-		print("Save: curIndex: ", curIndex)
 		local lastIndex = utility.tableFind(self, lastLevel)
-		print("Save: lastIndex: ", lastIndex)
 		-- If the saved lastlevel is higher than my current last level, then we just reset the game.
 		-- In this case, overwrite what's written in the file:
 		if lastIndex and curIndex then
 			lastIndex = math.min( self.last, lastIndex )
-			print("Save: lastIndex: ", lastIndex)
 		-- If the saved lastlevel is higher than my current last level, then we just reset the game.
 			lastIndex = math.max( curIndex, lastIndex )
-			print("Save: curIndex: ", curIndex)
 		--print("curIndex, lastIndex", curIndex, lastIndex, #lastLevel, #self[self.current])
 			config.setValue( "lastLevel", self[lastIndex])
 		end
