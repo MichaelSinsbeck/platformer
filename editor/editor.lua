@@ -2012,7 +2012,8 @@ end
 
 function editor.setToolTip( tip )
 	tip = tip or ""
-	editor.toolTip.text = string.lower(tip)
+	--editor.toolTip.text = string.lower(tip)
+	editor.toolTip.text = tip
 	editor.toolTip.x = (love.graphics.getWidth() - fontSmall:getWidth( editor.toolTip.text ))/2
 	editor.toolTip.y = love.graphics.getHeight() - fontSmall:getHeight() - 10
 end

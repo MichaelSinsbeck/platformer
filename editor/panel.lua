@@ -48,7 +48,8 @@ function Panel:addLabel( x, y, text, page )
 	local l = {
 		x = x+self.x,
 		y = y+self.y,
-		text = string.lower(text),
+		--text = string.lower(text),
+		text = text
 	}
 	page = page or 0
 	if not self.labels[page] then self.labels[page] = {} end
