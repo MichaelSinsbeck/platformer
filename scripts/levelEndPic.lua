@@ -220,6 +220,14 @@ function Pic:new( x, y, statType, num )
 		else
 			newPic.subTitle = num
 		end
+	elseif statType == "death_imitator" then
+		newPic.title = "Imitator Deaths:"
+		newPic.subTitle = num
+		newPic.map = levelEnd.levels["end"]
+		newPic.visBG[1] = Visualizer:New( 'deathImitator' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = -tileSize*( 0.45 )
 	elseif statType == "timeInAir" then
 		newPic.title = "Time in Air:"
 		newPic.subTitle = num .. " s"
@@ -286,7 +294,7 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posY = -tileSize*0.8
 	elseif statType == "longestWallHang" then
 
-		newPic.title = "Longest Wall Hang"
+		newPic.title = "Longest Wall Hang:"
 		newPic.subTitle = num .. " s"
 		newPic.map = levelEnd.levels["end_wall"]
 		newPic.visFG[1] = Visualizer:New( 'statWallHang' )
@@ -304,20 +312,28 @@ function Pic:new( x, y, statType, num )
 		newPic.visBG[1].posY = tileSize*(-1.2)
 	elseif statType == "noDeaths" then
 
-		newPic.title = "No Deaths"
+		newPic.title = "No Deaths!"
 		newPic.map = levelEnd.levels["end"]
 		newPic.visBG[1] = Visualizer:New( 'statNoDeath' .. math.random(2) )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = tileSize*(-1.8)
 	elseif statType == "time" then
-		newPic.title = "Level Time"
+		newPic.title = "Level Time:"
 		newPic.subTitle = num .. " s"
 		newPic.map = levelEnd.levels["end_air"]
 		newPic.visBG[1] = Visualizer:New( 'statTime' )
 		newPic.visBG[1]:init()
 		newPic.visBG[1].posX = 0
 		newPic.visBG[1].posY = tileSize*( 0.6 )
+	elseif statType == "keypresses" then
+		newPic.title = "Keys Pressed:"
+		newPic.subTitle = num
+		newPic.map = levelEnd.levels["end"]
+		newPic.visBG[1] = Visualizer:New( 'statNumberOfKeys' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = -tileSize*( 1.7 )
 	else
 		newPic.title = string.lower(statType)
 		newPic.subTitle = num
