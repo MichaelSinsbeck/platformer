@@ -123,17 +123,19 @@ function BambooSlider:getNextDown( b )
 end
 
 function BambooSlider:increaseValue()
-	if self.value < self.numSegments then
+	local playSound = (self.value < self.numSegments)
+	self:setValue( math.min( self.value +1, self.numSegments ) )
+	if playSound then
 		Sound:play('menuMove')
 	end
-	self:setValue( math.min( self.value +1, self.numSegments ) )
 end
 
 function BambooSlider:decreaseValue()
-	if self.value > 1 then
+	local playSound = (self.value > 1)
+	self:setValue( math.max( self.value -1, 1 ) )
+	if playSound then
 		Sound:play('menuMove')
 	end
-	self:setValue( math.max( self.value -1, 1 ) )
 end
 
 -- This function chooses the appropriate visualizer depending on the state of the 
