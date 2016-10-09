@@ -19,6 +19,7 @@ function levelEnd:init()
 	self.levels["end_dirt"] = Map:loadFromFile( "levels/end_dirt.dat", true )
 	self.levels["end_air"] = Map:loadFromFile( "levels/end_air.dat", true )
 	self.levels["end_spikes"] = Map:loadFromFile( "levels/end_spikes.dat", true )
+	self.levels["end_follower"] = Map:loadFromFile( "levels/end_follower.dat", true )
 	self.levels["end"] = Map:loadFromFile( "levels/end.dat", true )
 end
 
@@ -182,7 +183,7 @@ function levelEnd:display( )	-- called when level is won:
 		k = math.random(#relevantList)
 		if i == 1 then
 			for j = 1,#relevantList do
-				if relevantList[j].statType == "death_laser" then
+				if relevantList[j].statType == "death_follower" then
 					k = j
 					break
 				end

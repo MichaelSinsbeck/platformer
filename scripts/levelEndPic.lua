@@ -233,6 +233,32 @@ function Pic:new( x, y, statType, num )
 		else
 			newPic.subTitle = num
 		end
+	elseif statType == "death_goalie" then
+		newPic.title = "Goalie Deaths:"
+		newPic.map = levelEnd.levels["end_air"]
+		newPic.visBG[1] = Visualizer:New( 'deathGoalie' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = -tileSize*( 0.05 )
+
+		if num <= 20 then
+			newPic.list = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
+	elseif statType == "death_follower" then
+		newPic.title = "Follower Deaths:"
+		newPic.map = levelEnd.levels["end_follower"]
+		newPic.visBG[1] = Visualizer:New( 'deathFollower' )
+		newPic.visBG[1]:init()
+		newPic.visBG[1].posX = 0
+		newPic.visBG[1].posY = tileSize*( 0.95 )
+
+		if num <= 20 then
+			newPic.list = generateCountList( num, tileSize )
+		else
+			newPic.subTitle = num
+		end
 	elseif statType == "death_laser" then
 		newPic.title = "Laser Deaths:"
 		newPic.map = levelEnd.levels["end"]
