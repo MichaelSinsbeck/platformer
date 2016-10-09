@@ -96,7 +96,7 @@ function KeyAssignmentSubmenu:new( x, y )
 	end
 
 	local startReassignment = function()
-		self.keyCurrentlyAssigning = keyTypes[selectedFunction]
+		self.keyCurrentlyAssigning = functions[selectedFunction].keyType
 		print("Starting assignment for: ", self.keyCurrentlyAssigning )
 		submenu:setLayerVisible( "Assignment", true )
 		submenu:clearLayer( "Assignment" )
