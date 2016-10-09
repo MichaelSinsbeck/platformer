@@ -4,6 +4,9 @@ local sound = {sources = {},event2file={},longSounds={},eventVolume = {},eventDi
 -- event2file is a table of sounds: key = sound/event, value = filename
 -- longSounds: key:object (from spriteEngine), value: source
 
+local globalEffectVolume = 1
+local globalMusicVolume = 1
+
 local attenuationModel = 'linearclamped'
 local dist_ref = 2
 --local dist_max = 10
@@ -54,6 +57,9 @@ local function getRandomFilename(event)
 end
 
 function sound:playLongSound(event,object,volume,pitch)
+	if globalEffectVolume == 0 then
+		return
+	end
 	-- first check if the object has a sound already and if yes it if is the same
 	local thisFilename
 	if self.event2file[event] then
@@ -82,7 +88,7 @@ function sound:playLongSound(event,object,volume,pitch)
 	
 	-- apply volume and pitch
 	volume = volume or 1
-	volume = math.min(volume,1) * self.eventVolume[event]
+	volume = math.min(volume,1) * self.eventVolume[event] * globalEffectVolume
 	pitch = pitch or 1
 	self.longSounds[object].source:setVolume(volume)
 	self.longSounds[object].source:setPitch(pitch)
@@ -135,6 +141,9 @@ function sound:setPositions()
 end
 
 function sound:play(event,volume,pitch,variance)
+	if globalEffectVolume == 0 then
+		return
+	end
 	local thisFilename = getRandomFilename(event)
 	volume = volume or 1
 	pitch = pitch or 1
@@ -149,7 +158,7 @@ function sound:play(event,volume,pitch,variance)
 		newSource:setPosition(0,0,0)
 		newSource:setVelocity(0,0,0)
 		newSource:setRelative(true)
-		newSource:setVolume(self.eventVolume[event]*volume)
+		newSource:setVolume(self.eventVolume[event]*volume*globalEffectVolume)
 		newSource:setPitch(pitch)
 		newSource:play()
 		return newSource
@@ -170,7 +179,7 @@ end
 
 function sound:stopAll()
 	love.audio.stop()
-	self.clean()
+	self.clear()
 end
 
 function sound:clear()
@@ -183,10 +192,10 @@ end
 
 -- volume goes from 0 to 1
 function sound:setMusicVolume(volume)
-	print( "Music volume set to " .. volume )
+	globalMusicVolume = volume^2
 end
 function sound:setSoundVolume(volume)
-	print( "Effect volume set to " .. volume )
+	globalEffectVolume = volume^2
 end
 
 return sound
