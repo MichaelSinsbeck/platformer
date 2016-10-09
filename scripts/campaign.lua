@@ -123,10 +123,11 @@ function Campaign:saveState()
 		-- If the saved lastlevel is higher than my current last level, then we just reset the game.
 		-- In this case, overwrite what's written in the file:
 		if lastIndex and curIndex then
-		lastIndex = math.min( self.last, lastIndex )
-		lastIndex = math.max( curIndex, lastIndex )
+			lastIndex = math.min( self.last, lastIndex )
+		-- If the saved lastlevel is higher than my current last level, then we just reset the game.
+			lastIndex = math.max( curIndex, lastIndex )
 		--print("curIndex, lastIndex", curIndex, lastIndex, #lastLevel, #self[self.current])
-			config.setValue( "lastLevel", self[self.current])
+			config.setValue( "lastLevel", self[lastIndex])
 		end
 	end--]]
 end

@@ -17,7 +17,7 @@ local CATEGORY_MISC = "Misc"
 local CATEGORY_GARDEN = "Garden"
 local CATEGORY_STATUES = "Statues"
 local CATEGORY_TREES = "Trees"
-local CATEGORY_PLANTS = "Trees"
+local CATEGORY_PLANTS = "Plants"
 
 local categories = {}
 categories[CATEGORY_HOUSES] = {
