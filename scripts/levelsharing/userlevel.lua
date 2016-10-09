@@ -148,11 +148,12 @@ end
 
 function Userlevel.sortByAuthorAscending( a, b )
 	if a and b then
-		if a.author < b.author then
+		local author_a, author_b = string.lower(a.author), string.lower(b.author)
+		if author_a > author_b then
 			return true
 		else
-			if a.author == b.author then
-				if a.levelname < b.levelname then
+			if author_a == author_b then
+				if string.lower(a.levelname) < string.lower(b.levelname) then
 					return true
 				end
 			end
@@ -162,11 +163,12 @@ function Userlevel.sortByAuthorAscending( a, b )
 end
 function Userlevel.sortByAuthorDescending( a, b )
 	if a and b then
-		if a.author > b.author then
+		local author_a, author_b = string.lower(a.author), string.lower(b.author)
+		if author_a > author_b then
 			return true
 		else
-			if a.author == b.author then
-				if a.levelname < b.levelname then
+			if author_a == author_b then
+				if string.lower(a.levelname) < string.lower(b.levelname) then
 					return true
 				end
 			end
@@ -176,11 +178,12 @@ function Userlevel.sortByAuthorDescending( a, b )
 end
 function Userlevel.sortByNameAscending( a, b )
 	if a and b then
-		if a.levelname < b.levelname then
+		local name_a, name_b = string.lower(a.levelname), string.lower(b.levelname)
+		if name_a < name_b then
 			return true
 		else
-			if a.levelname == b.levelname then
-				if a.author < b.author then
+			if name_a == name_b then
+				if string.lower(a.author) < string.lower(b.author) then
 					return true
 				end
 			end
@@ -190,11 +193,12 @@ function Userlevel.sortByNameAscending( a, b )
 end
 function Userlevel.sortByNameDescending( a, b )
 	if a and b then
-		if a.levelname > b.levelname then
+		local name_a, name_b = string.lower(a.levelname), string.lower(b.levelname)
+		if name_a > name_b then
 			return true
 		else
-			if a.levelname == b.levelname then
-				if a.author < b.author then
+			if name_a == name_b then
+				if string.lower(a.author) < string.lower(b.author) then
 					return true
 				end
 			end
