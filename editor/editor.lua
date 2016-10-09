@@ -2012,7 +2012,8 @@ end
 
 function editor.setToolTip( tip )
 	tip = tip or ""
-	editor.toolTip.text = string.lower(tip)
+	--editor.toolTip.text = string.lower(tip)
+	editor.toolTip.text = tip
 	editor.toolTip.x = (love.graphics.getWidth() - fontSmall:getWidth( editor.toolTip.text ))/2
 	editor.toolTip.y = love.graphics.getHeight() - fontSmall:getHeight() - 10
 end
@@ -2151,7 +2152,7 @@ function editor.saveFileStart( callbackEvent )
 	local setMapDescription = function( input )
 		map.description = input.txt or ""	
 	end
-	local chars = "[0-9a-zA-Z%-]"
+	local chars = "[0-9a-zA-Z%-_]"
 	savePanel:addInputBox( 10, 13, savePanel.width - 20, 1, map.name or "", setMapName, 30, chars )
 	savePanel:addInputBox( 10, 25, savePanel.width - 20, 1, map.author or "", setMapAuthor, 30, chars )
 	savePanel:addInputBox( 10, 37, savePanel.width - 20, 20*Camera.scale/fontSmall:getHeight(), map.description or "", setMapDescription, 200 )

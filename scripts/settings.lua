@@ -141,6 +141,9 @@ function settings:getShadersEnabled()
 end
 function settings:setShadersEnabled( bool )
 	self.useShaders = bool
+	if self.useShaders then
+		shaders:load()
+	end
 end
 
 function settings:getFullscreen()

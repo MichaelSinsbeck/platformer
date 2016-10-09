@@ -5,7 +5,7 @@ local backgroundColor = {44,90,160,150} -- color of box content
 local PADDING = 3
 
 -- chars which, by default, can by typed into input boxes:
-local ALLOWED_CHARS = "[0-9a-zA-Z%- ?!%.,]"
+local ALLOWED_CHARS = "[0-9a-zA-Z%- ?!%.,%+%%%'%_]"
 
 function Panel:new( x, y, width, height )-- highlightSelected )
 	local o = {}
@@ -48,7 +48,8 @@ function Panel:addLabel( x, y, text, page )
 	local l = {
 		x = x+self.x,
 		y = y+self.y,
-		text = string.lower(text),
+		--text = string.lower(text),
+		text = text
 	}
 	page = page or 0
 	if not self.labels[page] then self.labels[page] = {} end
@@ -494,7 +495,10 @@ function Panel:addProperty( name, x, y, property, obj, cycle )
 		end
 
 		self:addInputBox( x + 1, y + 5, self.width-18, 5, obj[name],--property.values[1],
-				returnEvent, 200, "[0-9a-zA-Z%- ?!%.,]" )
+				--returnEvent, 200, "[0-9a-zA-Z%- ?!%.,:;%+%%_'=%(%)#<>%*~§$&/\"{}%[%]]" )
+				returnEvent, 200, "[0-9a-zA-Z%- ?!%.,:;%+%%_'=%(%)#<>%*~&$/\"{}%[%]]" )
+				--returnEvent, 200, "[0-9a-zA-Z%- ?!%.,&\"]" )
+				--returnEvent, 200, "[0-9a-zA-Z%- ?!%.,%+%%_'#:;=%(%)[]<>/&$§]" )
 
 	elseif property.isNumericTextProperty then
 

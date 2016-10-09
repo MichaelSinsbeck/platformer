@@ -1,6 +1,7 @@
 local UserlevelSubmenu = {}
 
-local userlevelFilters
+--local userlevelFilters
+local currentSorting
 local sortingSchemes = {
 	"Levelname ascending",
 	"Levelname descending",
@@ -27,6 +28,7 @@ local selectedUserlevel
 local firstDisplayedUserlevel
 local displayedUserlevels = 8
 local arrowUpVis, arrowDownVis
+local sortingIndicator = {}
 
 function UserlevelSubmenu:new( x, y )
 	local width = love.graphics.getWidth()/Camera.scale - 16
@@ -145,6 +147,19 @@ function UserlevelSubmenu:new( x, y )
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		UserlevelSubmenu.refresh )
 
+	submenu:addHotkey( "SORTDIFFICULTY", "Sort by Difficulty",
+		love.graphics.getWidth()/Camera.scale/2 - 50,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		UserlevelSubmenu.sortByDifficulty )
+	submenu:addHotkey( "SORTFUN", "Sort by Fun",
+		love.graphics.getWidth()/Camera.scale/2 - 80,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		UserlevelSubmenu.sortByFun )
+	submenu:addHotkey( "SORTNAME", "Sort by Name",
+		love.graphics.getWidth()/Camera.scale/2 - 107,
+		love.graphics.getHeight()/Camera.scale/2 - 16,
+		UserlevelSubmenu.sortByName )
+
 	--[[submenu:addHotkey( "FILTERS", "Hide Filters",
 		-love.graphics.getWidth()/Camera.scale/2 + 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
@@ -163,6 +178,12 @@ function UserlevelSubmenu:new( x, y )
 		arrowUpVis:init()
 		arrowDownVis = Visualizer:New( "listArrowDown" );
 		arrowDownVis:init()
+		sortingIndicator.vis = Visualizer:New( "listArrowUp" );
+		sortingIndicator.vis:init()
+		sortingIndicator.x = 0
+		sortingIndicator.y = 0
+
+		UserlevelSubmenu.sortByName()
 
 		return submenu
 	end
@@ -188,6 +209,7 @@ function UserlevelSubmenu:new( x, y )
 			end
 		end
 		--UserlevelSubmenu:applyUserlevelFilters()
+		UserlevelSubmenu:applySorting()
 	end
 
 	-- Called whenever a new level has been downloaded:
@@ -201,6 +223,7 @@ function UserlevelSubmenu:new( x, y )
 		end
 		--menu:updateTextForCurrentUserlevel()	--display name of currently selected level
 		--UserlevelSubmenu:applyUserlevelFilters()
+		UserlevelSubmenu:applySorting()
 	end
 
 	--function UserlevelSubmenu:applyUserlevelFilters()
@@ -269,6 +292,82 @@ function UserlevelSubmenu:new( x, y )
 	config.setValue( "LevelsSorting", userlevelFilters.sorting )]]
 	--end
 
+function UserlevelSubmenu:applySorting()
+	local x = -LIST_WIDTH/2 + 4
+	local y = -LIST_HEIGHT/2
+	local w = LIST_WIDTH - 4
+	local h = LIST_HEIGHT
+
+	local xStatus = (x + 12)*Camera.scale
+	local xLevelname = (x + 22)*Camera.scale
+	local xAuthor = (x + 0.3*w)*Camera.scale
+	local xFun = (x + 0.85*w - 2*27)*Camera.scale
+	local xDifficulty = (x + 0.85*w - 27)*Camera.scale
+	local xAuthorized = (x + 0.85*w)*Camera.scale
+	local xEnd = (x + w - 8)*Camera.scale
+	sortingIndicator.y = (y + 4)*Camera.scale
+	if currentSorting == "Levelname ascending" then
+		table.sort( userlevels, Userlevel.sortByNameAscending )
+		sortingIndicator.vis:setAni("listArrowDown")
+		sortingIndicator.x = xAuthor - 32
+	elseif currentSorting == "Levelname descending" then
+		table.sort( userlevels, Userlevel.sortByNameDescending )
+		sortingIndicator.vis:setAni("listArrowUp")
+		sortingIndicator.x = xAuthor - 32
+	elseif currentSorting == "Author ascending" then
+		table.sort( userlevels, Userlevel.sortByAuthorAscending )
+		sortingIndicator.vis:setAni("listArrowUp")
+		sortingIndicator.x = xFun - 32
+	elseif currentSorting == "Author descending" then
+		table.sort( userlevels, Userlevel.sortByAuthorDescending )
+		sortingIndicator.vis:setAni("listArrowDown")
+		sortingIndicator.x = xFun - 32
+	elseif currentSorting == "Fun rating ascending" then
+		table.sort( userlevels, Userlevel.sortByFunAscending )
+		sortingIndicator.vis:setAni("listArrowUp")
+		sortingIndicator.x = xDifficulty - 32
+	elseif currentSorting == "Fun rating descending" then
+		table.sort( userlevels, Userlevel.sortByFunDescending )
+		sortingIndicator.vis:setAni("listArrowDown")
+		sortingIndicator.x = xDifficulty - 32
+	elseif currentSorting == "Difficulty rating ascending" then
+		table.sort( userlevels, Userlevel.sortByDifficultyAscending )
+		sortingIndicator.vis:setAni("listArrowUp")
+		sortingIndicator.x = xAuthorized - 32
+	elseif currentSorting == "Difficulty rating descending" then
+		table.sort( userlevels, Userlevel.sortByDifficultyDescending )
+		sortingIndicator.vis:setAni("listArrowDown")
+		sortingIndicator.x = xAuthorized - 32
+	end
+end
+
+function UserlevelSubmenu.sortByName()
+	if currentSorting == "Levelname ascending" then
+		currentSorting = "Levelname descending"
+	else
+		currentSorting = "Levelname ascending"
+	end
+	UserlevelSubmenu:applySorting()
+end
+
+function UserlevelSubmenu.sortByFun()
+	if currentSorting == "Fun rating descending" then
+		currentSorting = "Fun rating ascending"
+	else
+		currentSorting = "Fun rating descending"
+	end
+	UserlevelSubmenu:applySorting()
+end
+
+function UserlevelSubmenu.sortByDifficulty()
+	if currentSorting == "Difficulty rating descending" then
+		currentSorting = "Difficulty rating ascending"
+	else
+		currentSorting = "Difficulty rating descending"
+	end
+	UserlevelSubmenu:applySorting()
+end
+
 function UserlevelSubmenu:insertUserlevelIntoList( level )
 	-- Use this function to insert all levels found locally AND online into the list of user levels.
 	-- If a level exists twice (once online and once already downloaded) this function sets the
@@ -336,6 +435,8 @@ function UserlevelSubmenu:drawUserlevels()
 	love.graphics.print( "Fun", xFun + 2*Camera.scale, (y + 2)*Camera.scale )
 	love.graphics.print( "Difficulty", xDifficulty + 2*Camera.scale, (y + 2)*Camera.scale )
 	love.graphics.print( "Authorized", xAuthorized + 2*Camera.scale, (y + 2)*Camera.scale )
+
+	sortingIndicator.vis:draw( sortingIndicator.x, sortingIndicator.y )
 	
 	--for i, level in ipairs( userlevels ) do
 	local lastDisplayedLevel = math.min( displayedUserlevels + firstDisplayedUserlevel - 1, #userlevels )
@@ -396,6 +497,7 @@ end
 function UserlevelSubmenu:update( dt )
 	arrowUpVis:update(dt)
 	arrowDownVis:update(dt)
+	sortingIndicator.vis:update(dt)
 end
 
 return UserlevelSubmenu

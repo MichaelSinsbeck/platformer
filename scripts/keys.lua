@@ -21,8 +21,10 @@ keyTypes = {
 	"DASH",
 	"CHOOSE",
 	"BACK",
-	"FILTERS",
 	"REFRESH",
+	"SORTNAME",
+	"SORTFUN",
+	"SORTDIFFICULTY",
 	"DELETE_LEVEL",
 	"RESET",
 	"CLEAR",
@@ -35,15 +37,14 @@ keys.conflictList = {
 	-- menu:
 	{"SCEENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "CHOOSE", "BACK",},
 	-- userlevel menu:
-	{"SCREENSHOT", "FULLSCREEN", "CHOOSE", "BACK", "FILTERS", "REFRESH", "DELETE_LEVEL", },
+	{"SCREENSHOT", "FULLSCREEN", "CHOOSE", "BACK", "REFRESH", "DELETE_LEVEL", "SORTNAME", "SORTFUN", "SORTDIFFICULTY",},
 	-- key assignment menu:
 	{"SCREENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "RESET", "CHOOSE", "BACK", "CLEAR"}
-	
 }
 
 -- These keys NEED to be set in order for key assignment to succeed:
 keys.mandatoryKeys = {
-	"LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "FILTERS", "REFRESH", "RESET", "BACK",
+	"LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "REFRESH", "RESET", "BACK",
 }
 
 ---------------------------------------------------------
@@ -69,8 +70,10 @@ function keys.setDefaults()
 	keys.CHOOSE = 'return'
 	keys.BACK = 'escape'
 
-	keys.FILTERS = 'f'
 	keys.REFRESH = "f5"
+	keys.SORTNAME = '1'
+	keys.SORTFUN = '2'
+	keys.SORTDIFFICULTY = '3'
 	keys.DELETE_LEVEL = 'x'
 	keys.RESET = "r"
 	keys.CLEAR = "c"
@@ -95,8 +98,10 @@ function keys.setDefaults()
 	keys.PAD.CHOOSE = '1'
 	keys.PAD.BACK = '2'
 
-	keys.PAD.FILTERS = '7'
 	keys.PAD.REFRESH = 'none'
+	keys.PAD.SORTNAME = 'none'
+	keys.PAD.SORTFUN = 'none'
+	keys.PAD.SORTDIFFICULTY = 'none'
 
 	keys.PAD.RESET = 'none'
 	keys.PAD.CLEAR = 'none'
@@ -155,6 +160,16 @@ function keys.load()
 	if key then keys.BACK = key end
 	key = config.getValue( "CHOOSE", "keyboard.txt")
 	if key then keys.CHOOSE = key end
+
+	key = config.getValue( "REFRESH", "keyboard.txt")
+	if key then keys.REFRESH = key end
+	key = config.getValue( "SORTNAME", "keyboard.txt")
+	if key then keys.SORTNAME = key end
+	key = config.getValue( "SORTFUN", "keyboard.txt")
+	if key then keys.SORTFUN = key end
+	key = config.getValue( "SORTDIFFICULTY", "keyboard.txt")
+	if key then keys.SORTDIFFICULTY = key end
+
 	
 	-- Load gamepad setup:
 	key = config.getValue( "SCREENSHOT", "gamepad.txt")
@@ -188,6 +203,13 @@ function keys.load()
 	if key then keys.PAD.BACK = key end
 	key = config.getValue( "CHOOSE", "gamepad.txt")
 	if key then keys.PAD.CHOOSE = key end
+
+	key = config.getValue( "SORTNAME", "gamepad.txt")
+	if key then keys.PAD.SORTNAME = key end
+	key = config.getValue( "SORTFUN", "gamepad.txt")
+	if key then keys.PAD.SORTFUN = key end
+	key = config.getValue( "SORTDIFFICULTY", "gamepad.txt")
+	if key then keys.PAD.SORTDIFFICULTY = key end
 end
 
 function keys.loadGamepad()
@@ -467,7 +489,7 @@ function keys.joystickadded( j )
 	keys.gamepadPressed[j:getID()] = {}
 	keys.pressedLastFrame[j:getID()] = {}
 	if love.joystick.getJoystickCount() == 1 then
-		--controlKeys:setup()
+		controlKeys:setup()
 	end
 end
 
@@ -476,7 +498,7 @@ function keys.joystickremoved( j )
 	-- if, with the removal of this joystick, the last one
 	-- has been removed, switch to keyboard:
 	if love.joystick.getJoystickCount() == 0 then
-		--controlKeys:setup()
+		controlKeys:setup()
 	end
 
 	keys.gamepadPressed[j:getID()] = nil
@@ -818,6 +840,11 @@ function keys:save()
 
 				config.setValue( "CHOOSE", keys.CHOOSE, "keyboard.txt")
 				config.setValue( "BACK", keys.BACK, "keyboard.txt")
+
+				config.setValue( "REFRESH", keys.REFRESH, "keyboard.txt")
+				config.setValue( "SORTNAME", keys.SORTNAME, "keyboard.txt")
+				config.setValue( "SORTFUN", keys.SORTFUN, "keyboard.txt")
+				config.setValue( "SORTDIFFICULTY", keys.SORTDIFFICULTY, "keyboard.txt")
 				--config.setValue( "PAUSE", keys.PAUSE, "keyboard.txt")
 			--else
 				config.setValue( "SCREENSHOT", keys.PAD.SCREENSHOT, "gamepad.txt")
@@ -837,6 +864,11 @@ function keys:save()
 
 				config.setValue( "CHOOSE", keys.PAD.CHOOSE, "gamepad.txt")
 				config.setValue( "BACK", keys.PAD.BACK, "gamepad.txt")
+
+				config.setValue( "REFRESH", keys.PAD.REFRESH, "gamepad.txt")
+				config.setValue( "SORTNAME", keys.PAD.SORTNAME, "gamepad.txt")
+				config.setValue( "SORTFUN", keys.PAD.SORTFUN, "gamepad.txt")
+				config.setValue( "SORTDIFFICULTY", keys.PAD.SORTDIFFICULTY, "gamepad.txt")
 				--config.setValue( "PAUSE", keys.PAD.PAUSE, "gamepad.txt")
 			--end
 			keys.changed = false

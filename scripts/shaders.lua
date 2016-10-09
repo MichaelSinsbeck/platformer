@@ -58,6 +58,7 @@ function shaders:load()
 	shaders.backgroundCanvas = love.graphics.newCanvas(
 								love.graphics.getWidth(),
 								love.graphics.getHeight() )
+	shaders.resetDeathEffect()
 	print("Shaders loaded.")
 end
 
