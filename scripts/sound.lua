@@ -57,6 +57,9 @@ local function getRandomFilename(event)
 end
 
 function sound:playLongSound(event,object,volume,pitch)
+	if globalEffectVolume == 0 then
+		return
+	end
 	-- first check if the object has a sound already and if yes it if is the same
 	local thisFilename
 	if self.event2file[event] then
@@ -138,8 +141,9 @@ function sound:setPositions()
 end
 
 function sound:play(event,volume,pitch,variance)
-	print(debug.traceback())
-	print(globalEffectVolume)
+	if globalEffectVolume == 0 then
+		return
+	end
 	local thisFilename = getRandomFilename(event)
 	volume = volume or 1
 	pitch = pitch or 1
@@ -175,7 +179,7 @@ end
 
 function sound:stopAll()
 	love.audio.stop()
-	self.clean()
+	self.clear()
 end
 
 function sound:clear()
@@ -189,11 +193,9 @@ end
 -- volume goes from 0 to 1
 function sound:setMusicVolume(volume)
 	globalMusicVolume = volume^2
-	--print( "Music volume set to " .. volume )
 end
 function sound:setSoundVolume(volume)
 	globalEffectVolume = volume^2
-	--print( "Effect volume set to " .. volume )
 end
 
 return sound
