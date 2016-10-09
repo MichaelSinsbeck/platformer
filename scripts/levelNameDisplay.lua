@@ -12,7 +12,7 @@ function LevelNameDisplay:new( name, time )
 	local w, lines = fontLarge:getWrap( name, 80*Camera.scale ) -- in pixel
 	lines = #lines
 	o.h = lines*fontLarge:getHeight()/Camera.scale + 8
-	o.w = w/Camera.scale + 8
+	o.w = w/Camera.scale + 16
 	print(o.w)
 
 	o.box = Panel:new( 0, 0, o.w, o.h )
@@ -43,7 +43,7 @@ function LevelNameDisplay:draw()
 	self.box:draw()
 	love.graphics.setColor(colors.text)
 	love.graphics.setFont( fontLarge )
-	love.graphics.printf( self.name, self.textX, self.textY, self.textWidth, "center" )
+	love.graphics.printf( self.name, math.floor(self.textX), math.floor(self.textY), self.textWidth, "center" )
 	love.graphics.setColor(colors.white)
 end
 
