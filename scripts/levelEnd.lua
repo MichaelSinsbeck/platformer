@@ -182,7 +182,7 @@ function levelEnd:display( )	-- called when level is won:
 		k = math.random(#relevantList)
 		if i == 1 then
 			for j = 1,#relevantList do
-				if relevantList[j].statType == "death_imitator" then
+				if relevantList[j].statType == "keypresses" then
 					k = j
 					break
 				end
