@@ -147,16 +147,18 @@ function levelEnd:display( )	-- called when level is won:
 		statList["death_spikey"] + statList["death_walker"] +
 		statList["death_follower"] + statList["death_laser"]
 
+	print("deaths imitator: ", statList["death_imitator"] )
+
 	if deaths == 0 then
 		statList["noDeaths"] = 1
 	end
 
 	-- create a list which holds all the values which were relevant for this
 	-- level (i.e. their values are not zero - the event happened)
-	--print("Level Statistics:")
+	print("Level Statistics:")
 	local relevantList = {}
 	for statType, num in pairs(statList) do
-		--print( "\t", statType, num )
+		print( "\t", statType, num )
 		if num > 0 then
 			table.insert( relevantList, {num=num, statType=statType} )
 		end
@@ -179,7 +181,7 @@ function levelEnd:display( )	-- called when level is won:
 		-- randomly choose a stat to display:
 		k = math.random(#relevantList)
 		if i == 1 then
-			for j = 1,self.numOfStats do
+			for j = 1,#relevantList do
 				if relevantList[j].statType == "keypresses" then
 					k = j
 					break
