@@ -29,6 +29,7 @@ local firstDisplayedUserlevel
 local displayedUserlevels = 8
 local arrowUpVis, arrowDownVis
 local sortingIndicator = {}
+local buttonWarning
 
 function UserlevelSubmenu:new( x, y )
 	local width = love.graphics.getWidth()/Camera.scale - 16
@@ -82,10 +83,17 @@ function UserlevelSubmenu:new( x, y )
 	UserlevelSubmenu:loadDownloadedUserlevels()
 
 	-- Add invisible buttons to list which allow level selection:
-	local chooseLevel = function()
+	local chooseLevel = function( ignoreLevelVersionCheck )
 		if userlevels[selectedUserlevel] then
 			if userlevels[selectedUserlevel]:getIsDownloaded() then
-				userlevels[selectedUserlevel]:play()
+				local version = Map:checkFileVersion( userlevels[selectedUserlevel].filename )
+				version = version or "0"
+				print( "Version check: " .. version .. " " .. MAPFILE_VERSION )
+				if version == MAPFILE_VERSION or ignoreLevelVersionCheck then
+					userlevels[selectedUserlevel]:play()
+				else
+					self:warnLevelVersion( userlevels[selectedUserlevel], version )
+				end
 			else
 				userlevels[selectedUserlevel]:download()
 			end
@@ -172,6 +180,34 @@ function UserlevelSubmenu:new( x, y )
 				submenu:setSelectedButton( buttonCenter )
 				self:refresh()
 			end )
+
+		local closeWarning = function()
+			print("CLOSE WARNING")
+			submenu:setLayerVisible( "Warning", false )	
+		end
+		local ignoreWarning = function()
+			print("IGNORE WARNING")
+			submenu:setLayerVisible( "Warning", false )	
+			chooseLevel( true )	-- choose the current level, ignoring the version difference.
+		end
+
+		-- Warning when map version doesn't fit:
+		submenu:addLayer("Warning")
+		submenu:setLayerVisible( "Warning", false )
+		submenu:addPanel( -72, -16, 144, 48, "Warning" )
+		submenu:addHotkey( "BACK", "Cancel", 
+			- 52, 16, 
+			-- -love.graphics.getWidth()/Camera.scale/2 + 24,
+			--love.graphics.getHeight()/Camera.scale/2 - 16,
+			closeWarning, "Warning" )
+		submenu:addHotkey( "CHOOSE", "Ignore and Play", 
+			48, 16, 
+			--love.graphics.getWidth()/Camera.scale/2 - 24,
+			--love.graphics.getHeight()/Camera.scale/2 - 16,
+			nil, "Warning" )
+
+		-- add an invisible button for "accept":
+		buttonWarning = submenu:addButton( "", "", 0, 0, ignoreWarning, nil, "Warning" )
 
 		-- Arrows indicating whether the whole list is visible of not:
 		arrowUpVis = Visualizer:New( "listArrowUp" );
@@ -498,6 +534,18 @@ function UserlevelSubmenu:update( dt )
 	arrowUpVis:update(dt)
 	arrowDownVis:update(dt)
 	sortingIndicator.vis:update(dt)
+end
+
+function UserlevelSubmenu:warnLevelVersion( level, version )
+	submenu:clearLayer( "Warning" )
+	submenu:addText( "Warning: This level was made with a different version of the game.\n"
+		.. "Your editor file version: " .. MAPFILE_VERSION .. "\n"
+		.. "Level file version: " .. version .. "\n"
+		.. "\nContinue anyway?",
+		-60, -6, 120,
+		"Warning" )
+	submenu:setLayerVisible( "Warning", true )
+	submenu:setSelectedButton( buttonWarning, "Warning" )
 end
 
 return UserlevelSubmenu

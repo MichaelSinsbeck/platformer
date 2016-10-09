@@ -9,7 +9,7 @@ function Water:setAcceleration(dt)
 	print(p.y)
 	print(self.y)
     p.dead = true
-    levelEnd:addDeath("death_water")
+    levelEnd:addDeath("death_falls")
     objectClasses.Droplet:spawn(p.oldx,p.oldy,p.vx,p.vy)
   end  
 end

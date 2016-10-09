@@ -411,7 +411,7 @@ function editor.start()
 				'LEBG1',
 				"draw concrete background", nil, "q" )
 	backgroundButtons[1] = b
-  y = y + 10
+	y = y + 10
 	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[2]:setActive(true)
@@ -419,7 +419,7 @@ function editor.start()
 				'LEBG2',
 				"draw soil background", nil, "w" )
 	backgroundButtons[2] = b
-  y = y + 10
+	y = y + 10
 	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[3]:setActive(true)
@@ -1784,7 +1784,7 @@ function editor.keypressed( key, repeated )
 	elseif key == '-' then
 		cam:zoomOut()
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
-		local num = tonumber(key)
+		--[[local num = tonumber(key)
 		if editor.currentTool == "pen" then
 			if editor.groundList[num] then
 				editor.currentGround = editor.groundList[num]
@@ -1793,7 +1793,7 @@ function editor.keypressed( key, repeated )
 			if editor.backgroundList[num] then
 				editor.currentBackground = editor.backgroundList[num]
 			end
-		end
+		end]]
 	end
 end
 
@@ -2264,7 +2264,7 @@ function editor.loadFile( fileName, testFile )
 	
 	-- Warn if the editor has a newever version than the map file:
 	if map.mapFileVersion ~= MAPFILE_VERSION then
-		editor.addWarning( "Level is made with older version\nof the game. There may be errors." )
+		editor.addWarning( "Level is made with another version\nof the game. There may be errors." )
 	end
 
 	cam.zoom = 1
