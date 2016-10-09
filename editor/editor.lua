@@ -285,6 +285,7 @@ function editor.start()
 	x,y = 16, 16
 
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 1")
 										groundPanel:deactivateAll()
 										groundButtons[1]:setActive(true)
 										editor.currentGround = editor.groundList[1] end,
@@ -293,6 +294,7 @@ function editor.start()
 	groundButtons[1] = b
   x = x + 14
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 2")
 										groundPanel:deactivateAll()
 										groundButtons[2]:setActive(true)
 										editor.currentGround = editor.groundList[2] end,
@@ -302,6 +304,7 @@ function editor.start()
   y = y + 16
   x = x - 14
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 3")
 										groundPanel:deactivateAll()
 										groundButtons[3]:setActive(true)
 										editor.currentGround = editor.groundList[3] end,
@@ -310,6 +313,7 @@ function editor.start()
 	groundButtons[3] = b
   y = y + 14
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 4")
 										groundPanel:deactivateAll()
 										groundButtons[4]:setActive(true)
 										editor.currentGround = editor.groundList[4] end,
@@ -319,6 +323,7 @@ function editor.start()
   x = x + 14
   y = y - 7
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 5")
 										groundPanel:deactivateAll()
 										groundButtons[5]:setActive(true)
 										editor.currentGround = editor.groundList[5] end,
@@ -328,6 +333,7 @@ function editor.start()
   y = y + 23
   x = x - 14
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 6")
 										groundPanel:deactivateAll()
 										groundButtons[6]:setActive(true)
 										editor.currentGround = editor.groundList[6] end,
@@ -336,6 +342,7 @@ function editor.start()
 	groundButtons[6] = b
   x = x + 14
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 7")
 										groundPanel:deactivateAll()
 										groundButtons[7]:setActive(true)
 										editor.currentGround = editor.groundList[7] end,
@@ -345,6 +352,7 @@ function editor.start()
   y = y + 14
   x = x - 14
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")
+										print("select ground 8")
 										groundPanel:deactivateAll()
 										groundButtons[8]:setActive(true)
 										editor.currentGround = editor.groundList[8] end,
@@ -405,22 +413,25 @@ function editor.start()
 	x,y = 16, 16
 
 	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
+										print("select background 1")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[1]:setActive(true)
 										editor.currentBackground = editor.backgroundList[1] end,
 				'LEBG1',
 				"draw concrete background", nil, "q" )
 	backgroundButtons[1] = b
-  y = y + 10
+	y = y + 10
 	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
+										print("select background 2")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[2]:setActive(true)
 										editor.currentBackground = editor.backgroundList[2] end,
 				'LEBG2',
 				"draw soil background", nil, "w" )
 	backgroundButtons[2] = b
-  y = y + 10
+	y = y + 10
 	b = backgroundPanel:addClickable( x, y, function() --editor.setTool("bgPen")
+										print("select background 3")
 										backgroundPanel:deactivateAll()
 										backgroundButtons[3]:setActive(true)
 										editor.currentBackground = editor.backgroundList[3] end,
@@ -1784,7 +1795,7 @@ function editor.keypressed( key, repeated )
 	elseif key == '-' then
 		cam:zoomOut()
 	elseif tonumber(key) then		-- let user choose the ground type using the number keys
-		local num = tonumber(key)
+		--[[local num = tonumber(key)
 		if editor.currentTool == "pen" then
 			if editor.groundList[num] then
 				editor.currentGround = editor.groundList[num]
@@ -1793,7 +1804,7 @@ function editor.keypressed( key, repeated )
 			if editor.backgroundList[num] then
 				editor.currentBackground = editor.backgroundList[num]
 			end
-		end
+		end]]
 	end
 end
 
@@ -1990,15 +2001,20 @@ function editor.setTool( tool )
 		groundPanel.visible = true
 		-- find previously selected button and press it again (continue with previously selected ground type)
 		for k,v in ipairs(groundPanel.pages[0]) do
+			print(k,v)
 			if v.active then
+				print("\tactive!")
 				v.event()
 			end
 		end
 	elseif tool == "bgPen" then
 		backgroundPanel.visible = true
 		-- find previously selected background type and select it again
+			print("prev active:")
 		for k,v in ipairs(backgroundPanel.pages[0]) do
+			print("\t", k, v )
 			if v.active then
+				print("\t", active)
 				v.event()
 			end
 		end
