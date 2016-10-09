@@ -31,6 +31,7 @@ function levelEnd:reset()
 	statList["death_spikey"] = 0
 	statList["death_walker"] = 0
 	statList["death_follower"] = 0
+	statList["death_laser"] = 0
 
 	statList["noDeaths"] = 0
 
@@ -144,7 +145,7 @@ function levelEnd:display( )	-- called when level is won:
 		statList["death_shuriken"] + statList["death_goalie"] +
 		statList["death_imitator"] + statList["death_missile"] +
 		statList["death_spikey"] + statList["death_walker"] +
-		statList["death_follower"]
+		statList["death_follower"] + statList["death_laser"]
 
 	if deaths == 0 then
 		statList["noDeaths"] = 1

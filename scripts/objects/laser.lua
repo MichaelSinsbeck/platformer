@@ -152,6 +152,7 @@ function Laser:postpostStep(dt)
 			
 			if (crossed or math.abs( distance) < dd ) then
 				p:kill()
+				levelEnd:addDeath("death_laser")
 				objectClasses.Meat:spawn(p.x,p.y,0,0)
 			end
 		end
