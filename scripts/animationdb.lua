@@ -452,6 +452,10 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('birdFly1','objects',{102,103,102,104},{0.075,0.15,0.075,0.15})
 	AnimationDB:addAni('birdStand2','objects',{105},{1e6})
 	AnimationDB:addAni('birdFly2','objects',{106,107,106,108},{0.05,0.1,0.05,0.1})
+	AnimationDB:addAni('chickenStand','objects',{111},{1e6})
+	AnimationDB:addAni('chickenEat','objects',{111,112,111,112,111,112},{0.3,0.2,0.2,0.2,0.5,0.2})
+	AnimationDB:addAni('chickenJump','objects',{111,113},{0.1,0.1})
+	AnimationDB:addAni('chickenPanic','objects',{111,113},{0.05,0.05})
 
 	-- small objects
 	AnimationDB:addAni('crumble1','small',{1},{1e6})
