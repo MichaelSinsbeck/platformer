@@ -13,7 +13,6 @@ function LevelNameDisplay:new( name, time )
 	lines = #lines
 	o.h = lines*fontLarge:getHeight()/Camera.scale + 8
 	o.w = w/Camera.scale + 16
-	print(o.w)
 
 	o.box = Panel:new( 0, 0, o.w, o.h )
 	o.box.x = ( love.graphics.getWidth() - o.box.box.pixelWidth )/2/Camera.scale

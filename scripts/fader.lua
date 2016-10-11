@@ -64,22 +64,18 @@ function fader:draw()
 end
 
 function fader.switchToLevel(lvlNum)
-	
 	Campaign.current = lvlNum		
 	--p = spriteFactory('Player')
 	mode = 'game'
 
 	gravity = 22
 	local lvl = "levels/" .. Campaign[lvlNum]
-	print('1')
 	myMap = Map:loadFromFile( lvl )
-	print('2')
 	levelEnd:reset()		-- resets the counters of all deaths etc
-	print('3')
+	collectgarbage() -- run garbage collection to delete old level
 	myMap:start()
-	print('4')
 	config.setValue( "level", Campaign[lvlNum] )
-	print('5')
+	
 	-- Add all bandans the user has already received:
 	gui.clearBandanas()
 	if Campaign.names[Campaign[lvlNum]] then
@@ -90,12 +86,6 @@ function fader.switchToLevel(lvlNum)
 	local noShow = true
 	if Campaign.bandana ~= 'blank' then
 		gui.addBandana ( Campaign.bandana, noShow)
-		--for i, col in ipairs( bandanas ) do
-		--	gui.addBandana( col, noShow )
-		--	if col == Campaign.bandana then
-		--		break
-		--	end
-		--end
 	end
 end
 
