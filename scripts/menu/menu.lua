@@ -426,6 +426,9 @@ function menu:clear()
 end
 
 function menu:keypressed( key, repeated )
+	if menu.lockedInBridgeAnimation then -- no keypressed during bridge animation
+		return
+	end
 	if key == keys.BACK then
 		Sound:play('menuBack')
 	end
@@ -461,7 +464,10 @@ function menu:keypressed( key, repeated )
 end
 
 function menu:gamepadpressed( button )
-
+	if menu.lockedInBridgeAnimation then -- no keypressed during bridge animation
+		return
+	end
+	
 	local currentMenu = self.activeSubmenu
 	if self.overlaySubmenu then
 		currentMenu = self.overlaySubmenu

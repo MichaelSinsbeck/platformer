@@ -147,6 +147,7 @@ function WorldmapSubmenu:update( dt )
 		if not b.animationFinished then
 			b:update( dt )
 			if b.animationFinished then
+				menu.lockedInBridgeAnimation = nil
 				menu:proceedToNextLevel( Campaign.current )
 			end
 		end
@@ -269,6 +270,7 @@ function WorldmapSubmenu:addBridge( worldNumber, noAnimation )
 	bridges[worldNumber] = bridge
 	if not noAnimation then
 		menu:setCameraTo( submenu.x + x, submenu.y + y )
+		menu.lockedInBridgeAnimation = true
 	end
 end
 
