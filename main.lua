@@ -55,8 +55,6 @@ function love.update( dt )
 			game:update(dt)
 		elseif mode == 'menu' then
 			menu:update(dt)
-		elseif mode == 'bridge' then
-			bridge:update(dt)
 		elseif mode == 'editor' then
 			editor:update( dt )
 		end
@@ -103,8 +101,6 @@ function love.draw()
 			game:draw()
 		elseif mode == 'menu' and (menu.activeSubmenu ~= 'Pause' and menu.activeSubmenu ~= 'Rating') then
 			menu:draw()
-		elseif mode == 'bridge' then
-			bridge:draw()
 		elseif mode == 'editor' then
 			editor:draw()
 		end
