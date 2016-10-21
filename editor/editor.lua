@@ -2064,6 +2064,7 @@ function editor.newMapNow()
 	map = Map:new( editor.backgroundList )
 	cam.zoom = 1
 	cam:jumpTo(math.floor(map.width/2), math.floor(map.height/2))
+	collectgarbage() -- force garbage collection cycle to remove old map
 end
 ------------------------------------
 -- Saving and Loading maps:
@@ -2261,6 +2262,7 @@ function editor.loadFile( fileName, testFile )
 		fullName = "test.dat"
 	end
 	map = Map:loadFromFile( fullName ) or map
+	collectgarbage() -- force garbage collection to remove old map from memory
 	
 	-- Warn if the editor has a newever version than the map file:
 	if map.mapFileVersion ~= MAPFILE_VERSION then
@@ -2396,7 +2398,11 @@ end
 
 function editor.closeNow()
 	editor.active = false
-	--menu:initMain()
+	
+	 -- remove map from memory and collect garbage
+	map = nil
+	collectgarbage() 
+	
 	menu:switchToSubmenu( "Main" )
 	menu:show()
 end
