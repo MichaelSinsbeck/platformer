@@ -252,6 +252,11 @@ function WorldmapSubmenu:selectCurrentLevel( selectLevelNum )
 	end
 end
 
+function WorldmapSubmenu:selectLastLevel( )
+	local lastNum = #levelButtons
+	submenu:setSelectedButton( levelButtons[lastNum] )
+end
+
 function WorldmapSubmenu:addBridge( worldNumber, noAnimation )
 	print("New bridge for world:", worldNumber )
 	if bridges[worldNumber] then

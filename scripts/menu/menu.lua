@@ -593,8 +593,13 @@ function menu:selectCurrentLevel()
 	WorldmapSubmenu:selectCurrentLevel( Campaign.current )
 end
 
+function menu:selectLastLevel()
+	WorldmapSubmenu:selectLastLevel( )
+end
+
 function menu:nextWorld( worldNumber )
 	self:switchToSubmenu( "Worldmap" )
+	self:selectLastLevel()
 	WorldmapSubmenu:addBridge( worldNumber-1 )
 	--WorldmapSubmenu:scroll()
 	WorldmapSubmenu:halfScroll()
