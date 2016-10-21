@@ -292,6 +292,9 @@ function AnimationDB:loadAllImages()
 	AnimationDB:addTile('irregular', 0, 2.6, 4, 1) -- woosh
 	AnimationDB:addTile('irregular', 0, 3.6, 4, 2.2) -- windmill wing
 	AnimationDB:addTile('irregular', 1.4, 1.4, 1.2, 1.2) -- large shuriken
+	AnimationDB:addTile('irregular', 4, 0, 1, 1.6) -- fat ninja npc
+	AnimationDB:addTile('irregular', 4, 1.6, 1, 1.6) -- normal ninja npc
+	AnimationDB:addTile('irregular', 4, 3.2, 1, 1.6) -- tall ninja npc
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',1,1)
@@ -527,7 +530,10 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('wind3','irregular',{11},{1e6})
 	AnimationDB:addAni('woosh','irregular',{12},{1e6})
 	AnimationDB:addAni('windmillwing','irregular',{13},{1e6})
-	AnimationDB:addAni('shurikenlarge','irregular',{14},{1e6})			
+	AnimationDB:addAni('shurikenlarge','irregular',{14},{1e6})
+	AnimationDB:addAni('npc1','irregular',{15},{1e6})
+	AnimationDB:addAni('npc2','irregular',{16},{1e6})
+	AnimationDB:addAni('npc3','irregular',{17},{1e6})
 	
 	-- gui stuff
 	AnimationDB:addAni('guiBeanFull','bean',{1},{1e6})
