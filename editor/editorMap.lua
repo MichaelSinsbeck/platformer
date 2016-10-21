@@ -1236,8 +1236,8 @@ function EditorMap:dragObject( tileX, tileY )
 			obj.y = tileY - obj.oY
 
 			-- for selecting:
-			obj.tileX = math.floor(obj.x - 0.5)
-			obj.tileY = math.floor(obj.y - 0.5)
+			obj.tileX = math.floor(obj.x)
+			obj.tileY = math.floor(obj.y)
 			obj.maxX = obj.tileX + 1
 			obj.maxY = obj.tileY + 1
 			-- for drawing borders in editor:
