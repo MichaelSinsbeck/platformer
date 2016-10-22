@@ -1,15 +1,11 @@
 local Chicken = object:New({
 	tag = 'Chicken',
 	category = "Misc",
-  marginx = 0.8,
-  marginy = 0.8,
+  marginx = 0.6,
+  marginy = 0.6,
   isInEditor = true,
-  --solid = true,
-  --layout = 'center',
   state = 'Stand',
-  --acceleration = 20,
-  --vxTarget = 5,
-  --vyTarget = -10,
+  soundDelay = 0, -- timer to avoid too many sounds
   direction = 1,
   vxJump = 1,
   vxPanic = 5,
@@ -41,6 +37,7 @@ function Chicken:setAcceleration(dt)
 end
 
 function Chicken:postStep(dt)
+	self.soundDelay = math.max(self.soundDelay - dt,0)
 	if self:touchPlayer() then
 		self:kill()
 	end
@@ -94,6 +91,10 @@ function Chicken:postStep(dt)
 	end
 	if self.state == 'Panic' and down then
 		self.vy = -5 - 5*love.math.random()
+		if self.soundDelay == 0 then
+			self:playSound('chicken') -- sound only in panic-mode
+			self.soundDelay = 1
+		end
 	end
 	
 	-- collision left and right

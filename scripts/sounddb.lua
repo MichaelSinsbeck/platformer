@@ -63,6 +63,7 @@ function Sound:loadAll()
 	self:add('glassBreak',.2,20,'freesound/glass_break1.wav','freesound/glass_break2.wav','freesound/glass_break3.wav','freesound/glass_break4.wav','freesound/glass_break5.wav')
 	self:add('bouncerBump',1,10,'freesound/bouncer.wav')
 	self:add('rotator',.1,8,'freesound/engine3.wav')
+	self:add('chicken',1,10,'freesound/chicken1.wav','freesound/chicken2.wav','freesound/chicken3.wav')
 	
 	self:add('textAppear',.1,10,'freesound/text-appear.wav')
 	self:add('textDisappear',.1,10,'freesound/text-disappear.wav')
