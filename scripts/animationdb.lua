@@ -663,6 +663,7 @@ function AnimationDB:loadAnimations()
 		vectorAnimations.listArrowAniUpdate )
 	AnimationDB:addAni('resetOff','menuButtons',{62},{1e6})
 	AnimationDB:addAni('resetOn','menuButtons',{62,63,62,64},{0.1,0.1,0.1,0.1})
+	AnimationDB:addAni('sortingArrow','menuButtons',{65},{1e6},vectorAnimations.pulseAniUpdate)
 
 	-- keyboard and gamepad keys for in-level display: (tutorial)
 	AnimationDB:addAni('gamepadDown','keys_buttons',{1},{1e6})
@@ -784,7 +785,11 @@ end
 
 function vectorAnimations.pulseAniUpdate( anim )
 	anim.sx = 1 + 0.3*math.max(0,1-5*anim.vectorTimer)
-	anim.sy = anim.sx
+	if anim.sy < 0 then -- keep sign of sy (if set externally)
+		anim.sy = - anim.sx
+	else
+		anim.sy = anim.sx
+	end
 	--anim.sx = 1 + 0.1 * math.sin(7*anim.vectorTimer)
 	--anim.sy = anim.sx
 end

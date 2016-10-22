@@ -341,39 +341,50 @@ function UserlevelSubmenu:applySorting()
 	local xDifficulty = (x + 0.85*w - 27)*Camera.scale
 	local xAuthorized = (x + 0.85*w)*Camera.scale
 	local xEnd = (x + w - 8)*Camera.scale
-	sortingIndicator.y = (y + 4)*Camera.scale
+	sortingIndicator.y = (y + 3.75)*Camera.scale
 	if currentSorting == "Levelname ascending" then
 		table.sort( userlevels, Userlevel.sortByNameAscending )
-		sortingIndicator.vis:setAni("listArrowDown")
-		sortingIndicator.x = xAuthor - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = 1
+		sortingIndicator.x = xAuthor - 24
 	elseif currentSorting == "Levelname descending" then
 		table.sort( userlevels, Userlevel.sortByNameDescending )
-		sortingIndicator.vis:setAni("listArrowUp")
-		sortingIndicator.x = xAuthor - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = -1
+		sortingIndicator.x = xAuthor - 24
 	elseif currentSorting == "Author ascending" then
 		table.sort( userlevels, Userlevel.sortByAuthorAscending )
-		sortingIndicator.vis:setAni("listArrowUp")
-		sortingIndicator.x = xFun - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = -1
+		sortingIndicator.x = xFun - 24
 	elseif currentSorting == "Author descending" then
 		table.sort( userlevels, Userlevel.sortByAuthorDescending )
-		sortingIndicator.vis:setAni("listArrowDown")
-		sortingIndicator.x = xFun - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = 1
+		sortingIndicator.x = xFun - 24
 	elseif currentSorting == "Fun rating ascending" then
 		table.sort( userlevels, Userlevel.sortByFunAscending )
-		sortingIndicator.vis:setAni("listArrowUp")
-		sortingIndicator.x = xDifficulty - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = -1
+		sortingIndicator.x = xDifficulty - 24
 	elseif currentSorting == "Fun rating descending" then
 		table.sort( userlevels, Userlevel.sortByFunDescending )
-		sortingIndicator.vis:setAni("listArrowDown")
-		sortingIndicator.x = xDifficulty - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = 1
+		sortingIndicator.x = xDifficulty - 24
 	elseif currentSorting == "Difficulty rating ascending" then
 		table.sort( userlevels, Userlevel.sortByDifficultyAscending )
-		sortingIndicator.vis:setAni("listArrowUp")
-		sortingIndicator.x = xAuthorized - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = -1
+		sortingIndicator.x = xAuthorized - 24
 	elseif currentSorting == "Difficulty rating descending" then
 		table.sort( userlevels, Userlevel.sortByDifficultyDescending )
-		sortingIndicator.vis:setAni("listArrowDown")
-		sortingIndicator.x = xAuthorized - 32
+		sortingIndicator.vis:setAni("sortingArrow")
+		sortingIndicator.vis.sy = 1
+		sortingIndicator.x = xAuthorized - 24
+	end
+	if sortingIndicator.vis then
+		sortingIndicator.vis:resetVector()
 	end
 end
 
@@ -458,8 +469,8 @@ function UserlevelSubmenu:drawUserlevels()
 
 	-- draw headers:
 	love.graphics.setColor( 30,0,0,75 )
-	love.graphics.rectangle( "fill", xLevelname - 8, y*Camera.scale, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
-	love.graphics.rectangle( "fill", xAuthor - 8, y*Camera.scale, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xLevelname, y*Camera.scale, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xAuthor, y*Camera.scale, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xFun, y*Camera.scale, xDifficulty - xFun - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xDifficulty, y*Camera.scale, xAuthorized - xDifficulty - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xAuthorized, y*Camera.scale, xEnd - xAuthorized - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
