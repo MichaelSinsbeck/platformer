@@ -169,24 +169,6 @@ function AnimationDB:addAni(name,source,frames,duration,updateFunction)
 	end
 end
 
-function AnimationDB:loadBackgrounds()
-	wü()
-	local tileSize = Camera.scale*8
-	local imageHeight = 15*tileSize
-	local imageWidth = 10*tileSize
-	local offSetY = 0.5*(Camera.height-imageHeight)
-	self.backgroundQuad = love.graphics.newQuad(0,-offSetY,Camera.width,Camera.height,imageWidth,imageHeight)
-
-	self.background = {}	
-	for iWorld = 1,5 do
-		local imagefilename = 'images/tilesets/'.. Camera.scale*8 .. 'parallax'.. iWorld ..'.png'
-		self.background[iWorld] = love.graphics.newImage(imagefilename)	
-		self.background[iWorld]:setWrap('repeat', 'clamp')
-	end
-	
-	 
-end
-
 function AnimationDB:addSilhouette(x,y,width,height,sw,sh)
 
 	local tileSize = Camera.scale*8 -- (Different from the other code, there it is *10)
