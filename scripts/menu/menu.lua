@@ -243,7 +243,7 @@ function menu:init()
 	creditsMenu:addText( 'Max Ackermann', 58, -52, 40 ,nil,'left',colors.blueText)
 	creditsMenu:addText( 'Thomas Stötzner\nMichael Sinsbeck\nLukas Nowok', 3, -20, 40 ,nil,'right',colors.blueText)
 	creditsMenu:addText( 'www.love2d.org', 58, 12, 40 ,nil,'left',colors.blueText)
-	creditsMenu:addText( 'Sibel, Ramona B.', -85, 38, 40 ,nil,'left',colors.blueText)
+	creditsMenu:addText( 'Sibel, Ramona, Kathrin', -83, 38, 40 ,nil,'left',colors.blueText)
 	
 
 	local function quitCredits()
