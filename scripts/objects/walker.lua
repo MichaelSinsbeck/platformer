@@ -11,6 +11,7 @@ local Walker = object:New({
   period = 0.5, -- should be (0.8/speed)
   zoomState = 0, -- for cross hairs
   soundCoolDown = 0,
+  bounceTime = 0, -- timer for little squeeze effect
 	properties = {
 		type = utility.newCycleProperty({'enemy','bouncy'}),	
 		direction = utility.newCycleProperty({-1,1},{"left", "right"},nil),
@@ -45,6 +46,7 @@ end
 
 function Walker:postStep(dt)
 	self.soundCoolDown = self.soundCoolDown - dt
+	self.bounceTime = math.max(self.bounceTime - dt,0) -- for squash and stretch
 	
 	local t0 = self.timer / self.period
 	if self.collisionResult >= 8 then
@@ -67,6 +69,7 @@ function Walker:postStep(dt)
 		self.vx = self.speed
 	end
 	
+  -- calculate direction (left/right)
 	local sign = 1
 	if self.vx < 0 then sign = -1 end
 	for i = 1,#self.vis do
@@ -152,17 +155,17 @@ function Walker:postStep(dt)
   -- Kill player, if touching
 	if not p.dead and self:touchPlayer(dx,dy) then
 		if self.type == 'enemy' then
-    p.dead = true
-    levelEnd:addDeath("death_walker")
-    objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
-    self:playSound('death')
+			p.dead = true
+			levelEnd:addDeath("death_walker")
+			objectClasses.Meat:spawn(p.x,p.y,self.vx,self.vy,12)
+			self:playSound('death')
     elseif self.type == 'bouncy' then
 				if self.status == 'normal' or self.status == 'fall' then
 				p.vy = -self.strength;
 				self:setAnim('bouncywalkerblink' .. self.arrows,false,3)
 				self:resetAnimation()
 				p.canUnJump = false
-				
+				self.bounceTime = 0.2
 				if self.soundCoolDown < 0 then
 					local pitch = self.strength/23
 					self:playSound('bouncerBump',1,pitch) 
@@ -171,6 +174,13 @@ function Walker:postStep(dt)
 			end
     end
   end
+  
+  -- squash and stretch according to bounceTime
+  if self.status == "normal" then
+		local s = 1+250*(self.bounceTime^2*(0.2-self.bounceTime))
+		self.vis[3].sx = s * sign
+		self.vis[3].sy = 1/s  
+	end
   
   -- show crosshairs
   if self.anchorRadii then

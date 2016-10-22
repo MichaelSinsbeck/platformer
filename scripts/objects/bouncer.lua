@@ -5,6 +5,7 @@ local Bouncer = object:New({
   marginx = 0.8,
   marginy = 0.2,
   isInEditor = true,
+  bounceTime = 0, -- timer for little squeeze effect
   vis = {
 		Visualizer:New('weakBouncer',{frame = 2}),
   }, 
@@ -32,6 +33,8 @@ function Bouncer:setAcceleration(dt)
 end
 
 function Bouncer:postStep(dt)
+	self.bounceTime = math.max(self.bounceTime - dt,0)
+	
 	if self:touchPlayer() then
 		local nx,ny = math.cos(self.angle*.5*math.pi),math.sin(self.angle*0.5*math.pi)
 		local normal = nx*p.vx + ny*p.vy
@@ -40,6 +43,7 @@ function Bouncer:postStep(dt)
 		p.vx = nx * normal + ny * tangential
 		p.vy = ny * normal - nx * tangential
 		self:resetAnimation()
+		self.bounceTime = 0.2
 		if self.angle == -1 then
 			p.canUnJump = false
 		end
@@ -47,6 +51,12 @@ function Bouncer:postStep(dt)
 		
 		self:playSound('bouncerBump',1,pitch) 
   end
+  
+  -- squash and stretch according to bounceTime
+  local s = 1+250*(self.bounceTime^2*(0.2-self.bounceTime))
+	self.vis[1].sx = s
+	self.vis[1].sy = 1/s
+
 end
 
 return Bouncer
