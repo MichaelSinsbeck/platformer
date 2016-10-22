@@ -306,7 +306,7 @@ function editor.start()
 										groundButtons[3]:setActive(true)
 										editor.currentGround = editor.groundList[3] end,
 				'LEd',
-				"draw dirt ground", nil,"w" )
+				"draw cobble ground", nil,"w" )
 	groundButtons[3] = b
   y = y + 14
 	b = groundPanel:addClickable( x, y, function() --editor.setTool("pen")

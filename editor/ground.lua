@@ -395,6 +395,8 @@ function Ground:init()
 						{4,3}, {5,3}, {6,3})
 	new:setHorizontalLine( {0,4}, {1,4}, {2,4} )
 	new:setVerticalLine( {3,5}, {7,2}, {7,3} )
+	new:addVariation( "c", {2,6})
+	new:addVariation( "ct", {2,7})
 	-- dirt to grass transitions:
 	new:addTransition( nil, nil, nil,
 			'g', 'd',
