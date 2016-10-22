@@ -4,11 +4,15 @@ function Sound:loadAll()
 
 	-- menu sounds
 	--self:add('menuMove',.1,10,'menuMove.wav')
-	self:add('menuMove',.1,10,'max/G6.ogg','max/G7.ogg','max/G8.ogg','max/G9.ogg','max/G10.ogg','max/G11.ogg','max/G12.ogg')
-	--self:add('menuMove',.1,10,'max/G6.ogg')	
-	self:add('menuEnter',.1,10,'max/G1.ogg')
+	--self:add('menuMove',.1,10,'max/G6.ogg','max/G7.ogg','max/G8.ogg','max/G9.ogg','max/G10.ogg','max/G11.ogg','max/G12.ogg')
+	self:add('menuMove',.1,10,'opengameart/ui_sfx1.wav')	
+	
+	self:add('menuEnter',.1,10,'opengameart/swosh-01.wav')
+	--self:add('menuEnter',.1,10,'max/G1.ogg')
 	--self:add('menuEnter',.5,10,'menuBack.wav')
-	self:add('menuBack',.5,10,'menuBackII.wav')
+	
+	--self:add('menuBack',.5,10,'menuBackII.wav')
+	self:add('menuBack',.1,10,'opengameart/swosh-02.wav')
 
 	--self:add('menuPause','silence.wav')
   --self:add('showStatistics','hits/hit12.mp3.ogg')
