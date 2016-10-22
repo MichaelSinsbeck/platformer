@@ -170,6 +170,7 @@ function AnimationDB:addAni(name,source,frames,duration,updateFunction)
 end
 
 function AnimationDB:loadBackgrounds()
+	wü()
 	local tileSize = Camera.scale*8
 	local imageHeight = 15*tileSize
 	local imageWidth = 10*tileSize
@@ -216,7 +217,7 @@ function AnimationDB:loadAllImages()
 	-- tilesets
 	AnimationDB:loadImage('grounds.png','tilesetGround','tilesets')
 	AnimationDB:loadImage('backgrounds.png','tilesetBackground','tilesets')
-	AnimationDB:loadImage('background1.png','background1','tilesets')
+	AnimationDB:loadImage('decoration.png','decoration','tilesets')
 	
 	-- editor stuff
 	AnimationDB:loadImage('cell.png','cell','editor')

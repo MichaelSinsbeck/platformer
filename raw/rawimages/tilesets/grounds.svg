@@ -13,21 +13,21 @@
    height="800"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="grounds.svg"
    inkscape:export-filename="/home/micha/Projects/Bandana/raw/levelconverter/maps/grounds.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#c4c4c4"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142135"
-     inkscape:cx="188.61911"
-     inkscape:cy="359.27747"
+     inkscape:zoom="0.99999996"
+     inkscape:cx="217.33619"
+     inkscape:cy="477.95426"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -2757,7 +2757,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -9885,7 +9885,7 @@
          sodipodi:cy="188.0219"
          sodipodi:rx="3.5472858"
          sodipodi:ry="1.5007746"
-         d="m 82.815482,188.0219 c 0,0.82885 -1.588174,1.50077 -3.547286,1.50077 -1.959112,0 -3.547286,-0.67192 -3.547286,-1.50077 0,-0.82886 1.588174,-1.50078 3.547286,-1.50078 1.959112,0 3.547286,0.67192 3.547286,1.50078 z" />
+         d="m 82.815482,188.0219 a 3.5472858,1.5007746 0 0 1 -3.547286,1.50077 3.5472858,1.5007746 0 0 1 -3.547286,-1.50077 3.5472858,1.5007746 0 0 1 3.547286,-1.50078 3.5472858,1.5007746 0 0 1 3.547286,1.50078 z" />
       <path
          style="fill:#b4a89f;fill-opacity:1;stroke:#000000;stroke-opacity:1"
          d="m 82.815482,540.38407 c 0.0049,1.86724 -1.588174,1.50077 -3.547286,1.50077 -1.959112,0 -3.598971,0.47645 -3.547286,-1.50077 0.04419,-1.69065 1.588174,-1.50078 3.547286,-1.50078 1.959112,0 3.541661,-0.63226 3.547286,1.50078 z"

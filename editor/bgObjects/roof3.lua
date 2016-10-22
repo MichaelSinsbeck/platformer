@@ -7,5 +7,5 @@ local coords = {
 	{tileX=0,tileY=27,x=5,y=0},
 	{tileX=1,tileY=27,x=6,y=0},
 }
-return "background1", coords, "houses"
+return "decoration", coords, "houses"
 

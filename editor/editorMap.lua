@@ -67,7 +67,7 @@ function EditorMap:new( backgroundList )
 
 	o.bgList = {}	-- list of background objects
 	o.bgObjectSpriteBatch = love.graphics.newSpriteBatch(
-			AnimationDB.image.background1, MAX_NUMBER_BG_OBJECTS )
+			AnimationDB.image.decoration, MAX_NUMBER_BG_OBJECTS )
 	o.objectList = {}	-- list of objects
 	o.lines = {}
 	--[[
