@@ -64,7 +64,7 @@ function BambooSlider:draw()
 			love.graphics.setColor(colors.text2)
 		end
 		love.graphics.print( self.text,
-			Camera.scale*(self.x + 8), (self.y - 2) *Camera.scale )
+			math.floor(Camera.scale*(self.x + 8)), math.floor((self.y - 2) *Camera.scale ))
 		love.graphics.setColor(255,255,255)
 	end
 

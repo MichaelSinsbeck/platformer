@@ -49,7 +49,7 @@ function Slider:draw()
 			love.graphics.setColor(colors.text2)
 		end
 		love.graphics.print( self.text,
-			Camera.scale*self.x, self.y*Camera.scale )
+			math.floor(Camera.scale*self.x), math.floor(self.y*Camera.scale) )
 		love.graphics.setColor(255,255,255)
 	end
 end

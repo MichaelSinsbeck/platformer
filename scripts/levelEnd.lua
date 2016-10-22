@@ -116,19 +116,6 @@ function levelEnd:draw()
 				picList[k]:draw()
 			end
 		end
-
-	--[[love.graphics.setFont( fontSmall )
-	local font = love.graphics.getFont()
-	local i = 0
-	for k, v in pairs( statList ) do
-		love.graphics.setColor(110,168,213)
-		love.graphics.print(string.lower(k), - font:getWidth(string.lower(k)) + 70, - font:getHeight()*(12 -i))
-		love.graphics.setColor(255,255,255)
-		love.graphics.print(v, 75, - font:getHeight()*(12-i))
-		i = i+1
-	end]]--
-
-
 	love.graphics.pop()
 
 	controlKeys:draw("win")

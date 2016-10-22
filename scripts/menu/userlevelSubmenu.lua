@@ -476,12 +476,11 @@ function UserlevelSubmenu:drawUserlevels()
 	love.graphics.rectangle( "fill", xAuthorized, y*Camera.scale, xEnd - xAuthorized - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 
 	love.graphics.setColor( 255,255,255,255 )
-	--love.graphics.setColor( 0,0,0,255 )
-	love.graphics.print( "Level", xLevelname + 2*Camera.scale, (y + 2)*Camera.scale )
-	love.graphics.print( "Author", xAuthor + 2*Camera.scale, (y + 2)*Camera.scale )
-	love.graphics.print( "Fun", xFun + 2*Camera.scale, (y + 2)*Camera.scale )
-	love.graphics.print( "Difficulty", xDifficulty + 2*Camera.scale, (y + 2)*Camera.scale )
-	love.graphics.print( "Authorized", xAuthorized + 2*Camera.scale, (y + 2)*Camera.scale )
+	love.graphics.print( "Level", math.floor(xLevelname + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )
+	love.graphics.print( "Author", math.floor(xAuthor + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )
+	love.graphics.print( "Fun", math.floor(xFun + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )
+	love.graphics.print( "Difficulty", math.floor(xDifficulty + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )
+	love.graphics.print( "Authorized", math.floor(xAuthorized + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )
 
 	sortingIndicator.vis:draw( sortingIndicator.x, sortingIndicator.y )
 	
@@ -496,8 +495,8 @@ function UserlevelSubmenu:drawUserlevels()
 
 		-- draw indicator showing if level is ready to play or needs to be downloaded first:
 		level.statusVis:draw( xStatus + 4*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
-		love.graphics.print( i .. ": " .. level.levelname, xLevelname, curY )
-		love.graphics.print( level.author, xAuthor, curY )
+		love.graphics.print( i .. ": " .. level.levelname, math.floor(xLevelname), math.floor(curY) )
+		love.graphics.print( level.author, math.floor(xAuthor), math.floor(curY) )
 		level.ratingFunVis:draw( xFun + 12*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.ratingDifficultyVis:draw( xDifficulty + 12*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )
 		level.authorizationVis:draw( xAuthorized + 8*Camera.scale, curY + 0.25*LIST_ENTRY_HEIGHT*Camera.scale )

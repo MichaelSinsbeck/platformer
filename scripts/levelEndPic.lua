@@ -426,13 +426,13 @@ function Pic:draw()
 	if self.title then
 		love.graphics.setFont(fontSmall)
 		love.graphics.print( self.title,
-		-fontSmall:getWidth( self.title )/2,
-		-tileSize*4.5 )
+		math.floor(-fontSmall:getWidth( self.title )/2),
+		math.floor(-tileSize*4.5) )
 		if self.subTitle then
 
 			love.graphics.print( self.subTitle,
-			-fontSmall:getWidth( self.subTitle )/2,
-			-tileSize*3.5 )
+			math.floor(-fontSmall:getWidth( self.subTitle )/2),
+			math.floor(-tileSize*3.5) )
 		end
 	end
 --[[	for k = 1, #self.slots do

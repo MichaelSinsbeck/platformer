@@ -220,7 +220,7 @@ function Clickable:draw()
 		end
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
 		love.graphics.setColor(255,255,255)
-		love.graphics.print( self.text, self.textX, self.textY )
+		love.graphics.print( self.text, math.floor(self.textX), math.floor(self.textY) )
 	end
 	
 	if self.shortcutBox then
@@ -230,13 +230,13 @@ function Clickable:draw()
 		end
 		love.graphics.push()
 		love.graphics.setLineWidth(2)	
-		love.graphics.translate( self.x*Camera.scale, (self.y+1)*Camera.scale )
+		love.graphics.translate( math.floor(self.x*Camera.scale), math.floor((self.y+1)*Camera.scale) )
 		love.graphics.setColor(180,255,180,160)
 		love.graphics.polygon( 'fill', self.shortcutBox )
 		love.graphics.setColor(0,0,0,255)
 		love.graphics.polygon( 'line', self.shortcutBox )
 		--love.graphics.setColor(255,255,255,255)
-		love.graphics.print( shortcut:upper(), self.offsetX, self.offsetY )
+		love.graphics.print( shortcut:upper(), math.floor(self.offsetX), math.floor(self.offsetY) )
 		love.graphics.pop()
 	end
 

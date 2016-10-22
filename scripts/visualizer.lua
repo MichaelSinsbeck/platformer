@@ -115,7 +115,7 @@ function Visualizer:draw(x,y, useExternalColor)
 			love.graphics.setFont(fontSmall)
 			x = x + self.relX * Camera.scale*8-- - self.ox*Camera.scale
 			y = y + self.relY * Camera.scale*8-- - self.oy*Camera.scale
-			love.graphics.printf(self.text, x-0.5*width, y-0.5*height-correction,width,'center')
+			love.graphics.printf(self.text, math.floor(x-0.5*width), math.floor(y-0.5*height-correction),width,'center')
 			love.graphics.setColor(r,g,b,a)
 		end
 		if not (img and self.currentQuad) and not self.text then

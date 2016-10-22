@@ -29,9 +29,9 @@ function msgBox:new( msg, eventAccept, eventDecline )
 	local y = math.floor(love.graphics.getHeight()/2/Camera.scale - height/2)
 	msgBox.panel = Panel:new( x, y, width, height )
 
-	msgBox.textX = (x + 8)*Camera.scale
-	msgBox.textY = (y + 8)*Camera.scale
-	msgBox.textWidth = (width-8)*Camera.scale
+	msgBox.textX = math.floor((x + 8)*Camera.scale)
+	msgBox.textY = math.floor((y + 8)*Camera.scale)
+	msgBox.textWidth = math.floor((width-8)*Camera.scale)
 
 	msgBox.panel:addClickable( 0.5*width-6, textHeight/Camera.scale + 16, msgBox.eventAccept,
 				'LEAccept',

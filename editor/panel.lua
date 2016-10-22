@@ -203,12 +203,12 @@ function Panel:draw()
 
 	if self.labels[0] then
 		for i, label in ipairs( self.labels[0] ) do
-			love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
+			love.graphics.print( label.text, math.floor(label.x*Camera.scale), math.floor(label.y*Camera.scale) )
 		end
 	end
 	if self.labels[self.selectedPage] then
 		for i, label in ipairs( self.labels[self.selectedPage] ) do
-			love.graphics.print( label.text, label.x*Camera.scale, label.y*Camera.scale )
+			love.graphics.print( label.text, math.floor(label.x*Camera.scale), math.floor(label.y*Camera.scale) )
 		end
 	end
 	for k, p in pairs( self.properties ) do
@@ -219,9 +219,9 @@ function Panel:draw()
 			love.graphics.setColor(255,255,255,255)
 
 			local displayName = p.names[p.obj[k]] or p.obj[k]
-			love.graphics.print( displayName, (p.x+7)*Camera.scale, (p.y+5)*Camera.scale )
+			love.graphics.print( displayName, math.floor((p.x+7)*Camera.scale), math.floor((p.y+5)*Camera.scale) )
 		end
-		love.graphics.print( k  .. ':', p.x*Camera.scale, p.y*Camera.scale )
+		love.graphics.print( k  .. ':', math.floor(p.x*Camera.scale), math.floor(p.y*Camera.scale) )
 	end
 
 	for k, input in ipairs( self.inputBoxes ) do
@@ -241,8 +241,8 @@ function Panel:draw()
 		for k2, l in ipairs( input.wrappedText ) do
 			if k2 > input.lines then break end
 
-			love.graphics.print(l, input.x*Camera.scale,
-								input.y*Camera.scale + (k2-1)*fontSmall:getHeight() )
+			love.graphics.print(l, math.floor(input.x*Camera.scale),
+								math.floor(input.y*Camera.scale + (k2-1)*fontSmall:getHeight()) )
 		end
 	end
 

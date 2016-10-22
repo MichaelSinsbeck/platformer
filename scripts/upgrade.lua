@@ -89,7 +89,7 @@ function upgrade.draw()
 	box:draw(x,y)
 
 	local boundary = Camera.scale * 10	
-	y = 0.5*love.graphics.getHeight() - 0.5*box.pixelHeight + boundary
+	y = math.floor(0.5*love.graphics.getHeight() - 0.5*box.pixelHeight + boundary)
 	
 	-- banner
 	local bannerColor = utility.bandana2color[color]
@@ -99,7 +99,7 @@ function upgrade.draw()
 		banner:draw(x,y+7*Camera.scale,true)
 	end
 
-	x = 0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary
+	x = math.floor(0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary)
 	-- title
 	if color == 'blue' or color == 'green' or color == 'red' then
 		love.graphics.setColor(colors.text3)
@@ -118,7 +118,7 @@ function upgrade.draw()
 	 -- press key to continue
 	if love.timer.getTime() > startTime + minTime then
 		love.graphics.setColor(colors.text2)
-		y = 0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - fontSmall:getHeight()
+		y = math.floor(0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - fontSmall:getHeight())
 		love.graphics.printf('Press any key to continue', x, y, box.pixelWidth-2*boundary, 'center' )
 	end
 	
@@ -133,8 +133,8 @@ function upgrade.draw()
 		bvis:draw(x,y)
 			
 		love.graphics.setColor(colors.text)
-		x = 0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary
-		y = 0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - 5*fontSmall:getHeight()
+		x = math.floor(0.5*love.graphics.getWidth() - 0.5*box.pixelWidth + boundary)
+		y = math.floor(0.5*love.graphics.getHeight() + 0.5*box.pixelHeight - boundary - 5*fontSmall:getHeight())
 		love.graphics.printf('Button:', x, y, box.pixelWidth-2*boundary, 'center' )
 	end		
 end

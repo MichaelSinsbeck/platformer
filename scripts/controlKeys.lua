@@ -45,11 +45,11 @@ function controlKeys:draw( drawMode )
 			x, y = toDraw[k].x, toDraw[k].y
 			love.graphics.draw( toDraw[k].img, x*Camera.scale, y*Camera.scale)
 			love.graphics.print( toDraw[k].txt:upper(),
-							(x+toDraw[k].offset)*Camera.scale,
-							(y+3)*Camera.scale )							
+							math.floor((x+toDraw[k].offset)*Camera.scale),
+							math.floor((y+3)*Camera.scale) )							
 			love.graphics.print( toDraw[k].label:upper(),
-							(toDraw[k].labelX)*Camera.scale,
-							(y-3)*Camera.scale )
+							math.floor((toDraw[k].labelX)*Camera.scale),
+							math.floor((y-3)*Camera.scale) )
 		end
 	else
 		for k = 1, #toDraw do
@@ -57,8 +57,8 @@ function controlKeys:draw( drawMode )
 			love.graphics.draw( toDraw[k].img, x*Camera.scale, y*Camera.scale)
 			
 			love.graphics.print( toDraw[k].label:upper(),
-							(toDraw[k].labelX)*Camera.scale,
-							(y-3)*Camera.scale )
+							math.floor((toDraw[k].labelX)*Camera.scale),
+							math.floor((y-3)*Camera.scale) )
 		end
 	end
 end
