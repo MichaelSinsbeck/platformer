@@ -5,133 +5,300 @@ To play the level, put it into the 'userlevels'
 subdirectory. To edit it, place this file into
 the 'mylevels' directory.
 MapFileVersion:1
-Dimensions: 39,29
+Dimensions: 72,24
 
-Author: micha
+Author: Micha
 Description:
 
 endDescription
 
 Background:
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
 endBackground
 
 Ground:
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---------------------------------------
---ccc-------------------------cccccccc
-cccccccccccc------------------cccccccc
-cc----------------------------------cc
-cc--------------------cccccccccccc--cc
-cc-------cc--------bb-cccccccccccc--cc
-cc-------cc-------bb--cccccccccccc--cc
-cc-------ccccccccccccccccccccccccc--cc
-cccc------cccccccccccccccccccccccc--cc
-cccc-------ccccccccccccccccccccccc--cc
-cccc-----------ccccccccccccccccccc--cc
-cccccc------------cccccccccccccccc--cc
-cccccc------------------cccccccccc--cc
-cccccc---ccc------------------------cc
-cccccc---ccc------------------------cc
-cccccccccccccccc--------------------cc
-cccccc--------cc------------------cccc
-cccccc-----------------ccccccccccccccc
-cccccc-----------------ccccccccccccccc
-cccccccccccccccccccccccccccccccccccccc
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+----------dd-----------------------------------------------------------
+dddddddddddd-----------------------------------------------------------
+dddddddddddd-----------------------------------------------------------
+dddddddddddd-----------------------------------------------------------
+dddddddddddd-----------------------------------------------------------
+dddddddddddd-----------------------------------------------------------
+ddddddddddddddddddddddd------------------------------------------------
+ddddddddddddddddddddddd------------------------------------------------
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 endGround
 
 BgObjects:
+	_3x11 27 15
+	_3x10 27 14
+	_3x11 27 13
+	_3x10 27 12
+	_4x11 36 15
+	_4x10 36 14
+	_4x11 36 13
+	_4x10 36 12
+	_5x13 32 15
+	_4x13 31 15
+	_3x13 30 15
+	_5x12 32 14
+	_4x12 31 14
+	_3x12 30 14
+	_6x11 29 15
+	_6x10 29 14
+	_6x11 29 13
+	_6x10 29 12
+	_6x11 32 13
+	_6x10 32 12
+	_7x11 33 15
+	_7x10 33 14
+	_7x11 33 13
+	_7x10 33 12
+	_7x11 30 13
+	_7x10 30 12
+	_4x8 27 11
+	_3x8 26 11
+	_7x8 37 11
+	_6x8 36 11
+	_7x15 28 15
+	_7x15 31 13
+	_7x15 35 13
+	_7x15 35 14
+	_7x15 35 15
+	_5x8 30 11
+	_7x5 29 11
+	_7x6 28 11
+	_7x5 33 11
+	_5x8 32 11
+	_7x6 31 11
+	_5x8 35 11
+	_1x15 28 10
+	_0x15 27 10
+	_6x15 36 10
+	_5x15 35 10
+	_4x15 29 10
+	_4x15 31 10
+	_4x15 34 10
+	_2x15 30 10
+	_2x15 33 10
+	_4x7 29 9
+	_3x7 28 9
+	_7x7 35 9
+	_6x7 34 9
+	_5x7 30 9
+	_5x7 33 9
+	_4x9 32 9
+	_2x9 28 12
+	_2x9 31 12
+	_2x9 34 12
+	_7x15 28 13
+	_7x15 28 14
+	_7x15 35 12
+	_7x15 34 13
+	_7x15 34 15
+	_7x5 34 11
+	_7x7 33 8
+	_6x7 32 8
+	_4x7 31 8
+	_3x7 30 8
+	_5x7 31 9
+	_4x15 32 10
+	_2x9 34 14
+	_2x17 41 15
+	_3x22 48 15
+	_6x18 47 15
+	_5x18 46 15
+	_4x18 45 15
+	_3x18 44 15
+	_2x18 43 15
+	_1x18 42 15
+	_7x18 49 15
+	_7x30 52 15
+	_6x30 51 15
+	_5x30 50 15
+	_7x22 50 15
+	_7x21 50 14
+	_0x6 25 15
+	_0x6 38 15
+	_2x10 26 12
 endBgObjects
 
 Objects:
-Obj:Exit
+Obj:Infosign
 	x:35
-	y:8
-endObj
-Obj:Bandana
-	x:6
-	y:9
-	p:color=white
-endObj
-Obj:Npc
-	x:10
-	y:26
-	p:delay=0
-	p:displayTime=10
-	p:regionSize=10
-	p:display=region
-	p:text=
+	y:14
+	p:type=Paper
+	p:rotation=0
 endObj
 Obj:Player
-	x:3
+	x:4
 	y:8
 	p:bandana=blank
 endObj
-Obj:Text
-	x:10
-	y:22
-	p:hasPointer=true
-	p:offsetX=0
-	p:offsetY=3
-	p:location=here
-	p:sensorH=3
-	p:sensorW=9
-	p:text=Take this bandana and start being awesome.
+Obj:Exit
+	x:69
+	y:15
+endObj
+Obj:ParallaxConfig
+	x:38
+	y:17
+	p:location=1
+	p:color=blue
 endObj
 Obj:Input
-	x:4
-	y:6
-	p:button=RIGHT
-endObj
-Obj:Input
-	x:2
+	x:3
 	y:6
 	p:button=LEFT
 endObj
 Obj:Input
-	x:3
+	x:5
+	y:6
+	p:button=RIGHT
+endObj
+Obj:Input
+	x:4
 	y:5
 	p:button=JUMP
 endObj
-Obj:ParallaxConfig
-	x:19
-	y:27
-	p:location=1
-	p:color=blue
+Obj:Text
+	x:17
+	y:9
+	p:hasPointer=true
+	p:offsetX=0
+	p:offsetY=3
+	p:location=player
+	p:sensorH=3
+	p:sensorW=11
+	p:text=It's time to visit Master Kenji. I haven't seen him in a long time!
+endObj
+Obj:Text
+	x:28
+	y:11
+	p:hasPointer=false
+	p:offsetX=0
+	p:offsetY=3
+	p:location=here
+	p:sensorH=3
+	p:sensorW=5
+	p:text=Are you looking for this old man Kenji? Forget about him. I took him and I will eat him. Ryuu, Muhaha!
+endObj
+Obj:Text
+	x:35
+	y:11
+	p:hasPointer=false
+	p:offsetX=0
+	p:offsetY=3
+	p:location=here
+	p:sensorH=3
+	p:sensorW=5
+	p:text=Oh, and by the way, don't try to come after me and rescue him! Ryuu, ha ha ha!
+endObj
+Obj:Infosign
+	x:28
+	y:14
+	p:type=Paper
+	p:rotation=0
+endObj
+Obj:Infosign
+	x:59
+	y:15
+	p:type=Right
+	p:rotation=0
+endObj
+Obj:Text
+	x:59
+	y:13
+	p:hasPointer=false
+	p:offsetX=0
+	p:offsetY=1
+	p:location=here
+	p:sensorH=3
+	p:sensorW=5
+	p:text=Ryuu's house
+endObj
+Obj:Text
+	x:65
+	y:11
+	p:hasPointer=true
+	p:offsetX=0
+	p:offsetY=3
+	p:location=player
+	p:sensorH=3
+	p:sensorW=5
+	p:text=Wow, this is what I call subtle story telling!
+endObj
+Obj:Bird
+	x:29
+	y:10
+	p:type=1
+endObj
+Obj:Infosign
+	x:11
+	y:7
+	p:type=Right
+	p:rotation=0
+endObj
+Obj:Text
+	x:11
+	y:5
+	p:hasPointer=false
+	p:offsetX=0
+	p:offsetY=1
+	p:location=here
+	p:sensorH=3
+	p:sensorW=5
+	p:text=Master Kenji's House
+endObj
+Obj:Bird
+	x:31
+	y:10
+	p:type=1
+endObj
+Obj:Text
+	x:45
+	y:11
+	p:hasPointer=true
+	p:offsetX=0
+	p:offsetY=3
+	p:location=player
+	p:sensorH=3
+	p:sensorW=9
+	p:text=Huh? Where are the master's chickens?
 endObj
 endObjects
 

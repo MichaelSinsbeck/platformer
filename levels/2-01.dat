@@ -110,5 +110,21 @@ Obj:Input
 	y:19
 	p:button=JUMP
 endObj
+Obj:Npc
+	x:7
+	y:24
+	p:type=2
+endObj
+Obj:Text
+	x:7
+	y:20
+	p:hasPointer=true
+	p:offsetX=-1
+	p:offsetY=3
+	p:location=here
+	p:sensorH=3
+	p:sensorW=5
+	p:text=I was on the way to rescue Master Kenji, but I am afraid of heights. I cannot make it through this building. Why don't you try it? This bandana might help you.
+endObj
 endObjects
 
