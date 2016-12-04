@@ -6,7 +6,7 @@ Parallax = {layers = {}}
 local nLayers = 1
 local nMountainLayers = 1
 local velocity = 0
-local colorFront = {14,24,35} -- very dark grayish blue
+local colorFront = {50,60,65} 
 local colorBack = {190,190,190}	
 local colorSky = {80,150,205}
 local baseLevel = 0.9
