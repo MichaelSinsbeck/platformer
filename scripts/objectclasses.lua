@@ -67,6 +67,7 @@ Infosign = require 'scripts/objects.infosign',
 --Bandanasign = require 'scripts/objects.bandanasign',
 Bird = require 'scripts/objects.bird',
 Chicken = require 'scripts/objects.chicken',
+Boss = require 'scripts/objects.boss',
 }
 
 

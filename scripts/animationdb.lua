@@ -277,7 +277,13 @@ function AnimationDB:loadAllImages()
 	AnimationDB:addTile('irregular', 1.4, 1.4, 1.2, 1.2) -- large shuriken
 	AnimationDB:addTile('irregular', 4, 0, 1, 1.6) -- fat ninja npc
 	AnimationDB:addTile('irregular', 4, 1.6, 1, 1.6) -- normal ninja npc
-	AnimationDB:addTile('irregular', 4, 3.2, 1, 1.6) -- tall ninja npc
+	AnimationDB:addTile('irregular', 4, 3.2, 1, 1.6) -- tall ninja npc#
+	
+	-- boss parts
+	AnimationDB:loadImage('bossHead.png','bossHead')
+	AnimationDB:loadImage('bossBody.png','bossBody')
+	AnimationDB:loadImage('bossLeg1.png','bossLeg1')
+	AnimationDB:loadImage('bossLeg2.png','bossLeg2')
 	
 	-- for prototyping - remove later
 	AnimationDB:loadTiledImage('placeholder.png','placeholder',1,1)
