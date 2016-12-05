@@ -5,7 +5,8 @@ local Boss = object:New({
 	marginy = 0.4,
 	isInEditor = true,
 	animTimer = 0,
-	painAngle = 0,
+	hitAnim = 0,
+	hitTimer = 0,
 	vis = {
 		},
 })
@@ -22,7 +23,7 @@ function Boss:draw()
 	love.graphics.draw(AnimationDB.image.bossLeg1,(self.x+4)   *8*Camera.scale,(self.y-5.5)*8*Camera.scale)
 	
 	-- head
-	love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR + self.painAngle,1,1,70*Camera.scale,50*Camera.scale)
+	love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR + 0.1 * self.hitAnim,1,1,70*Camera.scale,50*Camera.scale)
 end
 
 function Boss:applyOptions()
@@ -52,10 +53,27 @@ function Boss:postStep(dt)
 	self.animTimer = self.animTimer + dt
 	self.animState = math.sin(1.5*self.animTimer)
 	
+	
+		-- check for collision with missile
+	for k,v in pairs(spriteEngine.objects) do
+		if (v.tag == 'Missile') then
+			local dx = v.x - self.x + 11
+			local dy = v.y - self.y + 5
+			if dx^2+dy^2 < 5^2 then
+				self:playSound('bossHit')
+				self.hitTimer = 1
+				v:detonate()
+			end
+			break
+		end
+	end
+	
+	self.hitAnim = self.hitTimer * (1-self.hitTimer) * 4
+	
 	-- deform mesh according to animState
 	local x,y,u,v,r,g,b,a, thisV,idx
 	local W,H = AnimationDB.image.bossBody:getDimensions()
-	local shift = Camera.scale * self.animState
+	local shift = Camera.scale * self.animState - self.hitAnim * Camera.scale
 	idx = 1
 	x,y,u,v,r,g,b,a = self.mesh:getVertex(idx)
 	thisV = {-2*shift,H+shift,u,v,r,g,b,a}
@@ -86,20 +104,8 @@ function Boss:postStep(dt)
 	self.headR = self.animState * 0.02
 	
 	
-	-- check for collision with missile
-	for k,v in pairs(spriteEngine.objects) do
-		if (v.tag == 'Missile') then
-			local dx = v.x - self.x + 11
-			local dy = v.y - self.y + 5
-			if dx^2+dy^2 < 5^2 then
-				self.painAngle = self.painAngle + 0.15
-				v:detonate()
-			end
-			break
-		end
-	end
-	
-	self.painAngle = math.max(self.painAngle - 0.6 * dt,0)
+
+	self.hitTimer = math.max(self.hitTimer - 2 * dt,0)
 end
 
 return Boss
