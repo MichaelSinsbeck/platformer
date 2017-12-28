@@ -91,6 +91,7 @@ function shaders:draw()
 			renderedToCanvas = true
 			--fullscreenCanvas:clear(love.graphics.getBackgroundColor())
 			love.graphics.setCanvas(fullscreenCanvas)
+			love.graphics.clear(love.graphics.getBackgroundColor())
 			--love.graphics.setColor(l)
 			--love.graphics.rectangle('fill', 0, 0,
 			--		fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
