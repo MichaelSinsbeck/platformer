@@ -104,7 +104,7 @@ function menu:init()
 	submenus["Userlevels"] = userlevelsMenu
 
 	-- Create World map menu:
-	local worldMapMenu = WorldmapSubmenu:new( 0, -700 )
+	local worldMapMenu = WorldmapSubmenu:new( 0, -1500 )
 	submenus["Worldmap"] = worldMapMenu
 
 	---------------------------------------------------------------
@@ -277,7 +277,7 @@ end
 
 function menu:show()
 	-- initialize parallax background
-	parallax:init(nil,nil,nil,nil,nil,nil,1)
+	parallax:init(nil,nil,nil,2,0,nil,1)
 
 	-- Switch to showing the menu:
 	mode = 'menu'

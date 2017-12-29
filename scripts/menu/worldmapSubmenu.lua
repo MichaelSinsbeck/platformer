@@ -18,12 +18,12 @@ function WorldmapSubmenu:new( x, y )
 	local back = function()
 		menu:switchToSubmenu( "Main" )
 	end
-	submenu:addHotkey( "CHOOSE", "Choose",
-		love.graphics.getWidth()/Camera.scale/2 - 24,
+	submenu:addHotkey( "CHOOSE", "Play Level",
+		-100, --love.graphics.getWidth()/Camera.scale/2 - 24 - 50,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		nil )
 	submenu:addHotkey( "BACK", "Back",
-		-love.graphics.getWidth()/Camera.scale/2 + 24,
+		-120, -- -love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
 
@@ -163,7 +163,8 @@ function WorldmapSubmenu:scroll( )
 		local x = (Campaign.worldNumber-1) * singleWorldWidth
 		if Campaign.worldNumber == 0 then x = -0.64 * singleWorldWidth end
 		if Campaign.worldNumber == 6 then x = 4.7 * singleWorldWidth end
-		local y = -700
+		local y = -1500
+		
 		menu:slideCameraTo( x, y, 1 )
 		
 		
@@ -184,7 +185,7 @@ function WorldmapSubmenu:halfScroll() -- same as previous function but scroll be
 	local b = submenu:getSelectedButton() 
 	if b then
 		local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + 1.5*singleWorldWidth -- set Camera position
-		local y = -700
+		local y = -1500
 		--menu:slideCameraTo( x, y, 1 )
 		menu:setCameraTo( x, y, 1 )
 		Campaign.worldNumber = math.floor((b.x + singleWorldWidth*0.5)/singleWorldWidth)+1 -- calculate worldNumber
