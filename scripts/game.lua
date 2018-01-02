@@ -230,7 +230,7 @@ function game.joystickpressed(joystick, button)
 		spriteEngine:DoAll('dash')
 	end	
 	if p.dead then
-		if button == keys.PAD.CHOOSE then
+		if button == keys.PAD.CHOOSE or button == keys.PAD.JUMP then
 			myMap:start(p)
 		elseif button == keys.PAD.BACK then
 			shaders:resetDeathEffect()
