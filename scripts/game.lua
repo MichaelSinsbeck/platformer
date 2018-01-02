@@ -148,7 +148,7 @@ function game.keypressed(key)
 	end
 	
 	if p.dead then
-		if key == keys.CHOOSE then
+		if key == keys.CHOOSE or key == keys.JUMP then
 			--menu.startTransition( function() myMap:start(p) end )()
 			myMap:start(p)
 		elseif key == keys.BACK then
