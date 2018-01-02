@@ -111,10 +111,17 @@ function game:update(dt)
 	gui.update( dt )
 end
 
+-- handle key presses and button presses
 function game.keypressed(key)
+	game.inputpressed(key)
+end
 
-	if key == keys.BACK then
-		
+function game.joystickpressed(joystick, button)
+	game.inputpressed(button)
+end
+
+function game.inputpressed(key)
+	if key == keys.BACK or key == keys.PAD.BACK then
 		shaders:resetDeathEffect()
 		if editor.active then
 			Sound:stopAllLongSounds()
@@ -125,7 +132,6 @@ function game.keypressed(key)
 		menu:selectCurrentLevel()
 
 		if menu.currentlyPlayingUserlevels then
-			--menu.startTransition( menu.initUserlevels, true )()
 			menu:switchToSubmenu( "Userlevels" )
 		else
 			menu:createWorldButtons()
@@ -133,27 +139,23 @@ function game.keypressed(key)
 			menu:switchToSubmenu( "Worldmap" )
 		end
 		menu:show()
-		--Sound:play('menuPause')
 	else
 		levelEnd:registerKeypress()
 	end
-	if key == "r" then
-		p.status = 'stand'
-	end
-	if key == keys.JUMP then
+
+	if key == keys.JUMP or key == keys.PAD.JUMP then
 		spriteEngine:DoAll('jump')
 	end
-	if key == keys.DASH then
+	if key == keys.DASH or key == keys.PAD.DASH then
 		spriteEngine:DoAll('dash')
 	end
 	
 	if p.dead then
-		if key == keys.CHOOSE or key == keys.JUMP then
-			--menu.startTransition( function() myMap:start(p) end )()
+		if key == keys.CHOOSE or key == keys.JUMP or
+		   key == keys.PAD.CHOOSE or key == keys.PAD.JUMP then
 			myMap:start(p)
-		elseif key == keys.BACK then
+		elseif key == keys.BACK or key == keys.PAD.BACK then
 			if menu.currentlyPlayingUserlevels then
-				--menu.startTransition( menu.initUserlevels, true )()
 				menu:switchToSubmenu( "Userlevels" )
 			else
 				menu:createWorldButtons()
@@ -164,99 +166,27 @@ function game.keypressed(key)
 		end
 	end  
 
-
-	if key == keys.ACTION then
+	if key == keys.ACTION or key == keys.PAD.ACTION then
 		p:throwBungee()
 	end
-	if key == keys.NEXTMAP then
-		Campaign:proceed()
-	end
-
-	if key == "m" then	-- recorder	
-		recorder = not recorder
-		print('Recorder:')
-		print(recorder)
-	end
-	if key == "n" then
-		print('Saving screenshots')
-		for k,v in pairs(screenshots) do
-			if k < 10 then k = '0'..k end
-			local filename = 'screenshot'..k..'.png'
-			v:encode(filename)
-		end
-	end
-
-	-- Debug:
-	--[[if key == "1" then
-		gui.addBandana( "white" )
-	elseif key == "2" then
-		gui.addBandana( "yellow" )
-	elseif key == "3" then
-		gui.addBandana( "green" )
-	elseif key == "4" then
-		gui.addBandana( "red" )
-	end]]
-
 end
 
+-- handle key release and button release
 function game.keyreleased(key)
-	if key == keys.JUMP then
-		spriteEngine:DoAll('unjump')
-	end
-	if key == keys.ACTION then
-		spriteEngine:DoAll('disconnect')
-	end
-end
-
-function game.joystickpressed(joystick, button)
-	--[[if button == 7 or button == 8 then
-		menu.startTransition(menu.initWorldMap)()
-	end]]--
-	if button == keys.PAD.BACK then
-		if editor.active then
-			Sound:stopAllLongSounds()
-			editor.resume()
-			return
-		end
-		menu:switchToSubmenu( "Pause" )
-		menu:show()
-		Sound:play('menuPause')
-	end
-	if button == keys.PAD.JUMP then
-		spriteEngine:DoAll('jump')
-	end
-	
-	if button == keys.PAD.DASH then
-		spriteEngine:DoAll('dash')
-	end	
-	if p.dead then
-		if button == keys.PAD.CHOOSE or button == keys.PAD.JUMP then
-			myMap:start(p)
-		elseif button == keys.PAD.BACK then
-			shaders:resetDeathEffect()
-			--menu.startTransition( menu.initWorldMap, true )()
-			if menu.currentlyPlayingUserlevels then
-				menu:switchToSubmenu( "Userlevels" )
-				menu:show()
-			else
-				menu:switchToSubmenu( "Worldmap" )
-				menu:show()
-			end
-		end
-	end  
-
-	if button == keys.PAD.ACTION then
-		p:throwBungee()
-	end
+	game.inputreleased(key)
 end
 
 function game.joystickreleased(joystick, button)
-	if button == keys.PAD.JUMP then
+	game.inputreleased(button)
+end
+
+function game.inputreleased(key)
+	if key == keys.JUMP or key == keys.PAD.JUMP then
 		spriteEngine:DoAll('unjump')
 	end
-	if button == keys.PAD.ACTION then
+	if key == keys.ACTION or key == keys.PAD.ACTION then
 		spriteEngine:DoAll('disconnect')
-	end  
+	end
 end
 
 function game.isDead()
