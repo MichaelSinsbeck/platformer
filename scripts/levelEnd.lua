@@ -189,7 +189,9 @@ function levelEnd:display( )	-- called when level is won:
 end
 
 function levelEnd:keypressed( key, unicode )
-	if key == keys.BACK or key == keys.PAD.BACK or key == keys.CHOOSE or key == keys.PAD.CHOOSE then
+	if key == keys.BACK or key == keys.PAD.BACK or 
+	   key == keys.CHOOSE or key == keys.PAD.CHOOSE or
+	   key == keys.JUMP or key == keys.PAD.JUMP then
 		if editor.active then
 			editor.resume()
 		elseif menu.currentlyPlayingUserlevels then
