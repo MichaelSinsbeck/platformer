@@ -113,15 +113,16 @@ end
 
 -- handle key presses and button presses
 function game.keypressed(key)
-	game.inputpressed(key)
+	game.inputpressed(key,'keyboard')
 end
 
 function game.joystickpressed(joystick, button)
-	game.inputpressed(button)
+	game.inputpressed(button,'joystick')
 end
 
-function game.inputpressed(key)
-	if key == keys.BACK or key == keys.PAD.BACK then
+function game.inputpressed(key,device)
+	if (device == 'keyboard' and key == keys.BACK) or 
+	   (device == 'joystick' and key == keys.PAD.BACK) then
 		shaders:resetDeathEffect()
 		if editor.active then
 			Sound:stopAllLongSounds()
@@ -143,18 +144,23 @@ function game.inputpressed(key)
 		levelEnd:registerKeypress()
 	end
 
-	if key == keys.JUMP or key == keys.PAD.JUMP then
+	if (device == 'keyboard' and key == keys.JUMP) or
+	   (device == 'joystick' and key == keys.PAD.JUMP) then
 		spriteEngine:DoAll('jump')
 	end
-	if key == keys.DASH or key == keys.PAD.DASH then
+	if (device == 'keyboard' and key == keys.DASH) or 
+	   (device == 'joystick' and key == keys.PAD.DASH) then
 		spriteEngine:DoAll('dash')
 	end
 	
 	if p.dead then
-		if key == keys.CHOOSE or key == keys.JUMP or
-		   key == keys.PAD.CHOOSE or key == keys.PAD.JUMP then
+		if (device == 'keyboard' and key == keys.CHOOSE) or 
+		   (device == 'keyboard' and key == keys.JUMP) or
+		   (device == 'joystick' and key == keys.PAD.CHOOSE) or
+		   (device == 'joystick' and key == keys.PAD.JUMP) then
 			myMap:start(p)
-		elseif key == keys.BACK or key == keys.PAD.BACK then
+		elseif (device == 'keyboard' and key == keys.BACK) or 
+		       (device == 'joystick' and key == keys.PAD.BACK) then
 			if menu.currentlyPlayingUserlevels then
 				menu:switchToSubmenu( "Userlevels" )
 			else
@@ -166,25 +172,28 @@ function game.inputpressed(key)
 		end
 	end  
 
-	if key == keys.ACTION or key == keys.PAD.ACTION then
+	if (device == 'keyboard' and key == keys.ACTION) or 
+	   (device == 'joystick' and key == keys.PAD.ACTION) then
 		p:throwBungee()
 	end
 end
 
 -- handle key release and button release
 function game.keyreleased(key)
-	game.inputreleased(key)
+	game.inputreleased(key,'keyboard')
 end
 
 function game.joystickreleased(joystick, button)
-	game.inputreleased(button)
+	game.inputreleased(button,'joystick')
 end
 
-function game.inputreleased(key)
-	if key == keys.JUMP or key == keys.PAD.JUMP then
+function game.inputreleased(key,device)
+	if (device == 'keyboard' and key == keys.JUMP) or 
+	   (device == 'joystick' and key == keys.PAD.JUMP) then
 		spriteEngine:DoAll('unjump')
 	end
-	if key == keys.ACTION or key == keys.PAD.ACTION then
+	if (device == 'keyboard' and key == keys.ACTION) or 
+	   (device == 'joystick' and key == keys.PAD.ACTION) then
 		spriteEngine:DoAll('disconnect')
 	end
 end
