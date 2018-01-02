@@ -4,7 +4,7 @@ local deathScreen = require 'scripts/deathScreen'
 
 game = {
 	deathtimer = 0,
-	fullDeathtimer = 5, -- time until death effect is over
+	fullDeathtime = 5, -- time until death effect is over
 }
 
 function game:draw()
@@ -87,15 +87,15 @@ function game:update(dt)
 		end
 		self.deathtimer = self.deathtimer + dt
 		-- finish fade-to-black in less time than full death sequence:
-		shaders:setDeathEffect(	self.deathtimer/(self.fullDeathtimer*0.3) )
+		shaders:setDeathEffect(	self.deathtimer/(self.fullDeathtime*0.3) )
 	end
 
-	if self.deathtimer >= self.fullDeathtimer or (DEBUG and self.deathtimer > .5) then
+	--[[if self.deathtimer >= self.fullDeathtime or (DEBUG and self.deathtimer > .5) then
 		if not self.restartingLevel then
 			myMap:start(p)
-			self.restartingLevel = true
+			--self.restartingLevel = true
 		end
-	end
+	end]]
 
 	if p.y > myMap.height+2 and not p.dead then
 		p.dead = true
@@ -233,6 +233,7 @@ function game.joystickpressed(joystick, button)
 		if button == keys.PAD.CHOOSE then
 			myMap:start(p)
 		elseif button == keys.PAD.BACK then
+			shaders:resetDeathEffect()
 			--menu.startTransition( menu.initWorldMap, true )()
 			if menu.currentlyPlayingUserlevels then
 				menu:switchToSubmenu( "Userlevels" )

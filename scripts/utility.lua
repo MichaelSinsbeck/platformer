@@ -227,3 +227,7 @@ function utility.easingOvershoot(t)
 		return 1-(1-3*t)*((1-t)^2)
 	end
 end
+
+function utility.clamp(t, lower, upper)
+	return math.min(math.max(t, lower),upper)
+end
