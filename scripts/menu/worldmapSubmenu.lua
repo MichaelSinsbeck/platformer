@@ -27,7 +27,7 @@ function WorldmapSubmenu:new( x, y )
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
 
-	submenu:addImage( "world0", -singleWorldWidth*0.72, -42 )
+	submenu:addImage( "world0", -singleWorldWidth*0.745, -42 )
 	submenu:addImage( "world1", -singleWorldWidth*0.5, -42 )
 	submenu:addImage( "world2", singleWorldWidth*0.5, -42 )
 	submenu:addImage( "world3", singleWorldWidth*1.5, -42 )
@@ -161,7 +161,7 @@ function WorldmapSubmenu:scroll( )
 		Campaign.worldNumber = math.floor((b.x + singleWorldWidth*0.5)/singleWorldWidth)+1 -- calculate worldNumber
 		--local x = math.floor((b.x - singleWorldWidth*0.5)/singleWorldWidth)*singleWorldWidth + singleWorldWidth -- set Camera position
 		local x = (Campaign.worldNumber-1) * singleWorldWidth
-		if Campaign.worldNumber == 0 then x = -0.64 * singleWorldWidth end
+		if Campaign.worldNumber == 0 then x = -0.62 * singleWorldWidth end
 		if Campaign.worldNumber == 6 then x = 4.7 * singleWorldWidth end
 		local y = -1500
 		
@@ -202,7 +202,7 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, addBridges )
 
 	print('*** createButtons ***')
 
-	local x, y = -singleWorldWidth*0.5 + 6-30, 1
+	local x, y = -singleWorldWidth*0.5 + 6-30 - 5, 1
 
 	for k, v in ipairs(Campaign) do
 		if k > lastLevelNumber then
@@ -242,6 +242,9 @@ function WorldmapSubmenu:createButtons( lastLevelNumber, addBridges )
 		-- add extra distance after each world
 		if (k-1)/levelsPerWorld == math.floor((k-1)/levelsPerWorld) then
 			x = x + distBetweenWorlds
+		end
+		if k == 1 then -- a little bit extra distance for world 0
+			x = x + 5
 		end
 		x = x + distBetweenButtons
 	end
