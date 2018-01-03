@@ -42,6 +42,7 @@ function Walker:applyOptions()
 	else
 		self:setAnim(prefix .. 'prewalker')
 	end
+	self.timer = love.math.random()
 end
 
 function Walker:postStep(dt)
