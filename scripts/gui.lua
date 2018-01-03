@@ -141,7 +141,14 @@ end
 
 function gui:newLevelName( name )
 	-- Create a new level-name-display box and show for 5 seconds:
-	levelNameDisplay = LevelNameDisplay:new( name, 5 )
+	levelNameDisplay = LevelNameDisplay:new( name, 3 )
 end
+
+function gui:levelNameGoAway()
+	if levelNameDisplay then
+		levelNameDisplay:goAway()
+	end
+end
+
 
 return gui

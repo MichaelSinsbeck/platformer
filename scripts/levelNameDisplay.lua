@@ -1,5 +1,6 @@
 local Panel = require( "scripts/menu/menuPanel" )
 
+local vanishingTime = 1/2
 local LevelNameDisplay = {}
 LevelNameDisplay.__index = LevelNameDisplay
 
@@ -48,13 +49,8 @@ end
 
 function LevelNameDisplay:update( dt )
 	self.timer = self.timer - dt
-	if self.timer > self.fullTime - 1 then
-		self.animation = (self.fullTime - self.timer)
-	elseif self.timer < 2 then
-		self.animation = self.timer/2
-	else
-		self.animation = 1
-	end
+	self.animation = utility.clamp(self.timer / vanishingTime,0,1)
+	
 	self.box.y = self.boxGoalY*self.animation + self.boxStartY*(1-self.animation)
 	self.textY = self.textGoalY*self.animation + self.textStartY*(1-self.animation)
 
@@ -62,6 +58,10 @@ function LevelNameDisplay:update( dt )
 		return false
 	end
 	return true
+end
+
+function LevelNameDisplay:goAway()
+	self.timer = math.min(self.timer, vanishingTime + 0.1)
 end
 
 return LevelNameDisplay

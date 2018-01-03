@@ -121,6 +121,12 @@ function game.joystickpressed(joystick, button)
 end
 
 function game.inputpressed(key,device)
+	gui:levelNameGoAway()
+
+	if (device == 'keyboard' and key == 'p') then
+		Campaign:proceed()
+	end
+
 	if (device == 'keyboard' and key == keys.BACK) or 
 	   (device == 'joystick' and key == keys.PAD.BACK) then
 		shaders:resetDeathEffect()
