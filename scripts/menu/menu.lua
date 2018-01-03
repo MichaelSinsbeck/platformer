@@ -429,6 +429,10 @@ function menu:keypressed( key, repeated )
 	if menu.lockedInBridgeAnimation then -- no keypressed during bridge animation
 		return
 	end
+	if fader.active and 
+	   (key == keys.CHOOSE or key == keys.BACK) then -- cannot start a level, when animation is running
+		return
+	end
 	if key == keys.BACK then
 		Sound:play('menuBack')
 	end
@@ -465,6 +469,11 @@ end
 
 function menu:gamepadpressed( button )
 	if menu.lockedInBridgeAnimation then -- no keypressed during bridge animation
+		return
+	end
+
+	if fader.active and
+	   (button..'' == keys.PAD.CHOOSE or button..'' == keys.PAD.BACK) then
 		return
 	end
 	
