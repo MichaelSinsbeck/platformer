@@ -26,6 +26,7 @@ end
 function fader:update(dt)
 	timer = love.timer.getTime() - startTime
 	if phase == 1 and timer>timeIn then
+		menu:setCameraToTarget()
 		self.switchToLevel(levelNumber)
 		phase = 2
 		startTime = love.timer.getTime()

@@ -350,6 +350,12 @@ function menu:setCameraTo( x, y )
 	self.cameraSlideTime = nil
 end
 
+function menu:setCameraToTarget()
+	self.xCamera = self.xTarget
+	self.yCamera = self.yTarget
+	self.cameraSlideTime = nil
+end
+
 function menu:update( dt )
 	if not self.overlaySubmenu then
 		if self.cameraSlideTime then
