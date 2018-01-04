@@ -21,7 +21,6 @@ local changeNotificationVis
 --
 local function createFunction( f, keyType )
 	f.name = keys.displayNames[keyType] or string.lower( keyType)
-	--f.name = string.lower( keyType )
 	f.keyType = keyType
 	f.keyVis = Visualizer:New( getAnimationForKey( keysLocal[keyType] ) )
 	f.keyVis:init()
@@ -300,8 +299,8 @@ function KeyAssignmentSubmenu:checkForConflicts()
 				if keysLocal[name] ~= "none" then
 				if keysLocal[name] == keysLocal[otherName] then
 					submenu:clearLayer( "Error" )
-					submenu:addText( "Conflict! The keys for '" .. string.lower(name) ..
-					"' and '" .. string.lower(otherName) .. "' may not be the same!",
+					submenu:addText( "Conflict! The keys for '" .. keys.displayNames[name] ..
+					"' and '" .. keys.displayNames[otherName] .. "' must be different!",
 					-LIST_WIDTH/2 + 32, 28, LIST_WIDTH - 64, "Error" )
 					submenu:setLayerVisible( "Error", true )	
 					return false
@@ -317,8 +316,8 @@ function KeyAssignmentSubmenu:checkForConflicts()
 				if padKeysLocal[name] ~= "none" then
 					if padKeysLocal[name] == padKeysLocal[otherName] then
 						submenu:clearLayer( "Error" )
-						submenu:addText( "Conflict! The gamepad keys for '" .. string.lower(name) ..
-						"' and '" .. string.lower(otherName) .. "' may not be the same!",
+						submenu:addText( "Conflict! The gamepad keys for '" .. keys.displayNames[name] ..
+						"' and '" .. keys.displayNames[otherName] .. "' must be different!",
 						-LIST_WIDTH/2 + 32, 26, LIST_WIDTH - 64, "Error" )
 						submenu:setLayerVisible( "Error", true )	
 						return false
@@ -333,7 +332,7 @@ function KeyAssignmentSubmenu:checkForConflicts()
 		print( i, name, keysLocal[name])
 		if keysLocal[name] == "none" then
 			submenu:clearLayer( "Error" )
-			submenu:addText( "You must assign a keyboard key for '" .. string.lower(name) .. "'!",
+			submenu:addText( "You must assign a keyboard key for '" .. keys.displayNames[name] .. "'!",
 			-LIST_WIDTH/2 + 32, 26, LIST_WIDTH - 64, "Error" )
 			submenu:setLayerVisible( "Error", true )	
 			return false
