@@ -56,8 +56,8 @@ function game:checkControls()
 		or keys.getGamepadIsDown( nil, keys.PAD.UP )
 	self.isJump = love.keyboard.isDown( keys.JUMP ) 
 		or keys.getGamepadIsDown( nil, keys.PAD.JUMP )
-	self.isAction = love.keyboard.isDown( keys.ACTION )
-		or keys.getGamepadIsDown( nil, keys.PAD.ACTION )
+	self.isAction = love.keyboard.isDown( keys.ROPE )
+		or keys.getGamepadIsDown( nil, keys.PAD.ROPE )
 	self.isDash = love.keyboard.isDown( keys.DASH )
 	  or keys.getGamepadIsDown( nil, keys.PAD.DASH )
 	--print(keys.PAD_JUMP, tonumber(keys.PAD_JUMP), love.joystick.isDown(1, tonumber(keys.PAD_JUMP)))
@@ -178,8 +178,8 @@ function game.inputpressed(key,device)
 		end
 	end  
 
-	if (device == 'keyboard' and key == keys.ACTION) or 
-	   (device == 'joystick' and key == keys.PAD.ACTION) then
+	if (device == 'keyboard' and key == keys.ROPE) or 
+	   (device == 'joystick' and key == keys.PAD.ROPE) then
 		p:throwBungee()
 	end
 end
@@ -198,8 +198,8 @@ function game.inputreleased(key,device)
 	   (device == 'joystick' and key == keys.PAD.JUMP) then
 		spriteEngine:DoAll('unjump')
 	end
-	if (device == 'keyboard' and key == keys.ACTION) or 
-	   (device == 'joystick' and key == keys.PAD.ACTION) then
+	if (device == 'keyboard' and key == keys.ROPE) or 
+	   (device == 'joystick' and key == keys.PAD.ROPE) then
 		spriteEngine:DoAll('disconnect')
 	end
 end

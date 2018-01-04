@@ -7,20 +7,11 @@ keys.pressedLastFrame = {}
 keys.currentlyAssigning = false		--holds the string of the key which is currently being changed.
 
 keyTypes = {
+	"LEFT", "RIGHT", "UP", "DOWN",
+	"JUMP", "ROPE", "DASH",
+	"CHOOSE", "BACK",
 	"SCREENSHOT",
-	"FULLSCREEN",
 	"RESTARTMAP",
-	"RESTARTGAME",
-	"NEXTMAP",
-	"LEFT",
-	"RIGHT",
-	"UP",
-	"DOWN",
-	"JUMP",
-	"ACTION",
-	"DASH",
-	"CHOOSE",
-	"BACK",
 	"REFRESH",
 	"SORTNAME",
 	"SORTFUN",
@@ -30,21 +21,31 @@ keyTypes = {
 	"CLEAR",
 }
 
+keys.displayNames = {
+	LEFT = "Left", RIGHT = "Right", UP = "Up", DOWN = "Down",
+	JUMP = "Jump", ROPE ="Grappling Hook", DASH = "Dash",
+	CHOOSE = "Enter", BACK = "Back",
+	SCREENSHOT = "Screenshot",
+	RESTARTMAP = "Restart Level",
+	REFRESH = "Refresh List", SORTNAME = "Sort by Name", SORTFUN = "Sort by Fun", SORTDIFFICULTY = "Sort by Difficulty", DELETE_LEVEL = "Delete Level",
+	RESET = "Reset all Keybindings", CLEAR = "Clear this Keybinding"
+	}
+
 -- For each key, list the keys which it may NOT be the same as.
 keys.conflictList = {
 	-- In game:
-	{"SCEENSHOT", "FULLSCREEN", "RESTARTMAP", "RESTARTGAME", "NEXTMAP", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH"},
+	{"SCEENSHOT", "RESTARTMAP", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ROPE", "DASH"},
 	-- menu:
-	{"SCEENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "CHOOSE", "BACK",},
+	{"SCEENSHOT", "LEFT", "RIGHT", "UP", "DOWN", "CHOOSE", "BACK",},
 	-- userlevel menu:
-	{"SCREENSHOT", "FULLSCREEN", "CHOOSE", "BACK", "REFRESH", "DELETE_LEVEL", "SORTNAME", "SORTFUN", "SORTDIFFICULTY",},
+	{"SCREENSHOT", "CHOOSE", "BACK", "REFRESH", "DELETE_LEVEL", "SORTNAME", "SORTFUN", "SORTDIFFICULTY",},
 	-- key assignment menu:
-	{"SCREENSHOT", "FULLSCREEN", "LEFT", "RIGHT", "UP", "DOWN", "RESET", "CHOOSE", "BACK", "CLEAR"}
+	{"SCREENSHOT", "LEFT", "RIGHT", "UP", "DOWN", "RESET", "CHOOSE", "BACK", "CLEAR"}
 }
 
 -- These keys NEED to be set in order for key assignment to succeed:
 keys.mandatoryKeys = {
-	"LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ACTION", "DASH", "CHOOSE", "BACK", "REFRESH", "RESET", "BACK",
+	"LEFT", "RIGHT", "UP", "DOWN", "JUMP", "ROPE", "DASH", "CHOOSE", "BACK", "REFRESH", "RESET", "BACK",
 }
 
 ---------------------------------------------------------
@@ -53,10 +54,7 @@ keys.mandatoryKeys = {
 function keys.setDefaults()
 	-- keyboard defaults:
 	keys.SCREENSHOT = 'f2'
-	keys.FULLSCREEN = 'f9'
 	keys.RESTARTMAP = 'p'
-	keys.RESTARTGAME = 'o'
-	keys.NEXTMAP = DEBUG and 'q' or 'invalid_key'
 
 	keys.LEFT = 'left'
 	keys.RIGHT = 'right'
@@ -64,7 +62,7 @@ function keys.setDefaults()
 	keys.DOWN = 'down'
 
 	keys.JUMP = 'a'
-	keys.ACTION = 's'
+	keys.ROPE = 's'
 	keys.DASH = 'd'
 
 	keys.CHOOSE = 'return'
@@ -81,10 +79,7 @@ function keys.setDefaults()
 	-- gamepad defaults:
 	keys.PAD = {}
 	keys.PAD.SCREENSHOT = '6'
-	keys.PAD.FULLSCREEN = 'none'
 	keys.PAD.RESTARTMAP = 'none'
-	keys.PAD.RESTARTGAME = 'none'
-	keys.PAD.NEXTMAP = 'none'
 
 	keys.PAD.LEFT = 'l'
 	keys.PAD.RIGHT = 'r'
@@ -92,7 +87,7 @@ function keys.setDefaults()
 	keys.PAD.DOWN = 'd'
 
 	keys.PAD.JUMP = '1'
-	keys.PAD.ACTION = '2'
+	keys.PAD.ROPE = '2'
 	keys.PAD.DASH = '4'
 
 	keys.PAD.CHOOSE = '1'
@@ -131,14 +126,8 @@ function keys.load()
 	-- Load keyboard setup:
 	key = config.getValue( "SCREENSHOT", "keyboard.txt")
 	if key then keys.SCREENSHOT = key end
-	key = config.getValue( "FULLSCREEN", "keyboard.txt")
-	if key then keys.FULLSCREEN = key end
 	key = config.getValue( "RESTARTMAP", "keyboard.txt")
 	if key then keys.RESTARTMAP = key end
-	key = config.getValue( "RESTARTGAME", "keyboard.txt")
-	if key then keys.RESTARTGAME = key end
-	key = config.getValue( "NEXTMAP", "keyboard.txt")
-	if key then keys.NEXTMAP = DEBUG and key or 'invalid_key' end
 	
 	key = config.getValue( "LEFT", "keyboard.txt")
 	if key then keys.LEFT = key end
@@ -151,8 +140,8 @@ function keys.load()
 	
 	key = config.getValue( "JUMP", "keyboard.txt")
 	if key then keys.JUMP = key end
-	key = config.getValue( "ACTION", "keyboard.txt")
-	if key then keys.ACTION = key end
+	key = config.getValue( "ROPE", "keyboard.txt")
+	if key then keys.ROPE = key end
 	key = config.getValue( "DASH", "keyboard.txt")
 	if key then keys.DASH = key end
 
@@ -174,14 +163,8 @@ function keys.load()
 	-- Load gamepad setup:
 	key = config.getValue( "SCREENSHOT", "gamepad.txt")
 	if key then keys.PAD.SCREENSHOT = key end
-	key = config.getValue( "FULLSCREEN", "gamepad.txt")
-	if key then keys.PAD.FULLSCREEN = key end
 	key = config.getValue( "RESTARTMAP", "gamepad.txt")
 	if key then keys.PAD.RESTARTMAP = key end
-	key = config.getValue( "RESTARTGAME", "gamepad.txt")
-	if key then keys.PAD.RESTARTGAME = key end
-	key = config.getValue( "NEXTMAP", "gamepad.txt")
-	if key then keys.PAD.NEXTMAP = key end
 	
 	key = config.getValue( "LEFT", "gamepad.txt")
 	if key then keys.PAD.LEFT = key end
@@ -194,8 +177,8 @@ function keys.load()
 	
 	key = config.getValue( "JUMP", "gamepad.txt")
 	if key then keys.PAD.JUMP = key end
-	key = config.getValue( "ACTION", "gamepad.txt")
-	if key then keys.PAD.ACTION = key end
+	key = config.getValue( "ROPE", "gamepad.txt")
+	if key then keys.PAD.ROPE = key end
 	key = config.getValue( "DASH", "gamepad.txt")
 	if key then keys.PAD.DASH = key end
 
@@ -246,7 +229,7 @@ function nameForKey( key )
 	elseif key == "return" then
 		return "£"
 	elseif key == "escape" then
-		return "^"		
+		return "^"
 	elseif key == "none" then
 		return ""
 	else
@@ -523,269 +506,6 @@ function keys.moveMenuPlayer( x, y, newAnimation )
 	end
 end
 
-
-function keys.initKeyboard()
-	menu.state = "keyboard"
-	menu:clear()
-	
-	keys.changed = false -- don't save configuration unless new key has been assigned
-	
-	local x,y = -26, -55
-	local imgOff, imgOn
-	local hoverEvent
-	local ninjaDistX = 3
-	local ninjaDistY = -4
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
-	imgOff, imgOn = getImageForKey( keys.LEFT, 'fontSmall' )
-	local startButton = menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_LEFT",
-					keys.startAssign( "LEFT" ), hoverEvent,
-					nameForKey(keys.LEFT), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("left")/Camera.scale, y+3, "LEFT", "left")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
-	imgOff, imgOn = getImageForKey( keys.RIGHT, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_RIGHT",
-					keys.startAssign( "RIGHT" ), hoverEvent,
-					nameForKey(keys.RIGHT), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("right")/Camera.scale, y+3, "RIGHT", "right")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveUpWhite" )
-	imgOff, imgOn = getImageForKey( keys.UP, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_UP", 
-					keys.startAssign( "UP" ), hoverEvent,
-					nameForKey(keys.UP), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("up")/Camera.scale, y+3, "UP", "up")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveDownWhite" )
-	imgOff, imgOn = getImageForKey( keys.DOWN, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_DOWN", 
-					keys.startAssign( "DOWN" ), hoverEvent,
-					nameForKey(keys.DOWN), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
-	
-	x = 34
-	y = -55
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
-	imgOff, imgOn = getImageForKey( keys.JUMP, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_JUMP",
-					keys.startAssign( "JUMP" ), hoverEvent,
-					nameForKey(keys.JUMP), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("jump")/Camera.scale, y+3, "JUMP", "jump")
-	y = y + 10
-		
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "blueGliding" )
-	imgOff, imgOn = getImageForKey( keys.ACTION, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_ACTION",
-					keys.startAssign( "ACTION" ), hoverEvent,
-					nameForKey(keys.ACTION), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3,	"ACTION", "use bandana")
-	y = y + 10
-
-	--[[hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForKey( keys.PAUSE, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_PAUSE",
-					keys.startAssign( "PAUSE" ), hoverEvent,
-					nameForKey(keys.PAUSE), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("pause")/Camera.scale, y+3, "PAUSE", "pause")]]
-
-	local x,y = 3, 10
-
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "playerScreenshot" )
-	imgOff, imgOn = getImageForKey( keys.SCREENSHOT, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_SCREENSHOT",
-					keys.startAssign( "SCREENSHOT" ), hoverEvent,
-					nameForKey(keys.SCREENSHOT), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("screenshot")/Camera.scale, y+3,
-					"SCREENSHOT", "screenshot")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "playerFullscreen" )
-	imgOff, imgOn = getImageForKey( keys.FULLSCREEN, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_FULLSCREEN",
-					keys.startAssign( "FULLSCREEN" ), hoverEvent,
-					nameForKey(keys.FULLSCREEN), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("fullscreen")/Camera.scale, y+3,
-					"FULLSCREEN", "fullscreen")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForKey( keys.RESTARTMAP, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_RESTARTMAP",
-					keys.startAssign( "RESTARTMAP" ), hoverEvent,
-					nameForKey(keys.RESTARTMAP), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("restart map")/Camera.scale, y+3,
-			"RESTARTMAP", "restart map")
-
-	y = y + 10
-
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForKey( keys.CHOOSE, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_CHOOSE",
-					keys.startAssign( "CHOOSE" ), hoverEvent,
-					nameForKey(keys.CHOOSE), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("choose")/Camera.scale, y+3,
-					"CHOOSE", "choose")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForKey( keys.BACK, 'fontSmall' )
-	menu:addButtonLabeled( x, y,
-					imgOff, imgOn, "key_BACK",
-					keys.startAssign( "BACK" ), hoverEvent,
-					nameForKey(keys.BACK), 'fontSmall' )
-	menu:addText( x-8 - fontSmall:getWidth("back")/Camera.scale, y+3,
-					"BACK", "back")
-	y = y + 10
-	
-	menu:addBox(-63,-64,126,50)
-	menu:addBox(-63, 2,126,60)
-	-- start of with the first button selected:
-	selectButton(startButton)
-end
-
-
-function keys.initGamepad()
-	menu.state = "gamepad"
-	menu:clear()
-	
-	keys.changed = false -- don't save configuration unless new key has been assigned
-	
-	local x,y = -26, -55
-	local imgOff, imgOn
-	local hoverEvent
-	local ninjaDistX = 3
-	local ninjaDistY = -4
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
-	imgOff,imgOn = getImageForPad( keys.PAD.LEFT )
-	local startButton = menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_LEFT",
-					keys.startAssign( "LEFT" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("left")/Camera.scale, y+3, "LEFT", "left")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteWalk" )
-	imgOff,imgOn = getImageForPad( keys.PAD.RIGHT )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_RIGHT",
-					keys.startAssign( "RIGHT" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("right")/Camera.scale, y+3, "RIGHT", "right")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveUpWhite" )
-	imgOff,imgOn = getImageForPad( keys.PAD.UP )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_UP", 
-					keys.startAssign( "UP" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("up")/Camera.scale, y+3, "UP", "up")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "moveDownWhite" )
-	imgOff,imgOn = getImageForPad( keys.PAD.DOWN )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_DOWN", 
-					keys.startAssign( "DOWN" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("down")/Camera.scale, y+3, "DOWN", "down")
-	
-	y = -55
-	x = 34
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "jumpFallWhite" )
-	imgOff,imgOn = getImageForPad( keys.PAD.JUMP )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_JUMP",
-					keys.startAssign( "JUMP" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("jump")/Camera.scale, y+3, "JUMP", "jump")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "blueGliding" )
-	imgOff,imgOn = getImageForPad( keys.PAD.ACTION )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_ACTION",
-					keys.startAssign( "ACTION" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("use bandana")/Camera.scale, y+3, "ACTION", "use bandana")
-	y = y + 10
-	
-	--[[hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff,imgOn = getImageForPad( keys.PAD.PAUSE )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_PAUSE",
-					keys.startAssign( "PAUSE" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("pause")/Camera.scale, y+3, "PAUSE", "pause")
-	y = y + 14]]
-
-
-	local x,y = 3, 10
-
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForPad( keys.PAD.CHOOSE, 'fontSmall' )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_CHOOSE",
-					keys.startAssign( "CHOOSE" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("choose")/Camera.scale, y+3,
-					"CHOOSE", "choose")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff, imgOn = getImageForPad( keys.PAD.BACK, 'fontSmall' )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_BACK",
-					keys.startAssign( "BACK" ), hoverEvent )
-	menu:addText( x-8 - fontSmall:getWidth("back")/Camera.scale, y+3,
-					"BACK", "back")
-	y = y + 10
-
-	--[[
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff,imgOn = getImageForPad( keys.PAD.SCREENSHOT )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_SCREENSHOT",
-					keys.startAssign( "SCREENSHOT" ), hoverEvent )
-	menu:addText( x-20, y+3, "SCREENSHOT", "screenshot")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff,imgOn = getImageForPad( keys.PAD.FULLSCREEN )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_FULLSCREEN",
-					keys.startAssign( "FULLSCREEN" ), hoverEvent )
-	menu:addText( x-20, y+3, "FULLSCREEN", "fullscreen")
-	y = y + 10
-	
-	hoverEvent = keys.moveMenuPlayer( x - ninjaDistX, y - ninjaDistY, "whiteStand" )
-	imgOff,imgOn = getImageForPad( keys.PAD.RESTARTMAP, 'fontSmall' )
-	menu:addButton( x, y,
-					imgOff, imgOn, "key_PAD_RESTARTMAP",
-					keys.startAssign( "RESTARTMAP" ), hoverEvent )
-	menu:addText( x-20, y+3, "RESTARTMAP", "restart map")
-	]]--
-	
-	-- start of with the first button selected:
-	--menu:addBox(-55,-50,110,50)
-	--menu:addBox(-55, 5,110,40)
-	menu:addBox(-63,-64,126,50)
-	menu:addBox(-63, 2,126,42)
-	
-	selectButton(startButton)
-	
-end
-
 -- check for double assignments or empty keys.
 function keys:checkInvalid()
 	if menu.state == "keyboard" then
@@ -820,63 +540,50 @@ function keys:checkInvalid()
 end
 
 function keys:save()
-	--if not keys.currentlyAssigning then
-		if keys.changed then
-			--if menu.state == "keyboard" then	-- save keyboard layout:
-				config.setValue( "SCREENSHOT", keys.SCREENSHOT, "keyboard.txt")
-				config.setValue( "FULLSCREEN", keys.FULLSCREEN, "keyboard.txt")
-				config.setValue( "RESTARTMAP", keys.RESTARTMAP, "keyboard.txt")
-				config.setValue( "RESTARTGAME", keys.RESTARTGAME, "keyboard.txt")
-				if DEBUG then config.setValue( "NEXTMAP", keys.NEXTMAP, "keyboard.txt") end
 
-				config.setValue( "LEFT", keys.LEFT, "keyboard.txt")
-				config.setValue( "RIGHT", keys.RIGHT, "keyboard.txt")
-				config.setValue( "UP", keys.UP, "keyboard.txt")
-				config.setValue( "DOWN", keys.DOWN, "keyboard.txt")
+	if keys.changed then
+		config.setValue( "SCREENSHOT", keys.SCREENSHOT, "keyboard.txt")
+		config.setValue( "RESTARTMAP", keys.RESTARTMAP, "keyboard.txt")
+
+		config.setValue( "LEFT", keys.LEFT, "keyboard.txt")
+		config.setValue( "RIGHT", keys.RIGHT, "keyboard.txt")
+		config.setValue( "UP", keys.UP, "keyboard.txt")
+		config.setValue( "DOWN", keys.DOWN, "keyboard.txt")
+	
+		config.setValue( "JUMP", keys.JUMP, "keyboard.txt")
+		config.setValue( "ROPE", keys.ROPE, "keyboard.txt")
+		config.setValue( "DASH", keys.DASH, "keyboard.txt")
+
+		config.setValue( "CHOOSE", keys.CHOOSE, "keyboard.txt")
+		config.setValue( "BACK", keys.BACK, "keyboard.txt")
+
+		config.setValue( "REFRESH", keys.REFRESH, "keyboard.txt")
+		config.setValue( "SORTNAME", keys.SORTNAME, "keyboard.txt")
+		config.setValue( "SORTFUN", keys.SORTFUN, "keyboard.txt")
+		config.setValue( "SORTDIFFICULTY", keys.SORTDIFFICULTY, "keyboard.txt")
 			
-				config.setValue( "JUMP", keys.JUMP, "keyboard.txt")
-				config.setValue( "ACTION", keys.ACTION, "keyboard.txt")
-				config.setValue( "DASH", keys.DASH, "keyboard.txt")
+		config.setValue( "SCREENSHOT", keys.PAD.SCREENSHOT, "gamepad.txt")
+		config.setValue( "RESTARTMAP", keys.PAD.RESTARTMAP, "gamepad.txt")
+	
+		config.setValue( "LEFT", keys.PAD.LEFT, "gamepad.txt")
+		config.setValue( "RIGHT", keys.PAD.RIGHT, "gamepad.txt")
+		config.setValue( "UP", keys.PAD.UP, "gamepad.txt")
+		config.setValue( "DOWN", keys.PAD.DOWN, "gamepad.txt")
+	
+		config.setValue( "JUMP", keys.PAD.JUMP, "gamepad.txt")
+		config.setValue( "ROPE", keys.PAD.ROPE, "gamepad.txt")
+		config.setValue( "DASH", keys.PAD.DASH, "gamepad.txt")
 
-				config.setValue( "CHOOSE", keys.CHOOSE, "keyboard.txt")
-				config.setValue( "BACK", keys.BACK, "keyboard.txt")
+		config.setValue( "CHOOSE", keys.PAD.CHOOSE, "gamepad.txt")
+		config.setValue( "BACK", keys.PAD.BACK, "gamepad.txt")
 
-				config.setValue( "REFRESH", keys.REFRESH, "keyboard.txt")
-				config.setValue( "SORTNAME", keys.SORTNAME, "keyboard.txt")
-				config.setValue( "SORTFUN", keys.SORTFUN, "keyboard.txt")
-				config.setValue( "SORTDIFFICULTY", keys.SORTDIFFICULTY, "keyboard.txt")
-				--config.setValue( "PAUSE", keys.PAUSE, "keyboard.txt")
-			--else
-				config.setValue( "SCREENSHOT", keys.PAD.SCREENSHOT, "gamepad.txt")
-				config.setValue( "FULLSCREEN", keys.PAD.FULLSCREEN, "gamepad.txt")
-				config.setValue( "RESTARTMAP", keys.PAD.RESTARTMAP, "gamepad.txt")
-				config.setValue( "RESTARTGAME", keys.PAD.RESTARTGAME, "gamepad.txt")
-				config.setValue( "NEXTMAP", keys.PAD.NEXTMAP, "gamepad.txt")
-			
-				config.setValue( "LEFT", keys.PAD.LEFT, "gamepad.txt")
-				config.setValue( "RIGHT", keys.PAD.RIGHT, "gamepad.txt")
-				config.setValue( "UP", keys.PAD.UP, "gamepad.txt")
-				config.setValue( "DOWN", keys.PAD.DOWN, "gamepad.txt")
-			
-				config.setValue( "JUMP", keys.PAD.JUMP, "gamepad.txt")
-				config.setValue( "ACTION", keys.PAD.ACTION, "gamepad.txt")
-				config.setValue( "DASH", keys.PAD.DASH, "gamepad.txt")
+		config.setValue( "REFRESH", keys.PAD.REFRESH, "gamepad.txt")
+		config.setValue( "SORTNAME", keys.PAD.SORTNAME, "gamepad.txt")
+		config.setValue( "SORTFUN", keys.PAD.SORTFUN, "gamepad.txt")
+		config.setValue( "SORTDIFFICULTY", keys.PAD.SORTDIFFICULTY, "gamepad.txt")
 
-				config.setValue( "CHOOSE", keys.PAD.CHOOSE, "gamepad.txt")
-				config.setValue( "BACK", keys.PAD.BACK, "gamepad.txt")
-
-				config.setValue( "REFRESH", keys.PAD.REFRESH, "gamepad.txt")
-				config.setValue( "SORTNAME", keys.PAD.SORTNAME, "gamepad.txt")
-				config.setValue( "SORTFUN", keys.PAD.SORTFUN, "gamepad.txt")
-				config.setValue( "SORTDIFFICULTY", keys.PAD.SORTDIFFICULTY, "gamepad.txt")
-				--config.setValue( "PAUSE", keys.PAD.PAUSE, "gamepad.txt")
-			--end
-			keys.changed = false
-		end
-		--[[if not keys:checkInvalid() then
-			menu.startTransition(settings.init, false)()		-- exit the submenu and return to parent menu
-		end]]
-	--end
+		keys.changed = false
+	end
 end
 
 function keys.startAssign( keyToAssign )

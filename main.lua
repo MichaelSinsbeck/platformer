@@ -182,11 +182,6 @@ function love.keypressed( key, scancode, repeated )
 	elseif mode == 'editor' then
 		editor.keypressed( key, repeated )
 	else
-	
-		--if key == keys.FULLSCREEN then
-		--	settings:toggleFullscreen()
-		--end
-
 		if mode == 'menu' or menu.overlaySubmenu then
 			menu:keypressed( key, repeated )
 		elseif mode == 'game' then
@@ -206,12 +201,6 @@ function love.keypressed( key, scancode, repeated )
 		end
 		if key == keys.RESTARTMAP then
 			if myMap then myMap:start(p) end
-		end
-		if key == keys.RESTARTGAME then
-			if Campaign and myMap then
-				Campaign:reset()
-				myMap:start(p)
-			end
 		end
 	end
 end

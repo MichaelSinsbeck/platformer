@@ -41,7 +41,7 @@ local buttonNames = {
   yellow = 'JUMP',
   green = 'JUMP',
   blue = 'DASH',
-  red = 'ACTION', 
+  red = 'ROPE', 
 }
 
 local function getButtonVis(color)

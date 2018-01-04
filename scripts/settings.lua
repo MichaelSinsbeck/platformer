@@ -34,12 +34,12 @@ function settings:setWindowSize()
 	print("FULLSCREEN:", self.fullscreen)
 	if self.fullscreen then
 		scale = self:fullscreenScale()
-		success = love.window.setMode( 0, 0, {fullscreen = true} )
+		success = love.window.setMode( 0, 0, {fullscreen = true,vsync=true} )
 	else
 		scale = self:windowScale()
 		success = love.window.setMode(
 			math.min(self.xScreen,scale*8*32),
-			math.min(self.yScreen,scale*8*20), {fullscreen = false} )
+			math.min(self.yScreen,scale*8*20), {fullscreen = false,vsync=true} )
 	end
 	love.window.setTitle( 'Bandana' )
 	Camera:setScale(scale)
@@ -106,27 +106,6 @@ function settings:fullscreenScale()
 	end
 	return suggestedScale
 	--return 8
-end
-
-function settings.init()
-	menu:clear()	-- remove anything that was previously on the menu
-	menu.state = "settings"
-
-	menuPlayer.vis:setAni("lookWhite")
-	
-	local x,y = -22, 0
-	
-	menu.setPlayerPosition( 0, 15 )()
-	menuPlayer.vis.sx = -1
-	
-	local startButton = menu:addButton( x, y, 'keyboardOff', 'keyboardOn', "keyboard", menu.startTransition(keys.initKeyboard), nil)
-	
-	x = x + 25
-	menu:addButton( x, y, 'gamepadOff', 'gamepadOn', "gamepad", menu.startTransition(keys.initGamepad), nil )
-
-	menu:addBox(-33,-7,64,32)
-
-	selectButton(startButton)
 end
 
 function settings:getShadowsEnabled()

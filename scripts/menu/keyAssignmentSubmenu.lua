@@ -20,7 +20,8 @@ local changeNotificationVis
 --local keyCurrentlyAssigning = nil
 --
 local function createFunction( f, keyType )
-	f.name = string.lower( keyType )
+	f.name = keys.displayNames[keyType] or string.lower( keyType)
+	--f.name = string.lower( keyType )
 	f.keyType = keyType
 	f.keyVis = Visualizer:New( getAnimationForKey( keysLocal[keyType] ) )
 	f.keyVis:init()

@@ -318,7 +318,7 @@ endObj
 Obj:Input
 	x:12
 	y:7
-	p:button=ACTION
+	p:button=ROPE
 endObj
 endObjects
 
