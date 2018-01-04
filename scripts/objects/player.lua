@@ -69,7 +69,8 @@ function Player:applyOptions()
 
 	self:setBandana(color)
 	gui.clearBandanas()
-	gui.addBandana( color, true )
+	local dontShow = true
+	gui.addBandana( color, dontShow )
 end
 
 function Player:setBandana(color, onlyUpgrade)

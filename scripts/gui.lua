@@ -106,11 +106,9 @@ function gui.drawBandanas( x, y )
 end
 
 function gui.addBandana( color, noShow )
-	--print("Adding bandana: ".. color )
 	newBandana = nil
 	local number = bandana2num[color]
-	if number == nil then 
-		bandanaTimer = bandanaDuration
+	if number == nil then
 		return
 	end
 	if noShow then -- silently set bandana
@@ -133,14 +131,13 @@ function gui.addBandana( color, noShow )
 end
 
 function gui.clearBandanas()
-	--print("Clearing all bandanas")
 	bandanaTimes = {math.huge,math.huge,math.huge,math.huge,math.huge}
 	bandanaTimer = 0
 	iconState = 0
 end
 
 function gui:newLevelName( name )
-	-- Create a new level-name-display box and show for 5 seconds:
+	-- Create a new level-name-display box and show for 3 seconds:
 	levelNameDisplay = LevelNameDisplay:new( name, 3 )
 end
 
