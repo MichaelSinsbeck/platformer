@@ -196,7 +196,7 @@ function love.keypressed( key, scancode, repeated )
 
 		-- always works, independently of game state:
 		if key == keys.SCREENSHOT then
-			love.graphics.newScreenshot():encode('screenshot.png')
+			love.graphics.newScreenshot():encode('png','screenshot.png')
 			print('Saved screenshot')
 		end
 		if key == keys.RESTARTMAP then
