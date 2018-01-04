@@ -69,7 +69,7 @@ function HotkeyDisplay:update()
 		--if self.caption then
 			self.vis = Visualizer:New( getAnimationForKey( self.key ) )
 			self.vis:init()
-			self.textVis = Visualizer:New( nil, nil, nameForKey( self.key ) )
+			self.textVis = Visualizer:New( nil, nil, nameForKey( self.key ):upper() )
 			self.textVis:init()
 		--end
 	end
