@@ -62,13 +62,12 @@ function KeyAssignmentSubmenu:new( x, y )
 		self.keyCurrentlyAssigning = nil
 	end]]
 	
-	--local p = submenu:addPanel( -LIST_WIDTH/2, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )
-	local p = submenu:addPanel( -55, -LIST_HEIGHT/2 - 8, LIST_WIDTH, LIST_HEIGHT )	
+	local p = submenu:addPanel( -7*8, -LIST_HEIGHT/2 - 8, 7*16 , LIST_HEIGHT )	
 	p:turnIntoList( LIST_ENTRY_HEIGHT, 2 )
 
 	submenu:addLayer("Assignment")
 	submenu:setLayerVisible( "Assignment", false )
-	submenu:addPanel( -LIST_WIDTH/2 + 8, -16, LIST_WIDTH - 16, 32, "Assignment" )
+	submenu:addPanel( -2.5*16, -16, 5*16, 32, "Assignment" )
 
 	local closeError = function()
 		submenu:setLayerVisible( "Error", false )
@@ -76,7 +75,7 @@ function KeyAssignmentSubmenu:new( x, y )
 
 	submenu:addLayer("Error")
 	submenu:setLayerVisible( "Error", false )
-	submenu:addPanel( -LIST_WIDTH/2 + 24, 16, LIST_WIDTH - 48, 32, "Error" )
+	submenu:addPanel( -2.5*16, 16, 5*16, 32, "Error" )
 	submenu:addHotkey( "BACK", "Ok", 
 		love.graphics.getWidth()/Camera.scale/2 - 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
@@ -100,9 +99,8 @@ function KeyAssignmentSubmenu:new( x, y )
 		print("Starting assignment for: ", self.keyCurrentlyAssigning )
 		submenu:setLayerVisible( "Assignment", true )
 		submenu:clearLayer( "Assignment" )
-		--submenu:addPanel( -LIST_WIDTH/2 + 8, -16, LIST_WIDTH - 16, 32, "Assignment" )
 		submenu:addText( "Enter new key for '" .. functions[selectedFunction].name .. "'",
-				-LIST_WIDTH/2 + 32, -4, LIST_WIDTH - 64, "Assignment" )
+				-2*16, -4, 4*16, "Assignment" )
 	end
 
 	local buttonCenter = submenu:addButton( "", "", 0, 0, startReassignment, lineHover )
@@ -186,36 +184,36 @@ function KeyAssignmentSubmenu:draw()
 	--local x = -LIST_WIDTH/2 + 4
 	--local y = -LIST_HEIGHT/2
 	--
-	local w = LIST_WIDTH - 8
+	local w = 6*16
 	local h = LIST_HEIGHT
 
-	local x = -LIST_WIDTH/2 + 4
+	local x = -3*16
 	local y = -LIST_HEIGHT/2
 	
-	local xName = (x + 15)*Camera.scale
-	local xKeyboard = (x + 42)*Camera.scale
-	local xKeyboardCenter = (x + 56)*Camera.scale
+	local xName = (x + 10)*Camera.scale --(x + 15)*Camera.scale
+	local xKeyboard = (x + 48)*Camera.scale
+	local xKeyboardCenter = (x + 60)*Camera.scale
 	local xPad = (x + 72)*Camera.scale
-	local xPadCenter = (x + 86)*Camera.scale
-	local xEnd = (x + 102)*Camera.scale	
+	local xPadCenter = (x + 84)*Camera.scale
+	local xEnd = (x+w) * Camera.scale -- (x + 102)*Camera.scale	
 
 	-- draw headers:
 	love.graphics.setColor( 30,0,0,75 )
-	love.graphics.rectangle( "fill", xName, y*Camera.scale, xKeyboard - xName - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
-	love.graphics.rectangle( "fill", xKeyboard, y*Camera.scale, xPad - xKeyboard - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
-	love.graphics.rectangle( "fill", xPad, y*Camera.scale, xEnd - xPad - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xName + Camera.scale, y*Camera.scale, xKeyboard - xName - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xKeyboard + Camera.scale, y*Camera.scale, xPad - xKeyboard - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
+	love.graphics.rectangle( "fill", xPad + Camera.scale, y*Camera.scale, xEnd - xPad - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 
 	love.graphics.setColor( 255,255,255,255 )
 	--love.graphics.setColor( 0,0,0,255 )
-	love.graphics.print( "Function", xName + 2*Camera.scale, (y + 2)*Camera.scale )
-	love.graphics.print( "Keyboard", xKeyboard + 2*Camera.scale, (y + 2)*Camera.scale )
-	love.graphics.print( "Controller", xPad + 2*Camera.scale, (y + 2)*Camera.scale )
+	love.graphics.printf( "Function", xName + 2*Camera.scale, (y + 2)*Camera.scale, xKeyboard - xName, 'left' )
+	love.graphics.printf( "Keyboard", xKeyboard, (y + 2)*Camera.scale, xPad - xKeyboard, 'center' )
+	love.graphics.printf( "Controller", xPad, (y + 2)*Camera.scale, xEnd - xPad, 'center' )
 
 	local lastDisplayedFunction = math.min( numDisplayedFunctions + firstDisplayedFunction - 1, #functions )
 	for i = firstDisplayedFunction, lastDisplayedFunction do
 		local curY = (2 + y + LIST_ENTRY_HEIGHT*(i-firstDisplayedFunction+1))*Camera.scale
 		local visY = curY + 2*Camera.scale
-		love.graphics.print( functions[i].name, xName, curY )
+		love.graphics.print( functions[i].name, xName + 2*Camera.scale, curY )
 		functions[i].keyVis:draw( xKeyboardCenter, visY )
 		functions[i].keyNameVis:draw( xKeyboardCenter, visY )
 		functions[i].padVis:draw( xPadCenter, visY )
@@ -301,7 +299,7 @@ function KeyAssignmentSubmenu:checkForConflicts()
 					submenu:clearLayer( "Error" )
 					submenu:addText( "Conflict! The keys for '" .. keys.displayNames[name] ..
 					"' and '" .. keys.displayNames[otherName] .. "' must be different!",
-					-LIST_WIDTH/2 + 32, 28, LIST_WIDTH - 64, "Error" )
+					-2*16, 28, 4*16, "Error" )
 					submenu:setLayerVisible( "Error", true )	
 					return false
 				end
@@ -318,7 +316,7 @@ function KeyAssignmentSubmenu:checkForConflicts()
 						submenu:clearLayer( "Error" )
 						submenu:addText( "Conflict! The gamepad keys for '" .. keys.displayNames[name] ..
 						"' and '" .. keys.displayNames[otherName] .. "' must be different!",
-						-LIST_WIDTH/2 + 32, 26, LIST_WIDTH - 64, "Error" )
+						-2*16, 26, 4*16, "Error" )
 						submenu:setLayerVisible( "Error", true )	
 						return false
 					end

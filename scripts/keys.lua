@@ -54,7 +54,7 @@ keys.mandatoryKeys = {
 function keys.setDefaults()
 	-- keyboard defaults:
 	keys.SCREENSHOT = 'f2'
-	keys.RESTARTMAP = 'p'
+	keys.RESTARTMAP = 'r'
 
 	keys.LEFT = 'left'
 	keys.RIGHT = 'right'

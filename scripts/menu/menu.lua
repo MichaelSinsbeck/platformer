@@ -40,7 +40,7 @@ function menu:init()
 	-- Create the main menu:
 	local mainMenu = Submenu:new()
 	mainMenu:addImage( "logo", -85, -78 )
-	mainMenu:addPanel( -30, -20, 50, 80 )
+	mainMenu:addPanel( -32, -20, 64, 80 )
 
 	local switchToWorldMap = function()
 		--mainMenu:startExitTransition(
