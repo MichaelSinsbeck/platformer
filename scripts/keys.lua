@@ -28,7 +28,7 @@ keys.displayNames = {
 	SCREENSHOT = "Screenshot",
 	RESTARTMAP = "Restart Level",
 	REFRESH = "Refresh List", SORTNAME = "Sort by Name", SORTFUN = "Sort by Fun", SORTDIFFICULTY = "Sort by Difficulty", DELETE_LEVEL = "Delete Level",
-	RESET = "Reset all Keybindings", CLEAR = "Clear this Keybinding"
+	RESET = "Reset Keybindings", CLEAR = "Clear Keybinding"
 	}
 
 -- For each key, list the keys which it may NOT be the same as.

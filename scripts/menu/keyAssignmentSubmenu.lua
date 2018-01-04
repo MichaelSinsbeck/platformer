@@ -149,12 +149,12 @@ function KeyAssignmentSubmenu:new( x, y )
 		-love.graphics.getWidth()/Camera.scale/2 + 24,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		back )
-	submenu:addHotkey( "RESET", "Default",
-		-love.graphics.getWidth()/Camera.scale/2 + 48,
+	submenu:addHotkey( "RESET", "Reset to Default",
+		-love.graphics.getWidth()/Camera.scale/2 + 54,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		function() KeyAssignmentSubmenu:resetToDefault() end )
 	submenu:addHotkey( "CLEAR", "Clear",
-		-love.graphics.getWidth()/Camera.scale/2 + 72,
+		love.graphics.getWidth()/Camera.scale/2 - 48,
 		love.graphics.getHeight()/Camera.scale/2 - 16,
 		function() KeyAssignmentSubmenu:clearCurrent() end )
 
