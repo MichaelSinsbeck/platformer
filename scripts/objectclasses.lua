@@ -68,6 +68,7 @@ Infosign = require 'scripts/objects.infosign',
 Bird = require 'scripts/objects.bird',
 Chicken = require 'scripts/objects.chicken',
 Boss = require 'scripts/objects.boss',
+Minidragon = require 'scripts/objects.minidragon',
 }
 
 

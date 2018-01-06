@@ -791,6 +791,10 @@ end
 function Player:connect(anchor)
 	self.anchor = anchor
 	anchor.length = utility.pyth(self.x-anchor.x,self.y-anchor.y)+0.1
+	
+	if anchor.target.onConnect then -- notify target that it is being connected
+		anchor.target:onConnect()
+	end
 end
 
 function Player:disconnect()

@@ -1,29 +1,60 @@
 local Boss = object:New({
 	tag = 'Boss',
 	layout = 'center',
+	category = 'Enemies',
 	marginx = 0.4,
 	marginy = 0.4,
 	isInEditor = true,
 	animTimer = 0,
-	hitAnim = 0,
+	hitAnimState = 0,
 	hitTimer = 0,
+	destructionTimer = 0,
+	explosionCount = 0,
+	explosionCount2 = 0,
+	state = "waiting",
 	vis = {
-		},
+		Visualizer:New('windmillpreview'),
+	},
 })
 
 
 function Boss:draw()
-	-- leg in the back
-	love.graphics.draw(AnimationDB.image.bossLeg2,(self.x-1)   *8*Camera.scale,(self.y-5.5)*8*Camera.scale)
+	--local applyShader = (self.hitTimer > 0)
+	local applyShader = (self.state == "hit")
+
+	if applyShader then
+		love.graphics.setShader( shaders.lightup )
+	end
+
+	if self.destructionTimer < 1.5 then
+		if self.destructionTimer < 0.5 then
+			shaders.lightup:send( "percentage", self.hitTimer)
+		else
+			local percentage = math.max(1+(self.destructionTimer-1.5)*3,0)
+			shaders.lightup:send( "percentage", percentage)
+		end
+		-- leg in the back
+		love.graphics.draw(AnimationDB.image.bossLeg2,(self.x-1)  *8*Camera.scale,(self.y-5.5)*8*Camera.scale)
+		-- body
+		love.graphics.draw(self.mesh,(self.x-12.7)*8*Camera.scale,(self.y-11) *8*Camera.scale)
+		-- leg in the front
+		love.graphics.draw(AnimationDB.image.bossLeg1,(self.x+4)   *8*Camera.scale,(self.y-5.5)*8*Camera.scale)
+	end
 	
-	-- body
-	love.graphics.draw(self.mesh,(self.x-12.7)*8*Camera.scale,(self.y-11) *8*Camera.scale)
+	if self.destructionTimer < 2 then
+		if self.destructionTimer < 0.5 then
+			shaders.lightup:send( "percentage", self.hitTimer)
+		else
+			local percentage = math.max(1+(self.destructionTimer-2)*3,0)
+			shaders.lightup:send( "percentage", percentage)
+		end
+		-- head
+		love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR + 0.1 * self.hitAnimState,1,1,70*Camera.scale,50*Camera.scale)
+	end
 	
-	-- leg in the front
-	love.graphics.draw(AnimationDB.image.bossLeg1,(self.x+4)   *8*Camera.scale,(self.y-5.5)*8*Camera.scale)
-	
-	-- head
-	love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR + 0.1 * self.hitAnim,1,1,70*Camera.scale,50*Camera.scale)
+	if applyShader then
+		love.graphics.setShader()
+	end
 end
 
 function Boss:applyOptions()
@@ -47,12 +78,27 @@ function Boss:applyOptions()
 end
 
 function Boss:setAcceleration(dt)
+	if love.keyboard.isDown("i") and self.state == "waiting" then
+		self:hit()
+	end
 end
 
-function Boss:postStep(dt)	
-	self.animTimer = self.animTimer + dt
-	self.animState = math.sin(1.5*self.animTimer)
-	
+function Boss:hit()
+	self:playSound('bossHit')
+	self.hitTimer = 1
+	self.destructionTimer = 0
+	self.state = "hit"
+end
+
+function Boss:postStep(dt)
+	-- update all timers
+	if self.state == 'waiting' then
+		self.animTimer = self.animTimer + dt
+	end
+	self.hitTimer = math.max(self.hitTimer - 2 * dt,0)
+	if self.state == "hit" then
+		self.destructionTimer = self.destructionTimer + dt
+	end
 	
 		-- check for collision with missile
 	for k,v in pairs(spriteEngine.objects) do
@@ -60,20 +106,21 @@ function Boss:postStep(dt)
 			local dx = v.x - self.x + 11
 			local dy = v.y - self.y + 5
 			if dx^2+dy^2 < 5^2 then
-				self:playSound('bossHit')
-				self.hitTimer = 1
+				self:hit()
 				v:detonate()
 			end
 			break
 		end
 	end
 	
-	self.hitAnim = self.hitTimer * (1-self.hitTimer) * 4
+	-- update animation
+	self.animState = math.sin(1.5*self.animTimer) -- breath
+	self.hitAnimState = self.hitTimer * (1-self.hitTimer) * 2 -- hit
 	
 	-- deform mesh according to animState
 	local x,y,u,v,r,g,b,a, thisV,idx
 	local W,H = AnimationDB.image.bossBody:getDimensions()
-	local shift = Camera.scale * self.animState - self.hitAnim * Camera.scale
+	local shift = Camera.scale * self.animState - self.hitAnimState * Camera.scale
 	idx = 1
 	x,y,u,v,r,g,b,a = self.mesh:getVertex(idx)
 	thisV = {-2*shift,H+shift,u,v,r,g,b,a}
@@ -103,9 +150,49 @@ function Boss:postStep(dt)
 	self.headY = shift
 	self.headR = self.animState * 0.02
 	
-	
-
-	self.hitTimer = math.max(self.hitTimer - 2 * dt,0)
+	-- generate explosion animation, if destructing
+	local explosionStart = 0.25
+	local explosionsPerSecond = 50
+	-- exploding body
+	if self.destructionTimer > explosionStart and self.destructionTimer < 1.5 then
+		local totalExplosionNumber = math.floor((self.destructionTimer - explosionStart) * explosionsPerSecond)
+		local thisExplosionNumber = totalExplosionNumber - self.explosionCount
+		if thisExplosionNumber > 0 then
+			for i =1,thisExplosionNumber do
+				local x,y = self.x - 9 + love.math.random() * 18, self.y - 10 + love.math.random() * 9
+				local angle = math.random()*math.pi*2
+				local thisPoff = spriteFactory('Poff',{x = x, y = y,vis = {Visualizer:New('largepoff',{angle=angle})}})
+				spriteEngine:insert(thisPoff,2)
+			end
+			self.explosionCount = totalExplosionNumber
+		end
+	end
+	-- exploding head
+	local explosionsPerSecond = 22
+	if self.destructionTimer >= 1 then
+		local totalExplosionNumber = math.floor((self.destructionTimer - 1) * explosionsPerSecond)
+		local thisExplosionNumber = totalExplosionNumber - self.explosionCount2
+		if thisExplosionNumber > 0 then
+			for i =1,thisExplosionNumber do
+				local x,y = self.x - 16 + love.math.random() * 8, self.y - 8 + love.math.random() * 9
+				local angle = math.random()*math.pi*2
+				local thisPoff
+				if math.random() < 0.7 then
+					local thisPoff = spriteFactory('Poff',{x = x, y = y,vis = {Visualizer:New('largepoff',{angle=angle})}})
+					spriteEngine:insert(thisPoff,2)
+				else
+					local thisPoff = spriteFactory('Poff',{x = x, y = y,vis = {Visualizer:New('poff',{angle=angle})}})
+					spriteEngine:insert(thisPoff,2)
+				end
+			end
+			self.explosionCount2 = totalExplosionNumber
+		end
+	end
+	if self.destructionTimer > 2 then
+		local thisMini = spriteFactory('Minidragon',{x = self.x-11.75, y = self.y-3.75})
+		spriteEngine:insert(thisMini,2)
+		self:kill()
+	end
 end
 
 return Boss

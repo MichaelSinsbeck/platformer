@@ -52,6 +52,7 @@ function shaders:load()
 
 	--shaders.grayScale = love.graphics.newPixelEffect( textFromFile ("grayscale.glsl") )
 	--shaders.fadeToBlack = love.graphics.newPixelEffect( textFromFile ("fadeToBlack.glsl") )
+	shaders.lightup = love.graphics.newShader( "scripts/shaders/lightup.glsl" )
 	shaders.fullscreen = love.graphics.newShader( "scripts/shaders/fullscreen.glsl" )
 	shaders.background = love.graphics.newShader( "scripts/shaders/background.glsl" )
 	shaders.background:send( "baseCol", backgroundBaseColor )

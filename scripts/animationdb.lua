@@ -278,6 +278,11 @@ function AnimationDB:loadAllImages()
 	AnimationDB:addTile('irregular', 4, 0, 1, 1.6) -- fat ninja npc
 	AnimationDB:addTile('irregular', 4, 1.6, 1, 1.6) -- normal ninja npc
 	AnimationDB:addTile('irregular', 4, 3.2, 1, 1.6) -- tall ninja npc#
+	AnimationDB:addTile('irregular', 5, 0, 2, 2) -- large explosion cloud 
+	AnimationDB:addTile('irregular', 5, 2, 2, 2)
+	AnimationDB:addTile('irregular', 5, 4, 2, 2)
+	AnimationDB:addTile('irregular', 7, 0, 2, 2)
+	AnimationDB:addTile('irregular', 7, 2, 2, 2)
 	
 	-- boss parts
 	AnimationDB:loadImage('bossHead.png','bossHead')
@@ -448,6 +453,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('chickenEat','objects',{111,112,111,112,111,112},{0.3,0.2,0.2,0.2,0.5,0.2})
 	AnimationDB:addAni('chickenJump','objects',{111,113},{0.1,0.1})
 	AnimationDB:addAni('chickenPanic','objects',{111,113},{0.05,0.05})
+	AnimationDB:addAni('batFly','objects',{116,114,116,115},{0.05,0.1,0.05,0.1})
 
 	-- small objects
 	AnimationDB:addAni('crumble1','small',{1},{1e6})
@@ -523,6 +529,7 @@ function AnimationDB:loadAnimations()
 	AnimationDB:addAni('npc1','irregular',{15},{1e6})
 	AnimationDB:addAni('npc2','irregular',{16},{1e6})
 	AnimationDB:addAni('npc3','irregular',{17},{1e6})
+	AnimationDB:addAni('largepoff','irregular',{18,19,20,21,22,22},{0.05,0.075,0.15,0.15,0.1,1e6})
 	
 	-- gui stuff
 	AnimationDB:addAni('guiBeanFull','bean',{1},{1e6})
