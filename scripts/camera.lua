@@ -17,6 +17,7 @@ Camera = {
 	py = 0,
 	yHorizon = 0, -- distance (in pixel) above horizon
 	dx = 0, -- distance (in pixel) of horizonal movement
+	xBound = math.huge, -- external bound for x-Coordinate
   }
 
 function Camera:update(dt)
@@ -26,6 +27,14 @@ function Camera:update(dt)
   local oldXWorld = self.xWorld
   self.x = self.x + factor*(self.xTarget-self.x)
   self.y = self.y + factor*(self.yTarget-self.y)
+  
+  -- enforce xBound and then reset (has to be set each frame)
+  if self.x + 0.5*self.width/tileSize > self.xBound then
+		self.x = self.xBound - 0.5 * self.width/tileSize
+  end
+  self.xBound = math.huge
+  
+  -- calculate pixel-coordinates from tile-coordinates
   self.xWorld = math.floor(-Camera.x*myMap.tileSize*self.zoom+self.width/2)/self.zoom
   self.yWorld = math.floor(-Camera.y*myMap.tileSize*self.zoom+self.height/2)/self.zoom
   
@@ -58,6 +67,10 @@ function Camera:update(dt)
 	self.yScissor = (self.height-self.hScissor)/2
 	
 	self.dx = self.xWorld - oldXWorld
+end
+
+function Camera:registerUpperXBound(bound)
+	self.xBound = math.min(self.xBound,bound)
 end
 
 function Camera:init()

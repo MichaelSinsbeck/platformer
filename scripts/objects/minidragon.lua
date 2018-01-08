@@ -21,6 +21,10 @@ function Minidragon:onConnect()
 	self.vis[1].sx = -1
 end
 
+function Minidragon:onDisconnect()
+	self.state = "fleeing"
+end
+
 function Minidragon:applyOptions()
 end
 
@@ -32,8 +36,15 @@ function Minidragon:setAcceleration(dt)
 		self.vx = math.min(self.vx + self.acceleration * dt, self.targetSpeed)
 		self.vis[1].angle = 0.3
 	end
+	if self.state == "fleeing" then
+		self.vx = math.min(self.vx + self.acceleration * dt * 3, 5 * self.targetSpeed)
+	end
 	self.flyTimer = self.flyTimer + dt
-	self.vy = - math.cos(self.flyTimer) * 0.35
+	if self.state == "waiting" then
+		self.vy = - math.cos(self.flyTimer) * 0.35
+	else
+		self.vy = 0
+	end
 end
 
 function Minidragon:postStep(dt)

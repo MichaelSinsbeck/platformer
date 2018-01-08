@@ -801,6 +801,9 @@ function Player:disconnect()
 	if self.anchor then
 		self.status = 'fly'
 		self.canUnJump = false
+		if self.anchor.target.onDisconnect then -- send signal
+			self.anchor.target:onDisconnect()
+		end
 		self.anchor = nil
 	end
 end

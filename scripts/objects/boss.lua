@@ -91,6 +91,9 @@ function Boss:hit()
 end
 
 function Boss:postStep(dt)
+	-- restrict camera movement (to not reveal tail)
+	Camera:registerUpperXBound(self.x+9.5)
+	
 	-- update all timers
 	if self.state == 'waiting' then
 		self.animTimer = self.animTimer + dt
