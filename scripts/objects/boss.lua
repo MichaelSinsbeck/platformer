@@ -11,7 +11,9 @@ local Boss = object:New({
 	destructionTimer = 0,
 	explosionCount = 0,
 	explosionCount2 = 0,
-	state = "waiting",
+	appearTimer = 1,
+	phase = 0,
+	state = "appear",
 	vis = {
 		Visualizer:New('windmillpreview'),
 	},
@@ -19,38 +21,32 @@ local Boss = object:New({
 
 
 function Boss:draw()
-	--local applyShader = (self.hitTimer > 0)
-	local applyShader = (self.state == "hit")
+	local applyShader = (self.state == "hit") or (self.state == "appear")
 
 	if applyShader then
 		love.graphics.setShader( shaders.lightup )
 	end
 
-	if self.destructionTimer < 1.5 then
-		if self.destructionTimer < 0.5 then
-			shaders.lightup:send( "percentage", self.hitTimer)
-		else
-			local percentage = math.max(1+(self.destructionTimer-1.5)*3,0)
-			shaders.lightup:send( "percentage", percentage)
-		end
-		-- leg in the back
-		love.graphics.draw(AnimationDB.image.bossLeg2,(self.x-1)  *8*Camera.scale,(self.y-5.5)*8*Camera.scale)
-		-- body
-		love.graphics.draw(self.mesh,(self.x-12.7)*8*Camera.scale,(self.y-11) *8*Camera.scale)
-		-- leg in the front
-		love.graphics.draw(AnimationDB.image.bossLeg1,(self.x+4)   *8*Camera.scale,(self.y-5.5)*8*Camera.scale)
+	-- body and legs
+	if self.state == "hit" then
+		local percentage = math.max(1+(self.destructionTimer-1.5)*3,0)
+		shaders.lightup:send( "percentage", percentage)
+	elseif self.state == "appear" then
+		shaders.lightup:send( "percentage", self.appearTimer+0.1)
 	end
 	
-	if self.destructionTimer < 2 then
-		if self.destructionTimer < 0.5 then
-			shaders.lightup:send( "percentage", self.hitTimer)
-		else
-			local percentage = math.max(1+(self.destructionTimer-2)*3,0)
-			shaders.lightup:send( "percentage", percentage)
-		end
-		-- head
-		love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR + 0.1 * self.hitAnimState,1,1,70*Camera.scale,50*Camera.scale)
+	love.graphics.draw(AnimationDB.image.bossLeg2,(self.x-1)*8*Camera.scale,(self.y-5.5)*8*Camera.scale) -- back leg
+	love.graphics.draw(self.mesh,(self.x-12.7)*8*Camera.scale,(self.y-11)*8*Camera.scale) -- body
+	love.graphics.draw(AnimationDB.image.bossLeg1,(self.x+4)*8*Camera.scale,(self.y-5.5)*8*Camera.scale) -- front leg
+	
+	-- head
+	if self.state == "hit" then
+		local percentage = math.max(1+(self.destructionTimer-2)*3,0)
+		shaders.lightup:send( "percentage", percentage)
+	elseif self.state == "appear" then
+		shaders.lightup:send( "percentage", self.appearTimer)
 	end
+	love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR + 0.1 * self.hitAnimState,1,1,70*Camera.scale,50*Camera.scale)
 	
 	if applyShader then
 		love.graphics.setShader()
@@ -101,6 +97,12 @@ function Boss:postStep(dt)
 	self.hitTimer = math.max(self.hitTimer - 2 * dt,0)
 	if self.state == "hit" then
 		self.destructionTimer = self.destructionTimer + dt
+	end
+	if self.state == 'appear' then
+		self.appearTimer = math.max(self.appearTimer - 2*dt,0)
+		if self.appearTimer == 0 then
+			self.state = 'waiting'
+		end
 	end
 	
 		-- check for collision with missile
@@ -192,7 +194,7 @@ function Boss:postStep(dt)
 		end
 	end
 	if self.destructionTimer > 2 then
-		local thisMini = spriteFactory('Minidragon',{x = self.x-11.75, y = self.y-3.75})
+		local thisMini = spriteFactory('Minidragon',{x = self.x-11.75, y = self.y-3.75, state = "waiting", phase = self.phase+1, speed = 0})
 		spriteEngine:insert(thisMini,2)
 		self:kill()
 	end
