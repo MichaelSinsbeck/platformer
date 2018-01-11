@@ -70,6 +70,7 @@ Chicken = require 'scripts/objects.chicken',
 Boss = require 'scripts/objects.boss',
 Minidragon = require 'scripts/objects.minidragon',
 Dragonmarker = require 'scripts/objects.dragonmarker',
+Dragonball = require 'scripts/objects.dragonball',
 }
 
 

@@ -6,6 +6,8 @@ local Boss = object:New({
 	marginy = 0.4,
 	isInEditor = true,
 	animTimer = 0,
+	shotTimer = 0,
+	shotInterval = 3,
 	hitAnimState = 0,
 	hitTimer = 0,
 	destructionTimer = 0,
@@ -15,7 +17,7 @@ local Boss = object:New({
 	phase = 0,
 	state = "appear",
 	vis = {
-		Visualizer:New('windmillpreview'),
+		Visualizer:New('enemyprewalker',{relX = -11.75,relY = -3.75,sx = 0, sy = 0}),
 	},
 })
 
@@ -51,6 +53,8 @@ function Boss:draw()
 	if applyShader then
 		love.graphics.setShader()
 	end
+	
+	object.draw(self)
 end
 
 function Boss:applyOptions()
@@ -86,6 +90,18 @@ function Boss:hit()
 	self.state = "hit"
 end
 
+function Boss:shootBall()
+	local nBalls = 5
+	local angle = love.math.random() * 2 * 3.1415
+	for i=1,nBalls do
+		local thisAngle = angle + i * 2 * 3.1415 /nBalls
+		local thisvx = 8 * math.cos(thisAngle)
+		local thisvy = 8 * math.sin(thisAngle)
+		local newBall = spriteFactory('Dragonball',{x = self.x-11.75, y = self.y-3.75,vx = thisvx, vy = thisvy, tx = p.x, ty = p.y})
+		spriteEngine:insert(newBall,2)
+	end
+end
+
 function Boss:postStep(dt)
 	-- restrict camera movement (to not reveal tail)
 	Camera:registerUpperXBound(self.x+9.5)
@@ -93,6 +109,16 @@ function Boss:postStep(dt)
 	-- update all timers
 	if self.state == 'waiting' then
 		self.animTimer = self.animTimer + dt
+		self.shotTimer = self.shotTimer + dt
+		if self.shotTimer > self.shotInterval then
+			self.shotTimer = self.shotTimer - self.shotInterval
+			self:shootBall()
+		end
+		local s = (self.shotTimer / self.shotInterval)^2
+		self.vis[1].sx = s
+		self.vis[1].sy = s
+		self.vis[1].relX = -11.75 + 0.1*(love.math.random()-0.5)*s
+		self.vis[1].relY =  -3.75 + 0.1*(love.math.random()-0.5)*s
 	end
 	self.hitTimer = math.max(self.hitTimer - 2 * dt,0)
 	if self.state == "hit" then
