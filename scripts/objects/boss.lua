@@ -48,7 +48,7 @@ function Boss:draw()
 	elseif self.state == "appear" then
 		shaders.lightup:send( "percentage", self.appearTimer)
 	end
-	love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR + 0.1 * self.hitAnimState,1,1,70*Camera.scale,50*Camera.scale)
+	love.graphics.draw(AnimationDB.image.bossHead,(self.x-9.75)*8*Camera.scale+self.headX,(self.y-4.75) *8*Camera.scale+self.headY,self.headR,1,1,70*Camera.scale,50*Camera.scale)
 	
 	if applyShader then
 		love.graphics.setShader()
@@ -97,9 +97,12 @@ function Boss:shootBall()
 		local thisAngle = angle + i * 2 * 3.1415 /nBalls
 		local thisvx = 8 * math.cos(thisAngle)
 		local thisvy = 8 * math.sin(thisAngle)
-		local newBall = spriteFactory('Dragonball',{x = self.x-11.75, y = self.y-3.75,vx = thisvx, vy = thisvy, tx = p.x, ty = p.y})
+		local newBall = spriteFactory('Dragonball',{x = self.x+self.ballX, y = self.y+self.ballY,vx = thisvx, vy = thisvy, tx = p.x, ty = p.y})
+		
 		spriteEngine:insert(newBall,2)
 	end
+	local thisPoff = spriteFactory('Poff',{x = self.x+self.ballX, y = self.y+self.ballY,vis = {Visualizer:New('largepoff',{angle=love.math.random()*10})}})
+	spriteEngine:insert(thisPoff,2)
 end
 
 function Boss:postStep(dt)
@@ -114,11 +117,6 @@ function Boss:postStep(dt)
 			self.shotTimer = self.shotTimer - self.shotInterval
 			self:shootBall()
 		end
-		local s = (self.shotTimer / self.shotInterval)^2
-		self.vis[1].sx = s
-		self.vis[1].sy = s
-		self.vis[1].relX = -11.75 + 0.1*(love.math.random()-0.5)*s
-		self.vis[1].relY =  -3.75 + 0.1*(love.math.random()-0.5)*s
 	end
 	self.hitTimer = math.max(self.hitTimer - 2 * dt,0)
 	if self.state == "hit" then
@@ -177,9 +175,29 @@ function Boss:postStep(dt)
 	thisV = {x,4*shift,u,v,r,g,b,a}
 	self.mesh:setVertex(idx, thisV)
 
+	-- set position and rotation of dragons head
 	self.headX = -2 * shift
 	self.headY = shift
-	self.headR = self.animState * 0.02
+	self.headR = self.animState * 0.02 + 0.1 * self.hitAnimState
+	
+	if self.state == "waiting" then -- calculate position of ball (in mouth)
+		local neckX = -9.75 + self.headX / (8*Camera.scale)
+		local neckY = -4.75 + self.headY / (8*Camera.scale)
+		local thisSin = math.sin(self.headR)
+		local thisCos = math.cos(self.headR)
+		self.ballX = neckX + thisCos * (-3.4) + thisSin * (-4.1)
+		self.ballY = neckY + thisSin * (-3.4) - thisCos * (-4.1)
+		
+		local s = (self.shotTimer / self.shotInterval)^2
+		self.vis[1].sx = s
+		self.vis[1].sy = s
+		self.vis[1].r = self.headR
+		self.vis[1].relX = self.ballX + 0.2*(love.math.random()-0.5)*s
+		self.vis[1].relY = self.ballY + 0.2*(love.math.random()-0.5)*s
+	else
+		self.vis[1].sx = 0
+		self.vis[1].sy = 0
+	end
 	
 	-- generate explosion animation, if destructing
 	local explosionStart = 0.25

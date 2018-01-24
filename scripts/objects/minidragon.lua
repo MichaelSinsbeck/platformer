@@ -52,7 +52,7 @@ function Minidragon:setAcceleration(dt)
 			self.vis[1].sx = -1
 		end
 		self.transformTimer = self.transformTimer + dt
-		if self.transformTimer > 1 and not self.spawnedBoss then
+		if self.transformTimer > .3 and not self.spawnedBoss then
 			local newBoss = spriteFactory('Boss',{x=self.x + 11.75,y=self.y+3.75, phase = self.phase})
 			spriteEngine:insert(newBoss,2)
 			self.spawnedBoss = true
@@ -68,9 +68,12 @@ function Minidragon:setAcceleration(dt)
 		self.speed = math.min(self.speed + self.acceleration * dt, self.targetSpeed)
 		local dx,dy = self.targetX - self.x, self.targetY - self.y
 		local distance = utility.pyth(dx,dy)
-		if distance < 7 then
-			self.speed = math.max(distance/7 * self.targetSpeed,0.5)
+		if distance < 0.5 * self.targetSpeed^2 / self.acceleration then -- slow down close to target
+			self.speed = math.sqrt(2*distance*self.acceleration)
 		end
+		--if distance < 7 then
+		--	self.speed = math.max(distance/7 * self.targetSpeed,0.5)
+		--end
 		if distance < self.speed * dt then
 			self.state = "transform"
 			self.vx = 0
