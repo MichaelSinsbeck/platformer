@@ -31,7 +31,7 @@ function game:draw()
 	
 	
 
-	--love.graphics.setColor(255,255,255) 
+	--love.graphics.setColor(1,1,1) 
 	
 	Camera:free()
 

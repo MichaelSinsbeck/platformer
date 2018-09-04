@@ -123,7 +123,7 @@ function Map:initShadows()
 		shadows:init( false, 0,0,0,200 )
 		col = {r=150,g=150,b=150,a=40}
 	else
-		love.graphics.setColor(80,150,205) -- blue (world 1)
+		love.graphics.setColor(0.31,0.59,0.80) -- blue (world 1)
 	end
 	
 	self.shadowMap = self:convertForShadows( self.height+1, self.width+1 )
@@ -148,7 +148,7 @@ function Map:addLight( x, y )
 	elseif Campaign.worldNumber == 5 then
 		col = {r=150,g=150,b=150,a=40}
 	else
-		love.graphics.setColor(80,150,205) -- blue (world 1)
+		love.graphics.setColor(0.31,0.59,0.80) -- blue (world 1)
 	end
 	
 	--shadows:draw(x+1, y+1, self.shadowMap, self.tileSize or tileSize, false, draw_monocle, col)
@@ -360,12 +360,12 @@ end
 
 function Map:drawBG()
 	-- draw background color
-	--love.graphics.setColor(80,150,205) -- blue (world 1)
+	--love.graphics.setColor(0.31,0.59,0.80) -- blue (world 1)
 	--love.graphics.setColor(244,238,215)
 	
 	-- use relatively dark colors for testing shadows:
 	--[[if Campaign.worldNumber == 1 then
-		love.graphics.setColor(80,150,205) -- blue (world 1)
+		love.graphics.setColor(0.31,0.59,0.80) -- blue (world 1)
 	elseif Campaign.worldNumber == 2 then
 		love.graphics.setColor(100,110,70)
 	elseif Campaign.worldNumber == 3 then
@@ -375,11 +375,11 @@ function Map:drawBG()
 	elseif Campaign.worldNumber == 5 then
 		love.graphics.setColor(50,50,50)
 	else
-		love.graphics.setColor(80,150,205) -- blue (world 1)
+		love.graphics.setColor(0.31,0.59,0.80) -- blue (world 1)
 	end]]
 	
 	--love.graphics.rectangle('fill',self.tileSize,self.tileSize,self.tileSize*self.width,self.tileSize*self.height)
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	love.graphics.draw(self.spriteBatchBG,0,0)
 end
 
@@ -388,7 +388,7 @@ function Map:drawWalls()
 end
 
 function Map:drawFG()
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	love.graphics.draw(self.spriteBatchFG,0,0)
 end
 

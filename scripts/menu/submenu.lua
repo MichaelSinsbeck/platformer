@@ -67,7 +67,7 @@ function Submenu:draw()
 				love.graphics.printf( t.text, math.floor(t.x*Camera.scale), math.floor(t.y*Camera.scale),
 						t.width*Camera.scale, t.align )
 			end
-			love.graphics.setColor(255,255,255)
+			love.graphics.setColor(1,1,1)
 
 			--if self.transition then
 				--self.transition:pop()

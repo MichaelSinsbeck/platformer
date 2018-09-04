@@ -32,7 +32,7 @@ function CameraguideRect:draw()
 		local thisHeight = self.sensorH * Camera.scale*8
 		local x = (self.x + self.offsetX) * Camera.scale*8 - 0.5*thisWidth
 		local y = (self.y + self.offsetY) * Camera.scale*8 - 0.5*thisHeight
-		love.graphics.setColor(0,255,0,50)
+		love.graphics.setColor(0,1,0,0.2)
 		love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
 		
 		local thisWidth = self.sensorW * Camera.scale*8*(1-self.transition)
@@ -41,7 +41,7 @@ function CameraguideRect:draw()
 		local y = (self.y + self.offsetY) * Camera.scale*8 - 0.5*thisHeight
 		love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
 		
-		love.graphics.setColor(255,255,255)
+		love.graphics.setColor(1,1,1)
 	
 		-- draw visualizers
 		object.draw(self)

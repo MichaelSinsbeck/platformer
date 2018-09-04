@@ -191,7 +191,7 @@ function Clickable:newBatch( x, y, event, obj, width, height, toolTip )
 end
 
 function Clickable:draw()
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	
 	
 	if self.active and self.ActiveVis then -- draw frame is selected
@@ -200,26 +200,26 @@ function Clickable:draw()
 	
 	if self.vis then
 		if not self.highlighted and not self.active and not self.isObject then
-			love.graphics.setColor(180,180,180,255) -- draw slightly darker
+			love.graphics.setColor(0.7,0.7,0.7,1) -- draw slightly darker
 		end
 		for k = 1, #self.vis do
 			self.vis[k]:draw(self.x*Camera.scale,self.y*Camera.scale,true)
 		end
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(1,1,1,1)
 	elseif self.batch then
 		love.graphics.draw( self.batch, self.x*Camera.scale, self.y*Camera.scale )
-		love.graphics.setColor(50,50,50)
+		love.graphics.setColor(0.2,0.2,0.2)
 		love.graphics.setLineWidth(1)
 		love.graphics.rectangle("line", self.minX+.5, self.minY+.5, self.maxX - self.minX, self.maxY-self.minY)
 		
 	elseif self.text then
 		if self.highlighted then
-			love.graphics.setColor( 255, 255, 255, 60 )
+			love.graphics.setColor( 1, 1, 1, 0.25 )
 		else
-			love.graphics.setColor( 255, 255, 255, 20 )
+			love.graphics.setColor( 1, 1, 1, 0.08 )
 		end
 		love.graphics.rectangle( 'fill', self.x*Camera.scale, self.y*Camera.scale, self.width, self.height )
-		love.graphics.setColor(255,255,255)
+		love.graphics.setColor(1,1,1)
 		love.graphics.print( self.text, math.floor(self.textX), math.floor(self.textY) )
 	end
 	
@@ -231,11 +231,10 @@ function Clickable:draw()
 		love.graphics.push()
 		love.graphics.setLineWidth(2)	
 		love.graphics.translate( math.floor(self.x*Camera.scale), math.floor((self.y+1)*Camera.scale) )
-		love.graphics.setColor(180,255,180,160)
+		love.graphics.setColor(0.7,1,0.7,0.63)
 		love.graphics.polygon( 'fill', self.shortcutBox )
-		love.graphics.setColor(0,0,0,255)
+		love.graphics.setColor(0,0,0,1)
 		love.graphics.polygon( 'line', self.shortcutBox )
-		--love.graphics.setColor(255,255,255,255)
 		love.graphics.print( shortcut:upper(), math.floor(self.offsetX), math.floor(self.offsetY) )
 		love.graphics.pop()
 	end
@@ -245,14 +244,14 @@ end
 
 function Clickable:drawPreviewOutline()
 	if self.selectionPreview then
-		love.graphics.setColor(255,255,200, 75)
+		love.graphics.setColor(1,1,0.8,0.3)
 		love.graphics.setLineWidth(3)	
 		love.graphics.rectangle("fill", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
 	end
 end
 function Clickable:drawOutline()
 	if self.selected or (self.vis and DEBUG) then
-		love.graphics.setColor(140,255,140,100)
+		love.graphics.setColor(0.55,1,0.55,0.4)
 		love.graphics.setLineWidth(2)	
 		love.graphics.rectangle("fill", self.minX, self.minY, self.maxX - self.minX, self.maxY-self.minY)
 	end

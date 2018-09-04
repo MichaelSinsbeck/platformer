@@ -468,14 +468,14 @@ function UserlevelSubmenu:drawUserlevels()
 	local xEnd = (x + w - 8)*Camera.scale
 
 	-- draw headers:
-	love.graphics.setColor( 30,0,0,75 )
+	love.graphics.setColor( 0.12,0,0,0.3 )
 	love.graphics.rectangle( "fill", xLevelname, y*Camera.scale, xAuthor - xLevelname - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xAuthor, y*Camera.scale, xFun - xAuthor - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xFun, y*Camera.scale, xDifficulty - xFun - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xDifficulty, y*Camera.scale, xAuthorized - xDifficulty - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xAuthorized, y*Camera.scale, xEnd - xAuthorized - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 
-	love.graphics.setColor( 255,255,255,255 )
+	love.graphics.setColor( 1,1,1,1 )
 	love.graphics.print( "Level", math.floor(xLevelname + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )
 	love.graphics.print( "Author", math.floor(xAuthor + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )
 	love.graphics.print( "Fun", math.floor(xFun + 2*Camera.scale), math.floor((y + 2)*Camera.scale) )

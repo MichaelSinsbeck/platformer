@@ -1,12 +1,12 @@
 local color = {
 
-	text = {54,38,16},   -- for standard text
-	text2 = {156,128,85}, -- secondary text
+	text = {0.21,0.15,0.06},   -- for standard text
+	text2 = {0.61,0.5,0.33}, -- secondary text
 	text3 = {247,237,222}, -- light text
-	blueText = {44,90,160}, -- for loading screen
-	grayText = {150,150,150}, -- for loading screen
-	white = {255,255,255,255},
-	black = {0,0,0,255},
-	fabric = {214,187,146},
+	blueText = {0.17,0.35,0.62}, -- for loading screen
+	grayText = {0.59,0.59,0.59}, -- for loading screen
+	white = {1,1,1,1},
+	black = {0,0,0,1},
+	fabric = {0.84,0.73,0.57},
 }
 return color

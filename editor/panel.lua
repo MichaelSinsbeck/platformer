@@ -174,7 +174,7 @@ end
 
 function Panel:draw()
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	if self.box then
 		self.box:draw( self.x, self.y )
 		--[[love.graphics.push()
@@ -199,7 +199,7 @@ function Panel:draw()
 		love.graphics.pop()]]--
 	end
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 
 	if self.labels[0] then
 		for i, label in ipairs( self.labels[0] ) do
@@ -213,10 +213,10 @@ function Panel:draw()
 	end
 	for k, p in pairs( self.properties ) do
 		if not p.isTextProperty and not p.isNumericTextProperty then
-			love.graphics.setColor(255,255,255,20)
+			love.graphics.setColor(1,1,1,0.08)
 			love.graphics.rectangle("fill", (p.x+3)*Camera.scale, (p.y+5)*Camera.scale,
 			25*Camera.scale, 4*Camera.scale)
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 
 			local displayName = p.names[p.obj[k]] or p.obj[k]
 			love.graphics.print( displayName, math.floor((p.x+7)*Camera.scale), math.floor((p.y+5)*Camera.scale) )
@@ -229,13 +229,13 @@ function Panel:draw()
 			local cX = input.x*Camera.scale + input.curX
 			local cY = input.y*Camera.scale + input.curY
 			love.graphics.line( cX, cY - fontSmall:getHeight(), cX, cY )
-			love.graphics.setColor(255,255,255,50)
+			love.graphics.setColor(1,1,1,0.2)
 		else
-			love.graphics.setColor(255,255,255,20)
+			love.graphics.setColor(1,1,1,0.08)
 		end
 		love.graphics.rectangle("fill", input.x*Camera.scale, input.y*Camera.scale,
 									input.width*Camera.scale, input.height*Camera.scale )
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(1,1,1,1)
 		--love.graphics.printf( input.front .. input.back, input.x*Camera.scale, input.y*Camera.scale,
 		--							input.width*Camera.scale )
 		for k2, l in ipairs( input.wrappedText ) do
@@ -266,7 +266,7 @@ function Panel:draw()
 			button:drawPreviewOutline()
 		end		
 	end
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 end
 
 function Panel:moveTo( x, y )

@@ -407,7 +407,7 @@ function Pic:draw()
 	end
 
 	if self.map then
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(1,1,1,1)
 		love.graphics.push()
 		love.graphics.translate( -(self.map.width + 2)/2*Camera.scale*8,
 		-(self.map.height + 2)/2*Camera.scale*8)
@@ -438,13 +438,13 @@ function Pic:draw()
 --[[	for k = 1, #self.slots do
 		love.graphics.circle("fill", self.slots[k].x, self.slots[k].y, 5)
 	end
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 		love.graphics.circle("fill", 0, 0, 6) --]]
 
 	--love.graphics.print( self.statType, 0, 0 )
 	--self.map:drawFG()
 	love.graphics.pop()
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 end
 
 return Pic

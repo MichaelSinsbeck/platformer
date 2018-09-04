@@ -114,10 +114,10 @@ function shaders:stop()
 	else
 		if menu.transitionActive then
 			-- draw black rectangle over everything:
-			love.graphics.setColor( 0, 0, 0, 255*math.sin(math.pi*menu.transitionPercentage/100))
+			love.graphics.setColor( 0, 0, 0, math.sin(math.pi*menu.transitionPercentage/100))
 			love.graphics.rectangle('fill', 0, 0,
 					fullscreenCanvas:getWidth(), fullscreenCanvas:getHeight())
-			love.graphics.setColor( 255, 255, 255, 255 )
+			love.graphics.setColor(1, 1, 1, 1)
 		end
 	end
 end

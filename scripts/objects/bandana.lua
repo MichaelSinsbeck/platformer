@@ -46,7 +46,7 @@ function Bandana:draw()
 	local color = utility.bandana2color[self.color]
 	if color and not self.anchor then
 		local r,g,b = love.graphics.getColor()
-		love.graphics.setColor(color[1],color[2],color[3],255)
+		love.graphics.setColor(color[1],color[2],color[3],1)
 		self.vis[2]:draw(x,y,true)
 		love.graphics.setColor(r,g,b)
 	end

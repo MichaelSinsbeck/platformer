@@ -32,9 +32,9 @@ function gui.draw()
 	FullViz:init()
 	EmptyViz:init()
 	
-	love.graphics.setColor(255,255,255,50)
+	love.graphics.setColor(1,1,1,0.2)
 	love.graphics.rectangle('fill',0,0,10*s*(p.maxJumps-1),10*s)
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	
 	-- draw beans
 	for i = 1,p.jumpsLeft do

@@ -77,9 +77,9 @@ function levelEnd:update( dt )
 end
 
 function levelEnd:draw()
-	love.graphics.setColor(0,0,0,80)
+	love.graphics.setColor(0,0,0,0.31)
 	love.graphics.rectangle('fill',0,0,love.graphics.getWidth(),love.graphics.getHeight())
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	--shaders:setDeathEffect( .8 )
 	--shaders.grayScale:send( "amount", .8 )
 	--love.graphics.setPixelEffect( shaders.grayScale )
@@ -103,14 +103,14 @@ function levelEnd:draw()
 					scaled[i] = element.points[i] * Camera.scale
 				end
 				-- draw
-				love.graphics.setColor(44,90,160)
+				love.graphics.setColor(0.17,0.35,0.63)
 				love.graphics.setLineWidth(Camera.scale*0.5)
 				love.graphics.rectangle('fill',
 				element.left*Camera.scale,
 				element.top*Camera.scale,
 				element.width*Camera.scale,
 				element.height*Camera.scale)
-				love.graphics.setColor(0,0,10)
+				love.graphics.setColor(0,0,0.04)
 				love.graphics.line(scaled)
 
 				picList[k]:draw()

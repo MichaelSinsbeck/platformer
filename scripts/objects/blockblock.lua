@@ -97,7 +97,7 @@ end
 function Blockblock:draw()
 	if mode == 'editor' then
 		object.draw(self)
-		love.graphics.setColor(255,0,0,50)
+		love.graphics.setColor(1,0,0,0.2)
 		
 		local thisWidth = self.width * Camera.scale*8
 		local thisHeight = self.height * Camera.scale*8
@@ -139,7 +139,7 @@ function Blockblock:draw()
 			love.graphics.polygon('line',self.vertices)
 		end
 
-		love.graphics.setColor(255,255,255)
+		love.graphics.setColor(1,1,1)
 	end
 end
 

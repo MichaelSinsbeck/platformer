@@ -242,11 +242,11 @@ function Box:draw( x, y )
 	love.graphics.setColor(colors.white)
 	love.graphics.draw( self.batch, x*Camera.scale, y*Camera.scale )
 	if self.isList then
-		love.graphics.setColor( 50,20,0, 20 ) -- gray bars for lists
+		love.graphics.setColor( 0.2,0.08,0, 0.08 ) -- gray bars for lists
 		for i, line in pairs( self.lines ) do
 			love.graphics.rectangle( "fill", (x+line.x)*Camera.scale, (y+line.y)*Camera.scale, line.w*Camera.scale, line.h*Camera.scale )
 		end
-		love.graphics.setColor( 255,255,255,255 )
+		love.graphics.setColor( 1,1,1,1 )
 	end
 end
 

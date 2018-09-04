@@ -2,7 +2,7 @@ local startTime
 local loading = {
 	step = -1,
 	msg = "Scripts",
-	done = false,		-- set to true when everything has been loaded
+	done = false,-- set to true when everything has been loaded
 }
 local proverb
 local source

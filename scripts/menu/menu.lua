@@ -418,7 +418,7 @@ function menu:draw()
 	local color = utility.bandana2color[Campaign.bandana]
 	if color then
 		local r,g,b = love.graphics.getColor()
-		love.graphics.setColor(color[1],color[2],color[3],255)
+		love.graphics.setColor(color[1],color[2],color[3],1)
 		menuPlayer.visBandana:draw(x,y,true)
 		love.graphics.setColor(r,g,b)
 	end

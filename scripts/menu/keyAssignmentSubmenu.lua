@@ -198,13 +198,13 @@ function KeyAssignmentSubmenu:draw()
 	local xEnd = (x+w) * Camera.scale -- (x + 102)*Camera.scale	
 
 	-- draw headers:
-	love.graphics.setColor( 30,0,0,75 )
+	love.graphics.setColor( 0.12,0,0,0.3 )
 	love.graphics.rectangle( "fill", xName + Camera.scale, y*Camera.scale, xKeyboard - xName - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xKeyboard + Camera.scale, y*Camera.scale, xPad - xKeyboard - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 	love.graphics.rectangle( "fill", xPad + Camera.scale, y*Camera.scale, xEnd - xPad - 2*Camera.scale, LIST_ENTRY_HEIGHT*Camera.scale)
 
-	love.graphics.setColor( 255,255,255,255 )
-	--love.graphics.setColor( 0,0,0,255 )
+	love.graphics.setColor( 1,1,1,1 )
+	--love.graphics.setColor( 0,0,0,1 )
 	love.graphics.printf( "Function", xName + 2*Camera.scale, (y + 2)*Camera.scale, xKeyboard - xName, 'left' )
 	love.graphics.printf( "Keyboard", xKeyboard, (y + 2)*Camera.scale, xPad - xKeyboard, 'center' )
 	love.graphics.printf( "Controller", xPad, (y + 2)*Camera.scale, xEnd - xPad, 'center' )

@@ -40,7 +40,7 @@ function fader:draw()
 	timer = love.timer.getTime() - startTime
 	if phase == 1 then
 		local progress = math.min(timer/timeIn,1)
-		love.graphics.setColor(0,0,0,progress*255)
+		love.graphics.setColor(0,0,0,progress)
 		love.graphics.rectangle('fill',0,0,Camera.width,Camera.height)
 	elseif phase == 2 then
 		local progress = timer/timeOut

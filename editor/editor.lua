@@ -1816,17 +1816,17 @@ function editor:draw()
 	love.graphics.draw(AnimationDB.image.cell, editor.cellQuad,cx,cy)
 
 
-	love.graphics.setColor( 255, 255, 255, 255 )
+	love.graphics.setColor( 1, 1, 1, 1 )
 	--if self.currentTool == "object" or self.currentTool == "pen" then
 	--	love.graphics.setColor( 120, 120, 120, 255 )
 	--end
 	map:drawBackground()
 
-	love.graphics.setColor( 255, 255, 255, 255 )
+	love.graphics.setColor( 1, 1, 1, 1 )
 	if self.currentTool == "bgObject" or
 		self.currentTool == "bgPen" or
 		self.currentTool == "edit" then
-		love.graphics.setColor( 120, 120, 120, 230 )
+		love.graphics.setColor( 0.47, 0.47, 0.47, 0.9 )
 	end
 	map:drawGround()
 
@@ -1835,12 +1835,12 @@ function editor:draw()
 	map:drawObjects()
 	map:drawLines()
 
-	love.graphics.setColor( 255, 255, 255, 255 )
+	love.graphics.setColor( 1, 1, 1, 1 )
 
 	map:drawBorder()
 
 	if self.mouseOnCanvas then
-		love.graphics.setColor(0,0,0,128)
+		love.graphics.setColor(0,0,0,0.5)
 		local rX = math.floor(wX/(tileSize))*tileSize
 		local rY = math.floor(wY/(tileSize))*tileSize
 		if self.currentBgObjects and self.currentTool == "bgObject" then
@@ -1887,13 +1887,13 @@ function editor:draw()
 		if self.drawLine and self.lastClickX and self.lastClickY then
 			local sX = math.floor(self.lastClickX)*tileSize
 			local sY = math.floor(self.lastClickY)*tileSize
-			love.graphics.setColor( 255,188,128,200 )
+			love.graphics.setColor( 1,0.74,0.5,0.78 )
 			love.graphics.line( rX+4*Camera.scale, rY+4*Camera.scale, sX+4*Camera.scale, sY+4*Camera.scale )
 
-			love.graphics.setColor( 255,188,128,255)
+			love.graphics.setColor( 1,0.74,0.5,1)
 			love.graphics.points( rX + 4*Camera.scale, rY+4*Camera.scale )
 			love.graphics.points( sX + 4*Camera.scale, sY+4*Camera.scale )
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 		end
 	end
 
@@ -1935,10 +1935,10 @@ function editor:draw()
 	end
 	
 		if editor.selectBox then
-			love.graphics.setColor( 255, 255, 255, 20 )
+			love.graphics.setColor( 1, 1, 1, 0.01 )
 			love.graphics.rectangle( "fill", editor.selectBox.sX, editor.selectBox.sY,
 			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
-			love.graphics.setColor( 255, 255, 255, 255 )
+			love.graphics.setColor( 1, 1, 1, 1 )
 			love.graphics.rectangle( "line", editor.selectBox.sX, editor.selectBox.sY,
 			editor.selectBox.eX - editor.selectBox.sX, editor.selectBox.eY - editor.selectBox.sY )
 			
@@ -1946,11 +1946,11 @@ function editor:draw()
 				local tileSize = Camera.scale*8
 				local points = editor.createBoxSelectPoints( tileSize )
 
-				love.graphics.setColor( 255, 125, 0, 255 )
+				love.graphics.setColor( 1, 0.5, 0, 1 )
 				for k, p in pairs( points ) do
 						love.graphics.point( p.x, p.y )
 					end
-				love.graphics.setColor( 255, 255, 255, 255 )
+				love.graphics.setColor( 1, 1, 1, 1 )
 			end]]
 		end
 	

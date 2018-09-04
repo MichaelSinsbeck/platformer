@@ -1507,14 +1507,14 @@ function EditorMap:dropBorderMarker()
 end
 
 function EditorMap:drawGrid()
-	love.graphics.setColor(255,255,255,25)
+	love.graphics.setColor(1,1,1,0.1)
 	for x = 0, love.graphics.getWidth(), tileSize do
 		love.graphics.line( x, 0, x, love.graphics.getHeight() )
 	end
 	for y = 0, love.graphics.getHeight(), tileSize do
 		love.graphics.line( 0, y, love.graphics.getWidth(), y )
 	end
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 end
 
 function EditorMap:drawBackground()
@@ -1532,7 +1532,7 @@ function EditorMap:drawBackground()
 	else
 		love.graphics.draw( self.bgObjectSpriteBatch )
 	end
-	love.graphics.setColor( 255,255,255,255 )
+	love.graphics.setColor( 1,1,1,1 )
 	--[[if settings:getShadersEnabled() then
 		shaders:endBackground()
 	end]]
@@ -1540,21 +1540,21 @@ function EditorMap:drawBackground()
 		love.graphics.setLineWidth(2)
 		for k, obj in ipairs( self.bgList ) do
 			if obj.selected == true then
-				love.graphics.setColor(100,255,100,100)
+				love.graphics.setColor(0.4,1,0.4,0.4)
 				love.graphics.rectangle( "fill", obj.drawX, obj.drawY, obj.width, obj.height )
 			end
 			if obj.previewSelectionHighlight then
-				love.graphics.setColor(255,255,200, 75)
+				love.graphics.setColor(1,1,0.8, 0.3)
 				love.graphics.rectangle( "fill", obj.drawX, obj.drawY, obj.width, obj.height )
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 			end
 			if DEBUG then
-				love.graphics.setColor(255,0,0,150)
+				love.graphics.setColor(1,0,0,0.59)
 				love.graphics.rectangle( "fill", obj.x*self.tileSize,
 					obj.y*self.tileSize,
 					obj.maxX*self.tileSize - obj.x*self.tileSize,
 					obj.maxY*self.tileSize - obj.y*self.tileSize)
-				love.graphics.setColor(255,255,255,255)
+				love.graphics.setColor(1,1,1,1)
 			end
 		end
 	end
@@ -1585,32 +1585,31 @@ function EditorMap:drawObjects()
 		--love.graphics.draw( obj.batch, obj.drawX, obj.drawY )
 
 		if obj.selected == true then
-			love.graphics.setColor(255,150,150,255)
+			love.graphics.setColor(1,0.59,0.59,1)
 			obj:draw()
 			--width,height = math.max(30,obj.width), math.max(30,obj.height) 
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			--love.graphics.rectangle( "line", obj.editorX, obj.editorY, width, height)
 			love.graphics.rectangle( "line", obj.tileX*self.tileSize, obj.tileY*self.tileSize, self.tileSize, self.tileSize)
 		else
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			obj:draw()
 		end
 		if obj.previewSelectionHighlight then
-			love.graphics.setColor(255,255,255,100)
+			love.graphics.setColor(1,1,1,0.4)
 			--width,height = math.max(30,obj.width), math.max(30,obj.height) 
 			--love.graphics.rectangle( "fill", obj.editorX, obj.editorY, width, height)
 			love.graphics.rectangle( "fill", obj.tileX*self.tileSize, obj.tileY*self.tileSize, self.tileSize, self.tileSize)
 		end
 		if DEBUG then
-		love.graphics.setColor(255,0,0,150)
-			love.graphics.rectangle( "fill", obj.tileX*self.tileSize,
-				obj.tileY*self.tileSize,
-				obj.maxX*self.tileSize - obj.tileX*self.tileSize,
-				obj.maxY*self.tileSize - obj.tileY*self.tileSize)
-		love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,0,0,0.59)
+				love.graphics.rectangle( "fill", obj.tileX*self.tileSize,
+					obj.tileY*self.tileSize,
+					obj.maxX*self.tileSize - obj.tileX*self.tileSize,
+					obj.maxY*self.tileSize - obj.tileY*self.tileSize)
+			love.graphics.setColor(1,1,1,1)
+		end
 	end
-	end
-	--love.graphics.setColor(255,255,255)
 end
 
 function EditorMap:drawLines()
@@ -1633,9 +1632,9 @@ function EditorMap:drawBorder()
 	love.graphics.setLineWidth(2)	
 	love.graphics.polygon( "line", self.border )
 	if self.draggedBorderMarker and self.tempBorder then
-		love.graphics.setColor( 150,255,150, 100 )
+		love.graphics.setColor( 0.59,1,0.59,0.4 )
 		love.graphics.polygon( "line", self.tempBorder )
-		love.graphics.setColor( 255,255,255, 255 )
+		love.graphics.setColor( 1,1,1,1 )
 	end
 	for i = 1, 4 do
 		love.graphics.draw( self.borderMarkers[i].img, self.borderMarkers[i].x,
@@ -2337,9 +2336,9 @@ function EditorMap:start()
 end
 
 function EditorMap:drawParallax(world)
-	love.graphics.setBackgroundColor(66, 109, 170)
+	love.graphics.setBackgroundColor(0.26, 0.43, 0.67)
 
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	for i,thisLayer in ipairs(self.layer) do
 		local distance = thisLayer.distance
 		

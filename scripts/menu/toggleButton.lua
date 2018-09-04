@@ -42,7 +42,7 @@ function TButton:draw()
 	
 	love.graphics.print( self.text,
 		math.floor(Camera.scale*(self.x + 8)), math.floor(y - 2*Camera.scale) )
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	--love.graphics.printf( self.name,
 	--	Camera.scale*(self.x - 13) - 500, y - 2*Camera.scale,  500, "right" )
 end

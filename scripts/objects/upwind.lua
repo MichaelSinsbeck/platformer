@@ -23,7 +23,7 @@ function Upwind:draw()
 		local thisHeight = self.height * Camera.scale*8
 		local x = (self.x - 0.5) * Camera.scale*8
 		local y = (self.y + 0.5 - self.height) * Camera.scale*8
-		love.graphics.setColor(0,127,255,50)
+		love.graphics.setColor(0,0.5,1,0.2)
 		love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
 	end
 end

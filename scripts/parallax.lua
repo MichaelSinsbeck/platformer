@@ -6,9 +6,9 @@ Parallax = {layers = {}}
 local nLayers = 1
 local nMountainLayers = 1
 local velocity = 0
-local colorFront = {50,60,65} 
-local colorBack = {190,190,190}	
-local colorSky = {80,150,205}
+local colorFront = {0.20, 0.24, 0.26} 
+local colorBack = {0.75,0.75,0.75}	
+local colorSky = {0.31,0.59,0.8}
 local baseLevel = 0.9
 
 
@@ -58,7 +58,7 @@ function Parallax:draw()
 	-- sky-color
 	love.graphics.setColor(colorBack[1],colorBack[2],colorBack[3])
 	love.graphics.rectangle('fill',0,0,w,h)
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	love.graphics.draw(self.mesh)
 
 	-- draw layers
@@ -77,7 +77,7 @@ function Parallax:draw()
 			love.graphics.rectangle('fill',0,y,w,h-y)
 		end
 	end
-	love.graphics.setColor(255,255,255)	
+	love.graphics.setColor(1,1,1)	
 end
 
 function Parallax:clear()

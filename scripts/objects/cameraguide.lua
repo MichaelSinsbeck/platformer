@@ -30,11 +30,11 @@ function Cameraguide:draw()
 		local thisSmallRadius = thisRadius * (1-self.transition)
 		local x = (self.x + self.offsetX) * Camera.scale*8
 		local y = (self.y + self.offsetY) * Camera.scale*8
-		love.graphics.setColor(0,255,0,50)
+		love.graphics.setColor(0,1,0,0.2)
 		--love.graphics.rectangle('fill',x,y,thisWidth,thisHeight)
 		love.graphics.circle('fill',x,y,thisRadius)
 		love.graphics.circle('fill',x,y,thisSmallRadius)
-		love.graphics.setColor(255,255,255)
+		love.graphics.setColor(1,1,1)
 		
 		-- draw visualizers
 		object.draw(self)

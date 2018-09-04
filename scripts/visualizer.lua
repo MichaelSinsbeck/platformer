@@ -89,7 +89,7 @@ function Visualizer:draw(x,y, useExternalColor)
 		if img and self.currentQuad then
 			local r,g,b = love.graphics.getColor()
 			if not useExternalColor then
-				love.graphics.setColor(255,255,255,self.alpha)
+				love.graphics.setColor(1, 1, 1, self.alpha)
 			else
 				love.graphics.setColor(r,g,b,self.alpha)
 			end
@@ -164,7 +164,7 @@ function Visualizer:drawMesh(x,y, useExternalColor)
 	if self.active then
 		if self.currentMesh then
 			if not useExternalColor then
-				love.graphics.setColor(255,255,255,self.alpha)
+				love.graphics.setColor(1,1,1,self.alpha)
 			end
 			love.graphics.draw(self.currentMesh,
 				math.floor(x+self.relX*Camera.scale*8),

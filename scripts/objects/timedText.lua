@@ -90,14 +90,14 @@ function TimedText:draw()
 	love.graphics.push()
 	love.graphics.translate( x, y )
 	love.graphics.scale( tween, tween )
-	love.graphics.setColor(255,255,255,tween*255)
+	love.graphics.setColor(1,1,1,tween)
 	for i = 1, #self.polygonTriangulated do
 		love.graphics.polygon( 'fill', self.polygonTriangulated[i] )
 	end
-	love.graphics.setColor(0,0,0,tween*255)
+	love.graphics.setColor(0,0,0,tween)
 	love.graphics.setLineWidth(2/5*Camera.scale)
 	love.graphics.polygon( 'line', self.polygon )
-	love.graphics.setColor(255,255,255)
+	love.graphics.setColor(1,1,1)
 	love.graphics.pop()
 	
 	-- draw visualizers
